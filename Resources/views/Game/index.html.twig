@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'game_index' %}
+
+{% block body %}
+     <h2>
+        {{ game.getLibJeuEn() }}
+    </h2>
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}

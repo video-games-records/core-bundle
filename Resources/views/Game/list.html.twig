@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'game_list' %}
+
+{% block body %}
+    {% for game in games %}
+        <article class="post">
+            <h2>
+                    {{ game.getLibJeuEn() }}
+            </h2>
+
+        </article>
+    {% else %}
+        <div class="well">{{ 'game.no_posts_found'|trans }}</div>
+    {% endfor %}
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(games) }}
+    </div>
+
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+
+{% endblock %}
