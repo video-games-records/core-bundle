@@ -1,13 +1,58 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
 {% block body_id 'game_index' %}
+
+{% block aside %}
+    ASIDE
+{% endblock %}
 
 {% block body %}
      <h2>
-        {{ game.getLibJeuEn() }}
+        {{ game.getLibJeu() }}
     </h2>
+
+    <ul>
+        <li>{% trans %}game.grouplist{% endtrans %}|{% trans %}game.charts{% endtrans %}|{% trans %}game.scores{% endtrans %}</li>
+    {% for group in game.getGroups %}
+        <li>
+            {{ group.getLibGroupe() }} | {{ group.getNbRecord() }} | {{ group.getNbPost() }}
+        </li>
+    {% endfor %}
+    </ul>
+
+
+    <h2>{% trans %}game.pointranking{% endtrans %}</h2>
+    <ul>
+        <li>rank|pseudo|points|nbPost</li>
+    {% for row in rankingPoints %}
+        <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRank() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointRecord() }} | {{ row.getNbRecord() }}</li>
+    {% else %}
+        <div class="well">{{ 'game.no_ranking'|trans }}</div>
+    {% endfor %}
+    </ul>
+
+    <div class="txtcenter">
+        <a href="{{ path('game_ranking_points', {'id': game.getIdJeu()}) }}">{% trans %}game.pointranking.full{% endtrans %}</a>
+    </div>
+
+
+    <h2>{% trans %}game.medalranking{% endtrans %}</h2>
+    <ul>
+        <li>rank|pseudo|platine|gold|silver|bronze</li>
+        {% for row in rankingMedals %}
+            <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getUser().getPseudo() }} | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
+        {% else %}
+            <div class="well">{{ 'game.no_ranking'|trans }}</div>
+        {% endfor %}
+    </ul>
+
+    <div class="txtcenter">
+        <a href="{{ path('game_ranking_medals', {'id': game.getIdJeu()}) }}"">{% trans %}game.medalranking.full{% endtrans %}</a>
+    </div>
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
-{% endblock %}
+
+
+

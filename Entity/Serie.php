@@ -31,7 +31,7 @@ class Serie
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Member", mappedBy="idSerie")
+     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\User", mappedBy="idSerie")
      */
     private $idMembre;
 
@@ -80,10 +80,10 @@ class Serie
     /**
      * Add idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Member $idMembre
+     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
      * @return Serie
      */
-    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\Member $idMembre)
+    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
     {
         $this->idMembre[] = $idMembre;
 
@@ -93,9 +93,9 @@ class Serie
     /**
      * Remove idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Member $idMembre
+     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
      */
-    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\Member $idMembre)
+    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
     {
         $this->idMembre->removeElement($idMembre);
     }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="t_membre", uniqueConstraints={@ORM\UniqueConstraint(name="pseudo", columns={"pseudo"})}, indexes={@ORM\Index(name="connect", columns={"nbConnexion"}), @ORM\Index(name="dateNaissance", columns={"dateNaissance"}), @ORM\Index(name="lastConnection", columns={"derniereConnexion"}), @ORM\Index(name="nom", columns={"nom"}), @ORM\Index(name="pass", columns={"password"}), @ORM\Index(name="prenom", columns={"prenom"}), @ORM\Index(name="sexe", columns={"sexe"}), @ORM\Index(name="siteWeb", columns={"siteWeb"}), @ORM\Index(name="idPays", columns={"idPays"}), @ORM\Index(name="vgr_pointJeu", columns={"vgr_pointJeu"}), @ORM\Index(name="vgr_rank_pointJeu", columns={"vgr_rank_pointJeu"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\RepositoryMemberRepository")
  */
-class Member
+class User
 {
     /**
      * @var string
@@ -243,7 +243,7 @@ class Member
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idmembre;
+    private $idMembre;
 
     /**
      * @var \VideoGamesRecords\CoreBundle\Entity\Countrie

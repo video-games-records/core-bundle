@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
+{% block body_id 'ranking_medals' %}
+
+{% block body %}
+
+<ul>
+    <li>rank|pseudo|platine|gold|silver|bronze</li>
+    {% for row in rankingMedals %}
+        <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getUser().getPseudo() }} | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

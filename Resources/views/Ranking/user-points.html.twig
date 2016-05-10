@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
+{% block body_id 'ranking_points' %}
+
+{% block body %}
+
+<ul>
+    <li>rank|pseudo|points|nbPost</li>
+    {% for row in rankingPoints %}
+        <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRank() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointRecord() }} | {{ row.getNbRecord() }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

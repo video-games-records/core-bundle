@@ -6,7 +6,7 @@
     {% for game in games %}
         <article class="post">
             <h2>
-                    {{ game.getLibJeuEn() }}
+                <a href="{{ path('game_index', {'id': game.getIdJeu()}) }}">{{ game.getLibJeu() }}</a>
             </h2>
 
         </article>

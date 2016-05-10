@@ -134,9 +134,15 @@ class Game
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Member", mappedBy="idJeu")
+     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\User", mappedBy="idJeu")
      */
     private $idMembre;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game")
+     */
+    private $groups;
 
     /**
      * Constructor
@@ -144,6 +150,17 @@ class Game
     public function __construct()
     {
         $this->idMembre = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Get libJeu
+     *
+     * @return string
+     */
+    public function getLibJeu()
+    {
+        return $this->libJeu_en;
     }
 
 
@@ -482,10 +499,10 @@ class Game
     /**
      * Set idSerie
      *
-     * @param \VVideoGamesRecords\CoreBundle\Entity\Serie $idSerie
+     * @param \VideoGamesRecords\CoreBundle\Entity\Serie $idSerie
      * @return Game
      */
-    public function setIdSerie(\VVideoGamesRecords\CoreBundle\Entity\Serie $idSerie = null)
+    public function setIdSerie(\VideoGamesRecords\CoreBundle\Entity\Serie $idSerie = null)
     {
         $this->idSerie = $idSerie;
 
@@ -505,10 +522,10 @@ class Game
     /**
      * Add idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Member $idMembre
+     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
      * @return Game
      */
-    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\Member $idMembre)
+    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
     {
         $this->idMembre[] = $idMembre;
 
@@ -518,9 +535,9 @@ class Game
     /**
      * Remove idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Member $idMembre
+     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
      */
-    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\Member $idMembre)
+    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
     {
         $this->idMembre->removeElement($idMembre);
     }
@@ -533,5 +550,31 @@ class Game
     public function getIdMembre()
     {
         return $this->idMembre;
+    }
+
+    /**
+     * @param Group $group
+     * @return $this
+     */
+    public function addGroup(Group $group)
+    {
+        $this->groups[] = $group;
+        return $this;
+    }
+
+    /**
+     * @param Group $group
+     */
+    public function removeGroup(Group $group)
+    {
+        $this->groups->removeGroup($group);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 }

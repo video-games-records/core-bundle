@@ -60,6 +60,60 @@ class GameController extends Controller
 
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
 
-        return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', array('game' => $game));
+        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingPoints(
+            array(
+                'idJeu' => $id,
+                'maxRank' => 5,
+                'idLogin' => null,
+            )
+        );
+
+        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingMedals(
+            array(
+                'idJeu' => $id,
+                'maxRank' => 5,
+                'idLogin' => null,
+            )
+        );
+
+        return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', array('game' => $game, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals));
     }
+
+
+
+    /**
+     * @Route("/game/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_ranking_points")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     */
+    public function rankingPointsAction($id)
+    {
+        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingPoints(
+            array(
+                'idJeu' => $id,
+                'idLogin' => null,
+            )
+        );
+
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-points.html.twig', array('rankingPoints' => $rankingPoints));
+    }
+
+
+    /**
+     * @Route("/game/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_ranking_medals")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     */
+    public function rankingMedalsAction($id)
+    {
+        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingMedals(
+            array(
+                'idJeu' => $id,
+                'idLogin' => null,
+            )
+        );
+
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));
+    }
+
 }

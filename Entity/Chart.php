@@ -83,7 +83,7 @@ class Chart
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Member", inversedBy="idRecord")
+     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\User", inversedBy="idRecord")
      * @ORM\JoinTable(name="vgr_record_membre",
      *   joinColumns={
      *     @ORM\JoinColumn(name="idRecord", referencedColumnName="idRecord")
@@ -301,10 +301,10 @@ class Chart
     /**
      * Add idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Member $idMembre
+     * @param \VideoGamesRecords\CoreBundle\Entity\Uer $idMembre
      * @return Chart
      */
-    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\Member $idMembre)
+    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
     {
         $this->idMembre[] = $idMembre;
 
@@ -314,9 +314,9 @@ class Chart
     /**
      * Remove idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Member $idMembre
+     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
      */
-    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\Member $idMembre)
+    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
     {
         $this->idMembre->removeElement($idMembre);
     }

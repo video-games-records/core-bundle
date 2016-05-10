@@ -80,17 +80,17 @@ class Group
     /**
      * @var \VideoGamesRecords\CoreBundle\Entity\Game
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="groups")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idJeu", referencedColumnName="idJeu")
      * })
      */
-    private $idJeu;
+    private $game;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Member", mappedBy="idGroupe")
+     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\User", mappedBy="idGroupe")
      */
     private $idMembre;
 
@@ -102,6 +102,16 @@ class Group
         $this->idMembre = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * Get libGroupe
+     *
+     * @return string
+     */
+    public function getLibGroupe()
+    {
+        return $this->libGroupe_en;
+    }
 
     /**
      * Set libGroupe_fr
@@ -298,35 +308,35 @@ class Group
     }
 
     /**
-     * Set idJeu
+     * Set game
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Game $idJeu
+     * @param \VideoGamesRecords\CoreBundle\Entity\Game $game
      * @return Group
      */
-    public function setIdJeu(\VideoGamesRecords\CoreBundle\Entity\Game $idJeu = null)
+    public function setGame(\VideoGamesRecords\CoreBundle\Entity\Game $game = null)
     {
-        $this->idJeu = $idJeu;
+        $this->game = $game;
 
         return $this;
     }
 
     /**
-     * Get idJeu
+     * Get game
      *
      * @return \VideoGamesRecords\CoreBundle\Entity\Game
      */
-    public function getIdJeu()
+    public function getGame()
     {
-        return $this->idJeu;
+        return $this->game;
     }
 
     /**
      * Add idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Member $idMembre
+     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
      * @return Group
      */
-    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\Member $idMembre)
+    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
     {
         $this->idMembre[] = $idMembre;
 
@@ -336,9 +346,9 @@ class Group
     /**
      * Remove idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Member $idMembre
+     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
      */
-    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\Member $idMembre)
+    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
     {
         $this->idMembre->removeElement($idMembre);
     }
