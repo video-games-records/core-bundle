@@ -21,9 +21,6 @@ class GameController extends Controller
      */
     public function listAction($page)
     {
-        /*$games = $this->getDoctrine()
-            ->getRepository('VideoGamesRecordsCoreBundle:Game')
-            ->findBy(array(), array('libJeu_en' => 'ASC'));*/
         $idSerie = $this->container->getParameter('videogamesrecords_core.idSerie');
 
         $query = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->queryAlpha(
@@ -39,6 +36,11 @@ class GameController extends Controller
         if (0 === count($games)) {
             throw $this->createNotFoundException();
         }
+
+        //----- breadcrumbs
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addItem('game.list');
 
         return $this->render('VideoGamesRecordsCoreBundle:Game:list.html.twig', array('games' => $games));
     }
@@ -76,6 +78,11 @@ class GameController extends Controller
             )
         );
 
+        //----- breadcrumbs
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addItem($game->getLibJeu());
+
         return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', array('game' => $game, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals));
     }
 
@@ -88,12 +95,19 @@ class GameController extends Controller
      */
     public function rankingPointsAction($id)
     {
+        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingPoints(
             array(
                 'idJeu' => $id,
                 'idLogin' => null,
             )
         );
+
+        //----- breadcrumbs
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem($game->getLibJeu(), 'game_index', ['id' => $id]);
+        $breadcrumbs->addItem('game.pointranking.full');
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-points.html.twig', array('rankingPoints' => $rankingPoints));
     }
@@ -106,12 +120,19 @@ class GameController extends Controller
      */
     public function rankingMedalsAction($id)
     {
+        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
         $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingMedals(
             array(
                 'idJeu' => $id,
                 'idLogin' => null,
             )
         );
+
+        //----- breadcrumbs
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem($game->getLibJeu(), 'game_index', ['id' => $id]);
+        $breadcrumbs->addItem('game.medalranking.full');
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));
     }
