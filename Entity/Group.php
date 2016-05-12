@@ -3,12 +3,13 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Group
  *
  * @ORM\Table(name="vgr_groupe", indexes={@ORM\Index(name="idxIdJeu", columns={"idJeu"}), @ORM\Index(name="idxLibGroupeFr", columns={"libGroupe_fr"}), @ORM\Index(name="idxLibGroupeEn", columns={"libGroupe_en"}), @ORM\Index(name="idxBoolDlc", columns={"boolDLC"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\RepositoryGroupRepository")
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
  */
 class Group
 {
@@ -77,6 +78,7 @@ class Group
      */
     private $idGroupe;
 
+
     /**
      * @var \VideoGamesRecords\CoreBundle\Entity\Game
      *
@@ -95,11 +97,17 @@ class Group
     private $idMembre;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="group")
+     */
+    private $charts;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->idMembre = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->charts = new ArrayCollection();
     }
 
 
@@ -361,5 +369,31 @@ class Group
     public function getIdMembre()
     {
         return $this->idMembre;
+    }
+
+    /**
+     * @param Chart $chart
+     * @return $this
+     */
+    public function addChart(Chart $chart)
+    {
+        $this->charts[] = $chart;
+        return $this;
+    }
+
+    /**
+     * @param Chart $chart
+     */
+    public function removeChart(Chart $chart)
+    {
+        $this->charts->removeElement($chart);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCharts()
+    {
+        return $this->charts;
     }
 }

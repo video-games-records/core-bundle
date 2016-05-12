@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Game
@@ -150,6 +151,7 @@ class Game
     public function __construct()
     {
         $this->idMembre = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
 
@@ -567,7 +569,7 @@ class Game
      */
     public function removeGroup(Group $group)
     {
-        $this->groups->removeGroup($group);
+        $this->groups->removeElement($group);
     }
 
     /**

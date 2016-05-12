@@ -17,7 +17,7 @@
         <li>{% trans %}game.grouplist{% endtrans %}|{% trans %}game.charts{% endtrans %}|{% trans %}game.scores{% endtrans %}</li>
     {% for group in game.getGroups %}
         <li>
-            {{ group.getLibGroupe() }} | {{ group.getNbRecord() }} | {{ group.getNbPost() }}
+            <a href="{{ path('group_index', {'id': group.getIdGroupe()}) }}">{{ group.getLibGroupe() }}</a> | {{ group.getNbRecord() }} | {{ group.getNbPost() }}
         </li>
     {% endfor %}
     </ul>

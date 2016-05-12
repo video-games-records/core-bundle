@@ -73,12 +73,12 @@ class Chart
     /**
      * @var VideoGamesRecords\CoreBundle\Entity\Group
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", inversedBy="charts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGroupe", referencedColumnName="idGroupe")
      * })
      */
-    private $idGroupe;
+    private $group;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -103,6 +103,16 @@ class Chart
         $this->idMembre = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * Get libRecord
+     *
+     * @return string
+     */
+    public function getLibRecord()
+    {
+        return $this->libRecord_en;
+    }
 
     /**
      * Set libRecord_fr
@@ -276,26 +286,25 @@ class Chart
     }
 
     /**
-     * Set idGroupe
+     * Set group
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $idGroupe
+     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
      * @return Chart
      */
-    public function setIdGroupe(\Vgr\DefaultBundle\Entity\Group $idGroupe = null)
+    public function setGroup(\VideoGamesRecords\CoreBundle\Entity\Group $group = null)
     {
-        $this->idGroupe = $idGroupe;
-
+        $this->group = $group;
         return $this;
     }
 
     /**
-     * Get idGroupe
+     * Get group
      *
      * @return \VideoGamesRecords\CoreBundle\Entity\Group
      */
-    public function getIdGroupe()
+    public function getGroup()
     {
-        return $this->idGroupe;
+        return $this->group;
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace VVideoGamesRecords\CoreBundle\Repository;
+namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class GroupRepository extends EntityRepository
 {
+
+    public function getWidthGame($id)
+    {
+        $query = $this->createQueryBuilder('gr')
+            ->join('gr.game', 'ga')
+            ->addSelect('ga')
+            ->where('gr.idGroupe = :idGroupe')
+            ->setParameter('idGroupe', $id);
+
+        return $query->getQuery()
+            ->getOneOrNullResult();
+    }
 }

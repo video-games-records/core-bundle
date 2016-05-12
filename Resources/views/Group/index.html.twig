@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
+{% block body_id 'group_index' %}
+
+{% block body %}
+
+    <h1>{{ group.getLibGroupe() }} – {{ group.getGame().getLibJeu() }}</h1>
+
+
+
+    <ul>
+        <li>{% trans %}group.chartlist{% endtrans %} | {% trans %}group.scores{% endtrans %}</li>
+        {% for chart in group.getCharts %}
+            <li>
+                {{ chart.getLibRecord() }} |  {{ chart.getNbPost() }}
+            </li>
+        {% endfor %}
+    </ul>
+
+
+    <h2>{% trans %}group.pointranking{% endtrans %}</h2>
+    <ul>
+        <li>rank|pseudo|points|nbPost</li>
+        {% for row in rankingPoints %}
+            <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRank() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointRecord() }} | {{ row.getNbRecord() }}</li>
+        {% else %}
+            <div class="well">{{ 'group.no_ranking'|trans }}</div>
+        {% endfor %}
+    </ul>
+
+    <div class="txtcenter">
+        <a href="{{ path('group_ranking_points', {'id': group.getIdGroupe()}) }}">{% trans %}group.pointranking.full{% endtrans %}</a>
+    </div>
+
+    <h2>{% trans %}group.medalranking{% endtrans %}</h2>
+    <ul>
+        <li>rank|pseudo|platine|gold|silver|bronze</li>
+        {% for row in rankingMedals %}
+            <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getUser().getPseudo() }} | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
+        {% else %}
+            <div class="well">{{ 'group.no_ranking'|trans }}</div>
+        {% endfor %}
+    </ul>
+
+    <div class="txtcenter">
+        <a href="{{ path('group_ranking_medals', {'id': group.getIdGroupe()}) }}"">{% trans %}group.medalranking.full{% endtrans %}</a>
+    </div>
+
+
+{% endblock %}
