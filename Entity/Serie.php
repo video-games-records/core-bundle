@@ -2,13 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Serie
  *
  * @ORM\Table(name="vgr_serie")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\RepositorySerieRepository")
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
  */
 class Serie
 {
@@ -40,7 +41,7 @@ class Serie
      */
     public function __construct()
     {
-        $this->idMembre = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idMembre = new ArrayCollection();
     }
 
 
@@ -80,10 +81,10 @@ class Serie
     /**
      * Add idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
+     * @param User $idMembre
      * @return Serie
      */
-    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
+    public function addIdMembre(User $idMembre)
     {
         $this->idMembre[] = $idMembre;
 
@@ -93,9 +94,9 @@ class Serie
     /**
      * Remove idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
+     * @param User $idMembre
      */
-    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
+    public function removeIdMembre(User $idMembre)
     {
         $this->idMembre->removeElement($idMembre);
     }

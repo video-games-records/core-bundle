@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,7 +72,7 @@ class Chart
     private $idRecord;
 
     /**
-     * @var VideoGamesRecords\CoreBundle\Entity\Group
+     * @var Group
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", inversedBy="charts")
      * @ORM\JoinColumns({
@@ -100,7 +101,7 @@ class Chart
      */
     public function __construct()
     {
-        $this->idMembre = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idMembre = new ArrayCollection();
     }
 
 
@@ -288,10 +289,10 @@ class Chart
     /**
      * Set group
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
+     * @param Group $group
      * @return Chart
      */
-    public function setGroup(\VideoGamesRecords\CoreBundle\Entity\Group $group = null)
+    public function setGroup(Group $group = null)
     {
         $this->group = $group;
         return $this;
@@ -300,7 +301,7 @@ class Chart
     /**
      * Get group
      *
-     * @return \VideoGamesRecords\CoreBundle\Entity\Group
+     * @return Group
      */
     public function getGroup()
     {
@@ -310,10 +311,10 @@ class Chart
     /**
      * Add idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Uer $idMembre
+     * @param User $idMembre
      * @return Chart
      */
-    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
+    public function addIdMembre(User $idMembre)
     {
         $this->idMembre[] = $idMembre;
 
@@ -323,9 +324,9 @@ class Chart
     /**
      * Remove idMembre
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
+     * @param User $idMembre
      */
-    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
+    public function removeIdMembre(User $idMembre)
     {
         $this->idMembre->removeElement($idMembre);
     }

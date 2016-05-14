@@ -27,7 +27,7 @@ class UserGroup
     private $idGroupe;
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
      * @ORM\JoinColumns({
@@ -37,7 +37,7 @@ class UserGroup
     private $user;
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\Group
+     * @var Group
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group")
      * @ORM\JoinColumns({
@@ -372,10 +372,10 @@ class UserGroup
     /**
      * Set group
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
+     * @param Group $group
      * @return UserGroup
      */
-    public function setGGroup(\VideoGamesRecords\CoreBundle\Entity\Group $group = null)
+    public function setGroup(Group $group = null)
     {
         $this->group = $group;
         return $this;
@@ -384,7 +384,7 @@ class UserGroup
     /**
      * Get group
      *
-     * @return \VideoGamesRecords\CoreBundle\Entity\Group
+     * @return Group
      */
     public function getGroup()
     {
@@ -395,10 +395,10 @@ class UserGroup
     /**
      * Set user
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\User $user
+     * @param User $user
      * @return UserGame
      */
-    public function setUser(\VideoGamesRecords\CoreBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
         return $this;
@@ -407,7 +407,7 @@ class UserGroup
     /**
      * Get user
      *
-     * @return \VideoGamesRecords\CoreBundle\Entity\User
+     * @return User
      */
     public function getUser()
     {

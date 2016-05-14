@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class GroupRepository extends EntityRepository
 {
 
-    public function getWidthGame($id)
+    public function getWithGame($id)
     {
         $query = $this->createQueryBuilder('gr')
             ->join('gr.game', 'ga')

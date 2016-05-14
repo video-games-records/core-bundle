@@ -10,12 +10,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 
+/**
+ * Class GameController
+ * @Route("/game")
+ */
 class GameController extends Controller
 {
 
     /**
-     * @Route("/game/list", defaults={"page": 1}, name="game_list")
-     * @Route("/game/list/page/{page}", requirements={"page": "[1-9]\d*"}, name="game_list_paginated")
+     * @Route("/list", defaults={"page": 1}, name="game_list")
+     * @Route("/list/page/{page}", requirements={"page": "[1-9]\d*"}, name="game_list_paginated")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -47,7 +51,7 @@ class GameController extends Controller
 
 
     /**
-     * @Route("/game/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_index")
+     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -89,7 +93,7 @@ class GameController extends Controller
 
 
     /**
-     * @Route("/game/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_ranking_points")
+     * @Route("/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_ranking_points")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -114,7 +118,7 @@ class GameController extends Controller
 
 
     /**
-     * @Route("/game/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_ranking_medals")
+     * @Route("/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_ranking_medals")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -136,5 +140,4 @@ class GameController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));
     }
-
 }

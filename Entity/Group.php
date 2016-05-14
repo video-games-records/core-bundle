@@ -80,7 +80,7 @@ class Group
 
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\Game
+     * @var Game
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="groups")
      * @ORM\JoinColumns({
@@ -88,13 +88,6 @@ class Group
      * })
      */
     private $game;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\User", mappedBy="idGroupe")
-     */
-    private $idMembre;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="group")
@@ -106,7 +99,6 @@ class Group
      */
     public function __construct()
     {
-        $this->idMembre = new \Doctrine\Common\Collections\ArrayCollection();
         $this->charts = new ArrayCollection();
     }
 
@@ -318,10 +310,10 @@ class Group
     /**
      * Set game
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Game $game
+     * @param Game $game
      * @return Group
      */
-    public function setGame(\VideoGamesRecords\CoreBundle\Entity\Game $game = null)
+    public function setGame(Game $game = null)
     {
         $this->game = $game;
 
@@ -331,44 +323,11 @@ class Group
     /**
      * Get game
      *
-     * @return \VideoGamesRecords\CoreBundle\Entity\Game
+     * @return Game
      */
     public function getGame()
     {
         return $this->game;
-    }
-
-    /**
-     * Add idMembre
-     *
-     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
-     * @return Group
-     */
-    public function addIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
-    {
-        $this->idMembre[] = $idMembre;
-
-        return $this;
-    }
-
-    /**
-     * Remove idMembre
-     *
-     * @param \VideoGamesRecords\CoreBundle\Entity\User $idMembre
-     */
-    public function removeIdMembre(\VideoGamesRecords\CoreBundle\Entity\User $idMembre)
-    {
-        $this->idMembre->removeElement($idMembre);
-    }
-
-    /**
-     * Get idMembre
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdMembre()
-    {
-        return $this->idMembre;
     }
 
     /**

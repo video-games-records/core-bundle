@@ -42,7 +42,7 @@ class UserGame
     private $idJeu;
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
      * @ORM\JoinColumns({
@@ -52,7 +52,7 @@ class UserGame
     private $user;
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\Game
+     * @var Game
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
      * @ORM\JoinColumns({
@@ -387,10 +387,10 @@ class UserGame
     /**
      * Set game
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Game $game
+     * @param Game $game
      * @return UserGame
      */
-    public function setGame(\VideoGamesRecords\CoreBundle\Entity\Game $game = null)
+    public function setGame(Game $game = null)
     {
         $this->game = $game;
         return $this;
@@ -399,7 +399,7 @@ class UserGame
     /**
      * Get game
      *
-     * @return \VideoGamesRecords\CoreBundle\Entity\Game
+     * @return Game
      */
     public function getGame()
     {
@@ -410,10 +410,10 @@ class UserGame
     /**
      * Set user
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\User $user
+     * @param User $user
      * @return UserGame
      */
-    public function setUser(\VideoGamesRecords\CoreBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
         return $this;
@@ -422,7 +422,7 @@ class UserGame
     /**
      * Get user
      *
-     * @return \VideoGamesRecords\CoreBundle\Entity\User
+     * @return User
      */
     public function getUser()
     {

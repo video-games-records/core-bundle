@@ -9,19 +9,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-
+/**
+ * Class GroupController
+ * @Route("/group")
+ */
 class GroupController extends Controller
 {
 
 
     /**
-     * @Route("/group/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="group_index")
+     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="group_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
     public function indexAction($id)
     {
-        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWidthGame($id);
+        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
 
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGroup')->getRankingPoints(
             array(
@@ -50,13 +53,13 @@ class GroupController extends Controller
 
 
     /**
-     * @Route("/group/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="group_ranking_points")
+     * @Route("/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="group_ranking_points")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
     public function rankingPointsAction($id)
     {
-        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWidthGame($id);
+        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGroup')->getRankingPoints(
             array(
                 'idGroupe' => $id,
@@ -76,13 +79,13 @@ class GroupController extends Controller
 
 
     /**
-     * @Route("/group/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="group_ranking_medals")
+     * @Route("/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="group_ranking_medals")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
     public function rankingMedalsAction($id)
     {
-        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWidthGame($id);
+        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
         $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGroup')->getRankingMedals(
             array(
                 'idGroupe' => $id,
@@ -99,5 +102,4 @@ class GroupController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));
     }
-
 }

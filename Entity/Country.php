@@ -5,12 +5,12 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Countrie
+ * Country
  *
  * @ORM\Table(name="t_pays", indexes={@ORM\Index(name="idxLibPaysFr", columns={"libPays_fr"}), @ORM\Index(name="idxLibPaysEn", columns={"libPays_en"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\CountrieRepository")
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\CountryRepository")
  */
-class Countrie
+class Country
 {
     /**
      * @var string
@@ -48,7 +48,7 @@ class Countrie
      * Set libPays_fr
      *
      * @param string $libPaysFr
-     * @return Countrie
+     * @return Country
      */
     public function setLibPaysFr($libPaysFr)
     {
@@ -71,7 +71,7 @@ class Countrie
      * Set libPays_en
      *
      * @param string $libPaysEn
-     * @return Countrie
+     * @return Country
      */
     public function setLibPaysEn($libPaysEn)
     {
@@ -94,7 +94,7 @@ class Countrie
      * Set codeIso
      *
      * @param string $codeIso
-     * @return Countrie
+     * @return Country
      */
     public function setCodeIso($codeIso)
     {

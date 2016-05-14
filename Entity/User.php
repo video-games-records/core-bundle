@@ -2,13 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Member
+ * User
  *
- * @ORM\Table(name="t_membre", uniqueConstraints={@ORM\UniqueConstraint(name="pseudo", columns={"pseudo"})}, indexes={@ORM\Index(name="connect", columns={"nbConnexion"}), @ORM\Index(name="dateNaissance", columns={"dateNaissance"}), @ORM\Index(name="lastConnection", columns={"derniereConnexion"}), @ORM\Index(name="nom", columns={"nom"}), @ORM\Index(name="pass", columns={"password"}), @ORM\Index(name="prenom", columns={"prenom"}), @ORM\Index(name="sexe", columns={"sexe"}), @ORM\Index(name="siteWeb", columns={"siteWeb"}), @ORM\Index(name="idPays", columns={"idPays"}), @ORM\Index(name="vgr_pointJeu", columns={"vgr_pointJeu"}), @ORM\Index(name="vgr_rank_pointJeu", columns={"vgr_rank_pointJeu"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\RepositoryMemberRepository")
+ * @ORM\Table(name="t_membre", uniqueConstraints={@ORM\UniqueConstraint(name="pseudo", columns={"pseudo"})}, indexes={@ORM\Index(name="nom", columns={"nom"}), @ORM\Index(name="prenom", columns={"prenom"}), @ORM\Index(name="idPays", columns={"idPays"}), @ORM\Index(name="vgr_pointJeu", columns={"vgr_pointJeu"}), @ORM\Index(name="vgr_rank_pointJeu", columns={"vgr_rank_pointJeu"})})
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\MemberRepository")
  */
 class User
 {
@@ -246,9 +247,9 @@ class User
     private $idMembre;
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\Countrie
+     * @var Country
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Countrie")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPays", referencedColumnName="idPays")
      * })
@@ -261,36 +262,6 @@ class User
      * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="idMembre")
      */
     private $idRecord;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="idMembre")
-     * @ORM\JoinTable(name="mv_membre_jeu",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idJeu", referencedColumnName="idJeu")
-     *   }
-     * )
-     */
-    private $idJeu;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", inversedBy="idMembre")
-     * @ORM\JoinTable(name="mv_membre_groupe",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idGroupe", referencedColumnName="idGroupe")
-     *   }
-     * )
-     */
-    private $idGroupe;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -312,10 +283,8 @@ class User
      */
     public function __construct()
     {
-        $this->idRecord = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idJeu = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idGroupe = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idSerie = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idRecord = new ArrayCollection();
+        $this->idSerie = new ArrayCollection();
     }
 
 
@@ -323,7 +292,7 @@ class User
      * Set pseudo
      *
      * @param string $pseudo
-     * @return Member
+     * @return User
      */
     public function setPseudo($pseudo)
     {
@@ -346,7 +315,7 @@ class User
      * Set email
      *
      * @param string $email
-     * @return Member
+     * @return User
      */
     public function setEmail($email)
     {
@@ -369,7 +338,7 @@ class User
      * Set nom
      *
      * @param string $nom
-     * @return Member
+     * @return User
      */
     public function setNom($nom)
     {
@@ -392,7 +361,7 @@ class User
      * Set prenom
      *
      * @param string $prenom
-     * @return Member
+     * @return User
      */
     public function setPrenom($prenom)
     {
@@ -415,7 +384,7 @@ class User
      * Set avatar
      *
      * @param string $avatar
-     * @return Member
+     * @return User
      */
     public function setAvatar($avatar)
     {
@@ -438,7 +407,7 @@ class User
      * Set vgr_gamerCard
      *
      * @param string $vgrGamerCard
-     * @return Member
+     * @return User
      */
     public function setVgrGamerCard($vgrGamerCard)
     {
@@ -461,7 +430,7 @@ class User
      * Set vgr_displayGamerCard
      *
      * @param boolean $vgrDisplayGamerCard
-     * @return Member
+     * @return User
      */
     public function setVgrDisplayGamerCard($vgrDisplayGamerCard)
     {
@@ -484,7 +453,7 @@ class User
      * Set vgr_displayGoalBar
      *
      * @param boolean $vgrDisplayGoalBar
-     * @return Member
+     * @return User
      */
     public function setVgrDisplayGoalBar($vgrDisplayGoalBar)
     {
@@ -507,7 +476,7 @@ class User
      * Set vgr_rank0
      *
      * @param integer $vgrRank0
-     * @return Member
+     * @return User
      */
     public function setVgrRank0($vgrRank0)
     {
@@ -530,7 +499,7 @@ class User
      * Set vgr_rank1
      *
      * @param integer $vgrRank1
-     * @return Member
+     * @return User
      */
     public function setVgrRank1($vgrRank1)
     {
@@ -553,7 +522,7 @@ class User
      * Set vgr_rank2
      *
      * @param integer $vgrRank2
-     * @return Member
+     * @return User
      */
     public function setVgrRank2($vgrRank2)
     {
@@ -576,7 +545,7 @@ class User
      * Set vgr_rank3
      *
      * @param integer $vgrRank3
-     * @return Member
+     * @return User
      */
     public function setVgrRank3($vgrRank3)
     {
@@ -599,7 +568,7 @@ class User
      * Set vgr_pointRecord
      *
      * @param integer $vgrPointRecord
-     * @return Member
+     * @return User
      */
     public function setVgrPointRecord($vgrPointRecord)
     {
@@ -622,7 +591,7 @@ class User
      * Set vgr_pointVGR
      *
      * @param integer $vgrPointVGR
-     * @return Member
+     * @return User
      */
     public function setVgrPointVGR($vgrPointVGR)
     {
@@ -645,7 +614,7 @@ class User
      * Set vgr_pointBadge
      *
      * @param integer $vgrPointBadge
-     * @return Member
+     * @return User
      */
     public function setVgrPointBadge($vgrPointBadge)
     {
@@ -668,7 +637,7 @@ class User
      * Set vgr_collection
      *
      * @param string $vgrCollection
-     * @return Member
+     * @return User
      */
     public function setVgrCollection($vgrCollection)
     {
@@ -691,7 +660,7 @@ class User
      * Set vgr_rank_point
      *
      * @param integer $vgrRankPoint
-     * @return Member
+     * @return User
      */
     public function setVgrRankPoint($vgrRankPoint)
     {
@@ -714,7 +683,7 @@ class User
      * Set vgr_rank_medal
      *
      * @param integer $vgrRankMedal
-     * @return Member
+     * @return User
      */
     public function setVgrRankMedal($vgrRankMedal)
     {
@@ -737,7 +706,7 @@ class User
      * Set vgr_rank_proof
      *
      * @param integer $vgrRankProof
-     * @return Member
+     * @return User
      */
     public function setVgrRankProof($vgrRankProof)
     {
@@ -760,7 +729,7 @@ class User
      * Set vgr_rank_badge
      *
      * @param integer $vgrRankBadge
-     * @return Member
+     * @return User
      */
     public function setVgrRankBadge($vgrRankBadge)
     {
@@ -783,7 +752,7 @@ class User
      * Set vgr_rank_cup
      *
      * @param integer $vgrRankCup
-     * @return Member
+     * @return User
      */
     public function setVgrRankCup($vgrRankCup)
     {
@@ -806,7 +775,7 @@ class User
      * Set vgr_cup_rank0
      *
      * @param integer $vgrCupRank0
-     * @return Member
+     * @return User
      */
     public function setVgrCupRank0($vgrCupRank0)
     {
@@ -829,7 +798,7 @@ class User
      * Set vgr_cup_rank1
      *
      * @param integer $vgrCupRank1
-     * @return Member
+     * @return User
      */
     public function setVgrCupRank1($vgrCupRank1)
     {
@@ -852,7 +821,7 @@ class User
      * Set vgr_cup_rank2
      *
      * @param integer $vgrCupRank2
-     * @return Member
+     * @return User
      */
     public function setVgrCupRank2($vgrCupRank2)
     {
@@ -875,7 +844,7 @@ class User
      * Set vgr_cup_rank3
      *
      * @param integer $vgrCupRank3
-     * @return Member
+     * @return User
      */
     public function setVgrCupRank3($vgrCupRank3)
     {
@@ -898,7 +867,7 @@ class User
      * Set vgr_nbRecord
      *
      * @param integer $vgrNbRecord
-     * @return Member
+     * @return User
      */
     public function setVgrNbRecord($vgrNbRecord)
     {
@@ -921,7 +890,7 @@ class User
      * Set vgr_nbRecordProuve
      *
      * @param integer $vgrNbRecordProuve
-     * @return Member
+     * @return User
      */
     public function setVgrNbRecordProuve($vgrNbRecordProuve)
     {
@@ -944,7 +913,7 @@ class User
      * Set vgr_nbMasterBadge
      *
      * @param integer $vgrNbMasterBadge
-     * @return Member
+     * @return User
      */
     public function setVgrNbMasterBadge($vgrNbMasterBadge)
     {
@@ -967,7 +936,7 @@ class User
      * Set vgr_pointJeu
      *
      * @param integer $vgrPointJeu
-     * @return Member
+     * @return User
      */
     public function setVgrPointJeu($vgrPointJeu)
     {
@@ -990,7 +959,7 @@ class User
      * Set vgr_rank_pointJeu
      *
      * @param integer $vgrRankPointJeu
-     * @return Member
+     * @return User
      */
     public function setVgrRankPointJeu($vgrRankPointJeu)
     {
@@ -1013,7 +982,7 @@ class User
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
-     * @return Member
+     * @return User
      */
     public function setDateCreation($dateCreation)
     {
@@ -1036,7 +1005,7 @@ class User
      * Set dateModification
      *
      * @param \DateTime $dateModification
-     * @return Member
+     * @return User
      */
     public function setDateModification($dateModification)
     {
@@ -1068,10 +1037,10 @@ class User
     /**
      * Set idPays
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Countrie $idPays
-     * @return Member
+     * @param Country $idPays
+     * @return User
      */
-    public function setIdPays(\VideoGamesRecords\CoreBundle\Entity\Countrie $idPays = null)
+    public function setIdPays(Country $idPays = null)
     {
         $this->idPays = $idPays;
 
@@ -1081,7 +1050,7 @@ class User
     /**
      * Get idPays
      *
-     * @return \VideoGamesRecords\CoreBundle\Entity\Countrie 
+     * @return Country
      */
     public function getIdPays()
     {
@@ -1091,10 +1060,10 @@ class User
     /**
      * Add idRecord
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $idRecord
-     * @return Member
+     * @param Chart $idRecord
+     * @return User
      */
-    public function addIdRecord(\VideoGamesRecords\CoreBundle\Entity\Chart $idRecord)
+    public function addIdRecord(Chart $idRecord)
     {
         $this->idRecord[] = $idRecord;
 
@@ -1104,9 +1073,9 @@ class User
     /**
      * Remove idRecord
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $idRecord
+     * @param Chart $idRecord
      */
-    public function removeIdRecord(\VideoGamesRecords\CoreBundle\Entity\Chart $idRecord)
+    public function removeIdRecord(Chart $idRecord)
     {
         $this->idRecord->removeElement($idRecord);
     }
@@ -1122,78 +1091,12 @@ class User
     }
 
     /**
-     * Add idJeu
-     *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Game $idJeu
-     * @return Member
-     */
-    public function addIdJeu(\VideoGamesRecords\CoreBundle\Entity\Game $idJeu)
-    {
-        $this->idJeu[] = $idJeu;
-
-        return $this;
-    }
-
-    /**
-     * Remove idJeu
-     *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Game $idJeu
-     */
-    public function removeIdJeu(\VideoGamesRecords\CoreBundle\Entity\Game $idJeu)
-    {
-        $this->idJeu->removeElement($idJeu);
-    }
-
-    /**
-     * Get idJeu
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdJeu()
-    {
-        return $this->idJeu;
-    }
-
-    /**
-     * Add idGroupe
-     *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $idGroupe
-     * @return Member
-     */
-    public function addIdGroupe(\VideoGamesRecords\CoreBundle\Entity\Group $idGroupe)
-    {
-        $this->idGroupe[] = $idGroupe;
-
-        return $this;
-    }
-
-    /**
-     * Remove idGroupe
-     *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $idGroupe
-     */
-    public function removeIdGroupe(\VideoGamesRecords\CoreBundle\Entity\Group $idGroupe)
-    {
-        $this->idGroupe->removeElement($idGroupe);
-    }
-
-    /**
-     * Get idGroupe
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdGroupe()
-    {
-        return $this->idGroupe;
-    }
-
-    /**
      * Add idSerie
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Serie $idSerie
-     * @return Member
+     * @param Serie $idSerie
+     * @return User
      */
-    public function addIdSerie(\VideoGamesRecords\CoreBundle\Entity\Serie $idSerie)
+    public function addIdSerie(Serie $idSerie)
     {
         $this->idSerie[] = $idSerie;
 
@@ -1203,9 +1106,9 @@ class User
     /**
      * Remove idSerie
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Serie $idSerie
+     * @param Serie $idSerie
      */
-    public function removeIdSerie(\VideoGamesRecords\CoreBundle\Entity\Serie $idSerie)
+    public function removeIdSerie(Serie $idSerie)
     {
         $this->idSerie->removeElement($idSerie);
     }

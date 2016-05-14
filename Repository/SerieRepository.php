@@ -1,6 +1,6 @@
 <?php
 
-namespace VVideoGamesRecords\CoreBundle\Repository;
+namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

@@ -22,10 +22,10 @@ class VideoGamesRecordsCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter( 'videogamesrecords_core.idSerie', $config[ 'idSerie' ]);
-        $container->setParameter( 'videogamesrecords_core.games', $config[ 'games' ]);
+        $container->setParameter('videogamesrecords_core.idSerie', $config['idSerie']);
+        $container->setParameter('videogamesrecords_core.games', $config['games']);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
     }
