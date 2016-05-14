@@ -5,9 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 
 /**
@@ -60,7 +58,7 @@ class GameController extends Controller
         $idSerie = $this->container->getParameter('videogamesrecords_core.idSerie');
         $games = $this->container->getParameter('videogamesrecords_core.games');
 
-        if ( ($idSerie != null) && (!in_array($id, $games)) ) {
+        if ($idSerie !== null && !in_array($id, $games)) {
             throw new \Exception('Invalid game for this serie');
         }
 
@@ -89,7 +87,6 @@ class GameController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', array('game' => $game, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals));
     }
-
 
 
     /**

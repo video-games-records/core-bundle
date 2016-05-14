@@ -25,7 +25,7 @@ class GameRepository extends EntityRepository
 
         $query = $this->createQueryBuilder('g');
 
-        if ((array_key_exists('idSerie', $params)) && ($params['idSerie'] != null)) {
+        if (array_key_exists('idSerie', $params) && $params['idSerie'] !== null) {
             $query->where('g.idSerie = :idSerie')
                 ->setParameter('idSerie', $params['idSerie']);
         }

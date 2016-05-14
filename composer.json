@@ -7,6 +7,10 @@
     {
       "name": "Benard David",
       "email": "magicbart@gmail.com"
+    },
+    {
+      "name": "Verlhac Gaëtan",
+      "email": "viviengaetan69@gmail.com"
     }
   ],
   "require": {
@@ -19,7 +23,7 @@
     "doctrine/orm": "^2.5",
     "doctrine/doctrine-bundle": "~1.6",
     "knplabs/knp-paginator-bundle": "~2.4",
-    "whiteoctober/breadcrumbs-bundle": "*"
+    "whiteoctober/breadcrumbs-bundle": "~1.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0"
