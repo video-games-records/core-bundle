@@ -12,4 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class ChartRepository extends EntityRepository
 {
+    public function getWithGame($id)
+    {
+        $query = $this->createQueryBuilder('ch')
+            ->join('ch.group', 'gr')
+            ->addSelect('gr')
+            ->join('gr.game', 'ga')
+            ->addSelect('ga')
+            ->where('ch.idRecord = :idRecord')
+            ->setParameter('idRecord', $id);
+
+        return $query->getQuery()
+            ->getOneOrNullResult();
+    }
 }

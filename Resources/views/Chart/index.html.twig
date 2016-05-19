@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
+{% block body_id 'chart_index' %}
+
+{% block body %}
+
+    {% for row in ranking %}
+        <li>{{ row['uc'].getRank() }} | {{ row['uc'].getUser().getPseudo() }} |
+
+        {% for lib in chart.getLibs() %}
+            {{ vgrFormatScore(row['value_' ~  lib.getIdLibRecord()], lib.getType().getMask()) }}  ||  {{ row['uc'].getPointRecord()|number_format }}pts
+        {% endfor %}
+
+        </li>
+    {% else %}
+        <div class="well">{{ 'chart.no_ranking'|trans }}</div>
+    {% endfor %}
+
+
+{% endblock %}

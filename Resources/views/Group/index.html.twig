@@ -14,7 +14,7 @@
         <li>{% trans %}group.chartlist{% endtrans %} | {% trans %}group.scores{% endtrans %}</li>
         {% for chart in group.getCharts %}
             <li>
-                {{ chart.getLibRecord() }} |  {{ chart.getNbPost() }}
+                <a href="{{ path('chart_index', {'id': chart.getIdRecord()}) }}">{{ chart.getLibRecord() }}</a> |  {{ chart.getNbPost() }}
             </li>
         {% endfor %}
     </ul>

@@ -82,6 +82,11 @@ class Chart
     private $group;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart")
+     */
+    private $libs;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\User", inversedBy="idRecord")
@@ -102,6 +107,7 @@ class Chart
     public function __construct()
     {
         $this->idMembre = new ArrayCollection();
+        $this->libs = new ArrayCollection();
     }
 
 
@@ -124,7 +130,6 @@ class Chart
     public function setLibRecordFr($libRecordFr)
     {
         $this->libRecord_fr = $libRecordFr;
-
         return $this;
     }
 
@@ -147,7 +152,6 @@ class Chart
     public function setLibRecordEn($libRecordEn)
     {
         $this->libRecord_en = $libRecordEn;
-
         return $this;
     }
 
@@ -170,7 +174,6 @@ class Chart
     public function setStatut($statut)
     {
         $this->statut = $statut;
-
         return $this;
     }
 
@@ -193,7 +196,6 @@ class Chart
     public function setStatutTeam($statutTeam)
     {
         $this->statutTeam = $statutTeam;
-
         return $this;
     }
 
@@ -216,7 +218,6 @@ class Chart
     public function setNbPost($nbPost)
     {
         $this->nbPost = $nbPost;
-
         return $this;
     }
 
@@ -239,7 +240,6 @@ class Chart
     public function setDateCreation($dateCreation)
     {
         $this->dateCreation = $dateCreation;
-
         return $this;
     }
 
@@ -339,5 +339,31 @@ class Chart
     public function getIdMembre()
     {
         return $this->idMembre;
+    }
+
+    /**
+     * @param ChartLib $lib
+     * @return $this
+     */
+    public function addLib(ChartLib $lib)
+    {
+        $this->libs[] = $lib;
+        return $this;
+    }
+
+    /**
+     * @param ChartLib $lib
+     */
+    public function removeLib(ChartLib $lib)
+    {
+        $this->libs->removeElement($lib);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLibs()
+    {
+        return $this->libs;
     }
 }

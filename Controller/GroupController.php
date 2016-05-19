@@ -43,7 +43,7 @@ class GroupController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($group->getGame()->getLibJeu(), 'game_index', ['id' => $id]);
+        $breadcrumbs->addRouteItem($group->getGame()->getLibJeu(), 'game_index', ['id' => $group->getGame()->getIdJeu()]);
         $breadcrumbs->addItem($group->getLibGroupe());
 
         return $this->render('VideoGamesRecordsCoreBundle:Group:index.html.twig', array('group' => $group, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals));
