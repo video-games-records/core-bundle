@@ -256,35 +256,14 @@ class User
      */
     private $idPays;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="idMembre")
-     */
-    private $idRecord;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", inversedBy="idMembre")
-     * @ORM\JoinTable(name="mv_membre_serie",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idSerie", referencedColumnName="idSerie")
-     *   }
-     * )
-     */
-    private $idSerie;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->idRecord = new ArrayCollection();
-        $this->idSerie = new ArrayCollection();
+
     }
 
 
@@ -1057,69 +1036,4 @@ class User
         return $this->idPays;
     }
 
-    /**
-     * Add idRecord
-     *
-     * @param Chart $idRecord
-     * @return User
-     */
-    public function addIdRecord(Chart $idRecord)
-    {
-        $this->idRecord[] = $idRecord;
-
-        return $this;
-    }
-
-    /**
-     * Remove idRecord
-     *
-     * @param Chart $idRecord
-     */
-    public function removeIdRecord(Chart $idRecord)
-    {
-        $this->idRecord->removeElement($idRecord);
-    }
-
-    /**
-     * Get idRecord
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdRecord()
-    {
-        return $this->idRecord;
-    }
-
-    /**
-     * Add idSerie
-     *
-     * @param Serie $idSerie
-     * @return User
-     */
-    public function addIdSerie(Serie $idSerie)
-    {
-        $this->idSerie[] = $idSerie;
-
-        return $this;
-    }
-
-    /**
-     * Remove idSerie
-     *
-     * @param Serie $idSerie
-     */
-    public function removeIdSerie(Serie $idSerie)
-    {
-        $this->idSerie->removeElement($idSerie);
-    }
-
-    /**
-     * Get idSerie
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdSerie()
-    {
-        return $this->idSerie;
-    }
 }

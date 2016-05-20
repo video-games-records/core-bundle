@@ -61,11 +61,11 @@ class UserGroupRepository extends EntityRepository
         }
 
         if ( (array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params)) ) {
-            $query->andWhere('(ug.rank <= :maxRank OR ug.idMembre = :idLogin)')
+            $query->andWhere('(ug.rankMedal <= :maxRank OR ug.idMembre = :idLogin)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idLogin', $params['idLogin']);
         } else if (array_key_exists('maxRank', $params)) {
-            $query->andWhere('ug.rank <= :maxRank')
+            $query->andWhere('ug.rankMedal <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
         return $query->getQuery()->getResult();

@@ -7,19 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MemberGame
  *
- * @ORM\Table(name="mv_membre_jeu", indexes={@ORM\Index(name="idxIdJeu", columns={"idJeu"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserGameRepository")
+ * @ORM\Table(name="mv_membre_serie", indexes={@ORM\Index(name="idxIdSerie", columns={"idSerie"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserSerieRepository")
  */
-class UserGame
+class UserSerie
 {
 
-  /**
-   * This columns are missing on this entity
-   *  - pointJeu
-   *  - pointRecordSansDLC
-   *  - nbRecordSansDLC
-   *  - nbRecordProuveSansDLC
-   */
+    /**
+     * This columns are missing on this entity
+     *  - pointJeu
+     *  - pointRecordSansDLC
+     *  - nbRecordSansDLC
+     *  - nbRecordProuveSansDLC
+     */
+
 
     /**
      * @ORM\Column(name="idMembre", type="integer")
@@ -28,10 +29,10 @@ class UserGame
     private $idMembre;
 
     /**
-     * @ORM\Column(name="idJeu", type="integer")
+     * @ORM\Column(name="idSerie", type="integer")
      * @ORM\Id
      */
-    private $idJeu;
+    private $idSerie;
 
     /**
      * @var User
@@ -44,21 +45,21 @@ class UserGame
     private $user;
 
     /**
-     * @var Game
+     * @var Serie
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idJeu", referencedColumnName="idJeu")
+     *   @ORM\JoinColumn(name="idSerie", referencedColumnName="idSerie")
      * })
      */
-    private $game;
+    private $serie;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank", type="integer", nullable=false)
+     * @ORM\Column(name="rankPoint", type="integer", nullable=false)
      */
-    private $rank;
+    private $rankPoint;
 
     /**
      * @var integer
@@ -133,39 +134,30 @@ class UserGame
     /**
      * Set rank
      *
-     * @param integer $rank
-     * @return UserGame
+     * @param integer $rankPoint
+     * @return UserSerie
      */
-    public function setRank($rank)
+    public function setRankPoint($rankPoint)
     {
-        $this->rank = $rank;
+        $this->rankPoint = $rankPoint;
         return $this;
     }
 
     /**
-     * Get rank
+     * Get rankPoint
      *
      * @return integer
      */
-    public function getRank()
-    {
-        return $this->rank;
-    }
-
-    /**
-     * @todo Replace rank by rankPoint on BDD
-     * @return int
-     */
     public function getRankPoint()
     {
-        return $this->getRank();
+        return $this->rankPoint;
     }
 
     /**
      * Set rankMedal
      *
      * @param integer $rankMedal
-     * @return UserGame
+     * @return UserSerie
      */
     public function setRankMedal($rankMedal)
     {
@@ -187,7 +179,7 @@ class UserGame
      * Set rank
      *
      * @param integer $rank0
-     * @return UserGame
+     * @return UserSerie
      */
     public function setRank0($rank0)
     {
@@ -209,7 +201,7 @@ class UserGame
      * Set rank1
      *
      * @param integer $rank1
-     * @return UserGame
+     * @return UserSerie
      */
     public function setRank1($rank1)
     {
@@ -231,7 +223,7 @@ class UserGame
      * Set rank2
      *
      * @param integer $rank2
-     * @return UserGame
+     * @return UserSerie
      */
     public function setRank2($rank2)
     {
@@ -253,7 +245,7 @@ class UserGame
      * Set rank3
      *
      * @param integer $rank3
-     * @return UserGame
+     * @return UserSerie
      */
     public function setRank3($rank3)
     {
@@ -275,7 +267,7 @@ class UserGame
      * Set rank4
      *
      * @param integer $rank4
-     * @return UserGame
+     * @return UserSerie
      */
     public function setRank4($rank4)
     {
@@ -297,7 +289,7 @@ class UserGame
      * Set rank5
      *
      * @param integer $rank5
-     * @return UserGame
+     * @return UserSerie
      */
     public function setRank5($rank5)
     {
@@ -319,7 +311,7 @@ class UserGame
      * Set pointRecord
      *
      * @param integer $pointRecord
-     * @return UserGame
+     * @return UserSerie
      */
     public function setPointRecord($pointRecord)
     {
@@ -342,7 +334,7 @@ class UserGame
      * Set nbRecord
      *
      * @param integer $nbRecord
-     * @return UserGame
+     * @return UserSerie
      */
     public function setNbRecord($nbRecord)
     {
@@ -365,7 +357,7 @@ class UserGame
      * Set nbRecordProuve
      *
      * @param integer $nbRecordProuve
-     * @return UserGame
+     * @return UserSerie
      */
     public function setNbRecordProuve($nbRecordProuve)
     {
@@ -383,28 +375,26 @@ class UserGame
         return $this->nbRecordProuve;
     }
 
-
-
     /**
-     * Set game
+     * Set serie
      *
-     * @param Game $game
-     * @return UserGame
+     * @param Serie $serie
+     * @return UserSerie
      */
-    public function setGame(Game $game = null)
+    public function setSerie(Serie $serie = null)
     {
-        $this->game = $game;
+        $this->serie = $serie;
         return $this;
     }
 
     /**
-     * Get game
+     * Get serie
      *
-     * @return Game
+     * @return Serie
      */
-    public function getGame()
+    public function getSerie()
     {
-        return $this->game;
+        return $this->serie;
     }
 
 
@@ -412,7 +402,7 @@ class UserGame
      * Set user
      *
      * @param User $user
-     * @return UserGame
+     * @return UserSerie
      */
     public function setUser(User $user = null)
     {

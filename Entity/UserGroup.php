@@ -146,6 +146,15 @@ class UserGroup
     }
 
     /**
+     * @todo Replace rank by rankPoint on BDD
+     * @return int
+     */
+    public function getRankPoint()
+    {
+        return $this->getRank();
+    }
+
+    /**
      * Set rankMedal
      *
      * @param integer $rankMedal
@@ -427,8 +436,8 @@ class UserGroup
             3 => 'bg-third',
         );
 
-        if ($this->getRank() <= 3) {
-            return sprintf("class=\"%s\"",$class[$this->getRank()]);
+        if ($this->getRankPoint() <= 3) {
+            return sprintf("class=\"%s\"",$class[$this->getRankPoint()]);
         } else {
             return '';
         }
