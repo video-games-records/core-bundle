@@ -16,7 +16,7 @@ class ChartController extends Controller
 
 
     /**
-     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="chart_index")
+     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -35,8 +35,8 @@ class ChartController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibJeu(), 'game_index', ['id' => $chart->getGroup()->getGame()->getIdJeu()]);
-        $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroupe(), 'group_index', ['id' => $chart->getGroup()->getIdGroupe()]);
+        $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibJeu(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getIdJeu()]);
+        $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroupe(), 'vgr_group_index', ['id' => $chart->getGroup()->getIdGroupe()]);
         $breadcrumbs->addItem($chart->getLibRecord());
 
         return $this->render('VideoGamesRecordsCoreBundle:Chart:index.html.twig', array('chart' => $chart, 'ranking' => $ranking));

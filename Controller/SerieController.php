@@ -15,7 +15,7 @@ class SerieController extends Controller
 {
 
     /**
-     * @Route("/ranking-points", name="serie_ranking_points")
+     * @Route("/ranking-points", name="vgr_serie_ranking_points")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -43,7 +43,7 @@ class SerieController extends Controller
 
 
     /**
-     * @Route("/ranking-medals", name="serie_ranking_medals")
+     * @Route("/ranking-medals", name="vgr_serie_ranking_medals")
      * @Method("GET")
      * @Cache(smaxage="10")
      */

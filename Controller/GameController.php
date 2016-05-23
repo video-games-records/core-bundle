@@ -16,8 +16,8 @@ class GameController extends Controller
 {
 
     /**
-     * @Route("/list", defaults={"page": 1}, name="game_list")
-     * @Route("/list/page/{page}", requirements={"page": "[1-9]\d*"}, name="game_list_paginated")
+     * @Route("/list", defaults={"page": 1}, name="vgr_game_list")
+     * @Route("/list/page/{page}", requirements={"page": "[1-9]\d*"}, name="vgr_game_list_paginated")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -49,7 +49,7 @@ class GameController extends Controller
 
 
     /**
-     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_index")
+     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -90,7 +90,7 @@ class GameController extends Controller
 
 
     /**
-     * @Route("/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_ranking_points")
+     * @Route("/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_points")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -107,7 +107,7 @@ class GameController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibJeu(), 'game_index', ['id' => $id]);
+        $breadcrumbs->addRouteItem($game->getLibJeu(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.pointranking.full');
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-points.html.twig', array('rankingPoints' => $rankingPoints));
@@ -115,7 +115,7 @@ class GameController extends Controller
 
 
     /**
-     * @Route("/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="game_ranking_medals")
+     * @Route("/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_medals")
      * @Method("GET")
      * @Cache(smaxage="10")
      */
@@ -132,7 +132,7 @@ class GameController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibJeu(), 'game_index', ['id' => $id]);
+        $breadcrumbs->addRouteItem($game->getLibJeu(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.medalranking.full');
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));
