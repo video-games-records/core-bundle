@@ -5,22 +5,13 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MemberGame
+ * UserSerie
  *
  * @ORM\Table(name="mv_membre_serie", indexes={@ORM\Index(name="idxIdSerie", columns={"idSerie"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserSerieRepository")
  */
 class UserSerie
 {
-
-    /**
-     * This columns are missing on this entity
-     *  - pointJeu
-     *  - pointRecordSansDLC
-     *  - nbRecordSansDLC
-     *  - nbRecordProuveSansDLC
-     */
-
 
     /**
      * @ORM\Column(name="idMembre", type="integer")
@@ -30,7 +21,6 @@ class UserSerie
 
     /**
      * @ORM\Column(name="idSerie", type="integer")
-     * @ORM\Id
      */
     private $idSerie;
 
@@ -120,6 +110,13 @@ class UserSerie
     /**
      * @var integer
      *
+     * @ORM\Column(name="pointRecordSansDLC", type="integer", nullable=false)
+     */
+    private $pointRecordSansDLC;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="nbRecord", type="integer", nullable=false)
      */
     private $nbRecord;
@@ -132,7 +129,80 @@ class UserSerie
     private $nbRecordProuve;
 
     /**
-     * Set rank
+     * @var integer
+     *
+     * @ORM\Column(name="nbRecordSansDLC", type="integer", nullable=false)
+     */
+    private $nbRecordSansDLC;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbRecordProuveSansDLC", type="integer", nullable=false)
+     */
+    private $nbRecordProuveSansDLC;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pointJeu", type="integer", nullable=false)
+     */
+    private $pointJeu;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbJeu", type="integer", nullable=false)
+     */
+    private $nbJeu;
+
+
+    /**
+     * Set idMembre
+     *
+     * @param integer $idMembre
+     * @return UserSerie
+     */
+    public function setIdMembre($idMembre)
+    {
+        $this->idMembre = $idMembre;
+        return $this;
+    }
+
+    /**
+     * Get idMembre
+     *
+     * @return integer
+     */
+    public function getIdMembre()
+    {
+        return $this->idMembre;
+    }
+
+    /**
+     * Set idSerie
+     *
+     * @param integer $idSerie
+     * @return UserSerie
+     */
+    public function setIdSerie($idSerie)
+    {
+        $this->idSerie = $idSerie;
+        return $this;
+    }
+
+    /**
+     * Get idSerie
+     *
+     * @return integer
+     */
+    public function getIdSerie()
+    {
+        return $this->idSerie;
+    }
+
+    /**
+     * Set rankPoint
      *
      * @param integer $rankPoint
      * @return UserSerie
@@ -176,7 +246,7 @@ class UserSerie
     }
 
     /**
-     * Set rank
+     * Set rank0
      *
      * @param integer $rank0
      * @return UserSerie
@@ -329,6 +399,28 @@ class UserSerie
         return $this->pointRecord;
     }
 
+    /**
+     * Set pointRecordSansDLC
+     *
+     * @param integer $pointRecordSansDLC
+     * @return UserGame
+     */
+    public function setPointRecordSansDLC($pointRecordSansDLC)
+    {
+        $this->pointRecordSansDLC = $pointRecordSansDLC;
+        return $this;
+    }
+
+    /**
+     * Get pointRecordSansDLC
+     *
+     * @return integer
+     */
+    public function getPointRecordSansDLC()
+    {
+        return $this->pointRecordSansDLC;
+    }
+
 
     /**
      * Set nbRecord
@@ -374,6 +466,97 @@ class UserSerie
     {
         return $this->nbRecordProuve;
     }
+
+    /**
+     * Set nbRecordSansDLC
+     *
+     * @param integer $nbRecordSansDLC
+     * @return UserGame
+     */
+    public function setNbRecordSansDLC($nbRecordSansDLC)
+    {
+        $this->nbRecordSansDLC = $nbRecordSansDLC;
+        return $this;
+    }
+
+    /**
+     * Get nbRecordSansDLC
+     *
+     * @return integer
+     */
+    public function getNbRecordv()
+    {
+        return $this->nbRecordSansDLC;
+    }
+
+
+    /**
+     * Set nbRecordProuveSansDLC
+     *
+     * @param integer $nbRecordProuveSansDLC
+     * @return UserGame
+     */
+    public function setNbRecordProuveSansDLC($nbRecordProuveSansDLC)
+    {
+        $this->nbRecordProuveSansDLC = $nbRecordProuveSansDLC;
+        return $this;
+    }
+
+    /**
+     * Get nbRecordProuveSansDLC
+     *
+     * @return integer
+     */
+    public function getNbRecordProuveSansDLC()
+    {
+        return $this->nbRecordProuveSansDLC;
+    }
+
+    /**
+     * Set pointJeu
+     *
+     * @param integer $pointJeu
+     * @return UserGame
+     */
+    public function setPointJeu($pointJeu)
+    {
+        $this->pointJeu = $pointJeu;
+        return $this;
+    }
+
+    /**
+     * Get pointJeu
+     *
+     * @return integer
+     */
+    public function getPointJeu()
+    {
+        return $this->pointJeu;
+    }
+
+
+    /**
+     * Set nbJeu
+     *
+     * @param integer $nbJeu
+     * @return UserGame
+     */
+    public function setNbJeu($nbJeu)
+    {
+        $this->nbJeu = $nbJeu;
+        return $this;
+    }
+
+    /**
+     * Get nbJeu
+     *
+     * @return integer
+     */
+    public function getNbJeu()
+    {
+        return $this->nbJeu;
+    }
+
 
     /**
      * Set serie

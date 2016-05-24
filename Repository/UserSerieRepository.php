@@ -3,6 +3,11 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use VideoGamesRecords\CoreBundle\Entity\UserSerie;
+use VideoGamesRecords\CoreBundle\Entity\User;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreBundle;
 
 /**
  * UserSerieRepository
@@ -92,4 +97,74 @@ class UserSerieRepository extends EntityRepository
         }
         return $query->getQuery()->getResult();
     }
+
+    /**
+     * @param $idSerie
+     */
+    public function maj($idSerie)
+    {
+        //----- delete
+        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\UserSerie us WHERE us.idSerie = :idSerie');
+        $query->setParameter('idSerie', $idSerie);
+        $query->execute();
+
+        //----- select ans save result in table
+        $query = $this->_em->createQuery("
+            SELECT
+                ug.idMembre,
+                (g.idSerie) as idSerie,
+                '' as rankPoint,
+                '' as rankMedal,
+                SUM(ug.rank0) as rank0,
+                SUM(ug.rank1) as rank1,
+                SUM(ug.rank2) as rank2,
+                SUM(ug.rank3) as rank3,
+                SUM(ug.rank4) as rank4,
+                SUM(ug.rank5) as rank5,
+                SUM(ug.pointJeu) as pointJeu,
+                SUM(ug.pointRecord) as pointRecord,
+                SUM(ug.pointRecordSansDLC) as pointRecordSansDLC,
+                SUM(ug.nbRecord) as nbRecord,
+                SUM(ug.nbRecordSansDLC) as nbRecordSansDLC,
+                SUM(ug.nbRecordProuve) as nbRecordProuve,
+                SUM(ug.nbRecordProuveSansDLC) as nbRecordProuveSansDLC,
+                COUNT(DISTINCT ug.idJeu) as nbJeu
+            FROM VideoGamesRecords\CoreBundle\Entity\UserGame ug
+            JOIN ug.game g
+            WHERE g.idSerie = :idSerie
+            GROUP BY ug.idMembre
+            ORDER BY pointRecord DESC"
+        );
+
+
+        $query->setParameter('idSerie', $idSerie);
+        $result = $query->getResult();
+
+        $list = array();
+        foreach ($result as $row) {
+            $list[] = $row;
+        }
+
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankPoint', array('pointRecord'));
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
+
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer(array($normalizer));
+
+        foreach ($list as $row) {
+            $userSerie = $serializer->denormalize(
+                $row,
+                'VideoGamesRecords\CoreBundle\Entity\UserSerie'
+            );
+            $userSerie->setUser($this->_em->find('VideoGamesRecords\CoreBundle\Entity\User', $row['idMembre']));
+            $userSerie->setSerie($this->_em->find('VideoGamesRecords\CoreBundle\Entity\Serie', $idSerie));
+
+            $this->_em->persist($userSerie);
+            $this->_em->flush($userSerie);
+        }
+
+    }
+
+
 }
