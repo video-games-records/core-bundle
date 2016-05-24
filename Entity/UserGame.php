@@ -13,14 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class UserGame
 {
 
-  /**
-   * This columns are missing on this entity
-   *  - pointJeu
-   *  - pointRecordSansDLC
-   *  - nbRecordSansDLC
-   *  - nbRecordProuveSansDLC
-   */
-
     /**
      * @ORM\Column(name="idMembre", type="integer")
      * @ORM\Id
@@ -119,6 +111,13 @@ class UserGame
     /**
      * @var integer
      *
+     * @ORM\Column(name="pointRecordSansDLC", type="integer", nullable=false)
+     */
+    private $pointRecordSansDLC;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="nbRecord", type="integer", nullable=false)
      */
     private $nbRecord;
@@ -129,6 +128,27 @@ class UserGame
      * @ORM\Column(name="nbRecordProuve", type="integer", nullable=false)
      */
     private $nbRecordProuve;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbRecordSansDLC", type="integer", nullable=false)
+     */
+    private $nbRecordSansDLC;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbRecordProuveSansDLC", type="integer", nullable=false)
+     */
+    private $nbRecordProuveSansDLC;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pointJeu", type="integer", nullable=false)
+     */
+    private $pointJeu;
 
     /**
      * Set rank
@@ -337,6 +357,27 @@ class UserGame
         return $this->pointRecord;
     }
 
+    /**
+     * Set pointRecordSansDLC
+     *
+     * @param integer $pointRecordSansDLC
+     * @return UserGame
+     */
+    public function setPointRecordSansDLC($pointRecordSansDLC)
+    {
+        $this->pointRecordSansDLC = $pointRecordSansDLC;
+        return $this;
+    }
+
+    /**
+     * Get pointRecordSansDLC
+     *
+     * @return integer
+     */
+    public function getPointRecordSansDLC()
+    {
+        return $this->pointRecordSansDLC;
+    }
 
     /**
      * Set nbRecord
@@ -383,6 +424,73 @@ class UserGame
         return $this->nbRecordProuve;
     }
 
+    /**
+     * Set nbRecordSansDLC
+     *
+     * @param integer $nbRecordSansDLC
+     * @return UserGame
+     */
+    public function setNbRecordSansDLC($nbRecordSansDLC)
+    {
+        $this->nbRecordSansDLC = $nbRecordSansDLC;
+        return $this;
+    }
+
+    /**
+     * Get nbRecordSansDLC
+     *
+     * @return integer
+     */
+    public function getNbRecordv()
+    {
+        return $this->nbRecordSansDLC;
+    }
+
+
+    /**
+     * Set nbRecordProuveSansDLC
+     *
+     * @param integer $nbRecordProuveSansDLC
+     * @return UserGame
+     */
+    public function setNbRecordProuveSansDLC($nbRecordProuveSansDLC)
+    {
+        $this->nbRecordProuveSansDLC = $nbRecordProuveSansDLC;
+        return $this;
+    }
+
+    /**
+     * Get nbRecordProuveSansDLC
+     *
+     * @return integer
+     */
+    public function getNbRecordProuveSansDLC()
+    {
+        return $this->nbRecordProuveSansDLC;
+    }
+
+
+    /**
+     * Set pointJeu
+     *
+     * @param integer $pointJeu
+     * @return UserGame
+     */
+    public function setPointJeu($pointJeu)
+    {
+        $this->pointJeu = $pointJeu;
+        return $this;
+    }
+
+    /**
+     * Get pointJeu
+     *
+     * @return integer
+     */
+    public function getPointJeu()
+    {
+        return $this->pointJeu;
+    }
 
 
     /**

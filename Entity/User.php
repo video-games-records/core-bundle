@@ -268,6 +268,18 @@ class User
 
 
     /**
+     * Set idMembre
+     *
+     * @param integer $idMembre
+     * @return User
+     */
+    public function setIdMembre($idMembre)
+    {
+        $this->idMembre = $idMembre;
+        return $this;
+    }
+
+    /**
      * Set pseudo
      *
      * @param string $pseudo
