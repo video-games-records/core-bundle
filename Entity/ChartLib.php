@@ -125,6 +125,16 @@ class ChartLib
         return $this->idLibRecord;
     }
 
+    /**
+     * Get idRecord
+     *
+     * @return integer
+     */
+    public function getIdRecord()
+    {
+        return $this->idRecord;
+    }
+
 
     /**
      * Set chart

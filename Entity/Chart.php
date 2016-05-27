@@ -99,7 +99,6 @@ class Chart
      *   }
      * )
      */
-    private $idMembre;
 
     /**
      * Constructor
@@ -136,7 +135,7 @@ class Chart
     /**
      * Get libRecord_fr
      *
-     * @return string 
+     * @return string
      */
     public function getLibRecordFr()
     {
@@ -158,7 +157,7 @@ class Chart
     /**
      * Get libRecord_en
      *
-     * @return string 
+     * @return string
      */
     public function getLibRecordEn()
     {
@@ -180,7 +179,7 @@ class Chart
     /**
      * Get statut
      *
-     * @return string 
+     * @return string
      */
     public function getStatut()
     {
@@ -202,7 +201,7 @@ class Chart
     /**
      * Get statutTeam
      *
-     * @return string 
+     * @return string
      */
     public function getStatutTeam()
     {
@@ -224,7 +223,7 @@ class Chart
     /**
      * Get nbPost
      *
-     * @return integer 
+     * @return integer
      */
     public function getNbPost()
     {
@@ -246,7 +245,7 @@ class Chart
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -269,7 +268,7 @@ class Chart
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
@@ -279,7 +278,7 @@ class Chart
     /**
      * Get idRecord
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdRecord()
     {
@@ -309,39 +308,6 @@ class Chart
     }
 
     /**
-     * Add idMembre
-     *
-     * @param User $idMembre
-     * @return Chart
-     */
-    public function addIdMembre(User $idMembre)
-    {
-        $this->idMembre[] = $idMembre;
-
-        return $this;
-    }
-
-    /**
-     * Remove idMembre
-     *
-     * @param User $idMembre
-     */
-    public function removeIdMembre(User $idMembre)
-    {
-        $this->idMembre->removeElement($idMembre);
-    }
-
-    /**
-     * Get idMembre
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdMembre()
-    {
-        return $this->idMembre;
-    }
-
-    /**
      * @param ChartLib $lib
      * @return $this
      */
@@ -366,4 +332,16 @@ class Chart
     {
         return $this->libs;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getLibsWithType()
+    {
+
+    }
+
+
+
 }

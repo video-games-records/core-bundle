@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
+{% block body_id 'submit_form' %}
+
+{% block body %}
+    {{ form_start(form,  {'action': path('vgr_submit_index'), 'method': 'POST'}) }}
+    {{ form_row(form.id) }}
+    {{ form_row(form.type) }}
+
+    {% for chart in charts %}
+        {% set formItem = attribute(form,'name_' ~ chart.getIdRecord()) %}
+        {{ form_label(formItem) }}
+
+        {% for lib in chart.getLibs() %}
+            {% set formItem = attribute(form,'membre_' ~ chart.getIdRecord() ~ '_' ~ lib.getIdLibRecord()) %}
+            {{ form_row(formItem) }}
+
+            {% for i in 1..5 %}
+                {% set item = 'value_' ~ chart.getIdRecord() ~ '_' ~ lib.getIdLibRecord() ~ '_' ~ i %}
+                {% if attribute(form, item) is defined %}
+                    {% set formItem = attribute(form, item) %}
+                        {%  if i == 1 %}
+                            {{ form_label(formItem) }}
+                        {% endif %}
+                        {{ form_widget(formItem) }} {{ formItem.vars.attr.suffixe }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    {% endfor %}
+    {{ form_row(form.valid) }}
+    {{ form_end(form) }}
+
+{% endblock %}

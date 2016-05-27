@@ -57,6 +57,15 @@ class ChartType
      */
     private $orderBy;
 
+    /**
+     * Get lib
+     *
+     * @return string
+     */
+    public function getLib()
+    {
+        return $this->lib_en;
+    }
 
     /**
      * Set mask

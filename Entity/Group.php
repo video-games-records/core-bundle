@@ -129,7 +129,7 @@ class Group
     /**
      * Get libGroupe_fr
      *
-     * @return string 
+     * @return string
      */
     public function getLibGroupeFr()
     {
@@ -152,7 +152,7 @@ class Group
     /**
      * Get libGroupe_en
      *
-     * @return string 
+     * @return string
      */
     public function getLibGroupeEn()
     {
@@ -175,7 +175,7 @@ class Group
     /**
      * Get boolDLC
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getBoolDLC()
     {
@@ -198,7 +198,7 @@ class Group
     /**
      * Get nbRecord
      *
-     * @return integer 
+     * @return integer
      */
     public function getNbRecord()
     {
@@ -221,7 +221,7 @@ class Group
     /**
      * Get nbPost
      *
-     * @return integer 
+     * @return integer
      */
     public function getNbPost()
     {
@@ -244,7 +244,7 @@ class Group
     /**
      * Get nbMembre
      *
-     * @return integer 
+     * @return integer
      */
     public function getNbMembre()
     {
@@ -267,7 +267,7 @@ class Group
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -290,7 +290,7 @@ class Group
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
@@ -300,7 +300,7 @@ class Group
     /**
      * Get idGroupe
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdGroupe()
     {
@@ -355,4 +355,5 @@ class Group
     {
         return $this->charts;
     }
+
 }

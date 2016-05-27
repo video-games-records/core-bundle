@@ -25,4 +25,20 @@ class ChartRepository extends EntityRepository
         return $query->getQuery()
             ->getOneOrNullResult();
     }
+
+
+    public function getWithChartType($id)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->join('c.libs', 'lib')
+            ->addSelect('lib')
+            ->join('lib.type', 'type')
+            ->addSelect('type')
+            ->where('c.idRecord = :idRecord')
+            ->setParameter('idRecord', $id);
+
+        return $query->getQuery()->getOneOrNullResult();
+    }
+
+
 }
