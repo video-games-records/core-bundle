@@ -152,13 +152,15 @@ class UserSerieRepository extends EntityRepository
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer(array($normalizer));
 
+        $serie = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Serie', $idSerie);
+
         foreach ($list as $row) {
             $userSerie = $serializer->denormalize(
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\UserSerie'
             );
-            $userSerie->setUser($this->_em->find('VideoGamesRecords\CoreBundle\Entity\User', $row['idMembre']));
-            $userSerie->setSerie($this->_em->find('VideoGamesRecords\CoreBundle\Entity\Serie', $idSerie));
+            $userSerie->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idMembre']));
+            $userSerie->setSerie($serie);
 
             $this->_em->persist($userSerie);
             $this->_em->flush($userSerie);
