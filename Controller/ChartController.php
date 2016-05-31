@@ -55,8 +55,23 @@ class ChartController extends Controller
         $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($id);
         $charts = array($chart);
 
+        $data = array(
+            'id' => $id,
+            'type' => 'chart',
+        );
+        //----- IF CONNECTED !!!
+        $data = array_merge(
+            $data,
+            $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserChartLib')->getFormValues(
+                array(
+                    'idRecord' => $id,
+                    'idMembre' => 1,
+                )
+            )
+        );
+
         $form = \VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory::createSubmitForm(
-            $this->get('form.factory')->create('Symfony\Component\Form\Extension\Core\Type\FormType', array('id' => $id, 'type' => 'chart')),
+            $this->get('form.factory')->create('Symfony\Component\Form\Extension\Core\Type\FormType', $data),
             $charts
         );
 

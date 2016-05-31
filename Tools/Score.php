@@ -43,27 +43,26 @@ class Score
 
 
     /**
-     * Transforme la valeur pour le formulaire
+     * Transform a value for the form
      * @param string $mask
      * @param string $value
      * @return array
      */
-    /*public static function getValues($mask, $value)
+    public static function getValues($mask, $value)
     {
         $parse = self::parse($mask);
         $data = array();
         $laValue = $value;
         for ($k = count($parse) - 1; $k >= 0; $k--) {
 
-            $taille = $parse[$k]['taille'];
-            $suffixe = $parse[$k]['suffixe'];
+            $size = $parse[$k]['size'];
 
-            if (strlen($laValue) > $taille) {
-                $result = substr($laValue, strlen($laValue) - $taille, $taille);
-                $laValue = substr($laValue, 0, strlen($laValue) - $taille);
+            if (strlen($laValue) > $size) {
+                $result = substr($laValue, strlen($laValue) - $size, $size);
+                $laValue = substr($laValue, 0, strlen($laValue) - $size);
             } else {
                 if ($k != 0) {
-                    $result = self::_strZero($taille - strlen($laValue)) . $laValue;
+                    $result = self::_strZero($size - strlen($laValue)) . $laValue;
                     $laValue = '';
                 } else {
                     if (strlen($laValue) == 0) {
@@ -80,21 +79,22 @@ class Score
 
         }
         return array_reverse($data);
-    }*/
+    }
 
 
     /**
+     * Complet with zero
      * @param int $nb
      * @return string
      */
-    /*private static function _strZero($nb)
+    private static function _strZero($nb)
     {
         $string = '';
         for ($i = 1; $i <= $nb; $i++) {
             $string .= '0';
         }
         return $string;
-    }*/
+    }
 
 
     /**
