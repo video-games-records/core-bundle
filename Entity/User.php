@@ -280,6 +280,17 @@ class User
     }
 
     /**
+     * Get idmembre
+     *
+     * @return integer
+     */
+    public function getIdMembre()
+    {
+        return $this->idMembre;
+    }
+
+
+    /**
      * Set pseudo
      *
      * @param string $pseudo
@@ -295,7 +306,7 @@ class User
     /**
      * Get pseudo
      *
-     * @return string 
+     * @return string
      */
     public function getPseudo()
     {
@@ -318,7 +329,7 @@ class User
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -341,7 +352,7 @@ class User
     /**
      * Get nom
      *
-     * @return string 
+     * @return string
      */
     public function getNom()
     {
@@ -364,7 +375,7 @@ class User
     /**
      * Get prenom
      *
-     * @return string 
+     * @return string
      */
     public function getPrenom()
     {
@@ -387,7 +398,7 @@ class User
     /**
      * Get avatar
      *
-     * @return string 
+     * @return string
      */
     public function getAvatar()
     {
@@ -410,7 +421,7 @@ class User
     /**
      * Get vgr_gamerCard
      *
-     * @return string 
+     * @return string
      */
     public function getVgrGamerCard()
     {
@@ -433,7 +444,7 @@ class User
     /**
      * Get vgr_displayGamerCard
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVgrDisplayGamerCard()
     {
@@ -456,7 +467,7 @@ class User
     /**
      * Get vgr_displayGoalBar
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVgrDisplayGoalBar()
     {
@@ -479,7 +490,7 @@ class User
     /**
      * Get vgr_rank0
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRank0()
     {
@@ -502,7 +513,7 @@ class User
     /**
      * Get vgr_rank1
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRank1()
     {
@@ -525,7 +536,7 @@ class User
     /**
      * Get vgr_rank2
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRank2()
     {
@@ -548,7 +559,7 @@ class User
     /**
      * Get vgr_rank3
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRank3()
     {
@@ -571,7 +582,7 @@ class User
     /**
      * Get vgr_pointRecord
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrPointRecord()
     {
@@ -594,7 +605,7 @@ class User
     /**
      * Get vgr_pointVGR
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrPointVGR()
     {
@@ -617,7 +628,7 @@ class User
     /**
      * Get vgr_pointBadge
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrPointBadge()
     {
@@ -640,7 +651,7 @@ class User
     /**
      * Get vgr_collection
      *
-     * @return string 
+     * @return string
      */
     public function getVgrCollection()
     {
@@ -663,7 +674,7 @@ class User
     /**
      * Get vgr_rank_point
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRankPoint()
     {
@@ -686,7 +697,7 @@ class User
     /**
      * Get vgr_rank_medal
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRankMedal()
     {
@@ -709,7 +720,7 @@ class User
     /**
      * Get vgr_rank_proof
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRankProof()
     {
@@ -732,7 +743,7 @@ class User
     /**
      * Get vgr_rank_badge
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRankBadge()
     {
@@ -755,7 +766,7 @@ class User
     /**
      * Get vgr_rank_cup
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRankCup()
     {
@@ -778,7 +789,7 @@ class User
     /**
      * Get vgr_cup_rank0
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrCupRank0()
     {
@@ -801,7 +812,7 @@ class User
     /**
      * Get vgr_cup_rank1
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrCupRank1()
     {
@@ -824,7 +835,7 @@ class User
     /**
      * Get vgr_cup_rank2
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrCupRank2()
     {
@@ -847,7 +858,7 @@ class User
     /**
      * Get vgr_cup_rank3
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrCupRank3()
     {
@@ -870,7 +881,7 @@ class User
     /**
      * Get vgr_nbRecord
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrNbRecord()
     {
@@ -893,7 +904,7 @@ class User
     /**
      * Get vgr_nbRecordProuve
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrNbRecordProuve()
     {
@@ -916,7 +927,7 @@ class User
     /**
      * Get vgr_nbMasterBadge
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrNbMasterBadge()
     {
@@ -939,7 +950,7 @@ class User
     /**
      * Get vgr_pointJeu
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrPointJeu()
     {
@@ -962,7 +973,7 @@ class User
     /**
      * Get vgr_rank_pointJeu
      *
-     * @return integer 
+     * @return integer
      */
     public function getVgrRankPointJeu()
     {
@@ -985,7 +996,7 @@ class User
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -1008,21 +1019,11 @@ class User
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
         return $this->dateModification;
-    }
-
-    /**
-     * Get idmembre
-     *
-     * @return integer 
-     */
-    public function getIdmembre()
-    {
-        return $this->idmembre;
     }
 
     /**

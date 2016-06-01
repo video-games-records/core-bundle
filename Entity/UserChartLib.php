@@ -32,6 +32,16 @@ class UserChartLib
      */
     private $value;
 
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
+     * })
+     */
+    private $user;
+
 
     /**
      * @var ChartLib
@@ -42,6 +52,28 @@ class UserChartLib
      * })
      */
     private $lib;
+
+    /**
+     * Set idMembre
+     *
+     * @param integer $idMembre
+     * @return UserChart
+     */
+    public function setIdMembre($idMembre)
+    {
+        $this->idMembre = $idMembre;
+        return $this;
+    }
+
+    /**
+     * Get idMembre
+     *
+     * @return integer
+     */
+    public function geIdMembre()
+    {
+        return $this->idMembre;
+    }
 
 
     /**
@@ -101,6 +133,7 @@ class UserChartLib
     public function setLib(ChartLib $lib = null)
     {
         $this->lib = $lib;
+        $this->idLibRecord = $lib->getIdLibRecord();
         return $this;
     }
 
@@ -113,5 +146,30 @@ class UserChartLib
     {
         return $this->lib;
     }
+
+
+    /**
+     * Set user
+     *
+     * @param User $user
+     * @return UserChart
+     */
+    public function setUser(User $user = null)
+    {
+        $this->user = $user;
+        $this->idMembre = $user->getIdMembre();
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
 
 }

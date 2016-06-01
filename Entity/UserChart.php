@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="vgr_record_membre", indexes={@ORM\Index(name="idxIdRecord", columns={"idRecord"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserChartRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class UserChart
 {
@@ -82,6 +83,73 @@ class UserChart
      * @ORM\Column(name="dateModif", type="datetime", nullable=false)
      */
     private $dateModif;
+
+    /**
+     * @var User
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
+     * })
+     */
+    private $user;
+
+    /**
+     * @var Chart
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idRecord", referencedColumnName="idRecord")
+     * })
+     */
+    private $chart;
+
+
+    /**
+     * Set idMembre
+     *
+     * @param integer $idMembre
+     * @return UserChart
+     */
+    public function setIdMembre($idMembre)
+    {
+        $this->idMembre = $idMembre;
+        return $this;
+    }
+
+    /**
+     * Get idMembre
+     *
+     * @return integer
+     */
+    public function geIdMembre()
+    {
+        return $this->idMembre;
+    }
+
+
+    /**
+     * Set idRecord
+     *
+     * @param integer $idRecord
+     * @return UserChart
+     */
+    public function setIdRecord($idRecord)
+    {
+        $this->idRecord = $idRecord;
+        return $this;
+    }
+
+    /**
+     * Get idRecord
+     *
+     * @return integer
+     */
+    public function geIdRecord()
+    {
+        return $this->idRecord;
+    }
 
 
     /**
@@ -221,7 +289,7 @@ class UserChart
      * Set dateModif
      *
      * @param \DateTime $dateModif
-     * @return UserCharts
+     * @return UserChart
      */
     public function setDateModif($dateModif)
     {
@@ -241,27 +309,6 @@ class UserChart
 
 
     /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
-     * })
-     */
-    private $user;
-
-    /**
-     * @var Chart
-     *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idRecord", referencedColumnName="idRecord")
-     * })
-     */
-    private $chart;
-
-
-    /**
      * Set chart
      *
      * @param Chart $chart
@@ -270,6 +317,7 @@ class UserChart
     public function setChart(Chart $chart = null)
     {
         $this->chart = $chart;
+        $this->setIdRecord($chart->getIdRecord());
         return $this;
     }
 
@@ -293,6 +341,7 @@ class UserChart
     public function setUser(User $user = null)
     {
         $this->user = $user;
+        $this->setIdMembre($user->getIdMembre());
         return $this;
     }
 
@@ -306,6 +355,17 @@ class UserChart
         return $this->user;
     }
 
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function preInsert()
+    {
+        $this->setNbEqual(0);
+        $this->setPointRecord(0);
+        $this->setDateCreation(new \DateTime());
+        $this->setDateModification(new \DateTime());
+    }
 
 
 }

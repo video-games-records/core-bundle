@@ -98,33 +98,33 @@ class Score
 
 
     /**
-     * Transforme la valeur pour insertion an base
+     * Transform values to insert database
      * @param string $mask
      * @param array $values
      * @return string
      */
-    /*public static function formToBdd($mask, $values)
+    public static function formToBdd($mask, $values)
     {
         $parse = self::parse($mask);
-        $nbChamp = count($parse);
+        $nbInput = count($parse);
 
         $value = implode('', $values);
         if ($value == '') {
             return null;
-        } else if ($nbChamp == 1) {
+        } else if ($nbInput == 1) {
             return $value;
         } else {
             $value = '';
-            for ($k = 0; $k <= $nbChamp - 1; $k++) {
+            for ($k = 0; $k <= $nbInput - 1; $k++) {
                 $part = $values[$k];
-                $length = $parse[$k]['taille'];
+                $length = $parse[$k]['size'];
                 if (strlen($part) < $length) {
                     if ($k == 0) {
                         if ($part == '') {
                             $part = '0';
                         }
                     } else {
-                        if ($k == $nbChamp - 1) {
+                        if ($k == $nbInput - 1) {
                             $part = str_pad($part, $length, '0', STR_PAD_RIGHT);
                         } else {
                             $part = str_pad($part, $length, '0', STR_PAD_LEFT);
@@ -136,7 +136,7 @@ class Score
             }
             return $value;
         }
-    }*/
+    }
 
 
 }

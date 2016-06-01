@@ -112,5 +112,14 @@ class ChartType
     }
 
 
+    /**
+     * Get the number of input for the mask.
+     * @return int
+     */
+    public function getNbInput()
+    {
+        return count(explode('|', $this->getMask()));
+    }
+
 
 }
