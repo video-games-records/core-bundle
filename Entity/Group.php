@@ -13,6 +13,24 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Group
 {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idGroupe", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idGroupe;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idJeu", type="integer", nullable=false)
+     */
+    private $idJeu;
+
+
     /**
      * @var string
      *
@@ -68,16 +86,6 @@ class Group
      * @ORM\Column(name="dateModification", type="datetime", nullable=false)
      */
     private $dateModification;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idGroupe", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idGroupe;
-
 
     /**
      * @var Game

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="mv_membre_jeu", indexes={@ORM\Index(name="idxIdJeu", columns={"idJeu"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserGameRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class UserGame
 {
@@ -149,6 +150,53 @@ class UserGame
      * @ORM\Column(name="pointJeu", type="integer", nullable=false)
      */
     private $pointJeu;
+
+
+    /**
+     * Set idMembre
+     *
+     * @param integer $idMembre
+     * @return UserSerie
+     */
+    public function setIdMembre($idMembre)
+    {
+        $this->idMembre = $idMembre;
+        return $this;
+    }
+
+    /**
+     * Get idMembre
+     *
+     * @return integer
+     */
+    public function getIdMembre()
+    {
+        return $this->idMembre;
+    }
+
+    /**
+     * Set idJeu
+     *
+     * @param integer $idJeu
+     * @return UserGame
+     */
+    public function setIdJeu($idJeu)
+    {
+        $this->idJeu = $idJeu;
+        return $this;
+    }
+
+    /**
+     * Get idJeu
+     *
+     * @return integer
+     */
+    public function getIdJeu()
+    {
+        return $this->idJeu;
+    }
+
+
 
     /**
      * Set rank
@@ -502,6 +550,7 @@ class UserGame
     public function setGame(Game $game = null)
     {
         $this->game = $game;
+        $this->setIdJeu($game->getIdJeu());
         return $this;
     }
 
@@ -525,6 +574,7 @@ class UserGame
     public function setUser(User $user = null)
     {
         $this->user = $user;
+        $this->setIdMembre($user->getIdMembre());
         return $this;
     }
 
@@ -536,6 +586,18 @@ class UserGame
     public function getUser()
     {
         return $this->user;
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function preInsert()
+    {
+        $this->setNbRecordSansDLC(0);
+        $this->setNbRecordProuveSansDLC(0);
+        $this->setPointRecordSansDLC(0);
+        $this->setPointJeu(0);
     }
 
 

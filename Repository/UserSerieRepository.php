@@ -5,9 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use VideoGamesRecords\CoreBundle\Entity\UserSerie;
-use VideoGamesRecords\CoreBundle\Entity\User;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreBundle;
+
 
 /**
  * UserSerieRepository

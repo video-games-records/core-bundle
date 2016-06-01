@@ -197,4 +197,79 @@ class Ranking
         return $iValue;
     }
 
+    /**
+     * @param        $aArray
+     * @param        $aBaseCol
+     * @param        $sNameNewCol
+     * @param string $sColNameToForceZero
+     * @return mixed
+     */
+    public static function calculateGamePoints($aArray, $aBaseCol, $sNameNewCol, $sColNameToForceZero = '')
+    {
+        if (empty($aArray)) {
+            return $aArray;
+        }
+
+        $nameRankCol = array_shift($aBaseCol);
+        $nameEqualCol = array_shift($aBaseCol);
+
+        $nbPlayers = count($aArray);
+        $nbFirstEquals = 1;
+        foreach ($aArray as $aRank) {
+            if ($aRank[$nameRankCol] == 1) {
+                $nbFirstEquals = $aRank[$nameEqualCol];
+                break;
+            }
+        }
+
+        //Get formula to first into ranking
+        $a = (-1 / (100 + $nbPlayers - $nbFirstEquals)) + 0.0101 + (log($nbPlayers) / 15000);
+        $b = (atan($nbPlayers-25) + M_PI_2) * (25000*($nbPlayers-25)) / (200*M_PI);
+        $f = ceil((10400000 * $a + $b) / (pow($nbFirstEquals, 6/5)));
+
+        $aF = array();
+        $aF[1] = $f;
+        for ($i=2; $i<=$nbPlayers; ++$i) {
+            $g = min(0.99, log($i)/(log(71428.6*$i+857142.8)) + 0.7);
+            $aF[$i] = $aF[$i-1] * $g;
+        }
+
+        for ($i=0; $i<$nbPlayers; ++$i) {
+            //If a column name to force the 0 value is defined, force the 0 value of the new column if the related
+            //column value is 0
+            if (
+                $sColNameToForceZero !== '' &&
+                isset($aArray[$i][$sColNameToForceZero]) &&
+                $aArray[$i][$sColNameToForceZero] == 0
+            ) {
+                $aArray[$i][$sNameNewCol] = 0;
+                continue;
+            }
+
+            //If firsts
+            if ($aArray[$i][$nameRankCol] == 1) {
+                $aArray[$i][$sNameNewCol] = (int)round($f, 0);
+                continue;
+            }
+            //If non equals
+            if ($aArray[$i][$nameEqualCol] == 1) {
+                $aArray[$i][$sNameNewCol] = (int)round($aF[$aArray[$i][$nameRankCol]], 0);
+                continue;
+            }
+            //If equals (do average of players gives if they weren't tied)
+            $aTiedValues = array();
+            for ($j = 0; $j<$aArray[$i][$nameEqualCol]; ++$j) {
+                $aTiedValues[] = $aF[$aArray[$i][$nameRankCol]+$j];
+            }
+            $value = round(array_sum($aTiedValues) / count($aTiedValues), 0);
+            for ($j = $i, $nb = $i+count($aTiedValues); $j<$nb; ++$j) {
+                $aArray[$i][$sNameNewCol] = (int)$value;
+                $i++;
+            }
+            $i--;
+        }
+
+        return $aArray;
+    }
+
 }

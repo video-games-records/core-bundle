@@ -21,6 +21,7 @@ class UserSerie
 
     /**
      * @ORM\Column(name="idSerie", type="integer")
+     * @ORM\Id
      */
     private $idSerie;
 
@@ -567,6 +568,7 @@ class UserSerie
     public function setSerie(Serie $serie = null)
     {
         $this->serie = $serie;
+        $this->setIdSerie($serie->getIdSerie());
         return $this;
     }
 
@@ -590,6 +592,7 @@ class UserSerie
     public function setUser(User $user = null)
     {
         $this->user = $user;
+        $this->setIdMembre($user->getIdMembre());
         return $this;
     }
 
