@@ -13,6 +13,23 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Chart
 {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idRecord", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idRecord;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idGroupe", type="integer", nullable=false)
+     */
+    private $idGroupe;
+
     /**
      * @var string
      *
@@ -61,15 +78,6 @@ class Chart
      * @ORM\Column(name="dateModification", type="datetime", nullable=false)
      */
     private $dateModification;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idRecord", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idRecord;
 
     /**
      * @var Group

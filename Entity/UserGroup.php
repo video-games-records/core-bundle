@@ -124,6 +124,51 @@ class UserGroup
     private $nbRecordProuve;
 
     /**
+     * Set idMembre
+     *
+     * @param integer $idMembre
+     * @return UserSerie
+     */
+    public function setIdMembre($idMembre)
+    {
+        $this->idMembre = $idMembre;
+        return $this;
+    }
+
+    /**
+     * Get idMembre
+     *
+     * @return integer
+     */
+    public function getIdMembre()
+    {
+        return $this->idMembre;
+    }
+
+    /**
+     * Set idGroupe
+     *
+     * @param integer $idGroupe
+     * @return UserGroup
+     */
+    public function setIdGroupe($idGroupe)
+    {
+        $this->idGroupe = $idGroupe;
+        return $this;
+    }
+
+    /**
+     * Get idGroupe
+     *
+     * @return integer
+     */
+    public function getIdGroupe()
+    {
+        return $this->idGroupe;
+    }
+
+
+    /**
      * Set rank
      *
      * @param integer $rank
@@ -387,6 +432,7 @@ class UserGroup
     public function setGroup(Group $group = null)
     {
         $this->group = $group;
+        $this->setIdGroupe($group->getIdGroupe());
         return $this;
     }
 
@@ -410,6 +456,7 @@ class UserGroup
     public function setUser(User $user = null)
     {
         $this->user = $user;
+        $this->setIdMembre($user->getIdMembre());
         return $this;
     }
 
@@ -460,6 +507,15 @@ class UserGroup
         } else {
             return '';
         }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function preInsert()
+    {
+        $this->setRankMedal(0);
+
     }
 
 }

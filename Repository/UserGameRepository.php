@@ -140,7 +140,7 @@ class UserGameRepository extends EntityRepository
         }
 
         //----- add some data
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rank', array('pointRecord'), array('nbEqual'));
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rank', array('pointRecord'), true);
         $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::calculateGamePoints($list, array('rank', 'nbEqual'), 'pointJeu', 'pointRecord');
         $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
         $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));

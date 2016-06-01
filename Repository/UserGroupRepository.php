@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * UserGroupRepository
@@ -69,5 +71,137 @@ class UserGroupRepository extends EntityRepository
                 ->setParameter('maxRank', $params['maxRank']);
         }
         return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $idGroupe
+     */
+    public function maj($idGroupe)
+    {
+        //----- delete
+        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\UserGroup ug WHERE ug.idGroupe = :idGroupe');
+        $query->setParameter('idGroupe', $idGroupe);
+        $query->execute();
+
+
+        $data = array();
+
+        //----- data rank0
+        $query = $this->_em->createQuery("
+            SELECT
+                 uc.idMembre,
+                 COUNT(uc.idRecord) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\UserChart uc
+            JOIN uc.chart c
+            WHERE c.idGroupe = :idGroupe
+            AND uc.rank = 1
+            AND c.nbPost > 0
+            AND uc.nbEqual = 1
+            GROUP BY uc.idMembre"
+        );
+
+
+        $query->setParameter('idGroupe', $idGroupe);
+        $result = $query->getResult();
+        foreach ($result as $row) {
+            $data['rank0'][$row['idMembre']] = $row['nb'];
+        }
+
+        //----- data rank1 to rank5
+        $query = $this->_em->createQuery("
+            SELECT
+                 uc.idMembre,
+                 COUNT(uc.idRecord) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\UserChart uc
+            JOIN uc.chart c
+            WHERE c.idGroupe = :idGroupe
+            AND uc.rank = :rank
+            GROUP BY uc.idMembre"
+        );
+        $query->setParameter('idGroupe', $idGroupe);
+
+        for ($i=1; $i<=5; $i++) {
+            $query->setParameter('rank', $i);
+            $result = $query->getResult();
+            foreach ($result as $row) {
+                $data["rank$i"][$row['idMembre']] = $row['nb'];
+            }
+        }
+
+        //----- data nbRecordProuve
+        $query = $this->_em->createQuery("
+            SELECT
+                 uc.idMembre,
+                 COUNT(uc.idRecord) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\UserChart uc
+            JOIN uc.chart c
+            WHERE c.idGroupe = :idGroupe
+            AND uc.idEtat = 6
+            GROUP BY uc.idMembre"
+        );
+
+        $query->setParameter('idGroupe', $idGroupe);
+        $result = $query->getResult();
+        foreach ($result as $row) {
+            $data['nbRecordProuve'][$row['idMembre']] = $row['nb'];
+        }
+
+
+        //----- select ans save result in array
+        $query = $this->_em->createQuery("
+            SELECT
+                uc.idMembre,
+                (c.idGroupe) as idGroupe,
+                '' as rank,
+                '' as rankMedal,
+                SUM(uc.pointRecord) as pointRecord,
+                COUNT(uc.idRecord) as nbRecord
+            FROM VideoGamesRecords\CoreBundle\Entity\UserChart uc
+            JOIN uc.chart c
+            WHERE c.idGroupe = :idGroupe
+            GROUP BY uc.idMembre
+            ORDER BY pointRecord DESC"
+        );
+
+
+        $query->setParameter('idGroupe', $idGroupe);
+        $result = $query->getResult();
+
+        $list = array();
+        foreach ($result as $row) {
+            $row['rankMedal'] = 0;
+            $row['rank0'] = (isset($data['rank0'][$row['idMembre']])) ? $data['rank0'][$row['idMembre']] : 0;
+            $row['rank1'] = (isset($data['rank1'][$row['idMembre']])) ? $data['rank1'][$row['idMembre']] : 0;
+            $row['rank2'] = (isset($data['rank2'][$row['idMembre']])) ? $data['rank2'][$row['idMembre']] : 0;
+            $row['rank3'] = (isset($data['rank3'][$row['idMembre']])) ? $data['rank3'][$row['idMembre']] : 0;
+            $row['rank4'] = (isset($data['rank4'][$row['idMembre']])) ? $data['rank4'][$row['idMembre']] : 0;
+            $row['rank5'] = (isset($data['rank5'][$row['idMembre']])) ? $data['rank5'][$row['idMembre']] : 0;
+            $row['nbRecordProuve'] = (isset($data['nbRecordProuve'][$row['idMembre']])) ? $data['nbRecordProuve'][$row['idMembre']] : 0;
+            $list[] = $row;
+        }
+
+        //----- add some data
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rank', array('pointRecord'));
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
+
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer(array($normalizer));
+
+        $group = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Group', $idGroupe);
+
+        foreach ($list as $row) {
+            $userGroup = $serializer->denormalize(
+                $row,
+                'VideoGamesRecords\CoreBundle\Entity\UserGroup'
+            );
+            $userGroup->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idMembre']));
+            $userGroup->setGroup($group);
+
+            $this->_em->persist($userGroup);
+            $this->_em->flush($userGroup);
+        }
+
     }
 }

@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="mv_membre_jeu", indexes={@ORM\Index(name="idxIdJeu", columns={"idJeu"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserGameRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class UserGame
 {
@@ -195,7 +194,6 @@ class UserGame
     {
         return $this->idJeu;
     }
-
 
 
     /**
@@ -586,18 +584,6 @@ class UserGame
     public function getUser()
     {
         return $this->user;
-    }
-
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function preInsert()
-    {
-        $this->setNbRecordSansDLC(0);
-        $this->setNbRecordProuveSansDLC(0);
-        $this->setPointRecordSansDLC(0);
-        $this->setPointJeu(0);
     }
 
 
