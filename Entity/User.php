@@ -14,6 +14,16 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="idUser", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idUser;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(name="pseudo", type="string", length=20, nullable=false)
@@ -238,15 +248,6 @@ class User
     private $dateModification;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="idMembre", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idMembre;
-
-    /**
      * @var Country
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country")
@@ -268,25 +269,25 @@ class User
 
 
     /**
-     * Set idMembre
+     * Set idUser
      *
-     * @param integer $idMembre
+     * @param integer $idUser
      * @return User
      */
-    public function setIdMembre($idMembre)
+    public function setIdUser($idUser)
     {
-        $this->idMembre = $idMembre;
+        $this->idUser = $idUser;
         return $this;
     }
 
     /**
-     * Get idmembre
+     * Get idUser
      *
      * @return integer
      */
-    public function getIdMembre()
+    public function getIdUser()
     {
-        return $this->idMembre;
+        return $this->idUser;
     }
 
 

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Group
  *
- * @ORM\Table(name="vgr_groupe", indexes={@ORM\Index(name="idxIdJeu", columns={"idJeu"}), @ORM\Index(name="idxLibGroupeFr", columns={"libGroupe_fr"}), @ORM\Index(name="idxLibGroupeEn", columns={"libGroupe_en"}), @ORM\Index(name="idxBoolDlc", columns={"boolDLC"})})
+ * @ORM\Table(name="vgr_group", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxLibGroupFr", columns={"libGroupFr"}), @ORM\Index(name="idxLibGroupEn", columns={"libGroupEn"}), @ORM\Index(name="idxBoolDlc", columns={"boolDlc"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
  */
 class Group
@@ -17,47 +17,47 @@ class Group
     /**
      * @var integer
      *
-     * @ORM\Column(name="idGroupe", type="integer")
+     * @ORM\Column(name="idGroup", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idGroupe;
+    private $idGroup;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idJeu", type="integer", nullable=false)
+     * @ORM\Column(name="idGame", type="integer", nullable=false)
      */
-    private $idJeu;
+    private $idGame;
 
 
     /**
      * @var string
      *
-     * @ORM\Column(name="libGroupe_fr", type="string", length=100, nullable=true)
+     * @ORM\Column(name="libGroupFr", type="string", length=100, nullable=true)
      */
-    private $libGroupe_fr;
+    private $libGroupFr;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="libGroupe_en", type="string", length=100, nullable=false)
+     * @ORM\Column(name="libGroupEn", type="string", length=100, nullable=false)
      */
-    private $libGroupe_en;
+    private $libGroupEn;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="boolDLC", type="boolean", nullable=false)
+     * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
      */
-    private $boolDLC;
+    private $boolDlc;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbRecord", type="integer", nullable=false)
+     * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $nbRecord;
+    private $nbChart;
 
     /**
      * @var integer
@@ -69,9 +69,9 @@ class Group
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbMembre", type="integer", nullable=false)
+     * @ORM\Column(name="nbUser", type="integer", nullable=false)
      */
-    private $nbMembre;
+    private $nbUser;
 
     /**
      * @var \DateTime
@@ -92,7 +92,7 @@ class Group
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="groups")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idJeu", referencedColumnName="idJeu")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="idGame")
      * })
      */
     private $game;
@@ -110,107 +110,117 @@ class Group
         $this->charts = new ArrayCollection();
     }
 
-
     /**
-     * Get libGroupe
-     *
-     * @return string
-     */
-    public function getLibGroupe()
-    {
-        return $this->libGroupe_en;
-    }
-
-    /**
-     * Set libGroupe_fr
-     *
-     * @param string $libGroupeFr
-     * @return Group
-     */
-    public function setLibGroupeFr($libGroupeFr)
-    {
-        $this->libGroupe_fr = $libGroupeFr;
-
-        return $this;
-    }
-
-    /**
-     * Get libGroupe_fr
-     *
-     * @return string
-     */
-    public function getLibGroupeFr()
-    {
-        return $this->libGroupe_fr;
-    }
-
-    /**
-     * Set libGroupe_en
-     *
-     * @param string $libGroupeEn
-     * @return Group
-     */
-    public function setLibGroupeEn($libGroupeEn)
-    {
-        $this->libGroupe_en = $libGroupeEn;
-
-        return $this;
-    }
-
-    /**
-     * Get libGroupe_en
-     *
-     * @return string
-     */
-    public function getLibGroupeEn()
-    {
-        return $this->libGroupe_en;
-    }
-
-    /**
-     * Set boolDLC
-     *
-     * @param boolean $boolDLC
-     * @return Group
-     */
-    public function setBoolDLC($boolDLC)
-    {
-        $this->boolDLC = $boolDLC;
-
-        return $this;
-    }
-
-    /**
-     * Get boolDLC
-     *
-     * @return boolean
-     */
-    public function getBoolDLC()
-    {
-        return $this->boolDLC;
-    }
-
-    /**
-     * Set nbRecord
-     *
-     * @param integer $nbRecord
-     * @return Group
-     */
-    public function setNbRecord($nbRecord)
-    {
-        $this->nbRecord = $nbRecord;
-
-        return $this;
-    }
-
-    /**
-     * Get nbRecord
+     * Get idGroup
      *
      * @return integer
      */
-    public function getNbRecord()
+    public function getIdGroup()
     {
-        return $this->nbRecord;
+        return $this->idGroup;
+    }
+
+
+    /**
+     * Get libGroup
+     *
+     * @return string
+     */
+    public function getLibGroup()
+    {
+        return $this->libGroupEn;
+    }
+
+    /**
+     * Set libGroupFr
+     *
+     * @param string $libGroupFr
+     * @return Group
+     */
+    public function setLibGroupFr($libGroupFr)
+    {
+        $this->libGroupFr = $libGroupFr;
+
+        return $this;
+    }
+
+    /**
+     * Get libGroupFr
+     *
+     * @return string
+     */
+    public function getLibGroupFr()
+    {
+        return $this->libGroupFr;
+    }
+
+    /**
+     * Set libGroupEn
+     *
+     * @param string $libGroupEn
+     * @return Group
+     */
+    public function setLibGroupEn($libGroupEn)
+    {
+        $this->libGroupEn = $libGroupEn;
+
+        return $this;
+    }
+
+    /**
+     * Get libGroupEn
+     *
+     * @return string
+     */
+    public function getLibGroupEn()
+    {
+        return $this->libGroupEn;
+    }
+
+    /**
+     * Set boolDlc
+     *
+     * @param boolean $boolDlc
+     * @return Game
+     */
+    public function setBoolDlc($boolDlc)
+    {
+        $this->boolDlc = $boolDlc;
+
+        return $this;
+    }
+
+    /**
+     * Get boolDlc
+     *
+     * @return boolean
+     */
+    public function getBoolDlc()
+    {
+        return $this->boolDlc;
+    }
+
+    /**
+     * Set nbChart
+     *
+     * @param integer $nbChart
+     * @return Game
+     */
+    public function setNbChart($nbChart)
+    {
+        $this->nbChart = $nbChart;
+
+        return $this;
+    }
+
+    /**
+     * Get nbChart
+     *
+     * @return integer
+     */
+    public function getNbChart()
+    {
+        return $this->nbChart;
     }
 
     /**
@@ -237,26 +247,26 @@ class Group
     }
 
     /**
-     * Set nbMembre
+     * Set nbUser
      *
-     * @param integer $nbMembre
-     * @return Group
+     * @param integer $nbUser
+     * @return Game
      */
-    public function setNbMembre($nbMembre)
+    public function setNbUser($nbUser)
     {
-        $this->nbMembre = $nbMembre;
+        $this->nbUser = $nbUser;
 
         return $this;
     }
 
     /**
-     * Get nbMembre
+     * Get nbUser
      *
      * @return integer
      */
-    public function getNbMembre()
+    public function getNbUser()
     {
-        return $this->nbMembre;
+        return $this->nbUser;
     }
 
     /**
@@ -305,15 +315,6 @@ class Group
         return $this->dateModification;
     }
 
-    /**
-     * Get idGroupe
-     *
-     * @return integer
-     */
-    public function getIdGroupe()
-    {
-        return $this->idGroupe;
-    }
 
     /**
      * Set game

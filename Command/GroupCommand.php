@@ -20,7 +20,7 @@ class GroupCommand extends ContainerAwareCommand
                 'Who do you want to do?'
             )
             ->addOption(
-                'idGroupe',
+                'idGroup',
                 null,
                 InputOption::VALUE_REQUIRED,
                 ''
@@ -38,8 +38,8 @@ class GroupCommand extends ContainerAwareCommand
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj':
-                $idGroupe = $input->getOption('idGroupe');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:UserGroup')->maj($idGroupe);
+                $idGroup = $input->getOption('idGroup');
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:UserGroup')->maj($idGroup);
                 break;
         }
 

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_librecord", indexes={@ORM\Index(name="idLibRecord", columns={"idLibRecord"}), @ORM\Index(name="idxIdRecord", columns={"idRecord"}), @ORM\Index(name="idxIdType", columns={"idType"}) })
+ * @ORM\Table(name="vgr_chartlib", indexes={@ORM\Index(name="idLibChart", columns={"idLibChart"}), @ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdType", columns={"idType"}) })
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartLibRepository")
  */
 class ChartLib
@@ -16,18 +16,18 @@ class ChartLib
     /**
      * @var integer
      *
-     * @ORM\Column(name="idLibRecord", type="integer")
+     * @ORM\Column(name="idLibChart", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idLibRecord;
+    private $idLibChart;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idRecord", type="integer")
+     * @ORM\Column(name="idChart", type="integer")
      */
-    private $idRecord;
+    private $idChart;
 
     /**
      * @var integer
@@ -55,7 +55,7 @@ class ChartLib
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="libs")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idRecord", referencedColumnName="idRecord")
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="idChart")
      * })
      */
     private $chart;
@@ -116,23 +116,23 @@ class ChartLib
 
 
     /**
-     * Get idLibRecord
+     * Get idLibChart
      *
      * @return integer
      */
-    public function getIdLibRecord()
+    public function getIdLibChart()
     {
-        return $this->idLibRecord;
+        return $this->idLibChart;
     }
 
     /**
-     * Get idRecord
+     * Get idChart
      *
      * @return integer
      */
-    public function getIdRecord()
+    public function getIdChart()
     {
-        return $this->idRecord;
+        return $this->idChart;
     }
 
 
@@ -179,6 +179,5 @@ class ChartLib
     {
         return $this->type;
     }
-
 
 }

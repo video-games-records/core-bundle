@@ -45,7 +45,7 @@ class SubmitController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $idMembre = 1;
+            $idUser = 1;
 
             //----- Init
             $nbInsert = 0;
@@ -58,12 +58,12 @@ class SubmitController extends Controller
                 $isModify = false;
 
                 foreach ($chart->getLibs() as $lib) {
-                    $oldValue = $data['membre_' . $chart->getIdRecord() . '_' . $lib->getIdLibRecord()];
+                    $oldValue = $data['user_' . $chart->getIdChart() . '_' . $lib->getIdLibChart()];
                     $newValue = '';
 
                     $nbInput = $lib->getType()->getNbInput();
                     for ($i = 1; $i <= $nbInput; $i++) {
-                        $value = $data['value_' . $chart->getIdRecord() . '_' . $lib->getIdLibRecord() . '_' . $i];
+                        $value = $data['value_' . $chart->getIdChart() . '_' . $lib->getIdLibChart() . '_' . $i];
                         $newValue .= $value;
                         $values[] = $value;
                     }
@@ -79,19 +79,19 @@ class SubmitController extends Controller
                         $isModify = true;
                     }
 
-                    $post[$lib->getIdLibRecord() ] =$newValue;
+                    $post[$lib->getIdLibChart() ] = $newValue;
 
                 }
 
                 $em = $this->getDoctrine()->getManager();
-                $user = $em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $idMembre);
+                $user = $em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $idUser);
 
 
                 if (!$isNull && $isModify) {
                     $userChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserChart')->find(
                         array(
-                            'idMembre' => $idMembre,
-                            'idRecord' => $chart->getIdRecord()
+                            'idUser' => $idUser,
+                            'idChart' => $chart->getIdChart()
                         )
                     );
 
@@ -113,8 +113,8 @@ class SubmitController extends Controller
                     foreach ($chart->getLibs() as $lib) {
                         $userChartLib = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserChartLib')->find(
                             array(
-                                'idMembre' => $idMembre,
-                                'idLibRecord' => $lib->getIdLibRecord()
+                                'idUser' => $idUser,
+                                'idLibChart' => $lib->getIdLibChart()
                             )
                         );
                         if ($userChartLib == null) {
@@ -123,7 +123,7 @@ class SubmitController extends Controller
                             $userChartLib->setLib($lib);
 
                         }
-                        $userChartLib->setValue($post[$lib->getIdLibRecord()]);
+                        $userChartLib->setValue($post[$lib->getIdLibChart()]);
                         $em->persist($userChartLib);
                         $em->flush($userChartLib);
                     }

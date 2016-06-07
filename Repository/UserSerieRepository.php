@@ -109,7 +109,7 @@ class UserSerieRepository extends EntityRepository
         //----- select ans save result in table
         $query = $this->_em->createQuery("
             SELECT
-                ug.idMembre,
+                ug.idUser,
                 (g.idSerie) as idSerie,
                 '' as rankPoint,
                 '' as rankMedal,
@@ -119,19 +119,19 @@ class UserSerieRepository extends EntityRepository
                 SUM(ug.rank3) as rank3,
                 SUM(ug.rank4) as rank4,
                 SUM(ug.rank5) as rank5,
-                SUM(ug.pointJeu) as pointJeu,
-                SUM(ug.pointRecord) as pointRecord,
-                SUM(ug.pointRecordSansDLC) as pointRecordSansDLC,
-                SUM(ug.nbRecord) as nbRecord,
-                SUM(ug.nbRecordSansDLC) as nbRecordSansDLC,
-                SUM(ug.nbRecordProuve) as nbRecordProuve,
-                SUM(ug.nbRecordProuveSansDLC) as nbRecordProuveSansDLC,
-                COUNT(DISTINCT ug.idJeu) as nbJeu
+                SUM(ug.pointGame) as pointGame,
+                SUM(ug.pointChart) as pointChart,
+                SUM(ug.pointChartWithoutDlc) as pointChartWithoutDlc,
+                SUM(ug.nbChart) as nbChart,
+                SUM(ug.nbChartWithoutDlc) as nbChartWithoutDlc,
+                SUM(ug.nbChartProven) as nbChartProven,
+                SUM(ug.nbChartProvenWithoutDlc) as nbChartProvenWithoutDlc,
+                COUNT(DISTINCT ug.idGame) as nbGame
             FROM VideoGamesRecords\CoreBundle\Entity\UserGame ug
             JOIN ug.game g
             WHERE g.idSerie = :idSerie
-            GROUP BY ug.idMembre
-            ORDER BY pointRecord DESC"
+            GROUP BY ug.idUser
+            ORDER BY pointChart DESC"
         );
 
 
@@ -143,7 +143,7 @@ class UserSerieRepository extends EntityRepository
             $list[] = $row;
         }
 
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankPoint', array('pointRecord'));
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankPoint', array('pointChart'));
         $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
         $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
 
@@ -157,7 +157,7 @@ class UserSerieRepository extends EntityRepository
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\UserSerie'
             );
-            $userSerie->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idMembre']));
+            $userSerie->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idUser']));
             $userSerie->setSerie($serie);
 
             $this->_em->persist($userSerie);
@@ -165,6 +165,5 @@ class UserSerieRepository extends EntityRepository
         }
 
     }
-
 
 }

@@ -20,7 +20,7 @@ class GameCommand extends ContainerAwareCommand
                 'Who do you want to do?'
             )
             ->addOption(
-                'idJeu',
+                'idGame',
                 null,
                 InputOption::VALUE_REQUIRED,
                 ''
@@ -38,8 +38,8 @@ class GameCommand extends ContainerAwareCommand
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj':
-                $idJeu = $input->getOption('idJeu');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:UserGame')->maj($idJeu);
+                $idGame = $input->getOption('idGame');
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:UserGame')->maj($idGame);
                 break;
         }
 

@@ -9,7 +9,7 @@
 <ul>
     <li>rank|pseudo|points|nbPost</li>
     {% for row in rankingPoints %}
-        <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRankPoint() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointRecord() }} | {{ row.getNbRecord() }}</li>
+        <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRankPoint() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointChart() }} | {{ row.getNbChart() }}</li>
     {% endfor %}
 </ul>
 

@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <h1>{{ group.getLibGroupe() }} – {{ group.getGame().getLibJeu() }}</h1>
+    <h1>{{ group.getLibGroup() }} – {{ group.getGame().getLibGame() }}</h1>
 
 
 
@@ -14,7 +14,7 @@
         <li>{% trans %}group.chartlist{% endtrans %} | {% trans %}group.scores{% endtrans %}</li>
         {% for chart in group.getCharts %}
             <li>
-                <a href="{{ path('vgr_chart_index', {'id': chart.getIdRecord()}) }}">{{ chart.getLibRecord() }}</a> |  {{ chart.getNbPost() }}
+                <a href="{{ path('vgr_chart_index', {'id': chart.getIdChart()}) }}">{{ chart.getLibChart() }}</a> |  {{ chart.getNbPost() }}
             </li>
         {% endfor %}
     </ul>
@@ -24,14 +24,14 @@
     <ul>
         <li>rank|pseudo|points|nbPost</li>
         {% for row in rankingPoints %}
-            <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRank() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointRecord() }} | {{ row.getNbRecord() }}</li>
+            <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRankPoint() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointChart() }} | {{ row.getNbChart() }}</li>
         {% else %}
             <div class="well">{{ 'group.no_ranking'|trans }}</div>
         {% endfor %}
     </ul>
 
     <div class="txtcenter">
-        <a href="{{ path('vgr_group_ranking_points', {'id': group.getIdGroupe()}) }}">{% trans %}group.pointranking.full{% endtrans %}</a>
+        <a href="{{ path('vgr_group_ranking_points', {'id': group.getIdGroup()}) }}">{% trans %}group.pointranking.full{% endtrans %}</a>
     </div>
 
     <h2>{% trans %}group.medalranking{% endtrans %}</h2>
@@ -45,7 +45,7 @@
     </ul>
 
     <div class="txtcenter">
-        <a href="{{ path('vgr_group_ranking_medals', {'id': group.getIdGroupe()}) }}">{% trans %}group.medalranking.full{% endtrans %}</a>
+        <a href="{{ path('vgr_group_ranking_medals', {'id': group.getIdGroup()}) }}">{% trans %}group.medalranking.full{% endtrans %}</a>
     </div>
 
 

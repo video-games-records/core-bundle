@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserChart
  *
- * @ORM\Table(name="vgr_record_membre", indexes={@ORM\Index(name="idxIdRecord", columns={"idRecord"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
+ * @ORM\Table(name="vgr_user_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserChartRepository")
  * @ORM\HasLifecycleCallbacks
  */
@@ -24,16 +24,16 @@ class UserChart
 
 
     /**
-     * @ORM\Column(name="idMembre", type="integer")
+     * @ORM\Column(name="idUser", type="integer")
      * @ORM\Id
      */
-    private $idMembre;
+    private $idUser;
 
     /**
-     * @ORM\Column(name="idRecord", type="integer")
+     * @ORM\Column(name="idChart", type="integer")
      * @ORM\Id
      */
-    private $idRecord;
+    private $idChart;
 
     /**
      * @var integer
@@ -52,9 +52,9 @@ class UserChart
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointRecord", type="float", nullable=false)
+     * @ORM\Column(name="pointChart", type="float", nullable=false)
      */
-    private $pointRecord;
+    private $pointChart;
 
     /**
      * @var integer
@@ -90,7 +90,7 @@ class UserChart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
+     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
      * })
      */
     private $user;
@@ -100,55 +100,55 @@ class UserChart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idRecord", referencedColumnName="idRecord")
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="idChart")
      * })
      */
     private $chart;
 
 
     /**
-     * Set idMembre
+     * Set idUser
      *
-     * @param integer $idMembre
+     * @param integer $idUser
      * @return UserChart
      */
-    public function setIdMembre($idMembre)
+    public function setIdUser($idUser)
     {
-        $this->idMembre = $idMembre;
+        $this->idUser = $idUser;
         return $this;
     }
 
     /**
-     * Get idMembre
+     * Get idUser
      *
      * @return integer
      */
-    public function geIdMembre()
+    public function geIdUser()
     {
-        return $this->idMembre;
+        return $this->idUser;
     }
 
 
     /**
-     * Set idRecord
+     * Set idChart
      *
-     * @param integer $idRecord
+     * @param integer $idChart
      * @return UserChart
      */
-    public function setIdRecord($idRecord)
+    public function setIdChart($idChart)
     {
-        $this->idRecord = $idRecord;
+        $this->idChart = $idChart;
         return $this;
     }
 
     /**
-     * Get idRecord
+     * Get idChart
      *
      * @return integer
      */
-    public function geIdRecord()
+    public function geIdChart()
     {
-        return $this->idRecord;
+        return $this->idChart;
     }
 
 
@@ -197,25 +197,25 @@ class UserChart
     }
 
     /**
-     * Set pointRecord
+     * Set pointChart
      *
-     * @param float $pointRecord
+     * @param float $pointChart
      * @return UserChart
      */
-    public function setPointRecord($pointRecord)
+    public function setPointChart($pointChart)
     {
-        $this->pointRecord = $pointRecord;
+        $this->pointChart = $pointChart;
         return $this;
     }
 
     /**
-     * Get pointRecord
+     * Get pointChart
      *
      * @return float
      */
-    public function getPointRecord()
+    public function getPointChart()
     {
-        return $this->pointRecord;
+        return $this->pointChart;
     }
 
     /**
@@ -317,7 +317,7 @@ class UserChart
     public function setChart(Chart $chart = null)
     {
         $this->chart = $chart;
-        $this->setIdRecord($chart->getIdRecord());
+        $this->setIdChart($chart->getIdChart());
         return $this;
     }
 
@@ -341,7 +341,7 @@ class UserChart
     public function setUser(User $user = null)
     {
         $this->user = $user;
-        $this->setIdMembre($user->getIdMembre());
+        $this->setIdUser($user->getIdUser());
         return $this;
     }
 

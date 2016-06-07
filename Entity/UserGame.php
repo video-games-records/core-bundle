@@ -7,30 +7,30 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MemberGame
  *
- * @ORM\Table(name="mv_membre_jeu", indexes={@ORM\Index(name="idxIdJeu", columns={"idJeu"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
+ * @ORM\Table(name="vgr_user_game", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserGameRepository")
  */
 class UserGame
 {
 
     /**
-     * @ORM\Column(name="idMembre", type="integer")
+     * @ORM\Column(name="idUser", type="integer")
      * @ORM\Id
      */
-    private $idMembre;
+    private $idUser;
 
     /**
-     * @ORM\Column(name="idJeu", type="integer")
+     * @ORM\Column(name="idGame", type="integer")
      * @ORM\Id
      */
-    private $idJeu;
+    private $idGame;
 
     /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
+     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
      * })
      */
     private $user;
@@ -40,7 +40,7 @@ class UserGame
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idJeu", referencedColumnName="idJeu")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="idGame")
      * })
      */
     private $game;
@@ -48,9 +48,9 @@ class UserGame
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank", type="integer", nullable=false)
+     * @ORM\Column(name="rankPoint", type="integer", nullable=false)
      */
-    private $rank;
+    private $rankPoint;
 
     /**
      * @var integer
@@ -104,127 +104,119 @@ class UserGame
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointRecord", type="integer", nullable=false)
+     * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
-    private $pointRecord;
+    private $pointChart;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointRecordSansDLC", type="integer", nullable=false)
+     * @ORM\Column(name="pointChartWithoutDlc", type="integer", nullable=false)
      */
-    private $pointRecordSansDLC;
+    private $pointChartWithoutDlc;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbRecord", type="integer", nullable=false)
+     * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $nbRecord;
+    private $nbChart;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbRecordProuve", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
-    private $nbRecordProuve;
+    private $nbChartProven;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbRecordSansDLC", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartWithoutDlc", type="integer", nullable=false)
      */
-    private $nbRecordSansDLC;
+    private $nbChartWithoutDlc;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbRecordProuveSansDLC", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartProvenWithoutDlc", type="integer", nullable=false)
      */
-    private $nbRecordProuveSansDLC;
+    private $nbChartProvenWithoutDlc;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointJeu", type="integer", nullable=false)
+     * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
-    private $pointJeu;
+    private $pointGame;
 
 
     /**
-     * Set idMembre
+     * Set idUser
      *
-     * @param integer $idMembre
-     * @return UserSerie
-     */
-    public function setIdMembre($idMembre)
-    {
-        $this->idMembre = $idMembre;
-        return $this;
-    }
-
-    /**
-     * Get idMembre
-     *
-     * @return integer
-     */
-    public function getIdMembre()
-    {
-        return $this->idMembre;
-    }
-
-    /**
-     * Set idJeu
-     *
-     * @param integer $idJeu
+     * @param integer $idUser
      * @return UserGame
      */
-    public function setIdJeu($idJeu)
+    public function setIdUser($idUser)
     {
-        $this->idJeu = $idJeu;
+        $this->idUser = $idUser;
         return $this;
     }
 
     /**
-     * Get idJeu
+     * Get idUser
      *
      * @return integer
      */
-    public function getIdJeu()
+    public function getIdUser()
     {
-        return $this->idJeu;
+        return $this->idUser;
     }
 
 
     /**
-     * Set rank
+     * Set idGame
      *
-     * @param integer $rank
+     * @param integer $idGame
      * @return UserGame
      */
-    public function setRank($rank)
+    public function setIdGame($idGame)
     {
-        $this->rank = $rank;
+        $this->idGame = $idGame;
         return $this;
     }
 
     /**
-     * Get rank
+     * Get idGame
      *
      * @return integer
      */
-    public function getRank()
+    public function getIdGame()
     {
-        return $this->rank;
+        return $this->idGame;
+    }
+
+
+    /**
+     * Set rankPoint
+     *
+     * @param integer $rankPoint
+     * @return UserGame
+     */
+    public function setRankPoint($rankPoint)
+    {
+        $this->rankPoint = $rankPoint;
+        return $this;
     }
 
     /**
-     * @todo Replace rank by rankPoint on BDD
-     * @return int
+     * Get rankPoint
+     *
+     * @return integer
      */
     public function getRankPoint()
     {
-        return $this->getRank();
+        return $this->rankPoint;
     }
 
     /**
@@ -382,162 +374,159 @@ class UserGame
     }
 
     /**
-     * Set pointRecord
+     * Set pointChart
      *
-     * @param integer $pointRecord
+     * @param integer $pointChart
      * @return UserGame
      */
-    public function setPointRecord($pointRecord)
+    public function setPointChart($pointChart)
     {
-        $this->pointRecord = $pointRecord;
+        $this->pointChart = $pointChart;
         return $this;
     }
 
     /**
-     * Get pointRecord
+     * Get pointChart
      *
      * @return integer
      */
-    public function getPointRecord()
+    public function getPointChart()
     {
-        return $this->pointRecord;
+        return $this->pointChart;
     }
 
     /**
-     * Set pointRecordSansDLC
+     * Set pointChartWithoutDlc
      *
-     * @param integer $pointRecordSansDLC
+     * @param integer $pointChartWithoutDlc
      * @return UserGame
      */
-    public function setPointRecordSansDLC($pointRecordSansDLC)
+    public function setPointChartWithoutDlc($pointChartWithoutDlc)
     {
-        $this->pointRecordSansDLC = $pointRecordSansDLC;
+        $this->pointChartWithoutDlc = $pointChartWithoutDlc;
         return $this;
     }
 
     /**
-     * Get pointRecordSansDLC
+     * Get pointChartWithoutDlc
      *
      * @return integer
      */
-    public function getPointRecordSansDLC()
+    public function getPointChartWithoutDlc()
     {
-        return $this->pointRecordSansDLC;
+        return $this->pointChartWithoutDlc;
     }
 
     /**
-     * Set nbRecord
+     * Set nbChart
      *
-     * @param integer $nbRecord
+     * @param integer $nbChart
      * @return UserGame
      */
-    public function setNbRecord($nbRecord)
+    public function setNbChart($nbChart)
     {
-        $this->nbRecord = $nbRecord;
+        $this->nbChart = $nbChart;
         return $this;
     }
 
     /**
-     * Get nbRecord
+     * Get nbChart
      *
      * @return integer
      */
-    public function getNbRecord()
+    public function getNbChart()
     {
-        return $this->nbRecord;
+        return $this->nbChart;
     }
 
 
     /**
-     * Set nbRecordProuve
+     * Set nbChartProven
      *
-     * @param integer $nbRecordProuve
+     * @param integer $nbChartProven
      * @return UserGame
      */
-    public function setNbRecordProuve($nbRecordProuve)
+    public function setNbChartProven($nbChartProven)
     {
-        $this->nbRecordProuve = $nbRecordProuve;
+        $this->nbChartProven = $nbChartProven;
         return $this;
     }
 
     /**
-     * Get nbRecordProuve
+     * Get nbChartProven
      *
      * @return integer
      */
-    public function getNbRecordProuve()
+    public function getNbChartProven()
     {
-        return $this->nbRecordProuve;
+        return $this->nbChartProven;
     }
 
     /**
-     * Set nbRecordSansDLC
+     * Set nbChartWithoutDlc
      *
-     * @param integer $nbRecordSansDLC
+     * @param integer $nbChartWithoutDlc
      * @return UserGame
      */
-    public function setNbRecordSansDLC($nbRecordSansDLC)
+    public function setNbChartWithoutDlc($nbChartWithoutDlc)
     {
-        $this->nbRecordSansDLC = $nbRecordSansDLC;
+        $this->nbChartWithoutDlc = $nbChartWithoutDlc;
         return $this;
     }
 
     /**
-     * Get nbRecordSansDLC
+     * Get nbChartWithoutDlc
      *
      * @return integer
      */
-    public function getNbRecordv()
+    public function getNbChartWithoutDlc()
     {
-        return $this->nbRecordSansDLC;
+        return $this->nbChartWithoutDlc;
     }
 
-
     /**
-     * Set nbRecordProuveSansDLC
+     * Set nbChartProvenWithoutDlc
      *
-     * @param integer $nbRecordProuveSansDLC
+     * @param integer $nbChartProvenWithoutDlc
      * @return UserGame
      */
-    public function setNbRecordProuveSansDLC($nbRecordProuveSansDLC)
+    public function setNbChartProvenWithoutDlc($nbChartProvenWithoutDlc)
     {
-        $this->nbRecordProuveSansDLC = $nbRecordProuveSansDLC;
+        $this->nbChartProvenWithoutDlc = $nbChartProvenWithoutDlc;
         return $this;
     }
 
     /**
-     * Get nbRecordProuveSansDLC
+     * Get nbChartProvenWithoutDlc
      *
      * @return integer
      */
-    public function getNbRecordProuveSansDLC()
+    public function getNbChartProvenWithoutDlc()
     {
-        return $this->nbRecordProuveSansDLC;
+        return $this->nbChartProvenWithoutDlc;
     }
 
-
     /**
-     * Set pointJeu
+     * Set pointGame
      *
-     * @param integer $pointJeu
+     * @param integer $pointGame
      * @return UserGame
      */
-    public function setPointJeu($pointJeu)
+    public function setPointGame($pointGame)
     {
-        $this->pointJeu = $pointJeu;
+        $this->pointGame = $pointGame;
         return $this;
     }
 
     /**
-     * Get pointJeu
+     * Get pointGame
      *
      * @return integer
      */
-    public function getPointJeu()
+    public function getPointGame()
     {
-        return $this->pointJeu;
+        return $this->pointGame;
     }
-
 
     /**
      * Set game
@@ -548,7 +537,7 @@ class UserGame
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-        $this->setIdJeu($game->getIdJeu());
+        $this->setIdGame($game->getIdGame());
         return $this;
     }
 
@@ -572,7 +561,7 @@ class UserGame
     public function setUser(User $user = null)
     {
         $this->user = $user;
-        $this->setIdMembre($user->getIdMembre());
+        $this->setIdUser($user->getIdUser());
         return $this;
     }
 

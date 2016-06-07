@@ -15,14 +15,6 @@ class GameRepository extends EntityRepository
 
     public function queryAlpha($params)
     {
-        /*return $this->getEntityManager()
-            ->createQuery('
-                SELECT g
-                FROM VideoGamesRecordsCoreBundle:Game g
-                WHERE d.idSerie = :idSerie
-                ORDER BY g.libJeu_en ASC
-            ')->setParameter('username', $username);*/
-
         $query = $this->createQueryBuilder('g');
 
         if (array_key_exists('idSerie', $params) && $params['idSerie'] !== null) {

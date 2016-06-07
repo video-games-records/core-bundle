@@ -20,10 +20,10 @@ class SubmitFormFactory
 
 
         foreach ($charts as $chart) {
-            $form->add('name_' . $chart->getIdRecord(), HiddenType::class, array('label' => $chart->getLibRecord()));
+            $form->add('name_' . $chart->getIdChart(), HiddenType::class, array('label' => $chart->getLibChart()));
 
             foreach ($chart->getLibs() as $lib) {
-                $id = 'membre_' . $lib->getIdRecord() . '_' . $lib->getIdLibRecord();
+                $id = 'user_' . $lib->getIdChart() . '_' . $lib->getIdLibChart();
                 $form->add($id, HiddenType::class); //----- miss ID
 
                 $inputs = \VideoGamesRecords\CoreBundle\Tools\Score::getInputs($lib->getType()->getMask());
@@ -31,7 +31,7 @@ class SubmitFormFactory
                 $i = 1;
                 foreach ($inputs as $k => $input) {
                     $form->add(
-                        'value_' . $lib->getIdRecord() . '_' . $lib->getIdLibRecord() . '_' . $i,
+                        'value_' . $lib->getIdChart() . '_' . $lib->getIdLibChart() . '_' . $i,
                         TextType::class,
                         array(
                             'label' => ($i== 1) ? $lib->getType()->getLib() : null,
@@ -49,9 +49,4 @@ class SubmitFormFactory
 
         return $form;
     }
-
-
-
-
-
 }

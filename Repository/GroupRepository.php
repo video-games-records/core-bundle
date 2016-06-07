@@ -18,8 +18,8 @@ class GroupRepository extends EntityRepository
         $query = $this->createQueryBuilder('gr')
             ->join('gr.game', 'ga')
             ->addSelect('ga')
-            ->where('gr.idGroupe = :idGroupe')
-            ->setParameter('idGroupe', $id);
+            ->where('gr.idGroup = :idGroup')
+            ->setParameter('idGroup', $id);
 
         return $query->getQuery()
             ->getOneOrNullResult();

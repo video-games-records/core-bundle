@@ -23,21 +23,21 @@ class UserGroupRepository extends EntityRepository
         $query = $this->createQueryBuilder('ug')
             ->join('ug.user', 'u')
             ->addSelect('u') //----- for using ->getUser() on each result
-            ->orderBy('ug.rank');
+            ->orderBy('ug.rankPoint');
 
-        $query->where('ug.idGroupe = :idGroupe')
-            ->setParameter('idGroupe', $params['idGroupe']);
+        $query->where('ug.idGroup = :idGroup')
+            ->setParameter('idGroup', $params['idGroup']);
 
         if (array_key_exists('limit', $params)) {
             $query->setMaxResults($params['limit']);
         }
 
         if ( (array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params)) ) {
-            $query->andWhere('(ug.rank <= :maxRank OR ug.idMembre = :idLogin)')
+            $query->andWhere('(ug.rankPoint <= :maxRank OR ug.idUser = :idLogin)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idLogin', $params['idLogin']);
         } else if (array_key_exists('maxRank', $params)) {
-            $query->andWhere('ug.rank <= :maxRank')
+            $query->andWhere('ug.rankPoint <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
         return $query->getQuery()->getResult();
@@ -55,15 +55,15 @@ class UserGroupRepository extends EntityRepository
             ->addSelect('u') //----- for using ->getUser() on each result
             ->orderBy('ug.rankMedal');
 
-        $query->where('ug.idGroupe = :idGroupe')
-            ->setParameter('idGroupe', $params['idGroupe']);
+        $query->where('ug.idGroup = :idGroup')
+            ->setParameter('idGroup', $params['idGroup']);
 
         if (array_key_exists('limit', $params)) {
             $query->setMaxResults($params['limit']);
         }
 
         if ( (array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params)) ) {
-            $query->andWhere('(ug.rankMedal <= :maxRank OR ug.idMembre = :idLogin)')
+            $query->andWhere('(ug.rankMedal <= :maxRank OR ug.idUser = :idLogin)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idLogin', $params['idLogin']);
         } else if (array_key_exists('maxRank', $params)) {
@@ -75,13 +75,13 @@ class UserGroupRepository extends EntityRepository
 
 
     /**
-     * @param $idGroupe
+     * @param $idGroup
      */
-    public function maj($idGroupe)
+    public function maj($idGroup)
     {
         //----- delete
-        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\UserGroup ug WHERE ug.idGroupe = :idGroupe');
-        $query->setParameter('idGroupe', $idGroupe);
+        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\UserGroup ug WHERE ug.idGroup = :idGroup');
+        $query->setParameter('idGroup', $idGroup);
         $query->execute();
 
 
@@ -90,113 +90,113 @@ class UserGroupRepository extends EntityRepository
         //----- data rank0
         $query = $this->_em->createQuery("
             SELECT
-                 uc.idMembre,
-                 COUNT(uc.idRecord) as nb
+                 uc.idUser,
+                 COUNT(uc.idChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\UserChart uc
             JOIN uc.chart c
-            WHERE c.idGroupe = :idGroupe
+            WHERE c.idGroup = :idGroup
             AND uc.rank = 1
             AND c.nbPost > 0
             AND uc.nbEqual = 1
-            GROUP BY uc.idMembre"
+            GROUP BY uc.idUser"
         );
 
 
-        $query->setParameter('idGroupe', $idGroupe);
+        $query->setParameter('idGroup', $idGroup);
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['rank0'][$row['idMembre']] = $row['nb'];
+            $data['rank0'][$row['idUser']] = $row['nb'];
         }
 
         //----- data rank1 to rank5
         $query = $this->_em->createQuery("
             SELECT
-                 uc.idMembre,
-                 COUNT(uc.idRecord) as nb
+                 uc.idUser,
+                 COUNT(uc.idChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\UserChart uc
             JOIN uc.chart c
-            WHERE c.idGroupe = :idGroupe
+            WHERE c.idGroup = :idGroup
             AND uc.rank = :rank
-            GROUP BY uc.idMembre"
+            GROUP BY uc.idUser"
         );
-        $query->setParameter('idGroupe', $idGroupe);
+        $query->setParameter('idGroup', $idGroup);
 
         for ($i=1; $i<=5; $i++) {
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["rank$i"][$row['idMembre']] = $row['nb'];
+                $data["rank$i"][$row['idUser']] = $row['nb'];
             }
         }
 
         //----- data nbRecordProuve
         $query = $this->_em->createQuery("
             SELECT
-                 uc.idMembre,
-                 COUNT(uc.idRecord) as nb
+                 uc.idUser,
+                 COUNT(uc.idChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\UserChart uc
             JOIN uc.chart c
-            WHERE c.idGroupe = :idGroupe
+            WHERE c.idGroup = :idGroup
             AND uc.idEtat = 6
-            GROUP BY uc.idMembre"
+            GROUP BY uc.idUser"
         );
 
-        $query->setParameter('idGroupe', $idGroupe);
+        $query->setParameter('idGroup', $idGroup);
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['nbRecordProuve'][$row['idMembre']] = $row['nb'];
+            $data['nbChartProven'][$row['idUser']] = $row['nb'];
         }
 
 
         //----- select ans save result in array
         $query = $this->_em->createQuery("
             SELECT
-                uc.idMembre,
-                (c.idGroupe) as idGroupe,
-                '' as rank,
+                uc.idUser,
+                (c.idGroup) as idGroup,
+                '' as rankPoint,
                 '' as rankMedal,
-                SUM(uc.pointRecord) as pointRecord,
-                COUNT(uc.idRecord) as nbRecord
+                SUM(uc.pointChart) as pointChart,
+                COUNT(uc.idChart) as nbChart
             FROM VideoGamesRecords\CoreBundle\Entity\UserChart uc
             JOIN uc.chart c
-            WHERE c.idGroupe = :idGroupe
-            GROUP BY uc.idMembre
-            ORDER BY pointRecord DESC"
+            WHERE c.idGroup = :idGroup
+            GROUP BY uc.idUser
+            ORDER BY pointChart DESC"
         );
 
 
-        $query->setParameter('idGroupe', $idGroupe);
+        $query->setParameter('idGroup', $idGroup);
         $result = $query->getResult();
 
         $list = array();
         foreach ($result as $row) {
             $row['rankMedal'] = 0;
-            $row['rank0'] = (isset($data['rank0'][$row['idMembre']])) ? $data['rank0'][$row['idMembre']] : 0;
-            $row['rank1'] = (isset($data['rank1'][$row['idMembre']])) ? $data['rank1'][$row['idMembre']] : 0;
-            $row['rank2'] = (isset($data['rank2'][$row['idMembre']])) ? $data['rank2'][$row['idMembre']] : 0;
-            $row['rank3'] = (isset($data['rank3'][$row['idMembre']])) ? $data['rank3'][$row['idMembre']] : 0;
-            $row['rank4'] = (isset($data['rank4'][$row['idMembre']])) ? $data['rank4'][$row['idMembre']] : 0;
-            $row['rank5'] = (isset($data['rank5'][$row['idMembre']])) ? $data['rank5'][$row['idMembre']] : 0;
-            $row['nbRecordProuve'] = (isset($data['nbRecordProuve'][$row['idMembre']])) ? $data['nbRecordProuve'][$row['idMembre']] : 0;
+            $row['rank0'] = (isset($data['rank0'][$row['idUser']])) ? $data['rank0'][$row['idUser']] : 0;
+            $row['rank1'] = (isset($data['rank1'][$row['idUser']])) ? $data['rank1'][$row['idUser']] : 0;
+            $row['rank2'] = (isset($data['rank2'][$row['idUser']])) ? $data['rank2'][$row['idUser']] : 0;
+            $row['rank3'] = (isset($data['rank3'][$row['idUser']])) ? $data['rank3'][$row['idUser']] : 0;
+            $row['rank4'] = (isset($data['rank4'][$row['idUser']])) ? $data['rank4'][$row['idUser']] : 0;
+            $row['rank5'] = (isset($data['rank5'][$row['idUser']])) ? $data['rank5'][$row['idUser']] : 0;
+            $row['nbChartProven'] = (isset($data['nbChartProven'][$row['idUser']])) ? $data['nbChartProven'][$row['idUser']] : 0;
             $list[] = $row;
         }
 
         //----- add some data
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rank', array('pointRecord'));
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankPoint', array('pointChart'));
         $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
         $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer(array($normalizer));
 
-        $group = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Group', $idGroupe);
+        $group = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Group', $idGroup);
 
         foreach ($list as $row) {
             $userGroup = $serializer->denormalize(
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\UserGroup'
             );
-            $userGroup->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idMembre']));
+            $userGroup->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idUser']));
             $userGroup->setGroup($group);
 
             $this->_em->persist($userGroup);

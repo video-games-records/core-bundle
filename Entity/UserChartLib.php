@@ -7,23 +7,23 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserChartLib
  *
- * @ORM\Table(name="vgr_librecord_membre", indexes={@ORM\Index(name="idxIdLibRecord", columns={"idLibRecord"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
+ * @ORM\Table(name="vgr_user_chartlib", indexes={@ORM\Index(name="idxIdLibChart", columns={"idLibChart"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserChartLibRepository")
  */
 class UserChartLib
 {
 
     /**
-     * @ORM\Column(name="idMembre", type="integer")
+     * @ORM\Column(name="idUser", type="integer")
      * @ORM\Id
      */
-    private $idMembre;
+    private $idUser;
 
     /**
-     * @ORM\Column(name="idLibRecord", type="integer")
+     * @ORM\Column(name="idLibChart", type="integer")
      * @ORM\Id
      */
-    private $idLibRecord;
+    private $idLibChart;
 
     /**
      * @var integer
@@ -37,7 +37,7 @@ class UserChartLib
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
+     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
      * })
      */
     private $user;
@@ -48,54 +48,55 @@ class UserChartLib
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idLibRecord", referencedColumnName="idLibRecord")
+     *   @ORM\JoinColumn(name="idLibChart", referencedColumnName="idLibChart")
      * })
      */
     private $lib;
 
     /**
-     * Set idMembre
+     * Set idUser
      *
-     * @param integer $idMembre
+     * @param integer $idUser
      * @return UserChart
      */
-    public function setIdMembre($idMembre)
+    public function setIdUser($idUser)
     {
-        $this->idMembre = $idMembre;
+        $this->idUser = $idUser;
         return $this;
     }
 
     /**
-     * Get idMembre
+     * Get idUser
      *
      * @return integer
      */
-    public function geIdMembre()
+    public function geIdUser()
     {
-        return $this->idMembre;
+        return $this->idUser;
+    }
+
+
+
+    /**
+     * Get idLibChart
+     *
+     * @return integer
+     */
+    public function getIdLibChart()
+    {
+        return $this->idLibChart;
     }
 
 
     /**
-     * Get idLibRecord
+     * Set idLibChart
      *
-     * @return integer
-     */
-    public function getIdLibRecord()
-    {
-        return $this->idLibRecord;
-    }
-
-
-    /**
-     * Set idLibRecord
-     *
-     * @param integer $idLibRecord
+     * @param integer $idLibChart
      * @return UserChartLib
      */
-    public function setIdLibRecord($idLibRecord)
+    public function setIdLibChart($idLibChart)
     {
-        $this->idLibRecord = $idLibRecord;
+        $this->idLibChart = $idLibChart;
         return $this;
     }
 
@@ -133,7 +134,7 @@ class UserChartLib
     public function setLib(ChartLib $lib = null)
     {
         $this->lib = $lib;
-        $this->idLibRecord = $lib->getIdLibRecord();
+        $this->idLibChart = $lib->getIdLibChart();
         return $this;
     }
 
@@ -157,7 +158,7 @@ class UserChartLib
     public function setUser(User $user = null)
     {
         $this->user = $user;
-        $this->idMembre = $user->getIdMembre();
+        $this->idUser = $user->getIdUser();
         return $this;
     }
 

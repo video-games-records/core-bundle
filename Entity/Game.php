@@ -8,40 +8,50 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Game
  *
- * @ORM\Table(name="vgr_jeu", indexes={@ORM\Index(name="idxLibJeuFr", columns={"libJeu_fr"}), @ORM\Index(name="idxLibJeuEn", columns={"libJeu_en"}), @ORM\Index(name="idxStatut", columns={"statut"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
+ * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxLibGameFr", columns={"libGameFr"}), @ORM\Index(name="idxLibGameEn", columns={"libGameEn"}), @ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
+ * @todo check etat / imagePlateforme / ordre
  */
 class Game
 {
     const NUM_ITEMS = 20;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="libJeu_fr", type="string", length=100, nullable=true)
+     * @ORM\Column(name="idGame", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $libJeu_fr;
+    private $idGame;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="libJeu_en", type="string", length=100, nullable=false)
+     * @ORM\Column(name="libGameFr", type="string", length=100, nullable=true)
      */
-    private $libJeu_en;
+    private $libGameFr;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="imageJeu", type="string", length=200, nullable=true)
+     * @ORM\Column(name="libGameEn", type="string", length=100, nullable=false)
      */
-    private $imageJeu;
+    private $libGameEn;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="statut", type="string", nullable=false)
+     * @ORM\Column(name="picture", type="string", length=200, nullable=true)
      */
-    private $statut;
+    private $picture;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", nullable=false)
+     */
+    private $status;
 
     /**
      * @var string
@@ -67,16 +77,16 @@ class Game
     /**
      * @var boolean
      *
-     * @ORM\Column(name="boolDLC", type="boolean", nullable=false)
+     * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
      */
     private $boolDlc;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbRecord", type="integer", nullable=false)
+     * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $nbRecord;
+    private $nbChart;
 
     /**
      * @var integer
@@ -88,9 +98,9 @@ class Game
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbMembre", type="integer", nullable=false)
+     * @ORM\Column(name="nbUser", type="integer", nullable=false)
      */
-    private $nbMembre;
+    private $nbUser;
 
     /**
      * @var integer
@@ -112,15 +122,6 @@ class Game
      * @ORM\Column(name="dateModification", type="datetime", nullable=false)
      */
     private $dateModification;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idJeu", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idJeu;
 
     /**
      * @var Serie
@@ -145,108 +146,117 @@ class Game
         $this->groups = new ArrayCollection();
     }
 
+    /**
+     * Get idGame
+     *
+     * @return integer
+     */
+    public function getIdGame()
+    {
+        return $this->idGame;
+    }
 
     /**
-     * Get libJeu
+     * Get libGame
      *
      * @return string
      */
-    public function getLibJeu()
+    public function getLibGame()
     {
-        return $this->libJeu_en;
+        return $this->libGameEn;
     }
 
 
     /**
-     * Set libJeu_fr
+     * Set libGameFr
      *
-     * @param string $libJeuFr
+     * @param string $libGameFr
      * @return Game
      */
-    public function setLibJeuFr($libJeuFr)
+    public function setLibGameFr($libGameFr)
     {
-        $this->libJeu_fr = $libJeuFr;
+        $this->libGameFr = $libGameFr;
 
         return $this;
     }
 
     /**
-     * Get libJeu_fr
+     * Get libGameFr
      *
-     * @return string 
+     * @return string
      */
-    public function getLibJeuFr()
+    public function getLibGameFr()
     {
-        return $this->libJeu_fr;
+        return $this->libGameFr;
     }
 
     /**
-     * Set libJeu_en
+     * Set libGameEn
      *
-     * @param string $libJeuEn
+     * @param string $libGameEn
      * @return Game
      */
-    public function setLibJeuEn($libJeuEn)
+    public function setLibGameEn($libGameEn)
     {
-        $this->libJeu_en = $libJeuEn;
+        $this->libGameEn = $libGameEn;
 
         return $this;
     }
 
     /**
-     * Get libJeu_en
+     * Get libGameEn
      *
-     * @return string 
+     * @return string
      */
-    public function getLibJeuEn()
+    public function getLibGameEn()
     {
-        return $this->libJeu_en;
+        return $this->libGameEn;
     }
 
     /**
-     * Set imageJeu
+     * Set picture
      *
-     * @param string $imageJeu
+     * @param string $picture
      * @return Game
      */
-    public function setImageJeu($imageJeu)
+    public function setPicture($picture)
     {
-        $this->imageJeu = $imageJeu;
+        $this->picture = $picture;
 
         return $this;
     }
 
     /**
-     * Get imageJeu
+     * Get picture
      *
-     * @return string 
+     * @return string
      */
-    public function getImageJeu()
+    public function getPicture()
     {
-        return $this->imageJeu;
+        return $this->picture;
     }
 
     /**
-     * Set statut
+     * Set status
      *
-     * @param string $statut
+     * @param string $status
      * @return Game
      */
-    public function setStatut($statut)
+    public function setStatus($status)
     {
-        $this->statut = $statut;
+        $this->status = $status;
 
         return $this;
     }
 
     /**
-     * Get statut
+     * Get status
      *
-     * @return string 
+     * @return string
      */
-    public function getStatut()
+    public function getStatus()
     {
-        return $this->statut;
+        return $this->status;
     }
 
     /**
@@ -265,7 +275,7 @@ class Game
     /**
      * Get etat
      *
-     * @return string 
+     * @return string
      */
     public function getEtat()
     {
@@ -288,7 +298,7 @@ class Game
     /**
      * Get dateActivation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateActivation()
     {
@@ -311,7 +321,7 @@ class Game
     /**
      * Get imagePlateforme
      *
-     * @return string 
+     * @return string
      */
     public function getImagePlateforme()
     {
@@ -334,7 +344,7 @@ class Game
     /**
      * Get boolDlc
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getBoolDlc()
     {
@@ -342,26 +352,26 @@ class Game
     }
 
     /**
-     * Set nbRecord
+     * Set nbChart
      *
-     * @param integer $nbRecord
+     * @param integer $nbChart
      * @return Game
      */
-    public function setNbRecord($nbRecord)
+    public function setNbChart($nbChart)
     {
-        $this->nbRecord = $nbRecord;
+        $this->nbChart = $nbChart;
 
         return $this;
     }
 
     /**
-     * Get nbRecord
+     * Get nbChart
      *
-     * @return integer 
+     * @return integer
      */
-    public function getNbRecord()
+    public function getNbChart()
     {
-        return $this->nbRecord;
+        return $this->nbChart;
     }
 
     /**
@@ -380,7 +390,7 @@ class Game
     /**
      * Get nbPost
      *
-     * @return integer 
+     * @return integer
      */
     public function getNbPost()
     {
@@ -388,26 +398,26 @@ class Game
     }
 
     /**
-     * Set nbMembre
+     * Set nbUser
      *
-     * @param integer $nbMembre
+     * @param integer $nbUser
      * @return Game
      */
-    public function setNbMembre($nbMembre)
+    public function setNbUser($nbUser)
     {
-        $this->nbMembre = $nbMembre;
+        $this->nbUser = $nbUser;
 
         return $this;
     }
 
     /**
-     * Get nbMembre
+     * Get nbUser
      *
-     * @return integer 
+     * @return integer
      */
-    public function getNbMembre()
+    public function getNbUser()
     {
-        return $this->nbMembre;
+        return $this->nbUser;
     }
 
     /**
@@ -426,7 +436,7 @@ class Game
     /**
      * Get ordre
      *
-     * @return integer 
+     * @return integer
      */
     public function getOrdre()
     {
@@ -449,7 +459,7 @@ class Game
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -472,21 +482,11 @@ class Game
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
         return $this->dateModification;
-    }
-
-    /**
-     * Get idJeu
-     *
-     * @return integer 
-     */
-    public function getIdJeu()
-    {
-        return $this->idJeu;
     }
 
     /**

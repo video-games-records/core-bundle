@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class UserChartLibRepository extends EntityRepository
 {
     /**
-     * @param array $params idMembre|idRecord|idGroupe
+     * @param array $params idMembre|idChart|idGroupe
      * @return array
      */
     public function getFormValues($params = array())
@@ -23,33 +23,32 @@ class UserChartLibRepository extends EntityRepository
             ->addSelect('lib')
             ->join('lib.type', 'type')
             ->addSelect('type')
-            ->orderBy('lib.idRecord')
-            ->addOrderBy('ucl.idLibRecord');
+            ->orderBy('lib.idChart')
+            ->addOrderBy('ucl.idLibChart');
 
-        $query->where('ucl.idMembre = :idMembre')
-            ->setParameter('idMembre', $params['idMembre']);
+        $query->where('ucl.idUser = :idUser')
+            ->setParameter('idUser', $params['idUser']);
 
-        if (array_key_exists('idRecord', $params)) {
-            $query->andWhere('lib.idRecord = :idRecord')
-                ->setParameter('idRecord', $params['idRecord']);
+        if (array_key_exists('idChart', $params)) {
+            $query->andWhere('lib.idChart = :idChart')
+                ->setParameter('idChart', $params['idChart']);
         }
 
         $result = $query->getQuery()->getResult();
         $data = array();
 
         foreach($result as $row) {
-            $data['membre_' . $row->getLib()->getIdRecord() . '_' . $row->getIdLibRecord()] = $row->getValue();
+            $data['user_' . $row->getLib()->getIdChart() . '_' . $row->getIdLibChart()] = $row->getValue();
             $values = \VideoGamesRecords\CoreBundle\Tools\Score::getValues($row->getLib()->getType()->getMask(), $row->getValue());
             $i = 1;
             foreach ($values as $key => $value) {
-                $data['value_' . $row->getLib()->getIdRecord() . '_' . $row->getIdLibRecord() . '_' . $i++] = $value['value'];
+                $data['value_' . $row->getLib()->getIdChart() . '_' . $row->getIdLibChart() . '_' . $i++] = $value['value'];
             }
         }
 
         return $data;
 
     }
-
 
 
 }

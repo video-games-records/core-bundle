@@ -7,31 +7,30 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserGroup
  *
- * @ORM\Table(name="mv_membre_groupe", indexes={@ORM\Index(name="idxIdGroupe", columns={"idGroupe"}), @ORM\Index(name="idxIdMembre", columns={"idMembre"})})
+ * @ORM\Table(name="vgr_user_group", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserGroupRepository")
  */
 class UserGroup
 {
 
-
     /**
-     * @ORM\Column(name="idMembre", type="integer")
+     * @ORM\Column(name="idUser", type="integer")
      * @ORM\Id
      */
-    private $idMembre;
+    private $idUser;
 
     /**
-     * @ORM\Column(name="idGroupe", type="integer")
+     * @ORM\Column(name="idGroup", type="integer")
      * @ORM\Id
      */
-    private $idGroupe;
+    private $idGroup;
 
     /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
+     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
      * })
      */
     private $user;
@@ -41,7 +40,7 @@ class UserGroup
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGroupe", referencedColumnName="idGroupe")
+     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="idGroup")
      * })
      */
     private $group;
@@ -49,9 +48,9 @@ class UserGroup
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank", type="integer", nullable=false)
+     * @ORM\Column(name="rankPoint", type="integer", nullable=false)
      */
-    private $rank;
+    private $rankPoint;
 
     /**
      * @var integer
@@ -105,98 +104,89 @@ class UserGroup
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointRecord", type="integer", nullable=false)
+     * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
-    private $pointRecord;
+    private $pointChart;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbRecord", type="integer", nullable=false)
+     * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $nbRecord;
+    private $nbChart;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbRecordProuve", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
-    private $nbRecordProuve;
+    private $nbChartProven;
 
     /**
-     * Set idMembre
+     * Set idUser
      *
-     * @param integer $idMembre
-     * @return UserSerie
-     */
-    public function setIdMembre($idMembre)
-    {
-        $this->idMembre = $idMembre;
-        return $this;
-    }
-
-    /**
-     * Get idMembre
-     *
-     * @return integer
-     */
-    public function getIdMembre()
-    {
-        return $this->idMembre;
-    }
-
-    /**
-     * Set idGroupe
-     *
-     * @param integer $idGroupe
+     * @param integer $idUser
      * @return UserGroup
      */
-    public function setIdGroupe($idGroupe)
+    public function setIdUser($idUser)
     {
-        $this->idGroupe = $idGroupe;
+        $this->idUser = $idUser;
         return $this;
     }
 
     /**
-     * Get idGroupe
+     * Get idUser
      *
      * @return integer
      */
-    public function getIdGroupe()
+    public function getIdUser()
     {
-        return $this->idGroupe;
+        return $this->idUser;
     }
 
-
     /**
-     * Set rank
+     * Set idGroup
      *
-     * @param integer $rank
-     * @return UserGame
+     * @param integer $idGroup
+     * @return UserGroup
      */
-    public function setRank($rank)
+    public function setIdGroup($idGroup)
     {
-        $this->rank = $rank;
+        $this->idGroup = $idGroup;
         return $this;
     }
 
     /**
-     * Get rank
+     * Get idGroup
      *
      * @return integer
      */
-    public function getRank()
+    public function getIdGroup()
     {
-        return $this->rank;
+        return $this->idGroup;
+    }
+
+
+    /**
+     * Set rankPoint
+     *
+     * @param integer $rankPoint
+     * @return UserGroup
+     */
+    public function setRankPoint($rankPoint)
+    {
+        $this->rankPoint = $rankPoint;
+        return $this;
     }
 
     /**
-     * @todo Replace rank by rankPoint on BDD
-     * @return int
+     * Get rankPoint
+     *
+     * @return integer
      */
     public function getRankPoint()
     {
-        return $this->getRank();
+        return $this->rankPoint;
     }
 
     /**
@@ -354,73 +344,71 @@ class UserGroup
     }
 
     /**
-     * Set pointRecord
+     * Set pointChart
      *
-     * @param integer $pointRecord
-     * @return UserGame
+     * @param integer $pointChart
+     * @return UserGroup
      */
-    public function setPointRecord($pointRecord)
+    public function setPointChart($pointChart)
     {
-        $this->pointRecord = $pointRecord;
+        $this->pointChart = $pointChart;
         return $this;
     }
 
     /**
-     * Get pointRecord
+     * Get pointChart
      *
      * @return integer
      */
-    public function getPointRecord()
+    public function getPointChart()
     {
-        return $this->pointRecord;
+        return $this->pointChart;
     }
 
-
     /**
-     * Set nbRecord
+     * Set nbChart
      *
-     * @param integer $nbRecord
-     * @return UserGame
+     * @param integer $nbChart
+     * @return UserGroup
      */
-    public function setNbRecord($nbRecord)
+    public function setNbChart($nbChart)
     {
-        $this->nbRecord = $nbRecord;
+        $this->nbChart = $nbChart;
         return $this;
     }
 
     /**
-     * Get nbRecord
+     * Get nbChart
      *
      * @return integer
      */
-    public function getNbRecord()
+    public function getNbChart()
     {
-        return $this->nbRecord;
+        return $this->nbChart;
     }
 
 
     /**
-     * Set nbRecordProuve
+     * Set nbChartProven
      *
-     * @param integer $nbRecordProuve
-     * @return UserGame
+     * @param integer $nbChartProven
+     * @return UserGroup
      */
-    public function setNbRecordProuve($nbRecordProuve)
+    public function setNbChartProven($nbChartProven)
     {
-        $this->nbRecordProuve = $nbRecordProuve;
+        $this->nbChartProven = $nbChartProven;
         return $this;
     }
 
     /**
-     * Get nbRecordProuve
+     * Get nbChartProven
      *
      * @return integer
      */
-    public function getNbRecordProuve()
+    public function getNbChartProven()
     {
-        return $this->nbRecordProuve;
+        return $this->nbChartProven;
     }
-
 
 
     /**
@@ -432,7 +420,7 @@ class UserGroup
     public function setGroup(Group $group = null)
     {
         $this->group = $group;
-        $this->setIdGroupe($group->getIdGroupe());
+        $this->setIdGroup($group->getIdGroup());
         return $this;
     }
 
@@ -456,7 +444,7 @@ class UserGroup
     public function setUser(User $user = null)
     {
         $this->user = $user;
-        $this->setIdMembre($user->getIdMembre());
+        $this->setIdUser($user->getIdUser());
         return $this;
     }
 
@@ -515,7 +503,6 @@ class UserGroup
     public function preInsert()
     {
         $this->setRankMedal(0);
-
     }
 
 }

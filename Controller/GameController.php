@@ -66,7 +66,7 @@ class GameController extends Controller
 
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingPoints(
             array(
-                'idJeu' => $id,
+                'idGame' => $id,
                 'maxRank' => 5,
                 'idLogin' => null,
             )
@@ -74,7 +74,7 @@ class GameController extends Controller
 
         $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingMedals(
             array(
-                'idJeu' => $id,
+                'idGame' => $id,
                 'maxRank' => 5,
                 'idLogin' => null,
             )
@@ -83,7 +83,7 @@ class GameController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addItem($game->getLibJeu());
+        $breadcrumbs->addItem($game->getLibGame());
 
         return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', array('game' => $game, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals));
     }
@@ -99,7 +99,7 @@ class GameController extends Controller
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingPoints(
             array(
-                'idJeu' => $id,
+                'idGame' => $id,
                 'idLogin' => null,
             )
         );
@@ -107,7 +107,7 @@ class GameController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibJeu(), 'vgr_game_index', ['id' => $id]);
+        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.pointranking.full');
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-points.html.twig', array('rankingPoints' => $rankingPoints));
@@ -124,7 +124,7 @@ class GameController extends Controller
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
         $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingMedals(
             array(
-                'idJeu' => $id,
+                'idGame' => $id,
                 'idLogin' => null,
             )
         );
@@ -132,7 +132,7 @@ class GameController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibJeu(), 'vgr_game_index', ['id' => $id]);
+        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.medalranking.full');
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));

@@ -14,7 +14,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
 class UserChartRepository extends EntityRepository
 {
     /**
-     * @param array $params idRecord|idLogin|limit|maxRank
+     * @param array $params idChart|idLogin|limit|maxRank
      * @todo
      * => Join etat to keep only boolRanking = 1
      * => If idLogin, search for the rank and display a range of -5 and +5
@@ -27,11 +27,11 @@ class UserChartRepository extends EntityRepository
 
         $rsm = new ResultSetMapping;
         $rsm->addEntityResult('VideoGamesRecords\CoreBundle\Entity\UserChart', 'uc', 'uc');
-        $rsm->addFieldResult('uc','idRecord','idRecord');
-        $rsm->addFieldResult('uc','idMembre','idMembre');
+        $rsm->addFieldResult('uc','idChart','idChart');
+        $rsm->addFieldResult('uc','idUser','idUser');
         $rsm->addFieldResult('uc','rank','rank');
         $rsm->addFieldResult('uc','nbEqual','nbEqual');
-        $rsm->addFieldResult('uc','pointRecord','pointRecord');
+        $rsm->addFieldResult('uc','pointChart','pointChart');
         $rsm->addFieldResult('uc','idEtat','idEtat');
         $rsm->addFieldResult('uc','dateModif','dateModif');
         //$rsm->addJoinedEntityResult('VideoGamesRecords\CoreBundle\Entity\User' , 'u', 'uc', 'user');
@@ -46,12 +46,12 @@ class UserChartRepository extends EntityRepository
         $fields[] = 'uc.*';
         $fields[] = 'u.*';
 
-        $where[] = 'uc.idRecord = :idRecord';
-        $parameters['idRecord'] = $params['idRecord'];
+        $where[] = 'uc.idChart = :idChart';
+        $parameters['idChart'] = $params['idChart'];
 
         foreach ($chart->getLibs() as $lib) {
-            $columnName = "value_" . $lib->getIdLibRecord();
-            $fields[] = "(SELECT value FROM vgr_librecord_membre WHERE idLibRecord=" . $lib->getIdLibRecord() . " AND idMembre = uc.idMembre) AS $columnName";
+            $columnName = "value_" . $lib->getIdLibChart();
+            $fields[] = "(SELECT value FROM vgr_user_chartlib WHERE idLibchart=" . $lib->getIdLibChart() . " AND idUser = uc.idUser) AS $columnName";
             $orders[] = $columnName . " " . $lib->getType()->getOrderBy();
             $rsm->addScalarResult($columnName, $columnName);
         }
@@ -69,7 +69,7 @@ class UserChartRepository extends EntityRepository
 
 
         $sql = sprintf("SELECT %s
-            FROM vgr_record_membre uc INNER JOIN t_membre u ON uc.idMembre = u.idMembre
+            FROM vgr_user_chart uc INNER JOIN t_membre u ON uc.idUser = u.idUser
             WHERE %s ORDER BY %s",
             implode(',', $fields),
             implode(' AND ', $where),
@@ -85,92 +85,6 @@ class UserChartRepository extends EntityRepository
         return $query->getResult();
 
     }
-
-
-
-    /*public function getRanking($params)
-    {
-        $bind = array('idRecord' => $params['idRecord']);
-        $select = array();
-        $orderBy = array();
-        $rankingColumn = array();
-
-        $columns = array(
-            'id' => 'idMembre',
-            'rank',
-            'oldRank' => 'rank',
-            'oldNbEqual' => 'nbEqual',
-            'pointRecord',
-            'idEtat',
-            'dateModif',
-            'preuveImage',
-            'idVideo',
-            'isNew' => New Expression("(ADDDATE(a.dateModif, '1 day') > NOW())")
-        );
-
-
-
-        $select = new Select();
-        $select->from(array('a' => 'vgr_record_membre'))
-            ->join(
-                array('b' => 'view_membre'),
-                'a.idMembre = b.idMembre',
-                array('pseudo', 'idMembre', 'avatar', 'tag', 'libPays_en', 'libPays_fr', 'classPays', 'codeIso'),
-                $select::JOIN_INNER
-            )
-            ->join(
-                array('c' => 'vgr_etatrecord'),
-                'a.idEtat = c.idEtat',
-                array('boolRanking'),
-                $select::JOIN_INNER
-            )
-            ->where(
-                array(
-                    'boolRanking' => 1,
-                    'idRecord' => $params['idRecord'],
-                )
-            );
-
-
-        $myRow = null;
-        if ( (array_key_exists('idLogin', $params)) && ($params['idLogin'] !=  null) ) {
-            $myRow = $this->getRow($params['idRecord'], $params['idLogin']);
-        }
-
-
-        if ( (array_key_exists('maxRank', $params)) && $myRow ) {
-            $select->where
-                ->nest
-                ->lessThanOrEqualTo('rank', $params['maxRank'])
-                ->or
-                ->between('rank', $myRow->rank - 5, $myRow->rank + 5)
-                ->unest;
-        } else if (array_key_exists('maxRank', $params)) {
-            $select->where->lessThanOrEqualTo('rank', $params['maxRank']);
-        }
-
-        foreach ($params['librecordList'] as $librecord) {
-            $columns["value_$librecord->idLibRecord"] = New Expression(
-                "(select value
-                from vgr_librecord_membre
-                WHERE idLibRecord=" . $librecord->idLibRecord . " AND idMembre=id)");
-            $select->order("value_$librecord->idLibRecord " . $librecord->orderBy);
-            $rankingColumn[] = 'value_' . $librecord->idLibRecord;
-        }
-
-        $select->columns($columns);
-
-        $select->order('c.idEtat DESC')
-            ->order('preuveImage ASC')
-            ->order('dateModif ASC');
-
-        $adapter = $this->getAdapter();
-        $sql = new Sql($adapter);
-        $selectString = $sql->getSqlStringForSqlObject($select);
-        $results = $adapter->query($selectString, $adapter::QUERY_MODE_EXECUTE);
-        return $results;
-
-    }*/
 
 
 }

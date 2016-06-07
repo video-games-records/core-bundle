@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_record", indexes={@ORM\Index(name="idGroupe", columns={"idGroupe"}), @ORM\Index(name="idxStatut", columns={"statut"}), @ORM\Index(name="idxStatutTeam", columns={"statutTeam"}), @ORM\Index(name="idxLibRecordFr", columns={"libRecord_fr"}), @ORM\Index(name="idxLibRecordEn", columns={"libRecord_en"}), @ORM\Index(name="idRecord", columns={"idRecord"})})
+ * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxLibRecordFr", columns={"libRecordFr"}), @ORM\Index(name="idxLibRecordEn", columns={"libRecordEn"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
  */
 class Chart
@@ -17,46 +17,46 @@ class Chart
     /**
      * @var integer
      *
-     * @ORM\Column(name="idRecord", type="integer")
+     * @ORM\Column(name="idChart", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idRecord;
+    private $idChart;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idGroupe", type="integer", nullable=false)
+     * @ORM\Column(name="idGroup", type="integer", nullable=false)
      */
-    private $idGroupe;
+    private $idGroup;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="libRecord_fr", type="string", length=100, nullable=true)
+     * @ORM\Column(name="libChartFr", type="string", length=100, nullable=true)
      */
-    private $libRecord_fr;
+    private $libChartFr;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="libRecord_en", type="string", length=100, nullable=false)
+     * @ORM\Column(name="libChartEn", type="string", length=100, nullable=false)
      */
-    private $libRecord_en;
+    private $libChartEn;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="statut", type="string", nullable=false)
+     * @ORM\Column(name="statusUser", type="string", nullable=false)
      */
-    private $statut;
+    private $statusUser;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="statutTeam", type="string", nullable=false)
+     * @ORM\Column(name="statusTeam", type="string", nullable=false)
      */
-    private $statutTeam;
+    private $statusTeam;
 
     /**
      * @var integer
@@ -84,7 +84,7 @@ class Chart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", inversedBy="charts")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGroupe", referencedColumnName="idGroupe")
+     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="idGroup")
      * })
      */
     private $group;
@@ -95,125 +95,119 @@ class Chart
     private $libs;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\User", inversedBy="idRecord")
-     * @ORM\JoinTable(name="vgr_record_membre",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idRecord", referencedColumnName="idRecord")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idMembre", referencedColumnName="idMembre")
-     *   }
-     * )
-     */
-
-    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->idMembre = new ArrayCollection();
         $this->libs = new ArrayCollection();
     }
 
-
     /**
-     * Get libRecord
+     * Get idChart
      *
-     * @return string
+     * @return integer
      */
-    public function getLibRecord()
+    public function getIdChart()
     {
-        return $this->libRecord_en;
+        return $this->idChart;
     }
 
     /**
-     * Set libRecord_fr
+     * Get libChart
      *
-     * @param string $libRecordFr
+     * @return string
+     */
+    public function getLibChart()
+    {
+        return $this->libChartEn;
+    }
+
+    /**
+     * Set libChartFr
+     *
+     * @param string $libChartFr
      * @return Chart
      */
-    public function setLibRecordFr($libRecordFr)
+    public function setLibChartFr($libChartFr)
     {
-        $this->libRecord_fr = $libRecordFr;
+        $this->libChartFr = $libChartFr;
         return $this;
     }
 
     /**
-     * Get libRecord_fr
+     * Get libCharFr
      *
      * @return string
      */
-    public function getLibRecordFr()
+    public function getLibChartFr()
     {
-        return $this->libRecord_fr;
+        return $this->libChartFr;
     }
 
     /**
-     * Set libRecord_en
+     * Set libChartEn
      *
-     * @param string $libRecordEn
+     * @param string $libChartEn
      * @return Chart
      */
-    public function setLibRecordEn($libRecordEn)
+    public function setLibChartEn($libChartEn)
     {
-        $this->libRecord_en = $libRecordEn;
+        $this->libChartEn = $libChartEn;
         return $this;
     }
 
     /**
-     * Get libRecord_en
+     * Get libChartEn
      *
      * @return string
      */
-    public function getLibRecordEn()
+    public function getLibChartdEn()
     {
-        return $this->libRecord_en;
+        return $this->libChartEn;
     }
 
     /**
-     * Set statut
+     * Set statusUser
      *
-     * @param string $statut
+     * @param string $statusUser
      * @return Chart
      */
-    public function setStatut($statut)
+    public function setStatusUser($statusUser)
     {
-        $this->statut = $statut;
+        $this->statusUser = $statusUser;
         return $this;
     }
 
     /**
-     * Get statut
+     * Get status
      *
      * @return string
      */
-    public function getStatut()
+    public function getStatusUser()
     {
-        return $this->statut;
+        return $this->statusUser;
     }
 
     /**
-     * Set statutTeam
+     * Set statusTeam
      *
-     * @param string $statutTeam
+     * @param string $statusTeam
      * @return Chart
      */
-    public function setStatutTeam($statutTeam)
+    public function setStatusTeam($statusTeam)
     {
-        $this->statutTeam = $statutTeam;
+        $this->statusTeam = $statusTeam;
         return $this;
     }
 
     /**
-     * Get statutTeam
+     * Get statusTeam
      *
      * @return string
      */
-    public function getStatutTeam()
+    public function getStatusTeam()
     {
-        return $this->statutTeam;
+        return $this->statusTeam;
     }
 
     /**
@@ -284,16 +278,6 @@ class Chart
     }
 
     /**
-     * Get idRecord
-     *
-     * @return integer
-     */
-    public function getIdRecord()
-    {
-        return $this->idRecord;
-    }
-
-    /**
      * Set group
      *
      * @param Group $group
@@ -341,14 +325,6 @@ class Chart
         return $this->libs;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getLibsWithType()
-    {
-
-    }
 
 
 

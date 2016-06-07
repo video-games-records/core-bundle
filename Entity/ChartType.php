@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_librecord_type", indexes={@ORM\Index(name="idxIdType", columns={"idType"}) })
+ * @ORM\Table(name="vgr_charttype", indexes={@ORM\Index(name="idxIdType", columns={"idType"}) })
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartTypeRepository")
  */
 class ChartType
@@ -25,23 +25,23 @@ class ChartType
     /**
      * @var string
      *
-     * @ORM\Column(name="lib_fr", type="string", length=50, nullable=true)
+     * @ORM\Column(name="libFr", type="string", length=50, nullable=true)
      */
-    private $lib_fr;
+    private $libFr;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lib_en", type="string", length=50, nullable=true)
+     * @ORM\Column(name="libEn", type="string", length=50, nullable=true)
      */
-    private $lib_en;
+    private $libEn;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nomType", type="string", length=100, nullable=true)
+     * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
-    private $nomType;
+    private $name;
 
     /**
      * @var string
@@ -64,7 +64,7 @@ class ChartType
      */
     public function getLib()
     {
-        return $this->lib_en;
+        return $this->libEn;
     }
 
     /**
