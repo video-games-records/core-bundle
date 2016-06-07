@@ -47,7 +47,7 @@ class Ranking
      *
      * @return array
      */
-    public static function addRank($array, $key = 'rank', $columns = array('pointRecord'), $boolEqual = false)
+    public static function addRank($array, $key = 'rank', $columns = array('pointChart'), $boolEqual = false)
     {
         $rank = 1;
         $compteur = 0;
@@ -85,6 +85,57 @@ class Ranking
             $array[$i] = $row;
         }
         unset($nbEqual);
+        return $array;
+    }
+
+
+    /**
+     * Add a rank for chart ranking
+     *
+     * @param array $array
+     * @param string $key
+     * @param array $columns
+     * @param bool $boolEqual
+     * @todo Add Equal Logic
+     *
+     * @return array
+     */
+    public static function addChartRank($array, $key = 'rank', $columns = array('pointChart'), $boolEqual = false)
+    {
+        $rank = 1;
+        $compteur = 0;
+        $nbEqual = 1;
+        $nb = count($array);
+
+        for ($i=0; $i<=$nb-1; $i++) {
+
+            if ($i >= 1) {
+                $row1 = $array[$i-1];
+                $row2 = $array[$i];
+                $isEqual = true;
+                foreach ($columns as $column) {
+                    if ($row1[$column] != $row2[$column]) {
+                        $isEqual = false;
+                        break;
+                    }
+                }
+                if ($isEqual) {
+                    $compteur++;
+                    $nbEqual = $nbEqual + 1;
+                } else {
+                    $rank = $rank + $compteur + 1;
+                    $compteur = 0;
+                    $nbEqual = 1;
+                }
+            }
+
+            $userChart = $array[$i]['uc'];
+            $userChart->setRank($rank);
+            if ($boolEqual) {
+                $userChart->setNbEqual($nbEqual);
+            }
+            $array[$i]['uc'] = $userChart;
+        }
         return $array;
     }
 

@@ -42,6 +42,7 @@ class UserChartRepository extends EntityRepository
         $orders = array();
         $where = array();
         $parameters = array();
+        $columns = array();
 
         $fields[] = 'uc.*';
         $fields[] = 'u.*';
@@ -51,8 +52,9 @@ class UserChartRepository extends EntityRepository
 
         foreach ($chart->getLibs() as $lib) {
             $columnName = "value_" . $lib->getIdLibChart();
-            $fields[] = "(SELECT value FROM vgr_user_chartlib WHERE idLibchart=" . $lib->getIdLibChart() . " AND idUser = uc.idUser) AS $columnName";
+            $fields[] = "(SELECT value FROM vgr_user_chartlib WHERE idLibChart=" . $lib->getIdLibChart() . " AND idUser = uc.idUser) AS $columnName";
             $orders[] = $columnName . " " . $lib->getType()->getOrderBy();
+            $columns[] = $columnName;
             $rsm->addScalarResult($columnName, $columnName);
         }
 
@@ -66,6 +68,7 @@ class UserChartRepository extends EntityRepository
             $parameters['maxRank'] = $params['maxRank'];
         }
 
+        $where[] = 'uc.rank IS NOT NULL'; //----- Disabeld post
 
 
         $sql = sprintf("SELECT %s
@@ -82,7 +85,55 @@ class UserChartRepository extends EntityRepository
         }
 
         //var_dump($query->getResult()); exit;
-        return $query->getResult();
+        $result = $query->getResult();
+
+        $list = array();
+        foreach ($result as $row) {
+            $list[] = $row;
+        }
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addChartRank($list, 'rank', $columns, true);
+
+        return $list;
+
+    }
+
+
+    /**
+     * @param $idChart
+     * @todo disabled post (Rank is not null)
+     */
+    public function maj($idChart)
+    {
+        $chart = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($idChart);
+        $ranking = $this->getRanking(
+            array(
+                'idChart' => $idChart,
+                'chart' => $chart,
+            )
+        );
+
+        //----- Array of pointChart
+        $pointsChart = \VideoGamesRecords\CoreBundle\Tools\Ranking::arrayPointRecord(count($ranking));
+
+        foreach ($ranking as $k => $row) {
+
+            $userChart = $row['uc'];
+            //----- If equal
+            if ($userChart->getNbEqual() == 1) {
+                $pointChart = $pointsChart[$userChart->getRank()];
+            } else {
+                $pointChart = (int)(array_sum(
+                        array_slice(array_values($pointsChart), $userChart->getRank() - 1, $userChart->getNbEqual())
+                    ) / $userChart->getNbEqual());
+            }
+            $userChart->setPointChart($pointChart);
+
+
+            $this->_em->persist($userChart);
+            $this->_em->flush($userChart);
+
+            //@todo LOST POSITION
+        }
 
     }
 

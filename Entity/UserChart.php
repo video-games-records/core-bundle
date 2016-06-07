@@ -64,6 +64,13 @@ class UserChart
     private $idEtat;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="isTopScore", type="integer", nullable=false)
+     */
+    private $isTopScore;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
@@ -241,6 +248,28 @@ class UserChart
     }
 
     /**
+     * Set isTopScore
+     *
+     * @param integer $isTopScore
+     * @return UserChart
+     */
+    public function setIsTopScore($isTopScore)
+    {
+        $this->isTopScore = $isTopScore;
+        return $this;
+    }
+
+    /**
+     * Get isTopScore
+     *
+     * @return integer
+     */
+    public function getIsTopScore()
+    {
+        return $this->isTopScore;
+    }
+
+    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
@@ -363,9 +392,22 @@ class UserChart
     {
         $this->setNbEqual(0);
         $this->setPointRecord(0);
+        $this->setRank(10000);
         $this->setDateCreation(new \DateTime());
         $this->setDateModification(new \DateTime());
     }
 
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        if ($this->getRank() == 1) {
+            $this->setIsTopScore(1);
+        } else {
+            $this->setIsTopScore(0);
+        }
+    }
 
 }
