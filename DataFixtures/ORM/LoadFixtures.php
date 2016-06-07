@@ -1,7 +1,10 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\DataFixtures\ORM;
 
+use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Group;
+use VideoGamesRecords\CoreBundle\Entity\Serie;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -24,42 +27,69 @@ class LoadFixtures implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $this->loadSeries($manager);
         $this->loadGames($manager);
     }
 
+
+    /**
+     * @param ObjectManager $manager
+     */
+    private function loadSeries(ObjectManager $manager)
+    {
+        $serie = new Serie();
+        $serie->setLibSerie('Forza Motosport');
+        $manager->persist($serie);
+        $serie = new Serie();
+        $serie->setLibSerie('Mario Kart');
+        $manager->persist($serie);
+        $manager->flush();
+    }
+
+
+    /**
+     * @param ObjectManager $manager
+     */
     private function loadGames(ObjectManager $manager)
     {
         $list = array(
             array(
-                'libJeuEn' => 'Burnout 2',
+                'libGameEn' => 'Burnout 2',
             ),
             array(
-                'libJeuEn' => 'Mario Kart 8',
+                'libGameEn' => 'Mario Kart 8',
+                'idSerie' => 2,
             ),
             array(
-                'libJeuEn' => 'Forza Motosport 4',
+                'libGameEn' => 'Forza Motosport 4',
+                'idSerie' => 1,
             ),
             array(
-                'libJeuEn' => 'Forza Motosport 3',
+                'libGameEn' => 'Forza Motosport 3',
+                'idSerie' => 1,
             ),
             array(
-                'libJeuEn' => 'Sega Rallye',
+                'libGameEn' => 'Sega Rallye',
             ),
             array(
-                'libJeuEn' => 'Gran Turismo',
+                'libGameEn' => 'Gran Turismo',
             ),
             array(
-                'libJeuEn' => 'Jet Set Radio',
+                'libGameEn' => 'Jet Set Radio',
             ),
             array(
-                'libJeuEn' => 'Burnout Paradise',
+                'libGameEn' => 'Mario Kart Double Dash',
+                'idSerie' => 2,
             ),
         );
 
         foreach ($list as $row) {
             $game = new Game();
-            $game->setLibGameEn($row['libJeuEn']);
-            $game->setLibGameFr(isset($row['libJeuFr']) ? $row['libJeuFr'] : $row['libJeuEn']);
+            $game->setLibGameEn($row['libGameEn']);
+            if (isset($row['idSerie'])) {
+                $serie = $manager->getReference('VideoGamesRecords\CoreBundle\Entity\Serie', $row['idSerie']);
+                $game->setSerie($serie);
+            }
             $manager->persist($game);
         }
 

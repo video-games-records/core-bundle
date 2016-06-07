@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxLibGameFr", columns={"libGameFr"}), @ORM\Index(name="idxLibGameEn", columns={"libGameEn"}), @ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
+ * @ORM\HasLifecycleCallbacks
  * @todo check etat / imagePlateforme / ordre
  */
 class Game
@@ -68,37 +69,30 @@ class Game
     private $dateActivation;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="imagePlateForme", type="text", length=65535, nullable=false)
-     */
-    private $imagePlateforme;
-
-    /**
      * @var boolean
      *
-     * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
+     * @ORM\Column(name="boolDlc", type="boolean", nullable=false, options={"default":0})
      */
     private $boolDlc;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbChart", type="integer", nullable=false)
+     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
      */
     private $nbChart;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbPost", type="integer", nullable=false)
+     * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default":0})
      */
     private $nbPost;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbUser", type="integer", nullable=false)
+     * @ORM\Column(name="nbUser", type="integer", nullable=false, options={"default":0})
      */
     private $nbUser;
 
@@ -108,6 +102,13 @@ class Game
      * @ORM\Column(name="ordre", type="integer", nullable=true)
      */
     private $ordre;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idSerie", type="integer", nullable=true)
+     */
+    private $idSerie;
 
     /**
      * @var \DateTime
@@ -131,7 +132,7 @@ class Game
      *   @ORM\JoinColumn(name="idSerie", referencedColumnName="idSerie")
      * })
      */
-    private $idSerie;
+    private $serie;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game")
@@ -444,6 +445,30 @@ class Game
     }
 
     /**
+     * Set idSerie
+     *
+     * @param integer $idSerie
+     * @return Game
+     */
+    public function setIdSerie($idSerie)
+    {
+        $this->idSerie = $idSerie;
+
+        return $this;
+    }
+
+    /**
+     * Get idSerie
+     *
+     * @return integer
+     */
+    public function getIdSerie()
+    {
+        return $this->idSerie;
+    }
+
+
+    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
@@ -490,15 +515,15 @@ class Game
     }
 
     /**
-     * Set idSerie
+     * Set serie
      *
-     * @param Serie $idSerie
+     * @param Serie $serie
      * @return Game
      */
-    public function setIdSerie(Serie $idSerie = null)
+    public function setSerie(Serie $serie = null)
     {
-        $this->idSerie = $idSerie;
-
+        $this->serie = $serie;
+        $this->setIdSerie($serie->getIdSerie());
         return $this;
     }
 
@@ -507,9 +532,9 @@ class Game
      *
      * @return Serie
      */
-    public function getIdSerie()
+    public function getSerie()
     {
-        return $this->idSerie;
+        return $this->serie;
     }
 
     /**
@@ -537,4 +562,21 @@ class Game
     {
         return $this->groups;
     }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function preInsert()
+    {
+        $this->setStatus('INACTIF');
+        $this->setEtat('CREATION');
+        $this->setBoolDlc(0);
+        $this->setNbChart(0);
+        $this->setNbPost(0);
+        $this->setNbUser(0);
+        $this->setDateCreation(new \DateTime());
+        $this->setDateModification(new \DateTime());
+    }
+
 }

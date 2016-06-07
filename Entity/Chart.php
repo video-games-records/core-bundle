@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxLibRecordFr", columns={"libRecordFr"}), @ORM\Index(name="idxLibRecordEn", columns={"libRecordEn"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
+ * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatusUser", columns={"statusUser"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxLibChartFr", columns={"libChartFr"}), @ORM\Index(name="idxLibChartEn", columns={"libChartEn"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
  */
 class Chart
