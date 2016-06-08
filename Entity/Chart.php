@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatusUser", columns={"statusUser"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxLibChartFr", columns={"libChartFr"}), @ORM\Index(name="idxLibChartEn", columns={"libChartEn"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Chart
 {
@@ -103,6 +104,19 @@ class Chart
     }
 
     /**
+     * Set idChart
+     *
+     * @param integer $idChart
+     * @return Chart
+     */
+    public function setIdChart($idChart)
+    {
+        $this->idChart = $idChart;
+
+        return $this;
+    }
+
+    /**
      * Get idChart
      *
      * @return integer
@@ -110,6 +124,29 @@ class Chart
     public function getIdChart()
     {
         return $this->idChart;
+    }
+
+    /**
+     * Set idGroup
+     *
+     * @param integer $idGroup
+     * @return Chart
+     */
+    public function setIdGroup($idGroup)
+    {
+        $this->idGroup = $idGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get idGroup
+     *
+     * @return integer
+     */
+    public function getIdGroup()
+    {
+        return $this->idGroup;
     }
 
     /**
@@ -286,6 +323,7 @@ class Chart
     public function setGroup(Group $group = null)
     {
         $this->group = $group;
+        $this->setIdGroup($group->getIdGroup());
         return $this;
     }
 
@@ -326,6 +364,16 @@ class Chart
     }
 
 
-
+    /**
+     * @ORM\PrePersist
+     */
+    public function preInsert()
+    {
+        $this->setStatusUser('NORMAL');
+        $this->setStatusTeam('NORMAL');
+        $this->setNbPost(0);
+        $this->setDateCreation(new \DateTime());
+        $this->setDateModification(new \DateTime());
+    }
 
 }

@@ -10,13 +10,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="vgr_group", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxLibGroupFr", columns={"libGroupFr"}), @ORM\Index(name="idxLibGroupEn", columns={"libGroupEn"}), @ORM\Index(name="idxBoolDlc", columns={"boolDlc"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Group
 {
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="idGroup", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -25,7 +25,6 @@ class Group
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="idGame", type="integer", nullable=false)
      */
     private $idGame;
@@ -33,63 +32,54 @@ class Group
 
     /**
      * @var string
-     *
      * @ORM\Column(name="libGroupFr", type="string", length=100, nullable=true)
      */
     private $libGroupFr;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="libGroupEn", type="string", length=100, nullable=false)
      */
     private $libGroupEn;
 
     /**
      * @var boolean
-     *
      * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
      */
     private $boolDlc;
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
     private $nbChart;
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="nbPost", type="integer", nullable=false)
      */
     private $nbPost;
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="nbUser", type="integer", nullable=false)
      */
     private $nbUser;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
      */
     private $dateCreation;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="dateModification", type="datetime", nullable=false)
      */
     private $dateModification;
 
     /**
      * @var Game
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="groups")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGame", referencedColumnName="idGame")
@@ -110,9 +100,20 @@ class Group
         $this->charts = new ArrayCollection();
     }
 
+
+    /**
+     * Set idGroup
+     * @param integer $idGroup
+     * @return Group
+     */
+    public function setIdGroup($idGroup)
+    {
+        $this->idGroup = $idGroup;
+        return $this;
+    }
+
     /**
      * Get idGroup
-     *
      * @return integer
      */
     public function getIdGroup()
@@ -123,7 +124,6 @@ class Group
 
     /**
      * Get libGroup
-     *
      * @return string
      */
     public function getLibGroup()
@@ -133,7 +133,6 @@ class Group
 
     /**
      * Set libGroupFr
-     *
      * @param string $libGroupFr
      * @return Group
      */
@@ -146,7 +145,6 @@ class Group
 
     /**
      * Get libGroupFr
-     *
      * @return string
      */
     public function getLibGroupFr()
@@ -156,7 +154,6 @@ class Group
 
     /**
      * Set libGroupEn
-     *
      * @param string $libGroupEn
      * @return Group
      */
@@ -169,7 +166,6 @@ class Group
 
     /**
      * Get libGroupEn
-     *
      * @return string
      */
     public function getLibGroupEn()
@@ -179,7 +175,6 @@ class Group
 
     /**
      * Set boolDlc
-     *
      * @param boolean $boolDlc
      * @return Game
      */
@@ -192,7 +187,6 @@ class Group
 
     /**
      * Get boolDlc
-     *
      * @return boolean
      */
     public function getBoolDlc()
@@ -202,7 +196,6 @@ class Group
 
     /**
      * Set nbChart
-     *
      * @param integer $nbChart
      * @return Game
      */
@@ -215,7 +208,6 @@ class Group
 
     /**
      * Get nbChart
-     *
      * @return integer
      */
     public function getNbChart()
@@ -225,7 +217,6 @@ class Group
 
     /**
      * Set nbPost
-     *
      * @param integer $nbPost
      * @return Group
      */
@@ -238,7 +229,6 @@ class Group
 
     /**
      * Get nbPost
-     *
      * @return integer
      */
     public function getNbPost()
@@ -248,7 +238,6 @@ class Group
 
     /**
      * Set nbUser
-     *
      * @param integer $nbUser
      * @return Game
      */
@@ -261,7 +250,6 @@ class Group
 
     /**
      * Get nbUser
-     *
      * @return integer
      */
     public function getNbUser()
@@ -271,7 +259,6 @@ class Group
 
     /**
      * Set dateCreation
-     *
      * @param \DateTime $dateCreation
      * @return Group
      */
@@ -284,7 +271,6 @@ class Group
 
     /**
      * Get dateCreation
-     *
      * @return \DateTime
      */
     public function getDateCreation()
@@ -294,7 +280,6 @@ class Group
 
     /**
      * Set dateModification
-     *
      * @param \DateTime $dateModification
      * @return Group
      */
@@ -307,7 +292,6 @@ class Group
 
     /**
      * Get dateModification
-     *
      * @return \DateTime
      */
     public function getDateModification()
@@ -318,20 +302,18 @@ class Group
 
     /**
      * Set game
-     *
      * @param Game $game
      * @return Group
      */
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-
+        $this->setIdGame($game->getIdGame());
         return $this;
     }
 
     /**
      * Get game
-     *
      * @return Game
      */
     public function getGame()
@@ -363,6 +345,42 @@ class Group
     public function getCharts()
     {
         return $this->charts;
+    }
+
+    /**
+     * Set idGame
+     *
+     * @param integer $idGame
+     * @return Group
+     */
+    public function setIdGame($idGame)
+    {
+        $this->idGame = $idGame;
+
+        return $this;
+    }
+
+    /**
+     * Get idGame
+     * @return integer
+     */
+    public function getIdGame()
+    {
+        return $this->idGame;
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function preInsert()
+    {
+        $this->setBoolDlc(0);
+        $this->setNbChart(0);
+        $this->setNbPost(0);
+        $this->setNbUser(0);
+        $this->setDateCreation(new \DateTime());
+        $this->setDateModification(new \DateTime());
     }
 
 }

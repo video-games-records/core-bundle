@@ -148,6 +148,19 @@ class Game
     }
 
     /**
+     * Set idGame
+     *
+     * @param integer $idGame
+     * @return Game
+     */
+    public function setIdGame($idGame)
+    {
+        $this->idGame = $idGame;
+        return $this;
+    }
+
+
+    /**
      * Get idGame
      *
      * @return integer
