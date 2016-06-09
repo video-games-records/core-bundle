@@ -131,8 +131,6 @@ class UserChartRepository extends EntityRepository
 
             $this->_em->persist($userChart);
             $this->_em->flush($userChart);
-
-            //@todo LOST POSITION
         }
 
     }

@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
  * UserChart
@@ -94,7 +95,6 @@ class UserChart
     /**
      * @var User
      *
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
@@ -130,7 +130,7 @@ class UserChart
      *
      * @return integer
      */
-    public function geIdUser()
+    public function getIdUser()
     {
         return $this->idUser;
     }
@@ -153,7 +153,7 @@ class UserChart
      *
      * @return integer
      */
-    public function geIdChart()
+    public function getIdChart()
     {
         return $this->idChart;
     }
@@ -397,11 +397,11 @@ class UserChart
         $this->setDateModification(new \DateTime());
     }
 
-
     /**
      * @ORM\PreUpdate
+     * @param $event
      */
-    public function preUpdate()
+    public function preUpdate($event)
     {
         if ($this->getRank() == 1) {
             $this->setIsTopScore(1);

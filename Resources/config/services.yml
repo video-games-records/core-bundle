@@ -7,3 +7,8 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+    entity.event_listener.userchart_update:
+        class:  VideoGamesRecords\CoreBundle\EventListener\Entity\UserChartUpdateListener
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate}
+            - { name: doctrine.event_listener, event: postUpdate, method: postUpdate}

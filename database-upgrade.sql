@@ -10,6 +10,7 @@ RENAME TABLE mv_membre_groupe TO vgr_user_group;
 RENAME TABLE vgr_librecord TO vgr_chartlib;
 RENAME TABLE vgr_librecord_type TO vgr_charttype;
 RENAME TABLE vgr_librecord_membre TO vgr_user_chartlib;
+RENAME TABLE vgr_perteposition TO vgr_lostposition;
 
 ALTER TABLE `t_membre` CHANGE `idMembre` `idUser` INT(11) NOT NULL AUTO_INCREMENT;
 
@@ -79,6 +80,12 @@ ALTER TABLE `vgr_user_serie` CHANGE `nbRecordSansDLC` `nbChartWithoutDlc` INT(11
 ALTER TABLE `vgr_user_serie` CHANGE `nbRecordProuveSansDLC` `nbChartProvenWithoutDlc` INT(11) NOT NULL;
 ALTER TABLE `vgr_user_serie` CHANGE `pointJeu` `pointGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_user_serie` CHANGE `nbJeu` `nbGame` INT(11) NOT NULL;
+
+ALTER TABLE `vgr_lostposition` CHANGE `idMembre` `idUser` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_lostposition` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_lostposition` CHANGE `oldPosition` `oldRank` INT(5) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_lostposition` CHANGE `newPosition` `newRank` INT(5) NOT NULL DEFAULT '0';
+
 
 
 
