@@ -93,14 +93,11 @@ class Ranking
      * Add a rank for chart ranking
      *
      * @param array $array
-     * @param string $key
      * @param array $columns
-     * @param bool $boolEqual
-     * @todo Add Equal Logic
      *
      * @return array
      */
-    public static function addChartRank($array, $key = 'rank', $columns = array('pointChart'), $boolEqual = false)
+    public static function addChartRank($array, $columns = array('pointChart'))
     {
         $rank = 1;
         $compteur = 0;
@@ -131,10 +128,17 @@ class Ranking
 
             $userChart = $array[$i]['uc'];
             $userChart->setRank($rank);
-            if ($boolEqual) {
-                $userChart->setNbEqual($nbEqual);
-            }
+            $userChart->setNbEqual($nbEqual);
             $array[$i]['uc'] = $userChart;
+
+            if ($nbEqual >= 2) {
+                for ($k = $i-1; $k >= $i - $nbEqual + 1; $k--) {
+                    $userChart = $array[$k]['uc'];
+                    $userChart->setNbEqual($nbEqual);
+                    $array[$k]['uc'] = $userChart;
+                }
+            }
+
         }
         return $array;
     }

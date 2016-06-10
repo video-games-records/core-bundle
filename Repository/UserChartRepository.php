@@ -91,7 +91,7 @@ class UserChartRepository extends EntityRepository
         foreach ($result as $row) {
             $list[] = $row;
         }
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addChartRank($list, 'rank', $columns, true);
+        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addChartRank($list, $columns);
 
         return $list;
 
@@ -100,7 +100,7 @@ class UserChartRepository extends EntityRepository
 
     /**
      * @param $idChart
-     * @todo disabled post (Rank is not null)
+     * @todo disabled post (Rank is null)
      */
     public function maj($idChart)
     {
@@ -128,12 +128,10 @@ class UserChartRepository extends EntityRepository
             }
             $userChart->setPointChart($pointChart);
 
-
             $this->_em->persist($userChart);
             $this->_em->flush($userChart);
         }
 
     }
-
 
 }
