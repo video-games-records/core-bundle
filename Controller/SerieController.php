@@ -13,7 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class SerieController extends Controller
 {
-
     /**
      * @Route("/ranking-points", name="vgr_serie_ranking_points")
      * @Method("GET")
@@ -68,5 +67,4 @@ class SerieController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));
     }
-
 }

@@ -43,7 +43,6 @@ class Country
     private $idPays;
 
 
-
     /**
      * Set libPays_fr
      *
@@ -60,7 +59,7 @@ class Country
     /**
      * Get libPays_fr
      *
-     * @return string 
+     * @return string
      */
     public function getLibPaysFr()
     {
@@ -83,7 +82,7 @@ class Country
     /**
      * Get libPays_en
      *
-     * @return string 
+     * @return string
      */
     public function getLibPaysEn()
     {
@@ -106,7 +105,7 @@ class Country
     /**
      * Get codeIso
      *
-     * @return string 
+     * @return string
      */
     public function getCodeIso()
     {
@@ -116,7 +115,7 @@ class Country
     /**
      * Get idPays
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdPays()
     {

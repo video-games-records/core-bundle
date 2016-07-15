@@ -50,7 +50,6 @@ class UserChartUpdateListener
                 $this->lostPosition->setChart($em->getReference('VideoGamesRecords\CoreBundle\Entity\Chart', $entity->getIdChart()));
             }
         }
-
     }
 
     /**

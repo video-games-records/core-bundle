@@ -120,6 +120,4 @@ class ChartType
     {
         return count(explode('|', $this->getMask()));
     }
-
-
 }

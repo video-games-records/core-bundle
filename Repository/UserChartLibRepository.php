@@ -37,7 +37,7 @@ class UserChartLibRepository extends EntityRepository
         $result = $query->getQuery()->getResult();
         $data = array();
 
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $data['user_' . $row->getLib()->getIdChart() . '_' . $row->getIdLibChart()] = $row->getValue();
             $values = \VideoGamesRecords\CoreBundle\Tools\Score::getValues($row->getLib()->getType()->getMask(), $row->getValue());
             $i = 1;
@@ -47,8 +47,5 @@ class UserChartLibRepository extends EntityRepository
         }
 
         return $data;
-
     }
-
-
 }

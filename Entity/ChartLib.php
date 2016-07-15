@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ChartLib
 {
-
     /**
      * @var integer
      *
@@ -179,5 +178,4 @@ class ChartLib
     {
         return $this->type;
     }
-
 }

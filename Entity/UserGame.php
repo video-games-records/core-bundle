@@ -589,7 +589,7 @@ class UserGame
         );
 
         if ($this->getRankPoint() <= 3) {
-            return sprintf("class=\"%s\"",$class[$this->getRankPoint()]);
+            return sprintf("class=\"%s\"", $class[$this->getRankPoint()]);
         } else {
             return '';
         }
@@ -608,10 +608,9 @@ class UserGame
         );
 
         if ($this->getRankMedal() <= 3) {
-            return sprintf("class=\"%s\"",$class[$this->getRankMedal()]);
+            return sprintf("class=\"%s\"", $class[$this->getRankMedal()]);
         } else {
             return '';
         }
     }
-
 }

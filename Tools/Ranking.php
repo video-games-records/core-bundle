@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Tools;
 
 class Ranking
 {
-
     /**
      * Order an array
      * @param array $array
@@ -14,17 +13,17 @@ class Ranking
     public static function order($array, $columns)
     {
         $nb = count($array);
-        for ($i=0; $i<=$nb; $i++) {
+        for ($i = 0; $i <= $nb; $i++) {
             $change = false;
-            for ($j=0; $j<$nb-2; $j++) {
+            for ($j = 0; $j < $nb - 2; $j++) {
                 $row1 = $array[$j];
-                $row2 = $array[$j+1];
+                $row2 = $array[$j + 1];
                 foreach ($columns as $column => $order) {
-                    if ( (($order == 'ASC') && ($row1[$column] < $row2[$column])) || (($order == 'DESC') && ($row1[$column] > $row2[$column])) ) {
+                    if ((($order == 'ASC') && ($row1[$column] < $row2[$column])) || (($order == 'DESC') && ($row1[$column] > $row2[$column]))) {
                         break;
-                    } else if ( (($order == 'ASC') && ($row1[$column] > $row2[$column])) || (($order == 'DESC') && ($row1[$column] < $row2[$column])) ) {
+                    } else if ((($order == 'ASC') && ($row1[$column] > $row2[$column])) || (($order == 'DESC') && ($row1[$column] < $row2[$column]))) {
                         $array[$j] = $row2;
-                        $array[$j+1] = $row1;
+                        $array[$j + 1] = $row1;
                         $change = true;
                         break;
                     }
@@ -54,10 +53,9 @@ class Ranking
         $nbEqual = 1;
         $nb = count($array);
 
-        for ($i=0; $i<=$nb-1; $i++) {
-
+        for ($i = 0; $i <= $nb - 1; $i++) {
             if ($i >= 1) {
-                $row1 = $array[$i-1];
+                $row1 = $array[$i - 1];
                 $row2 = $array[$i];
                 $isEqual = true;
                 foreach ($columns as $column) {
@@ -104,10 +102,9 @@ class Ranking
         $nbEqual = 1;
         $nb = count($array);
 
-        for ($i=0; $i<=$nb-1; $i++) {
-
+        for ($i = 0; $i <= $nb - 1; $i++) {
             if ($i >= 1) {
-                $row1 = $array[$i-1];
+                $row1 = $array[$i - 1];
                 $row2 = $array[$i];
                 $isEqual = true;
                 foreach ($columns as $column) {
@@ -132,13 +129,12 @@ class Ranking
             $array[$i]['uc'] = $userChart;
 
             if ($nbEqual >= 2) {
-                for ($k = $i-1; $k >= $i - $nbEqual + 1; $k--) {
+                for ($k = $i - 1; $k >= $i - $nbEqual + 1; $k--) {
                     $userChart = $array[$k]['uc'];
                     $userChart->setNbEqual($nbEqual);
                     $array[$k]['uc'] = $userChart;
                 }
             }
-
         }
         return $array;
     }
@@ -164,8 +160,8 @@ class Ranking
         // 1er
         $liste[1] = $pointRecord;
 
-        for ($i=2; $i<=$p; $i++) {
-            $pointRecord = intval($pointRecord * $nb/100);
+        for ($i = 2; $i <= $p; $i++) {
+            $pointRecord = intval($pointRecord * $nb / 100);
             $liste[$i] = $pointRecord;
             $compteur++;
 
@@ -180,7 +176,7 @@ class Ranking
         }
 
         if ($iNbPartcipant > 200) {
-            for ($i=201;$i<=$iNbPartcipant;$i++) {
+            for ($i = 201; $i <= $iNbPartcipant; $i++) {
                 $liste[$i] = 0;
             }
         }
@@ -203,29 +199,30 @@ class Ranking
 
         $pointRecord = 1000 * pow($p, 1.1);
         $nb = 80;// % différence entre deux positions
-        $maxPercent= 97;
+        $maxPercent = 97;
 
         // 1er
         $liste[1] = $pointRecord;
-        for ($i=2;$i<=$p;$i++) {
-            $pointRecord = $pointRecord * $nb/100.0;
+        for ($i = 2; $i <= $p; $i++) {
+            $pointRecord = $pointRecord * $nb / 100.0;
             $liste[$i] = $pointRecord;
-            $nb += ((100-$nb)/20.0);
-            if ($nb > $maxPercent ) { //97.5 semble optimal
+            $nb += ((100 - $nb) / 20.0);
+            if ($nb > $maxPercent) { //97.5 semble optimal
                 $nb = $maxPercent;
-                $maxPercent += (100-$maxPercent)/80.0;
+                $maxPercent += (100 - $maxPercent) / 80.0;
                 $maxPercent = min(99, $maxPercent);
             }
         }
         if ($iNbPartcipant > 1000) {
-            for ($i=1001;$i<=$iNbPartcipant;$i++) {
+            for ($i = 1001; $i <= $iNbPartcipant; $i++) {
                 $liste[$i] = 0;
             }
         }
 
         foreach ($liste as &$elt) {
             $elt = floor($elt);
-        } unset($elt);
+        }
+        unset($elt);
 
         return $liste;
     }
@@ -279,21 +276,20 @@ class Ranking
 
         //Get formula to first into ranking
         $a = (-1 / (100 + $nbPlayers - $nbFirstEquals)) + 0.0101 + (log($nbPlayers) / 15000);
-        $b = (atan($nbPlayers-25) + M_PI_2) * (25000*($nbPlayers-25)) / (200*M_PI);
-        $f = ceil((10400000 * $a + $b) / (pow($nbFirstEquals, 6/5)));
+        $b = (atan($nbPlayers - 25) + M_PI_2) * (25000 * ($nbPlayers - 25)) / (200 * M_PI);
+        $f = ceil((10400000 * $a + $b) / (pow($nbFirstEquals, 6 / 5)));
 
         $aF = array();
         $aF[1] = $f;
-        for ($i=2; $i<=$nbPlayers; ++$i) {
-            $g = min(0.99, log($i)/(log(71428.6*$i+857142.8)) + 0.7);
-            $aF[$i] = $aF[$i-1] * $g;
+        for ($i = 2; $i <= $nbPlayers; ++$i) {
+            $g = min(0.99, log($i) / (log(71428.6 * $i + 857142.8)) + 0.7);
+            $aF[$i] = $aF[$i - 1] * $g;
         }
 
-        for ($i=0; $i<$nbPlayers; ++$i) {
+        for ($i = 0; $i < $nbPlayers; ++$i) {
             //If a column name to force the 0 value is defined, force the 0 value of the new column if the related
             //column value is 0
-            if (
-                $sColNameToForceZero !== '' &&
+            if ($sColNameToForceZero !== '' &&
                 isset($aArray[$i][$sColNameToForceZero]) &&
                 $aArray[$i][$sColNameToForceZero] == 0
             ) {
@@ -313,11 +309,11 @@ class Ranking
             }
             //If equals (do average of players gives if they weren't tied)
             $aTiedValues = array();
-            for ($j = 0; $j<$aArray[$i][$nameEqualCol]; ++$j) {
-                $aTiedValues[] = $aF[$aArray[$i][$nameRankCol]+$j];
+            for ($j = 0; $j < $aArray[$i][$nameEqualCol]; ++$j) {
+                $aTiedValues[] = $aF[$aArray[$i][$nameRankCol] + $j];
             }
             $value = round(array_sum($aTiedValues) / count($aTiedValues), 0);
-            for ($j = $i, $nb = $i+count($aTiedValues); $j<$nb; ++$j) {
+            for ($j = $i, $nb = $i + count($aTiedValues); $j < $nb; ++$j) {
                 $aArray[$i][$sNameNewCol] = (int)$value;
                 $i++;
             }
@@ -326,5 +322,4 @@ class Ranking
 
         return $aArray;
     }
-
 }

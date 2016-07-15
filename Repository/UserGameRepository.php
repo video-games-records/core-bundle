@@ -22,17 +22,17 @@ class UserGameRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('ug')
             ->join('ug.user', 'u')
-            ->addSelect('u') //----- for using ->getUser() on each result
+            ->addSelect('u')//----- for using ->getUser() on each result
             ->orderBy('ug.rankPoint');
 
         $query->where('ug.idGame= :idGame')
-           ->setParameter('idGame', $params['idGame']);
+            ->setParameter('idGame', $params['idGame']);
 
         if (array_key_exists('limit', $params)) {
             $query->setMaxResults($params['limit']);
         }
 
-        if ( (array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params)) ) {
+        if ((array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params))) {
             $query->andWhere('(ug.rankPoint <= :maxRank OR ug.idUser = :idLogin)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idLogin', $params['idLogin']);
@@ -52,7 +52,7 @@ class UserGameRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('ug')
             ->join('ug.user', 'u')
-            ->addSelect('u') //----- for using ->getUser() on each result
+            ->addSelect('u')//----- for using ->getUser() on each result
             ->orderBy('ug.rankMedal');
 
         $query->where('ug.idGame = :idGame')
@@ -62,7 +62,7 @@ class UserGameRepository extends EntityRepository
             $query->setMaxResults($params['limit']);
         }
 
-        if ( (array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params)) ) {
+        if ((array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params))) {
             $query->andWhere('(ug.rankMedal <= :maxRank OR ug.idUser = :idLogin)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idLogin', $params['idLogin']);
@@ -95,8 +95,7 @@ class UserGameRepository extends EntityRepository
             JOIN ug.group g
             WHERE g.idGame = :idGame
             AND g.boolDlc = 0
-            GROUP BY ug.idUser"
-        );
+            GROUP BY ug.idUser");
 
         $dataWithoutDlc = array();
 
@@ -126,8 +125,7 @@ class UserGameRepository extends EntityRepository
             JOIN ug.group g
             WHERE g.idGame = :idGame
             GROUP BY ug.idUser
-            ORDER BY pointChart DESC"
-        );
+            ORDER BY pointChart DESC");
 
 
         $query->setParameter('idGame', $idGame);

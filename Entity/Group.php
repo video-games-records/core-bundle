@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Group
 {
-
     /**
      * @var integer
      * @ORM\Column(name="idGroup", type="integer")
@@ -369,7 +368,6 @@ class Group
         return $this->idGame;
     }
 
-
     /**
      * @ORM\PrePersist
      */
@@ -382,5 +380,4 @@ class Group
         $this->setDateCreation(new \DateTime());
         $this->setDateModification(new \DateTime());
     }
-
 }

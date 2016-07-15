@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserChartLib
 {
-
     /**
      * @ORM\Column(name="idUser", type="integer")
      * @ORM\Id
@@ -74,7 +73,6 @@ class UserChartLib
     {
         return $this->idUser;
     }
-
 
 
     /**
@@ -171,6 +169,4 @@ class UserChartLib
     {
         return $this->user;
     }
-
-
 }

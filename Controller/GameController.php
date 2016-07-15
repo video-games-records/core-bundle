@@ -14,7 +14,6 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
  */
 class GameController extends Controller
 {
-
     /**
      * @Route("/list", defaults={"page": 1}, name="vgr_game_list")
      * @Route("/list/page/{page}", requirements={"page": "[1-9]\d*"}, name="vgr_game_list_paginated")
@@ -46,7 +45,6 @@ class GameController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Game:list.html.twig', array('games' => $games));
     }
-
 
     /**
      * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_index")
@@ -87,7 +85,6 @@ class GameController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', array('game' => $game, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals));
     }
-
 
     /**
      * @Route("/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_points")

@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -256,16 +255,6 @@ class User
      * })
      */
     private $idPays;
-
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-
-    }
 
 
     /**
@@ -1049,5 +1038,4 @@ class User
     {
         return $this->idPays;
     }
-
 }

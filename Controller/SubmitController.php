@@ -16,8 +16,6 @@ use VideoGamesRecords\CoreBundle\Entity\UserChartLib;
  */
 class SubmitController extends Controller
 {
-
-
     /**
      * @Route("/index", requirements={"id": "[1-9]\d*"}, name="vgr_submit_index")
      * @Method({"GET", "POST"})
@@ -31,9 +29,8 @@ class SubmitController extends Controller
             $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($data['id']);
             $charts = array($chart);
         } else {
-
+            $charts = array();
         }
-
 
         $form = \VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory::createSubmitForm(
             $this->get('form.factory')->create('Symfony\Component\Form\Extension\Core\Type\FormType', $data),
@@ -52,7 +49,6 @@ class SubmitController extends Controller
             $nbUpdate = 0;
 
             foreach ($charts as $chart) {
-
                 //----- init
                 $isNull = false;
                 $isModify = false;
@@ -80,7 +76,6 @@ class SubmitController extends Controller
                     }
 
                     $post[$lib->getIdLibChart() ] = $newValue;
-
                 }
 
                 $em = $this->getDoctrine()->getManager();
@@ -121,7 +116,6 @@ class SubmitController extends Controller
                             $userChartLib = new UserChartLib();
                             $userChartLib->setUser($user);
                             $userChartLib->setLib($lib);
-
                         }
                         $userChartLib->setValue($post[$lib->getIdLibChart()]);
                         $em->persist($userChartLib);
@@ -129,18 +123,12 @@ class SubmitController extends Controller
                     }
 
                     $isNew ? $nbInsert++ : $nbUpdate++;
-
-
                 }
-
             }
 
             var_dump('nbInsert=' . $nbInsert);
             var_dump('nbUpdate=' . $nbUpdate);
-
         }
-
         exit;
     }
-
 }

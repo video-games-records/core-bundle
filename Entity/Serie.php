@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Serie
 {
-
     /**
      * @var integer
      *
@@ -28,14 +27,6 @@ class Serie
      * @ORM\Column(name="libSerie", type="string", length=100, nullable=false)
      */
     private $libSerie;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-
-    }
 
 
     /**
@@ -60,7 +51,6 @@ class Serie
         return $this->libSerie;
     }
 
-
     /**
      * Set idSerie
      *
@@ -73,7 +63,6 @@ class Serie
         return $this;
     }
 
-
     /**
      * Get idSerie
      *
@@ -83,5 +72,4 @@ class Serie
     {
         return $this->idSerie;
     }
-
 }

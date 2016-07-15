@@ -14,8 +14,6 @@ use VideoGamesRecords\CoreBundle\Form\Type\SubmitForm;
  */
 class ChartController extends Controller
 {
-
-
     /**
      * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
      * @Method("GET")
@@ -43,7 +41,6 @@ class ChartController extends Controller
         return $this->render('VideoGamesRecordsCoreBundle:Chart:index.html.twig', array('chart' => $chart, 'ranking' => $ranking));
     }
 
-
     /**
      * @Route("/form/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_form")
      * @Method("GET")
@@ -51,7 +48,6 @@ class ChartController extends Controller
      */
     public function formAction($id)
     {
-
         $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($id);
         $charts = array($chart);
 
@@ -85,6 +81,4 @@ class ChartController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', array('chart' => $chart, 'charts' => $charts, 'form' => $form->createView()));
     }
-
-
 }

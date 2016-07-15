@@ -3,6 +3,9 @@ namespace VideoGamesRecords\CoreBundle\Twig;
 
 class VgrExtension extends \Twig_Extension
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions()
     {
         return array(
@@ -33,7 +36,6 @@ class VgrExtension extends \Twig_Extension
             $localValue = $value;
             $nbElement = count($parse) - 1;
             for ($k = $nbElement; $k >= 0; --$k) {
-
                 $size = $parse[$k]['size'];
                 $suffixe = $parse[$k]['suffixe'];
                 $lengthLocalValue = strlen($localValue);
@@ -53,12 +55,14 @@ class VgrExtension extends \Twig_Extension
                 }
 
                 $result = $tmpValue . $suffixe . $result;
-
             }
             return $result;
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'vgr_extension';

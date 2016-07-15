@@ -22,18 +22,17 @@ class UserChartRepository extends EntityRepository
      */
     public function getRanking($params = array())
     {
-
         $chart = $params['chart'];
 
         $rsm = new ResultSetMapping;
         $rsm->addEntityResult('VideoGamesRecords\CoreBundle\Entity\UserChart', 'uc', 'uc');
-        $rsm->addFieldResult('uc','idChart','idChart');
-        $rsm->addFieldResult('uc','idUser','idUser');
-        $rsm->addFieldResult('uc','rank','rank');
-        $rsm->addFieldResult('uc','nbEqual','nbEqual');
-        $rsm->addFieldResult('uc','pointChart','pointChart');
-        $rsm->addFieldResult('uc','idEtat','idEtat');
-        $rsm->addFieldResult('uc','dateModif','dateModif');
+        $rsm->addFieldResult('uc', 'idChart', 'idChart');
+        $rsm->addFieldResult('uc', 'idUser', 'idUser');
+        $rsm->addFieldResult('uc', 'rank', 'rank');
+        $rsm->addFieldResult('uc', 'nbEqual', 'nbEqual');
+        $rsm->addFieldResult('uc', 'pointChart', 'pointChart');
+        $rsm->addFieldResult('uc', 'idEtat', 'idEtat');
+        $rsm->addFieldResult('uc', 'dateModif', 'dateModif');
         //$rsm->addJoinedEntityResult('VideoGamesRecords\CoreBundle\Entity\User' , 'u', 'uc', 'user');
         //$rsm->addFieldResult('u','pseudo','pseudo');
         //$rsm->addFieldResult('u','idMembre','idMembre');
@@ -59,7 +58,7 @@ class UserChartRepository extends EntityRepository
         }
 
 
-        if ( (array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params)) ) {
+        if ((array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params))) {
             $where[] = '(uc.rank <= :maxRank OR uc.idMembre = :idLogin)';
             $parameters['maxRank'] = $params['maxRank'];
             $parameters['idLogin'] = $params['idLogin'];
@@ -71,7 +70,8 @@ class UserChartRepository extends EntityRepository
         $where[] = 'uc.rank IS NOT NULL'; //----- Disabeld post
 
 
-        $sql = sprintf("SELECT %s
+        $sql = sprintf(
+            "SELECT %s
             FROM vgr_user_chart uc INNER JOIN t_membre u ON uc.idUser = u.idUser
             WHERE %s ORDER BY %s",
             implode(',', $fields),
@@ -94,9 +94,7 @@ class UserChartRepository extends EntityRepository
         $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addChartRank($list, $columns);
 
         return $list;
-
     }
-
 
     /**
      * @param $idChart
@@ -116,22 +114,21 @@ class UserChartRepository extends EntityRepository
         $pointsChart = \VideoGamesRecords\CoreBundle\Tools\Ranking::arrayPointRecord(count($ranking));
 
         foreach ($ranking as $k => $row) {
-
             $userChart = $row['uc'];
             //----- If equal
             if ($userChart->getNbEqual() == 1) {
                 $pointChart = $pointsChart[$userChart->getRank()];
             } else {
-                $pointChart = (int)(array_sum(
+                $pointChart = (int)(
+                    array_sum(
                         array_slice(array_values($pointsChart), $userChart->getRank() - 1, $userChart->getNbEqual())
-                    ) / $userChart->getNbEqual());
+                    ) / $userChart->getNbEqual()
+                );
             }
             $userChart->setPointChart($pointChart);
 
             $this->_em->persist($userChart);
             $this->_em->flush($userChart);
         }
-
     }
-
 }

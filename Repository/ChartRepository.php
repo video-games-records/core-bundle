@@ -48,6 +48,4 @@ class ChartRepository extends EntityRepository
 
         return $query->getQuery()->getOneOrNullResult();
     }
-
-
 }

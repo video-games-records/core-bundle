@@ -591,5 +591,4 @@ class Game
         $this->setDateCreation(new \DateTime());
         $this->setDateModification(new \DateTime());
     }
-
 }

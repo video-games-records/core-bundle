@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
-
 /**
  * UserSerieRepository
  *
@@ -23,7 +22,7 @@ class UserSerieRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('us')
             ->join('us.user', 'u')
-            ->addSelect('u') //----- for using ->getUser() on each result
+            ->addSelect('u')//----- for using ->getUser() on each result
             ->orderBy('us.rankPoint');
 
         $query->where('us.idSerie = :idSerie')
@@ -43,7 +42,7 @@ class UserSerieRepository extends EntityRepository
             );
         }
 
-        if ( (array_key_exists('maxRank', $params)) && ($row) ) {
+        if ((array_key_exists('maxRank', $params)) && ($row)) {
             $query->andWhere('(us.rankPoint <= :maxRank OR us.rankPoint BETWEEN :min AND :max)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('min', $row->getRankPoint() - 5)
@@ -64,7 +63,7 @@ class UserSerieRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('us')
             ->join('us.user', 'u')
-            ->addSelect('u') //----- for using ->getUser() on each result
+            ->addSelect('u')//----- for using ->getUser() on each result
             ->orderBy('us.rankMedal');
 
         $query->where('us.idSerie = :idSerie')
@@ -84,7 +83,7 @@ class UserSerieRepository extends EntityRepository
             );
         }
 
-        if ( (array_key_exists('maxRank', $params)) && ($row) ) {
+        if ((array_key_exists('maxRank', $params)) && ($row)) {
             $query->andWhere('(us.rankMedal <= :maxRank OR us.rankMedal BETWEEN :min AND :max)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('min', $row->getRankMedal() - 5)
@@ -131,8 +130,7 @@ class UserSerieRepository extends EntityRepository
             JOIN ug.game g
             WHERE g.idSerie = :idSerie
             GROUP BY ug.idUser
-            ORDER BY pointChart DESC"
-        );
+            ORDER BY pointChart DESC");
 
 
         $query->setParameter('idSerie', $idSerie);
@@ -163,7 +161,5 @@ class UserSerieRepository extends EntityRepository
             $this->_em->persist($userSerie);
             $this->_em->flush($userSerie);
         }
-
     }
-
 }

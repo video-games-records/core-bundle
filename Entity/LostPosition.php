@@ -264,5 +264,4 @@ class LostPosition
     {
         $this->setDateCreation(new \DateTime());
     }
-
 }

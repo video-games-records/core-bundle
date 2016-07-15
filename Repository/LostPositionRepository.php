@@ -13,6 +13,4 @@ use Doctrine\ORM\EntityRepository;
 class LostPositionRepository extends EntityRepository
 {
 
-
-
 }

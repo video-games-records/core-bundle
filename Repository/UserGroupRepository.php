@@ -22,7 +22,7 @@ class UserGroupRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('ug')
             ->join('ug.user', 'u')
-            ->addSelect('u') //----- for using ->getUser() on each result
+            ->addSelect('u')//----- for using ->getUser() on each result
             ->orderBy('ug.rankPoint');
 
         $query->where('ug.idGroup = :idGroup')
@@ -32,7 +32,7 @@ class UserGroupRepository extends EntityRepository
             $query->setMaxResults($params['limit']);
         }
 
-        if ( (array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params)) ) {
+        if ((array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params))) {
             $query->andWhere('(ug.rankPoint <= :maxRank OR ug.idUser = :idLogin)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idLogin', $params['idLogin']);
@@ -40,6 +40,7 @@ class UserGroupRepository extends EntityRepository
             $query->andWhere('ug.rankPoint <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
+
         return $query->getQuery()->getResult();
     }
 
@@ -52,7 +53,7 @@ class UserGroupRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('ug')
             ->join('ug.user', 'u')
-            ->addSelect('u') //----- for using ->getUser() on each result
+            ->addSelect('u')//----- for using ->getUser() on each result
             ->orderBy('ug.rankMedal');
 
         $query->where('ug.idGroup = :idGroup')
@@ -62,7 +63,7 @@ class UserGroupRepository extends EntityRepository
             $query->setMaxResults($params['limit']);
         }
 
-        if ( (array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params)) ) {
+        if ((array_key_exists('maxRank', $params)) && (array_key_exists('idLogin', $params))) {
             $query->andWhere('(ug.rankMedal <= :maxRank OR ug.idUser = :idLogin)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idLogin', $params['idLogin']);
@@ -70,6 +71,7 @@ class UserGroupRepository extends EntityRepository
             $query->andWhere('ug.rankMedal <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
+
         return $query->getQuery()->getResult();
     }
 
@@ -84,7 +86,6 @@ class UserGroupRepository extends EntityRepository
         $query->setParameter('idGroup', $idGroup);
         $query->execute();
 
-
         $data = array();
 
         //----- data rank0
@@ -98,8 +99,7 @@ class UserGroupRepository extends EntityRepository
             AND uc.rank = 1
             AND c.nbPost > 0
             AND uc.nbEqual = 1
-            GROUP BY uc.idUser"
-        );
+            GROUP BY uc.idUser");
 
 
         $query->setParameter('idGroup', $idGroup);
@@ -117,11 +117,10 @@ class UserGroupRepository extends EntityRepository
             JOIN uc.chart c
             WHERE c.idGroup = :idGroup
             AND uc.rank = :rank
-            GROUP BY uc.idUser"
-        );
+            GROUP BY uc.idUser");
         $query->setParameter('idGroup', $idGroup);
 
-        for ($i=1; $i<=5; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
@@ -138,8 +137,7 @@ class UserGroupRepository extends EntityRepository
             JOIN uc.chart c
             WHERE c.idGroup = :idGroup
             AND uc.idEtat = 6
-            GROUP BY uc.idUser"
-        );
+            GROUP BY uc.idUser");
 
         $query->setParameter('idGroup', $idGroup);
         $result = $query->getResult();
@@ -161,8 +159,7 @@ class UserGroupRepository extends EntityRepository
             JOIN uc.chart c
             WHERE c.idGroup = :idGroup
             GROUP BY uc.idUser
-            ORDER BY pointChart DESC"
-        );
+            ORDER BY pointChart DESC");
 
 
         $query->setParameter('idGroup', $idGroup);
@@ -202,6 +199,5 @@ class UserGroupRepository extends EntityRepository
             $this->_em->persist($userGroup);
             $this->_em->flush($userGroup);
         }
-
     }
 }

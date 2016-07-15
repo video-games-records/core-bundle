@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Tools;
 
 class Score
 {
-
     /**
      * Parse a type of a libRecord
      * @param string $mask
@@ -22,7 +21,6 @@ class Score
         return $result;
     }
 
-
     /**
      * Return the data to create imput field
      * @param string $mask
@@ -30,7 +28,6 @@ class Score
      */
     public static function getInputs($mask)
     {
-
         $parse = self::parse($mask);
         $data = array();
         for ($k = count($parse) - 1; $k >= 0; $k--) {
@@ -54,7 +51,6 @@ class Score
         $data = array();
         $laValue = $value;
         for ($k = count($parse) - 1; $k >= 0; $k--) {
-
             $size = $parse[$k]['size'];
 
             if (strlen($laValue) > $size) {
@@ -76,7 +72,6 @@ class Score
                 $result = '';
             }
             $data[] = array('value' => $result);
-
         }
         return array_reverse($data);
     }
@@ -130,13 +125,10 @@ class Score
                             $part = str_pad($part, $length, '0', STR_PAD_LEFT);
                         }
                     }
-
                 }
                 $value .= $part;
             }
             return $value;
         }
     }
-
-
 }

@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Chart
 {
-
     /**
      * @var integer
      *
@@ -363,7 +362,6 @@ class Chart
         return $this->libs;
     }
 
-
     /**
      * @ORM\PrePersist
      */
@@ -375,5 +373,4 @@ class Chart
         $this->setDateCreation(new \DateTime());
         $this->setDateModification(new \DateTime());
     }
-
 }

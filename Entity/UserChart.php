@@ -14,7 +14,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  */
 class UserChart
 {
-
     /**
      * This columns are missing on this entity
      *  - preuveImage
@@ -22,7 +21,6 @@ class UserChart
      *  - isTopScore
      *  - idPicture
      */
-
 
     /**
      * @ORM\Column(name="idUser", type="integer")
@@ -384,7 +382,6 @@ class UserChart
         return $this->user;
     }
 
-
     /**
      * @ORM\PrePersist
      */
@@ -409,5 +406,4 @@ class UserChart
             $this->setIsTopScore(0);
         }
     }
-
 }

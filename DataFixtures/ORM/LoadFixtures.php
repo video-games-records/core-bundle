@@ -8,7 +8,6 @@ use VideoGamesRecords\CoreBundle\Entity\Serie;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-
 /**
  * Defines the sample data to load in the database when running the unit and
  * functional tests. Execute this command to load the data:
@@ -21,13 +20,11 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class LoadFixtures implements FixtureInterface
 {
-
     /**
      * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-
         $this->loadSeries($manager);
         $this->loadGames($manager);
         $this->loadGroups($manager);
@@ -151,9 +148,7 @@ class LoadFixtures implements FixtureInterface
         }
 
         $manager->flush();
-
     }
-
 
     /**
      * @param ObjectManager $manager
@@ -256,9 +251,5 @@ class LoadFixtures implements FixtureInterface
         }
 
         $manager->flush();
-
     }
-
-
-
 }

@@ -33,5 +33,4 @@ class ChartLibRepository extends EntityRepository
         return $query->getQuery()
             ->getResult();
     }
-
 }
