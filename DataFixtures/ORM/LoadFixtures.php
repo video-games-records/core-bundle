@@ -1,12 +1,13 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Defines the sample data to load in the database when running the unit and
@@ -38,7 +39,7 @@ class LoadFixtures implements FixtureInterface
     private function loadSeries(ObjectManager $manager)
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Serie');
-        $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $serie = new Serie();
         $serie->setIdSerie(1);
         $serie->setLibSerie('Forza Motosport');
@@ -57,7 +58,7 @@ class LoadFixtures implements FixtureInterface
     private function loadGames(ObjectManager $manager)
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Game');
-        $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $list = array(
             array(
                 'idGame' => 1,
@@ -118,7 +119,7 @@ class LoadFixtures implements FixtureInterface
     private function loadGroups(ObjectManager $manager)
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Group');
-        $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
         $list = array(
             array(
@@ -156,7 +157,7 @@ class LoadFixtures implements FixtureInterface
     private function loadCharts(ObjectManager $manager)
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Chart');
-        $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
         $list = array(
             array(

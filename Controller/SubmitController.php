@@ -2,13 +2,13 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\UserChart;
 use VideoGamesRecords\CoreBundle\Entity\UserChartLib;
+use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 
 /**
  * Class SubmitController
@@ -19,6 +19,7 @@ class SubmitController extends Controller
     /**
      * @Route("/index", requirements={"id": "[1-9]\d*"}, name="vgr_submit_index")
      * @Method({"GET", "POST"})
+     *
      * @param Request $request
      */
     public function indexAction(Request $request)
@@ -32,7 +33,7 @@ class SubmitController extends Controller
             $charts = array();
         }
 
-        $form = \VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory::createSubmitForm(
+        $form = SubmitFormFactory::createSubmitForm(
             $this->get('form.factory')->create('Symfony\Component\Form\Extension\Core\Type\FormType', $data),
             $charts
         );
@@ -103,7 +104,7 @@ class SubmitController extends Controller
                     //$userChart->setIdVideo(0);
                     $userChart->setDateModif(new \DateTime());
                     $em->persist($userChart);
-                    $em->flush($userChart);
+                    $em->flush();
 
                     foreach ($chart->getLibs() as $lib) {
                         $userChartLib = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserChartLib')->find(
@@ -119,7 +120,7 @@ class SubmitController extends Controller
                         }
                         $userChartLib->setValue($post[$lib->getIdLibChart()]);
                         $em->persist($userChartLib);
-                        $em->flush($userChartLib);
+                        $em->flush();
                     }
 
                     $isNew ? $nbInsert++ : $nbUpdate++;

@@ -90,6 +90,8 @@ class Chart
     private $group;
 
     /**
+     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\ChartLib[]
+     *
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart")
      */
     private $libs;
@@ -355,7 +357,7 @@ class Chart
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\ChartLib[]
      */
     public function getLibs()
     {

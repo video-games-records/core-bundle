@@ -8,7 +8,12 @@ services:
         tags:
             - { name: twig.extension }
     entity.event_listener.userchart_update:
-        class:  VideoGamesRecords\CoreBundle\EventListener\Entity\UserChartUpdateListener
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\UserChartUpdateListener
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate}
             - { name: doctrine.event_listener, event: postUpdate, method: postUpdate}
+    vgr.event_listener.login_listener:
+        class: VideoGamesRecords\CoreBundle\EventListener\LoginListener
+        arguments: ["@=service('doctrine').getRepository('VideoGamesRecordsCoreBundle:User')"]
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }

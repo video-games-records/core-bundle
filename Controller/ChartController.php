@@ -2,11 +2,11 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use VideoGamesRecords\CoreBundle\Form\Type\SubmitForm;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 
 /**
  * Class ChartController
@@ -18,6 +18,9 @@ class ChartController extends Controller
      * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
      * @Method("GET")
      * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction($id)
     {
@@ -45,6 +48,9 @@ class ChartController extends Controller
      * @Route("/form/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_form")
      * @Method("GET")
      * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function formAction($id)
     {
@@ -66,7 +72,7 @@ class ChartController extends Controller
             )
         );
 
-        $form = \VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory::createSubmitForm(
+        $form = SubmitFormFactory::createSubmitForm(
             $this->get('form.factory')->create('Symfony\Component\Form\Extension\Core\Type\FormType', $data),
             $charts
         );

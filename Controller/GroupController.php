@@ -2,10 +2,10 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class GroupController
@@ -13,12 +13,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class GroupController extends Controller
 {
-
-
     /**
      * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_group_index")
      * @Method("GET")
      * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction($id)
     {
@@ -54,6 +55,9 @@ class GroupController extends Controller
      * @Route("/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_group_ranking_points")
      * @Method("GET")
      * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function rankingPointsAction($id)
     {
@@ -80,6 +84,9 @@ class GroupController extends Controller
      * @Route("/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_group_ranking_medals")
      * @Method("GET")
      * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function rankingMedalsAction($id)
     {

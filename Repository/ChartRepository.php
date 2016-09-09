@@ -13,11 +13,11 @@ use Doctrine\ORM\EntityRepository;
 class ChartRepository extends EntityRepository
 {
     /**
-     * @param $id
-     * @return mixed
+     * @param int $chartId
+     * @return \VideoGamesRecords\CoreBundle\Entity\Chart
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getWithGame($id)
+    public function getWithGame($chartId)
     {
         $query = $this->createQueryBuilder('ch')
             ->join('ch.group', 'gr')
@@ -25,7 +25,7 @@ class ChartRepository extends EntityRepository
             ->join('gr.game', 'ga')
             ->addSelect('ga')
             ->where('ch.idChart = :idChart')
-            ->setParameter('idChart', $id);
+            ->setParameter('idChart', $chartId);
 
         return $query->getQuery()
             ->getOneOrNullResult();
@@ -33,7 +33,7 @@ class ChartRepository extends EntityRepository
 
     /**
      * @param $id
-     * @return mixed
+     * @return \VideoGamesRecords\CoreBundle\Entity\Chart
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getWithChartType($id)

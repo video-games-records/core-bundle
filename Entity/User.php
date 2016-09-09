@@ -7,11 +7,19 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="t_membre", uniqueConstraints={@ORM\UniqueConstraint(name="pseudo", columns={"pseudo"})}, indexes={@ORM\Index(name="nom", columns={"nom"}), @ORM\Index(name="prenom", columns={"prenom"}), @ORM\Index(name="idPays", columns={"idPays"}), @ORM\Index(name="vgr_pointJeu", columns={"vgr_pointJeu"}), @ORM\Index(name="vgr_rank_pointJeu", columns={"vgr_rank_pointJeu"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\MemberRepository")
+ * @ORM\Table(name="vgr_member", indexes={@ORM\Index(name="vgr_pointJeu", columns={"vgr_pointJeu"}), @ORM\Index(name="vgr_rank_pointJeu", columns={"vgr_rank_pointJeu"})})
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
  */
 class User
 {
+    /**
+     * @var \AppBundle\Entity\User
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
+     */
+    private $normandieUser;
+
     /**
      * @var integer
      *
@@ -20,35 +28,6 @@ class User
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idUser;
-
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pseudo", type="string", length=20, nullable=false)
-     */
-    private $pseudo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     */
-    private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=50, nullable=true)
-     */
-    private $nom;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=40, nullable=true)
-     */
-    private $prenom;
 
     /**
      * @var string
@@ -232,30 +211,10 @@ class User
      */
     private $vgr_rank_pointJeu;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateModification", type="datetime", nullable=false)
-     */
-    private $dateModification;
-
-    /**
-     * @var Country
-     *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPays", referencedColumnName="idPays")
-     * })
-     */
-    private $idPays;
-
+    public function __construct()
+    {
+        $this->avatar = 'default.jpg';
+    }
 
     /**
      * Set idUser
@@ -277,99 +236,6 @@ class User
     public function getIdUser()
     {
         return $this->idUser;
-    }
-
-
-    /**
-     * Set pseudo
-     *
-     * @param string $pseudo
-     * @return User
-     */
-    public function setPseudo($pseudo)
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
-    /**
-     * Get pseudo
-     *
-     * @return string
-     */
-    public function getPseudo()
-    {
-        return $this->pseudo;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set nom
-     *
-     * @param string $nom
-     * @return User
-     */
-    public function setNom($nom)
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    /**
-     * Get nom
-     *
-     * @return string
-     */
-    public function getNom()
-    {
-        return $this->nom;
-    }
-
-    /**
-     * Set prenom
-     *
-     * @param string $prenom
-     * @return User
-     */
-    public function setPrenom($prenom)
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    /**
-     * Get prenom
-     *
-     * @return string
-     */
-    public function getPrenom()
-    {
-        return $this->prenom;
     }
 
     /**
@@ -971,71 +837,20 @@ class User
     }
 
     /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
+     * @return \AppBundle\Entity\User
+     */
+    public function getNormandieUser()
+    {
+        return $this->normandieUser;
+    }
+
+    /**
+     * @param \AppBundle\Entity\User $normandieUser
      * @return User
      */
-    public function setDateCreation($dateCreation)
+    public function setNormandieUser($normandieUser)
     {
-        $this->dateCreation = $dateCreation;
-
+        $this->normandieUser = $normandieUser;
         return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return User
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
-    }
-
-    /**
-     * Set idPays
-     *
-     * @param Country $idPays
-     * @return User
-     */
-    public function setIdPays(Country $idPays = null)
-    {
-        $this->idPays = $idPays;
-
-        return $this;
-    }
-
-    /**
-     * Get idPays
-     *
-     * @return Country
-     */
-    public function getIdPays()
-    {
-        return $this->idPays;
     }
 }

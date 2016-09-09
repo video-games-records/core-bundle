@@ -5,10 +5,17 @@ namespace VideoGamesRecords\CoreBundle\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormInterface;
+use VideoGamesRecords\CoreBundle\Tools\Score;
 
 class SubmitFormFactory
 {
-    public static function createSubmitForm($form, $charts)
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form
+     * @param \VideoGamesRecords\CoreBundle\Entity\Chart[] $charts
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public static function createSubmitForm(FormInterface $form, $charts)
     {
 
         //$data = $form->getData();
@@ -26,7 +33,7 @@ class SubmitFormFactory
                 $id = 'user_' . $lib->getIdChart() . '_' . $lib->getIdLibChart();
                 $form->add($id, HiddenType::class); //----- miss ID
 
-                $inputs = \VideoGamesRecords\CoreBundle\Tools\Score::getInputs($lib->getType()->getMask());
+                $inputs = Score::getInputs($lib->getType()->getMask());
 
                 $i = 1;
                 foreach ($inputs as $k => $input) {
@@ -34,7 +41,7 @@ class SubmitFormFactory
                         'value_' . $lib->getIdChart() . '_' . $lib->getIdLibChart() . '_' . $i,
                         TextType::class,
                         array(
-                            'label' => ($i== 1) ? $lib->getType()->getLib() : null,
+                            'label' => ($i == 1) ? $lib->getType()->getLib() : null,
                             'attr' => array(
                                 'maxlength' => $input['size'],
                                 'size' => 8,
