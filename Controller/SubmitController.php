@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\UserChart;
 use VideoGamesRecords\CoreBundle\Entity\UserChartLib;
 use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
+use VideoGamesRecords\CoreBundle\Tools\Score;
 
 /**
  * Class SubmitController
@@ -25,12 +26,12 @@ class SubmitController extends Controller
     public function indexAction(Request $request)
     {
         $data = $request->request->get('form');
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Chart[] $charts */
+        $charts = array();
 
         if ($data['type'] == 'chart') {
             $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($data['id']);
             $charts = array($chart);
-        } else {
-            $charts = array();
         }
 
         $form = SubmitFormFactory::createSubmitForm(
@@ -57,6 +58,7 @@ class SubmitController extends Controller
                 foreach ($chart->getLibs() as $lib) {
                     $oldValue = $data['user_' . $chart->getIdChart() . '_' . $lib->getIdLibChart()];
                     $newValue = '';
+                    $values = array();
 
                     $nbInput = $lib->getType()->getNbInput();
                     for ($i = 1; $i <= $nbInput; $i++) {
@@ -66,17 +68,17 @@ class SubmitController extends Controller
                     }
 
                     //@TODO Validateur
-                    if (($newValue === '') || (ctype_digit(trim($newValue, '-+')) == false)) {
+                    if (($newValue === '') || !ctype_digit(trim($newValue, '-+'))) {
                         $isNull = true;
                         break;
                     }
 
-                    $newValue = \VideoGamesRecords\CoreBundle\Tools\Score::formToBdd($lib->getType()->getMask(), $values);
+                    $newValue = Score::formToBdd($lib->getType()->getMask(), $values);
                     if ($oldValue === null || ((int)$oldValue !== (int)$newValue) && ($newValue !== '')) {
                         $isModify = true;
                     }
 
-                    $post[$lib->getIdLibChart() ] = $newValue;
+                    $post[$lib->getIdLibChart()] = $newValue;
                 }
 
                 $em = $this->getDoctrine()->getManager();
@@ -92,7 +94,7 @@ class SubmitController extends Controller
                     );
 
                     $isNew = false;
-                    if ($userChart == null) {
+                    if ($userChart === null) {
                         $isNew = true;
                         $userChart = new UserChart();
                         $userChart->setUser($user);
@@ -113,15 +115,15 @@ class SubmitController extends Controller
                                 'idLibChart' => $lib->getIdLibChart()
                             )
                         );
-                        if ($userChartLib == null) {
+                        if ($userChartLib === null) {
                             $userChartLib = new UserChartLib();
                             $userChartLib->setUser($user);
                             $userChartLib->setLib($lib);
                         }
                         $userChartLib->setValue($post[$lib->getIdLibChart()]);
                         $em->persist($userChartLib);
-                        $em->flush();
                     }
+                    $em->flush();
 
                     $isNew ? $nbInsert++ : $nbUpdate++;
                 }

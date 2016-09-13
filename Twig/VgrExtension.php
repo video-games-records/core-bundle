@@ -29,7 +29,7 @@ class VgrExtension extends \Twig_Extension
         }
 
         //-----
-        if ($value == null) {
+        if ($value === null) {
             return '';
         } else {
             $result = '';

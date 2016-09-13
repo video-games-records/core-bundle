@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
+use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 /**
  * UserChartRepository
@@ -22,6 +23,7 @@ class UserChartRepository extends EntityRepository
      */
     public function getRanking($params = array())
     {
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
         $chart = $params['chart'];
 
         $rsm = new ResultSetMapping;
@@ -91,13 +93,13 @@ class UserChartRepository extends EntityRepository
         foreach ($result as $row) {
             $list[] = $row;
         }
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addChartRank($list, $columns);
+        $list = Ranking::addChartRank($list, $columns);
 
         return $list;
     }
 
     /**
-     * @param $idChart
+     * @param int $idChart
      * @todo disabled post (Rank is null)
      */
     public function maj($idChart)
@@ -111,9 +113,10 @@ class UserChartRepository extends EntityRepository
         );
 
         //----- Array of pointChart
-        $pointsChart = \VideoGamesRecords\CoreBundle\Tools\Ranking::arrayPointRecord(count($ranking));
+        $pointsChart = Ranking::arrayPointRecord(count($ranking));
 
         foreach ($ranking as $k => $row) {
+            /** @var \VideoGamesRecords\CoreBundle\Entity\UserChart $userChart */
             $userChart = $row['uc'];
             //----- If equal
             if ($userChart->getNbEqual() == 1) {

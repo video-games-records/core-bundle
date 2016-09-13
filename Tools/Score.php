@@ -58,39 +58,23 @@ class Score
                 $laValue = substr($laValue, 0, strlen($laValue) - $size);
             } else {
                 if ($k != 0) {
-                    $result = self::_strZero($size - strlen($laValue)) . $laValue;
+                    $result = str_pad($laValue, $size - strlen($laValue), '0', STR_PAD_LEFT);
                     $laValue = '';
                 } else {
-                    if (strlen($laValue) == 0) {
+                    if (strlen($laValue) === 0) {
                         $result = '0';
                     } else {
                         $result = $laValue;
                     }
                 }
             }
-            if ($value == null) {
+            if ($value === null) {
                 $result = '';
             }
             $data[] = array('value' => $result);
         }
         return array_reverse($data);
     }
-
-
-    /**
-     * Complet with zero
-     * @param int $nb
-     * @return string
-     */
-    private static function _strZero($nb)
-    {
-        $string = '';
-        for ($i = 1; $i <= $nb; $i++) {
-            $string .= '0';
-        }
-        return $string;
-    }
-
 
     /**
      * Transform values to insert database

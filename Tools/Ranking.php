@@ -29,7 +29,7 @@ class Ranking
                     }
                 }
             }
-            if ($change == false) {
+            if (!$change) {
                 break;
             }
         }
@@ -123,6 +123,7 @@ class Ranking
                 }
             }
 
+            /** @var \VideoGamesRecords\CoreBundle\Entity\UserChart $userChart */
             $userChart = $array[$i]['uc'];
             $userChart->setRank($rank);
             $userChart->setNbEqual($nbEqual);

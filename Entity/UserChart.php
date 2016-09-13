@@ -3,14 +3,13 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
  * UserChart
  *
  * @ORM\Table(name="vgr_user_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserChartRepository")
- * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks()
  */
 class UserChart
 {
@@ -383,7 +382,7 @@ class UserChart
     }
 
     /**
-     * @ORM\PrePersist
+     * @ORM\PrePersist()
      */
     public function preInsert()
     {
@@ -395,7 +394,7 @@ class UserChart
     }
 
     /**
-     * @ORM\PreUpdate
+     * @ORM\PreUpdate()
      * @param $event
      */
     public function preUpdate($event)
