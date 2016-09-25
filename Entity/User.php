@@ -34,12 +34,12 @@ class User
      *
      * @ORM\Column(name="avatar", type="string", length=100, nullable=false)
      */
-    private $avatar;
+    private $avatar = 'default.jpg';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="vgr_gamerCard", type="string", length=50, nullable=false)
+     * @ORM\Column(name="vgr_gamerCard", type="string", length=50, nullable=true)
      */
     private $vgr_gamerCard;
 
@@ -48,40 +48,40 @@ class User
      *
      * @ORM\Column(name="vgr_displayGamerCard", type="boolean", nullable=false)
      */
-    private $vgr_displayGamerCard;
+    private $vgr_displayGamerCard = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="vgr_displayGoalBar", type="boolean", nullable=false)
      */
-    private $vgr_displayGoalBar;
+    private $vgr_displayGoalBar = true;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank0", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_rank0", type="integer", nullable=true)
      */
     private $vgr_rank0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank1", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_rank1", type="integer", nullable=true)
      */
     private $vgr_rank1;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank2", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_rank2", type="integer", nullable=true)
      */
     private $vgr_rank2;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank3", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_rank3", type="integer", nullable=true)
      */
     private $vgr_rank3;
 
@@ -90,21 +90,21 @@ class User
      *
      * @ORM\Column(name="vgr_pointRecord", type="integer", nullable=false)
      */
-    private $vgr_pointRecord;
+    private $vgr_pointRecord = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="vgr_pointVGR", type="integer", nullable=false)
      */
-    private $vgr_pointVGR;
+    private $vgr_pointVGR = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="vgr_pointBadge", type="integer", nullable=false)
      */
-    private $vgr_pointBadge;
+    private $vgr_pointBadge = 0;
 
     /**
      * @var string
@@ -144,35 +144,35 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank_cup", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_rank_cup", type="integer", nullable=true)
      */
     private $vgr_rank_cup;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_cup_rank0", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_cup_rank0", type="integer", nullable=true)
      */
     private $vgr_cup_rank0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_cup_rank1", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_cup_rank1", type="integer", nullable=true)
      */
     private $vgr_cup_rank1;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_cup_rank2", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_cup_rank2", type="integer", nullable=true)
      */
     private $vgr_cup_rank2;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_cup_rank3", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_cup_rank3", type="integer", nullable=true)
      */
     private $vgr_cup_rank3;
 
@@ -181,40 +181,35 @@ class User
      *
      * @ORM\Column(name="vgr_nbRecord", type="integer", nullable=false)
      */
-    private $vgr_nbRecord;
+    private $vgr_nbRecord = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="vgr_nbRecordProuve", type="integer", nullable=false)
      */
-    private $vgr_nbRecordProuve;
+    private $vgr_nbRecordProuve = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="vgr_nbMasterBadge", type="integer", nullable=false)
      */
-    private $vgr_nbMasterBadge;
+    private $vgr_nbMasterBadge = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="vgr_pointJeu", type="integer", nullable=false)
      */
-    private $vgr_pointJeu;
+    private $vgr_pointJeu = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank_pointJeu", type="integer", nullable=false)
+     * @ORM\Column(name="vgr_rank_pointJeu", type="integer", nullable=true)
      */
     private $vgr_rank_pointJeu;
-
-    public function __construct()
-    {
-        $this->avatar = 'default.jpg';
-    }
 
     /**
      * Set idUser

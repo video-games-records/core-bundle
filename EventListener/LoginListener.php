@@ -26,7 +26,7 @@ class LoginListener
         if ($event->getAuthenticationToken()->isAuthenticated()) {
             /** @var \AppBundle\Entity\User $user */
             $user = $event->getAuthenticationToken()->getUser();
-            $player = $this->playerRepository->getPlayerFromUser($user->getId());
+            $player = $this->playerRepository->getPlayerFromUser($user);
             $session = $event->getRequest()->getSession();
 
             $session->set('vgr_player', $player);
