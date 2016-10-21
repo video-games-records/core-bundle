@@ -23,7 +23,8 @@
     "doctrine/orm": "^2.5",
     "doctrine/doctrine-bundle": "~1.6",
     "knplabs/knp-paginator-bundle": "~2.4",
-    "whiteoctober/breadcrumbs-bundle": "~1.2"
+    "whiteoctober/breadcrumbs-bundle": "~1.2",
+    "knplabs/doctrine-behaviors": "~1.4"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0"

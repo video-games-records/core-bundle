@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
  * UserChart
@@ -20,6 +21,7 @@ class UserChart
      *  - isTopScore
      *  - idPicture
      */
+    use Timestampable;
 
     /**
      * @ORM\Column(name="idUser", type="integer")
@@ -45,14 +47,14 @@ class UserChart
      *
      * @ORM\Column(name="nbEqual", type="integer", nullable=false)
      */
-    private $nbEqual;
+    private $nbEqual = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="pointChart", type="float", nullable=false)
      */
-    private $pointChart;
+    private $pointChart = 0;
 
     /**
      * @var integer
@@ -62,25 +64,11 @@ class UserChart
     private $idEtat;
 
     /**
-     * @var integer
+     * @var boolean
      *
-     * @ORM\Column(name="isTopScore", type="integer", nullable=false)
+     * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
      */
-    private $isTopScore;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateModification", type="datetime", nullable=false)
-     */
-    private $dateModification;
+    private $isTopScore = false;
 
     /**
      * @var \DateTime
@@ -267,51 +255,6 @@ class UserChart
     }
 
     /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return UserChart
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return UserChart
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
-    }
-
-    /**
      * Set dateModif
      *
      * @param \DateTime $dateModif
@@ -386,23 +329,19 @@ class UserChart
      */
     public function preInsert()
     {
-        $this->setNbEqual(0);
         $this->setPointRecord(0);
         $this->setRank(10000);
-        $this->setDateCreation(new \DateTime());
-        $this->setDateModification(new \DateTime());
     }
 
     /**
      * @ORM\PreUpdate()
-     * @param $event
      */
-    public function preUpdate($event)
+    public function preUpdate()
     {
         if ($this->getRank() == 1) {
-            $this->setIsTopScore(1);
+            $this->setIsTopScore(true);
         } else {
-            $this->setIsTopScore(0);
+            $this->setIsTopScore(false);
         }
     }
 }

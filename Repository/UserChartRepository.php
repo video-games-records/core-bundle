@@ -74,7 +74,7 @@ class UserChartRepository extends EntityRepository
 
         $sql = sprintf(
             "SELECT %s
-            FROM vgr_user_chart uc INNER JOIN t_membre u ON uc.idUser = u.idUser
+            FROM vgr_user_chart uc INNER JOIN vgr_member u ON uc.idUser = u.idUser
             WHERE %s ORDER BY %s",
             implode(',', $fields),
             implode(' AND ', $where),

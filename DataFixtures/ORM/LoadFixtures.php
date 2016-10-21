@@ -1,10 +1,14 @@
 <?php
+
 namespace VideoGamesRecords\CoreBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\ChartLib;
+use VideoGamesRecords\CoreBundle\Entity\ChartType;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
@@ -19,7 +23,7 @@ use VideoGamesRecords\CoreBundle\Entity\Serie;
  *
  * @author David Benard <magicbart@gmail.com>
  */
-class LoadFixtures implements FixtureInterface
+class LoadFixtures extends AbstractFixture implements FixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -29,9 +33,9 @@ class LoadFixtures implements FixtureInterface
         $this->loadSeries($manager);
         $this->loadGames($manager);
         $this->loadGroups($manager);
+        $this->loadChartType($manager);
         $this->loadCharts($manager);
     }
-
 
     /**
      * @param ObjectManager $manager
@@ -40,17 +44,27 @@ class LoadFixtures implements FixtureInterface
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Serie');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-        $serie = new Serie();
-        $serie->setIdSerie(1);
-        $serie->setLibSerie('Forza Motosport');
-        $manager->persist($serie);
-        $serie = new Serie();
-        $serie->setIdSerie(2);
-        $serie->setLibSerie('Mario Kart');
-        $manager->persist($serie);
+        $list = array(
+            array(
+                'idSerie' => 1,
+                'name' => 'Forza Motosport',
+            ),
+            array(
+                'idSerie' => 2,
+                'name' => 'Mario Kart',
+            ),
+        );
+
+        foreach ($list as $row) {
+            $serie = new Serie();
+            $serie
+                ->setIdSerie($row['idSerie'])
+                ->setName($row['name']);
+            $manager->persist($serie);
+            $this->addReference('serie.' . $serie->getIdSerie(), $serie);
+        }
         $manager->flush();
     }
-
 
     /**
      * @param ObjectManager $manager
@@ -103,15 +117,13 @@ class LoadFixtures implements FixtureInterface
             $game->setIdGame($row['idGame']);
             $game->setLibGameEn($row['libGameEn']);
             if (isset($row['idSerie'])) {
-                $serie = $manager->getReference('VideoGamesRecords\CoreBundle\Entity\Serie', $row['idSerie']);
-                $game->setSerie($serie);
+                $game->setSerie($this->getReference('serie.' . $row['idSerie']));
             }
             $manager->persist($game);
+            $this->addReference('game.' . $game->getIdGame(), $game);
         }
-
         $manager->flush();
     }
-
 
     /**
      * @param ObjectManager $manager
@@ -143,9 +155,9 @@ class LoadFixtures implements FixtureInterface
             $group = new Group();
             $group->setIdGroup($row['idGroup']);
             $group->setLibGroupEn($row['libGroupEn']);
-            $game = $manager->getReference('VideoGamesRecords\CoreBundle\Entity\Game', $row['idGame']);
-            $group->setGame($game);
+            $group->setGame($this->getReference('game.' . $row['idGame']));
             $manager->persist($group);
+            $this->addReference('group.' . $group->getIdGroup(), $group);
         }
 
         $manager->flush();
@@ -164,81 +176,97 @@ class LoadFixtures implements FixtureInterface
                 'idChart' => 1,
                 'idGroup' => 1,
                 'libChartEn' => 'Baby Park',
+                'types' => [1],
             ),
             array(
                 'idChart' => 2,
                 'idGroup' => 1,
                 'libChartEn' => 'Bowser\'s Castle',
+                'types' => [1],
             ),
             array(
                 'idChart' => 3,
                 'idGroup' => 1,
                 'libChartEn' => 'Daisy Cruiser',
+                'types' => [2],
             ),
             array(
                 'idChart' => 4,
                 'idGroup' => 1,
                 'libChartEn' => 'Dino Dino Jungle',
+                'types' => [3],
             ),
             array(
                 'idChart' => 5,
                 'idGroup' => 1,
                 'libChartEn' => 'DK Mountain',
+                'types' => [1],
             ),
             array(
                 'idChart' => 6,
                 'idGroup' => 1,
                 'libChartEn' => 'Dry Dry Desert',
+                'types' => [2],
             ),
             array(
                 'idChart' => 7,
                 'idGroup' => 1,
                 'libChartEn' => 'Luigi Circuit',
+                'types' => [1, 2],
             ),
             array(
                 'idChart' => 8,
                 'idGroup' => 1,
                 'libChartEn' => 'Mario Circuit',
+                'types' => [1, 3],
             ),
             array(
                 'idChart' => 9,
                 'idGroup' => 1,
                 'libChartEn' => 'Mushroom Bridge',
+                'types' => [2, 3],
             ),
             array(
                 'idChart' => 10,
                 'idGroup' => 1,
                 'libChartEn' => 'Mushroom City',
+                'types' => [1],
             ),
             array(
                 'idChart' => 11,
                 'idGroup' => 1,
                 'libChartEn' => 'Peach Beach',
+                'types' => [1],
             ),
             array(
                 'idChart' => 12,
                 'idGroup' => 1,
                 'libChartEn' => 'Rainbow Road',
+                'types' => [1],
             ),
             array(
                 'idChart' => 13,
                 'idGroup' => 1,
                 'libChartEn' => 'Sherbet Land',
+                'types' => [1],
             ),
             array(
                 'idChart' => 14,
                 'idGroup' => 1,
                 'libChartEn' => 'Waluigi Stadium',
+                'types' => [1],
             ),
             array(
                 'idChart' => 15,
                 'idGroup' => 1,
                 'libChartEn' => 'Wario Colosseum',
+                'types' => [3],
             ),
             array(
                 'idChart' => 16,
                 'idGroup' => 1,
                 'libChartEn' => 'Yoshi Circuit',
+                'types' => [2],
             ),
         );
 
@@ -246,11 +274,65 @@ class LoadFixtures implements FixtureInterface
             $chart = new Chart();
             $chart->setIdChart($row['idChart']);
             $chart->setLibChartEn($row['libChartEn']);
-            $group = $manager->getReference('VideoGamesRecords\CoreBundle\Entity\Group', $row['idGroup']);
-            $chart->setGroup($group);
+            $chart->setGroup($this->getReference('group.' . $row['idGroup']));
+
+            foreach ($row['types'] as $type) {
+                $chartLib = new ChartLib();
+                $chartLib
+                    ->setChart($chart)
+                    ->setType($this->getReference('charttype.' . $type))
+                    ->setName('test');
+
+                $chart->addLib($chartLib);
+            }
+
             $manager->persist($chart);
+            $this->addReference('chart.' . $chart->getIdChart(), $chart);
         }
 
+        $manager->flush();
+    }
+
+    /**
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     */
+    private function loadChartType(ObjectManager $manager)
+    {
+        $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\ChartType');
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+
+        $list = array(
+            array(
+                'idType' => 1,
+                'name' => 'Score',
+                'mask' => '30~',
+                'orderBy' => 'DESC',
+            ),
+            array(
+                'idType' => 2,
+                'name' => 'Temps',
+                'mask' => '30~:|2~.|2~',
+                'orderBy' => 'ASC',
+            ),
+            array(
+                'idType' => 3,
+                'name' => 'Distance',
+                'mask' => '30~ m',
+                'orderBy' => 'DESC',
+            ),
+        );
+
+        foreach ($list as $row) {
+            $chartType = new ChartType();
+            $chartType
+                ->setIdType($row['idType'])
+                ->setName($row['name'])
+                ->setMask($row['mask'])
+                ->setOrderBy($row['orderBy']);
+
+            $manager->persist($chartType);
+            $this->addReference('charttype.' . $chartType->getIdType(), $chartType);
+        }
         $manager->flush();
     }
 }

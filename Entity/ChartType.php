@@ -25,20 +25,6 @@ class ChartType
     /**
      * @var string
      *
-     * @ORM\Column(name="libFr", type="string", length=50, nullable=true)
-     */
-    private $libFr;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="libEn", type="string", length=50, nullable=true)
-     */
-    private $libEn;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
     private $name;
@@ -46,7 +32,7 @@ class ChartType
     /**
      * @var string
      *
-     * @ORM\Column(name="mask", type="string", length=100, nullable=true)
+     * @ORM\Column(name="mask", type="string", length=100)
      */
     private $mask;
 
@@ -56,16 +42,6 @@ class ChartType
      * @ORM\Column(name="orderBy", type="string", length=10, nullable=true)
      */
     private $orderBy;
-
-    /**
-     * Get lib
-     *
-     * @return string
-     */
-    public function getLib()
-    {
-        return $this->libEn;
-    }
 
     /**
      * Set mask
@@ -119,5 +95,41 @@ class ChartType
     public function getNbInput()
     {
         return count(explode('|', $this->getMask()));
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdType()
+    {
+        return $this->idType;
+    }
+
+    /**
+     * @param int $idType
+     * @return ChartType
+     */
+    public function setIdType($idType)
+    {
+        $this->idType = $idType;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return ChartType
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 }

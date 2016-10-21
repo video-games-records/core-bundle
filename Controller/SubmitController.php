@@ -118,7 +118,7 @@ class SubmitController extends Controller
                         if ($userChartLib === null) {
                             $userChartLib = new UserChartLib();
                             $userChartLib->setUser($user);
-                            $userChartLib->setLib($lib);
+                            $userChartLib->setLibChart($lib);
                         }
                         $userChartLib->setValue($post[$lib->getIdLibChart()]);
                         $em->persist($userChartLib);

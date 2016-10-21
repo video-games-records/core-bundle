@@ -9,47 +9,50 @@
 {% endblock %}
 
 {% block body %}
-     <h2>
+    <h2>
         {{ game.getLibGame() }}
     </h2>
 
     <ul>
-        <li>{% trans %}game.grouplist{% endtrans %}|{% trans %}game.charts{% endtrans %}|{% trans %}game.scores{% endtrans %}</li>
-    {% for group in game.getGroups %}
-        <li>
-            <a href="{{ path('vgr_group_index', {'id': group.getIdGroup()}) }}">{{ group.getLibGroup() }}</a> | {{ group.getNbChart() }} | {{ group.getNbPost() }}
-        </li>
-    {% endfor %}
+        <li>{{ 'game.grouplist'|trans }} | {{ 'game.charts'|trans }} | {{ 'game.scores'|trans }}</li>
+        {% for group in game.getGroups %}
+            <li>
+                <a href="{{ path('vgr_group_index', {'id': group.getIdGroup()}) }}">{{ group.getLibGroup() }}</a>
+                | {{ group.getNbChart() }} | {{ group.getNbPost() }}
+            </li>
+        {% endfor %}
     </ul>
 
 
-    <h2>{% trans %}game.pointranking{% endtrans %}</h2>
+    <h2>{{ 'game.pointranking'|trans }}</h2>
     <ul>
-        <li>rank|pseudo|points|nbPost</li>
-    {% for row in rankingPoints %}
-        <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRankPoint() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointChart() }} | {{ row.getNbChart() }}</li>
-    {% else %}
-        <div class="well">{{ 'game.no_ranking'|trans }}</div>
-    {% endfor %}
-    </ul>
-
-    <div class="txtcenter">
-        <a href="{{ path('vgr_game_ranking_points', {'id': game.getIdGame()}) }}">{% trans %}game.pointranking.full{% endtrans %}</a>
-    </div>
-
-
-    <h2>{% trans %}game.medalranking{% endtrans %}</h2>
-    <ul>
-        <li>rank|pseudo|platine|gold|silver|bronze</li>
-        {% for row in rankingMedals %}
-            <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getUser().getPseudo() }} | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
+        <li>{{ 'ranking.rank'|trans }} | {{ 'ranking.nickname'|trans }} | {{ 'ranking.points'|trans }} | {{ 'ranking.number.score'|trans }}</li>
+        {% for row in rankingPoints %}
+            <li {{ row.getPointsBackgroundColor()|raw }}>{{ row.getRankPoint() }} | {{ row.getUser().getPseudo() }}
+                | {{ row.getPointChart() }} | {{ row.getNbChart() }}</li>
         {% else %}
-            <div class="well">{{ 'game.no_ranking'|trans }}</div>
+            <div class="well">{{ 'game.no_player'|trans }}</div>
         {% endfor %}
     </ul>
 
     <div class="txtcenter">
-        <a href="{{ path('vgr_game_ranking_medals', {'id': game.getIdGame()}) }}">{% trans %}game.medalranking.full{% endtrans %}</a>
+        <a href="{{ path('vgr_game_ranking_points', {'id': game.getIdGame()}) }}">{{ 'game.pointranking.full'|trans }}</a>
+    </div>
+
+
+    <h2>{{ 'game.medalranking'|trans }}</h2>
+    <ul>
+        <li>{{ 'ranking.rank'|trans }} | {{ 'ranking.nickname'|trans }} | {{ 'ranking.platinum'|trans }} | {{ 'ranking.gold'|trans }} | {{ 'ranking.silver'|trans }} | {{ 'ranking.bronze'|trans }}</li>
+        {% for row in rankingMedals %}
+            <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getUser().getPseudo() }}
+                | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
+        {% else %}
+            <div class="well">{{ 'game.no_player'|trans }}</div>
+        {% endfor %}
+    </ul>
+
+    <div class="txtcenter">
+        <a href="{{ path('vgr_game_ranking_medals', {'id': game.getIdGame()}) }}">{{ 'game.medalranking.full'|trans }}</a>
     </div>
 {% endblock %}
 

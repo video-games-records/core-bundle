@@ -23,7 +23,7 @@
       </trans-unit>
       <trans-unit id="61a11f100765d75c7a1269b8d2458692" resname="game.no_ranking">
         <source>game.no_ranking</source>
-        <target>__game.no_ranking</target>
+        <target>__game.no_player</target>
       </trans-unit>
       <trans-unit id="0635258c92164f1bb3223b82fcfc2eed" resname="game.pointranking.full">
         <source>game.pointranking.full</source>
@@ -72,6 +72,42 @@
       <trans-unit id="3b8c46738fea929948443f6565e37933" resname="game.no_posts_found">
         <source>game.no_posts_found</source>
         <target>__game.no_posts_found</target>
+      </trans-unit>
+      <trans-unit id="c8441f8704763f334fe08038bedf9c49" resname="ranking.rank">
+        <source>ranking.rank</source>
+        <target>Rang</target>
+      </trans-unit>
+      <trans-unit id="f709251c95a56452791893231c82e936" resname="ranking.nickname">
+        <source>ranking.nickname</source>
+        <target>Pseudonyme</target>
+      </trans-unit>
+      <trans-unit id="ad2a9bec7a305a59b32fcae2e983122c" resname="ranking.points">
+        <source>ranking.points</source>
+        <target>Points</target>
+      </trans-unit>
+      <trans-unit id="26a6c62d700c2883f5c57907d5040a41" resname="ranking.number.score">
+        <source>ranking.number.score</source>
+        <target>Nb. scores</target>
+      </trans-unit>
+      <trans-unit id="700f29feca301d4fdabe5c645fab62db" resname="game.no_player">
+        <source>game.no_player</source>
+        <target>Aucun joueur</target>
+      </trans-unit>
+      <trans-unit id="dcb5b14a143817921e82a83a8d4a57c4" resname="ranking.platinum">
+        <source>ranking.platinum</source>
+        <target>Platine</target>
+      </trans-unit>
+      <trans-unit id="736914de0627fc5189e2724778e5c1fb" resname="ranking.gold">
+        <source>ranking.gold</source>
+        <target>Or</target>
+      </trans-unit>
+      <trans-unit id="ffda77e62e9c2d445695174bf44dfb9c" resname="ranking.silver">
+        <source>ranking.silver</source>
+        <target>Argent</target>
+      </trans-unit>
+      <trans-unit id="46020d43ddee7deaec7e85f085aaae50" resname="ranking.bronze">
+        <source>ranking.bronze</source>
+        <target>Bronze</target>
       </trans-unit>
     </body>
   </file>

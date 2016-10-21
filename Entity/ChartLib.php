@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
  * Chart
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ChartLib
 {
+    use Timestampable;
+
     /**
      * @var integer
      *
@@ -22,32 +25,11 @@ class ChartLib
     private $idLibChart;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="idChart", type="integer")
-     */
-    private $idChart;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="IdType", type="integer")
-     */
-    private $idType;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="lib", type="string", length=100, nullable=true)
+     * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
-    private $lib;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
-     */
-    private $dateCreation;
+    private $name;
 
     /**
      * @var Chart
@@ -60,7 +42,7 @@ class ChartLib
     private $chart;
 
     /**
-     * @var Type
+     * @var ChartType
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartType")
      * @ORM\JoinColumns({
@@ -72,12 +54,12 @@ class ChartLib
     /**
      * Set lib
      *
-     * @param string $lib
+     * @param string $name
      * @return ChartLib
      */
-    public function setLib($lib)
+    public function setName($name)
     {
-        $this->lib = $lib;
+        $this->name = $name;
         return $this;
     }
 
@@ -86,33 +68,10 @@ class ChartLib
      *
      * @return string
      */
-    public function getLib()
+    public function getName()
     {
-        return $this->lib;
+        return $this->name;
     }
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return ChartLib
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
 
     /**
      * Get idLibChart
@@ -125,15 +84,17 @@ class ChartLib
     }
 
     /**
-     * Get idChart
+     * Set idLibChart
      *
-     * @return integer
+     * @param int $idLibChart
+     * @return \VideoGamesRecords\CoreBundle\Entity\ChartLib
      */
-    public function getIdChart()
+    public function setIdLibChart($idLibChart)
     {
-        return $this->idChart;
-    }
+        $this->idLibChart = $idLibChart;
 
+        return $this;
+    }
 
     /**
      * Set chart

@@ -24,20 +24,20 @@ class Serie
     /**
      * @var string
      *
-     * @ORM\Column(name="libSerie", type="string", length=100, nullable=false)
+     * @ORM\Column(name="name", type="string", length=100, nullable=false)
      */
-    private $libSerie;
+    private $name;
 
 
     /**
      * Set libSerie
      *
-     * @param string $libSerie
+     * @param string $name
      * @return Serie
      */
-    public function setLibSerie($libSerie)
+    public function setName($name)
     {
-        $this->libSerie = $libSerie;
+        $this->name = $name;
         return $this;
     }
 
@@ -46,9 +46,9 @@ class Serie
      *
      * @return string
      */
-    public function getLibSerie()
+    public function getName()
     {
-        return $this->libSerie;
+        return $this->name;
     }
 
     /**

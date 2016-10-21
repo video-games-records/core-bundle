@@ -4,17 +4,19 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
  * Game
  *
  * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxLibGameFr", columns={"libGameFr"}), @ORM\Index(name="idxLibGameEn", columns={"libGameEn"}), @ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
- * @ORM\HasLifecycleCallbacks
  * @todo check etat / imagePlateforme / ordre
  */
 class Game
 {
+    use Timestampable;
+
     const NUM_ITEMS = 20;
 
     /**
@@ -52,14 +54,14 @@ class Game
      *
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private $status;
+    private $status = 'INACTIF';
 
     /**
      * @var string
      *
      * @ORM\Column(name="etat", type="string", nullable=false)
      */
-    private $etat;
+    private $etat = 'CREATION';
 
     /**
      * @var \DateTime
@@ -73,28 +75,28 @@ class Game
      *
      * @ORM\Column(name="boolDlc", type="boolean", nullable=false, options={"default":0})
      */
-    private $boolDlc;
+    private $boolDlc = false;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
      */
-    private $nbChart;
+    private $nbChart = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default":0})
      */
-    private $nbPost;
+    private $nbPost = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nbUser", type="integer", nullable=false, options={"default":0})
      */
-    private $nbUser;
+    private $nbUser = 0;
 
     /**
      * @var integer
@@ -109,20 +111,6 @@ class Game
      * @ORM\Column(name="idSerie", type="integer", nullable=true)
      */
     private $idSerie;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateModification", type="datetime", nullable=false)
-     */
-    private $dateModification;
 
     /**
      * @var Serie
@@ -480,53 +468,6 @@ class Game
         return $this->idSerie;
     }
 
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Game
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Game
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
-    }
-
     /**
      * Set serie
      *
@@ -574,21 +515,5 @@ class Game
     public function getGroups()
     {
         return $this->groups;
-    }
-
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function preInsert()
-    {
-        $this->setStatus('INACTIF');
-        $this->setEtat('CREATION');
-        $this->setBoolDlc(0);
-        $this->setNbChart(0);
-        $this->setNbPost(0);
-        $this->setNbUser(0);
-        $this->setDateCreation(new \DateTime());
-        $this->setDateModification(new \DateTime());
     }
 }

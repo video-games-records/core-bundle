@@ -13,18 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class UserChartLib
 {
     /**
-     * @ORM\Column(name="idUser", type="integer")
-     * @ORM\Id
-     */
-    private $idUser;
-
-    /**
-     * @ORM\Column(name="idLibChart", type="integer")
-     * @ORM\Id
-     */
-    private $idLibChart;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="value", type="integer", nullable=false)
@@ -38,6 +26,7 @@ class UserChartLib
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
      * })
+     * @ORM\Id
      */
     private $user;
 
@@ -49,55 +38,9 @@ class UserChartLib
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idLibChart", referencedColumnName="idLibChart")
      * })
+     * @ORM\Id
      */
-    private $lib;
-
-    /**
-     * Set idUser
-     *
-     * @param integer $idUser
-     * @return UserChart
-     */
-    public function setIdUser($idUser)
-    {
-        $this->idUser = $idUser;
-        return $this;
-    }
-
-    /**
-     * Get idUser
-     *
-     * @return integer
-     */
-    public function geIdUser()
-    {
-        return $this->idUser;
-    }
-
-
-    /**
-     * Get idLibChart
-     *
-     * @return integer
-     */
-    public function getIdLibChart()
-    {
-        return $this->idLibChart;
-    }
-
-
-    /**
-     * Set idLibChart
-     *
-     * @param integer $idLibChart
-     * @return UserChartLib
-     */
-    public function setIdLibChart($idLibChart)
-    {
-        $this->idLibChart = $idLibChart;
-        return $this;
-    }
-
+    private $libChart;
 
     /**
      * Get value
@@ -126,13 +69,12 @@ class UserChartLib
     /**
      * Set lib
      *
-     * @param ChartLib $lib
+     * @param ChartLib $libChart
      * @return UserChartLib
      */
-    public function setLib(ChartLib $lib = null)
+    public function setLibChart(ChartLib $libChart = null)
     {
-        $this->lib = $lib;
-        $this->idLibChart = $lib->getIdLibChart();
+        $this->libChart = $libChart;
         return $this;
     }
 
@@ -141,9 +83,9 @@ class UserChartLib
      *
      * @return ChartLib
      */
-    public function getLib()
+    public function getLibChart()
     {
-        return $this->lib;
+        return $this->libChart;
     }
 
 
@@ -156,7 +98,6 @@ class UserChartLib
     public function setUser(User $user = null)
     {
         $this->user = $user;
-        $this->idUser = $user->getIdUser();
         return $this;
     }
 

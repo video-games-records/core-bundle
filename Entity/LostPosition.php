@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="vgr_lostposition", indexes={@ORM\Index(name="idxIdUser", columns={"idUser"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\LostPositionRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class LostPosition
 {
@@ -76,6 +75,11 @@ class LostPosition
      * })
      */
     private $chart;
+
+    public function __construct()
+    {
+        $this->setDateCreation(new \DateTime());
+    }
 
     /**
      * Set id
@@ -255,13 +259,5 @@ class LostPosition
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function preInsert()
-    {
-        $this->setDateCreation(new \DateTime());
     }
 }

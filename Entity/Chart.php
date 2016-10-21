@@ -4,16 +4,18 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
  * Chart
  *
  * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatusUser", columns={"statusUser"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxLibChartFr", columns={"libChartFr"}), @ORM\Index(name="idxLibChartEn", columns={"libChartEn"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class Chart
 {
+    use Timestampable;
+
     /**
      * @var integer
      *
@@ -49,35 +51,21 @@ class Chart
      *
      * @ORM\Column(name="statusUser", type="string", nullable=false)
      */
-    private $statusUser;
+    private $statusUser = 'NORMAL';
 
     /**
      * @var string
      *
      * @ORM\Column(name="statusTeam", type="string", nullable=false)
      */
-    private $statusTeam;
+    private $statusTeam = 'NORMAL';
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nbPost", type="integer", nullable=false)
      */
-    private $nbPost;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateModification", type="datetime", nullable=false)
-     */
-    private $dateModification;
+    private $nbPost = 0;
 
     /**
      * @var Group
@@ -92,7 +80,7 @@ class Chart
     /**
      * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\ChartLib[]
      *
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart")
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"})
      */
     private $libs;
 
@@ -271,51 +259,6 @@ class Chart
     }
 
     /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Chart
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Chart
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
-    }
-
-    /**
      * Set group
      *
      * @param Group $group
@@ -362,17 +305,5 @@ class Chart
     public function getLibs()
     {
         return $this->libs;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function preInsert()
-    {
-        $this->setStatusUser('NORMAL');
-        $this->setStatusTeam('NORMAL');
-        $this->setNbPost(0);
-        $this->setDateCreation(new \DateTime());
-        $this->setDateModification(new \DateTime());
     }
 }
