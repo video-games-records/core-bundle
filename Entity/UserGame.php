@@ -26,9 +26,9 @@ class UserGame
     private $idGame;
 
     /**
-     * @var User
+     * @var Player
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
      * })
@@ -555,10 +555,10 @@ class UserGame
     /**
      * Set user
      *
-     * @param User $user
+     * @param Player $user
      * @return UserGame
      */
-    public function setUser(User $user = null)
+    public function setUser(Player $user = null)
     {
         $this->user = $user;
         $this->setIdUser($user->getIdUser());
@@ -568,7 +568,7 @@ class UserGame
     /**
      * Get user
      *
-     * @return User
+     * @return Player
      */
     public function getUser()
     {

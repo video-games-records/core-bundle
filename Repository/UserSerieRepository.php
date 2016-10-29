@@ -156,7 +156,7 @@ class UserSerieRepository extends EntityRepository
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\UserSerie'
             );
-            $userSerie->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idUser']));
+            $userSerie->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['idUser']));
             $userSerie->setSerie($serie);
 
             $this->_em->persist($userSerie);

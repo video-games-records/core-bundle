@@ -46,7 +46,7 @@ class UserChartUpdateListener
                 $this->lostPosition = new LostPosition();
                 $this->lostPosition->setNewRank($newRank);
                 $this->lostPosition->setOldRank(($newRank == 1) ? 0 : $oldRank); //----- zero for losing platinum medal
-                $this->lostPosition->setUser($em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $entity->getIdUser()));
+                $this->lostPosition->setUser($em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $entity->getIdUser()));
                 $this->lostPosition->setChart($em->getReference('VideoGamesRecords\CoreBundle\Entity\Chart', $entity->getIdChart()));
             }
         }

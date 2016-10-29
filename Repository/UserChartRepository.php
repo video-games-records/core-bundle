@@ -35,7 +35,7 @@ class UserChartRepository extends EntityRepository
         $rsm->addFieldResult('uc', 'pointChart', 'pointChart');
         $rsm->addFieldResult('uc', 'idEtat', 'idEtat');
         $rsm->addFieldResult('uc', 'dateModif', 'dateModif');
-        //$rsm->addJoinedEntityResult('VideoGamesRecords\CoreBundle\Entity\User' , 'u', 'uc', 'user');
+        //$rsm->addJoinedEntityResult('VideoGamesRecords\CoreBundle\Entity\Player' , 'u', 'uc', 'user');
         //$rsm->addFieldResult('u','pseudo','pseudo');
         //$rsm->addFieldResult('u','idMembre','idMembre');
 

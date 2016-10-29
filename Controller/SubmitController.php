@@ -82,7 +82,7 @@ class SubmitController extends Controller
                 }
 
                 $em = $this->getDoctrine()->getManager();
-                $user = $em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $idUser);
+                $user = $em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idUser);
 
 
                 if (!$isNull && $isModify) {

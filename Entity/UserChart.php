@@ -78,9 +78,9 @@ class UserChart
     private $dateModif;
 
     /**
-     * @var User
+     * @var Player
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
      * })
@@ -304,10 +304,10 @@ class UserChart
     /**
      * Set user
      *
-     * @param User $user
+     * @param Player $user
      * @return UserChart
      */
-    public function setUser(User $user = null)
+    public function setUser(Player $user = null)
     {
         $this->user = $user;
         $this->setIdUser($user->getIdUser());
@@ -317,7 +317,7 @@ class UserChart
     /**
      * Get user
      *
-     * @return User
+     * @return Player
      */
     public function getUser()
     {

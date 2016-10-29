@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 /**
  * UserGameRepository
@@ -138,10 +139,10 @@ class UserGameRepository extends EntityRepository
         }
 
         //----- add some data
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankPoint', array('pointChart'), true);
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::calculateGamePoints($list, array('rankPoint', 'nbEqual'), 'pointGame', 'pointChart');
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
+        $list = Ranking::addRank($list, 'rankPoint', array('pointChart'), true);
+        $list = Ranking::calculateGamePoints($list, array('rankPoint', 'nbEqual'), 'pointGame', 'pointChart');
+        $list = Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
+        $list = Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer(array($normalizer));
@@ -153,7 +154,7 @@ class UserGameRepository extends EntityRepository
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\UserGame'
             );
-            $userGame->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idUser']));
+            $userGame->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['idUser']));
             $userGame->setGame($game);
 
             $this->_em->persist($userGame);

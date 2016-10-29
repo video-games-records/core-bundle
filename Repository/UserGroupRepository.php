@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 /**
  * UserGroupRepository
@@ -179,9 +180,9 @@ class UserGroupRepository extends EntityRepository
         }
 
         //----- add some data
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankPoint', array('pointChart'));
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
-        $list = \VideoGamesRecords\CoreBundle\Tools\Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
+        $list = Ranking::addRank($list, 'rankPoint', array('pointChart'));
+        $list = Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
+        $list = Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer(array($normalizer));
@@ -193,7 +194,7 @@ class UserGroupRepository extends EntityRepository
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\UserGroup'
             );
-            $userGroup->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\User', $row['idUser']));
+            $userGroup->setUser($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['idUser']));
             $userGroup->setGroup($group);
 
             $this->_em->persist($userGroup);

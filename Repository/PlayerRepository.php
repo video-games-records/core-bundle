@@ -3,7 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use VideoGamesRecords\CoreBundle\Entity\User;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 
 /**
  * PlayerRepository
@@ -12,7 +12,7 @@ class PlayerRepository extends EntityRepository
 {
     /**
      * @param \AppBundle\Entity\User $user
-     * @return \VideoGamesRecords\CoreBundle\Entity\User
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getPlayerFromUser($user)
@@ -28,11 +28,11 @@ class PlayerRepository extends EntityRepository
 
     /**
      * @param \AppBundle\Entity\User $user
-     * @return \VideoGamesRecords\CoreBundle\Entity\User
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
     private function createPlayerFromUser($user)
     {
-        $player = new User();
+        $player = new Player();
         $player->setNormandieUser($user);
 
         $this->getEntityManager()->persist($player);
