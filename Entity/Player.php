@@ -215,7 +215,7 @@ class Player
      * Set idUser
      *
      * @param integer $idUser
-     * @return User
+     * @return Player
      */
     public function setIdUser($idUser)
     {
@@ -237,7 +237,7 @@ class Player
      * Set avatar
      *
      * @param string $avatar
-     * @return User
+     * @return Player
      */
     public function setAvatar($avatar)
     {
@@ -260,7 +260,7 @@ class Player
      * Set vgr_gamerCard
      *
      * @param string $vgrGamerCard
-     * @return User
+     * @return Player
      */
     public function setVgrGamerCard($vgrGamerCard)
     {
@@ -283,7 +283,7 @@ class Player
      * Set vgr_displayGamerCard
      *
      * @param boolean $vgrDisplayGamerCard
-     * @return User
+     * @return Player
      */
     public function setVgrDisplayGamerCard($vgrDisplayGamerCard)
     {
@@ -306,7 +306,7 @@ class Player
      * Set vgr_displayGoalBar
      *
      * @param boolean $vgrDisplayGoalBar
-     * @return User
+     * @return Player
      */
     public function setVgrDisplayGoalBar($vgrDisplayGoalBar)
     {
@@ -329,7 +329,7 @@ class Player
      * Set vgr_rank0
      *
      * @param integer $vgrRank0
-     * @return User
+     * @return Player
      */
     public function setVgrRank0($vgrRank0)
     {
@@ -352,7 +352,7 @@ class Player
      * Set vgr_rank1
      *
      * @param integer $vgrRank1
-     * @return User
+     * @return Player
      */
     public function setVgrRank1($vgrRank1)
     {
@@ -375,7 +375,7 @@ class Player
      * Set vgr_rank2
      *
      * @param integer $vgrRank2
-     * @return User
+     * @return Player
      */
     public function setVgrRank2($vgrRank2)
     {
@@ -398,7 +398,7 @@ class Player
      * Set vgr_rank3
      *
      * @param integer $vgrRank3
-     * @return User
+     * @return Player
      */
     public function setVgrRank3($vgrRank3)
     {
@@ -421,7 +421,7 @@ class Player
      * Set vgr_pointRecord
      *
      * @param integer $vgrPointRecord
-     * @return User
+     * @return Player
      */
     public function setVgrPointRecord($vgrPointRecord)
     {
@@ -444,7 +444,7 @@ class Player
      * Set vgr_pointVGR
      *
      * @param integer $vgrPointVGR
-     * @return User
+     * @return Player
      */
     public function setVgrPointVGR($vgrPointVGR)
     {
@@ -467,7 +467,7 @@ class Player
      * Set vgr_pointBadge
      *
      * @param integer $vgrPointBadge
-     * @return User
+     * @return Player
      */
     public function setVgrPointBadge($vgrPointBadge)
     {
@@ -490,7 +490,7 @@ class Player
      * Set vgr_collection
      *
      * @param string $vgrCollection
-     * @return User
+     * @return Player
      */
     public function setVgrCollection($vgrCollection)
     {
@@ -513,7 +513,7 @@ class Player
      * Set vgr_rank_point
      *
      * @param integer $vgrRankPoint
-     * @return User
+     * @return Player
      */
     public function setVgrRankPoint($vgrRankPoint)
     {
@@ -536,7 +536,7 @@ class Player
      * Set vgr_rank_medal
      *
      * @param integer $vgrRankMedal
-     * @return User
+     * @return Player
      */
     public function setVgrRankMedal($vgrRankMedal)
     {
@@ -559,7 +559,7 @@ class Player
      * Set vgr_rank_proof
      *
      * @param integer $vgrRankProof
-     * @return User
+     * @return Player
      */
     public function setVgrRankProof($vgrRankProof)
     {
@@ -582,7 +582,7 @@ class Player
      * Set vgr_rank_badge
      *
      * @param integer $vgrRankBadge
-     * @return User
+     * @return Player
      */
     public function setVgrRankBadge($vgrRankBadge)
     {
@@ -605,7 +605,7 @@ class Player
      * Set vgr_rank_cup
      *
      * @param integer $vgrRankCup
-     * @return User
+     * @return Player
      */
     public function setVgrRankCup($vgrRankCup)
     {
@@ -628,7 +628,7 @@ class Player
      * Set vgr_cup_rank0
      *
      * @param integer $vgrCupRank0
-     * @return User
+     * @return Player
      */
     public function setVgrCupRank0($vgrCupRank0)
     {
@@ -651,7 +651,7 @@ class Player
      * Set vgr_cup_rank1
      *
      * @param integer $vgrCupRank1
-     * @return User
+     * @return Player
      */
     public function setVgrCupRank1($vgrCupRank1)
     {
@@ -674,7 +674,7 @@ class Player
      * Set vgr_cup_rank2
      *
      * @param integer $vgrCupRank2
-     * @return User
+     * @return Player
      */
     public function setVgrCupRank2($vgrCupRank2)
     {
@@ -697,7 +697,7 @@ class Player
      * Set vgr_cup_rank3
      *
      * @param integer $vgrCupRank3
-     * @return User
+     * @return Player
      */
     public function setVgrCupRank3($vgrCupRank3)
     {
@@ -720,7 +720,7 @@ class Player
      * Set vgr_nbRecord
      *
      * @param integer $vgrNbRecord
-     * @return User
+     * @return Player
      */
     public function setVgrNbRecord($vgrNbRecord)
     {
@@ -743,7 +743,7 @@ class Player
      * Set vgr_nbRecordProuve
      *
      * @param integer $vgrNbRecordProuve
-     * @return User
+     * @return Player
      */
     public function setVgrNbRecordProuve($vgrNbRecordProuve)
     {
@@ -766,7 +766,7 @@ class Player
      * Set vgr_nbMasterBadge
      *
      * @param integer $vgrNbMasterBadge
-     * @return User
+     * @return Player
      */
     public function setVgrNbMasterBadge($vgrNbMasterBadge)
     {
@@ -789,7 +789,7 @@ class Player
      * Set vgr_pointJeu
      *
      * @param integer $vgrPointJeu
-     * @return User
+     * @return Player
      */
     public function setVgrPointJeu($vgrPointJeu)
     {
@@ -812,7 +812,7 @@ class Player
      * Set vgr_rank_pointJeu
      *
      * @param integer $vgrRankPointJeu
-     * @return User
+     * @return Player
      */
     public function setVgrRankPointJeu($vgrRankPointJeu)
     {
@@ -841,7 +841,7 @@ class Player
 
     /**
      * @param \AppBundle\Entity\User $normandieUser
-     * @return User
+     * @return Player
      */
     public function setNormandieUser($normandieUser)
     {

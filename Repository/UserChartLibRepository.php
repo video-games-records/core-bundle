@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use VideoGamesRecords\CoreBundle\Tools\Score;
 
 /**
  * UserChartLibRepository
@@ -38,8 +39,9 @@ class UserChartLibRepository extends EntityRepository
         $data = array();
 
         foreach ($result as $row) {
+            /** @var \VideoGamesRecords\CoreBundle\Entity\UserChartLib|\VideoGamesRecords\CoreBundle\Entity\ChartLib $row */
             $data['user_' . $row->getLib()->getIdChart() . '_' . $row->getIdLibChart()] = $row->getValue();
-            $values = \VideoGamesRecords\CoreBundle\Tools\Score::getValues($row->getLib()->getType()->getMask(), $row->getValue());
+            $values = Score::getValues($row->getLib()->getType()->getMask(), $row->getValue());
             $i = 1;
             foreach ($values as $key => $value) {
                 $data['value_' . $row->getLib()->getIdChart() . '_' . $row->getIdLibChart() . '_' . $i++] = $value['value'];

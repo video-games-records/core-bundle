@@ -3,7 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PostFlushEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\UserChart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 
@@ -12,9 +12,9 @@ class UserChartUpdateListener
     private $lostPosition = null;
 
     /**
-     * @param LifecycleEventArgs $args
+     * @param PreUpdateEventArgs $args
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
         $this->lostPosition = null;

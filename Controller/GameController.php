@@ -34,6 +34,7 @@ class GameController extends Controller
         );
 
         $paginator = $this->get('knp_paginator');
+        /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $games */
         $games = $paginator->paginate($query, $page, Game::NUM_ITEMS);
         $games->setUsedRoute('game_list_paginated');
 

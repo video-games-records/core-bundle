@@ -41,7 +41,7 @@ class SubmitFormFactory
                         'value_' . $lib->getIdChart() . '_' . $lib->getIdLibChart() . '_' . $i,
                         TextType::class,
                         array(
-                            'label' => ($i == 1) ? $lib->getType()->getLib() : null,
+                            'label' => ($i == 1) ? $lib->getType()->getName() : null,
                             'attr' => array(
                                 'maxlength' => $input['size'],
                                 'size' => 8,
