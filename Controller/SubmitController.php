@@ -129,9 +129,8 @@ class SubmitController extends Controller
                 }
             }
 
-            var_dump('nbInsert=' . $nbInsert);
-            var_dump('nbUpdate=' . $nbUpdate);
+            //var_dump('nbInsert=' . $nbInsert);
+            //var_dump('nbUpdate=' . $nbUpdate);
         }
-        exit;
     }
 }

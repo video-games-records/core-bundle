@@ -18,7 +18,6 @@ class UserChart
      * This columns are missing on this entity
      *  - preuveImage
      *  - idVideo
-     *  - isTopScore
      *  - idPicture
      */
     use Timestampable;
@@ -68,7 +67,7 @@ class UserChart
      *
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
      */
-    private $isTopScore = false;
+    private $topScore = false;
 
     /**
      * @var \DateTime
@@ -233,25 +232,25 @@ class UserChart
     }
 
     /**
-     * Set isTopScore
+     * Set topScore
      *
-     * @param integer $isTopScore
+     * @param integer $topScore
      * @return UserChart
      */
-    public function setIsTopScore($isTopScore)
+    public function setTopScore($topScore)
     {
-        $this->isTopScore = $isTopScore;
+        $this->topScore = $topScore;
         return $this;
     }
 
     /**
-     * Get isTopScore
+     * Get topScore
      *
      * @return integer
      */
-    public function getIsTopScore()
+    public function getTopScore()
     {
-        return $this->isTopScore;
+        return $this->topScore;
     }
 
     /**
@@ -339,9 +338,9 @@ class UserChart
     public function preUpdate()
     {
         if ($this->getRank() == 1) {
-            $this->setIsTopScore(true);
+            $this->setTopScore(true);
         } else {
-            $this->setIsTopScore(false);
+            $this->setTopScore(false);
         }
     }
 }
