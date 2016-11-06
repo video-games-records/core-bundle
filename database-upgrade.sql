@@ -11,8 +11,52 @@ RENAME TABLE vgr_librecord TO vgr_chartlib;
 RENAME TABLE vgr_librecord_type TO vgr_charttype;
 RENAME TABLE vgr_librecord_membre TO vgr_user_chartlib;
 RENAME TABLE vgr_perteposition TO vgr_lostposition;
+RENAME TABLE t_pays TO country;
+RENAME TABLE t_email TO email;
+RENAME TABLE t_membre TO vgr_member;
 
-ALTER TABLE `t_membre` CHANGE `idMembre` `idUser` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `vgr_member` CHANGE `idMembre` `idUser` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Countries /!\ Encoding issue
+--
+
+-- New structure
+ALTER TABLE `country` CHANGE `idPays` `id` int(11) NOT NULL AUTO_INCREMENT, ADD code_iso2 VARCHAR(2) NOT NULL, ADD code_iso3 VARCHAR(3) NOT NULL, ADD code_iso_numeric INT NOT NULL;
+ALTER TABLE country CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE TABLE country_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_A1FE6FA42C2AC5D3 (translatable_id), UNIQUE INDEX country_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+ALTER TABLE country_translation ADD CONSTRAINT FK_A1FE6FA42C2AC5D3 FOREIGN KEY (translatable_id) REFERENCES country (id) ON DELETE CASCADE;
+
+-- Temporary base - official data
+CREATE TABLE country_code (id INT AUTO_INCREMENT NOT NULL, liben VARCHAR(255) NOT NULL, iso2 VARCHAR(2) NOT NULL, iso3 VARCHAR(3) NOT NULL, isoN int NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+INSERT INTO country_code (liben, iso2, iso3, isoN) VALUES ("Afghanistan","AF","AFG","4"), ("Albania","AL","ALB","8"), ("Antarctica","AQ","ATA","10"), ("Algeria","DZ","DZA","12"), ("American Samoa","AS","ASM","16"), ("Andorra","AD","AND","20"), ("Angola","AO","AGO","24"), ("Antigua and Barbuda","AG","ATG","28"), ("Azerbaijan","AZ","AZE","31"), ("Argentina","AR","ARG","32"), ("Australia","AU","AUS","36"), ("Austria","AT","AUT","40"), ("Bahamas","BS","BHS","44"), ("Bahrain","BH","BHR","48"), ("Bangladesh","BD","BGD","50"), ("Armenia","AM","ARM","51"), ("Barbados","BB","BRB","52"), ("Belgium","BE","BEL","56"), ("Bermuda","BM","BMU","60"), ("Bhutan","BT","BTN","64"), ("Bolivia","BO","BOL","68"), ("Bosnia and Herzegovina","BA","BIH","70"), ("Botswana","BW","BWA","72"), ("Bouvet Island","BV","BVT","74"), ("Brazil","BR","BRA","76"), ("Belize","BZ","BLZ","84"), ("British Indian Ocean Territory","IO","IOT","86"), ("Solomon Islands","SB","SLB","90"), ("British Virgin Islands","VG","VGB","92"), ("Brunei Darussalam","BN","BRN","96"), ("Bulgaria","BG","BGR","100"), ("Myanmar","MM","MMR","104"), ("Burundi","BI","BDI","108"), ("Belarus","BY","BLR","112"), ("Cambodia","KH","KHM","116"), ("Cameroon","CM","CMR","120"), ("Canada","CA","CAN","124"), ("Cape Verde","CV","CPV","132"), ("Cayman Islands","KY","CYM","136"), ("Central African Republic","CF","CAF","140"), ("Sri Lanka","LK","LKA","144"), ("Chad","TD","TCD","148"), ("Chile","CL","CHL","152"), ("China","CN","CHN","156"), ("Taiwan, Republic of China","TW","TWN","158"), ("Christmas Island","CX","CXR","162"), ("Cocos (Keeling) Islands","CC","CCK","166"), ("Colombia","CO","COL","170"), ("Comoros","KM","COM","174"), ("Mayotte","YT","MYT","175"), ("Congo (Brazzaville)","CG","COG","178"), ("Congo, Democratic Republic of the","CD","COD","180"), ("Cook Islands","CK","COK","184"), ("Costa Rica","CR","CRI","188"), ("Croatia","HR","HRV","191"), ("Cuba","CU","CUB","192"), ("Cyprus","CY","CYP","196"), ("Czech Republic","CZ","CZE","203"), ("Benin","BJ","BEN","204"), ("Denmark","DK","DNK","208"), ("Dominica","DM","DMA","212"), ("Dominican Republic","DO","DOM","214"), ("Ecuador","EC","ECU","218"), ("El Salvador","SV","SLV","222"), ("Equatorial Guinea","GQ","GNQ","226"), ("Ethiopia","ET","ETH","231"), ("Eritrea","ER","ERI","232"), ("Estonia","EE","EST","233"), ("Faroe Islands","FO","FRO","234"), ("Falkland Islands (Malvinas)","FK","FLK","238"), ("South Georgia and the South Sandwich Islands","GS","SGS","239"), ("Fiji","FJ","FJI","242"), ("Finland","FI","FIN","246"), ("Aland Islands","AX","ALA","248"), ("France","FR","FRA","250"), ("French Guiana","GF","GUF","254"), ("French Polynesia","PF","PYF","258"), ("French Southern Territories","TF","ATF","260"), ("Djibouti","DJ","DJI","262"), ("Gabon","GA","GAB","266"), ("Georgia","GE","GEO","268"), ("Gambia","GM","GMB","270"), ("Palestinian Territory","PS","PSE","275"), ("Germany","DE","DEU","276"), ("Ghana","GH","GHA","288"), ("Gibraltar","GI","GIB","292"), ("Kiribati","KI","KIR","296"), ("Greece","GR","GRC","300"), ("Greenland","GL","GRL","304"), ("Grenada","GD","GRD","308"), ("Guadeloupe","GP","GLP","312"), ("Guam","GU","GUM","316"), ("Guatemala","GT","GTM","320"), ("Guinea","GN","GIN","324"), ("Guyana","GY","GUY","328"), ("Haiti","HT","HTI","332"), ("Heard Island and Mcdonald Islands","HM","HMD","334"), ("Holy See (Vatican City State)","VA","VAT","336"), ("Honduras","HN","HND","340"), ("Hong Kong","HK","HKG","344"), ("Hungary","HU","HUN","348"), ("Iceland","IS","ISL","352"), ("India","IN","IND","356"), ("Indonesia","ID","IDN","360"), ("Iran, Islamic Republic of","IR","IRN","364"), ("Iraq","IQ","IRQ","368"), ("Ireland","IE","IRL","372"), ("Israel","IL","ISR","376"), ("Italy","IT","ITA","380"), ("Côte d'Ivoire","CI","CIV","384"), ("Jamaica","JM","JAM","388"), ("Japan","JP","JPN","392"), ("Kazakhstan","KZ","KAZ","398"), ("Jordan","JO","JOR","400"), ("Kenya","KE","KEN","404"), ("Korea, Democratic People's Republic of","KP","PRK","408"), ("Korea, Republic of","KR","KOR","410"), ("Kuwait","KW","KWT","414"), ("Kyrgyzstan","KG","KGZ","417"), ("Lao PDR","LA","LAO","418"), ("Lebanon","LB","LBN","422"), ("Lesotho","LS","LSO","426"), ("Latvia","LV","LVA","428"), ("Liberia","LR","LBR","430"), ("Libya","LY","LBY","434"), ("Liechtenstein","LI","LIE","438"), ("Lithuania","LT","LTU","440"), ("Luxembourg","LU","LUX","442"), ("Macao","MO","MAC","446"), ("Madagascar","MG","MDG","450"), ("Malawi","MW","MWI","454"), ("Malaysia","MY","MYS","458"), ("Maldives","MV","MDV","462"), ("Mali","ML","MLI","466"), ("Malta","MT","MLT","470"), ("Martinique","MQ","MTQ","474"), ("Mauritania","MR","MRT","478"), ("Mauritius","MU","MUS","480"), ("Mexico","MX","MEX","484"), ("Monaco","MC","MCO","492"), ("Mongolia","MN","MNG","496"), ("Moldova","MD","MDA","498"), ("Montenegro","ME","MNE","499"), ("Montserrat","MS","MSR","500"), ("Morocco","MA","MAR","504"), ("Mozambique","MZ","MOZ","508"), ("Oman","OM","OMN","512"), ("Namibia","NA","NAM","516"), ("Nauru","NR","NRU","520"), ("Nepal","NP","NPL","524"), ("Netherlands","NL","NLD","528"), ("Netherlands Antilles","AN","ANT","530"), ("Aruba","AW","ABW","533"), ("New Caledonia","NC","NCL","540"), ("Vanuatu","VU","VUT","548"), ("New Zealand","NZ","NZL","554"), ("Nicaragua","NI","NIC","558"), ("Niger","NE","NER","562"), ("Nigeria","NG","NGA","566"), ("Niue","NU","NIU","570"), ("Norfolk Island","NF","NFK","574"), ("Norway","NO","NOR","578"), ("Northern Mariana Islands","MP","MNP","580"), ("United States Minor Outlying Islands","UM","UMI","581"), ("Micronesia, Federated States of","FM","FSM","583"), ("Marshall Islands","MH","MHL","584"), ("Palau","PW","PLW","585"), ("Pakistan","PK","PAK","586"), ("Panama","PA","PAN","591"), ("Papua New Guinea","PG","PNG","598"), ("Paraguay","PY","PRY","600"), ("Peru","PE","PER","604"), ("Philippines","PH","PHL","608"), ("Pitcairn","PN","PCN","612"), ("Poland","PL","POL","616"), ("Portugal","PT","PRT","620"), ("Guinea-Bissau","GW","GNB","624"), ("Timor-Leste","TL","TLS","626"), ("Puerto Rico","PR","PRI","630"), ("Qatar","QA","QAT","634"), ("Réunion","RE","REU","638"), ("Romania","RO","ROU","642"), ("Russian Federation","RU","RUS","643"), ("Rwanda","RW","RWA","646"), ("Saint-Barthélemy","BL","BLM","652"), ("Saint Helena","SH","SHN","654"), ("Saint Kitts and Nevis","KN","KNA","659"), ("Anguilla","AI","AIA","660"), ("Saint Lucia","LC","LCA","662"), ("Saint-Martin","MF","MAF","663"), ("Saint Pierre and Miquelon","PM","SPM","666"), ("Saint Vincent and Grenadines","VC","VCT","670"), ("San Marino","SM","SMR","674"), ("Sao Tome and Principe","ST","STP","678"), ("Saudi Arabia","SA","SAU","682"), ("Senegal","SN","SEN","686"), ("Serbia","RS","SRB","688"), ("Seychelles","SC","SYC","690"), ("Sierra Leone","SL","SLE","694"), ("Singapore","SG","SGP","702"), ("Slovakia","SK","SVK","703"), ("Viet Nam","VN","VNM","704"), ("Slovenia","SI","SVN","705"), ("Somalia","SO","SOM","706"), ("South Africa","ZA","ZAF","710"), ("Zimbabwe","ZW","ZWE","716"), ("Spain","ES","ESP","724"), ("South Sudan","SS","SSD","728"), ("Western Sahara","EH","ESH","732"), ("Sudan","SD","SDN","736"), ("Suriname","SR","SUR","740"), ("Svalbard and Jan Mayen Islands","SJ","SJM","744"), ("Swaziland","SZ","SWZ","748"), ("Sweden","SE","SWE","752"), ("Switzerland","CH","CHE","756"), ("Syrian Arab Republic","SY","SYR","760"), ("Tajikistan","TJ","TJK","762"), ("Thailand","TH","THA","764"), ("Togo","TG","TGO","768"), ("Tokelau","TK","TKL","772"), ("Tonga","TO","TON","776"), ("Trinidad and Tobago","TT","TTO","780"), ("United Arab Emirates","AE","ARE","784"), ("Tunisia","TN","TUN","788"), ("Turkey","TR","TUR","792"), ("Turkmenistan","TM","TKM","795"), ("Turks and Caicos Islands","TC","TCA","796"), ("Tuvalu","TV","TUV","798"), ("Uganda","UG","UGA","800"), ("Ukraine","UA","UKR","804"), ("Macedonia, Republic of","MK","MKD","807"), ("Egypt","EG","EGY","818"), ("United Kingdom","GB","GBR","826"), ("Guernsey","GG","GGY","831"), ("Jersey","JE","JEY","832"), ("Isle of Man","IM","IMN","833"), ("Tanzania, United Republic of","TZ","TZA","834"), ("United States of America","US","USA","840"), ("Virgin Islands, US","VI","VIR","850"), ("Burkina Faso","BF","BFA","854"), ("Uruguay","UY","URY","858"), ("Uzbekistan","UZ","UZB","860"), ("Venezuela","VE","VEN","862"), ("Wallis and Futuna Islands","WF","WLF","876"), ("Samoa","WS","WSM","882"), ("Yemen","YE","YEM","887"), ("Zambia","ZM","ZMB","894");
+
+-- Mise à jour des données actuelles
+UPDATE country SET code_iso2 = UCASE(LEFT(codeIso, 2));
+UPDATE country c
+JOIN country_code cc ON c.code_iso2 = cc.iso2
+SET c.code_iso3 = cc.iso3, c.code_iso_numeric = cc.isoN, c.libPays_en = cc.liben;
+
+-- Suppression des pays n'existant pas
+UPDATE vgr_member SET idPays = 191 WHERE idPays IN (2, 92);
+UPDATE vgr_member SET idPays = NULL WHERE idPays IN (56, 182, 186, 246, 239);
+DELETE FROM country WHERE id IN (2, 56, 182, 186, 246, 239);
+
+-- Transfert des données
+INSERT INTO country_translation (translatable_id, name, locale) SELECT id, libPays_fr, 'fr' FROM country;
+INSERT INTO country_translation (translatable_id, name, locale) SELECT id, libPays_en, 'en' FROM country;
+-- ALTER TABLE country DROP libPays_fr, DROP libPays_en, DROP classPays, DROP codeIso;
+
+-- Suppression Temporary base
+-- DROP TABLE country_code;
+
+--
+-- VGR Part
+--
+
+ALTER TABLE vgr_serie CHANGE libserie name VARCHAR(100) NOT NULL;
 
 ALTER TABLE `vgr_game` CHANGE `idJeu` `idGame` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game` CHANGE `libJeu_fr` `libGameFr` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
@@ -22,6 +66,8 @@ ALTER TABLE `vgr_game` CHANGE `nbMembre` `nbUser` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `boolDLC` `boolDlc` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `statut` `status` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE vgr_game CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_game CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` DROP `imagePlateForme`;
 
 ALTER TABLE `vgr_group` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL AUTO_INCREMENT;
@@ -31,6 +77,9 @@ ALTER TABLE `vgr_group` CHANGE `idJeu` `idGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `boolDLC` `boolDlc` TINYINT(1) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `nbMembre` `nbUser` INT(11) NOT NULL;
+ALTER TABLE vgr_group CHANGE nbPost nbPost INT NOT NULL;
+ALTER TABLE vgr_group CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_group CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 
 ALTER TABLE `vgr_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_chart` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
@@ -38,9 +87,16 @@ ALTER TABLE `vgr_chart` CHANGE `libRecord_fr` `libChartFr` VARCHAR(100) CHARACTE
 ALTER TABLE `vgr_chart` CHANGE `libRecord_en` `libChartEn` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
 ALTER TABLE `vgr_chart` CHANGE `statut` `statusUser` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
 ALTER TABLE `vgr_chart` CHANGE `statutTeam` `statusTeam` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE vgr_chart CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_chart CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_chart CHANGE statusUser statusUser VARCHAR(255) NOT NULL, CHANGE statusTeam statusTeam VARCHAR(255) NOT NULL, CHANGE nbPost nbPost INT NOT NULL;
 
 ALTER TABLE `vgr_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_chartlib` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
+ALTER TABLE vgr_chartlib CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_chartlib ADD updated_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_chartlib CHANGE lib name VARCHAR(100) DEFAULT NULL;
+ALTER TABLE vgr_chartlib CHANGE idChart idChart INT DEFAULT NULL, CHANGE idType idType INT DEFAULT NULL;
 
 ALTER TABLE `vgr_charttype` CHANGE `lib_fr` `libFr` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_charttype` CHANGE `lib_en` `libEn` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
@@ -49,6 +105,9 @@ ALTER TABLE `vgr_charttype` CHANGE `nomType` `name` VARCHAR(100) CHARACTER SET u
 ALTER TABLE `vgr_user_chart` CHANGE `idMembre` `idUser` INT(11) NOT NULL;
 ALTER TABLE `vgr_user_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_user_chart` CHANGE `pointRecord` `pointChart` DOUBLE NOT NULL;
+ALTER TABLE vgr_user_chart CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_user_chart CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_user_chart CHANGE rank rank INT NOT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE idEtat idEtat INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
 
 ALTER TABLE `vgr_user_chartlib` CHANGE `idMembre` `idUser` INT(11) NOT NULL;
 ALTER TABLE `vgr_user_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL;
@@ -86,27 +145,13 @@ ALTER TABLE `vgr_lostposition` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEFA
 ALTER TABLE `vgr_lostposition` CHANGE `oldPosition` `oldRank` INT(5) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_lostposition` CHANGE `newPosition` `newRank` INT(5) NOT NULL DEFAULT '0';
 
+--
+-- Members
+--
+CREATE TABLE member_group (userId INT NOT NULL, groupId INT NOT NULL, INDEX IDX_FE1D13664B64DCC (userId), INDEX IDX_FE1D136ED8188B0 (groupId), PRIMARY KEY(userId, groupId)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+CREATE TABLE groupRole (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', UNIQUE INDEX UNIQ_39A2D4D75E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+CREATE TABLE member (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL, locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender INT DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idPays INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idPays), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+ALTER TABLE member ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idPays) REFERENCES country (id);
+ALTER TABLE member_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES member (id);
+ALTER TABLE member_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
