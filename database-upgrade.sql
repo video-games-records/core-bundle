@@ -1,4 +1,6 @@
 -- Migration script for video-games-records.com
+SET NAMES 'utf8';
+SET CHARACTER SET utf8;
 
 RENAME TABLE vgr_jeu TO vgr_game;
 RENAME TABLE vgr_groupe TO vgr_group;
@@ -20,7 +22,7 @@ ALTER TABLE `vgr_member` CHANGE `idMembre` `idUser` INT(11) NOT NULL AUTO_INCREM
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Countries /!\ Encoding issue
+-- Countries
 --
 
 -- New structure
@@ -47,10 +49,10 @@ DELETE FROM country WHERE id IN (2, 56, 182, 186, 246, 239);
 -- Transfert des données
 INSERT INTO country_translation (translatable_id, name, locale) SELECT id, libPays_fr, 'fr' FROM country;
 INSERT INTO country_translation (translatable_id, name, locale) SELECT id, libPays_en, 'en' FROM country;
--- ALTER TABLE country DROP libPays_fr, DROP libPays_en, DROP classPays, DROP codeIso;
+ALTER TABLE country DROP libPays_fr, DROP libPays_en, DROP classPays, DROP codeIso;
 
 -- Suppression Temporary base
--- DROP TABLE country_code;
+DROP TABLE country_code;
 
 --
 -- VGR Part
@@ -151,7 +153,72 @@ ALTER TABLE `vgr_lostposition` CHANGE `newPosition` `newRank` INT(5) NOT NULL DE
 CREATE TABLE member_group (userId INT NOT NULL, groupId INT NOT NULL, INDEX IDX_FE1D13664B64DCC (userId), INDEX IDX_FE1D136ED8188B0 (groupId), PRIMARY KEY(userId, groupId)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 CREATE TABLE groupRole (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', UNIQUE INDEX UNIQ_39A2D4D75E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
-CREATE TABLE member (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL, locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender INT DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idPays INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idPays), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+CREATE TABLE member (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL, locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idPays INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idPays), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
 ALTER TABLE member ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idPays) REFERENCES country (id);
 ALTER TABLE member_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES member (id);
 ALTER TABLE member_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
+
+-- New id for link between normandie & vgr
+ALTER TABLE vgr_member ADD normandie_user_id INT DEFAULT NULL;
+
+-- Procedure to migrate member
+DELIMITER &&
+CREATE PROCEDURE member_migrate()
+BEGIN
+  DECLARE done, locked INT DEFAULT FALSE;
+  DECLARE member_id, vgr_member_id, nb_connection, pays INT;
+  DECLARE username varchar(180);
+  DECLARE gender varchar(1);
+  DECLARE birthdate date;
+  DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
+  DECLARE v_email, nom, prenom, siteWeb, statutCompte, sexe varchar(255);
+  DECLARE cur1 CURSOR FOR SELECT idUser, pseudo, email, nom, prenom, dateNaissance, nbConnexion, siteWeb, statutCompte,
+                            dateCreation, dateModification, derniereConnexion, sexe, idPays
+                            /*, MSN, presentation, nbForumMessage, nbCommentaire, boolTeam, boolNewsletter, boolAssoc,
+                            boolShowFbLikeBox, boolNotifCommentaire, signature, dateFormat, utcFormat, mailSending, don,
+                            idLangue, idLangueForum, idRang, idStatut, idTeam*/
+                          FROM vgr_member;
+
+  OPEN cur1;
+  read_loop: LOOP
+    FETCH cur1 INTO vgr_member_id, username, v_email, nom, prenom, birthdate, nb_connection, siteWeb, statutCompte,
+      userDateCreation, userDateModification, userDerniereConnexion, sexe, pays;
+    IF statutCompte IN ('SUPPRIME', 'BANNI') THEN SET locked = true; END IF;
+    IF sexe = 'homme' THEN
+      SET gender = 'H';
+    ELSEIF sexe = 'femme' THEN
+      SET gender = 'F';
+    ELSE
+      SET gender = 'I';
+    END IF;
+
+    SELECT vgr_member_id;
+    -- TODO: Deduplicate member by changing email addresses (pre/suffixe)
+    -- TODO: Find why Чика Црки doesn't enter in member table.
+    INSERT IGNORE INTO member (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender,
+              created_at, updated_at, last_login, idPays, confirmation_token, password_requested_at)
+    VALUES
+      (username, username, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
+       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, siteWeb, gender,
+       userDateCreation, userDateModification, userDerniereConnexion, pays,
+       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
+      );
+    SET member_id = LAST_INSERT_ID();
+    UPDATE vgr_member SET normandie_user_id = member_id WHERE idUser = vgr_member_id;
+  END LOOP;
+  CLOSE cur1;
+END&&
+
+DELIMITER ;
+
+CALL member_migrate();
+DROP PROCEDURE member_migrate;
+
+ALTER TABLE vgr_member DROP pseudo, DROP password, DROP email, DROP confirm_email, DROP nom, DROP prenom, DROP dateNaissance,
+DROP statutCompte, DROP siteWeb, DROP nbConnexion, DROP derniereConnexion, DROP sexe, DROP dateCreation, DROP dateModification
+/*DROP MSN, DROP presentation,
+DROP nbForumMessage, DROP nbCommentaire, DROP boolTeam, DROP boolContact, DROP boolNewsletter, DROP boolAssoc,
+DROP boolShowFbLikeBox, DROP boolNotifCommentaire, DROP signature, DROP dateFormat, DROP utcFormat, DROP mailSending,
+DROP don, DROP idLangue, DROP idPays, DROP idLangueForum, DROP idRang, DROP idStatut, DROP idTeam*/;
+ALTER TABLE vgr_member CHANGE avatar avatar VARCHAR(100) NOT NULL, CHANGE vgr_gamerCard vgr_gamerCard VARCHAR(50) DEFAULT NULL, CHANGE vgr_displayGamerCard vgr_displayGamerCard TINYINT(1) NOT NULL, CHANGE vgr_displayGoalBar vgr_displayGoalBar TINYINT(1) NOT NULL, CHANGE vgr_rank0 vgr_rank0 INT DEFAULT NULL, CHANGE vgr_rank1 vgr_rank1 INT DEFAULT NULL, CHANGE vgr_rank2 vgr_rank2 INT DEFAULT NULL, CHANGE vgr_rank3 vgr_rank3 INT DEFAULT NULL, CHANGE vgr_pointRecord vgr_pointRecord INT NOT NULL, CHANGE vgr_pointVGR vgr_pointVGR INT NOT NULL, CHANGE vgr_pointBadge vgr_pointBadge INT NOT NULL, CHANGE vgr_cup_rank0 vgr_cup_rank0 INT DEFAULT NULL, CHANGE vgr_cup_rank1 vgr_cup_rank1 INT DEFAULT NULL, CHANGE vgr_cup_rank2 vgr_cup_rank2 INT DEFAULT NULL, CHANGE vgr_cup_rank3 vgr_cup_rank3 INT DEFAULT NULL, CHANGE vgr_rank_pointJeu vgr_rank_pointJeu INT DEFAULT NULL;
