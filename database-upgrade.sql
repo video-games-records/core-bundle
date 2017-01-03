@@ -166,8 +166,9 @@ DELIMITER &&
 CREATE PROCEDURE member_migrate()
 BEGIN
   DECLARE done, locked INT DEFAULT FALSE;
-  DECLARE member_id, vgr_member_id, nb_connection, pays INT;
-  DECLARE username varchar(180);
+  DECLARE duplicateIncrement INT DEFAULT 100;
+  DECLARE member_id, vgr_member_id, pays, nb_connection INT;
+  DECLARE userName varchar(180) CHARSET utf8;
   DECLARE gender varchar(1);
   DECLARE birthdate date;
   DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
@@ -178,11 +179,36 @@ BEGIN
                             boolShowFbLikeBox, boolNotifCommentaire, signature, dateFormat, utcFormat, mailSending, don,
                             idLangue, idLangueForum, idRang, idStatut, idTeam*/
                           FROM vgr_member;
+  -- Handler for duplicate email
+  DECLARE CONTINUE HANDLER FOR 1062
+    BEGIN
+      -- Log for duplicate email
+      SELECT CONCAT('Duplicate email for: ', v_email);
+      SET duplicateIncrement = duplicateIncrement + 1;
+      SET v_email = duplicateIncrement;
+      SET locked = true;
+      -- Retry with new mail
+      INSERT INTO member (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+                          enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender,
+                          created_at, updated_at, last_login, idPays, confirmation_token, password_requested_at)
+      VALUES
+        (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
+         MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, siteWeb, gender,
+         userDateCreation, userDateModification, userDerniereConnexion, pays,
+         MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
+        );
+    END;
+
+  -- Handler for finishing the loop
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
   OPEN cur1;
   read_loop: LOOP
-    FETCH cur1 INTO vgr_member_id, username, v_email, nom, prenom, birthdate, nb_connection, siteWeb, statutCompte,
+    FETCH cur1 INTO vgr_member_id, userName, v_email, nom, prenom, birthdate, nb_connection, siteWeb, statutCompte,
       userDateCreation, userDateModification, userDerniereConnexion, sexe, pays;
+    IF done THEN
+      LEAVE read_loop;
+    END IF;
     IF statutCompte IN ('SUPPRIME', 'BANNI') THEN SET locked = true; END IF;
     IF sexe = 'homme' THEN
       SET gender = 'H';
@@ -192,14 +218,11 @@ BEGIN
       SET gender = 'I';
     END IF;
 
-    SELECT vgr_member_id;
-    -- TODO: Deduplicate member by changing email addresses (pre/suffixe)
-    -- TODO: Find why Чика Црки doesn't enter in member table.
-    INSERT IGNORE INTO member (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+    INSERT INTO member (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
               enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender,
               created_at, updated_at, last_login, idPays, confirmation_token, password_requested_at)
     VALUES
-      (username, username, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
+      (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, siteWeb, gender,
        userDateCreation, userDateModification, userDerniereConnexion, pays,
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
