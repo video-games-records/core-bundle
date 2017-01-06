@@ -93,6 +93,13 @@ class Chart
     }
 
     /**
+     * @return string
+     */
+    public function __toString() {
+        return sprintf('%s [%s]', $this->libChartEn, $this->idChart);
+    }
+
+    /**
      * Set idChart
      *
      * @param integer $idChart
@@ -187,10 +194,11 @@ class Chart
      *
      * @return string
      */
-    public function getLibChartdEn()
+    public function getLibChartEn()
     {
         return $this->libChartEn;
     }
+
 
     /**
      * Set statusUser

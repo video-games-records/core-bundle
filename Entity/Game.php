@@ -136,6 +136,13 @@ class Game
     }
 
     /**
+     * @return string
+     */
+    public function __toString() {
+        return sprintf('%s [%s]', $this->libGameEn, $this->idGame);
+    }
+
+    /**
      * Set idGame
      *
      * @param integer $idGame
