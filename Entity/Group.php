@@ -89,6 +89,12 @@ class Group
         $this->charts = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return sprintf('%s [%s]', $this->libGroupEn, $this->idGroup);
+    }
 
     /**
      * Set idGroup
