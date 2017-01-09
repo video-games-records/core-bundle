@@ -186,7 +186,7 @@ BEGIN
       SELECT CONCAT('Duplicate email for: ', v_email);
       SET duplicateIncrement = duplicateIncrement + 1;
       SET v_email = duplicateIncrement;
-      SET locked = true;
+      SET locked = TRUE;
       -- Retry with new mail
       INSERT INTO member (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
                           enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender,
@@ -209,7 +209,7 @@ BEGIN
     IF done THEN
       LEAVE read_loop;
     END IF;
-    IF statutCompte IN ('SUPPRIME', 'BANNI') THEN SET locked = true; END IF;
+    IF statutCompte IN ('SUPPRIME', 'BANNI') THEN SET locked = TRUE; ELSE SET locked = FALSE; END IF;
     IF sexe = 'homme' THEN
       SET gender = 'H';
     ELSEIF sexe = 'femme' THEN
