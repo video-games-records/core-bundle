@@ -31,3 +31,11 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Chart
             - ~
+    sonata.admin.platform:
+        class: VideoGamesRecords\CoreBundle\Admin\PlatformAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "Platform" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Platform
+            - ~

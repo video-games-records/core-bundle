@@ -13,6 +13,8 @@ RENAME TABLE vgr_librecord TO vgr_chartlib;
 RENAME TABLE vgr_librecord_type TO vgr_charttype;
 RENAME TABLE vgr_librecord_membre TO vgr_user_chartlib;
 RENAME TABLE vgr_perteposition TO vgr_lostposition;
+RENAME TABLE vgr_plateforme TO vgr_platform;
+RENAME TABLE vgr_jeu_plateforme TO vgr_game_platform;
 RENAME TABLE t_pays TO country;
 RENAME TABLE t_email TO email;
 RENAME TABLE t_membre TO vgr_member;
@@ -57,8 +59,6 @@ DROP TABLE country_code;
 --
 -- VGR Part
 --
-
-ALTER TABLE vgr_serie CHANGE libserie name VARCHAR(100) NOT NULL;
 
 ALTER TABLE `vgr_game` CHANGE `idJeu` `idGame` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game` CHANGE `libJeu_fr` `libGameFr` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
@@ -146,6 +146,15 @@ ALTER TABLE `vgr_lostposition` CHANGE `idMembre` `idUser` INT(13) NOT NULL DEFAU
 ALTER TABLE `vgr_lostposition` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_lostposition` CHANGE `oldPosition` `oldRank` INT(5) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_lostposition` CHANGE `newPosition` `newRank` INT(5) NOT NULL DEFAULT '0';
+
+ALTER TABLE `vgr_platform` CHANGE `idPlateforme` `idPlatform` INT(11) NOT NULL;
+ALTER TABLE `vgr_platform` CHANGE `libPlateforme` `libPlatform` VARCHAR(50) NOT NULL;
+ALTER TABLE `vgr_platform` CHANGE `statut` `status` ENUM('ACTIF','INACTIF') NOT NULL DEFAULT 'INACTIF';
+ALTER TABLE `vgr_platform` CHANGE `image` `picture` VARCHAR(30) NOT NULL DEFAULT '';
+ALTER TABLE `vgr_platform` CHANGE `classPlateforme` `class` VARCHAR(30) NOT NULL;
+
+ALTER TABLE `vgr_game_platform` CHANGE `idJeu` `idGame` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_game_platform` CHANGE `idPlateForme` `idPlatform` INT(11) NOT NULL DEFAULT '0';
 
 --
 -- Members

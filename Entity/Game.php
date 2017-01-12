@@ -128,11 +128,22 @@ class Game
     private $groups;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Platform")
+     * @ORM\JoinTable(name="vgr_game_platform",
+     *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="idGame")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="idPlatform")}
+     *      )
+     * @ORM\OrderBy({"libPlatform" = "ASC"})
+     */
+    private $platforms;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->groups = new ArrayCollection();
+        $this->platforms = new ArrayCollection();
     }
 
     /**
@@ -522,5 +533,32 @@ class Game
     public function getGroups()
     {
         return $this->groups;
+    }
+
+
+    /**
+     * @param Platform $platform
+     * @return $this
+     */
+    public function addPlatform(Platform $platform)
+    {
+        $this->platforms[] = $platform;
+        return $this;
+    }
+
+    /**
+     * @param Platform $platform
+     */
+    public function removePlatform(Platform $platform)
+    {
+        $this->groups->removeElement($platform);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlatforms()
+    {
+        return $this->platforms;
     }
 }
