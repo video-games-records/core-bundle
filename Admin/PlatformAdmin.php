@@ -9,29 +9,25 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class GameAdmin extends AbstractAdmin
+class PlatformAdmin extends AbstractAdmin
 {
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idGame', 'text', array(
-                'label' => 'idGame',
+            ->add('idPlatform', 'text', array(
+                'label' => 'idPlatform',
                 'attr' => array(
                     'readonly' => true,
                 )
             ))
-            ->add('libGameEn', 'text', array(
-                'label' => 'Name (EN)',
+            ->add('libPlatform', 'text', array(
+                'label' => 'Name',
                 'required' => true,
-            ))
-            ->add('libGameFr', 'text', array(
-                'label' => 'Name (FR)',
-                'required' => false,
             ))
             ->add('picture', 'text', array(
                 'label' => 'Picture',
-                'required' => false,
+                'required' => true,
             ))
             ->add(
                 'status',
@@ -44,20 +40,10 @@ class GameAdmin extends AbstractAdmin
                     )
                 )
             )
-            ->add(
-                'etat',
-                ChoiceType::class,
-                array(
-                    'label' => 'Status',
-                    'choices' => array(
-                        'CREATION' => 'CREATION',
-                        'RECORD' => 'RECORD',
-                        'IMAGE' => 'IMAGE',
-                        'FINI' => 'FINI'
-                    )
-                )
-            )
-            ->add('platforms', null, array('required' => false, 'expanded' => false))
+            ->add('class', 'text', array(
+                'label' => 'Class',
+                'required' => true,
+            ))
         ;
     }
 
@@ -65,10 +51,7 @@ class GameAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('libGameFr')
-            ->add('libGameEn')
-            ->add('status')
-            ->add('etat')
+            ->add('libPlatform')
         ;
     }
 
@@ -76,9 +59,8 @@ class GameAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idGame')
-            ->add('libGameEn', null, array('editable' => false))
-            ->add('libGameFr')
+            ->addIdentifier('idPlatform')
+            ->add('libPlatform', null, array('editable' => false))
             ->add(
                 'picture',
                 'text',
@@ -92,28 +74,13 @@ class GameAdmin extends AbstractAdmin
                 'choice',
                 array(
                     'label' => 'Status',
-                    'editable' => true,
+                    'editable' => false,
                     'choices' => array(
                         'ACTIF' => 'ACTIF',
                         'INACTIF' => 'INACTIF',
                     )
                 )
             )
-            ->add(
-                'etat',
-                'choice',
-                array(
-                    'label' => 'Etat',
-                    'editable' => false,
-                    'choices' => array(
-                        'CREATION' => 'CREATION',
-                        'RECORD' => 'RECORD',
-                        'IMAGE' => 'IMAGE',
-                        'FINI' => 'FINI'
-                    )
-                )
-            )
-
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -127,11 +94,11 @@ class GameAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idGame')
-            ->add('libGameFr')
-            ->add('libGameEn')
+            ->add('idPlatform')
+            ->add('libPlatform')
+            ->add('picture')
             ->add('status')
-            ->add('etat')
+            ->add('class')
         ;
     }
 
@@ -139,14 +106,14 @@ class GameAdmin extends AbstractAdmin
     public function validate(ErrorElement $errorElement, $object)
     {
         $errorElement
-            ->with('libGameEn')
-                ->assertLength(array('max' => 100))
-            ->end()
-            ->with('libGameFr')
-                ->assertLength(array('max' => 100))
+            ->with('libPlatform')
+            ->assertLength(array('max' => 50))
             ->end()
             ->with('picture')
-                 ->assertLength(array('max' => 200))
+            ->assertLength(array('max' => 30))
+            ->end()
+            ->with('class')
+            ->assertLength(array('max' => 30))
             ->end()
         ;
     }

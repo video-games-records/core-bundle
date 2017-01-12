@@ -12,6 +12,7 @@ use VideoGamesRecords\CoreBundle\Entity\ChartType;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
+use VideoGamesRecords\CoreBundle\Entity\Platform;
 
 /**
  * Defines the sample data to load in the database when running the unit and
@@ -31,6 +32,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $this->loadSeries($manager);
+        $this->loadPlatforms($manager);
         $this->loadGames($manager);
         $this->loadGroups($manager);
         $this->loadChartType($manager);
@@ -59,11 +61,43 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
             $serie = new Serie();
             $serie
                 ->setIdSerie($row['idSerie'])
-                ->setName($row['name']);
+                ->setLibSerie($row['name']);
             $manager->persist($serie);
             $this->addReference('serie.' . $serie->getIdSerie(), $serie);
         }
         $manager->flush();
+    }
+
+    /**
+     * @param ObjectManager $manager
+     */
+    private function loadPlatforms(ObjectManager $manager)
+    {
+        $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Platform');
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+        $list = array(
+            array(
+                'idPlatform' => 1,
+                'libPlatform' => 'Game Cube',
+            ),
+            array(
+                'idPlatform' => 2,
+                'libPlatform' => 'Playstation 2',
+            ),
+            array(
+                'idPlatform' => 3,
+                'libPlatform' => 'Xbox',
+            ),
+        );
+        foreach ($list as $row) {
+            $platform = new Platform();
+            $platform->setIdPlatform($row['idPlatform']);
+            $platform->setLibPlatform($row['libPlatform']);
+            $manager->persist($platform);
+            $this->addReference('platform.' . $platform->getIdPlatform(), $platform);
+        }
+        $manager->flush();
+
     }
 
     /**
@@ -77,6 +111,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
             array(
                 'idGame' => 1,
                 'libGameEn' => 'Burnout 2',
+                'platforms' => array(1,2,3)
             ),
             array(
                 'idGame' => 2,
@@ -100,6 +135,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
             array(
                 'idGame' => 6,
                 'libGameEn' => 'Gran Turismo',
+                'platforms' => array(2)
             ),
             array(
                 'idGame' => 7,
@@ -109,6 +145,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
                 'idGame' => 11,
                 'libGameEn' => 'Mario Kart Double Dash',
                 'idSerie' => 2,
+                'platforms' => array(1)
             ),
         );
 
@@ -118,6 +155,11 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
             $game->setLibGameEn($row['libGameEn']);
             if (isset($row['idSerie'])) {
                 $game->setSerie($this->getReference('serie.' . $row['idSerie']));
+            }
+            if (isset($row['platforms'])) {
+                foreach($row['platforms'] as $id) {
+                    $game->addPlatform($this->getReference('platform.' . $id));
+                }
             }
             $manager->persist($game);
             $this->addReference('game.' . $game->getIdGame(), $game);

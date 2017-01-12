@@ -47,7 +47,7 @@ class Group
      * @var boolean
      * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
      */
-    private $boolDlc = 0;
+    private $boolDlc = false;
 
     /**
      * @var integer
