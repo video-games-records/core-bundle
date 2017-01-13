@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class GameRepository extends EntityRepository
 {
 
-    public function queryAlpha($params)
+    public function queryAlpha($params = array())
     {
         $query = $this->createQueryBuilder('g');
 

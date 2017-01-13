@@ -25,13 +25,7 @@ class GameController extends Controller
      */
     public function listAction($page)
     {
-        $idSerie = $this->container->getParameter('videogamesrecords_core.idSerie');
-
-        $query = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->queryAlpha(
-            array(
-                'idSerie' => $idSerie,
-            )
-        );
+        $query = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->queryAlpha();
 
         $paginator = $this->get('knp_paginator');
         /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $games */
@@ -61,13 +55,6 @@ class GameController extends Controller
      */
     public function indexAction($id)
     {
-        $idSerie = $this->container->getParameter('videogamesrecords_core.idSerie');
-        $games = $this->container->getParameter('videogamesrecords_core.games');
-
-        if ($idSerie !== null && !in_array($id, $games)) {
-            throw new \Exception('Invalid game for this serie');
-        }
-
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
 
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingPoints(
