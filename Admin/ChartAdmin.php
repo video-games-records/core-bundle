@@ -35,6 +35,25 @@ class ChartAdmin extends AbstractAdmin
                 'label' => 'Name (FR)',
                 'required' => false,
             ))
+            ->add('libs', 'sonata_type_collection', array(
+                'by_reference' => false,
+                'type_options' => array(
+                    // Prevents the "Delete" option from being displayed
+                    'delete' => true,
+                    'delete_options' => array(
+                        // You may otherwise choose to put the field but hide it
+                        'type'         => 'checkbox',
+                        // In that case, you need to fill in the options as well
+                        'type_options' => array(
+                            'mapped'   => false,
+                            'required' => false,
+                        )
+                    )
+                )
+            ), array(
+                'edit' => 'inline',
+                'inline' => 'table',
+            ))
         ;
     }
 

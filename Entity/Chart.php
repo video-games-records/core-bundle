@@ -80,7 +80,7 @@ class Chart
     /**
      * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\ChartLib[]
      *
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $libs;
 
@@ -295,6 +295,7 @@ class Chart
      */
     public function addLib(ChartLib $lib)
     {
+        $lib->setChart($this);
         $this->libs[] = $lib;
         return $this;
     }

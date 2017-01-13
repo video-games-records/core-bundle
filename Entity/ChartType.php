@@ -43,6 +43,14 @@ class ChartType
      */
     private $orderBy;
 
+
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return sprintf('%s [%s] %s (%s)', $this->name, $this->mask, $this->orderBy, $this->idType);
+    }
+
     /**
      * Set mask
      *
