@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Group
@@ -33,12 +34,14 @@ class Group
 
     /**
      * @var string
+     * @Assert\Length(max="100")
      * @ORM\Column(name="libGroupFr", type="string", length=100, nullable=true)
      */
     private $libGroupFr;
 
     /**
      * @var string
+     * @Assert\Length(max="100")
      * @ORM\Column(name="libGroupEn", type="string", length=100, nullable=false)
      */
     private $libGroupEn;

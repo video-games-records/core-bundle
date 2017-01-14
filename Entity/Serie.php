@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Serie
@@ -24,10 +25,17 @@ class Serie
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="libSerie", type="string", length=100, nullable=false)
      */
     private $libSerie;
 
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return sprintf('%s [%s]', $this->libSerie, $this->idSerie);
+    }
 
     /**
      * Set libSerie

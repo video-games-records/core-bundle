@@ -3,7 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -30,6 +30,7 @@ class Platform
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="libPlatform", type="string", length=100, nullable=true)
      */
     private $libPlatform;
@@ -37,6 +38,7 @@ class Platform
     /**
      * @var string
      *
+     * @Assert\Length(max="30")
      * @ORM\Column(name="picture", type="string", length=30, nullable=true)
      */
     private $picture;
@@ -51,6 +53,7 @@ class Platform
     /**
      * @var string
      *
+     * @Assert\Length(max="30")
      * @ORM\Column(name="class", type="string", length=30, nullable=true)
      */
     private $class;

@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Game
@@ -31,6 +32,7 @@ class Game
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="libGameFr", type="string", length=100, nullable=true)
      */
     private $libGameFr;
@@ -38,6 +40,7 @@ class Game
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="libGameEn", type="string", length=100, nullable=false)
      */
     private $libGameEn;
@@ -45,6 +48,7 @@ class Game
     /**
      * @var string
      *
+     * @Assert\Length(max="200")
      * @ORM\Column(name="picture", type="string", length=200, nullable=true)
      */
     private $picture;

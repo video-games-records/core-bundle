@@ -100,17 +100,4 @@ class ChartAdmin extends AbstractAdmin
         ;
     }
 
-    // Validate fileds
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->with('libChartEn')
-            ->assertNotBlank()
-            ->assertLength(array('max' => 100))
-            ->end()
-            ->with('libChartFr')
-            ->assertLength(array('max' => 100))
-            ->end()
-        ;
-    }
 }

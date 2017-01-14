@@ -86,17 +86,4 @@ class GroupAdmin extends AbstractAdmin
         ;
     }
 
-    // Validate fileds
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->with('libGroupEn')
-                ->assertNotBlank()
-                ->assertLength(array('max' => 100))
-            ->end()
-            ->with('libGroupFr')
-                ->assertLength(array('max' => 100))
-            ->end()
-        ;
-    }
 }

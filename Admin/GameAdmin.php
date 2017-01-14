@@ -135,19 +135,4 @@ class GameAdmin extends AbstractAdmin
         ;
     }
 
-    // Validate fileds
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->with('libGameEn')
-                ->assertLength(array('max' => 100))
-            ->end()
-            ->with('libGameFr')
-                ->assertLength(array('max' => 100))
-            ->end()
-            ->with('picture')
-                 ->assertLength(array('max' => 200))
-            ->end()
-        ;
-    }
 }

@@ -14,7 +14,10 @@ class SerieAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('idSerie', 'text', array(
-                'label' => 'idSerie'
+                'label' => 'idSerie',
+                'attr' => array(
+                    'readonly' => true,
+                )
             ))
             ->add('libSerie', 'text', array(
                 'label' => 'Name'

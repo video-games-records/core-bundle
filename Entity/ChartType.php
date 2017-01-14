@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Chart
@@ -25,6 +26,7 @@ class ChartType
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
     private $name;
@@ -32,6 +34,7 @@ class ChartType
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="mask", type="string", length=100)
      */
     private $mask;
@@ -39,6 +42,7 @@ class ChartType
     /**
      * @var string
      *
+     * @Assert\Length(max="10")
      * @ORM\Column(name="orderBy", type="string", length=10, nullable=true)
      */
     private $orderBy;

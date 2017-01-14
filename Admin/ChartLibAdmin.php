@@ -51,13 +51,4 @@ class ChartLibAdmin extends AbstractAdmin
 
     }
 
-    // Validate fileds
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->with('name')
-            ->assertLength(array('max' => 100))
-            ->end()
-        ;
-    }
 }

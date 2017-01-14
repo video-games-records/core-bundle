@@ -74,19 +74,4 @@ class ChartTypeAdmin extends AbstractAdmin
 
     }
 
-    // Validate fileds
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->with('name')
-            ->assertLength(array('max' => 100))
-            ->end()
-            ->with('mask')
-            ->assertLength(array('max' => 100))
-            ->end()
-            ->with('orderBy')
-            ->assertLength(array('max' => 10))
-            ->end()
-        ;
-    }
 }

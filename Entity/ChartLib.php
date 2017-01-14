@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Chart
@@ -27,6 +28,7 @@ class ChartLib
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
     private $name;

@@ -102,19 +102,4 @@ class PlatformAdmin extends AbstractAdmin
         ;
     }
 
-    // Validate fileds
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->with('libPlatform')
-            ->assertLength(array('max' => 50))
-            ->end()
-            ->with('picture')
-            ->assertLength(array('max' => 30))
-            ->end()
-            ->with('class')
-            ->assertLength(array('max' => 30))
-            ->end()
-        ;
-    }
 }

@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Chart
@@ -35,6 +36,7 @@ class Chart
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="libChartFr", type="string", length=100, nullable=true)
      */
     private $libChartFr;
@@ -42,6 +44,7 @@ class Chart
     /**
      * @var string
      *
+     * @Assert\Length(max="100")
      * @ORM\Column(name="libChartEn", type="string", length=100, nullable=false)
      */
     private $libChartEn;
