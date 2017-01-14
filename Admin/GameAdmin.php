@@ -29,6 +29,13 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'Name (FR)',
                 'required' => false,
             ))
+            ->add('serie', 'sonata_type_model_list', array(
+                'btn_add'       => false,
+                'btn_list'      => true,
+                'btn_delete'    => false,
+                'btn_catalogue' => true,
+                'label'         => 'Serie',
+            ))
             ->add('picture', 'text', array(
                 'label' => 'Picture',
                 'required' => false,
