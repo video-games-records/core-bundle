@@ -7,6 +7,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 
 class ChartAdmin extends AbstractAdmin
 {
@@ -28,6 +30,9 @@ class ChartAdmin extends AbstractAdmin
                 'btn_delete'    => false,
                 'btn_catalogue' => true,
                 'label'         => 'Group',
+                'required'      => true,
+            ),array(
+                'placeholder' => 'No group selected'
             ))
             ->add('libChartEn', 'text', array(
                 'label' => 'Name (EN)',
@@ -39,6 +44,7 @@ class ChartAdmin extends AbstractAdmin
             ))
             ->add('libs', 'sonata_type_collection', array(
                 'by_reference' => false,
+                'help' => (($this->isCurrentRoute('create')) ? 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
                 'type_options' => array(
                     // Prevents the "Delete" option from being displayed
                     'delete' => true,
@@ -65,6 +71,7 @@ class ChartAdmin extends AbstractAdmin
         $datagridMapper
             ->add('libChartEn')
             ->add('libChartFr')
+            ->add('group')
         ;
     }
 
@@ -100,6 +107,30 @@ class ChartAdmin extends AbstractAdmin
                 'label'         => 'Group',
             ))
         ;
+    }
+
+
+    /**
+     * @param mixed $object
+     */
+    public function prePersist($object)
+    {
+        $libs = $object->getLibs();
+        if (count($libs) == 0) {
+            $group = $object->getGroup();
+            if ($group != null) {
+                $charts = $group->getCharts();
+                if (count($charts) > 0) {
+                    $chart = $charts[0];
+                    foreach ($chart->getLibs() as $oldLib) {
+                        $newLib = new ChartLib();
+                        $newLib->setName($oldLib->getName());
+                        $newLib->setType($oldLib->getType());
+                        $object->addLib($newLib);
+                    }
+                }
+            }
+        }
     }
 
 }
