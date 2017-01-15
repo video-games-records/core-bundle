@@ -10,6 +10,8 @@ use Sonata\CoreBundle\Validator\ErrorElement;
 
 class ChartAdmin extends AbstractAdmin
 {
+    protected $baseRouteName = 'vgrcorebundle_admin_chart';
+
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {

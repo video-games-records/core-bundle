@@ -127,7 +127,7 @@ class Game
     private $serie;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $groups;
 
@@ -519,6 +519,7 @@ class Game
      */
     public function addGroup(Group $group)
     {
+        $group->setGame($this);
         $this->groups[] = $group;
         return $this;
     }

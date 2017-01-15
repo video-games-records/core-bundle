@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class GameAdmin extends AbstractAdmin
 {
+    protected $baseRouteName = 'vgrcorebundle_admin_game';
+
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -65,6 +67,25 @@ class GameAdmin extends AbstractAdmin
                 )
             )
             ->add('platforms', null, array('required' => false, 'expanded' => false))
+            /*->add('groups', 'sonata_type_collection', array(
+                'by_reference' => false,
+                'type_options' => array(
+                    // Prevents the "Delete" option from being displayed
+                    'delete' => true,
+                    'delete_options' => array(
+                        // You may otherwise choose to put the field but hide it
+                        'type'         => 'checkbox',
+                        // In that case, you need to fill in the options as well
+                        'type_options' => array(
+                            'mapped'   => false,
+                            'required' => false,
+                        )
+                    )
+                )
+            ), array(
+                'edit' => 'inline',
+                'inline' => 'table',
+            ))*/
         ;
     }
 
@@ -139,7 +160,8 @@ class GameAdmin extends AbstractAdmin
             ->add('libGameEn')
             ->add('status')
             ->add('etat')
-        ;
+            ->add('groups')
+         ;
     }
 
 }

@@ -10,6 +10,8 @@ use Sonata\CoreBundle\Validator\ErrorElement;
 
 class GroupAdmin extends AbstractAdmin
 {
+    protected $baseRouteName = 'vgrcorebundle_admin_group';
+
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -59,8 +61,8 @@ class GroupAdmin extends AbstractAdmin
             ->add('libGroupEn', null, array('editable' => false))
             ->add('libGroupFr')
             ->add('game', null, array(
-                'associated_property'       => 'libGameEn',
-                'label'         => 'Game',
+                'associated_property' => 'libGameEn',
+                'label' => 'Game',
             ))
             ->add('boolDLC', 'boolean')
             ->add('_action', 'actions', array(
@@ -80,9 +82,10 @@ class GroupAdmin extends AbstractAdmin
             ->add('libGroupFr')
             ->add('libGroupEn')
             ->add('game', null, array(
-                'associated_property'       => 'libGameEn',
-                'label'         => 'Game',
+                'associated_property' => 'libGameEn',
+                'label' => 'Game',
             ))
+            ->add('charts')
         ;
     }
 
