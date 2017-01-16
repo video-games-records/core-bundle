@@ -6,7 +6,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class GameAdmin extends AbstractAdmin
@@ -141,11 +140,13 @@ class GameAdmin extends AbstractAdmin
                     )
                 )
             )
-
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
+                    'groups' => array(
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
+                    ),
                 )
             ))
         ;

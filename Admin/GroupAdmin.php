@@ -50,6 +50,7 @@ class GroupAdmin extends AbstractAdmin
         $datagridMapper
             ->add('libGroupFr')
             ->add('libGroupEn')
+            ->add('game')
         ;
     }
 
