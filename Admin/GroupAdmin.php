@@ -70,6 +70,9 @@ class GroupAdmin extends AbstractAdmin
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
+                    'groups' => array(
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:group_charts_link.html.twig'
+                    ),
                 )
             ))
         ;
