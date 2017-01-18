@@ -147,6 +147,9 @@ class GameAdmin extends AbstractAdmin
                     'groups' => array(
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
                     ),
+                    'add_group' => array(
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
+                    ),
                 )
             ))
         ;
