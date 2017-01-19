@@ -17,6 +17,12 @@ class Chart
 {
     use Timestampable;
 
+    const STATUS_NORMAL = 'NORMAL';
+    const STATUS_MAJ= 'MAJ';
+    const STATUS_GO_TO_MAJ = 'goToMAJ';
+    const STATUS_ERROR = 'ERREUR';
+    const STATUS_WORK_DELETE = 'WORK_DELETE';
+
     /**
      * @var integer
      *
@@ -318,5 +324,19 @@ class Chart
     public function getLibs()
     {
         return $this->libs;
+    }
+
+
+    /**
+     * @return array
+     */
+    public static function getStatusChoices() {
+        return array(
+            self::STATUS_NORMAL => self::STATUS_NORMAL,
+            self::STATUS_MAJ => self::STATUS_MAJ,
+            self::STATUS_GO_TO_MAJ => self::STATUS_GO_TO_MAJ,
+            self::STATUS_ERROR => self::STATUS_ERROR,
+            self::STATUS_WORK_DELETE => self::STATUS_WORK_DELETE,
+        );
     }
 }

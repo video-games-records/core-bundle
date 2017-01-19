@@ -17,6 +17,22 @@ class ChartAdmin extends AbstractAdmin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $groupOptions = array();
+        if ( ($this->hasRequest()) && ($this->isCurrentRoute('create')) ) {
+            $idGroup = $this->getRequest()->get('idGroup', null);
+            if ($idGroup !== null) {
+                $_SESSION['vgrcorebundle_admin_chart']['idGroup'] = $idGroup;
+            }
+
+            if (isset($_SESSION['vgrcorebundle_admin_chart']['idGroup'])) {
+                $idGroup = $_SESSION['vgrcorebundle_admin_chart']['idGroup'];
+                $entityManager = $this->getModelManager()
+                    ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\Group');
+                $group = $entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\Group', $idGroup);
+                $groupOptions = array('data' => $group);
+            }
+        }
+
         $formMapper
             ->add('idChart', 'text', array(
                 'label' => 'idChart',
@@ -24,13 +40,17 @@ class ChartAdmin extends AbstractAdmin
                     'readonly' => true,
                 )
             ))
-            ->add('group', 'sonata_type_model_list', array(
-                'btn_add'       => false,
-                'btn_list'      => true,
-                'btn_delete'    => false,
-                'btn_catalogue' => true,
-                'label'         => 'Group',
-                'required'      => true,
+            ->add('group', 'sonata_type_model_list', array_merge(
+                $groupOptions,
+                array(
+                    'data_class'    => null,
+                    'btn_add'       => false,
+                    'btn_list'      => true,
+                    'btn_delete'    => false,
+                    'btn_catalogue' => true,
+                    'label'         => 'Group',
+                    'required'      => true,
+                )
             ),array(
                 'placeholder' => 'No group selected'
             ))
@@ -42,6 +62,32 @@ class ChartAdmin extends AbstractAdmin
                 'label' => 'Name (FR)',
                 'required' => false,
             ))
+        ;
+
+        if ( ($this->hasRequest()) && ($this->isCurrentRoute('edit')) ) {
+            $formMapper
+                ->add(
+                    'statusUser',
+                    'choice',
+                    array(
+                        'label' => 'Status User',
+                         'choices' => Chart::getStatusChoices()
+                    )
+                )
+            ;
+            $formMapper
+                ->add(
+                    'statusTeam',
+                    'choice',
+                    array(
+                        'label' => 'Status Team',
+                        'choices' => Chart::getStatusChoices()
+                    )
+                )
+            ;
+        }
+
+        $formMapper
             ->add('libs', 'sonata_type_collection', array(
                 'by_reference' => false,
                 'help' => (($this->isCurrentRoute('create')) ? 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
@@ -63,6 +109,7 @@ class ChartAdmin extends AbstractAdmin
                 'inline' => 'table',
             ))
         ;
+
     }
 
     // Fields to be shown on filter forms
@@ -71,7 +118,11 @@ class ChartAdmin extends AbstractAdmin
         $datagridMapper
             ->add('libChartEn')
             ->add('libChartFr')
-            ->add('group')
+            ->add('group', 'doctrine_orm_model_autocomplete', array(), null, array(
+                'property' => 'libGroupEn',
+            ))
+            ->add('statusUser', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
+            ->add('statusTeam', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
         ;
     }
 

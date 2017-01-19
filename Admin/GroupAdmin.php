@@ -16,6 +16,7 @@ class GroupAdmin extends AbstractAdmin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $gameOptions = array();
         if ( ($this->hasRequest()) && ($this->isCurrentRoute('create')) ) {
             $idGame = $this->getRequest()->get('idGame', null);
             if ($idGame !== null) {
@@ -27,8 +28,8 @@ class GroupAdmin extends AbstractAdmin
                 $entityManager = $this->getModelManager()
                     ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\Game');
                 $game = $entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
+                $gameOptions = array('data' => $game);
             }
-
         }
 
         $formMapper
@@ -38,14 +39,16 @@ class GroupAdmin extends AbstractAdmin
                     'readonly' => true,
                 )
             ))
-            ->add('game', 'sonata_type_model_list', array(
-                'data'          => isset($game) ? $game : null,
-                'data_class'    => null,
-                'btn_add'       => false,
-                'btn_list'      => true,
-                'btn_delete'    => false,
-                'btn_catalogue' => true,
-                'label'         => 'Game',
+            ->add('game', 'sonata_type_model_list', array_merge(
+                $gameOptions,
+                array(
+                    'data_class'    => null,
+                    'btn_add'       => false,
+                    'btn_list'      => true,
+                    'btn_delete'    => false,
+                    'btn_catalogue' => true,
+                    'label'         => 'Game',
+                )
             ))
             ->add('libGroupEn', 'text', array(
                 'label' => 'Name (EN)',
@@ -68,7 +71,9 @@ class GroupAdmin extends AbstractAdmin
         $datagridMapper
             ->add('libGroupFr')
             ->add('libGroupEn')
-            ->add('game')
+            ->add('game', 'doctrine_orm_model_autocomplete', array(), null, array(
+                'property' => 'libGameEn',
+            ))
         ;
     }
 
@@ -90,6 +95,9 @@ class GroupAdmin extends AbstractAdmin
                     'edit' => array(),
                     'groups' => array(
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:group_charts_link.html.twig'
+                    ),
+                    'add_chart' => array(
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:group_add_chart_link.html.twig'
                     ),
                 )
             ))
