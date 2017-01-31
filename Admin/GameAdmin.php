@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 
 class GameAdmin extends AbstractAdmin
 {
@@ -46,23 +47,15 @@ class GameAdmin extends AbstractAdmin
                 ChoiceType::class,
                 array(
                     'label' => 'Status',
-                    'choices' => array(
-                        'ACTIF' => 'ACTIF',
-                        'INACTIF' => 'INACTIF',
-                    )
+                    'choices' => Game::getStatusChoices(),
                 )
             )
             ->add(
                 'etat',
                 ChoiceType::class,
                 array(
-                    'label' => 'Status',
-                    'choices' => array(
-                        'CREATION' => 'CREATION',
-                        'RECORD' => 'RECORD',
-                        'IMAGE' => 'IMAGE',
-                        'FINI' => 'FINI'
-                    )
+                    'label' => 'Etat',
+                    'choices' => Game::getEtatsChoices(),
                 )
             )
             ->add('platforms', null, array('required' => false, 'expanded' => false))
@@ -120,10 +113,7 @@ class GameAdmin extends AbstractAdmin
                 array(
                     'label' => 'Status',
                     'editable' => true,
-                    'choices' => array(
-                        'ACTIF' => 'ACTIF',
-                        'INACTIF' => 'INACTIF',
-                    )
+                    'choices' => Game::getStatusChoices(),
                 )
             )
             ->add(
@@ -132,12 +122,7 @@ class GameAdmin extends AbstractAdmin
                 array(
                     'label' => 'Etat',
                     'editable' => false,
-                    'choices' => array(
-                        'CREATION' => 'CREATION',
-                        'RECORD' => 'RECORD',
-                        'IMAGE' => 'IMAGE',
-                        'FINI' => 'FINI'
-                    )
+                    'choices' => Game::getEtatsChoices(),
                 )
             )
             ->add('_action', 'actions', array(

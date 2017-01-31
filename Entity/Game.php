@@ -20,6 +20,15 @@ class Game
 
     const NUM_ITEMS = 20;
 
+    const STATUS_ACTIVE = 'ACTIF';
+    const STATUS_INACTIVE = 'INACTIF';
+
+    const ETAT_INIT = 'CREATION';
+    const ETAT_CHART = 'RECORD';
+    const ETAT_PICTURE = 'IMAGE';
+    const ETAT_END = 'FINI';
+
+
     /**
      * @var integer
      *
@@ -565,5 +574,27 @@ class Game
     public function getPlatforms()
     {
         return $this->platforms;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusChoices() {
+        return array(
+            self::STATUS_ACTIVE => self::STATUS_ACTIVE,
+            self::STATUS_INACTIVE => self::STATUS_INACTIVE,
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public static function getEtatsChoices() {
+        return array(
+            self::ETAT_INIT => self::ETAT_INIT,
+            self::ETAT_CHART => self::ETAT_CHART,
+            self::ETAT_PICTURE => self::ETAT_PICTURE,
+            self::ETAT_END => self::ETAT_END,
+        );
     }
 }
