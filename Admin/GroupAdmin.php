@@ -12,6 +12,13 @@ class GroupAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_group';
 
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection
+            ->remove('export')
+        ;
+
+    }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)

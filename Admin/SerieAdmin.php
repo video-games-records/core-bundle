@@ -6,9 +6,18 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class SerieAdmin extends AbstractAdmin
 {
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection
+            ->remove('export')
+        ;
+
+    }
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
