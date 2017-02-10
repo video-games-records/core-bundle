@@ -4,10 +4,10 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use VideoGamesRecords\CoreBundle\Entity\UserChart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 
-class UserChartUpdateListener
+class PlayerChartUpdateListener
 {
     private $lostPosition = null;
 
@@ -20,7 +20,7 @@ class UserChartUpdateListener
         $this->lostPosition = null;
 
         // False check is compulsory otherwise duplication occurs
-        if (($entity instanceof UserChart) === true) {
+        if (($entity instanceof PlayerChart) === true) {
             $em = $args->getEntityManager();
 
             //----- LostPosition
@@ -46,7 +46,7 @@ class UserChartUpdateListener
                 $this->lostPosition = new LostPosition();
                 $this->lostPosition->setNewRank($newRank);
                 $this->lostPosition->setOldRank(($newRank == 1) ? 0 : $oldRank); //----- zero for losing platinum medal
-                $this->lostPosition->setUser($em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $entity->getIdUser()));
+                $this->lostPosition->setPlayer($em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $entity->getIdPlayer()));
                 $this->lostPosition->setChart($em->getReference('VideoGamesRecords\CoreBundle\Entity\Chart', $entity->getIdChart()));
             }
         }

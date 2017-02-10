@@ -5,22 +5,23 @@ SET CHARACTER SET utf8;
 RENAME TABLE vgr_jeu TO vgr_game;
 RENAME TABLE vgr_groupe TO vgr_group;
 RENAME TABLE vgr_record TO vgr_chart;
-RENAME TABLE vgr_record_membre TO vgr_user_chart;
-RENAME TABLE mv_membre_serie TO vgr_user_serie;
-RENAME TABLE mv_membre_jeu TO vgr_user_game;
-RENAME TABLE mv_membre_groupe TO vgr_user_group;
+RENAME TABLE vgr_record_membre TO vgr_player_chart;
+RENAME TABLE mv_membre_serie TO vgr_player_serie;
+RENAME TABLE mv_membre_jeu TO vgr_player_game;
+RENAME TABLE mv_membre_groupe TO vgr_player_group;
 RENAME TABLE vgr_librecord TO vgr_chartlib;
 RENAME TABLE vgr_librecord_type TO vgr_charttype;
-RENAME TABLE vgr_librecord_membre TO vgr_user_chartlib;
+RENAME TABLE vgr_librecord_membre TO vgr_player_chartlib;
 RENAME TABLE vgr_perteposition TO vgr_lostposition;
 RENAME TABLE vgr_plateforme TO vgr_platform;
 RENAME TABLE vgr_jeu_plateforme TO vgr_game_platform;
+RENAME TABLE VGR_etatrecord TO vgr_player_chart_status;
 RENAME TABLE t_pays TO country;
 RENAME TABLE t_email TO email;
-RENAME TABLE t_membre TO vgr_member;
+RENAME TABLE t_membre TO vgr_player;
 
 
-ALTER TABLE `vgr_member` CHANGE `idMembre` `idUser` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `vgr_player` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -44,8 +45,8 @@ JOIN country_code cc ON c.code_iso2 = cc.iso2
 SET c.code_iso3 = cc.iso3, c.code_iso_numeric = cc.isoN, c.libPays_en = cc.liben;
 
 -- Suppression des pays n'existant pas
-UPDATE vgr_member SET idPays = 191 WHERE idPays IN (2, 92);
-UPDATE vgr_member SET idPays = NULL WHERE idPays IN (56, 182, 186, 246, 239);
+UPDATE vgr_player SET idPays = 191 WHERE idPays IN (2, 92);
+UPDATE vgr_player SET idPays = NULL WHERE idPays IN (56, 182, 186, 246, 239);
 DELETE FROM country WHERE id IN (2, 56, 182, 186, 246, 239);
 
 -- Transfert des données
@@ -104,45 +105,46 @@ ALTER TABLE `vgr_charttype` CHANGE `lib_fr` `libFr` VARCHAR(50) CHARACTER SET ut
 ALTER TABLE `vgr_charttype` CHANGE `lib_en` `libEn` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_charttype` CHANGE `nomType` `name` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 
-ALTER TABLE `vgr_user_chart` CHANGE `idMembre` `idUser` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_chart` CHANGE `pointRecord` `pointChart` DOUBLE NOT NULL;
-ALTER TABLE vgr_user_chart CHANGE dateCreation created_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_user_chart CHANGE dateModification updated_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_user_chart CHANGE rank rank INT NOT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE idEtat idEtat INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE `pointRecord` `pointChart` DOUBLE NOT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE `idEtat` `idStatus` INT(11) NOT NULL;
+ALTER TABLE vgr_player_chart CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_player_chart CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE vgr_player_chart CHANGE rank rank INT NOT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
 
-ALTER TABLE `vgr_user_chartlib` CHANGE `idMembre` `idUser` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_chartlib` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL;
 
-ALTER TABLE `vgr_user_game` CHANGE `idMembre` `idUser` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `idJeu` `idGame` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `rank` `rankPoint` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `pointRecordSansDLC` `pointChartWithoutDlc` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `nbRecordProuve` `nbChartProven` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `nbRecordSansDLC` `nbChartWithoutDlc` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `nbRecordProuveSansDLC` `nbChartProvenWithoutDlc` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_game` CHANGE `pointJeu` `pointGame` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `idJeu` `idGame` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `rank` `rankPoint` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `pointRecordSansDLC` `pointChartWithoutDlc` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `nbRecordProuve` `nbChartProven` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `nbRecordSansDLC` `nbChartWithoutDlc` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `nbRecordProuveSansDLC` `nbChartProvenWithoutDlc` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `pointJeu` `pointGame` INT(11) NOT NULL;
 
-ALTER TABLE `vgr_user_group` CHANGE `idMembre` `idUser` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_group` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_group` CHANGE `rank` `rankPoint` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_group` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_group` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_group` CHANGE `nbRecordProuve` `nbChartProven` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `rank` `rankPoint` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `nbRecordProuve` `nbChartProven` INT(11) NOT NULL;
 
-ALTER TABLE `vgr_user_serie` CHANGE `idMembre` `idUser` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_serie` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_serie` CHANGE `pointRecordSansDLC` `pointChartWithoutDlc` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_serie` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_serie` CHANGE `nbRecordProuve` `nbChartProven` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_serie` CHANGE `nbRecordSansDLC` `nbChartWithoutDlc` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_serie` CHANGE `nbRecordProuveSansDLC` `nbChartProvenWithoutDlc` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_serie` CHANGE `pointJeu` `pointGame` INT(11) NOT NULL;
-ALTER TABLE `vgr_user_serie` CHANGE `nbJeu` `nbGame` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `pointRecordSansDLC` `pointChartWithoutDlc` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `nbRecordProuve` `nbChartProven` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `nbRecordSansDLC` `nbChartWithoutDlc` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `nbRecordProuveSansDLC` `nbChartProvenWithoutDlc` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `pointJeu` `pointGame` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_serie` CHANGE `nbJeu` `nbGame` INT(11) NOT NULL;
 
-ALTER TABLE `vgr_lostposition` CHANGE `idMembre` `idUser` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_lostposition` CHANGE `idMembre` `idPlayer` INT(13) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_lostposition` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_lostposition` CHANGE `oldPosition` `oldRank` INT(5) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_lostposition` CHANGE `newPosition` `newRank` INT(5) NOT NULL DEFAULT '0';
@@ -156,6 +158,9 @@ ALTER TABLE `vgr_platform` CHANGE `classPlateforme` `class` VARCHAR(30) NOT NULL
 ALTER TABLE `vgr_game_platform` CHANGE `idJeu` `idGame` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game_platform` CHANGE `idPlateForme` `idPlatform` INT(11) NOT NULL DEFAULT '0';
 
+ALTER TABLE `vgr_player_chart_status` CHANGE `idEtat` `idStatus` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_player_chart_status` CHANGE `libEtat` `libStatus` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+
 --
 -- Members
 --
@@ -168,7 +173,7 @@ ALTER TABLE member_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) 
 ALTER TABLE member_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
 
 -- New id for link between normandie & vgr
-ALTER TABLE vgr_member ADD normandie_user_id INT DEFAULT NULL;
+ALTER TABLE vgr_player ADD normandie_player_id INT DEFAULT NULL;
 
 -- Procedure to migrate member
 DELIMITER &&
@@ -187,7 +192,7 @@ BEGIN
                             /*, MSN, presentation, nbForumMessage, nbCommentaire, boolTeam, boolNewsletter, boolAssoc,
                             boolShowFbLikeBox, boolNotifCommentaire, signature, dateFormat, utcFormat, mailSending, don,
                             idLangue, idLangueForum, idRang, idStatut, idTeam*/
-                          FROM vgr_member;
+                          FROM vgr_player;
   -- Handler for duplicate email
   DECLARE CONTINUE HANDLER FOR 1062
     BEGIN
@@ -237,7 +242,7 @@ BEGIN
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
       );
     SET member_id = LAST_INSERT_ID();
-    UPDATE vgr_member SET normandie_user_id = member_id WHERE idUser = vgr_member_id;
+    UPDATE vgr_player SET normandie_player_id = member_id WHERE idUser = vgr_member_id;
   END LOOP;
   CLOSE cur1;
 END&&
@@ -247,10 +252,10 @@ DELIMITER ;
 CALL member_migrate();
 DROP PROCEDURE member_migrate;
 
-ALTER TABLE vgr_member DROP pseudo, DROP password, DROP email, DROP confirm_email, DROP nom, DROP prenom, DROP dateNaissance,
+ALTER TABLE vgr_player DROP password, DROP email, DROP confirm_email, DROP nom, DROP prenom, DROP dateNaissance,
 DROP statutCompte, DROP siteWeb, DROP nbConnexion, DROP derniereConnexion, DROP sexe, DROP dateCreation, DROP dateModification
 /*DROP MSN, DROP presentation,
 DROP nbForumMessage, DROP nbCommentaire, DROP boolTeam, DROP boolContact, DROP boolNewsletter, DROP boolAssoc,
 DROP boolShowFbLikeBox, DROP boolNotifCommentaire, DROP signature, DROP dateFormat, DROP utcFormat, DROP mailSending,
 DROP don, DROP idLangue, DROP idPays, DROP idLangueForum, DROP idRang, DROP idStatut, DROP idTeam*/;
-ALTER TABLE vgr_member CHANGE avatar avatar VARCHAR(100) NOT NULL, CHANGE vgr_gamerCard vgr_gamerCard VARCHAR(50) DEFAULT NULL, CHANGE vgr_displayGamerCard vgr_displayGamerCard TINYINT(1) NOT NULL, CHANGE vgr_displayGoalBar vgr_displayGoalBar TINYINT(1) NOT NULL, CHANGE vgr_rank0 vgr_rank0 INT DEFAULT NULL, CHANGE vgr_rank1 vgr_rank1 INT DEFAULT NULL, CHANGE vgr_rank2 vgr_rank2 INT DEFAULT NULL, CHANGE vgr_rank3 vgr_rank3 INT DEFAULT NULL, CHANGE vgr_pointRecord vgr_pointRecord INT NOT NULL, CHANGE vgr_pointVGR vgr_pointVGR INT NOT NULL, CHANGE vgr_pointBadge vgr_pointBadge INT NOT NULL, CHANGE vgr_cup_rank0 vgr_cup_rank0 INT DEFAULT NULL, CHANGE vgr_cup_rank1 vgr_cup_rank1 INT DEFAULT NULL, CHANGE vgr_cup_rank2 vgr_cup_rank2 INT DEFAULT NULL, CHANGE vgr_cup_rank3 vgr_cup_rank3 INT DEFAULT NULL, CHANGE vgr_rank_pointJeu vgr_rank_pointJeu INT DEFAULT NULL;
+ALTER TABLE vgr_player CHANGE avatar avatar VARCHAR(100) NOT NULL, CHANGE vgr_gamerCard vgr_gamerCard VARCHAR(50) DEFAULT NULL, CHANGE vgr_displayGamerCard vgr_displayGamerCard TINYINT(1) NOT NULL, CHANGE vgr_displayGoalBar vgr_displayGoalBar TINYINT(1) NOT NULL, CHANGE vgr_rank0 vgr_rank0 INT DEFAULT NULL, CHANGE vgr_rank1 vgr_rank1 INT DEFAULT NULL, CHANGE vgr_rank2 vgr_rank2 INT DEFAULT NULL, CHANGE vgr_rank3 vgr_rank3 INT DEFAULT NULL, CHANGE vgr_pointRecord vgr_pointRecord INT NOT NULL, CHANGE vgr_pointVGR vgr_pointVGR INT NOT NULL, CHANGE vgr_pointBadge vgr_pointBadge INT NOT NULL, CHANGE vgr_cup_rank0 vgr_cup_rank0 INT DEFAULT NULL, CHANGE vgr_cup_rank1 vgr_cup_rank1 INT DEFAULT NULL, CHANGE vgr_cup_rank2 vgr_cup_rank2 INT DEFAULT NULL, CHANGE vgr_cup_rank3 vgr_cup_rank3 INT DEFAULT NULL, CHANGE vgr_rank_pointJeu vgr_rank_pointJeu INT DEFAULT NULL;

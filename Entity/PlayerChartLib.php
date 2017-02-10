@@ -5,12 +5,12 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserChartLib
+ * PlayerChartLib
  *
- * @ORM\Table(name="vgr_user_chartlib", indexes={@ORM\Index(name="idxIdLibChart", columns={"idLibChart"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserChartLibRepository")
+ * @ORM\Table(name="vgr_player_chartlib", indexes={@ORM\Index(name="idxIdLibChart", columns={"idLibChart"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartLibRepository")
  */
-class UserChartLib
+class PlayerChartLib
 {
     /**
      * @var integer
@@ -24,11 +24,11 @@ class UserChartLib
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
      * })
      * @ORM\Id
      */
-    private $user;
+    private $player;
 
 
     /**
@@ -57,7 +57,7 @@ class UserChartLib
      * Set value
      *
      * @param integer $value
-     * @return UserChartLib
+     * @return PlayerChartLib
      */
     public function setValue($value)
     {
@@ -70,7 +70,7 @@ class UserChartLib
      * Set lib
      *
      * @param ChartLib $libChart
-     * @return UserChartLib
+     * @return PlayerChartLib
      */
     public function setLibChart(ChartLib $libChart = null)
     {
@@ -90,24 +90,24 @@ class UserChartLib
 
 
     /**
-     * Set user
+     * Set player
      *
-     * @param Player $user
-     * @return UserChart
+     * @param Player $player
+     * @return PlayerChart
      */
-    public function setUser(Player $user = null)
+    public function setPlayer(Player $player = null)
     {
-        $this->user = $user;
+        $this->player = $player;
         return $this;
     }
 
     /**
-     * Get user
+     * Get player
      *
      * @return Player
      */
-    public function getUser()
+    public function getPlayer()
     {
-        return $this->user;
+        return $this->player;
     }
 }

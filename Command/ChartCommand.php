@@ -39,7 +39,7 @@ class ChartCommand extends ContainerAwareCommand
         switch ($function) {
             case 'maj':
                 $idChart = $input->getOption('idChart');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:UserChart')->maj($idChart);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->maj($idChart);
                 break;
         }
 

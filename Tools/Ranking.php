@@ -123,17 +123,17 @@ class Ranking
                 }
             }
 
-            /** @var \VideoGamesRecords\CoreBundle\Entity\UserChart $userChart */
-            $userChart = $array[$i]['uc'];
-            $userChart->setRank($rank);
-            $userChart->setNbEqual($nbEqual);
-            $array[$i]['uc'] = $userChart;
+            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+            $playerChart = $array[$i]['pc'];
+            $playerChart->setRank($rank);
+            $playerChart->setNbEqual($nbEqual);
+            $array[$i]['uc'] = $playerChart;
 
             if ($nbEqual >= 2) {
                 for ($k = $i - 1; $k >= $i - $nbEqual + 1; $k--) {
-                    $userChart = $array[$k]['uc'];
-                    $userChart->setNbEqual($nbEqual);
-                    $array[$k]['uc'] = $userChart;
+                    $playerChart = $array[$k]['pc'];
+                    $playerChart->setNbEqual($nbEqual);
+                    $array[$k]['pc'] = $playerChart;
                 }
             }
         }

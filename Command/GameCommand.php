@@ -39,7 +39,7 @@ class GameCommand extends ContainerAwareCommand
         switch ($function) {
             case 'maj':
                 $idGame = $input->getOption('idGame');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:UserGame')->maj($idGame);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj($idGame);
                 break;
         }
 

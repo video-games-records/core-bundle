@@ -34,7 +34,7 @@ class SerieCommand extends ContainerAwareCommand
         switch ($function) {
             case 'maj':
                 $idSerie = $input->getOption('idSerie');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:UserSerie')->maj($idSerie);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')->maj($idSerie);
                 break;
         }
 

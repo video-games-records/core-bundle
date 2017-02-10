@@ -24,7 +24,7 @@
     <ul>
         <li>rank|pseudo|points|nbPost</li>
         {% for row in rankingPoints %}
-            <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRankPoint() }} | {{ row.getUser().getPseudo() }} | {{ row.getPointChart() }} | {{ row.getNbChart() }}</li>
+            <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRankPoint() }} | {{ row.getPlayer().getPseudo() }} | {{ row.getPointChart() }} | {{ row.getNbChart() }}</li>
         {% else %}
             <div class="well">{{ 'group.no_ranking'|trans }}</div>
         {% endfor %}
@@ -38,7 +38,7 @@
     <ul>
         <li>rank|pseudo|platine|gold|silver|bronze</li>
         {% for row in rankingMedals %}
-            <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getUser().getPseudo() }} | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
+            <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getPlayer().getPseudo() }} | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
         {% else %}
             <div class="well">{{ 'group.no_ranking'|trans }}</div>
         {% endfor %}

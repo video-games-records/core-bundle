@@ -5,45 +5,45 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MemberGame
+ * PlayerGroup
  *
- * @ORM\Table(name="vgr_user_game", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserGameRepository")
+ * @ORM\Table(name="vgr_player_group", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository")
  */
-class UserGame
+class PlayerGroup
 {
 
     /**
-     * @ORM\Column(name="idUser", type="integer")
+     * @ORM\Column(name="idPlayer", type="integer")
      * @ORM\Id
      */
-    private $idUser;
+    private $idPlayer;
 
     /**
-     * @ORM\Column(name="idGame", type="integer")
+     * @ORM\Column(name="idGroup", type="integer")
      * @ORM\Id
      */
-    private $idGame;
+    private $idGroup;
 
     /**
      * @var Player
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
      * })
      */
-    private $user;
+    private $player;
 
     /**
-     * @var Game
+     * @var Group
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="idGame")
+     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="idGroup")
      * })
      */
-    private $game;
+    private $group;
 
     /**
      * @var integer
@@ -111,13 +111,6 @@ class UserGame
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointChartWithoutDlc", type="integer", nullable=false)
-     */
-    private $pointChartWithoutDlc;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
     private $nbChart;
@@ -130,70 +123,47 @@ class UserGame
     private $nbChartProven;
 
     /**
-     * @var integer
+     * Set idPlayer
      *
-     * @ORM\Column(name="nbChartWithoutDlc", type="integer", nullable=false)
+     * @param integer $idPlayer
+     * @return PlayerGroup
      */
-    private $nbChartWithoutDlc;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbChartProvenWithoutDlc", type="integer", nullable=false)
-     */
-    private $nbChartProvenWithoutDlc;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointGame", type="integer", nullable=false)
-     */
-    private $pointGame;
-
-
-    /**
-     * Set idUser
-     *
-     * @param integer $idUser
-     * @return UserGame
-     */
-    public function setIdUser($idUser)
+    public function setIdPlayer($idPlayer)
     {
-        $this->idUser = $idUser;
+        $this->idPlayer = $idPlayer;
         return $this;
     }
 
     /**
-     * Get idUser
+     * Get idPlayer
      *
      * @return integer
      */
-    public function getIdUser()
+    public function getIdPlayer()
     {
-        return $this->idUser;
+        return $this->idPlayer;
     }
 
-
     /**
-     * Set idGame
+     * Set idGroup
      *
-     * @param integer $idGame
-     * @return UserGame
+     * @param integer $idGroup
+     * @return PlayerGroup
      */
-    public function setIdGame($idGame)
+    public function setIdGroup($idGroup)
     {
-        $this->idGame = $idGame;
+        $this->idGroup = $idGroup;
         return $this;
     }
 
     /**
-     * Get idGame
+     * Get idGroup
      *
      * @return integer
      */
-    public function getIdGame()
+    public function getIdGroup()
     {
-        return $this->idGame;
+        return $this->idGroup;
     }
 
 
@@ -201,7 +171,7 @@ class UserGame
      * Set rankPoint
      *
      * @param integer $rankPoint
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setRankPoint($rankPoint)
     {
@@ -223,7 +193,7 @@ class UserGame
      * Set rankMedal
      *
      * @param integer $rankMedal
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setRankMedal($rankMedal)
     {
@@ -245,7 +215,7 @@ class UserGame
      * Set rank
      *
      * @param integer $rank0
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setRank0($rank0)
     {
@@ -267,7 +237,7 @@ class UserGame
      * Set rank1
      *
      * @param integer $rank1
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setRank1($rank1)
     {
@@ -289,7 +259,7 @@ class UserGame
      * Set rank2
      *
      * @param integer $rank2
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setRank2($rank2)
     {
@@ -311,7 +281,7 @@ class UserGame
      * Set rank3
      *
      * @param integer $rank3
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setRank3($rank3)
     {
@@ -333,7 +303,7 @@ class UserGame
      * Set rank4
      *
      * @param integer $rank4
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setRank4($rank4)
     {
@@ -355,7 +325,7 @@ class UserGame
      * Set rank5
      *
      * @param integer $rank5
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setRank5($rank5)
     {
@@ -377,7 +347,7 @@ class UserGame
      * Set pointChart
      *
      * @param integer $pointChart
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setPointChart($pointChart)
     {
@@ -396,32 +366,10 @@ class UserGame
     }
 
     /**
-     * Set pointChartWithoutDlc
-     *
-     * @param integer $pointChartWithoutDlc
-     * @return UserGame
-     */
-    public function setPointChartWithoutDlc($pointChartWithoutDlc)
-    {
-        $this->pointChartWithoutDlc = $pointChartWithoutDlc;
-        return $this;
-    }
-
-    /**
-     * Get pointChartWithoutDlc
-     *
-     * @return integer
-     */
-    public function getPointChartWithoutDlc()
-    {
-        return $this->pointChartWithoutDlc;
-    }
-
-    /**
      * Set nbChart
      *
      * @param integer $nbChart
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setNbChart($nbChart)
     {
@@ -444,7 +392,7 @@ class UserGame
      * Set nbChartProven
      *
      * @param integer $nbChartProven
-     * @return UserGame
+     * @return PlayerGroup
      */
     public function setNbChartProven($nbChartProven)
     {
@@ -462,117 +410,52 @@ class UserGame
         return $this->nbChartProven;
     }
 
+
     /**
-     * Set nbChartWithoutDlc
+     * Set group
      *
-     * @param integer $nbChartWithoutDlc
-     * @return UserGame
+     * @param Group $group
+     * @return PlayerGroup
      */
-    public function setNbChartWithoutDlc($nbChartWithoutDlc)
+    public function setGroup(Group $group = null)
     {
-        $this->nbChartWithoutDlc = $nbChartWithoutDlc;
+        $this->group = $group;
+        $this->setIdGroup($group->getIdGroup());
         return $this;
     }
 
     /**
-     * Get nbChartWithoutDlc
+     * Get group
      *
-     * @return integer
+     * @return Group
      */
-    public function getNbChartWithoutDlc()
+    public function getGroup()
     {
-        return $this->nbChartWithoutDlc;
+        return $this->group;
     }
 
+
     /**
-     * Set nbChartProvenWithoutDlc
+     * Set player
      *
-     * @param integer $nbChartProvenWithoutDlc
-     * @return UserGame
+     * @param Player $player
+     * @return PlayerGame
      */
-    public function setNbChartProvenWithoutDlc($nbChartProvenWithoutDlc)
+    public function setPlayer(Player $player = null)
     {
-        $this->nbChartProvenWithoutDlc = $nbChartProvenWithoutDlc;
+        $this->player = $player;
+        $this->setIdPlayer($player->getIdPlayer());
         return $this;
     }
 
     /**
-     * Get nbChartProvenWithoutDlc
-     *
-     * @return integer
-     */
-    public function getNbChartProvenWithoutDlc()
-    {
-        return $this->nbChartProvenWithoutDlc;
-    }
-
-    /**
-     * Set pointGame
-     *
-     * @param integer $pointGame
-     * @return UserGame
-     */
-    public function setPointGame($pointGame)
-    {
-        $this->pointGame = $pointGame;
-        return $this;
-    }
-
-    /**
-     * Get pointGame
-     *
-     * @return integer
-     */
-    public function getPointGame()
-    {
-        return $this->pointGame;
-    }
-
-    /**
-     * Set game
-     *
-     * @param Game $game
-     * @return UserGame
-     */
-    public function setGame(Game $game = null)
-    {
-        $this->game = $game;
-        $this->setIdGame($game->getIdGame());
-        return $this;
-    }
-
-    /**
-     * Get game
-     *
-     * @return Game
-     */
-    public function getGame()
-    {
-        return $this->game;
-    }
-
-
-    /**
-     * Set user
-     *
-     * @param Player $user
-     * @return UserGame
-     */
-    public function setUser(Player $user = null)
-    {
-        $this->user = $user;
-        $this->setIdUser($user->getIdUser());
-        return $this;
-    }
-
-    /**
-     * Get user
+     * Get player
      *
      * @return Player
      */
-    public function getUser()
+    public function getPlayer()
     {
-        return $this->user;
+        return $this->player;
     }
 
 
@@ -612,5 +495,13 @@ class UserGame
         } else {
             return '';
         }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function preInsert()
+    {
+        $this->setRankMedal(0);
     }
 }

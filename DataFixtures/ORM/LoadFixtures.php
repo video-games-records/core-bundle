@@ -4,6 +4,8 @@ namespace VideoGamesRecords\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -13,6 +15,10 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
+
 
 /**
  * Defines the sample data to load in the database when running the unit and
@@ -24,8 +30,16 @@ use VideoGamesRecords\CoreBundle\Entity\Platform;
  *
  * @author David Benard <magicbart@gmail.com>
  */
-class LoadFixtures extends AbstractFixture implements FixtureInterface
+class LoadFixtures extends AbstractFixture implements FixtureInterface, ContainerAwareInterface
 {
+
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -37,6 +51,8 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
         $this->loadGroups($manager);
         $this->loadChartType($manager);
         $this->loadCharts($manager);
+        $this->loadPlayers($manager);
+        $this->loadPlayerChart($manager);
     }
 
     /**
@@ -162,7 +178,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
                 }
             }
             $manager->persist($game);
-            $this->addReference('game.' . $game->getIdGame(), $game);
+            $this->addReference('game' . $game->getIdGame(), $game);
         }
         $manager->flush();
     }
@@ -197,9 +213,9 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
             $group = new Group();
             $group->setIdGroup($row['idGroup']);
             $group->setLibGroupEn($row['libGroupEn']);
-            $group->setGame($this->getReference('game.' . $row['idGame']));
+            $group->setGame($this->getReference('game' . $row['idGame']));
             $manager->persist($group);
-            $this->addReference('group.' . $group->getIdGroup(), $group);
+            $this->addReference('group' . $group->getIdGroup(), $group);
         }
 
         $manager->flush();
@@ -316,7 +332,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
             $chart = new Chart();
             $chart->setIdChart($row['idChart']);
             $chart->setLibChartEn($row['libChartEn']);
-            $chart->setGroup($this->getReference('group.' . $row['idGroup']));
+            $chart->setGroup($this->getReference('group' . $row['idGroup']));
 
             foreach ($row['types'] as $type) {
                 $chartLib = new ChartLib();
@@ -329,7 +345,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
             }
 
             $manager->persist($chart);
-            $this->addReference('chart.' . $chart->getIdChart(), $chart);
+            $this->addReference('chart' . $chart->getIdChart(), $chart);
         }
 
         $manager->flush();
@@ -377,4 +393,91 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
         }
         $manager->flush();
     }
+
+
+    /**
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     */
+    private function loadPlayers(ObjectManager $manager)
+    {
+        $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Player');
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+
+        $list = array(
+            array(
+                'idPlayer' => 1,
+                'pseudo' => 'magicbart',
+            ),
+            array(
+                'idPlayer' => 2,
+                'pseudo' => 'kloh',
+            ),
+            array(
+                'idPlayer' => 3,
+                'pseudo' => 'viviengaetan',
+            ),
+        );
+
+        foreach ($list as $row) {
+            $player = new Player();
+            $player
+                ->setIdPlayer($row['idPlayer'])
+                ->setPseudo($row['pseudo']);
+
+            $manager->persist($player);
+            $this->addReference('player' . $player->getIdPlayer(), $player);
+        }
+        $manager->flush();
+    }
+
+
+    /**
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     */
+    private function loadPlayerChart(ObjectManager $manager)
+    {
+        // idChart = 1
+        $chart = $this->getReference('chart1');
+
+        $list = array(
+            array(
+                'idPlayer' => 1,
+                'value' => 9999,
+            ),
+            array(
+                'idPlayer' => 2,
+                'value' => 10101,
+            ),
+            array(
+                'idPlayer' => 3,
+                'value' => 8900,
+            ),
+        );
+
+        foreach ($list as $row) {
+            $playerChart = new PlayerChart();
+            $playerChart->setPlayer($this->getReference('player' . $row['idPlayer']));
+            $playerChart->setChart($chart);
+            $playerChart->setIdStatus(1);
+            $playerChart->setDateModif(new \DateTime());
+            $manager->persist($playerChart);
+
+            foreach ($chart->getLibs() as $lib) {
+                $playerChartLib = new PlayerChartLib();
+                $playerChartLib->setPlayer($this->getReference('player' . $row['idPlayer']));
+                $playerChartLib->setLibChart($lib);
+                $playerChartLib->setValue($row['value']);
+                $manager->persist($playerChartLib);
+            }
+        }
+
+        $manager->flush();
+
+        $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->maj(1);
+        $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj(1);
+        $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj(11);
+
+    }
+
+
 }

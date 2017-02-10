@@ -28,7 +28,7 @@
     <ul>
         <li>{{ 'ranking.rank'|trans }} | {{ 'ranking.nickname'|trans }} | {{ 'ranking.points'|trans }} | {{ 'ranking.number.score'|trans }}</li>
         {% for row in rankingPoints %}
-            <li {{ row.getPointsBackgroundColor()|raw }}>{{ row.getRankPoint() }} | {{ row.getUser().getPseudo() }}
+            <li {{ row.getPointsBackgroundColor()|raw }}>{{ row.getRankPoint() }} | {{ row.getPlayer().getPseudo() }}
                 | {{ row.getPointChart() }} | {{ row.getNbChart() }}</li>
         {% else %}
             <div class="well">{{ 'game.no_player'|trans }}</div>
@@ -44,7 +44,7 @@
     <ul>
         <li>{{ 'ranking.rank'|trans }} | {{ 'ranking.nickname'|trans }} | {{ 'ranking.platinum'|trans }} | {{ 'ranking.gold'|trans }} | {{ 'ranking.silver'|trans }} | {{ 'ranking.bronze'|trans }}</li>
         {% for row in rankingMedals %}
-            <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getUser().getPseudo() }}
+            <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getPlayer().getPseudo() }}
                 | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
         {% else %}
             <div class="well">{{ 'game.no_player'|trans }}</div>

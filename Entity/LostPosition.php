@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LostPosition
  *
- * @ORM\Table(name="vgr_lostposition", indexes={@ORM\Index(name="idxIdUser", columns={"idUser"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
+ * @ORM\Table(name="vgr_lostposition", indexes={@ORM\Index(name="idxIdPlayer", columns={"idPlayer"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\LostPositionRepository")
  */
 class LostPosition
@@ -24,9 +24,9 @@ class LostPosition
     /**
      * @var integer
      *
-     * @ORM\Column(name="idUser", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="idPlayer", type="integer", nullable=false, options={"default":0})
      */
-    private $idUser;
+    private $idPlayer;
 
     /**
      * @var integer
@@ -61,7 +61,7 @@ class LostPosition
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
      * })
      */
     private $user;
@@ -104,25 +104,25 @@ class LostPosition
     }
 
     /**
-     * Set idUser
+     * Set idPlayer
      *
-     * @param integer $idUser
+     * @param integer $idPlayer
      * @return LostPosition
      */
-    public function setIdUser($idUser)
+    public function setIdPlayer($idPlayer)
     {
-        $this->idUser = $idUser;
+        $this->idPlayer = $idPlayer;
         return $this;
     }
 
     /**
-     * Get idUser
+     * Get idPlayer
      *
      * @return integer
      */
-    public function geIdUser()
+    public function geIdPlayer()
     {
-        return $this->idUser;
+        return $this->idPlayer;
     }
 
     /**
@@ -239,25 +239,25 @@ class LostPosition
 
 
     /**
-     * Set user
+     * Set player
      *
-     * @param Player $user
+     * @param Player $player
      * @return LostPosition
      */
-    public function setUser(Player $user = null)
+    public function setPlayer(Player $player = null)
     {
-        $this->user = $user;
-        $this->setIdUser($user->getIdUser());
+        $this->player = $player;
+        $this->setIdPlayer($player->getIdPlayer());
         return $this;
     }
 
     /**
-     * Get user
+     * Get player
      *
      * @return Player
      */
-    public function getUser()
+    public function getPlayer()
     {
-        return $this->user;
+        return $this->player;
     }
 }

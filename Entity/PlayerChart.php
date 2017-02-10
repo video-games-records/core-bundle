@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
- * UserChart
+ * PlayerChart
  *
- * @ORM\Table(name="vgr_user_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserChartRepository")
+ * @ORM\Table(name="vgr_player_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class UserChart
+class PlayerChart
 {
     /**
      * This columns are missing on this entity
@@ -23,10 +23,10 @@ class UserChart
     use Timestampable;
 
     /**
-     * @ORM\Column(name="idUser", type="integer")
+     * @ORM\Column(name="idPlayer", type="integer")
      * @ORM\Id
      */
-    private $idUser;
+    private $idPlayer;
 
     /**
      * @ORM\Column(name="idChart", type="integer")
@@ -58,9 +58,9 @@ class UserChart
     /**
      * @var integer
      *
-     * @ORM\Column(name="idEtat", type="integer", nullable=false)
+     * @ORM\Column(name="idStatus", type="integer", nullable=false)
      */
-    private $idEtat;
+    private $idStatus;
 
     /**
      * @var boolean
@@ -81,10 +81,10 @@ class UserChart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
      * })
      */
-    private $user;
+    private $player;
 
     /**
      * @var Chart
@@ -98,25 +98,25 @@ class UserChart
 
 
     /**
-     * Set idUser
+     * Set idPlayer
      *
-     * @param integer $idUser
-     * @return UserChart
+     * @param integer $idPlayer
+     * @return PlayerChart
      */
-    public function setIdUser($idUser)
+    public function setIdPlayer($idPlayer)
     {
-        $this->idUser = $idUser;
+        $this->idPlayer = $idPlayer;
         return $this;
     }
 
     /**
-     * Get idUser
+     * Get idPlayer
      *
      * @return integer
      */
-    public function getIdUser()
+    public function getIdPlayer()
     {
-        return $this->idUser;
+        return $this->idPlayer;
     }
 
 
@@ -124,7 +124,7 @@ class UserChart
      * Set idChart
      *
      * @param integer $idChart
-     * @return UserChart
+     * @return PlayerChart
      */
     public function setIdChart($idChart)
     {
@@ -147,7 +147,7 @@ class UserChart
      * Set rank
      *
      * @param integer $rank
-     * @return UserChart
+     * @return PlayerChart
      */
     public function setRank($rank)
     {
@@ -169,7 +169,7 @@ class UserChart
      * Set nbEqual
      *
      * @param integer $nbEqual
-     * @return UserChart
+     * @return PlayerChart
      */
     public function setNbEqual($nbEqual)
     {
@@ -191,7 +191,7 @@ class UserChart
      * Set pointChart
      *
      * @param float $pointChart
-     * @return UserChart
+     * @return PlayerChart
      */
     public function setPointChart($pointChart)
     {
@@ -210,32 +210,32 @@ class UserChart
     }
 
     /**
-     * Set idEtat
+     * Set idStatus
      *
-     * @param integer $idEtat
-     * @return UserChart
+     * @param integer $idStatus
+     * @return PlayerChart
      */
-    public function setIdEtat($idEtat)
+    public function setIdStatus($idStatus)
     {
-        $this->idEtat = $idEtat;
+        $this->idStatus = $idStatus;
         return $this;
     }
 
     /**
-     * Get idEtat
+     * Get idStatus
      *
      * @return integer
      */
-    public function getIdEtat()
+    public function getIdStatus()
     {
-        return $this->idEtat;
+        return $this->idStatus;
     }
 
     /**
      * Set topScore
      *
      * @param integer $topScore
-     * @return UserChart
+     * @return PlayerChart
      */
     public function setTopScore($topScore)
     {
@@ -257,7 +257,7 @@ class UserChart
      * Set dateModif
      *
      * @param \DateTime $dateModif
-     * @return UserChart
+     * @return PlayerChart
      */
     public function setDateModif($dateModif)
     {
@@ -280,7 +280,7 @@ class UserChart
      * Set chart
      *
      * @param Chart $chart
-     * @return UserChart
+     * @return PlayerChart
      */
     public function setChart(Chart $chart = null)
     {
@@ -301,26 +301,26 @@ class UserChart
 
 
     /**
-     * Set user
+     * Set player
      *
-     * @param Player $user
-     * @return UserChart
+     * @param Player $player
+     * @return PlayerChart
      */
-    public function setUser(Player $user = null)
+    public function setPlayer(Player $player = null)
     {
-        $this->user = $user;
-        $this->setIdUser($user->getIdUser());
+        $this->player = $player;
+        $this->setIdPlayer($player->getIdPlayer());
         return $this;
     }
 
     /**
-     * Get user
+     * Get player
      *
      * @return Player
      */
-    public function getUser()
+    public function getPlayer()
     {
-        return $this->user;
+        return $this->player;
     }
 
     /**
@@ -328,7 +328,7 @@ class UserChart
      */
     public function preInsert()
     {
-        $this->setPointRecord(0);
+        $this->setPointChart(0);
         $this->setRank(10000);
     }
 

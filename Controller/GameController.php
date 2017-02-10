@@ -57,7 +57,7 @@ class GameController extends Controller
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
 
-        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingPoints(
+        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints(
             array(
                 'idGame' => $id,
                 'maxRank' => 5,
@@ -65,7 +65,7 @@ class GameController extends Controller
             )
         );
 
-        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingMedals(
+        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals(
             array(
                 'idGame' => $id,
                 'maxRank' => 5,
@@ -92,7 +92,7 @@ class GameController extends Controller
     public function rankingPointsAction($id)
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingPoints(
+        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints(
             array(
                 'idGame' => $id,
                 'idLogin' => null,
@@ -105,7 +105,7 @@ class GameController extends Controller
         $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.pointranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-points.html.twig', array('rankingPoints' => $rankingPoints));
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-points.html.twig', array('rankingPoints' => $rankingPoints));
     }
 
 
@@ -120,7 +120,7 @@ class GameController extends Controller
     public function rankingMedalsAction($id)
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserGame')->getRankingMedals(
+        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals(
             array(
                 'idGame' => $id,
                 'idLogin' => null,
@@ -133,6 +133,6 @@ class GameController extends Controller
         $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.medalranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig', array('rankingMedals' => $rankingMedals));
     }
 }

@@ -3,11 +3,12 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
- * @ORM\Table(name="vgr_member", indexes={@ORM\Index(name="vgr_pointJeu", columns={"vgr_pointJeu"}), @ORM\Index(name="vgr_rank_pointJeu", columns={"vgr_rank_pointJeu"})})
+ * @ORM\Table(name="vgr_player", indexes={@ORM\Index(name="vgr_pointJeu", columns={"vgr_pointJeu"}), @ORM\Index(name="vgr_rank_pointJeu", columns={"vgr_rank_pointJeu"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
  */
 class Player
@@ -23,11 +24,19 @@ class Player
     /**
      * @var integer
      *
-     * @ORM\Column(name="idUser", type="integer")
+     * @ORM\Column(name="idPlayer", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idUser;
+    private $idPlayer;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max="50")
+     * @ORM\Column(name="pseudo", type="string", length=50, nullable=false)
+     */
+    private $pseudo;
 
     /**
      * @var string
@@ -212,25 +221,48 @@ class Player
     private $vgr_rank_pointJeu;
 
     /**
-     * Set idUser
+     * Set idPlayer
      *
-     * @param integer $idUser
+     * @param integer $idPlayer
      * @return Player
      */
-    public function setIdUser($idUser)
+    public function setIdPlayer($idPlayer)
     {
-        $this->idUser = $idUser;
+        $this->idPlayer = $idPlayer;
         return $this;
     }
 
     /**
-     * Get idUser
+     * Get idPlayer
      *
      * @return integer
      */
-    public function getIdUser()
+    public function getIdPlayer()
     {
-        return $this->idUser;
+        return $this->idPlayer;
+    }
+
+    /**
+     * Set pseudo
+     *
+     * @param string $pseudo
+     * @return Player
+     */
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * Get pseudo
+     *
+     * @return string
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
     }
 
     /**

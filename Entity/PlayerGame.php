@@ -5,44 +5,45 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserSerie
+ * PlayerGame
  *
- * @ORM\Table(name="vgr_user_serie", indexes={@ORM\Index(name="idxIdSerie", columns={"idSerie"}), @ORM\Index(name="idxIdUser", columns={"idUser"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\UserSerieRepository")
+ * @ORM\Table(name="vgr_player_game", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository")
  */
-class UserSerie
+class PlayerGame
 {
-    /**
-     * @ORM\Column(name="idUser", type="integer")
-     * @ORM\Id
-     */
-    private $idUser;
 
     /**
-     * @ORM\Column(name="idSerie", type="integer")
+     * @ORM\Column(name="idPlayer", type="integer")
      * @ORM\Id
      */
-    private $idSerie;
+    private $idPlayer;
+
+    /**
+     * @ORM\Column(name="idGame", type="integer")
+     * @ORM\Id
+     */
+    private $idGame;
 
     /**
      * @var Player
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
      * })
      */
-    private $user;
+    private $player;
 
     /**
-     * @var Serie
+     * @var Game
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSerie", referencedColumnName="idSerie")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="idGame")
      * })
      */
-    private $serie;
+    private $game;
 
     /**
      * @var integer
@@ -149,63 +150,58 @@ class UserSerie
      */
     private $pointGame;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbGame", type="integer", nullable=false)
-     */
-    private $nbGame;
-
 
     /**
-     * Set idUser
+     * Set idPlayer
      *
-     * @param integer $idUser
-     * @return UserSerie
+     * @param integer $idPlayer
+     * @return PlayerGame
      */
-    public function setIdUser($idUser)
+    public function setIdPlayer($idPlayer)
     {
-        $this->idUser = $idUser;
+        $this->idPlayer = $idPlayer;
         return $this;
     }
 
     /**
-     * Get idUser
+     * Get idPlayer
      *
      * @return integer
      */
-    public function getIdUser()
+    public function getIdPlayer()
     {
-        return $this->idUser;
+        return $this->idPlayer;
     }
 
+
     /**
-     * Set idSerie
+     * Set idGame
      *
-     * @param integer $idSerie
-     * @return UserSerie
+     * @param integer $idGame
+     * @return PlayerGame
      */
-    public function setIdSerie($idSerie)
+    public function setIdGame($idGame)
     {
-        $this->idSerie = $idSerie;
+        $this->idGame = $idGame;
         return $this;
     }
 
     /**
-     * Get idSerie
+     * Get idGame
      *
      * @return integer
      */
-    public function getIdSerie()
+    public function getIdGame()
     {
-        return $this->idSerie;
+        return $this->idGame;
     }
+
 
     /**
      * Set rankPoint
      *
      * @param integer $rankPoint
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setRankPoint($rankPoint)
     {
@@ -227,7 +223,7 @@ class UserSerie
      * Set rankMedal
      *
      * @param integer $rankMedal
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setRankMedal($rankMedal)
     {
@@ -246,10 +242,10 @@ class UserSerie
     }
 
     /**
-     * Set rank0
+     * Set rank
      *
      * @param integer $rank0
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setRank0($rank0)
     {
@@ -271,7 +267,7 @@ class UserSerie
      * Set rank1
      *
      * @param integer $rank1
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setRank1($rank1)
     {
@@ -293,7 +289,7 @@ class UserSerie
      * Set rank2
      *
      * @param integer $rank2
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setRank2($rank2)
     {
@@ -315,7 +311,7 @@ class UserSerie
      * Set rank3
      *
      * @param integer $rank3
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setRank3($rank3)
     {
@@ -337,7 +333,7 @@ class UserSerie
      * Set rank4
      *
      * @param integer $rank4
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setRank4($rank4)
     {
@@ -359,7 +355,7 @@ class UserSerie
      * Set rank5
      *
      * @param integer $rank5
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setRank5($rank5)
     {
@@ -381,7 +377,7 @@ class UserSerie
      * Set pointChart
      *
      * @param integer $pointChart
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setPointChart($pointChart)
     {
@@ -403,7 +399,7 @@ class UserSerie
      * Set pointChartWithoutDlc
      *
      * @param integer $pointChartWithoutDlc
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setPointChartWithoutDlc($pointChartWithoutDlc)
     {
@@ -421,12 +417,11 @@ class UserSerie
         return $this->pointChartWithoutDlc;
     }
 
-
     /**
      * Set nbChart
      *
      * @param integer $nbChart
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setNbChart($nbChart)
     {
@@ -449,7 +444,7 @@ class UserSerie
      * Set nbChartProven
      *
      * @param integer $nbChartProven
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setNbChartProven($nbChartProven)
     {
@@ -471,7 +466,7 @@ class UserSerie
      * Set nbChartWithoutDlc
      *
      * @param integer $nbChartWithoutDlc
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setNbChartWithoutDlc($nbChartWithoutDlc)
     {
@@ -489,12 +484,11 @@ class UserSerie
         return $this->nbChartWithoutDlc;
     }
 
-
     /**
      * Set nbChartProvenWithoutDlc
      *
      * @param integer $nbChartProvenWithoutDlc
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setNbChartProvenWithoutDlc($nbChartProvenWithoutDlc)
     {
@@ -516,7 +510,7 @@ class UserSerie
      * Set pointGame
      *
      * @param integer $pointGame
-     * @return UserSerie
+     * @return PlayerGame
      */
     public function setPointGame($pointGame)
     {
@@ -534,75 +528,51 @@ class UserSerie
         return $this->pointGame;
     }
 
-
     /**
-     * Set nbGame
+     * Set game
      *
-     * @param integer $nbGame
-     * @return UserGame
+     * @param Game $game
+     * @return PlayerGame
      */
-    public function setNbGame($nbGame)
+    public function setGame(Game $game = null)
     {
-        $this->nbGame = $nbGame;
+        $this->game = $game;
+        $this->setIdGame($game->getIdGame());
         return $this;
     }
 
     /**
-     * Get nbGame
+     * Get game
      *
-     * @return integer
+     * @return Game
      */
-    public function getNbGame()
+    public function getGame()
     {
-        return $this->nbGame;
+        return $this->game;
     }
 
 
     /**
-     * Set serie
+     * Set player
      *
-     * @param Serie $serie
-     * @return UserSerie
+     * @param Player $player
+     * @return PlayerGame
      */
-    public function setSerie(Serie $serie = null)
+    public function setPlayer(Player $player = null)
     {
-        $this->serie = $serie;
-        $this->setIdSerie($serie->getIdSerie());
+        $this->player = $player;
+        $this->setIdPlayer($player->getIdPlayer());
         return $this;
     }
 
     /**
-     * Get serie
-     *
-     * @return Serie
-     */
-    public function getSerie()
-    {
-        return $this->serie;
-    }
-
-
-    /**
-     * Set user
-     *
-     * @param Player $user
-     * @return UserSerie
-     */
-    public function setUser(Player $user = null)
-    {
-        $this->user = $user;
-        $this->setIdUser($user->getIdUser());
-        return $this;
-    }
-
-    /**
-     * Get user
+     * Get player
      *
      * @return Player
      */
-    public function getUser()
+    public function getPlayer()
     {
-        return $this->user;
+        return $this->player;
     }
 
 

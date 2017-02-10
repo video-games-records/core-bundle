@@ -9,7 +9,7 @@
 <ul>
     <li>rank|pseudo|platine|gold|silver|bronze</li>
     {% for row in rankingMedals %}
-        <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getUser().getPseudo() }} | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
+        <li {{ row.getMedalsBackgroundColor() }}>{{ row.getRankMedal() }} | {{ row.getPlayer().getPseudo() }} | {{ row.getRank0() }} | {{ row.getRank1() }} | {{ row.getRank2() }} | {{ row.getRank3() }}</li>
     {% endfor %}
 </ul>
 

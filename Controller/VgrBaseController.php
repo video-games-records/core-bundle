@@ -13,7 +13,7 @@ class VgrBaseController extends Controller
      * @inheritDoc
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
-    protected function getUser()
+    protected function getPlayer()
     {
         return $this->get('session')->get('vgr_player');
     }

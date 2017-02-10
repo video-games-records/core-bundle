@@ -7,10 +7,10 @@
 {% block body %}
 
     {% for row in ranking %}
-        <li>{{ row['uc'].getRank() }} | {{ row['uc'].getUser().getPseudo() }} |
+        <li>{{ row['uc'].getRank() }} | {{ row['pc'].getPlayer().getPseudo() }} |
 
         {% for lib in chart.getLibs() %}
-            {{ vgrFormatScore(row['value_' ~  lib.getIdLibChart()], lib.getType().getMask()) }}  ||  {{ row['uc'].getPointChart()|number_format }}pts
+            {{ vgrFormatScore(row['value_' ~  lib.getIdLibChart()], lib.getType().getMask()) }}  ||  {{ row['pc'].getPointChart()|number_format }}pts
         {% endfor %}
 
         </li>

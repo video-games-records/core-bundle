@@ -6,8 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Entity\UserChart;
-use VideoGamesRecords\CoreBundle\Entity\UserChartLib;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 
@@ -44,7 +44,7 @@ class SubmitController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $idUser = 1;
+            $idPlayer = 1;
 
             //----- Init
             $nbInsert = 0;
@@ -82,46 +82,46 @@ class SubmitController extends Controller
                 }
 
                 $em = $this->getDoctrine()->getManager();
-                $user = $em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idUser);
+                $player = $em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer);
 
 
                 if (!$isNull && $isModify) {
-                    $userChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserChart')->find(
+                    $playerChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->find(
                         array(
-                            'idUser' => $idUser,
+                            'idUser' => $idPlayer,
                             'idChart' => $chart->getIdChart()
                         )
                     );
 
                     $isNew = false;
-                    if ($userChart === null) {
+                    if ($playerChart === null) {
                         $isNew = true;
-                        $userChart = new UserChart();
-                        $userChart->setUser($user);
-                        $userChart->setChart($chart);
+                        $playerChart = new PlayerChart();
+                        $playerChart->setPlayer($player);
+                        $playerChart->setChart($chart);
                     }
 
-                    $userChart->setIdEtat(1);
+                    $playerChart->setIdEtat(1);
                     //$userChart->setPeuveImage(0);
                     //$userChart->setIdVideo(0);
-                    $userChart->setDateModif(new \DateTime());
-                    $em->persist($userChart);
+                    $playerChart->setDateModif(new \DateTime());
+                    $em->persist($playerChart);
                     $em->flush();
 
                     foreach ($chart->getLibs() as $lib) {
-                        $userChartLib = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserChartLib')->find(
+                        $playerChartLib = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->find(
                             array(
-                                'idUser' => $idUser,
+                                'idPlayer' => $idPlayer,
                                 'idLibChart' => $lib->getIdLibChart()
                             )
                         );
-                        if ($userChartLib === null) {
-                            $userChartLib = new UserChartLib();
-                            $userChartLib->setUser($user);
-                            $userChartLib->setLibChart($lib);
+                        if ($playerChartLib === null) {
+                            $playerChartLib = new PlayerChartLib();
+                            $playerChartLib->setPlayer($player);
+                            $playerChartLib->setLibChart($lib);
                         }
-                        $userChartLib->setValue($post[$lib->getIdLibChart()]);
-                        $em->persist($userChartLib);
+                        $playerChartLib->setValue($post[$lib->getIdLibChart()]);
+                        $em->persist($playerChartLib);
                     }
                     $em->flush();
 

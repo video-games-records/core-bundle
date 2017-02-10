@@ -26,7 +26,7 @@ class ChartController extends Controller
     {
         $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithGame($id);
 
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserChart')->getRanking(
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getRanking(
             array(
                 'chart' => $chart,
                 'idChart' => $id,
@@ -64,10 +64,10 @@ class ChartController extends Controller
         //----- IF CONNECTED !!!
         $data = array_merge(
             $data,
-            $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserChartLib')->getFormValues(
+            $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->getFormValues(
                 array(
                     'idChart' => $id,
-                    'idUser' => 1,
+                    'idPlayer' => 1,
                 )
             )
         );

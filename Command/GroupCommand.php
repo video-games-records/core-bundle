@@ -39,7 +39,7 @@ class GroupCommand extends ContainerAwareCommand
         switch ($function) {
             case 'maj':
                 $idGroup = $input->getOption('idGroup');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:UserGroup')->maj($idGroup);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj($idGroup);
                 break;
         }
 
