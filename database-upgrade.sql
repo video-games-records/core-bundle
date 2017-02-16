@@ -65,7 +65,7 @@ ALTER TABLE `vgr_game` CHANGE `idJeu` `idGame` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game` CHANGE `libJeu_fr` `libGameFr` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_game` CHANGE `libJeu_en` `libGameEn` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
 ALTER TABLE `vgr_game` CHANGE `imageJeu` `picture` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
-ALTER TABLE `vgr_game` CHANGE `nbMembre` `nbUser` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_game` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `boolDLC` `boolDlc` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `statut` `status` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
@@ -79,7 +79,7 @@ ALTER TABLE `vgr_group` CHANGE `libGroupe_en` `libGroupEn` VARCHAR(100) CHARACTE
 ALTER TABLE `vgr_group` CHANGE `idJeu` `idGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `boolDLC` `boolDlc` TINYINT(1) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_group` CHANGE `nbMembre` `nbUser` INT(11) NOT NULL;
+ALTER TABLE `vgr_group` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL;
 ALTER TABLE vgr_group CHANGE nbPost nbPost INT NOT NULL;
 ALTER TABLE vgr_group CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE vgr_group CHANGE dateModification updated_at DATETIME DEFAULT NULL;

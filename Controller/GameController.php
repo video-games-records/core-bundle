@@ -61,7 +61,7 @@ class GameController extends Controller
             array(
                 'idGame' => $id,
                 'maxRank' => 5,
-                'idLogin' => null,
+                'idPlayer' => null,
             )
         );
 
@@ -69,7 +69,7 @@ class GameController extends Controller
             array(
                 'idGame' => $id,
                 'maxRank' => 5,
-                'idLogin' => null,
+                'idPlayer' => null,
             )
         );
 

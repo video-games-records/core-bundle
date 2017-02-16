@@ -66,9 +66,9 @@ class Group
 
     /**
      * @var integer
-     * @ORM\Column(name="nbUser", type="integer", nullable=false)
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=false)
      */
-    private $nbUser = 0;
+    private $nbPlayer = 0;
 
     /**
      * @var Game
@@ -237,24 +237,24 @@ class Group
     }
 
     /**
-     * Set nbUser
-     * @param integer $nbUser
+     * Set nbPlayer
+     * @param integer $nbPlayer
      * @return Game
      */
-    public function setNbUser($nbUser)
+    public function setNbUser($nbPlayer)
     {
-        $this->nbUser = $nbUser;
+        $this->nbPlayer = $nbPlayer;
 
         return $this;
     }
 
     /**
-     * Get nbUser
+     * Get nbPlayer
      * @return integer
      */
     public function getNbUser()
     {
-        return $this->nbUser;
+        return $this->nbPlayer;
     }
 
     /**
