@@ -154,7 +154,7 @@ class PlayerSerieRepository extends EntityRepository
         foreach ($list as $row) {
             $playerSerie = $serializer->denormalize(
                 $row,
-                'VideoGamesRecords\CoreBundle\Entity\UserSerie'
+                'VideoGamesRecords\CoreBundle\Entity\PlayerSerie'
             );
             $playerSerie->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['idPlayer']));
             $playerSerie->setSerie($serie);

@@ -14,6 +14,6 @@ services:
             - { name: doctrine.event_listener, event: postUpdate, method: postUpdate}
     vgr.event_listener.login_listener:
         class: VideoGamesRecords\CoreBundle\EventListener\LoginListener
-        arguments: ["@=service('doctrine').getRepository('VideoGamesRecordsCoreBundle:User')"]
+        arguments: ["@=service('doctrine').getRepository('VideoGamesRecordsCoreBundle:Player')"]
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }
