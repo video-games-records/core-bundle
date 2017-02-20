@@ -2,6 +2,33 @@
 SET NAMES 'utf8';
 SET CHARACTER SET utf8;
 
+DROP TRIGGER IF EXISTS `vgrGroupeAfterDelete`;
+DROP TRIGGER IF EXISTS `vgrGroupeAfterInsert`;
+DROP TRIGGER IF EXISTS `vgrGroupeAfterUpdate`;
+DROP TRIGGER IF EXISTS `vgrRecordAfterDelete`;
+DROP TRIGGER IF EXISTS `vgrRecordAfterInsert`;
+DROP TRIGGER IF EXISTS `vgrRecordAfterUpdate`;
+DROP TRIGGER IF EXISTS `vgrRecordMembreAfterDelete`;
+DROP TRIGGER IF EXISTS `vgrRecordMembreAfterInsert`;
+DROP TRIGGER IF EXISTS `vgrRecordMembreAfterUpdate`;
+DROP TRIGGER IF EXISTS `vgrRecordMembreBeforeUpdate`;
+
+--
+DROP TRIGGER IF EXISTS `vgrDemandepreuveAfterInsert`;
+DROP TRIGGER IF EXISTS `tTeamDemandeAfterUpdate`;
+DROP TRIGGER IF EXISTS `tMembreBeforeUpdate`;
+DROP TRIGGER IF EXISTS `tMembreAfterUpdate`;
+DROP TRIGGER IF EXISTS `tCommentaireAfterInsert`;
+DROP TRIGGER IF EXISTS `tCommentaireAfterDelete`;
+DROP TRIGGER IF EXISTS `mvTeamRecordAfterDelete`;
+
+
+DROP TABLE copy_vgr_groupe;
+DROP TABLE copy_vgr_record;
+DROP TABLE t_team_demande_old;
+
+TRUNCATE t_session;
+
 RENAME TABLE vgr_jeu TO vgr_game;
 RENAME TABLE vgr_groupe TO vgr_group;
 RENAME TABLE vgr_record TO vgr_chart;
@@ -69,8 +96,8 @@ ALTER TABLE `vgr_game` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL DEFAULT '0'
 ALTER TABLE `vgr_game` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `boolDLC` `boolDlc` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `statut` `status` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
-ALTER TABLE vgr_game CHANGE dateCreation created_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_game CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_game` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_game` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` DROP `imagePlateForme`;
 
 ALTER TABLE `vgr_group` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL AUTO_INCREMENT;
@@ -80,9 +107,9 @@ ALTER TABLE `vgr_group` CHANGE `idJeu` `idGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `boolDLC` `boolDlc` TINYINT(1) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL;
-ALTER TABLE vgr_group CHANGE nbPost nbPost INT NOT NULL;
-ALTER TABLE vgr_group CHANGE dateCreation created_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_group CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_group` CHANGE nbPost nbPost INT NOT NULL;
+ALTER TABLE `vgr_group` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_group` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 
 ALTER TABLE `vgr_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_chart` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
@@ -90,16 +117,16 @@ ALTER TABLE `vgr_chart` CHANGE `libRecord_fr` `libChartFr` VARCHAR(100) CHARACTE
 ALTER TABLE `vgr_chart` CHANGE `libRecord_en` `libChartEn` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
 ALTER TABLE `vgr_chart` CHANGE `statut` `statusUser` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
 ALTER TABLE `vgr_chart` CHANGE `statutTeam` `statusTeam` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
-ALTER TABLE vgr_chart CHANGE dateCreation created_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_chart CHANGE dateModification updated_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_chart CHANGE statusUser statusUser VARCHAR(255) NOT NULL, CHANGE statusTeam statusTeam VARCHAR(255) NOT NULL, CHANGE nbPost nbPost INT NOT NULL;
+ALTER TABLE `vgr_chart` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_chart` CHANGE statusUser statusUser VARCHAR(255) NOT NULL, CHANGE statusTeam statusTeam VARCHAR(255) NOT NULL, CHANGE nbPost nbPost INT NOT NULL;
 
 ALTER TABLE `vgr_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_chartlib` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
-ALTER TABLE vgr_chartlib CHANGE dateCreation created_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_chartlib ADD updated_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_chartlib CHANGE lib name VARCHAR(100) DEFAULT NULL;
-ALTER TABLE vgr_chartlib CHANGE idChart idChart INT DEFAULT NULL, CHANGE idType idType INT DEFAULT NULL;
+ALTER TABLE `vgr_chartlib` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_chartlib` ADD updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_chartlib` CHANGE lib name VARCHAR(100) DEFAULT NULL;
+ALTER TABLE `vgr_chartlib` CHANGE idChart idChart INT DEFAULT NULL, CHANGE idType idType INT DEFAULT NULL;
 
 ALTER TABLE `vgr_charttype` CHANGE `lib_fr` `libFr` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_charttype` CHANGE `lib_en` `libEn` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
@@ -109,9 +136,9 @@ ALTER TABLE `vgr_player_chart` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE `pointRecord` `pointChart` DOUBLE NOT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE `idEtat` `idStatus` INT(11) NOT NULL;
-ALTER TABLE vgr_player_chart CHANGE dateCreation created_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_player_chart CHANGE dateModification updated_at DATETIME DEFAULT NULL;
-ALTER TABLE vgr_player_chart CHANGE rank rank INT NOT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE rank rank INT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
 
 ALTER TABLE `vgr_player_chartlib` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL;
@@ -149,7 +176,7 @@ ALTER TABLE `vgr_lostposition` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEFA
 ALTER TABLE `vgr_lostposition` CHANGE `oldPosition` `oldRank` INT(5) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_lostposition` CHANGE `newPosition` `newRank` INT(5) NOT NULL DEFAULT '0';
 
-ALTER TABLE `vgr_platform` CHANGE `idPlateforme` `idPlatform` INT(11) NOT NULL;
+ALTER TABLE `vgr_platform` CHANGE `idPlateforme` `idPlatform` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_platform` CHANGE `libPlateforme` `libPlatform` VARCHAR(50) NOT NULL;
 ALTER TABLE `vgr_platform` CHANGE `statut` `status` ENUM('ACTIF','INACTIF') NOT NULL DEFAULT 'INACTIF';
 ALTER TABLE `vgr_platform` CHANGE `image` `picture` VARCHAR(30) NOT NULL DEFAULT '';
@@ -173,7 +200,7 @@ ALTER TABLE member_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) 
 ALTER TABLE member_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
 
 -- New id for link between normandie & vgr
-ALTER TABLE vgr_player ADD normandie_player_id INT DEFAULT NULL;
+ALTER TABLE vgr_player ADD normandie_user_id INT DEFAULT NULL;
 
 -- Procedure to migrate member
 DELIMITER &&
