@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 
 /**
  * GameRepository
@@ -22,6 +23,27 @@ class GameRepository extends EntityRepository
                 ->setParameter('idSerie', $params['idSerie']);
         }
 
-        return $query->getQuery();
+        if (array_key_exists('letter', $params) && $params['letter'] !== null) {
+            $letter = $params['letter'];
+            if ($letter == '0') {
+                $query->where('SUBSTRING(g.libGameEn , 1, 1) NOT IN (:list)')
+                ->setParameter('list', range('a', 'z'));
+            } else {
+                $query->where('SUBSTRING(g.libGameEn , 1, 1) = :letter')
+                    ->setParameter('letter', $letter);
+            }
+        }
+
+
+        $query->andWhere('g.status = :status')
+            ->setParameter('status', Game::STATUS_ACTIVE);
+        $query->orderBy('g.libGameEn');
+
+        //----- Add platforms
+        $query->join('g.platforms', 'p')
+        ->addSelect('p');
+
+
+        return $query->getQuery()->getResult();
     }
 }

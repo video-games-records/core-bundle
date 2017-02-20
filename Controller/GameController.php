@@ -15,33 +15,40 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 class GameController extends Controller
 {
     /**
-     * @Route("/list", defaults={"page": 1}, name="vgr_game_list")
-     * @Route("/list/page/{page}", requirements={"page": "[1-9]\d*"}, name="vgr_game_list_paginated")
+     * @Route("/list", defaults={"letter": 1}, name="vgr_game_list")
+     * @Route("/list/letter/{letter}", requirements={"letter": "[0|A-Z]"}, name="vgr_game_list_letter")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
-     * @param int $page
+     * @param string $page
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction($page)
+    public function listAction($letter)
     {
-        $query = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->queryAlpha();
+        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->queryAlpha(
+            array(
+                'letter' => $letter
+            )
+        );
 
-        $paginator = $this->get('knp_paginator');
+        $alphabet = array_merge(array('0'), range('A', 'Z'));
+
+
+        /*$paginator = $this->get('knp_paginator');
         /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $games */
-        $games = $paginator->paginate($query, $page, Game::NUM_ITEMS);
-        $games->setUsedRoute('game_list_paginated');
+        /*$games = $paginator->paginate($query, $page, Game::NUM_ITEMS);
+        $games->setUsedRoute('vgr_game_list_paginated');*/
 
-        if (0 === count($games)) {
+        /*if (0 === count($games)) {
             throw $this->createNotFoundException();
-        }
+        }*/
 
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('game.list');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Game:list.html.twig', array('games' => $games));
+        return $this->render('VideoGamesRecordsCoreBundle:Game:list.html.twig', array('games' => $games, 'alphabet' => $alphabet));
     }
 
     /**
