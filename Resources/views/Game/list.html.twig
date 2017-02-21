@@ -5,18 +5,19 @@
 {% block body_id 'game_list' %}
 
 {% block body %}
-    {% for game in games %}
-        <article class="post">
-            <h2>
-                <a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a>
-            </h2>
+    <h1>{{ 'game.list'|trans }}</h1>
 
-        </article>
+    {% if games %}
+        <ul>
+            {% for game in games %}
+                <li><a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a></li>
+            {% endfor %}
+        </ul>
     {% else %}
-        <div class="well">{{ 'game.no_posts_found'|trans }}</div>
-    {% endfor %}
+        <p>{{ 'game.no_posts_found'|trans }}</p>
+    {% endif %}
 
-    <div class="navigation text-center">
+    <div class="pagination">
         {{ knp_pagination_render(games) }}
     </div>
 
