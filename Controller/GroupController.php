@@ -29,7 +29,7 @@ class GroupController extends Controller
             array(
                 'idGroup' => $id,
                 'maxRank' => 5,
-                'idLogin' => null,
+                'idPlayer' => null,
             )
         );
 
@@ -37,7 +37,7 @@ class GroupController extends Controller
             array(
                 'idGroup' => $id,
                 'maxRank' => 5,
-                'idLogin' => null,
+                'idPlayer' => null,
             )
         );
 

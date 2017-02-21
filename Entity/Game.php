@@ -107,9 +107,9 @@ class Game
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbUser", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default":0})
      */
-    private $nbUser = 0;
+    private $nbPlayer = 0;
 
     /**
      * @var integer
@@ -431,26 +431,26 @@ class Game
     }
 
     /**
-     * Set nbUser
+     * Set nbPlayer
      *
-     * @param integer $nbUser
+     * @param integer $nbPlayer
      * @return Game
      */
-    public function setNbUser($nbUser)
+    public function setNbUser($nbPlayer)
     {
-        $this->nbUser = $nbUser;
+        $this->nbPlayer = $nbPlayer;
 
         return $this;
     }
 
     /**
-     * Get nbUser
+     * Get nbPlayer
      *
      * @return integer
      */
-    public function getNbUser()
+    public function getNbPlayer()
     {
-        return $this->nbUser;
+        return $this->nbPlayer;
     }
 
     /**

@@ -5,21 +5,28 @@
 {% block body_id 'game_list' %}
 
 {% block body %}
-    <h1>{{ 'game.list'|trans }}</h1>
+    {% for letter in alphabet %}
+        <a href="{{ path('vgr_game_list_letter', {'letter': letter}) }}">{{ letter }}</a> |
+    {% endfor %}
 
-    {% if games %}
-        <ul>
-            {% for game in games %}
-                <li><a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a></li>
-            {% endfor %}
-        </ul>
+    <br />
+
+    {{ 'game'|trans }} | {{ 'Platforms'|trans }}| {{ 'charts'|trans }} | {{ 'Posts'|trans }} | {{ 'Players'|trans }}
+
+    {% for game in games %}
+        <article class="post">
+            <h2>
+                <a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a> |
+                {% for platform in game.getPlatforms() %}
+                    {{ platform.getLibPlatform() }}
+                {% endfor %} |
+                {{ game.nbChart() }} | {{ game.nbPost() }} | {{ game.nbPlayer() }} |
+            </h2>
+
+        </article>
     {% else %}
-        <p>{{ 'game.no_posts_found'|trans }}</p>
-    {% endif %}
-
-    <div class="pagination">
-        {{ knp_pagination_render(games) }}
-    </div>
+        <div class="well">{{ 'game.no_posts_found'|trans }}</div>
+    {% endfor %}
 
 {% endblock %}
 

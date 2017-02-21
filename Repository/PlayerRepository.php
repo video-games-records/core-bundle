@@ -33,7 +33,9 @@ class PlayerRepository extends EntityRepository
     private function createPlayerFromUser($user)
     {
         $player = new Player();
-        $player->setNormandieUser($user);
+        $player
+            ->setNormandieUser($user)
+            ->setPseudo($user->getUsername());
 
         $this->getEntityManager()->persist($player);
         $this->getEntityManager()->flush();
