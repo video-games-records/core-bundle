@@ -2,21 +2,38 @@
 
 {% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
 
+{% block title %}{{ chart.libChart }} - {{ chart.group.libGroup }} – {{ chart.group.game.libGame }}{% endblock %}
+
 {% block body_id 'chart_index' %}
 
 {% block body %}
+    <h1>{{ chart.libChart }} - {{ chart.group.libGroup }} – {{ chart.group.game.libGame }}</h1>
 
-    {% for row in ranking %}
-        <li>{{ row['uc'].getRank() }} | {{ row['pc'].getPlayer().getPseudo() }} |
-
-        {% for lib in chart.getLibs() %}
-            {{ vgrFormatScore(row['value_' ~  lib.getIdLibChart()], lib.getType().getMask()) }}  ||  {{ row['pc'].getPointChart()|number_format }}pts
+    <table class="leaderboard">
+        <thead>
+        <tr>
+            <th scope="col">{{ 'ranking.rank'|trans }}</th>
+            <th scope="col">{{ 'ranking.nickname'|trans }}</th>
+            {% for lib in chart.libs %}
+                <th>{{ lib.name }}</th>
+            {% endfor %}
+            <th scope="col">{{ 'ranking.points'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in ranking %}
+            <tr {{ row['pc'].getPointsBackgroundColor()|raw }}>
+                <td>{{ row['uc'].getRank() }}</td>
+                <td>{{ row['pc'].getPlayer().getPseudo() }}</td>
+                {% for lib in chart.getLibs() %}
+                    <td>{{ vgrFormatScore(row['value_' ~  lib.getIdLibChart()], lib.getType().getMask()) }}</td>
+                {% endfor %}
+                <td>{{ row['pc'].getPointChart()|number_format }}</td>
+            </tr>
+        {% else %}
+            <div class="well">{{ 'chart.no_ranking'|trans }}</div>
         {% endfor %}
-
-        </li>
-    {% else %}
-        <div class="well">{{ 'chart.no_ranking'|trans }}</div>
-    {% endfor %}
-
+        </tbody>
+    </table>
 
 {% endblock %}

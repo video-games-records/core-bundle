@@ -3,30 +3,44 @@
 {% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
 
 {% block body_id 'game_list' %}
+{% block title %}{{ 'game.list'|trans }}{% endblock %}
 
 {% block body %}
     {% for letter in alphabet %}
         <a href="{{ path('vgr_game_list_letter', {'letter': letter}) }}">{{ letter }}</a> |
     {% endfor %}
 
-    <br />
-
-    {{ 'game'|trans }} | {{ 'Platforms'|trans }}| {{ 'charts'|trans }} | {{ 'Posts'|trans }} | {{ 'Players'|trans }}
-
-    {% for game in games %}
-        <article class="post">
-            <h2>
-                <a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a> |
+    <br/>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">{{ 'game_list.game'|trans }}</th>
+            <th scope="col">{{ 'game_list.platform.list'|trans }}</th>
+            <th scope="col">{{ 'game_list.chart.number'|trans }}</th>
+            <th scope="col">{{ 'game_list.score.number'|trans }}</th>
+            <th scope="col">{{ 'game_list.players.number'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for game in games %}
+        <tr>
+            <td><a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a></td>
+            <td>
                 {% for platform in game.getPlatforms() %}
                     {{ platform.getLibPlatform() }}
-                {% endfor %} |
-                {{ game.nbChart() }} | {{ game.nbPost() }} | {{ game.nbPlayer() }} |
-            </h2>
-
-        </article>
-    {% else %}
-        <div class="well">{{ 'game.no_posts_found'|trans }}</div>
-    {% endfor %}
+                {% endfor %}
+            </td>
+            <td>{{ game.nbChart() }}</td>
+            <td>{{ game.nbPost() }}</td>
+            <td>{{ game.nbPlayer() }}</td>
+        </tr>
+        </tbody>
+        {% else %}
+            <tr class="well">
+                <td colspan="5">{{ 'game_list.no_game'|trans }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}
 

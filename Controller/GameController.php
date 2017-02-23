@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use VideoGamesRecords\CoreBundle\Entity\Game;
 
 /**
  * Class GameController
@@ -20,7 +19,7 @@ class GameController extends Controller
      * @Method("GET")
      * @Cache(smaxage="10")
      *
-     * @param string $page
+     * @param string $letter
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listAction($letter)

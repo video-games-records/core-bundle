@@ -1,0 +1,33 @@
+chart.no_ranking: __chart.no_ranking
+game.group.list: 'Liste des groupes'
+game.charts: 'Nombre de records'
+game.scores: 'Nombre de scores'
+game.no_ranking: 'Pas encore de joueur. Soyez le premier!'
+game.ranking.point: 'Classement points'
+game.ranking.point.full: 'Voir le classement complet'
+game.ranking.medal: 'Classement médailles'
+game.ranking.medal.full: 'Voir le classement complet'
+game.no_posts_found: __game.no_posts_found
+game.no_player: 'Aucun joueur'
+game.list: 'Liste des jeux'
+game_list.game: Jeux
+game_list.platform.list: Plateformes
+game_list.chart.number: 'Nombre de records'
+game_list.score.number: 'Nombre de scores'
+game_list.players.number: 'Nombre de joueurs'
+game_list.no_game: 'Pas de jeu disponible'
+group.chart.list: 'Liste des records'
+group.scores: 'Nombre de scores'
+group.ranking.point: 'Classement points'
+group.no_player: 'Pas encore de joueur. Soyez le premier!'
+group.ranking.point.full: 'Voir le classement complet'
+group.ranking.medal: 'Classement médailles'
+group.ranking.medal.full: 'Voir le classement complet'
+ranking.rank: Rang
+ranking.nickname: Pseudonyme
+ranking.points: Points
+ranking.number.score: 'Nb. scores'
+ranking.platinum: Platine
+ranking.gold: Or
+ranking.silver: Argent
+ranking.bronze: Bronze

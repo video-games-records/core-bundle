@@ -1,0 +1,33 @@
+chart.no_ranking: __chart.no_ranking
+game.group.list: 'Group list'
+game.charts: 'Nb Charts'
+game.scores: 'Nb Scores'
+game.no_ranking: 'No player yet. Be the first!'
+game.ranking.point: 'Points ranking'
+game.ranking.point.full: 'View the full ranking'
+game.ranking.medal: 'Medals ranking'
+game.ranking.medal.full: 'View the full ranking'
+game.no_posts_found: __game.no_posts_found
+game.no_player: 'No player yet'
+game.list: 'Game list'
+game_list.game: Games
+game_list.platform.list: Platforms
+game_list.chart.number: 'Nb Charts'
+game_list.score.number: 'Nb Scores'
+game_list.players.number: 'Nb Players'
+game_list.no_game: 'No game available'
+group.chart.list: 'Chart list'
+group.scores: __group.scores
+group.ranking.point: 'Points ranking'
+group.no_player: 'No player yet. Be the first!'
+group.ranking.point.full: 'View the full ranking'
+group.ranking.medal: 'Medals ranking'
+group.ranking.medal.full: 'View the full ranking'
+ranking.rank: Rank
+ranking.nickname: Nickname
+ranking.points: Points
+ranking.number.score: 'No. Scores'
+ranking.platinum: Platinum
+ranking.gold: Gold
+ranking.silver: Silver
+ranking.bronze: Bronze
