@@ -1,4 +1,5 @@
 <?php
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -10,15 +11,18 @@ use Sonata\AdminBundle\Route\RouteCollection;
 
 class SerieAdmin extends AbstractAdmin
 {
-
+    /**
+     * @inheritdoc
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
-            ->remove('export')
-        ;
-
+            ->remove('export');
     }
-    // Fields to be shown on create/edit forms
+
+    /**
+     * @inheritdoc
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -30,33 +34,35 @@ class SerieAdmin extends AbstractAdmin
             ))
             ->add('libSerie', 'text', array(
                 'label' => 'Name'
-            ))
-        ;
+            ));
     }
 
-    // Fields to be shown on filter forms
+    /**
+     * @inheritdoc
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('libSerie')
-        ;
+            ->add('libSerie');
     }
 
-    // Fields to be shown on lists
+    /**
+     * @inheritdoc
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->addIdentifier('idSerie')
-            ->add('libSerie')
-        ;
+            ->add('libSerie');
     }
 
-    // Fields to be shown on show action
+    /**
+     * @inheritdoc
+     */
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->add('idSerie')
-            ->add('libSerie')
-        ;
+            ->add('libSerie');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -11,17 +12,19 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ChartTypeAdmin extends AbstractAdmin
 {
-
+    /**
+     * @inheritdoc
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
             ->remove('delete')
-            ->remove('export')
-        ;
-
+            ->remove('export');
     }
 
-    // Fields to be shown on create/edit forms
+    /**
+     * @inheritdoc
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -49,20 +52,22 @@ class ChartTypeAdmin extends AbstractAdmin
                         'DESC' => 'DESC',
                     )
                 )
-            )
-        ;
+            );
     }
 
-    // Fields to be shown on filter forms
+    /**
+     * @inheritdoc
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('idType')
-            ->add('name')
-        ;
+            ->add('name');
     }
 
-    // Fields to be shown on lists
+    /**
+     * @inheritdoc
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -74,14 +79,6 @@ class ChartTypeAdmin extends AbstractAdmin
                 'actions' => array(
                     'edit' => array(),
                 )
-            ))
-        ;
+            ));
     }
-
-    // Fields to be shown on show action
-    protected function configureShowFields(ShowMapper $showMapper)
-    {
-
-    }
-
 }

@@ -6,7 +6,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
 
 class ChartLibAdmin extends AbstractAdmin
 {
@@ -25,8 +24,7 @@ class ChartLibAdmin extends AbstractAdmin
                 'required' => true,
             ))
             //->add('chart', null, array('required' => true))
-            ->add('type', null, array('required' => true))
-        ;
+            ->add('type', null, array('required' => true));
     }
 
     // Fields to be shown on filter forms
@@ -41,8 +39,7 @@ class ChartLibAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('idLibChart')
             ->add('name')
-            ->add('type')
-        ;
+            ->add('type');
     }
 
     // Fields to be shown on show action
@@ -50,5 +47,4 @@ class ChartLibAdmin extends AbstractAdmin
     {
 
     }
-
 }

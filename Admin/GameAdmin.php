@@ -1,4 +1,5 @@
 <?php
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -14,15 +15,18 @@ class GameAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_game';
 
+    /**
+     * @inheritdoc
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
-            ->remove('export')
-        ;
-
+            ->remove('export');
     }
 
-    // Fields to be shown on create/edit forms
+    /**
+     * @inheritdoc
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -41,11 +45,11 @@ class GameAdmin extends AbstractAdmin
                 'required' => false,
             ))
             ->add('serie', 'sonata_type_model_list', array(
-                'btn_add'       => false,
-                'btn_list'      => true,
-                'btn_delete'    => false,
+                'btn_add' => false,
+                'btn_list' => true,
+                'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label'         => 'Serie',
+                'label' => 'Serie',
             ))
             ->add('picture', 'text', array(
                 'label' => 'Picture',
@@ -67,8 +71,7 @@ class GameAdmin extends AbstractAdmin
                     'choices' => Game::getEtatsChoices(),
                 )
             )
-            ->add('platforms', null, array('required' => false, 'expanded' => false))
-            /*->add('groups', 'sonata_type_collection', array(
+            ->add('platforms', null, array('required' => false, 'expanded' => false))/*->add('groups', 'sonata_type_collection', array(
                 'by_reference' => false,
                 'type_options' => array(
                     // Prevents the "Delete" option from being displayed
@@ -90,18 +93,21 @@ class GameAdmin extends AbstractAdmin
         ;
     }
 
-    // Fields to be shown on filter forms
+    /**
+     * @inheritdoc
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('libGameFr')
             ->add('libGameEn')
             ->add('status')
-            ->add('etat')
-        ;
+            ->add('etat');
     }
 
-    // Fields to be shown on lists
+    /**
+     * @inheritdoc
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -145,11 +151,12 @@ class GameAdmin extends AbstractAdmin
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
                     ),
                 )
-            ))
-        ;
+            ));
     }
 
-    // Fields to be shown on show action
+    /**
+     * @inheritdoc
+     */
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
@@ -158,8 +165,6 @@ class GameAdmin extends AbstractAdmin
             ->add('libGameEn')
             ->add('status')
             ->add('etat')
-            ->add('groups')
-         ;
+            ->add('groups');
     }
-
 }

@@ -82,6 +82,8 @@ class Group
     private $game;
 
     /**
+     * @var Chart[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="group")
      */
     private $charts;
@@ -97,7 +99,8 @@ class Group
     /**
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return sprintf('%s [%s]', $this->libGroupEn, $this->idGroup);
     }
 
@@ -176,7 +179,7 @@ class Group
     /**
      * Set boolDlc
      * @param boolean $boolDlc
-     * @return Game
+     * @return Group
      */
     public function setBoolDlc($boolDlc)
     {
@@ -197,7 +200,7 @@ class Group
     /**
      * Set nbChart
      * @param integer $nbChart
-     * @return Game
+     * @return Group
      */
     public function setNbChart($nbChart)
     {
@@ -239,7 +242,7 @@ class Group
     /**
      * Set nbPlayer
      * @param integer $nbPlayer
-     * @return Game
+     * @return Group
      */
     public function setNbUser($nbPlayer)
     {
@@ -297,7 +300,7 @@ class Group
     }
 
     /**
-     * @return mixed
+     * @return Chart[]|ArrayCollection
      */
     public function getCharts()
     {

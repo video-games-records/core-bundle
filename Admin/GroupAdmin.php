@@ -1,4 +1,5 @@
 <?php
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -12,26 +13,29 @@ class GroupAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_group';
 
+    /**
+     * @inheritdoc
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
-            ->remove('export')
-        ;
-
+            ->remove('export');
     }
 
-    // Fields to be shown on create/edit forms
+    /**
+     * @inheritdoc
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $gameOptions = array();
-        if ( ($this->hasRequest()) && ($this->isCurrentRoute('create')) ) {
+        if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
             $idGame = $this->getRequest()->get('idGame', null);
             if ($idGame !== null) {
-                $_SESSION['vgrcorebundle_admin_group']['idGame'] = $idGame;
+                $this->getRequest()->getSession()->set('vgrcorebundle_admin_group.idGame', $idGame);
             }
 
-            if (isset($_SESSION['vgrcorebundle_admin_group']['idGame'])) {
-                $idGame = $_SESSION['vgrcorebundle_admin_group']['idGame'];
+            if ($this->getRequest()->getSession()->has('vgrcorebundle_admin_group.idGame')) {
+                $idGame = $this->getRequest()->getSession()->get('vgrcorebundle_admin_group.idGame');
                 $entityManager = $this->getModelManager()
                     ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\Game');
                 $game = $entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
@@ -49,12 +53,12 @@ class GroupAdmin extends AbstractAdmin
             ->add('game', 'sonata_type_model_list', array_merge(
                 $gameOptions,
                 array(
-                    'data_class'    => null,
-                    'btn_add'       => false,
-                    'btn_list'      => true,
-                    'btn_delete'    => false,
+                    'data_class' => null,
+                    'btn_add' => false,
+                    'btn_list' => true,
+                    'btn_delete' => false,
                     'btn_catalogue' => true,
-                    'label'         => 'Game',
+                    'label' => 'Game',
                 )
             ))
             ->add('libGroupEn', 'text', array(
@@ -68,11 +72,12 @@ class GroupAdmin extends AbstractAdmin
             ->add('boolDLC', 'checkbox', array(
                 'label' => 'DLC ?',
                 'required' => false,
-            ))
-        ;
+            ));
     }
 
-    // Fields to be shown on filter forms
+    /**
+     * @inheritdoc
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
@@ -80,11 +85,12 @@ class GroupAdmin extends AbstractAdmin
             ->add('libGroupEn')
             ->add('game', 'doctrine_orm_model_autocomplete', array(), null, array(
                 'property' => 'libGameEn',
-            ))
-        ;
+            ));
     }
 
-    // Fields to be shown on lists
+    /**
+     * @inheritdoc
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -107,11 +113,12 @@ class GroupAdmin extends AbstractAdmin
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:group_add_chart_link.html.twig'
                     ),
                 )
-            ))
-        ;
+            ));
     }
 
-    // Fields to be shown on show action
+    /**
+     * @inheritdoc
+     */
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
@@ -122,8 +129,6 @@ class GroupAdmin extends AbstractAdmin
                 'associated_property' => 'libGameEn',
                 'label' => 'Game',
             ))
-            ->add('charts')
-        ;
+            ->add('charts');
     }
-
 }

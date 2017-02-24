@@ -1,4 +1,5 @@
 <?php
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -11,16 +12,18 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PlatformAdmin extends AbstractAdmin
 {
-
+    /**
+     * @inheritdoc
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
-            ->remove('export')
-        ;
-
+            ->remove('export');
     }
 
-    // Fields to be shown on create/edit forms
+    /**
+     * @inheritdoc
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -52,19 +55,21 @@ class PlatformAdmin extends AbstractAdmin
             ->add('class', 'text', array(
                 'label' => 'Class',
                 'required' => true,
-            ))
-        ;
+            ));
     }
 
-    // Fields to be shown on filter forms
+    /**
+     * @inheritdoc
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('libPlatform')
-        ;
+            ->add('libPlatform');
     }
 
-    // Fields to be shown on lists
+    /**
+     * @inheritdoc
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -95,11 +100,12 @@ class PlatformAdmin extends AbstractAdmin
                     'show' => array(),
                     'edit' => array(),
                 )
-            ))
-        ;
+            ));
     }
 
-    // Fields to be shown on show action
+    /**
+     * @inheritdoc
+     */
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
@@ -107,8 +113,6 @@ class PlatformAdmin extends AbstractAdmin
             ->add('libPlatform')
             ->add('picture')
             ->add('status')
-            ->add('class')
-        ;
+            ->add('class');
     }
-
 }
