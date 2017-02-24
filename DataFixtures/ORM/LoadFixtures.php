@@ -3,9 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -19,7 +19,6 @@ use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 
-
 /**
  * Defines the sample data to load in the database when running the unit and
  * functional tests. Execute this command to load the data:
@@ -30,15 +29,9 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
  *
  * @author David Benard <magicbart@gmail.com>
  */
-class LoadFixtures extends AbstractFixture implements FixtureInterface, ContainerAwareInterface
+class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
-
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
+    use ContainerAwareTrait;
 
     /**
      * {@inheritdoc}
@@ -62,24 +55,28 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface, Containe
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Serie');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-        $list = array(
-            array(
-                'idSerie' => 1,
+        $list = [
+            [
+                'id' => 1,
                 'name' => 'Forza Motosport',
-            ),
-            array(
-                'idSerie' => 2,
+                'languages' => ['fr' => 'Forza Motosport', 'en' => 'Forza Motosport']
+            ],
+            [
+                'id' => 2,
                 'name' => 'Mario Kart',
-            ),
-        );
+                'languages' => ['fr' => 'Mario Kart', 'en' => 'Mario Kart']
+            ],
+        ];
 
         foreach ($list as $row) {
             $serie = new Serie();
-            $serie
-                ->setIdSerie($row['idSerie'])
-                ->setLibSerie($row['name']);
+            $serie->setId($row['id']);
+            foreach ($row['languages'] as $locale => $label) {
+                $serie->translate($locale)->setName($label);
+            }
+            $serie->mergeNewTranslations();
             $manager->persist($serie);
-            $this->addReference('serie.' . $serie->getIdSerie(), $serie);
+            $this->addReference('serie.' . $serie->getId(), $serie);
         }
         $manager->flush();
     }
@@ -479,5 +476,13 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface, Containe
 
     }
 
-
+    /**
+     * Get the order of this fixture
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 50;
+    }
 }

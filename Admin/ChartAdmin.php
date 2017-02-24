@@ -180,7 +180,7 @@ class ChartAdmin extends AbstractAdmin
         $libs = $object->getLibs();
         if (count($libs) == 0) {
             $group = $object->getGroup();
-            if ($group != null) {
+            if ($group !== null) {
                 $charts = $group->getCharts();
                 if (count($charts) > 0) {
                     $chart = $charts[0];
