@@ -88,9 +88,17 @@ DROP TABLE country_code;
 -- VGR Part
 --
 
-ALTER TABLE `vgr_game` CHANGE `idJeu` `idGame` INT(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `vgr_game` CHANGE `libJeu_fr` `libGameFr` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
-ALTER TABLE `vgr_game` CHANGE `libJeu_en` `libGameEn` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
+-- Series
+ALTER TABLE vgr_serie CHANGE idSerie id INT AUTO_INCREMENT NOT NULL;
+CREATE TABLE serie_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_B355773C2C2AC5D3 (translatable_id), UNIQUE INDEX serie_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+-- Transfert des données
+INSERT INTO serie_translation (translatable_id, name, locale) SELECT id, libSerie, 'fr' FROM vgr_serie;
+INSERT INTO serie_translation (translatable_id, name, locale) SELECT id, libSerie, 'en' FROM vgr_serie;
+ALTER TABLE vgr_serie DROP libSerie;
+
+-- Games
+CREATE TABLE game_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX game_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+ALTER TABLE `vgr_game` CHANGE `idJeu` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game` CHANGE `imageJeu` `picture` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_game` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL DEFAULT '0';
@@ -99,7 +107,12 @@ ALTER TABLE `vgr_game` CHANGE `statut` `status` VARCHAR(255) CHARACTER SET utf8 
 ALTER TABLE `vgr_game` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` DROP `imagePlateForme`;
+-- Transfert des données
+INSERT INTO game_translation (translatable_id, name, locale) SELECT id, libJeu_fr, 'fr' FROM vgr_game;
+INSERT INTO game_translation (translatable_id, name, locale) SELECT id, libJeu_en, 'en' FROM vgr_game;
+ALTER TABLE vgr_game DROP libJeu_fr, DROP libJeu_en;
 
+-- Groups
 ALTER TABLE `vgr_group` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_group` CHANGE `libGroupe_fr` `libGroupFr` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_group` CHANGE `libGroupe_en` `libGroupEn` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
@@ -111,6 +124,7 @@ ALTER TABLE `vgr_group` CHANGE nbPost nbPost INT NOT NULL;
 ALTER TABLE `vgr_group` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_group` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 
+-- Charts
 ALTER TABLE `vgr_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_chart` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
 ALTER TABLE `vgr_chart` CHANGE `libRecord_fr` `libChartFr` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
@@ -121,6 +135,7 @@ ALTER TABLE `vgr_chart` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_chart` CHANGE statusUser statusUser VARCHAR(255) NOT NULL, CHANGE statusTeam statusTeam VARCHAR(255) NOT NULL, CHANGE nbPost nbPost INT NOT NULL;
 
+-- Chart lib
 ALTER TABLE `vgr_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_chartlib` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_chartlib` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
@@ -128,6 +143,7 @@ ALTER TABLE `vgr_chartlib` ADD updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_chartlib` CHANGE lib name VARCHAR(100) DEFAULT NULL;
 ALTER TABLE `vgr_chartlib` CHANGE idChart idChart INT DEFAULT NULL, CHANGE idType idType INT DEFAULT NULL;
 
+-- Chart type
 ALTER TABLE `vgr_charttype` CHANGE `lib_fr` `libFr` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_charttype` CHANGE `lib_en` `libEn` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_charttype` CHANGE `nomType` `name` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
@@ -176,6 +192,7 @@ ALTER TABLE `vgr_lostposition` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEFA
 ALTER TABLE `vgr_lostposition` CHANGE `oldPosition` `oldRank` INT(5) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_lostposition` CHANGE `newPosition` `newRank` INT(5) NOT NULL DEFAULT '0';
 
+-- Platforms
 ALTER TABLE `vgr_platform` CHANGE `idPlateforme` `idPlatform` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_platform` CHANGE `libPlateforme` `libPlatform` VARCHAR(50) NOT NULL;
 ALTER TABLE `vgr_platform` CHANGE `statut` `status` ENUM('ACTIF','INACTIF') NOT NULL DEFAULT 'INACTIF';

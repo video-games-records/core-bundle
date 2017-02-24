@@ -116,7 +116,7 @@ class Game
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSerie", referencedColumnName="idSerie")
+     *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id")
      * })
      */
     private $serie;
@@ -466,7 +466,7 @@ class Game
     public function setSerie(Serie $serie = null)
     {
         $this->serie = $serie;
-        $this->setIdSerie($serie->getIdSerie());
+        $this->setIdSerie($serie->getId());
         return $this;
     }
 

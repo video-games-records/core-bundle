@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,61 +14,53 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Serie
 {
+    use Translatable;
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="idSerie", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idSerie;
-
-    /**
-     * @var string
-     *
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="libSerie", type="string", length=100, nullable=false)
-     */
-    private $libSerie;
+    private $id;
 
     /**
      * @return string
      */
-    public function __toString() {
-        return sprintf('%s [%s]', $this->libSerie, $this->idSerie);
+    public function __toString()
+    {
+        return sprintf('%s [%s]', $this->getName(), $this->id);
     }
 
     /**
-     * Set libSerie
-     *
-     * @param string $libSerie
-     * @return Serie
+     * @param string $name
+     * @return $this
      */
-    public function setLibSerie($libSerie)
+    public function setName($name)
     {
-        $this->libSerie = $libSerie;
+        $this->translate(null, false)->setName($name);
+
         return $this;
     }
 
     /**
-     * Get libSerie
-     *
      * @return string
      */
-    public function getLibSerie()
+    public function getName()
     {
-        return $this->libSerie;
+        return $this->translate(null, false)->getName();
     }
 
     /**
      * Set idSerie
      *
-     * @param integer $idSerie
-     * @return Serie
+     * @param integer $id
+     * @return $this
      */
-    public function setIdSerie($idSerie)
+    public function setId($id)
     {
-        $this->idSerie = $idSerie;
+        $this->id = $id;
         return $this;
     }
 
@@ -76,8 +69,8 @@ class Serie
      *
      * @return integer
      */
-    public function getIdSerie()
+    public function getId()
     {
-        return $this->idSerie;
+        return $this->id;
     }
 }

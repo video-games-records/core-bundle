@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -26,15 +27,9 @@ class SerieAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idSerie', 'text', array(
-                'label' => 'idSerie',
-                'attr' => array(
-                    'readonly' => true,
-                )
-            ))
-            ->add('libSerie', 'text', array(
-                'label' => 'Name'
-            ));
+            ->add('translations', TranslationsType::class, [
+                'required' => true,
+            ]);
     }
 
     /**
@@ -43,7 +38,7 @@ class SerieAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('libSerie');
+            ->add('translations.name');
     }
 
     /**
@@ -52,8 +47,14 @@ class SerieAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idSerie')
-            ->add('libSerie');
+            ->addIdentifier('id')
+            ->add('getName', null, ['label' => 'Name'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                ]
+            ]);
     }
 
     /**
@@ -62,7 +63,6 @@ class SerieAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idSerie')
-            ->add('libSerie');
+            ->add('getName', null, ['label' => 'Name']);
     }
 }

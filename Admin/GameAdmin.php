@@ -61,26 +61,7 @@ class GameAdmin extends AbstractAdmin
             ->add('translations', TranslationsType::class, [
                 'required' => true,
             ])
-            ->add('platforms', null, array('required' => false, 'expanded' => false))/*->add('groups', 'sonata_type_collection', array(
-                'by_reference' => false,
-                'type_options' => array(
-                    // Prevents the "Delete" option from being displayed
-                    'delete' => true,
-                    'delete_options' => array(
-                        // You may otherwise choose to put the field but hide it
-                        'type'         => 'checkbox',
-                        // In that case, you need to fill in the options as well
-                        'type_options' => array(
-                            'mapped'   => false,
-                            'required' => false,
-                        )
-                    )
-                )
-            ), array(
-                'edit' => 'inline',
-                'inline' => 'table',
-            ))*/
-        ;
+            ->add('platforms', null, array('required' => false, 'expanded' => false));
     }
 
     /**
@@ -89,6 +70,7 @@ class GameAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('translations.name')
             ->add('status')
             ->add('etat');
     }
@@ -100,7 +82,7 @@ class GameAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('getName', null, ['label' => 'English name'])
+            ->add('getName', null, ['label' => 'Name'])
             ->add(
                 'picture',
                 'text',
@@ -148,7 +130,7 @@ class GameAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('getName', null, ['label' => 'English name'])
+            ->add('getName', null, ['label' => 'Name'])
             ->add('status')
             ->add('etat')
             ->add('groups');
