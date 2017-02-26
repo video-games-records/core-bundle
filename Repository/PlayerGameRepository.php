@@ -15,6 +15,7 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
  */
 class PlayerGameRepository extends EntityRepository
 {
+
     /**
      * @param array $params idJeu|idPlayer|limit|maxRank
      * @return array

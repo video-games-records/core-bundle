@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
+{% block body_id 'player_index' %}
+
+{% block title %}{{ player.getPseudo() }}{% endblock %}
+
+{% block aside %}
+    ASIDE
+{% endblock %}
+
+{% block body %}
+<h1>{{ player.getPseudo() }}</h1>
+
+
+    <ul>
+        <li> | COUPES | MEDAILLES </li>
+        <li> RANG | {{ player.getRankCup() }} / {{ nbPlayer }} | {{ player.getRankMedal() }} / {{ nbPlayer }} </li>
+        <li> Platine | {{ player.getGameRank0() }} | {{ player.getChartRank0() }} </li>
+        <li> Or | {{ player.getGameRank1() }} | {{ player.getChartRank1() }} </li>
+        <li> Argent | {{ player.getGameRank2() }}  | {{ player.getChartRank2() }} </li>
+        <li> Bronze | {{ player.getGameRank3() }}  | {{ player.getChartRank3() }} </li>
+    </ul>
+
+    <ul>
+        <li>| pointGame | pointChart | badge | proof</li>
+        <li>rank |  {{ player.getRankPointGame() }} / {{ nbPlayer }}  | {{ player.getRankPointChart() }} / {{ nbPlayer }} | {{ player.getRankBadge() }} / {{ nbPlayer }} | {{ player.getRankProof() }} / {{ nbPlayer }} </li>
+        <li>point | {{ player.getPointGame() }} | {{ player.getPointChart() }} | {{ player.getPointBadge() }} | {{ player.getNbChartProven() }}</li>
+    </ul>
+
+    <ul>
+        <li>Pseudo : {{ player.getPseudo() }}</li>
+        <li>nbGame : {{ player.getPlayerGame()|length }}</li>
+        <li>nbPost : {{ player.getNbChart() }}</li>
+        <li>nbProof : {{ player.getNbChartProven() }}</li>
+    </ul>
+
+    <lu>
+        {% if lastChart %}
+        <li>Dernier record posté :</li> {{ lastChart.getChart().getGroup().getGame().getLibGame() }} - {{ lastChart.getChart().getGroup().getLibGroup() }} - {{ lastChart.getChart().getLibChart() }} - {{ lastChart.getCreatedAt()|date('Y-m-d H:i:s')  }}
+        {% endif %}
+
+    </lu>
+
+    <h2>Game list</h2>
+    GAME | MEDALS | RANKING | POINTS
+    <ul>
+    {% for playerGame in player.getPlayerGame() %}
+        <li>{{ playerGame.getGame().getLibGame() }} |
+            {% if playerGame.getRank0() > 0 %} {{ playerGame.getRank0() }} Platine {% endif %}
+            {% if playerGame.getRank1() > 0 %} {{ playerGame.getRank1() }} Or {% endif %}
+            {% if playerGame.getRank2() > 0 %} {{ playerGame.getRank2() }} Argent {% endif %}
+            {% if playerGame.getRank3() > 0 %} {{ playerGame.getRank3() }} Bronze {% endif %} |
+
+            {% if playerGame.getRankPoint() == 1 %}or
+            {% elseif playerGame.getRankPoint() == 2 %}argent
+            {% elseif playerGame.getRankPoint() == 3 %}bronze
+            {% else %}
+                {{ playerGame.getRankPoint()  }}|
+            {% endif %} |
+            {{ playerGame.pointGame }} points</li>
+    {% endfor %}
+    </ul>
+
+
+{% endblock %}

@@ -18,7 +18,7 @@ class PlayerChartRepository extends EntityRepository
      * @param array $params idChart|idPlayer|limit|maxRank
      * @todo
      * => Join etat to keep only boolRanking = 1
-     * => If idLogin, search for the rank and display a range of -5 and +5
+     * => If idPlayer, search for the rank and display a range of -5 and +5
      * @return array
      */
     public function getRanking($params = array())
@@ -133,5 +133,30 @@ class PlayerChartRepository extends EntityRepository
             $this->_em->persist($playerChart);
             $this->_em->flush($playerChart);
         }
+    }
+
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function getRows($params = array())
+    {
+        $query = $this->createQueryBuilder('pc');
+
+        if (array_key_exists('idPlayer', $params)) {
+            $query->where('pc.idPlayer= :idPlayer')
+                ->setParameter('idPlayer', $params['idPlayer']);
+        }
+
+        if (array_key_exists('limit', $params)) {
+            $query->setMaxResults($params['limit']);
+        }
+
+        if (array_key_exists('orderBy', $params)) {
+            $query->orderBy($params['orderBy']['column'], $params['orderBy']['order']);
+        }
+
+        return $query->getQuery()->getResult();
     }
 }
