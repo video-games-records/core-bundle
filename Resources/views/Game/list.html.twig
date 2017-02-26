@@ -6,12 +6,17 @@
 {% block title %}{{ 'game.list'|trans }}{% endblock %}
 
 {% block body %}
-    {% for letter in alphabet %}
-        <a href="{{ path('vgr_game_list_letter', {'letter': letter}) }}">{{ letter }}</a> |
-    {% endfor %}
+    {% if alphabet %}
+        <div class="menu-alpha">
+            <ul>
+            {% for letter in alphabet %}
+                <li class="menu-alpha__item"><a href="{{ path('vgr_game_list_letter', {'letter': letter}) }}">{{ letter }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
-    <br/>
-    <table>
+    <table class="group-list">
         <thead>
         <tr>
             <th scope="col">{{ 'game_list.game'|trans }}</th>
@@ -23,23 +28,23 @@
         </thead>
         <tbody>
         {% for game in games %}
-        <tr>
-            <td><a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a></td>
-            <td>
-                {% for platform in game.getPlatforms() %}
-                    {{ platform.getLibPlatform() }}
-                {% endfor %}
-            </td>
-            <td>{{ game.nbChart() }}</td>
-            <td>{{ game.nbPost() }}</td>
-            <td>{{ game.nbPlayer() }}</td>
-        </tr>
-        </tbody>
+            <tr>
+                <td><a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a></td>
+                <td>
+                    {% for platform in game.getPlatforms() %}
+                        {{ platform.getLibPlatform() }}
+                    {% endfor %}
+                </td>
+                <td>{{ game.nbChart() }}</td>
+                <td>{{ game.nbPost() }}</td>
+                <td>{{ game.nbPlayer() }}</td>
+            </tr>
         {% else %}
-            <tr class="well">
+            <tr>
                 <td colspan="5">{{ 'game_list.no_game'|trans }}</td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
 
 {% endblock %}
