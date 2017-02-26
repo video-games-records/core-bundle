@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
- * @ORM\Table(name="vgr_player", indexes={@ORM\Index(name="vgr_pointJeu", columns={"vgr_pointJeu"}), @ORM\Index(name="vgr_rank_pointJeu", columns={"vgr_rank_pointJeu"})})
+ * @ORM\Table(name="vgr_player", indexes={@ORM\Index(name="pointGame", columns={"pointGame"}), @ORM\Index(name="rank_pointGame", columns={"rankPointGame"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
  */
 class Player
@@ -48,177 +48,182 @@ class Player
     /**
      * @var string
      *
-     * @ORM\Column(name="vgr_gamerCard", type="string", length=50, nullable=true)
+     * @ORM\Column(name="gamerCard", type="string", length=50, nullable=true)
      */
-    private $vgr_gamerCard;
+    private $gamerCard;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="vgr_displayGamerCard", type="boolean", nullable=false)
+     * @ORM\Column(name="displayGamerCard", type="boolean", nullable=false)
      */
-    private $vgr_displayGamerCard = true;
+    private $displayGamerCard = true;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="vgr_displayGoalBar", type="boolean", nullable=false)
+     * @ORM\Column(name="displayGoalBar", type="boolean", nullable=false)
      */
-    private $vgr_displayGoalBar = true;
+    private $displayGoalBar = true;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank0", type="integer", nullable=true)
+     * @ORM\Column(name="chartRank0", type="integer", nullable=true)
      */
-    private $vgr_rank0;
+    private $chartRank0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank1", type="integer", nullable=true)
+     * @ORM\Column(name="chartRank1", type="integer", nullable=true)
      */
-    private $vgr_rank1;
+    private $chartRank1;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank2", type="integer", nullable=true)
+     * @ORM\Column(name="chartRank2", type="integer", nullable=true)
      */
-    private $vgr_rank2;
+    private $chartRank2;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank3", type="integer", nullable=true)
+     * @ORM\Column(name="chartRank3", type="integer", nullable=true)
      */
-    private $vgr_rank3;
+    private $chartRank3;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_pointRecord", type="integer", nullable=false)
+     * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
-    private $vgr_pointRecord = 0;
+    private $pointChart = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_pointVGR", type="integer", nullable=false)
+     * @ORM\Column(name="pointVGR", type="integer", nullable=false)
      */
-    private $vgr_pointVGR = 0;
+    private $pointVGR = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_pointBadge", type="integer", nullable=false)
+     * @ORM\Column(name="pointBadge", type="integer", nullable=false)
      */
-    private $vgr_pointBadge = 0;
+    private $pointBadge = 0;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="vgr_collection", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="collection", type="text", length=65535, nullable=true)
      */
-    private $vgr_collection;
+    private $collection;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank_point", type="integer", nullable=true)
+     * @ORM\Column(name="rankPointChart", type="integer", nullable=true)
      */
-    private $vgr_rank_point;
+    private $rankPointChart;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank_medal", type="integer", nullable=true)
+     * @ORM\Column(name="rankMedal", type="integer", nullable=true)
      */
-    private $vgr_rank_medal;
+    private $rankMedal;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank_proof", type="integer", nullable=true)
+     * @ORM\Column(name="rankProof", type="integer", nullable=true)
      */
-    private $vgr_rank_proof;
+    private $rankProof;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank_badge", type="integer", nullable=true)
+     * @ORM\Column(name="rankBadge", type="integer", nullable=true)
      */
-    private $vgr_rank_badge;
+    private $rankBadge;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank_cup", type="integer", nullable=true)
+     * @ORM\Column(name="rankCup", type="integer", nullable=true)
      */
-    private $vgr_rank_cup;
+    private $rankCup;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_cup_rank0", type="integer", nullable=true)
+     * @ORM\Column(name="gameRank0", type="integer", nullable=true)
      */
-    private $vgr_cup_rank0;
+    private $gameRank0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_cup_rank1", type="integer", nullable=true)
+     * @ORM\Column(name="gameRank1", type="integer", nullable=true)
      */
-    private $vgr_cup_rank1;
+    private $gameRank1;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_cup_rank2", type="integer", nullable=true)
+     * @ORM\Column(name="gameRank2", type="integer", nullable=true)
      */
-    private $vgr_cup_rank2;
+    private $gameRank2;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_cup_rank3", type="integer", nullable=true)
+     * @ORM\Column(name="gameRank3", type="integer", nullable=true)
      */
-    private $vgr_cup_rank3;
+    private $gameRank3;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_nbRecord", type="integer", nullable=false)
+     * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $vgr_nbRecord = 0;
+    private $nbChart = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_nbRecordProuve", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
-    private $vgr_nbRecordProuve = 0;
+    private $nbChartProven = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_nbMasterBadge", type="integer", nullable=false)
+     * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
      */
-    private $vgr_nbMasterBadge = 0;
+    private $nbMasterBadge = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_pointJeu", type="integer", nullable=false)
+     * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
-    private $vgr_pointJeu = 0;
+    private $pointGame = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vgr_rank_pointJeu", type="integer", nullable=true)
+     * @ORM\Column(name="rankPointGame", type="integer", nullable=true)
      */
-    private $vgr_rank_pointJeu;
+    private $rankPointGame;
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="player")
+     */
+    private $playerGame;
 
     /**
      * Set idPlayer
@@ -289,578 +294,578 @@ class Player
     }
 
     /**
-     * Set vgr_gamerCard
+     * Set gamerCard
      *
-     * @param string $vgrGamerCard
+     * @param string $gamerCard
      * @return Player
      */
-    public function setVgrGamerCard($vgrGamerCard)
+    public function setGamerCard($gamerCard)
     {
-        $this->vgr_gamerCard = $vgrGamerCard;
+        $this->gamerCard = $gamerCard;
 
         return $this;
     }
 
     /**
-     * Get vgr_gamerCard
+     * Get gamerCard
      *
      * @return string
      */
-    public function getVgrGamerCard()
+    public function getGamerCard()
     {
-        return $this->vgr_gamerCard;
+        return $this->gamerCard;
     }
 
     /**
-     * Set vgr_displayGamerCard
+     * Set displayGamerCard
      *
-     * @param boolean $vgrDisplayGamerCard
+     * @param boolean $displayGamerCard
      * @return Player
      */
-    public function setVgrDisplayGamerCard($vgrDisplayGamerCard)
+    public function setDisplayGamerCard($displayGamerCard)
     {
-        $this->vgr_displayGamerCard = $vgrDisplayGamerCard;
+        $this->displayGamerCard = $displayGamerCard;
 
         return $this;
     }
 
     /**
-     * Get vgr_displayGamerCard
+     * Get displayGamerCard
      *
      * @return boolean
      */
-    public function getVgrDisplayGamerCard()
+    public function getDisplayGamerCard()
     {
-        return $this->vgr_displayGamerCard;
+        return $this->displayGamerCard;
     }
 
     /**
-     * Set vgr_displayGoalBar
+     * Set displayGoalBar
      *
-     * @param boolean $vgrDisplayGoalBar
+     * @param boolean $displayGoalBar
      * @return Player
      */
-    public function setVgrDisplayGoalBar($vgrDisplayGoalBar)
+    public function setDisplayGoalBar($displayGoalBar)
     {
-        $this->vgr_displayGoalBar = $vgrDisplayGoalBar;
+        $this->displayGoalBar = $displayGoalBar;
 
         return $this;
     }
 
     /**
-     * Get vgr_displayGoalBar
+     * Get displayGoalBar
      *
      * @return boolean
      */
-    public function getVgrDisplayGoalBar()
+    public function getDisplayGoalBar()
     {
-        return $this->vgr_displayGoalBar;
+        return $this->displayGoalBar;
     }
 
     /**
-     * Set vgr_rank0
+     * Set chartRank0
      *
-     * @param integer $vgrRank0
+     * @param integer $chartRank0
      * @return Player
      */
-    public function setVgrRank0($vgrRank0)
+    public function setChartRank0($chartRank0)
     {
-        $this->vgr_rank0 = $vgrRank0;
+        $this->chartRank0 = $chartRank0;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank0
+     * Get chartRank0
      *
      * @return integer
      */
-    public function getVgrRank0()
+    public function getChartRank0()
     {
-        return $this->vgr_rank0;
+        return $this->chartRank0;
     }
 
     /**
-     * Set vgr_rank1
+     * Set chartRank1
      *
-     * @param integer $vgrRank1
+     * @param integer $chartRank1
      * @return Player
      */
-    public function setVgrRank1($vgrRank1)
+    public function setChartRank1($chartRank1)
     {
-        $this->vgr_rank1 = $vgrRank1;
+        $this->chartRank1 = $chartRank1;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank1
+     * Get chartRank1
      *
      * @return integer
      */
-    public function getVgrRank1()
+    public function getChartRank1()
     {
-        return $this->vgr_rank1;
+        return $this->chartRank1;
     }
 
     /**
-     * Set vgr_rank2
+     * Set chartRank2
      *
-     * @param integer $vgrRank2
+     * @param integer $chartRank2
      * @return Player
      */
-    public function setVgrRank2($vgrRank2)
+    public function setChartRank2($chartRank2)
     {
-        $this->vgr_rank2 = $vgrRank2;
+        $this->chartRank2 = $chartRank2;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank2
+     * Get chartRank2
      *
      * @return integer
      */
-    public function getVgrRank2()
+    public function getChartRank2()
     {
-        return $this->vgr_rank2;
+        return $this->chartRank2;
     }
 
     /**
-     * Set vgr_rank3
+     * Set chartRank3
      *
-     * @param integer $vgrRank3
+     * @param integer $chartRank3
      * @return Player
      */
-    public function setVgrRank3($vgrRank3)
+    public function setChartRank3($chartRank3)
     {
-        $this->vgr_rank3 = $vgrRank3;
+        $this->chartRank3 = $chartRank3;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank3
+     * Get chartRank3
      *
      * @return integer
      */
-    public function getVgrRank3()
+    public function getChartRank3()
     {
-        return $this->vgr_rank3;
+        return $this->chartRank3;
     }
 
     /**
-     * Set vgr_pointRecord
+     * Set pointChart
      *
-     * @param integer $vgrPointRecord
+     * @param integer $pointChart
      * @return Player
      */
-    public function setVgrPointRecord($vgrPointRecord)
+    public function setPointChart($pointChart)
     {
-        $this->vgr_pointRecord = $vgrPointRecord;
+        $this->pointChart = $pointChart;
 
         return $this;
     }
 
     /**
-     * Get vgr_pointRecord
+     * Get pointChart
      *
      * @return integer
      */
-    public function getVgrPointRecord()
+    public function getPointChart()
     {
-        return $this->vgr_pointRecord;
+        return $this->pointChart;
     }
 
     /**
-     * Set vgr_pointVGR
+     * Set pointVGR
      *
-     * @param integer $vgrPointVGR
+     * @param integer $pointVGR
      * @return Player
      */
-    public function setVgrPointVGR($vgrPointVGR)
+    public function setPointVGR($pointVGR)
     {
-        $this->vgr_pointVGR = $vgrPointVGR;
+        $this->pointVGR = $pointVGR;
 
         return $this;
     }
 
     /**
-     * Get vgr_pointVGR
+     * Get pointVGR
      *
      * @return integer
      */
-    public function getVgrPointVGR()
+    public function getPointVGR()
     {
-        return $this->vgr_pointVGR;
+        return $this->pointVGR;
     }
 
     /**
-     * Set vgr_pointBadge
+     * Set pointBadge
      *
-     * @param integer $vgrPointBadge
+     * @param integer $pointBadge
      * @return Player
      */
-    public function setVgrPointBadge($vgrPointBadge)
+    public function setPointBadge($pointBadge)
     {
-        $this->vgr_pointBadge = $vgrPointBadge;
+        $this->pointBadge = $pointBadge;
 
         return $this;
     }
 
     /**
-     * Get vgr_pointBadge
+     * Get pointBadge
      *
      * @return integer
      */
-    public function getVgrPointBadge()
+    public function getPointBadge()
     {
-        return $this->vgr_pointBadge;
+        return $this->pointBadge;
     }
 
     /**
-     * Set vgr_collection
+     * Set collection
      *
-     * @param string $vgrCollection
+     * @param string $collection
      * @return Player
      */
-    public function setVgrCollection($vgrCollection)
+    public function setCollection($collection)
     {
-        $this->vgr_collection = $vgrCollection;
+        $this->collection = $collection;
 
         return $this;
     }
 
     /**
-     * Get vgr_collection
+     * Get collection
      *
      * @return string
      */
-    public function getVgrCollection()
+    public function getCollection()
     {
-        return $this->vgr_collection;
+        return $this->collection;
     }
 
     /**
-     * Set vgr_rank_point
+     * Set rankPointChart
      *
-     * @param integer $vgrRankPoint
+     * @param integer $rankPointChart
      * @return Player
      */
-    public function setVgrRankPoint($vgrRankPoint)
+    public function setRankPoint($rankPointChart)
     {
-        $this->vgr_rank_point = $vgrRankPoint;
+        $this->rankPointChart = $rankPointChart;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank_point
+     * Get rankPointChart
      *
      * @return integer
      */
-    public function getVgrRankPoint()
+    public function getRankPointChart()
     {
-        return $this->vgr_rank_point;
+        return $this->rankPointChart;
     }
 
     /**
-     * Set vgr_rank_medal
+     * Set rankMedal
      *
-     * @param integer $vgrRankMedal
+     * @param integer $rankMedal
      * @return Player
      */
-    public function setVgrRankMedal($vgrRankMedal)
+    public function setRankMedal($rankMedal)
     {
-        $this->vgr_rank_medal = $vgrRankMedal;
+        $this->rankMedal = $rankMedal;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank_medal
+     * Get rankMedal
      *
      * @return integer
      */
-    public function getVgrRankMedal()
+    public function getRankMedal()
     {
-        return $this->vgr_rank_medal;
+        return $this->rankMedal;
     }
 
     /**
-     * Set vgr_rank_proof
+     * Set rankProof
      *
-     * @param integer $vgrRankProof
+     * @param integer $rankProof
      * @return Player
      */
-    public function setVgrRankProof($vgrRankProof)
+    public function setRankProof($rankProof)
     {
-        $this->vgr_rank_proof = $vgrRankProof;
+        $this->rankProof = $rankProof;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank_proof
+     * Get rankProof
      *
      * @return integer
      */
-    public function getVgrRankProof()
+    public function getRankProof()
     {
-        return $this->vgr_rank_proof;
+        return $this->rankProof;
     }
 
     /**
-     * Set vgr_rank_badge
+     * Set rankBadge
      *
-     * @param integer $vgrRankBadge
+     * @param integer $rankBadge
      * @return Player
      */
-    public function setVgrRankBadge($vgrRankBadge)
+    public function setRankBadge($rankBadge)
     {
-        $this->vgr_rank_badge = $vgrRankBadge;
+        $this->rankBadge = $rankBadge;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank_badge
+     * Get rankBadge
      *
      * @return integer
      */
-    public function getVgrRankBadge()
+    public function getRankBadge()
     {
-        return $this->vgr_rank_badge;
+        return $this->rankBadge;
     }
 
     /**
-     * Set vgr_rank_cup
+     * Set rankCup
      *
-     * @param integer $vgrRankCup
+     * @param integer $rankCup
      * @return Player
      */
-    public function setVgrRankCup($vgrRankCup)
+    public function setRankCup($rankCup)
     {
-        $this->vgr_rank_cup = $vgrRankCup;
+        $this->rankCup = $rankCup;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank_cup
+     * Get rankCup
      *
      * @return integer
      */
-    public function getVgrRankCup()
+    public function getRankCup()
     {
-        return $this->vgr_rank_cup;
+        return $this->rankCup;
     }
 
     /**
-     * Set vgr_cup_rank0
+     * Set gameRank0
      *
-     * @param integer $vgrCupRank0
+     * @param integer $gameRank0
      * @return Player
      */
-    public function setVgrCupRank0($vgrCupRank0)
+    public function setGameRank0($gameRank0)
     {
-        $this->vgr_cup_rank0 = $vgrCupRank0;
+        $this->gameRank0 = $gameRank0;
 
         return $this;
     }
 
     /**
-     * Get vgr_cup_rank0
+     * Get gameRank0
      *
      * @return integer
      */
-    public function getVgrCupRank0()
+    public function getgameRank0()
     {
-        return $this->vgr_cup_rank0;
+        return $this->gameRank0;
     }
 
     /**
-     * Set vgr_cup_rank1
+     * Set gameRank1
      *
-     * @param integer $vgrCupRank1
+     * @param integer $gameRank1
      * @return Player
      */
-    public function setVgrCupRank1($vgrCupRank1)
+    public function setGameRank1($gameRank1)
     {
-        $this->vgr_cup_rank1 = $vgrCupRank1;
+        $this->gameRank1 = $gameRank1;
 
         return $this;
     }
 
     /**
-     * Get vgr_cup_rank1
+     * Get gameRank1
      *
      * @return integer
      */
-    public function getVgrCupRank1()
+    public function getGameRank1()
     {
-        return $this->vgr_cup_rank1;
+        return $this->gameRank1;
     }
 
     /**
-     * Set vgr_cup_rank2
+     * Set gameRank2
      *
-     * @param integer $vgrCupRank2
+     * @param integer $gameRank2
      * @return Player
      */
-    public function setVgrCupRank2($vgrCupRank2)
+    public function setGameRank2($gameRank2)
     {
-        $this->vgr_cup_rank2 = $vgrCupRank2;
+        $this->gameRank2 = $gameRank2;
 
         return $this;
     }
 
     /**
-     * Get vgr_cup_rank2
+     * Get gameRank2
      *
      * @return integer
      */
-    public function getVgrCupRank2()
+    public function getGameRank2()
     {
-        return $this->vgr_cup_rank2;
+        return $this->gameRank2;
     }
 
     /**
-     * Set vgr_cup_rank3
+     * Set gameRank3
      *
-     * @param integer $vgrCupRank3
+     * @param integer $gameRank3
      * @return Player
      */
-    public function setVgrCupRank3($vgrCupRank3)
+    public function setGameRank3($gameRank3)
     {
-        $this->vgr_cup_rank3 = $vgrCupRank3;
+        $this->gameRank3 = $gameRank3;
 
         return $this;
     }
 
     /**
-     * Get vgr_cup_rank3
+     * Get gameRank3
      *
      * @return integer
      */
-    public function getVgrCupRank3()
+    public function getGameRank3()
     {
-        return $this->vgr_cup_rank3;
+        return $this->gameRank3;
     }
 
     /**
-     * Set vgr_nbRecord
+     * Set nbChart
      *
-     * @param integer $vgrNbRecord
+     * @param integer $nbChart
      * @return Player
      */
-    public function setVgrNbRecord($vgrNbRecord)
+    public function setNbChart($nbChart)
     {
-        $this->vgr_nbRecord = $vgrNbRecord;
+        $this->nbChart = $nbChart;
 
         return $this;
     }
 
     /**
-     * Get vgr_nbRecord
+     * Get nbChart
      *
      * @return integer
      */
-    public function getVgrNbRecord()
+    public function getNbChart()
     {
-        return $this->vgr_nbRecord;
+        return $this->nbChart;
     }
 
     /**
-     * Set vgr_nbRecordProuve
+     * Set nbChartProven
      *
-     * @param integer $vgrNbRecordProuve
+     * @param integer $nbChartProven
      * @return Player
      */
-    public function setVgrNbRecordProuve($vgrNbRecordProuve)
+    public function setNbChartProven($nbChartProven)
     {
-        $this->vgr_nbRecordProuve = $vgrNbRecordProuve;
+        $this->nbChartProven = $nbChartProven;
 
         return $this;
     }
 
     /**
-     * Get vgr_nbRecordProuve
+     * Get nbChartProven
      *
      * @return integer
      */
-    public function getVgrNbRecordProuve()
+    public function getNbChartProven()
     {
-        return $this->vgr_nbRecordProuve;
+        return $this->nbChartProven;
     }
 
     /**
-     * Set vgr_nbMasterBadge
+     * Set nbMasterBadge
      *
-     * @param integer $vgrNbMasterBadge
+     * @param integer $nbMasterBadge
      * @return Player
      */
-    public function setVgrNbMasterBadge($vgrNbMasterBadge)
+    public function setNbMasterBadge($nbMasterBadge)
     {
-        $this->vgr_nbMasterBadge = $vgrNbMasterBadge;
+        $this->nbMasterBadge = $nbMasterBadge;
 
         return $this;
     }
 
     /**
-     * Get vgr_nbMasterBadge
+     * Get nbMasterBadge
      *
      * @return integer
      */
-    public function getVgrNbMasterBadge()
+    public function getNbMasterBadge()
     {
-        return $this->vgr_nbMasterBadge;
+        return $this->nbMasterBadge;
     }
 
     /**
-     * Set vgr_pointJeu
+     * Set pointGame
      *
-     * @param integer $vgrPointJeu
+     * @param integer $pointGame
      * @return Player
      */
-    public function setVgrPointJeu($vgrPointJeu)
+    public function setPointGame($pointGame)
     {
-        $this->vgr_pointJeu = $vgrPointJeu;
+        $this->pointGame = $pointGame;
 
         return $this;
     }
 
     /**
-     * Get vgr_pointJeu
+     * Get pointGame
      *
      * @return integer
      */
-    public function getVgrPointJeu()
+    public function getPointGame()
     {
-        return $this->vgr_pointJeu;
+        return $this->pointGame;
     }
 
     /**
-     * Set vgr_rank_pointJeu
+     * Set rankPointGame
      *
-     * @param integer $vgrRankPointJeu
+     * @param integer $rankPointGame
      * @return Player
      */
-    public function setVgrRankPointJeu($vgrRankPointJeu)
+    public function setRankPointGame($rankPointGame)
     {
-        $this->vgr_rank_pointJeu = $vgrRankPointJeu;
+        $this->rankPointGame = $rankPointGame;
 
         return $this;
     }
 
     /**
-     * Get vgr_rank_pointJeu
+     * Get rankPointGame
      *
      * @return integer
      */
-    public function getVgrRankPointJeu()
+    public function getRankPointGame()
     {
-        return $this->vgr_rank_pointJeu;
+        return $this->rankPointGame;
     }
 
     /**
@@ -879,5 +884,13 @@ class Player
     {
         $this->normandieUser = $normandieUser;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerGame()
+    {
+        return $this->playerGame;
     }
 }

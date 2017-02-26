@@ -27,6 +27,23 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
+     * @param array $params
+     * @return mixed
+     */
+    public function getNbPlayer($params = array())
+    {
+        $qb =  $this->createQueryBuilder('player')
+            ->select('COUNT(player.idPlayer)');
+
+        if (array_key_exists('nbChart>0', $params)) {
+            $qb->where('player.nbChart > 0');
+        }
+
+        return $qb ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * @param \AppBundle\Entity\User $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
