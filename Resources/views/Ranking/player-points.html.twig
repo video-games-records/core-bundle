@@ -5,12 +5,26 @@
 {% block body_id 'ranking_points' %}
 
 {% block body %}
+    <h1>{Record lib} - {Points ranking}</h1>
 
-<ul>
-    <li>rank|pseudo|points|nbPost</li>
-    {% for row in rankingPoints %}
-        <li {{ row.getPointsBackgroundColor()|raw  }}>{{ row.getRankPoint() }} | {{ row.getPlayer().getPseudo() }} | {{ row.getPointChart() }} | {{ row.getNbChart() }}</li>
-    {% endfor %}
-</ul>
-
+    <table class="leaderboard">
+        <thead>
+            <tr>
+                <th scope="col">{{ 'ranking.rank'|trans }}</th>
+                <th scope="col">{{ 'ranking.nickname'|trans }}</th>
+                <th scope="col">{{ 'ranking.points'|trans }}</th>
+                <th scope="col">{{ 'ranking.number.score'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in rankingPoints %}
+            <tr {{ row.getPointsBackgroundColor()|raw }}>
+                <td>{{ row.getRankPoint() }}</td>
+                <td>{{ row.getPlayer().getPseudo() }}</td>
+                <td>{{ row.getPointChart() }}</td>
+                <td>{{ row.getNbChart() }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
