@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -30,20 +31,6 @@ class GameAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idGame', 'text', array(
-                'label' => 'idGame',
-                'attr' => array(
-                    'readonly' => true,
-                )
-            ))
-            ->add('libGameEn', 'text', array(
-                'label' => 'Name (EN)',
-                'required' => true,
-            ))
-            ->add('libGameFr', 'text', array(
-                'label' => 'Name (FR)',
-                'required' => false,
-            ))
             ->add('serie', 'sonata_type_model_list', array(
                 'btn_add' => false,
                 'btn_list' => true,
@@ -71,6 +58,9 @@ class GameAdmin extends AbstractAdmin
                     'choices' => Game::getEtatsChoices(),
                 )
             )
+            ->add('translations', TranslationsType::class, [
+                'required' => true,
+            ])
             ->add('platforms', null, array('required' => false, 'expanded' => false))/*->add('groups', 'sonata_type_collection', array(
                 'by_reference' => false,
                 'type_options' => array(
@@ -99,8 +89,6 @@ class GameAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('libGameFr')
-            ->add('libGameEn')
             ->add('status')
             ->add('etat');
     }
@@ -111,9 +99,8 @@ class GameAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idGame')
-            ->add('libGameEn', null, array('editable' => false))
-            ->add('libGameFr')
+            ->addIdentifier('id')
+            ->add('getName', null, ['label' => 'English name'])
             ->add(
                 'picture',
                 'text',
@@ -160,9 +147,8 @@ class GameAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idGame')
-            ->add('libGameFr')
-            ->add('libGameEn')
+            ->add('id')
+            ->add('getName', null, ['label' => 'English name'])
             ->add('status')
             ->add('etat')
             ->add('groups');

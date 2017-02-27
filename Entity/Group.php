@@ -76,7 +76,7 @@ class Group
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="groups")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="idGame")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id")
      * })
      */
     private $game;
@@ -268,7 +268,7 @@ class Group
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-        $this->setIdGame($game->getIdGame());
+        $this->setIdGame($game->getId());
         return $this;
     }
 

@@ -13,35 +13,44 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
  */
 class GameRepository extends EntityRepository
 {
-
+    /**
+     * @param array $params
+     * @return \VideoGamesRecords\CoreBundle\Entity\Game[]
+     */
     public function queryAlpha($params = array())
     {
         $query = $this->createQueryBuilder('g');
 
         if (array_key_exists('idSerie', $params) && $params['idSerie'] !== null) {
-            $query->where('g.idSerie = :idSerie')
+            $query
+                ->where('g.idSerie = :idSerie')
                 ->setParameter('idSerie', $params['idSerie']);
         }
 
         if (array_key_exists('letter', $params) && $params['letter'] !== null) {
             $letter = $params['letter'];
             if ($letter == '0') {
-                $query->where('SUBSTRING(g.libGameEn , 1, 1) NOT IN (:list)')
-                ->setParameter('list', range('a', 'z'));
+                $query
+                    ->innerJoin('g.translations', 'translation')
+                    ->where('SUBSTRING(translation.name , 1, 1) NOT IN (:list)')
+                    ->setParameter('list', range('a', 'z'));
             } else {
-                $query->where('SUBSTRING(g.libGameEn , 1, 1) = :letter')
+                $query
+                    ->innerJoin('g.translations', 'translation')
+                    ->where('SUBSTRING(translation.name , 1, 1) = :letter')
                     ->setParameter('letter', $letter);
             }
+            $query->orderBy('translation.name');
         }
 
 
-        $query->andWhere('g.status = :status')
+        $query
+            ->andWhere('g.status = :status')
             ->setParameter('status', Game::STATUS_ACTIVE);
-        $query->orderBy('g.libGameEn');
 
         //----- Add platforms
         $query->join('g.platforms', 'p')
-        ->addSelect('p');
+            ->addSelect('p');
 
 
         return $query->getQuery()->getResult();

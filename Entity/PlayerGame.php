@@ -40,7 +40,7 @@ class PlayerGame
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="idGame")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id")
      * })
      */
     private $game;
@@ -537,7 +537,7 @@ class PlayerGame
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-        $this->setIdGame($game->getIdGame());
+        $this->setIdGame($game->getId());
         return $this;
     }
 

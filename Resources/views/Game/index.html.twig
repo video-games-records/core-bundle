@@ -48,7 +48,7 @@
         <tfoot>
         <tr>
             <td colspan="4">
-                <a href="{{ path('vgr_game_ranking_points', {'id': game.getIdGame()}) }}">{{ 'game.ranking.point.full'|trans }}</a>
+                <a href="{{ path('vgr_game_ranking_points', {'id': game.id}) }}">{{ 'game.ranking.point.full'|trans }}</a>
             </td>
         </tr>
         </tfoot>
@@ -85,7 +85,7 @@
         <tfoot>
         <tr>
             <td colspan="6">
-                <a href="{{ path('vgr_game_ranking_medals', {'id': game.getIdGame()}) }}">{{ 'game.ranking.medal.full'|trans }}</a>
+                <a href="{{ path('vgr_game_ranking_medals', {'id': game.id}) }}">{{ 'game.ranking.medal.full'|trans }}</a>
             </td>
         </tr>
         </tfoot>

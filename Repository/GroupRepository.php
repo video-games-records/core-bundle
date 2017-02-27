@@ -12,7 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class GroupRepository extends EntityRepository
 {
-
+    /**
+     * @param int $id
+     * @return \VideoGamesRecords\CoreBundle\Entity\Group|null
+     */
     public function getWithGame($id)
     {
         $query = $this->createQueryBuilder('gr')

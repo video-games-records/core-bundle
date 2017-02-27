@@ -37,7 +37,7 @@ class ChartController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibGame(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getIdGame()]);
+        $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibGame(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getId()]);
         $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getIdGroup()]);
         $breadcrumbs->addItem($chart->getLibChart());
 
@@ -81,7 +81,7 @@ class ChartController extends Controller
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibGame(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getIdGame()]);
+        $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibGame(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getId()]);
         $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getIdGroup()]);
         $breadcrumbs->addItem($chart->getLibChart());
 
