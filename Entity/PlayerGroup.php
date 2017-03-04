@@ -126,7 +126,7 @@ class PlayerGroup
      * Set idPlayer
      *
      * @param integer $idPlayer
-     * @return PlayerGroup
+     * @return $this
      */
     public function setIdPlayer($idPlayer)
     {
@@ -148,7 +148,7 @@ class PlayerGroup
      * Set idGroup
      *
      * @param integer $idGroup
-     * @return PlayerGroup
+     * @return $this
      */
     public function setIdGroup($idGroup)
     {
@@ -171,7 +171,7 @@ class PlayerGroup
      * Set rankPoint
      *
      * @param integer $rankPoint
-     * @return PlayerGroup
+     * @return $this
      */
     public function setRankPoint($rankPoint)
     {
@@ -193,7 +193,7 @@ class PlayerGroup
      * Set rankMedal
      *
      * @param integer $rankMedal
-     * @return PlayerGroup
+     * @return $this
      */
     public function setRankMedal($rankMedal)
     {
@@ -215,7 +215,7 @@ class PlayerGroup
      * Set rank
      *
      * @param integer $rank0
-     * @return PlayerGroup
+     * @return $this
      */
     public function setRank0($rank0)
     {
@@ -237,7 +237,7 @@ class PlayerGroup
      * Set rank1
      *
      * @param integer $rank1
-     * @return PlayerGroup
+     * @return $this
      */
     public function setRank1($rank1)
     {
@@ -259,7 +259,7 @@ class PlayerGroup
      * Set rank2
      *
      * @param integer $rank2
-     * @return PlayerGroup
+     * @return $this
      */
     public function setRank2($rank2)
     {
@@ -281,7 +281,7 @@ class PlayerGroup
      * Set rank3
      *
      * @param integer $rank3
-     * @return PlayerGroup
+     * @return $this
      */
     public function setRank3($rank3)
     {
@@ -303,7 +303,7 @@ class PlayerGroup
      * Set rank4
      *
      * @param integer $rank4
-     * @return PlayerGroup
+     * @return $this
      */
     public function setRank4($rank4)
     {
@@ -325,7 +325,7 @@ class PlayerGroup
      * Set rank5
      *
      * @param integer $rank5
-     * @return PlayerGroup
+     * @return $this
      */
     public function setRank5($rank5)
     {
@@ -347,7 +347,7 @@ class PlayerGroup
      * Set pointChart
      *
      * @param integer $pointChart
-     * @return PlayerGroup
+     * @return $this
      */
     public function setPointChart($pointChart)
     {
@@ -369,7 +369,7 @@ class PlayerGroup
      * Set nbChart
      *
      * @param integer $nbChart
-     * @return PlayerGroup
+     * @return $this
      */
     public function setNbChart($nbChart)
     {
@@ -387,12 +387,11 @@ class PlayerGroup
         return $this->nbChart;
     }
 
-
     /**
      * Set nbChartProven
      *
      * @param integer $nbChartProven
-     * @return PlayerGroup
+     * @return $this
      */
     public function setNbChartProven($nbChartProven)
     {
@@ -415,7 +414,7 @@ class PlayerGroup
      * Set group
      *
      * @param Group $group
-     * @return PlayerGroup
+     * @return $this
      */
     public function setGroup(Group $group = null)
     {
@@ -439,7 +438,7 @@ class PlayerGroup
      * Set player
      *
      * @param Player $player
-     * @return PlayerGame
+     * @return $this
      */
     public function setPlayer(Player $player = null)
     {
@@ -464,12 +463,12 @@ class PlayerGroup
      */
     public function getPointsBackgroundColor()
     {
-        $class = array(
+        $class = [
             0 => '',
             1 => 'bg-first',
             2 => 'bg-second',
             3 => 'bg-third',
-        );
+        ];
 
         if ($this->getRankPoint() <= 3) {
             return sprintf("class=\"%s\"", $class[$this->getRankPoint()]);
@@ -483,12 +482,12 @@ class PlayerGroup
      */
     public function getMedalsBackgroundColor()
     {
-        $class = array(
+        $class = [
             0 => '',
             1 => 'bg-first',
             2 => 'bg-second',
             3 => 'bg-third',
-        );
+        ];
 
         if ($this->getRankMedal() <= 3) {
             return sprintf("class=\"%s\"", $class[$this->getRankMedal()]);

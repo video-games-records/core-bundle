@@ -8,9 +8,9 @@ class VgrExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('vgrFormatScore', array($this, 'formatScoreFunction')),
-        );
+        return [
+            new \Twig_SimpleFunction('vgrFormatScore', [$this, 'formatScoreFunction']),
+        ];
     }
 
     /**
@@ -21,11 +21,11 @@ class VgrExtension extends \Twig_Extension
     public function formatScoreFunction($value, $mask)
     {
         //----- Parse mask
-        $parse = array();
+        $parse = [];
         $arrayParts = explode('|', $mask);
         foreach ($arrayParts as $partOfMask) {
             $arrayLib = explode('~', $partOfMask);
-            $parse[] = array('size' => $arrayLib[0], 'suffixe' => $arrayLib[1]);
+            $parse[] = ['size' => $arrayLib[0], 'suffixe' => $arrayLib[1]];
         }
 
         //-----

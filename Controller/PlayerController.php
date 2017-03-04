@@ -29,17 +29,17 @@ class PlayerController extends Controller
     {
         $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($id);
 
-        $nbPlayer = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getNbPlayer(array('nbChart>0' => true));
+        $nbPlayer = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getNbPlayer(['nbChart>0' => true]);
 
         $rows = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getRows(
-            array(
+            [
                 'idPlayer' => $id,
                 'limit' => 1,
-                'orderBy' => array(
+                'orderBy' => [
                     'column' => 'pc.dateModif',
                     'order' => 'DESC',
-                ),
-            )
+                ],
+            ]
         );
         if (count($rows) == 1) {
             $lastChart = $rows[0];
@@ -52,6 +52,6 @@ class PlayerController extends Controller
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem($player->getPseudo());
 
-        return $this->render('VideoGamesRecordsCoreBundle:Player:index.html.twig', array('player' => $player, 'nbPlayer' => $nbPlayer, 'lastChart' => $lastChart));
+        return $this->render('VideoGamesRecordsCoreBundle:Player:index.html.twig', ['player' => $player, 'nbPlayer' => $nbPlayer, 'lastChart' => $lastChart]);
     }
 }

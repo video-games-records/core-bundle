@@ -23,7 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('idSerie')->defaultValue(null)->end()
-                ->arrayNode('games')->defaultValue(array())->prototype('scalar')->end()
+                ->arrayNode('games')->defaultValue([])->prototype('scalar')->end()
             ->end();
 
         return $treeBuilder;

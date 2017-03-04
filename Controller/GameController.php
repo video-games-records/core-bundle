@@ -25,12 +25,12 @@ class GameController extends Controller
     public function listAction($letter)
     {
         $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->queryAlpha(
-            array(
+            [
                 'letter' => $letter
-            )
+            ]
         );
 
-        $alphabet = array_merge(array('0'), range('A', 'Z'));
+        $alphabet = array_merge(['0'], range('A', 'Z'));
 
 
         /*$paginator = $this->get('knp_paginator');
@@ -47,7 +47,7 @@ class GameController extends Controller
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('game.list');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Game:list.html.twig', array('games' => $games, 'alphabet' => $alphabet));
+        return $this->render('VideoGamesRecordsCoreBundle:Game:list.html.twig', ['games' => $games, 'alphabet' => $alphabet]);
     }
 
     /**
@@ -64,19 +64,19 @@ class GameController extends Controller
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
 
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints(
-            array(
+            [
                 'idGame' => $id,
                 'maxRank' => 5,
                 'idPlayer' => null,
-            )
+            ]
         );
 
         $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals(
-            array(
+            [
                 'idGame' => $id,
                 'maxRank' => 5,
                 'idPlayer' => null,
-            )
+            ]
         );
 
         //----- breadcrumbs
@@ -84,7 +84,7 @@ class GameController extends Controller
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem($game->getLibGame());
 
-        return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', array('game' => $game, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals));
+        return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', ['game' => $game, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals]);
     }
 
     /**
@@ -99,10 +99,10 @@ class GameController extends Controller
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints(
-            array(
+            [
                 'idGame' => $id,
                 'idLogin' => null,
-            )
+            ]
         );
 
         //----- breadcrumbs
@@ -111,7 +111,7 @@ class GameController extends Controller
         $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.pointranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-points.html.twig', array('rankingPoints' => $rankingPoints));
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-points.html.twig', ['rankingPoints' => $rankingPoints]);
     }
 
 
@@ -127,10 +127,10 @@ class GameController extends Controller
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
         $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals(
-            array(
+            [
                 'idGame' => $id,
                 'idLogin' => null,
-            )
+            ]
         );
 
         //----- breadcrumbs
@@ -139,6 +139,6 @@ class GameController extends Controller
         $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.medalranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig', array('rankingMedals' => $rankingMedals));
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig', ['rankingMedals' => $rankingMedals]);
     }
 }

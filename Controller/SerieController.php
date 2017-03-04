@@ -25,11 +25,11 @@ class SerieController extends Controller
             throw $this->createNotFoundException('There is no serie on config website');
         }
         $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserSerie')->getRankingPoints(
-            array(
+            [
                 'idSerie' => $idSerie,
                 'idLogin' => null,
                 'maxRank' => 100,
-            )
+            ]
         );
 
         //----- breadcrumbs
@@ -37,7 +37,7 @@ class SerieController extends Controller
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('serie.pointranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-points.html.twig', array('rankingPoints' => $rankingPoints));
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-points.html.twig', ['rankingPoints' => $rankingPoints]);
     }
 
 
@@ -53,11 +53,11 @@ class SerieController extends Controller
             throw $this->createNotFoundException('There is no serie on config website');
         }
         $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserSerie')->getRankingMedals(
-            array(
+            [
                 'idSerie' => $idSerie,
                 'idLogin' => 1,
                 'maxRank' => 100,
-            )
+            ]
         );
 
         //----- breadcrumbs
@@ -65,6 +65,6 @@ class SerieController extends Controller
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('serie.medalranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', array('rankingMedals' => $rankingMedals));
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', ['rankingMedals' => $rankingMedals]);
     }
 }

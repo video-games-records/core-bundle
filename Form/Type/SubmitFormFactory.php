@@ -27,7 +27,7 @@ class SubmitFormFactory
 
 
         foreach ($charts as $chart) {
-            $form->add('name_' . $chart->getIdChart(), HiddenType::class, array('label' => $chart->getLibChart()));
+            $form->add('name_' . $chart->getIdChart(), HiddenType::class, ['label' => $chart->getLibChart()]);
 
             foreach ($chart->getLibs() as $lib) {
                 $id = 'user_' . $lib->getIdChart() . '_' . $lib->getIdLibChart();
@@ -40,14 +40,14 @@ class SubmitFormFactory
                     $form->add(
                         'value_' . $lib->getIdChart() . '_' . $lib->getIdLibChart() . '_' . $i,
                         TextType::class,
-                        array(
+                        [
                             'label' => ($i == 1) ? $lib->getType()->getName() : null,
-                            'attr' => array(
+                            'attr' => [
                                 'maxlength' => $input['size'],
                                 'size' => 8,
                                 'suffixe' => $input['suffixe'],
-                            )
-                        )
+                            ]
+                        ]
                     );//---- missing ID
                     $i++;
                 }

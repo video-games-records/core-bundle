@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class PlayerChartStatus
 {
-
     const ID_STATUS_NORMAL = 1;
     const ID_STATUS_PROOVED = 6;
 
@@ -78,7 +77,4 @@ class PlayerChartStatus
     {
         return $this->libStatus;
     }
-
-
-
 }

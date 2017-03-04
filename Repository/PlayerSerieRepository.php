@@ -19,7 +19,7 @@ class PlayerSerieRepository extends EntityRepository
      * @param array $params idSerie|idPlayer|limit|maxRank
      * @return array
      */
-    public function getRankingPoints($params = array())
+    public function getRankingPoints($params = [])
     {
         $query = $this->createQueryBuilder('ps')
             ->join('ps.player', 'p')
@@ -36,10 +36,10 @@ class PlayerSerieRepository extends EntityRepository
         $row = null;
         if ((array_key_exists('idPlayer', $params)) && ($params['idPlayer'] !== null)) {
             $row = $this->findOneBy(
-                array(
+                [
                     'idSerie' => $params['idSerie'],
                     'idPlayer' => $params['idPlayer']
-                )
+                ]
             );
         }
 
@@ -60,7 +60,7 @@ class PlayerSerieRepository extends EntityRepository
      * @param array $params idSerie|idPlayer|limit|maxRank
      * @return array
      */
-    public function getRankingMedals($params = array())
+    public function getRankingMedals($params = [])
     {
         $query = $this->createQueryBuilder('ps')
             ->join('ps.player', 'p')
@@ -77,10 +77,10 @@ class PlayerSerieRepository extends EntityRepository
         $row = null;
         if ((array_key_exists('idPlayer', $params)) && ($params['idPlayer'] !== null)) {
             $row = $this->findOneBy(
-                array(
+                [
                     'idSerie' => $params['idSerie'],
                     'idPlayer' => $params['idPlayer']
-                )
+                ]
             );
         }
 
@@ -137,17 +137,17 @@ class PlayerSerieRepository extends EntityRepository
         $query->setParameter('idSerie', $idSerie);
         $result = $query->getResult();
 
-        $list = array();
+        $list = [];
         foreach ($result as $row) {
             $list[] = $row;
         }
 
-        $list = Ranking::addRank($list, 'rankPoint', array('pointChart'));
-        $list = Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
-        $list = Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
+        $list = Ranking::addRank($list, 'rankPoint', ['pointChart']);
+        $list = Ranking::order($list, ['rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC']);
+        $list = Ranking::addRank($list, 'rankMedal', ['rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5']);
 
         $normalizer = new ObjectNormalizer();
-        $serializer = new Serializer(array($normalizer));
+        $serializer = new Serializer([$normalizer]);
 
         $serie = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Serie', $idSerie);
 

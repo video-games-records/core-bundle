@@ -27,11 +27,11 @@ class SubmitController extends Controller
     {
         $data = $request->request->get('form');
         /** @var \VideoGamesRecords\CoreBundle\Entity\Chart[] $charts */
-        $charts = array();
+        $charts = [];
 
         if ($data['type'] == 'chart') {
             $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($data['id']);
-            $charts = array($chart);
+            $charts = [$chart];
         }
 
         $form = SubmitFormFactory::createSubmitForm(
@@ -54,11 +54,12 @@ class SubmitController extends Controller
                 //----- init
                 $isNull = false;
                 $isModify = false;
+                $post = [];
 
                 foreach ($chart->getLibs() as $lib) {
                     $oldValue = $data['user_' . $chart->getIdChart() . '_' . $lib->getIdLibChart()];
                     $newValue = '';
-                    $values = array();
+                    $values = [];
 
                     $nbInput = $lib->getType()->getNbInput();
                     for ($i = 1; $i <= $nbInput; $i++) {
@@ -87,10 +88,10 @@ class SubmitController extends Controller
 
                 if (!$isNull && $isModify) {
                     $playerChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->find(
-                        array(
+                        [
                             'idUser' => $idPlayer,
                             'idChart' => $chart->getIdChart()
-                        )
+                        ]
                     );
 
                     $isNew = false;
@@ -110,10 +111,10 @@ class SubmitController extends Controller
 
                     foreach ($chart->getLibs() as $lib) {
                         $playerChartLib = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->find(
-                            array(
+                            [
                                 'idPlayer' => $idPlayer,
                                 'idLibChart' => $lib->getIdLibChart()
-                            )
+                            ]
                         );
                         if ($playerChartLib === null) {
                             $playerChartLib = new PlayerChartLib();

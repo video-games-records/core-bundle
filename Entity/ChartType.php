@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ChartType
 {
-
     /**
      * @var integer
      *
@@ -51,7 +50,8 @@ class ChartType
     /**
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return sprintf('%s [%s] %s (%s)', $this->name, $this->mask, $this->orderBy, $this->idType);
     }
 

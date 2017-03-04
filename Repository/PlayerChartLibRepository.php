@@ -17,7 +17,7 @@ class PlayerChartLibRepository extends EntityRepository
      * @param array $params idPlayer|idChart|idGroupe
      * @return array
      */
-    public function getFormValues($params = array())
+    public function getFormValues($params = [])
     {
         $query = $this->createQueryBuilder('ucl')
             ->join('ucl.lib', 'lib')
@@ -36,7 +36,7 @@ class PlayerChartLibRepository extends EntityRepository
         }
 
         $result = $query->getQuery()->getResult();
-        $data = array();
+        $data = [];
 
         foreach ($result as $row) {
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChartLib|\VideoGamesRecords\CoreBundle\Entity\ChartLib $row */

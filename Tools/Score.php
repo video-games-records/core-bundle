@@ -11,11 +11,11 @@ class Score
      */
     public static function parse($mask)
     {
-        $result = array();
+        $result = [];
         $arrayParts = explode('|', $mask);
         foreach ($arrayParts as $partOfMask) {
             $arrayLib = explode('~', $partOfMask);
-            $result[] = array('size' => $arrayLib[0], 'suffixe' => $arrayLib[1]);
+            $result[] = ['size' => $arrayLib[0], 'suffixe' => $arrayLib[1]];
         }
 
         return $result;
@@ -29,11 +29,11 @@ class Score
     public static function getInputs($mask)
     {
         $parse = self::parse($mask);
-        $data = array();
+        $data = [];
         for ($k = count($parse) - 1; $k >= 0; $k--) {
             $size = $parse[$k]['size'];
             $suffixe = $parse[$k]['suffixe'];
-            $data[] = array('size' => $size, 'suffixe' => $suffixe);
+            $data[] = ['size' => $size, 'suffixe' => $suffixe];
         }
         return array_reverse($data);
     }
@@ -48,7 +48,7 @@ class Score
     public static function getValues($mask, $value)
     {
         $parse = self::parse($mask);
-        $data = array();
+        $data = [];
         $laValue = $value;
         for ($k = count($parse) - 1; $k >= 0; $k--) {
             $size = $parse[$k]['size'];
@@ -71,7 +71,7 @@ class Score
             if ($value === null) {
                 $result = '';
             }
-            $data[] = array('value' => $result);
+            $data[] = ['value' => $result];
         }
         return array_reverse($data);
     }

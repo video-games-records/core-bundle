@@ -31,37 +31,37 @@ class GameAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('serie', 'sonata_type_model_list', array(
+            ->add('serie', 'sonata_type_model_list', [
                 'btn_add' => false,
                 'btn_list' => true,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
                 'label' => 'Serie',
-            ))
-            ->add('picture', 'text', array(
+            ])
+            ->add('picture', 'text', [
                 'label' => 'Picture',
                 'required' => false,
-            ))
+            ])
             ->add(
                 'status',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'Status',
                     'choices' => Game::getStatusChoices(),
-                )
+                ]
             )
             ->add(
                 'etat',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'Etat',
                     'choices' => Game::getEtatsChoices(),
-                )
+                ]
             )
             ->add('translations', TranslationsType::class, [
                 'required' => true,
             ])
-            ->add('platforms', null, array('required' => false, 'expanded' => false));
+            ->add('platforms', null, ['required' => false, 'expanded' => false]);
     }
 
     /**
@@ -86,41 +86,41 @@ class GameAdmin extends AbstractAdmin
             ->add(
                 'picture',
                 'text',
-                array(
+                [
                     'label' => 'Picture',
                     'editable' => true
-                )
+                ]
             )
             ->add(
                 'status',
                 'choice',
-                array(
+                [
                     'label' => 'Status',
                     'editable' => true,
                     'choices' => Game::getStatusChoices(),
-                )
+                ]
             )
             ->add(
                 'etat',
                 'choice',
-                array(
+                [
                     'label' => 'Etat',
                     'editable' => false,
                     'choices' => Game::getEtatsChoices(),
-                )
+                ]
             )
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'groups' => array(
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'groups' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
-                    ),
-                    'add_group' => array(
+                    ],
+                    'add_group' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
-                    ),
-                )
-            ));
+                    ],
+                ]
+            ]);
     }
 
     /**

@@ -46,7 +46,7 @@ class Ranking
      *
      * @return array
      */
-    public static function addRank($array, $key = 'rank', $columns = array('pointChart'), $boolEqual = false)
+    public static function addRank($array, $key = 'rank', $columns = ['pointChart'], $boolEqual = false)
     {
         $rank = 1;
         $compteur = 0;
@@ -95,7 +95,7 @@ class Ranking
      *
      * @return array
      */
-    public static function addChartRank($array, $columns = array('pointChart'))
+    public static function addChartRank($array, $columns = ['pointChart'])
     {
         $rank = 1;
         $compteur = 0;
@@ -280,7 +280,7 @@ class Ranking
         $b = (atan($nbPlayers - 25) + M_PI_2) * (25000 * ($nbPlayers - 25)) / (200 * M_PI);
         $f = ceil((10400000 * $a + $b) / (pow($nbFirstEquals, 6 / 5)));
 
-        $aF = array();
+        $aF = [];
         $aF[1] = $f;
         for ($i = 2; $i <= $nbPlayers; ++$i) {
             $g = min(0.99, log($i) / (log(71428.6 * $i + 857142.8)) + 0.7);
@@ -309,7 +309,7 @@ class Ranking
                 continue;
             }
             //If equals (do average of players gives if they weren't tied)
-            $aTiedValues = array();
+            $aTiedValues = [];
             for ($j = 0; $j < $aArray[$i][$nameEqualCol]; ++$j) {
                 $aTiedValues[] = $aF[$aArray[$i][$nameRankCol] + $j];
             }

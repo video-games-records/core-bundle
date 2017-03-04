@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class PlatformRepository extends EntityRepository
 {
-
     /**
      * Finds all entities in the repository.
      *
@@ -20,7 +19,6 @@ class PlatformRepository extends EntityRepository
      */
     public function findAll()
     {
-        return $this->findBy(array(), array('libPlatform' => 'ASC'));
+        return $this->findBy([], ['libPlatform' => 'ASC']);
     }
-
 }
