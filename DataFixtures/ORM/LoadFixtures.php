@@ -123,40 +123,40 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $list = array(
             array(
                 'idGame' => 1,
-                'libGameEn' => 'Burnout 2',
+                'languages' => ['fr' => 'Burnout 2', 'en' => 'Burnout 2'],
                 'platforms' => array(1,2,3)
             ),
             array(
                 'idGame' => 2,
-                'libGameEn' => 'Mario Kart 8',
+                'languages' => ['fr' => 'Mario Kart 8', 'en' => 'Mario Kart 8'],
                 'idSerie' => 2,
             ),
             array(
                 'idGame' => 3,
-                'libGameEn' => 'Forza Motosport 4',
+                'languages' => ['fr' => 'Forza Motosport 4', 'en' => 'Forza Motosport 4'],
                 'idSerie' => 1,
             ),
             array(
                 'idGame' => 4,
-                'libGameEn' => 'Forza Motosport 3',
+                'languages' => ['fr' => 'Forza Motosport 3', 'en' => 'Forza Motosport 3'],
                 'idSerie' => 1,
             ),
             array(
                 'idGame' => 5,
-                'libGameEn' => 'Sega Rallye',
+                'languages' => ['fr' => 'Sega Rallye', 'en' => 'Sega Rallye'],
             ),
             array(
                 'idGame' => 6,
-                'libGameEn' => 'Gran Turismo',
+                'languages' => ['fr' => 'Gran Turismo', 'en' => 'Gran Turismo'],
                 'platforms' => array(2)
             ),
             array(
                 'idGame' => 7,
-                'libGameEn' => 'Jet Set Radio',
+                'languages' => ['fr' => 'Jet Set Radio', 'en' => 'Jet Set Radio'],
             ),
             array(
                 'idGame' => 11,
-                'libGameEn' => 'Mario Kart Double Dash',
+                'languages' => ['fr' => 'Mario Kart Double Dash', 'en' => 'Mario Kart Double Dash'],
                 'idSerie' => 2,
                 'platforms' => array(1)
             ),
@@ -164,8 +164,10 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
 
         foreach ($list as $row) {
             $game = new Game();
-            $game->setIdGame($row['idGame']);
-            $game->setLibGameEn($row['libGameEn']);
+            $game->setId($row['idGame']);
+            foreach ($row['languages'] as $locale => $label) {
+                $game->translate($locale)->setName($label);
+            }
             if (isset($row['idSerie'])) {
                 $game->setSerie($this->getReference('serie.' . $row['idSerie']));
             }
@@ -174,8 +176,9 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
                     $game->addPlatform($this->getReference('platform.' . $id));
                 }
             }
+            $game->mergeNewTranslations();
             $manager->persist($game);
-            $this->addReference('game' . $game->getIdGame(), $game);
+            $this->addReference('game' . $game->getId(), $game);
         }
         $manager->flush();
     }

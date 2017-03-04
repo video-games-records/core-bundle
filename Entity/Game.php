@@ -5,18 +5,20 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Game
  *
- * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxLibGameFr", columns={"libGameFr"}), @ORM\Index(name="idxLibGameEn", columns={"libGameEn"}), @ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
+ * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
  * @todo check etat / imagePlateforme / ordre
  */
 class Game
 {
     use Timestampable;
+    use Translatable;
 
     const NUM_ITEMS = 20;
 
@@ -32,27 +34,11 @@ class Game
     /**
      * @var integer
      *
-     * @ORM\Column(name="idGame", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idGame;
-
-    /**
-     * @var string
-     *
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="libGameFr", type="string", length=100, nullable=true)
-     */
-    private $libGameFr;
-
-    /**
-     * @var string
-     *
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="libGameEn", type="string", length=100, nullable=false)
-     */
-    private $libGameEn;
+    private $id;
 
     /**
      * @var string
@@ -67,14 +53,14 @@ class Game
      *
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private $status = 'INACTIF';
+    private $status = self::STATUS_INACTIVE;
 
     /**
      * @var string
      *
      * @ORM\Column(name="etat", type="string", nullable=false)
      */
-    private $etat = 'CREATION';
+    private $etat = self::ETAT_INIT;
 
     /**
      * @var \DateTime
@@ -143,7 +129,7 @@ class Game
     /**
      * @ORM\ManyToMany(targetEntity="Platform")
      * @ORM\JoinTable(name="vgr_game_platform",
-     *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="idGame")},
+     *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="idPlatform")}
      *      )
      * @ORM\OrderBy({"libPlatform" = "ASC"})
@@ -162,31 +148,31 @@ class Game
     /**
      * @return string
      */
-    public function __toString() {
-        return sprintf('%s [%s]', $this->libGameEn, $this->idGame);
+    public function __toString()
+    {
+        return sprintf('%s [%s]', $this->getName(), $this->id);
     }
 
     /**
-     * Set idGame
+     * Set id
      *
-     * @param integer $idGame
+     * @param integer $id
      * @return Game
      */
-    public function setIdGame($idGame)
+    public function setId($id)
     {
-        $this->idGame = $idGame;
+        $this->id = $id;
         return $this;
     }
 
-
     /**
-     * Get idGame
+     * Get id
      *
      * @return integer
      */
-    public function getIdGame()
+    public function getId()
     {
-        return $this->idGame;
+        return $this->id;
     }
 
     /**
@@ -196,54 +182,26 @@ class Game
      */
     public function getLibGame()
     {
-        return $this->libGameEn;
+        return $this->getName();
     }
 
-
     /**
-     * Set libGameFr
-     *
-     * @param string $libGameFr
-     * @return Game
+     * @param string $name
+     * @return $this
      */
-    public function setLibGameFr($libGameFr)
+    public function setName($name)
     {
-        $this->libGameFr = $libGameFr;
+        $this->translate(null, false)->setName($name);
 
         return $this;
     }
 
     /**
-     * Get libGameFr
-     *
      * @return string
      */
-    public function getLibGameFr()
+    public function getName()
     {
-        return $this->libGameFr;
-    }
-
-    /**
-     * Set libGameEn
-     *
-     * @param string $libGameEn
-     * @return Game
-     */
-    public function setLibGameEn($libGameEn)
-    {
-        $this->libGameEn = $libGameEn;
-
-        return $this;
-    }
-
-    /**
-     * Get libGameEn
-     *
-     * @return string
-     */
-    public function getLibGameEn()
-    {
-        return $this->libGameEn;
+        return $this->translate(null, false)->getName();
     }
 
     /**
@@ -579,7 +537,8 @@ class Game
     /**
      * @return array
      */
-    public static function getStatusChoices() {
+    public static function getStatusChoices()
+    {
         return array(
             self::STATUS_ACTIVE => self::STATUS_ACTIVE,
             self::STATUS_INACTIVE => self::STATUS_INACTIVE,
@@ -589,7 +548,8 @@ class Game
     /**
      * @return array
      */
-    public static function getEtatsChoices() {
+    public static function getEtatsChoices()
+    {
         return array(
             self::ETAT_INIT => self::ETAT_INIT,
             self::ETAT_CHART => self::ETAT_CHART,

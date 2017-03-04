@@ -29,15 +29,15 @@
         <tbody>
         {% for game in games %}
             <tr>
-                <td><a href="{{ path('vgr_game_index', {'id': game.getIdGame()}) }}">{{ game.getLibGame() }}</a></td>
+                <td><a href="{{ path('vgr_game_index', {'id': game.id}) }}">{{ game.name }}</a></td>
                 <td>
                     {% for platform in game.getPlatforms() %}
                         {{ platform.getLibPlatform() }}
                     {% endfor %}
                 </td>
-                <td>{{ game.nbChart() }}</td>
-                <td>{{ game.nbPost() }}</td>
-                <td>{{ game.nbPlayer() }}</td>
+                <td>{{ game.nbChart }}</td>
+                <td>{{ game.nbPost }}</td>
+                <td>{{ game.nbPlayer }}</td>
             </tr>
         {% else %}
             <tr>
