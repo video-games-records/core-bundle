@@ -29,7 +29,7 @@ class ChartAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $groupOptions = [];
+        $groupOptions = array();
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
             $idGroup = $this->getRequest()->get('idGroup', null);
 
@@ -42,20 +42,20 @@ class ChartAdmin extends AbstractAdmin
                 $entityManager = $this->getModelManager()
                     ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\Group');
                 $group = $entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\Group', $idGroup);
-                $groupOptions = ['data' => $group];
+                $groupOptions = array('data' => $group);
             }
         }
 
         $formMapper
-            ->add('idChart', 'text', [
+            ->add('idChart', 'text', array(
                 'label' => 'idChart',
-                'attr' => [
+                'attr' => array(
                     'readonly' => true,
-                ]
-            ])
+                )
+            ))
             ->add('group', 'sonata_type_model_list', array_merge(
                 $groupOptions,
-                [
+                array(
                     'data_class' => null,
                     'btn_add' => false,
                     'btn_list' => true,
@@ -63,61 +63,62 @@ class ChartAdmin extends AbstractAdmin
                     'btn_catalogue' => true,
                     'label' => 'Group',
                     'required' => true,
-                ]
-            ), [
+                )
+            ), array(
                 'placeholder' => 'No group selected'
-            ])
-            ->add('libChartEn', 'text', [
+            ))
+            ->add('libChartEn', 'text', array(
                 'label' => 'Name (EN)',
                 'required' => true,
-            ])
-            ->add('libChartFr', 'text', [
+            ))
+            ->add('libChartFr', 'text', array(
                 'label' => 'Name (FR)',
                 'required' => false,
-            ]);
+            ));
 
         if (($this->hasRequest()) && ($this->isCurrentRoute('edit'))) {
             $formMapper
                 ->add(
                     'statusUser',
                     'choice',
-                    [
-                        'label' => 'Status User',
+                    array(
+                        'label' => 'Status Player',
                         'choices' => Chart::getStatusChoices()
-                    ]
+                    )
                 );
             $formMapper
                 ->add(
                     'statusTeam',
                     'choice',
-                    [
+                    array(
                         'label' => 'Status Team',
                         'choices' => Chart::getStatusChoices()
-                    ]
+                    )
                 );
         }
 
         $formMapper
-            ->add('libs', 'sonata_type_collection', [
+            ->add('libs', 'sonata_type_collection', array(
                 'by_reference' => false,
                 'help' => (($this->isCurrentRoute('create')) ? 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
-                'type_options' => [
+                'type_options' => array(
                     // Prevents the "Delete" option from being displayed
                     'delete' => true,
-                    'delete_options' => [
+                    'delete_options' => array(
                         // You may otherwise choose to put the field but hide it
                         'type' => 'checkbox',
                         // In that case, you need to fill in the options as well
-                        'type_options' => [
+                        'type_options' => array(
                             'mapped' => false,
                             'required' => false,
-                        ]
-                    ]
-                ]
-            ], [
+                        )
+                    )
+                )
+            ), array(
                 'edit' => 'inline',
                 'inline' => 'table',
-            ]);
+            ));
+
     }
 
     /**
@@ -128,11 +129,11 @@ class ChartAdmin extends AbstractAdmin
         $datagridMapper
             ->add('libChartEn')
             ->add('libChartFr')
-            ->add('group', 'doctrine_orm_model_autocomplete', [], null, [
+            ->add('group', 'doctrine_orm_model_autocomplete', array(), null, array(
                 'property' => 'libGroupEn',
-            ])
-            ->add('statusUser', 'doctrine_orm_choice', [], 'choice', ['choices' => Chart::getStatusChoices()])
-            ->add('statusTeam', 'doctrine_orm_choice', [], 'choice', ['choices' => Chart::getStatusChoices()]);
+            ))
+            ->add('statusPlayer', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
+            ->add('statusTeam', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()));
     }
 
     /**
@@ -142,18 +143,18 @@ class ChartAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('idChart')
-            ->add('libChartEn', null, ['editable' => false])
+            ->add('libChartEn', null, array('editable' => false))
             ->add('libChartFr')
-            ->add('group', null, [
+            ->add('group', null, array(
                 'associated_property' => 'libGroupEn',
                 'label' => 'Group',
-            ])
-            ->add('_action', 'actions', [
-                'actions' => [
-                    'show' => [],
-                    'edit' => [],
-                ]
-            ]);
+            ))
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                )
+            ));
     }
 
     /**
@@ -165,10 +166,10 @@ class ChartAdmin extends AbstractAdmin
             ->add('idChart')
             ->add('libChartFr')
             ->add('libChartEn')
-            ->add('group', null, [
+            ->add('group', null, array(
                 'associated_property' => 'libGroupEn',
                 'label' => 'Group',
-            ]);
+            ));
     }
 
     /**
@@ -179,7 +180,7 @@ class ChartAdmin extends AbstractAdmin
         $libs = $object->getLibs();
         if (count($libs) == 0) {
             $group = $object->getGroup();
-            if ($group !== null) {
+            if ($group != null) {
                 $charts = $group->getCharts();
                 if (count($charts) > 0) {
                     $chart = $charts[0];

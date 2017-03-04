@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 /**
  * ChartRepository
@@ -13,11 +14,11 @@ use Doctrine\ORM\EntityRepository;
 class ChartRepository extends EntityRepository
 {
     /**
-     * @param int $chartId
+     * @param int $id
      * @return \VideoGamesRecords\CoreBundle\Entity\Chart
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getWithGame($chartId)
+    public function getWithGame($id)
     {
         $query = $this->createQueryBuilder('ch')
             ->join('ch.group', 'gr')
@@ -25,7 +26,7 @@ class ChartRepository extends EntityRepository
             ->join('gr.game', 'ga')
             ->addSelect('ga')
             ->where('ch.idChart = :idChart')
-            ->setParameter('idChart', $chartId);
+            ->setParameter('idChart', $id);
 
         return $query->getQuery()
             ->getOneOrNullResult();
@@ -48,4 +49,81 @@ class ChartRepository extends EntityRepository
 
         return $query->getQuery()->getOneOrNullResult();
     }
+
+
+    /**
+     * @return bool
+     */
+    public function isMajPlayerRunning()
+    {
+        $nb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.idChart)')
+            ->where('c.statusPlayer = :status')
+            ->setParameter('status', Chart::STATUS_GO_TO_MAJ)
+            ->getQuery()
+            ->getSingleScalarResult();
+        return ($nb > 0) ? true : false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMajTeamRunning()
+    {
+        $nb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.idChart)')
+            ->where('c.statusTeam = :status')
+            ->setParameter('status', Chart::STATUS_GO_TO_MAJ)
+            ->getQuery()
+            ->getSingleScalarResult();
+        return ($nb > 0) ? true : false;
+    }
+
+    /**
+     * @param $limit
+     */
+    public function goToMajPlayer($limit)
+    {
+        $sql = sprintf("UPDATE vgr_chart SET statusPlayer = '%s' WHERE statusPlayer='%s' LIMIT %d", Chart::STATUS_GO_TO_MAJ, Chart::STATUS_MAJ, $limit);
+        $this->_em->getConnection()->executeUpdate($sql);
+    }
+
+    /**
+     * @param $limit
+     */
+    public function goToMajTeam($limit)
+    {
+        $sql = sprintf("UPDATE vgr_chart SET statusTeam = '%s' WHERE statusPlayer='%s' AND statusTeam='%s' LIMIT %d", Chart::STATUS_GO_TO_MAJ, Chart::STATUS_NORMAL, Chart::STATUS_MAJ, $limit);
+        $this->_em->getConnection()->executeUpdate($sql);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChartToMajPlayer()
+    {
+        $query = $this->createQueryBuilder('ch')
+            ->join('ch.group', 'gr')
+            ->addSelect('gr')
+            ->andWhere('ch.statusPlayer = :status')
+            ->setParameter('status', Chart::STATUS_GO_TO_MAJ);
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function getChartToMajTeam()
+    {
+        $query = $this->createQueryBuilder('ch')
+            ->join('ch.group', 'gr')
+            ->addSelect('gr')
+            ->andWhere('ch.statusTeam = :status')
+            ->setParameter('status', Chart::STATUS_GO_TO_MAJ);
+
+        return $query->getQuery()->getResult();
+
+    }
+
 }

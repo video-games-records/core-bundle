@@ -150,6 +150,13 @@ class PlayerGame
      */
     private $pointGame;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbEqual", type="integer", nullable=false)
+     */
+    private $nbEqual = 0;
+
 
     /**
      * Set idPlayer
@@ -573,6 +580,28 @@ class PlayerGame
     public function getPlayer()
     {
         return $this->player;
+    }
+
+    /**
+     * Set nbEqual
+     *
+     * @param integer $nbEqual
+     * @return PlayerChart
+     */
+    public function setNbEqual($nbEqual)
+    {
+        $this->nbEqual = $nbEqual;
+        return $this;
+    }
+
+    /**
+     * Get nbEqual
+     *
+     * @return integer
+     */
+    public function getNbEqual()
+    {
+        return $this->nbEqual;
     }
 
 

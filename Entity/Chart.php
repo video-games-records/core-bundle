@@ -58,9 +58,9 @@ class Chart
     /**
      * @var string
      *
-     * @ORM\Column(name="statusUser", type="string", nullable=false)
+     * @ORM\Column(name="statusPlayer", type="string", nullable=false)
      */
-    private $statusUser = 'NORMAL';
+    private $statusPlayer = 'NORMAL';
 
     /**
      * @var string
@@ -212,25 +212,25 @@ class Chart
 
 
     /**
-     * Set statusUser
+     * Set statusPlayer
      *
-     * @param string $statusUser
+     * @param string $statusPlayer
      * @return Chart
      */
-    public function setStatusUser($statusUser)
+    public function setStatusPlayer($statusPlayer)
     {
-        $this->statusUser = $statusUser;
+        $this->statusPlayer = $statusPlayer;
         return $this;
     }
 
     /**
-     * Get status
+     * Get statusPlayer
      *
      * @return string
      */
-    public function getStatusUser()
+    public function getStatusPlayer()
     {
-        return $this->statusUser;
+        return $this->statusPlayer;
     }
 
     /**

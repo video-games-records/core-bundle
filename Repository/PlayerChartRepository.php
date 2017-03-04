@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 /**
  * PlayerChartRepository
@@ -50,7 +51,6 @@ class PlayerChartRepository extends EntityRepository
 
         $where[] = 'pc.idChart = :idChart';
         $parameters['idChart'] = $params['idChart'];
-
         foreach ($chart->getLibs() as $lib) {
             $columnName = "value_" . $lib->getIdLibChart();
             $fields[] = "(SELECT value FROM vgr_player_chartlib WHERE idLibChart=" . $lib->getIdLibChart() . " AND idPlayer = pc.idPlayer) AS $columnName";
@@ -86,7 +86,6 @@ class PlayerChartRepository extends EntityRepository
             $query->setParameter($key, $value);
         }
 
-        //var_dump($query->getResult()); exit;
         $result = $query->getResult();
 
         $list = [];
@@ -99,8 +98,8 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * @param int $idChart
-     * @todo disabled post (Rank is null)
+     * @param $idChart
+     * @return array
      */
     public function maj($idChart)
     {
@@ -111,6 +110,11 @@ class PlayerChartRepository extends EntityRepository
                 'chart' => $chart,
             ]
         );
+
+        // @todo disabled post (Rank is null)
+
+        //----- Return players id
+        $players = array();
 
         //----- Array of pointChart
         $pointsChart = Ranking::arrayPointRecord(count($ranking));
@@ -132,7 +136,15 @@ class PlayerChartRepository extends EntityRepository
 
             $this->_em->persist($playerChart);
             $this->_em->flush($playerChart);
+
+            $players[] = $playerChart->getIdPlayer();
         }
+
+        $chart->setStatusPlayer(Chart::STATUS_NORMAL);
+        $this->getEntityManager()->persist($chart);
+        $this->getEntityManager()->flush();
+
+        return $players;
     }
 
 

@@ -142,6 +142,58 @@ class Ranking
 
 
     /**
+     * @param        $array
+     * @param string $rank
+     * @param array  $columns
+     * @return mixed
+     */
+    public static function addObjectRank($array, $rank = 'rankPointChart', $columns = array('pointChart'))
+    {
+        $setter = 'set' . ucfirst($rank);
+        $getters = array();
+        foreach ($columns as $column) {
+            $getters[] = 'get' . ucfirst($column);
+        }
+
+        $rank = 1;
+        $compteur = 0;
+        $nbEqual = 1;
+        $nb = count($array);
+
+        for ($i = 0; $i <= $nb - 1; $i++) {
+            if ($i >= 1) {
+                $object1 = $array[$i - 1];
+                $object2 = $array[$i];
+                $isEqual = true;
+                foreach ($getters as $getter) {
+                    if ($object1->$getter() != $object2->$getter()) {
+                        $isEqual = false;
+                        break;
+                    }
+                }
+                if ($isEqual) {
+                    $compteur++;
+                    $nbEqual = $nbEqual + 1;
+                } else {
+                    $rank = $rank + $compteur + 1;
+                    $compteur = 0;
+                    $nbEqual = 1;
+                }
+            }
+
+            /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
+            $object = $array[$i];
+            $object->$setter($rank);
+            $array[$i] = $object;
+
+        }
+        return $array;
+    }
+
+
+
+
+    /**
      * Renvoie le tableau des pointsVGR
      * @param $iNbPartcipant
      * @return mixed
