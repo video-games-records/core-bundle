@@ -13,7 +13,6 @@
 {% block body %}
 <h1>{{ player.getPseudo() }}</h1>
 
-
     <ul>
         <li> | COUPES | MEDAILLES </li>
         <li> RANG | {{ player.getRankCup() }} / {{ nbPlayer }} | {{ player.getRankMedal() }} / {{ nbPlayer }} </li>
@@ -36,12 +35,11 @@
         <li>nbProof : {{ player.getNbChartProven() }}</li>
     </ul>
 
-    <lu>
+    <ul>
         {% if lastChart %}
         <li>Dernier record posté :</li> {{ lastChart.getChart().getGroup().getGame().getLibGame() }} - {{ lastChart.getChart().getGroup().getLibGroup() }} - {{ lastChart.getChart().getLibChart() }} - {{ lastChart.getCreatedAt()|date('Y-m-d H:i:s')  }}
         {% endif %}
-
-    </lu>
+    </ul>
 
     <h2>Game list</h2>
     GAME | MEDALS | RANKING | POINTS
@@ -62,6 +60,5 @@
             {{ playerGame.pointGame }} points</li>
     {% endfor %}
     </ul>
-
 
 {% endblock %}

@@ -64,7 +64,7 @@ class LostPosition
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
      * })
      */
-    private $user;
+    private $player;
 
     /**
      * @var Chart

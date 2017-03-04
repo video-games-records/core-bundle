@@ -124,7 +124,8 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             array(
                 'idGame' => 1,
                 'languages' => ['fr' => 'Burnout 2', 'en' => 'Burnout 2'],
-                'platforms' => array(1,2,3)
+                'platforms' => array(1, 2, 3),
+                'status' => Game::STATUS_ACTIVE,
             ),
             array(
                 'idGame' => 2,
@@ -148,7 +149,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             array(
                 'idGame' => 6,
                 'languages' => ['fr' => 'Gran Turismo', 'en' => 'Gran Turismo'],
-                'platforms' => array(2)
+                'platforms' => array(2),
             ),
             array(
                 'idGame' => 7,
@@ -158,7 +159,8 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
                 'idGame' => 11,
                 'languages' => ['fr' => 'Mario Kart Double Dash', 'en' => 'Mario Kart Double Dash'],
                 'idSerie' => 2,
-                'platforms' => array(1)
+                'platforms' => array(1),
+                'status' => Game::STATUS_ACTIVE,
             ),
         );
 
@@ -172,9 +174,12 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
                 $game->setSerie($this->getReference('serie.' . $row['idSerie']));
             }
             if (isset($row['platforms'])) {
-                foreach($row['platforms'] as $id) {
+                foreach ($row['platforms'] as $id) {
                     $game->addPlatform($this->getReference('platform.' . $id));
                 }
+            }
+            if (isset($row['status']) && Game::STATUS_ACTIVE === $row['status']) {
+                $game->setStatus(Game::STATUS_ACTIVE);
             }
             $game->mergeNewTranslations();
             $manager->persist($game);
