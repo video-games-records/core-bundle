@@ -17,7 +17,7 @@ class GameRepository extends EntityRepository
      * @param array $params
      * @return \VideoGamesRecords\CoreBundle\Entity\Game[]
      */
-    public function queryAlpha($params = array())
+    public function queryAlpha($params = [])
     {
         $query = $this->createQueryBuilder('g');
 

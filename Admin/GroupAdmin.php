@@ -27,7 +27,7 @@ class GroupAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $gameOptions = array();
+        $gameOptions = [];
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
             $idGame = $this->getRequest()->get('idGame', null);
             if ($idGame !== null) {
@@ -39,40 +39,40 @@ class GroupAdmin extends AbstractAdmin
                 $entityManager = $this->getModelManager()
                     ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\Game');
                 $game = $entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
-                $gameOptions = array('data' => $game);
+                $gameOptions = ['data' => $game];
             }
         }
 
         $formMapper
-            ->add('idGroup', 'text', array(
+            ->add('idGroup', 'text', [
                 'label' => 'idGroup',
-                'attr' => array(
+                'attr' => [
                     'readonly' => true,
-                )
-            ))
+                ]
+            ])
             ->add('game', 'sonata_type_model_list', array_merge(
                 $gameOptions,
-                array(
+                [
                     'data_class' => null,
                     'btn_add' => false,
                     'btn_list' => true,
                     'btn_delete' => false,
                     'btn_catalogue' => true,
                     'label' => 'Game',
-                )
+                ]
             ))
-            ->add('libGroupEn', 'text', array(
+            ->add('libGroupEn', 'text', [
                 'label' => 'Name (EN)',
                 'required' => true,
-            ))
-            ->add('libGroupFr', 'text', array(
+            ])
+            ->add('libGroupFr', 'text', [
                 'label' => 'Name (FR)',
                 'required' => false,
-            ))
-            ->add('boolDLC', 'checkbox', array(
+            ])
+            ->add('boolDLC', 'checkbox', [
                 'label' => 'DLC ?',
                 'required' => false,
-            ));
+            ]);
     }
 
     /**
@@ -83,9 +83,9 @@ class GroupAdmin extends AbstractAdmin
         $datagridMapper
             ->add('libGroupFr')
             ->add('libGroupEn')
-            ->add('game', 'doctrine_orm_model_autocomplete', array(), null, array(
+            ->add('game', 'doctrine_orm_model_autocomplete', [], null, [
                 'property' => 'libGameEn',
-            ));
+            ]);
     }
 
     /**
@@ -95,25 +95,25 @@ class GroupAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('idGroup')
-            ->add('libGroupEn', null, array('editable' => false))
+            ->add('libGroupEn', null, ['editable' => false])
             ->add('libGroupFr')
-            ->add('game', null, array(
+            ->add('game', null, [
                 'associated_property' => 'libGameEn',
                 'label' => 'Game',
-            ))
+            ])
             ->add('boolDLC', 'boolean')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'groups' => array(
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'groups' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:group_charts_link.html.twig'
-                    ),
-                    'add_chart' => array(
+                    ],
+                    'add_chart' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:group_add_chart_link.html.twig'
-                    ),
-                )
-            ));
+                    ],
+                ]
+            ]);
     }
 
     /**
@@ -125,10 +125,10 @@ class GroupAdmin extends AbstractAdmin
             ->add('idGroup')
             ->add('libGroupFr')
             ->add('libGroupEn')
-            ->add('game', null, array(
+            ->add('game', null, [
                 'associated_property' => 'libGameEn',
                 'label' => 'Game',
-            ))
+            ])
             ->add('charts');
     }
 }

@@ -27,35 +27,35 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idPlatform', 'text', array(
+            ->add('idPlatform', 'text', [
                 'label' => 'idPlatform',
-                'attr' => array(
+                'attr' => [
                     'readonly' => true,
-                )
-            ))
-            ->add('libPlatform', 'text', array(
+                ]
+            ])
+            ->add('libPlatform', 'text', [
                 'label' => 'Name',
                 'required' => true,
-            ))
-            ->add('picture', 'text', array(
+            ])
+            ->add('picture', 'text', [
                 'label' => 'Picture',
                 'required' => true,
-            ))
+            ])
             ->add(
                 'status',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'Status',
-                    'choices' => array(
+                    'choices' => [
                         'ACTIF' => 'ACTIF',
                         'INACTIF' => 'INACTIF',
-                    )
-                )
+                    ]
+                ]
             )
-            ->add('class', 'text', array(
+            ->add('class', 'text', [
                 'label' => 'Class',
                 'required' => true,
-            ));
+            ]);
     }
 
     /**
@@ -74,33 +74,33 @@ class PlatformAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('idPlatform')
-            ->add('libPlatform', null, array('editable' => false))
+            ->add('libPlatform', null, ['editable' => false])
             ->add(
                 'picture',
                 'text',
-                array(
+                [
                     'label' => 'Picture',
                     'editable' => true
-                )
+                ]
             )
             ->add(
                 'status',
                 'choice',
-                array(
+                [
                     'label' => 'Status',
                     'editable' => false,
-                    'choices' => array(
+                    'choices' => [
                         'ACTIF' => 'ACTIF',
                         'INACTIF' => 'INACTIF',
-                    )
-                )
+                    ]
+                ]
             )
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                )
-            ));
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                ]
+            ]);
     }
 
     /**

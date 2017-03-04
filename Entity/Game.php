@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
+ * @method GameTranslation translate(string $locale, integer $fallbackToDefault)
  * @todo check etat / imagePlateforme / ordre
  */
 class Game
@@ -297,29 +298,6 @@ class Game
     }
 
     /**
-     * Set imagePlateforme
-     *
-     * @param string $imagePlateforme
-     * @return Game
-     */
-    public function setImagePlateforme($imagePlateforme)
-    {
-        $this->imagePlateforme = $imagePlateforme;
-
-        return $this;
-    }
-
-    /**
-     * Get imagePlateforme
-     *
-     * @return string
-     */
-    public function getImagePlateforme()
-    {
-        return $this->imagePlateforme;
-    }
-
-    /**
      * Set boolDlc
      *
      * @param boolean $boolDlc
@@ -539,10 +517,10 @@ class Game
      */
     public static function getStatusChoices()
     {
-        return array(
+        return [
             self::STATUS_ACTIVE => self::STATUS_ACTIVE,
             self::STATUS_INACTIVE => self::STATUS_INACTIVE,
-        );
+        ];
     }
 
     /**
@@ -550,11 +528,11 @@ class Game
      */
     public static function getEtatsChoices()
     {
-        return array(
+        return [
             self::ETAT_INIT => self::ETAT_INIT,
             self::ETAT_CHART => self::ETAT_CHART,
             self::ETAT_PICTURE => self::ETAT_PICTURE,
             self::ETAT_END => self::ETAT_END,
-        );
+        ];
     }
 }

@@ -21,7 +21,7 @@ class PlayerChartRepository extends EntityRepository
      * => If idPlayer, search for the rank and display a range of -5 and +5
      * @return array
      */
-    public function getRanking($params = array())
+    public function getRanking($params = [])
     {
         /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
         $chart = $params['chart'];
@@ -39,11 +39,11 @@ class PlayerChartRepository extends EntityRepository
         //$rsm->addFieldResult('u','pseudo','pseudo');
         //$rsm->addFieldResult('u','idMembre','idMembre');
 
-        $fields = array();
-        $orders = array();
-        $where = array();
-        $parameters = array();
-        $columns = array();
+        $fields = [];
+        $orders = [];
+        $where = [];
+        $parameters = [];
+        $columns = [];
 
         $fields[] = 'pc.*';
         $fields[] = 'u.*';
@@ -89,7 +89,7 @@ class PlayerChartRepository extends EntityRepository
         //var_dump($query->getResult()); exit;
         $result = $query->getResult();
 
-        $list = array();
+        $list = [];
         foreach ($result as $row) {
             $list[] = $row;
         }
@@ -106,10 +106,10 @@ class PlayerChartRepository extends EntityRepository
     {
         $chart = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($idChart);
         $ranking = $this->getRanking(
-            array(
+            [
                 'idChart' => $idChart,
                 'chart' => $chart,
-            )
+            ]
         );
 
         //----- Array of pointChart
@@ -140,7 +140,7 @@ class PlayerChartRepository extends EntityRepository
      * @param array $params
      * @return array
      */
-    public function getRows($params = array())
+    public function getRows($params = [])
     {
         $query = $this->createQueryBuilder('pc');
 

@@ -5,7 +5,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Game
  *
@@ -15,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Platform
 {
-
     const NUM_ITEMS = 20;
 
     /**
@@ -58,19 +56,11 @@ class Platform
      */
     private $class;
 
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-
-    }
-
     /**
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return sprintf('%s [%s]', $this->libPlatform, $this->idPlatform);
     }
 
@@ -78,7 +68,7 @@ class Platform
      * Set idPlatform
      *
      * @param integer $idPlatform
-     * @return Platform
+     * @return $this
      */
     public function setIdPlatform($idPlatform)
     {
@@ -111,7 +101,7 @@ class Platform
      * Set libPlaform
      *
      * @param string $libPlatform
-     * @return Platform
+     * @return $this
      */
     public function setLibPlatform($libPlatform)
     {
@@ -124,7 +114,7 @@ class Platform
      * Set picture
      *
      * @param string $picture
-     * @return Game
+     * @return $this
      */
     public function setPicture($picture)
     {
@@ -147,7 +137,7 @@ class Platform
      * Set status
      *
      * @param string $status
-     * @return Game
+     * @return $this
      */
     public function setStatus($status)
     {
@@ -170,7 +160,7 @@ class Platform
      * Set class
      *
      * @param string $class
-     * @return Platform
+     * @return $this
      */
     public function setClass($class)
     {
@@ -188,5 +178,4 @@ class Platform
     {
         return $this->class;
     }
-
 }

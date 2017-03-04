@@ -52,12 +52,11 @@ class PlayerChartLib
         return $this->value;
     }
 
-
     /**
      * Set value
      *
      * @param integer $value
-     * @return PlayerChartLib
+     * @return $this
      */
     public function setValue($value)
     {
@@ -65,12 +64,11 @@ class PlayerChartLib
         return $this;
     }
 
-
     /**
      * Set lib
      *
      * @param ChartLib $libChart
-     * @return PlayerChartLib
+     * @return $this
      */
     public function setLibChart(ChartLib $libChart = null)
     {
@@ -93,7 +91,7 @@ class PlayerChartLib
      * Set player
      *
      * @param Player $player
-     * @return PlayerChart
+     * @return $this
      */
     public function setPlayer(Player $player = null)
     {

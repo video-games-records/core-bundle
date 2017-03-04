@@ -33,7 +33,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Chart
             - ~
-    sonata.admin.chartType:
+    sonata.admin.chart_type:
         class: VideoGamesRecords\CoreBundle\Admin\ChartTypeAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "ChartType" }
@@ -41,7 +41,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ChartType
             - ~
-    sonata.admin.chartLib:
+    sonata.admin.chart_lib:
         class: VideoGamesRecords\CoreBundle\Admin\ChartLibAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "ChartLib", show_in_dashboard: false }

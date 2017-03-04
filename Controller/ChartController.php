@@ -27,11 +27,11 @@ class ChartController extends Controller
         $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithGame($id);
 
         $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getRanking(
-            array(
+            [
                 'chart' => $chart,
                 'idChart' => $id,
                 'maxRank' => 20,
-            )
+            ]
         );
 
         //----- breadcrumbs
@@ -41,7 +41,7 @@ class ChartController extends Controller
         $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getIdGroup()]);
         $breadcrumbs->addItem($chart->getLibChart());
 
-        return $this->render('VideoGamesRecordsCoreBundle:Chart:index.html.twig', array('chart' => $chart, 'ranking' => $ranking));
+        return $this->render('VideoGamesRecordsCoreBundle:Chart:index.html.twig', ['chart' => $chart, 'ranking' => $ranking]);
     }
 
     /**
@@ -55,20 +55,20 @@ class ChartController extends Controller
     public function formAction($id)
     {
         $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($id);
-        $charts = array($chart);
+        $charts = [$chart];
 
-        $data = array(
+        $data = [
             'id' => $id,
             'type' => 'chart',
-        );
+        ];
         //----- IF CONNECTED !!!
         $data = array_merge(
             $data,
             $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->getFormValues(
-                array(
+                [
                     'idChart' => $id,
                     'idPlayer' => 1,
-                )
+                ]
             )
         );
 
@@ -85,6 +85,6 @@ class ChartController extends Controller
         $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getIdGroup()]);
         $breadcrumbs->addItem($chart->getLibChart());
 
-        return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', array('chart' => $chart, 'charts' => $charts, 'form' => $form->createView()));
+        return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', ['chart' => $chart, 'charts' => $charts, 'form' => $form->createView()]);
     }
 }

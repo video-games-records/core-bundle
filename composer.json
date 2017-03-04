@@ -16,6 +16,8 @@
   "require": {
     "php": ">=5.5.9",
     "symfony/form": "~3.0",
+    "symfony/validator": "~3.0",
+    "symfony/serializer": "~3.0",
     "symfony/framework-bundle": "~3.0",
     "symfony/security-bundle": "~3.0",
     "symfony/twig-bundle": "~3.0",
@@ -27,7 +29,13 @@
     "knplabs/doctrine-behaviors": "~1.4"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0"
+    "phpunit/phpunit": "~4.8",
+    "squizlabs/php_codesniffer": "~2.8"
+  },
+  "suggest": {
+    "doctrine/doctrine-fixtures-bundle": "To be able to load fixtures",
+    "sonata-project/admin-bundle": "To use administration with sonata",
+    "a2lix/translation-form-bundle": "To use translation in administration with sonata admin"
   },
   "autoload": {
     "psr-4": { "VideoGamesRecords\\CoreBundle\\": "" }

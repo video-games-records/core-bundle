@@ -57,7 +57,7 @@ class ChartLib
      * Set lib
      *
      * @param string $name
-     * @return ChartLib
+     * @return $this
      */
     public function setName($name)
     {
@@ -89,7 +89,7 @@ class ChartLib
      * Set idLibChart
      *
      * @param int $idLibChart
-     * @return \VideoGamesRecords\CoreBundle\Entity\ChartLib
+     * @return $this
      */
     public function setIdLibChart($idLibChart)
     {
@@ -102,7 +102,7 @@ class ChartLib
      * Set chart
      *
      * @param Chart $chart
-     * @return ChartLib
+     * @return $this
      */
     public function setChart(Chart $chart = null)
     {
@@ -124,7 +124,7 @@ class ChartLib
      * Set type
      *
      * @param ChartType $type
-     * @return ChartType
+     * @return $this
      */
     public function setType(ChartType $type = null)
     {

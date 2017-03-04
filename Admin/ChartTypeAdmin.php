@@ -27,30 +27,30 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idType', 'text', array(
+            ->add('idType', 'text', [
                 'label' => 'idType',
-                'attr' => array(
+                'attr' => [
                     'readonly' => true,
-                )
-            ))
-            ->add('name', 'text', array(
+                ]
+            ])
+            ->add('name', 'text', [
                 'label' => 'Name',
                 'required' => true,
-            ))
-            ->add('mask', 'text', array(
+            ])
+            ->add('mask', 'text', [
                 'label' => 'Mask',
                 'required' => true,
-            ))
+            ])
             ->add(
                 'orderBy',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'orderBy',
-                    'choices' => array(
+                    'choices' => [
                         'ASC' => 'ASC',
                         'DESC' => 'DESC',
-                    )
-                )
+                    ]
+                ]
             );
     }
 
@@ -74,10 +74,10 @@ class ChartTypeAdmin extends AbstractAdmin
             ->add('name')
             ->add('mask')
             ->add('orderBy')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'edit' => array(),
-                )
-            ));
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'edit' => [],
+                ]
+            ]);
     }
 }

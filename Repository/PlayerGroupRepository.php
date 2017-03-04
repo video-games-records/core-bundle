@@ -20,7 +20,7 @@ class PlayerGroupRepository extends EntityRepository
      * @param array $params idGroup|idPlayer|limit|maxRank
      * @return array
      */
-    public function getRankingPoints($params = array())
+    public function getRankingPoints($params = [])
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -51,7 +51,7 @@ class PlayerGroupRepository extends EntityRepository
      * @param array $params idGroup|idPlayer|limit|maxRank
      * @return array
      */
-    public function getRankingMedals($params = array())
+    public function getRankingMedals($params = [])
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -88,7 +88,7 @@ class PlayerGroupRepository extends EntityRepository
         $query->setParameter('idGroup', $idGroup);
         $query->execute();
 
-        $data = array();
+        $data = [];
 
         //----- data rank0
         $query = $this->_em->createQuery("
@@ -169,7 +169,7 @@ class PlayerGroupRepository extends EntityRepository
         $query->setParameter('idGroup', $idGroup);
         $result = $query->getResult();
 
-        $list = array();
+        $list = [];
         foreach ($result as $row) {
             $row['rankMedal'] = 0;
             $row['rank0'] = (isset($data['rank0'][$row['idPlayer']])) ? $data['rank0'][$row['idPlayer']] : 0;
@@ -183,12 +183,12 @@ class PlayerGroupRepository extends EntityRepository
         }
 
         //----- add some data
-        $list = Ranking::addRank($list, 'rankPoint', array('pointChart'));
-        $list = Ranking::order($list, array('rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC'));
-        $list = Ranking::addRank($list, 'rankMedal', array('rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5'));
+        $list = Ranking::addRank($list, 'rankPoint', ['pointChart']);
+        $list = Ranking::order($list, ['rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC']);
+        $list = Ranking::addRank($list, 'rankMedal', ['rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5']);
 
         $normalizer = new ObjectNormalizer();
-        $serializer = new Serializer(array($normalizer));
+        $serializer = new Serializer([$normalizer]);
 
         $group = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Group', $idGroup);
 

@@ -72,7 +72,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             $serie = new Serie();
             $serie->setId($row['id']);
             foreach ($row['languages'] as $locale => $label) {
-                $serie->translate($locale)->setName($label);
+                $serie->translate($locale, false)->setName($label);
             }
             $serie->mergeNewTranslations();
             $manager->persist($serie);
@@ -88,20 +88,20 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Platform');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-        $list = array(
-            array(
+        $list = [
+            [
                 'idPlatform' => 1,
                 'libPlatform' => 'Game Cube',
-            ),
-            array(
+            ],
+            [
                 'idPlatform' => 2,
                 'libPlatform' => 'Playstation 2',
-            ),
-            array(
+            ],
+            [
                 'idPlatform' => 3,
                 'libPlatform' => 'Xbox',
-            ),
-        );
+            ],
+        ];
         foreach ($list as $row) {
             $platform = new Platform();
             $platform->setIdPlatform($row['idPlatform']);
@@ -110,7 +110,6 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             $this->addReference('platform.' . $platform->getIdPlatform(), $platform);
         }
         $manager->flush();
-
     }
 
     /**
@@ -120,55 +119,55 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Game');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-        $list = array(
-            array(
+        $list = [
+            [
                 'idGame' => 1,
                 'languages' => ['fr' => 'Burnout 2', 'en' => 'Burnout 2'],
-                'platforms' => array(1, 2, 3),
+                'platforms' => [1, 2, 3],
                 'status' => Game::STATUS_ACTIVE,
-            ),
-            array(
+            ],
+            [
                 'idGame' => 2,
                 'languages' => ['fr' => 'Mario Kart 8', 'en' => 'Mario Kart 8'],
                 'idSerie' => 2,
-            ),
-            array(
+            ],
+            [
                 'idGame' => 3,
                 'languages' => ['fr' => 'Forza Motosport 4', 'en' => 'Forza Motosport 4'],
                 'idSerie' => 1,
-            ),
-            array(
+            ],
+            [
                 'idGame' => 4,
                 'languages' => ['fr' => 'Forza Motosport 3', 'en' => 'Forza Motosport 3'],
                 'idSerie' => 1,
-            ),
-            array(
+            ],
+            [
                 'idGame' => 5,
                 'languages' => ['fr' => 'Sega Rallye', 'en' => 'Sega Rallye'],
-            ),
-            array(
+            ],
+            [
                 'idGame' => 6,
                 'languages' => ['fr' => 'Gran Turismo', 'en' => 'Gran Turismo'],
-                'platforms' => array(2),
-            ),
-            array(
+                'platforms' => [2],
+            ],
+            [
                 'idGame' => 7,
                 'languages' => ['fr' => 'Jet Set Radio', 'en' => 'Jet Set Radio'],
-            ),
-            array(
+            ],
+            [
                 'idGame' => 11,
                 'languages' => ['fr' => 'Mario Kart Double Dash', 'en' => 'Mario Kart Double Dash'],
                 'idSerie' => 2,
-                'platforms' => array(1),
+                'platforms' => [1],
                 'status' => Game::STATUS_ACTIVE,
-            ),
-        );
+            ],
+        ];
 
         foreach ($list as $row) {
             $game = new Game();
             $game->setId($row['idGame']);
             foreach ($row['languages'] as $locale => $label) {
-                $game->translate($locale)->setName($label);
+                $game->translate($locale, false)->setName($label);
             }
             if (isset($row['idSerie'])) {
                 $game->setSerie($this->getReference('serie.' . $row['idSerie']));
@@ -196,23 +195,23 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Group');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
-        $list = array(
-            array(
+        $list = [
+            [
                 'idGroup' => 1,
                 'idGame' => 11,
                 'libGroupEn' => 'Fastest Lap Times',
-            ),
-            array(
+            ],
+            [
                 'idGroup' => 2,
                 'idGame' => 11,
                 'libGroupEn' => 'Fastest Total Times',
-            ),
-            array(
+            ],
+            [
                 'idGroup' => 3,
                 'idGame' => 11,
                 'libGroupEn' => 'GP',
-            ),
-        );
+            ],
+        ];
 
         foreach ($list as $row) {
             $group = new Group();
@@ -234,104 +233,104 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Chart');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
-        $list = array(
-            array(
+        $list = [
+            [
                 'idChart' => 1,
                 'idGroup' => 1,
                 'libChartEn' => 'Baby Park',
                 'types' => [1],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 2,
                 'idGroup' => 1,
                 'libChartEn' => 'Bowser\'s Castle',
                 'types' => [1],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 3,
                 'idGroup' => 1,
                 'libChartEn' => 'Daisy Cruiser',
                 'types' => [2],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 4,
                 'idGroup' => 1,
                 'libChartEn' => 'Dino Dino Jungle',
                 'types' => [3],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 5,
                 'idGroup' => 1,
                 'libChartEn' => 'DK Mountain',
                 'types' => [1],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 6,
                 'idGroup' => 1,
                 'libChartEn' => 'Dry Dry Desert',
                 'types' => [2],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 7,
                 'idGroup' => 1,
                 'libChartEn' => 'Luigi Circuit',
                 'types' => [1, 2],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 8,
                 'idGroup' => 1,
                 'libChartEn' => 'Mario Circuit',
                 'types' => [1, 3],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 9,
                 'idGroup' => 1,
                 'libChartEn' => 'Mushroom Bridge',
                 'types' => [2, 3],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 10,
                 'idGroup' => 1,
                 'libChartEn' => 'Mushroom City',
                 'types' => [1],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 11,
                 'idGroup' => 1,
                 'libChartEn' => 'Peach Beach',
                 'types' => [1],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 12,
                 'idGroup' => 1,
                 'libChartEn' => 'Rainbow Road',
                 'types' => [1],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 13,
                 'idGroup' => 1,
                 'libChartEn' => 'Sherbet Land',
                 'types' => [1],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 14,
                 'idGroup' => 1,
                 'libChartEn' => 'Waluigi Stadium',
                 'types' => [1],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 15,
                 'idGroup' => 1,
                 'libChartEn' => 'Wario Colosseum',
                 'types' => [3],
-            ),
-            array(
+            ],
+            [
                 'idChart' => 16,
                 'idGroup' => 1,
                 'libChartEn' => 'Yoshi Circuit',
                 'types' => [2],
-            ),
-        );
+            ],
+        ];
 
         foreach ($list as $row) {
             $chart = new Chart();
@@ -364,26 +363,26 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\ChartType');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
-        $list = array(
-            array(
+        $list = [
+            [
                 'idType' => 1,
                 'name' => 'Score',
                 'mask' => '30~',
                 'orderBy' => 'DESC',
-            ),
-            array(
+            ],
+            [
                 'idType' => 2,
                 'name' => 'Temps',
                 'mask' => '30~:|2~.|2~',
                 'orderBy' => 'ASC',
-            ),
-            array(
+            ],
+            [
                 'idType' => 3,
                 'name' => 'Distance',
                 'mask' => '30~ m',
                 'orderBy' => 'DESC',
-            ),
-        );
+            ],
+        ];
 
         foreach ($list as $row) {
             $chartType = new ChartType();
@@ -408,20 +407,20 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Player');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
-        $list = array(
-            array(
+        $list = [
+            [
                 'idPlayer' => 1,
                 'pseudo' => 'magicbart',
-            ),
-            array(
+            ],
+            [
                 'idPlayer' => 2,
                 'pseudo' => 'kloh',
-            ),
-            array(
+            ],
+            [
                 'idPlayer' => 3,
                 'pseudo' => 'viviengaetan',
-            ),
-        );
+            ],
+        ];
 
         foreach ($list as $row) {
             $player = new Player();
@@ -444,20 +443,20 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         // idChart = 1
         $chart = $this->getReference('chart1');
 
-        $list = array(
-            array(
+        $list = [
+            [
                 'idPlayer' => 1,
                 'value' => 9999,
-            ),
-            array(
+            ],
+            [
                 'idPlayer' => 2,
                 'value' => 10101,
-            ),
-            array(
+            ],
+            [
                 'idPlayer' => 3,
                 'value' => 8900,
-            ),
-        );
+            ],
+        ];
 
         foreach ($list as $row) {
             $playerChart = new PlayerChart();
@@ -481,7 +480,6 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->maj(1);
         $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj(1);
         $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj(11);
-
     }
 
     /**

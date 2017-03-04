@@ -13,24 +13,18 @@ class ChartLibAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idLibChart', 'text', array(
+            ->add('idLibChart', 'text', [
                 'label' => 'idLibChart',
-                'attr' => array(
+                'attr' => [
                     'readonly' => true,
-                )
-            ))
-            ->add('name', 'text', array(
+                ]
+            ])
+            ->add('name', 'text', [
                 'label' => 'Name',
                 'required' => true,
-            ))
+            ])
             //->add('chart', null, array('required' => true))
-            ->add('type', null, array('required' => true));
-    }
-
-    // Fields to be shown on filter forms
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-
+            ->add('type', null, ['required' => true]);
     }
 
     // Fields to be shown on lists
@@ -40,11 +34,5 @@ class ChartLibAdmin extends AbstractAdmin
             ->addIdentifier('idLibChart')
             ->add('name')
             ->add('type');
-    }
-
-    // Fields to be shown on show action
-    protected function configureShowFields(ShowMapper $showMapper)
-    {
-
     }
 }

@@ -30,7 +30,7 @@ class PlayerRepository extends EntityRepository
      * @param array $params
      * @return mixed
      */
-    public function getNbPlayer($params = array())
+    public function getNbPlayer($params = [])
     {
         $qb =  $this->createQueryBuilder('player')
             ->select('COUNT(player.idPlayer)');

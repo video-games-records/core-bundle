@@ -581,12 +581,12 @@ class PlayerGame
      */
     public function getPointsBackgroundColor()
     {
-        $class = array(
+        $class = [
             0 => '',
             1 => 'bg-first',
             2 => 'bg-second',
             3 => 'bg-third',
-        );
+        ];
 
         if ($this->getRankPoint() <= 3) {
             return sprintf("class=\"%s\"", $class[$this->getRankPoint()]);
@@ -600,12 +600,12 @@ class PlayerGame
      */
     public function getMedalsBackgroundColor()
     {
-        $class = array(
+        $class = [
             0 => '',
             1 => 'bg-first',
             2 => 'bg-second',
             3 => 'bg-third',
-        );
+        ];
 
         if ($this->getRankMedal() <= 3) {
             return sprintf("class=\"%s\"", $class[$this->getRankMedal()]);
