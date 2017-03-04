@@ -552,7 +552,7 @@ class Player
      * @param integer $rankPointChart
      * @return Player
      */
-    public function setRankPoint($rankPointChart)
+    public function setRankPointChart($rankPointChart)
     {
         $this->rankPointChart = $rankPointChart;
 

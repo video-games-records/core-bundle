@@ -79,10 +79,10 @@ class ChartAdmin extends AbstractAdmin
         if (($this->hasRequest()) && ($this->isCurrentRoute('edit'))) {
             $formMapper
                 ->add(
-                    'statusUser',
+                    'statusPlayer',
                     'choice',
                     array(
-                        'label' => 'Status User',
+                        'label' => 'Status Player',
                         'choices' => Chart::getStatusChoices()
                     )
                 );
@@ -132,7 +132,7 @@ class ChartAdmin extends AbstractAdmin
             ->add('group', 'doctrine_orm_model_autocomplete', array(), null, array(
                 'property' => 'libGroupEn',
             ))
-            ->add('statusUser', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
+            ->add('statusPlayer', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
             ->add('statusTeam', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()));
     }
 
