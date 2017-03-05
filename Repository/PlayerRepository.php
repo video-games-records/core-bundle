@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+
 /**
  * PlayerRepository
  */
@@ -32,14 +33,14 @@ class PlayerRepository extends EntityRepository
      */
     public function getNbPlayer($params = [])
     {
-        $qb =  $this->createQueryBuilder('player')
+        $qb = $this->createQueryBuilder('player')
             ->select('COUNT(player.idPlayer)');
 
         if (array_key_exists('nbChart>0', $params)) {
             $qb->where('player.nbChart > 0');
         }
 
-        return $qb ->getQuery()
+        return $qb->getQuery()
             ->getSingleScalarResult();
     }
 
@@ -49,7 +50,6 @@ class PlayerRepository extends EntityRepository
      */
     public function maj($idPlayer)
     {
-
         $query = $this->_em->createQuery("
             SELECT
                  pg.idPlayer,
@@ -84,13 +84,12 @@ class PlayerRepository extends EntityRepository
         $this->_em->flush($player);
     }
 
-
     /**
      *
      */
     public function majGameRank()
     {
-        $data = array();
+        $data = [];
 
         //----- data rank0
         $query = $this->_em->createQuery("
@@ -127,6 +126,7 @@ class PlayerRepository extends EntityRepository
             }
         }
 
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Player[] $players */
         $players = $this->findAll();
 
         foreach ($players as $player) {
@@ -137,7 +137,7 @@ class PlayerRepository extends EntityRepository
             $rank2 = (isset($data['rank2'][$idPlayer])) ? $data['rank2'][$idPlayer] : 0;
             $rank3 = (isset($data['rank3'][$idPlayer])) ? $data['rank3'][$idPlayer] : 0;
 
-            if ( ($player->getGameRank0() != $rank0 || $player->getGameRank1() != $rank1 || $player->getGameRank2() != $rank2 || $player->getGameRank3() != $rank3) ) {
+            if (($player->getGameRank0() != $rank0 || $player->getGameRank1() != $rank1 || $player->getGameRank2() != $rank2 || $player->getGameRank3() != $rank3)) {
                 $player->setGameRank0($rank0);
                 $player->setGameRank1($rank1);
                 $player->setGameRank2($rank2);
@@ -156,7 +156,7 @@ class PlayerRepository extends EntityRepository
         $players = $this->findBy(array(), array('pointChart' => 'DESC'));
 
         $list = array();
-        foreach($players as $player) {
+        foreach ($players as $player) {
             $list[] = $player;
         }
 
@@ -175,7 +175,7 @@ class PlayerRepository extends EntityRepository
         $players = $this->findBy(array(), array('pointGame' => 'DESC'));
 
         $list = array();
-        foreach($players as $player) {
+        foreach ($players as $player) {
             $list[] = $player;
         }
 
@@ -194,7 +194,7 @@ class PlayerRepository extends EntityRepository
         $players = $this->findBy(array(), array('chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC'));
 
         $list = array();
-        foreach($players as $player) {
+        foreach ($players as $player) {
             $list[] = $player;
         }
 
@@ -214,7 +214,7 @@ class PlayerRepository extends EntityRepository
         $players = $this->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
 
         $list = array();
-        foreach($players as $player) {
+        foreach ($players as $player) {
             $list[] = $player;
         }
 
@@ -234,7 +234,7 @@ class PlayerRepository extends EntityRepository
         $players = $this->findBy(array(), array('nbChartProven' => 'DESC'));
 
         $list = array();
-        foreach($players as $player) {
+        foreach ($players as $player) {
             $list[] = $player;
         }
 

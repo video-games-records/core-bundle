@@ -162,7 +162,7 @@ class PlayerGame
      * Set idPlayer
      *
      * @param integer $idPlayer
-     * @return PlayerGame
+     * @return $this
      */
     public function setIdPlayer($idPlayer)
     {
@@ -185,7 +185,7 @@ class PlayerGame
      * Set idGame
      *
      * @param integer $idGame
-     * @return PlayerGame
+     * @return $this
      */
     public function setIdGame($idGame)
     {
@@ -208,7 +208,7 @@ class PlayerGame
      * Set rankPoint
      *
      * @param integer $rankPoint
-     * @return PlayerGame
+     * @return $this
      */
     public function setRankPoint($rankPoint)
     {
@@ -230,7 +230,7 @@ class PlayerGame
      * Set rankMedal
      *
      * @param integer $rankMedal
-     * @return PlayerGame
+     * @return $this
      */
     public function setRankMedal($rankMedal)
     {
@@ -252,7 +252,7 @@ class PlayerGame
      * Set rank
      *
      * @param integer $rank0
-     * @return PlayerGame
+     * @return $this
      */
     public function setRank0($rank0)
     {
@@ -274,7 +274,7 @@ class PlayerGame
      * Set rank1
      *
      * @param integer $rank1
-     * @return PlayerGame
+     * @return $this
      */
     public function setRank1($rank1)
     {
@@ -296,7 +296,7 @@ class PlayerGame
      * Set rank2
      *
      * @param integer $rank2
-     * @return PlayerGame
+     * @return $this
      */
     public function setRank2($rank2)
     {
@@ -318,7 +318,7 @@ class PlayerGame
      * Set rank3
      *
      * @param integer $rank3
-     * @return PlayerGame
+     * @return $this
      */
     public function setRank3($rank3)
     {
@@ -340,7 +340,7 @@ class PlayerGame
      * Set rank4
      *
      * @param integer $rank4
-     * @return PlayerGame
+     * @return $this
      */
     public function setRank4($rank4)
     {
@@ -362,7 +362,7 @@ class PlayerGame
      * Set rank5
      *
      * @param integer $rank5
-     * @return PlayerGame
+     * @return $this
      */
     public function setRank5($rank5)
     {
@@ -384,7 +384,7 @@ class PlayerGame
      * Set pointChart
      *
      * @param integer $pointChart
-     * @return PlayerGame
+     * @return $this
      */
     public function setPointChart($pointChart)
     {
@@ -406,7 +406,7 @@ class PlayerGame
      * Set pointChartWithoutDlc
      *
      * @param integer $pointChartWithoutDlc
-     * @return PlayerGame
+     * @return $this
      */
     public function setPointChartWithoutDlc($pointChartWithoutDlc)
     {
@@ -428,7 +428,7 @@ class PlayerGame
      * Set nbChart
      *
      * @param integer $nbChart
-     * @return PlayerGame
+     * @return $this
      */
     public function setNbChart($nbChart)
     {
@@ -451,7 +451,7 @@ class PlayerGame
      * Set nbChartProven
      *
      * @param integer $nbChartProven
-     * @return PlayerGame
+     * @return $this
      */
     public function setNbChartProven($nbChartProven)
     {
@@ -473,7 +473,7 @@ class PlayerGame
      * Set nbChartWithoutDlc
      *
      * @param integer $nbChartWithoutDlc
-     * @return PlayerGame
+     * @return $this
      */
     public function setNbChartWithoutDlc($nbChartWithoutDlc)
     {
@@ -495,7 +495,7 @@ class PlayerGame
      * Set nbChartProvenWithoutDlc
      *
      * @param integer $nbChartProvenWithoutDlc
-     * @return PlayerGame
+     * @return $this
      */
     public function setNbChartProvenWithoutDlc($nbChartProvenWithoutDlc)
     {
@@ -517,7 +517,7 @@ class PlayerGame
      * Set pointGame
      *
      * @param integer $pointGame
-     * @return PlayerGame
+     * @return $this
      */
     public function setPointGame($pointGame)
     {
@@ -539,7 +539,7 @@ class PlayerGame
      * Set game
      *
      * @param Game $game
-     * @return PlayerGame
+     * @return $this
      */
     public function setGame(Game $game = null)
     {
@@ -563,7 +563,7 @@ class PlayerGame
      * Set player
      *
      * @param Player $player
-     * @return PlayerGame
+     * @return $this
      */
     public function setPlayer(Player $player = null)
     {
@@ -586,7 +586,7 @@ class PlayerGame
      * Set nbEqual
      *
      * @param integer $nbEqual
-     * @return PlayerChart
+     * @return $this
      */
     public function setNbEqual($nbEqual)
     {

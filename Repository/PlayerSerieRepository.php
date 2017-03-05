@@ -101,12 +101,12 @@ class PlayerSerieRepository extends EntityRepository
      */
     public function maj($idSerie)
     {
-        //----- delete
+        // Delete old data
         $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerSerie us WHERE us.idSerie = :idSerie');
         $query->setParameter('idSerie', $idSerie);
         $query->execute();
 
-        //----- select ans save result in table
+        // Select data
         $query = $this->_em->createQuery("
             SELECT
                 pg.idPlayer,
@@ -132,7 +132,6 @@ class PlayerSerieRepository extends EntityRepository
             WHERE g.idSerie = :idSerie
             GROUP BY pg.idPlayer
             ORDER BY pointChart DESC");
-
 
         $query->setParameter('idSerie', $idSerie);
         $result = $query->getResult();

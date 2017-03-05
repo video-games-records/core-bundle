@@ -90,14 +90,14 @@ DROP TABLE country_code;
 
 -- Series
 ALTER TABLE vgr_serie CHANGE idSerie id INT AUTO_INCREMENT NOT NULL;
-CREATE TABLE serie_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_B355773C2C2AC5D3 (translatable_id), UNIQUE INDEX serie_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+CREATE TABLE vgr_serie_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_B355773C2C2AC5D3 (translatable_id), UNIQUE INDEX serie_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 -- Transfert des données
-INSERT INTO serie_translation (translatable_id, name, locale) SELECT id, libSerie, 'fr' FROM vgr_serie;
-INSERT INTO serie_translation (translatable_id, name, locale) SELECT id, libSerie, 'en' FROM vgr_serie;
+INSERT INTO vgr_serie_translation (translatable_id, name, locale) SELECT id, libSerie, 'fr' FROM vgr_serie;
+INSERT INTO vgr_serie_translation (translatable_id, name, locale) SELECT id, libSerie, 'en' FROM vgr_serie;
 ALTER TABLE vgr_serie DROP libSerie;
 
 -- Games
-CREATE TABLE game_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX game_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+CREATE TABLE vgr_game_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX game_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 ALTER TABLE `vgr_game` CHANGE `idJeu` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game` CHANGE `imageJeu` `picture` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_game` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL DEFAULT '0';
@@ -108,8 +108,8 @@ ALTER TABLE `vgr_game` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` DROP `imagePlateForme`;
 -- Transfert des données
-INSERT INTO game_translation (translatable_id, name, locale) SELECT id, libJeu_fr, 'fr' FROM vgr_game;
-INSERT INTO game_translation (translatable_id, name, locale) SELECT id, libJeu_en, 'en' FROM vgr_game;
+INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJeu_fr, 'fr' FROM vgr_game;
+INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJeu_en, 'en' FROM vgr_game;
 ALTER TABLE vgr_game DROP libJeu_fr, DROP libJeu_en;
 
 -- Groups

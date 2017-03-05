@@ -24,7 +24,7 @@ class SerieController extends Controller
         if ($idSerie === null) {
             throw $this->createNotFoundException('There is no serie on config website');
         }
-        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserSerie')->getRankingPoints(
+        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')->getRankingPoints(
             [
                 'idSerie' => $idSerie,
                 'idLogin' => null,
@@ -37,7 +37,7 @@ class SerieController extends Controller
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('serie.pointranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-points.html.twig', ['rankingPoints' => $rankingPoints]);
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-points.html.twig', ['rankingPoints' => $rankingPoints]);
     }
 
 
@@ -52,7 +52,7 @@ class SerieController extends Controller
         if ($idSerie === null) {
             throw $this->createNotFoundException('There is no serie on config website');
         }
-        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:UserSerie')->getRankingMedals(
+        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')->getRankingMedals(
             [
                 'idSerie' => $idSerie,
                 'idLogin' => 1,
@@ -65,6 +65,6 @@ class SerieController extends Controller
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('serie.medalranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:user-medals.html.twig', ['rankingMedals' => $rankingMedals]);
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig', ['rankingMedals' => $rankingMedals]);
     }
 }

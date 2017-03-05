@@ -7,6 +7,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translation;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="vgr_game_translation")
  */
 class GameTranslation
 {

@@ -144,7 +144,7 @@ class Ranking
     /**
      * @param        $array
      * @param string $rank
-     * @param array  $columns
+     * @param array $columns
      * @return mixed
      */
     public static function addObjectRank($array, $rank = 'rankPointChart', $columns = array('pointChart'))
@@ -185,13 +185,9 @@ class Ranking
             $object = $array[$i];
             $object->$setter($rank);
             $array[$i] = $object;
-
         }
         return $array;
     }
-
-
-
 
     /**
      * Renvoie le tableau des pointsVGR
@@ -236,7 +232,6 @@ class Ranking
 
         return $liste;
     }
-
 
     /**
      * @param $iNbPartcipant

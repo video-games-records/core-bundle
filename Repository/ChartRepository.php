@@ -98,7 +98,7 @@ class ChartRepository extends EntityRepository
     }
 
     /**
-     * @return array
+     * @return \VideoGamesRecords\CoreBundle\Entity\Chart[]
      */
     public function getChartToMajPlayer()
     {
@@ -123,7 +123,5 @@ class ChartRepository extends EntityRepository
             ->setParameter('status', Chart::STATUS_GO_TO_MAJ);
 
         return $query->getQuery()->getResult();
-
     }
-
 }

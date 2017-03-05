@@ -118,7 +118,6 @@ class ChartAdmin extends AbstractAdmin
                 'edit' => 'inline',
                 'inline' => 'table',
             ));
-
     }
 
     /**
