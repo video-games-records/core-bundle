@@ -42,11 +42,8 @@ class SubmitController extends Controller
         $form->handleRequest($request);
         $data = $form->getData();
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $idPlayer = 1;
-
-            //----- Init
+            $idPlayer = $request->getSession()->get('vgr_player')->getIdPlayer();
             $nbInsert = 0;
             $nbUpdate = 0;
 
@@ -89,7 +86,7 @@ class SubmitController extends Controller
                 if (!$isNull && $isModify) {
                     $playerChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->find(
                         [
-                            'idUser' => $idPlayer,
+                            'idPlayer' => $idPlayer,
                             'idChart' => $chart->getIdChart()
                         ]
                     );
@@ -102,7 +99,7 @@ class SubmitController extends Controller
                         $playerChart->setChart($chart);
                     }
 
-                    $playerChart->setIdEtat(1);
+                    $playerChart->setIdStatus(1);
                     //$userChart->setPeuveImage(0);
                     //$userChart->setIdVideo(0);
                     $playerChart->setDateModif(new \DateTime());
@@ -112,8 +109,8 @@ class SubmitController extends Controller
                     foreach ($chart->getLibs() as $lib) {
                         $playerChartLib = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->find(
                             [
-                                'idPlayer' => $idPlayer,
-                                'idLibChart' => $lib->getIdLibChart()
+                                'player' => $idPlayer,
+                                'libChart' => $lib->getIdLibChart()
                             ]
                         );
                         if ($playerChartLib === null) {

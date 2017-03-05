@@ -19,19 +19,19 @@ class PlayerChartLibRepository extends EntityRepository
      */
     public function getFormValues($params = [])
     {
-        $query = $this->createQueryBuilder('ucl')
-            ->join('ucl.lib', 'lib')
+        $query = $this->createQueryBuilder('pcl')
+            ->join('pcl.libChart', 'lib')
             ->addSelect('lib')
             ->join('lib.type', 'type')
             ->addSelect('type')
-            ->orderBy('lib.idChart')
-            ->addOrderBy('ucl.idLibChart');
+            ->orderBy('lib.chart')
+            ->addOrderBy('pcl.libChart');
 
-        $query->where('ucl.idPlayer = :idPlayer')
+        $query->where('pcl.player = :idPlayer')
             ->setParameter('idPlayer', $params['idPlayer']);
 
         if (array_key_exists('idChart', $params)) {
-            $query->andWhere('lib.idChart = :idChart')
+            $query->andWhere('lib.chart = :idChart')
                 ->setParameter('idChart', $params['idChart']);
         }
 
@@ -39,12 +39,12 @@ class PlayerChartLibRepository extends EntityRepository
         $data = [];
 
         foreach ($result as $row) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChartLib|\VideoGamesRecords\CoreBundle\Entity\ChartLib $row */
-            $data['player_' . $row->getLib()->getIdChart() . '_' . $row->getIdLibChart()] = $row->getValue();
-            $values = Score::getValues($row->getLib()->getType()->getMask(), $row->getValue());
+            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChartLib $row */
+            $data['player_' . $row->getLibChart()->getChart()->getIdChart() . '_' . $row->getLibChart()->getIdLibChart()] = $row->getValue();
+            $values = Score::getValues($row->getLibChart()->getType()->getMask(), $row->getValue());
             $i = 1;
             foreach ($values as $key => $value) {
-                $data['value_' . $row->getLib()->getIdChart() . '_' . $row->getIdLibChart() . '_' . $i++] = $value['value'];
+                $data['value_' . $row->getLibChart()->getChart()->getIdChart() . '_' . $row->getLibChart()->getIdLibChart() . '_' . $i++] = $value['value'];
             }
         }
 
