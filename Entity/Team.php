@@ -801,5 +801,4 @@ class Team
     {
         return $this->rankPointGame;
     }
-
 }

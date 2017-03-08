@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-
 /**
  * TeamGameRepository
  */

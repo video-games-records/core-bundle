@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
  * TeamGame
  *
@@ -13,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TeamGame
 {
-
 
     /**
      * @ORM\Column(name="idTeam", type="integer")
@@ -335,7 +333,7 @@ class TeamGame
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-        $this->setIdGame($game->getIdGame());
+        $this->setIdGame($game->getId());
         return $this;
     }
 
@@ -372,5 +370,4 @@ class TeamGame
     {
         return $this->team;
     }
-
 }

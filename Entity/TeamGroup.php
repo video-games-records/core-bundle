@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
  * TeamGroup
  *
@@ -13,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TeamGroup
 {
-
 
     /**
      * @ORM\Column(name="idTeam", type="integer")
@@ -343,5 +341,4 @@ class TeamGroup
     {
         return $this->team;
     }
-
 }

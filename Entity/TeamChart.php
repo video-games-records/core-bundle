@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
  * TeamChart
  *
@@ -315,5 +314,4 @@ class TeamChart
     {
         return $this->team;
     }
-
 }
