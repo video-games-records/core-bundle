@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PlayerCommand extends ContainerAwareCommand
+class TeamCommand extends ContainerAwareCommand
 {
     private $sglLoggerEnabled = false;
     private $stack = null;
@@ -16,15 +16,15 @@ class PlayerCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('vgr:player')
-            ->setDescription('Command to update players ranking')
+            ->setName('vgr:team')
+            ->setDescription('Command to update teams ranking')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             )
             ->addOption(
-                'idPlayer',
+                'idTeam',
                 null,
                 InputOption::VALUE_REQUIRED,
                 ''
@@ -49,28 +49,24 @@ class PlayerCommand extends ContainerAwareCommand
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj':
-                $idPlayer = $input->getOption('idPlayer');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->maj($idPlayer);
+                $idTeam = $input->getOption('idTeam');
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Team')->maj($idTeam);
                 break;
             case 'maj-rank-point-chart':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankPointChart();
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Team')->majRankPointChart();
                 break;
             case 'maj-rank-medal':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankMedal();
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Team')->majRankMedal();
                 break;
             case 'maj-rank-point-game':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankPointGame();
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Team')->majRankPointGame();
                 break;
             case 'maj-rank-cup':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCup();
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Team')->majRankCup();
                 break;
-            case 'maj-rank-proof':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankProof();
+            case 'maj-game-rank':
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Team')->majGameRank();
                 break;
-            case 'maj-rank-game':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankGame();
-                break;
-
         }
         $this->end($output);
         return true;

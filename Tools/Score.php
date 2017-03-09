@@ -90,7 +90,7 @@ class Score
         $value = implode('', $values);
         if ($value == '') {
             return null;
-        } else if ($nbInput == 1) {
+        } elseif ($nbInput == 1) {
             return $value;
         } else {
             $value = '';

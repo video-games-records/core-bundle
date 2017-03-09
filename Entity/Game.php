@@ -101,6 +101,14 @@ class Game
     /**
      * @var integer
      *
+     * @ORM\Column(name="nbTeam", type="integer", nullable=false, options={"default":0})
+     */
+    private $nbTeam = 0;
+
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="ordre", type="integer", nullable=true)
      */
     private $ordre;
@@ -372,7 +380,7 @@ class Game
      * @param integer $nbPlayer
      * @return Game
      */
-    public function setNbUser($nbPlayer)
+    public function setNbPlayer($nbPlayer)
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -387,6 +395,29 @@ class Game
     public function getNbPlayer()
     {
         return $this->nbPlayer;
+    }
+
+    /**
+     * Set nbTeam
+     *
+     * @param integer $nbTeam
+     * @return Game
+     */
+    public function setNbTeam($nbTeam)
+    {
+        $this->nbTeam = $nbTeam;
+
+        return $this;
+    }
+
+    /**
+     * Get nbTeam
+     *
+     * @return integer
+     */
+    public function getNbTeam()
+    {
+        return $this->nbTeam;
     }
 
     /**

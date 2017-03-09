@@ -7,7 +7,7 @@ BEGIN
     UPDATE vgr_chart
 	SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = NEW.idChart AND idEtat != 7),
 		statusUser = 'MAJ',
-		statutTeam = 'MAJ'
+		statusTeam = 'MAJ'
 	WHERE idChart = NEW.idChart;
 	UPDATE vgr_player
 	SET vgr_nbChart = (SELECT COUNT(idChart) FROM vgr_player_chart WHERE idPlayer = NEW.idPlayer)

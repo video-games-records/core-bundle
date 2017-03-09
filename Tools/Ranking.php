@@ -21,7 +21,7 @@ class Ranking
                 foreach ($columns as $column => $order) {
                     if ((($order == 'ASC') && ($row1[$column] < $row2[$column])) || (($order == 'DESC') && ($row1[$column] > $row2[$column]))) {
                         break;
-                    } else if ((($order == 'ASC') && ($row1[$column] > $row2[$column])) || (($order == 'DESC') && ($row1[$column] < $row2[$column]))) {
+                    } elseif ((($order == 'ASC') && ($row1[$column] > $row2[$column])) || (($order == 'DESC') && ($row1[$column] < $row2[$column]))) {
                         $array[$j] = $row2;
                         $array[$j + 1] = $row1;
                         $change = true;
@@ -219,7 +219,7 @@ class Ranking
                     $nb++;// le % augmente donc la différence diminue
                     $compteur = 0;
                 }
-            } else if ($nb < 99) {
+            } elseif ($nb < 99) {
                 $nb++;
             }
         }

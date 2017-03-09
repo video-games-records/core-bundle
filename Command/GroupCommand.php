@@ -13,7 +13,7 @@ class GroupCommand extends ContainerAwareCommand
     {
         $this
             ->setName('vgr:group')
-            ->setDescription('Greet someone')
+            ->setDescription('Command to update group rankings for players and teams')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
@@ -37,9 +37,13 @@ class GroupCommand extends ContainerAwareCommand
     {
         $function = $input->getArgument('function');
         switch ($function) {
-            case 'maj':
+            case 'maj-player':
                 $idGroup = $input->getOption('idGroup');
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj($idGroup);
+                break;
+            case 'maj-team':
+                $idGroup = $input->getOption('idGroup');
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->maj($idGroup);
                 break;
         }
 

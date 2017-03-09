@@ -32,7 +32,7 @@ class PlayerGroupRepository extends EntityRepository
             $query->andWhere('(pg.rankPoint <= :maxRank OR pg.idPlayer = :idPlayer)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idPlayer', $params['idPlayer']);
-        } else if (array_key_exists('maxRank', $params)) {
+        } elseif (array_key_exists('maxRank', $params)) {
             $query->andWhere('pg.rankPoint <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
@@ -63,7 +63,7 @@ class PlayerGroupRepository extends EntityRepository
             $query->andWhere('(pg.rankMedal <= :maxRank OR pg.idPlayer = :idPlayer)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idPlayer', $params['idPlayer']);
-        } else if (array_key_exists('maxRank', $params)) {
+        } elseif (array_key_exists('maxRank', $params)) {
             $query->andWhere('pg.rankMedal <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
@@ -194,7 +194,7 @@ class PlayerGroupRepository extends EntityRepository
             $playerGroup->setGroup($group);
 
             $this->_em->persist($playerGroup);
-            $this->_em->flush($playerGroup);
         }
+        $this->_em->flush();
     }
 }

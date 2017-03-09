@@ -8,31 +8,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
- * @ORM\Table(name="vgr_player", indexes={@ORM\Index(name="pointGame", columns={"pointGame"}), @ORM\Index(name="rank_pointGame", columns={"rankPointGame"})})
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
+ * @ORM\Table(name="vgr_team")
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRepository")
  */
-class Player
+class Team
 {
-    /**
-     * @var \AppBundle\Entity\User
-     *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
-     * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
-     */
-    private $normandieUser;
+    const STATUS_OPENED = 'OPENED';
+    const STATUS_CLOSED = 'CLOSED';
+
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPlayer", type="integer")
+     * @ORM\Column(name="idTeam", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idPlayer;
-
-    /**
-     * @var integer
-     * @ORM\Column(name="idTeam", type="integer", nullable=true)
      */
     private $idTeam;
 
@@ -40,37 +30,72 @@ class Player
      * @var string
      *
      * @Assert\Length(max="50")
-     * @ORM\Column(name="pseudo", type="string", length=50, nullable=false)
+     * @ORM\Column(name="libTeam", type="string", length=50, nullable=false)
      */
-    private $pseudo;
+    private $libTeam;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="avatar", type="string", length=100, nullable=false)
+     * @ORM\Column(name="tag", type="string", length=50, nullable=true)
      */
-    private $avatar = 'default.jpg';
+    private $tag;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idLeader", type="integer", nullable=false)
+     */
+    private $idLeader;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gamerCard", type="string", length=50, nullable=true)
+     * @ORM\Column(name="siteWeb", type="string", length=255, nullable=true)
      */
-    private $gamerCard;
+    private $siteWeb;
 
     /**
-     * @var boolean
+     * @var string
      *
-     * @ORM\Column(name="displayGamerCard", type="boolean", nullable=false)
+     * @ORM\Column(name="logo", type="string", length=30, nullable=false)
      */
-    private $displayGamerCard = true;
+    private $logo = 'default.jpg';
 
     /**
-     * @var boolean
+     * @var string
      *
-     * @ORM\Column(name="displayGoalBar", type="boolean", nullable=false)
+     * @ORM\Column(name="commentaire", type="text", nullable=true)
      */
-    private $displayGoalBar = true;
+    private $commentaire;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", nullable=false)
+     */
+    private $status = self::STATUS_CLOSED;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=true)
+     */
+    private $nbPlayer;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pointChart", type="integer", nullable=false)
+     */
+    private $pointChart = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pointBadge", type="integer", nullable=false)
+     */
+    private $pointBadge = 0;
 
     /**
      * @var integer
@@ -103,34 +128,6 @@ class Player
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
-     */
-    private $pointChart = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointVGR", type="integer", nullable=false)
-     */
-    private $pointVGR = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointBadge", type="integer", nullable=false)
-     */
-    private $pointBadge = 0;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="collection", type="text", length=65535, nullable=true)
-     */
-    private $collection;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="rankPointChart", type="integer", nullable=true)
      */
     private $rankPointChart;
@@ -141,13 +138,6 @@ class Player
      * @ORM\Column(name="rankMedal", type="integer", nullable=true)
      */
     private $rankMedal;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rankProof", type="integer", nullable=true)
-     */
-    private $rankProof;
 
     /**
      * @var integer
@@ -194,20 +184,6 @@ class Player
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbChart", type="integer", nullable=false)
-     */
-    private $nbChart = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
-     */
-    private $nbChartProven = 0;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
      */
     private $nbMasterBadge = 0;
@@ -227,57 +203,35 @@ class Player
     private $rankPointGame;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="player")
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", mappedBy="team")
      */
-    private $playerGame;
+    private $players;
+
 
     /**
-     * @var Team
-     *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="idTeam")
-     * })
+     * Constructor
      */
-    private $team;
-
-    /**
-     * Set idPlayer
-     *
-     * @param integer $idPlayer
-     * @return Player
-     */
-    public function setIdPlayer($idPlayer)
+    public function __construct()
     {
-        $this->idPlayer = $idPlayer;
-        return $this;
+        $this->players = new ArrayCollection();
     }
 
-    /**
-     * Get idPlayer
-     *
-     * @return integer
-     */
-    public function getIdPlayer()
-    {
-        return $this->idPlayer;
-    }
 
     /**
      * Set idTeam
      *
      * @param integer $idTeam
-     * @return Player
+     * @return Team
      */
     public function setIdTeam($idTeam)
     {
         $this->idTeam = $idTeam;
-
         return $this;
     }
 
     /**
      * Get idTeam
+     *
      * @return integer
      */
     public function getIdTeam()
@@ -286,125 +240,194 @@ class Player
     }
 
     /**
-     * Set pseudo
+     * Set libTeam
      *
-     * @param string $pseudo
-     * @return Player
+     * @param string $libTeam
+     * @return Team
      */
-    public function setPseudo($pseudo)
+    public function setLibTeam($libTeam)
     {
-        $this->pseudo = $pseudo;
+        $this->libTeam = $libTeam;
 
         return $this;
     }
 
     /**
-     * Get pseudo
+     * Get libTeam
      *
      * @return string
      */
-    public function getPseudo()
+    public function getLibTeam()
     {
-        return $this->pseudo;
+        return $this->libTeam;
     }
 
     /**
-     * Set avatar
+     * Set tag
      *
-     * @param string $avatar
-     * @return Player
+     * @param string $tag
+     * @return Team
      */
-    public function setAvatar($avatar)
+    public function setTag($tag)
     {
-        $this->avatar = $avatar;
+        $this->tag = $tag;
 
         return $this;
     }
 
     /**
-     * Get avatar
+     * Get tag
      *
      * @return string
      */
-    public function getAvatar()
+    public function getTag()
     {
-        return $this->avatar;
+        return $this->tag;
     }
 
     /**
-     * Set gamerCard
+     * Set idLeader
      *
-     * @param string $gamerCard
-     * @return Player
+     * @param integer $idLeader
+     * @return Team
      */
-    public function setGamerCard($gamerCard)
+    public function setIdLeader($idLeader)
     {
-        $this->gamerCard = $gamerCard;
+        $this->idLeader = $idLeader;
 
         return $this;
     }
 
     /**
-     * Get gamerCard
+     * Get idLeader
+     *
+     * @return integer
+     */
+    public function getIdLeader()
+    {
+        return $this->idLeader;
+    }
+
+    /**
+     * Set siteWeb
+     *
+     * @param string $siteWeb
+     * @return Team
+     */
+    public function setSiteWeb($siteWeb)
+    {
+        $this->siteWeb = $siteWeb;
+
+        return $this;
+    }
+
+    /**
+     * Get siteWeb
      *
      * @return string
      */
-    public function getGamerCard()
+    public function getSiteWeb()
     {
-        return $this->gamerCard;
+        return $this->siteWeb;
     }
 
     /**
-     * Set displayGamerCard
+     * Set logo
      *
-     * @param boolean $displayGamerCard
-     * @return Player
+     * @param string $logo
+     * @return Team
      */
-    public function setDisplayGamerCard($displayGamerCard)
+    public function setLogo($logo)
     {
-        $this->displayGamerCard = $displayGamerCard;
+        $this->logo = $logo;
 
         return $this;
     }
 
     /**
-     * Get displayGamerCard
+     * Get logo
      *
-     * @return boolean
+     * @return string
      */
-    public function getDisplayGamerCard()
+    public function getLogo()
     {
-        return $this->displayGamerCard;
+        return $this->logo;
     }
 
     /**
-     * Set displayGoalBar
+     * Set commentaire
      *
-     * @param boolean $displayGoalBar
-     * @return Player
+     * @param string $commentaire
+     * @return Team
      */
-    public function setDisplayGoalBar($displayGoalBar)
+    public function setCommentaire($commentaire)
     {
-        $this->displayGoalBar = $displayGoalBar;
+        $this->commentaire = $commentaire;
 
         return $this;
     }
 
     /**
-     * Get displayGoalBar
+     * Get commentaire
      *
-     * @return boolean
+     * @return string
      */
-    public function getDisplayGoalBar()
+    public function getCommentaire()
     {
-        return $this->displayGoalBar;
+        return $this->commentaire;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return Team
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set nbPlayer
+     *
+     * @param integer $nbPlayer
+     * @return Team
+     */
+    public function setNbPlayer($nbPlayer)
+    {
+        $this->nbPlayer = $nbPlayer;
+
+        return $this;
+    }
+
+    /**
+     * Get nbPlayer
+     *
+     * @return integer
+     */
+    public function getNbPlayer()
+    {
+        return $this->nbPlayer;
     }
 
     /**
      * Set chartRank0
      *
      * @param integer $chartRank0
-     * @return Player
+     * @return Team
      */
     public function setChartRank0($chartRank0)
     {
@@ -427,7 +450,7 @@ class Player
      * Set chartRank1
      *
      * @param integer $chartRank1
-     * @return Player
+     * @return Team
      */
     public function setChartRank1($chartRank1)
     {
@@ -450,7 +473,7 @@ class Player
      * Set chartRank2
      *
      * @param integer $chartRank2
-     * @return Player
+     * @return Team
      */
     public function setChartRank2($chartRank2)
     {
@@ -473,7 +496,7 @@ class Player
      * Set chartRank3
      *
      * @param integer $chartRank3
-     * @return Player
+     * @return Team
      */
     public function setChartRank3($chartRank3)
     {
@@ -496,7 +519,7 @@ class Player
      * Set pointChart
      *
      * @param integer $pointChart
-     * @return Player
+     * @return Team
      */
     public function setPointChart($pointChart)
     {
@@ -516,33 +539,10 @@ class Player
     }
 
     /**
-     * Set pointVGR
-     *
-     * @param integer $pointVGR
-     * @return Player
-     */
-    public function setPointVGR($pointVGR)
-    {
-        $this->pointVGR = $pointVGR;
-
-        return $this;
-    }
-
-    /**
-     * Get pointVGR
-     *
-     * @return integer
-     */
-    public function getPointVGR()
-    {
-        return $this->pointVGR;
-    }
-
-    /**
      * Set pointBadge
      *
      * @param integer $pointBadge
-     * @return Player
+     * @return Team
      */
     public function setPointBadge($pointBadge)
     {
@@ -562,33 +562,10 @@ class Player
     }
 
     /**
-     * Set collection
-     *
-     * @param string $collection
-     * @return Player
-     */
-    public function setCollection($collection)
-    {
-        $this->collection = $collection;
-
-        return $this;
-    }
-
-    /**
-     * Get collection
-     *
-     * @return string
-     */
-    public function getCollection()
-    {
-        return $this->collection;
-    }
-
-    /**
      * Set rankPointChart
      *
      * @param integer $rankPointChart
-     * @return Player
+     * @return Team
      */
     public function setRankPointChart($rankPointChart)
     {
@@ -611,7 +588,7 @@ class Player
      * Set rankMedal
      *
      * @param integer $rankMedal
-     * @return Player
+     * @return Team
      */
     public function setRankMedal($rankMedal)
     {
@@ -631,33 +608,10 @@ class Player
     }
 
     /**
-     * Set rankProof
-     *
-     * @param integer $rankProof
-     * @return Player
-     */
-    public function setRankProof($rankProof)
-    {
-        $this->rankProof = $rankProof;
-
-        return $this;
-    }
-
-    /**
-     * Get rankProof
-     *
-     * @return integer
-     */
-    public function getRankProof()
-    {
-        return $this->rankProof;
-    }
-
-    /**
      * Set rankBadge
      *
      * @param integer $rankBadge
-     * @return Player
+     * @return Team
      */
     public function setRankBadge($rankBadge)
     {
@@ -680,7 +634,7 @@ class Player
      * Set rankCup
      *
      * @param integer $rankCup
-     * @return Player
+     * @return Team
      */
     public function setRankCup($rankCup)
     {
@@ -703,7 +657,7 @@ class Player
      * Set gameRank0
      *
      * @param integer $gameRank0
-     * @return Player
+     * @return Team
      */
     public function setGameRank0($gameRank0)
     {
@@ -726,7 +680,7 @@ class Player
      * Set gameRank1
      *
      * @param integer $gameRank1
-     * @return Player
+     * @return Team
      */
     public function setGameRank1($gameRank1)
     {
@@ -749,7 +703,7 @@ class Player
      * Set gameRank2
      *
      * @param integer $gameRank2
-     * @return Player
+     * @return Team
      */
     public function setGameRank2($gameRank2)
     {
@@ -772,7 +726,7 @@ class Player
      * Set gameRank3
      *
      * @param integer $gameRank3
-     * @return Player
+     * @return Team
      */
     public function setGameRank3($gameRank3)
     {
@@ -791,57 +745,12 @@ class Player
         return $this->gameRank3;
     }
 
-    /**
-     * Set nbChart
-     *
-     * @param integer $nbChart
-     * @return Player
-     */
-    public function setNbChart($nbChart)
-    {
-        $this->nbChart = $nbChart;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     *
-     * @return integer
-     */
-    public function getNbChart()
-    {
-        return $this->nbChart;
-    }
-
-    /**
-     * Set nbChartProven
-     *
-     * @param integer $nbChartProven
-     * @return Player
-     */
-    public function setNbChartProven($nbChartProven)
-    {
-        $this->nbChartProven = $nbChartProven;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChartProven
-     *
-     * @return integer
-     */
-    public function getNbChartProven()
-    {
-        return $this->nbChartProven;
-    }
 
     /**
      * Set nbMasterBadge
      *
      * @param integer $nbMasterBadge
-     * @return Player
+     * @return Team
      */
     public function setNbMasterBadge($nbMasterBadge)
     {
@@ -864,7 +773,7 @@ class Player
      * Set pointGame
      *
      * @param integer $pointGame
-     * @return Player
+     * @return Team
      */
     public function setPointGame($pointGame)
     {
@@ -887,7 +796,7 @@ class Player
      * Set rankPointGame
      *
      * @param integer $rankPointGame
-     * @return Player
+     * @return Team
      */
     public function setRankPointGame($rankPointGame)
     {
@@ -907,49 +816,10 @@ class Player
     }
 
     /**
-     * @return \AppBundle\Entity\User
-     */
-    public function getNormandieUser()
-    {
-        return $this->normandieUser;
-    }
-
-    /**
-     * @param \AppBundle\Entity\User $normandieUser
-     * @return Player
-     */
-    public function setNormandieUser($normandieUser)
-    {
-        $this->normandieUser = $normandieUser;
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
-    public function getPlayerGame()
+    public function getPlayers()
     {
-        return $this->playerGame;
-    }
-
-    /**
-     * Set team
-     * @param Team $team
-     * @return Player
-     */
-    public function setTeam(Team $team = null)
-    {
-        $this->team = $team;
-        $this->setIdTeam($team->getIdTeam());
-        return $this;
-    }
-
-    /**
-     * Get team
-     * @return Team
-     */
-    public function getTeam()
-    {
-        return $this->team;
+        return $this->players;
     }
 }

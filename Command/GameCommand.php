@@ -13,7 +13,7 @@ class GameCommand extends ContainerAwareCommand
     {
         $this
             ->setName('vgr:game')
-            ->setDescription('Greet someone')
+            ->setDescription('Command to update game rankings for players and teams')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
@@ -40,6 +40,10 @@ class GameCommand extends ContainerAwareCommand
             case 'maj':
                 $idGame = $input->getOption('idGame');
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj($idGame);
+                break;
+            case 'maj-team':
+                $idGame = $input->getOption('idGame');
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->maj($idGame);
                 break;
         }
 
