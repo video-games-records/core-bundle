@@ -9,12 +9,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class VgrBaseController extends Controller
 {
+    /** @var \VideoGamesRecords\CoreBundle\Entity\Player */
+    private $player;
+
     /**
-     * @inheritDoc
+     * Gets player if any in session
+     *
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
     protected function getPlayer()
     {
-        return $this->get('session')->get('vgr_player');
+        if (null !== $this->player) {
+            return $this->player;
+        }
+
+        if ($this->get('session')->has('vgr_player')) {
+            return $this->player = $this->get('session')->get('vgr_player');
+        }
+        return null;
     }
 }

@@ -11,11 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  * Class GameController
  * @Route("/player")
  */
-
 class PlayerController extends Controller
 {
-
-
     /**
      * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_player_index")
      * @Method("GET")

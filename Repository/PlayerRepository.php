@@ -6,9 +6,6 @@ use Doctrine\ORM\EntityRepository;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-/**
- * PlayerRepository
- */
 class PlayerRepository extends EntityRepository
 {
     /**
@@ -44,9 +41,8 @@ class PlayerRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
-
     /**
-     * @param $idPlayer
+     * @param int $idPlayer
      */
     public function maj($idPlayer)
     {
@@ -84,9 +80,6 @@ class PlayerRepository extends EntityRepository
         $this->_em->flush($player);
     }
 
-    /**
-     *
-     */
     public function majGameRank()
     {
         $data = [];

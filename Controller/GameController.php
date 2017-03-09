@@ -24,11 +24,7 @@ class GameController extends Controller
      */
     public function listAction($letter)
     {
-        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->queryAlpha(
-            [
-                'letter' => $letter
-            ]
-        );
+        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->findWithLetter($letter);
 
         $alphabet = array_merge(['0'], range('A', 'Z'));
 
@@ -42,7 +38,6 @@ class GameController extends Controller
             throw $this->createNotFoundException();
         }*/
 
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('game.list');
@@ -79,7 +74,6 @@ class GameController extends Controller
             ]
         );
 
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem($game->getLibGame());
@@ -105,7 +99,6 @@ class GameController extends Controller
             ]
         );
 
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
@@ -133,7 +126,6 @@ class GameController extends Controller
             ]
         );
 
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);

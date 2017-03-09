@@ -5,34 +5,38 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class SerieController
  * @Route("/serie")
  */
-class SerieController extends Controller
+class SerieController extends VgrBaseController
 {
+    public function listAction()
+    {
+        //@todo define how we list them (same way as game?)
+    }
+
+    public function indexAction($id)
+    {
+        //@todo display a series with its game list and ranking
+    }
+
     /**
-     * @Route("/ranking-points", name="vgr_serie_ranking_points")
+     * @Route("/ranking-points/{id}", name="vgr_serie_ranking_points", requirements={"id": "[1-9]\d*"})
      * @Method("GET")
      * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function rankingPointsAction()
+    public function rankingPointsAction($id)
     {
-        $idSerie = $this->container->getParameter('videogamesrecords_core.idSerie');
-        if ($idSerie === null) {
-            throw $this->createNotFoundException('There is no serie on config website');
-        }
-        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')->getRankingPoints(
-            [
-                'idSerie' => $idSerie,
-                'idLogin' => null,
-                'maxRank' => 100,
-            ]
-        );
+        $rankingPoints = $this
+            ->getDoctrine()
+            ->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')
+            ->getRankingPoints($id, $this->getPlayer(), 100);
 
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('serie.pointranking.full');
@@ -40,27 +44,21 @@ class SerieController extends Controller
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-points.html.twig', ['rankingPoints' => $rankingPoints]);
     }
 
-
     /**
-     * @Route("/ranking-medals", name="vgr_serie_ranking_medals")
+     * @Route("/ranking-medals/{id}", name="vgr_serie_ranking_medals", requirements={"id": "[1-9]\d*"})
      * @Method("GET")
      * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function rankingMedalsAction()
+    public function rankingMedalsAction($id)
     {
-        $idSerie = $this->container->getParameter('videogamesrecords_core.idSerie');
-        if ($idSerie === null) {
-            throw $this->createNotFoundException('There is no serie on config website');
-        }
-        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')->getRankingMedals(
-            [
-                'idSerie' => $idSerie,
-                'idLogin' => 1,
-                'maxRank' => 100,
-            ]
-        );
+        $rankingMedals = $this
+            ->getDoctrine()
+            ->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')
+            ->getRankingMedals($id, $this->getPlayer(), 100);
 
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('serie.medalranking.full');

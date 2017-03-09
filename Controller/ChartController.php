@@ -6,15 +6,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 
 /**
  * Class ChartController
  * @Route("/chart")
  */
-class ChartController extends Controller
+class ChartController extends VgrBaseController
 {
     /**
      * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
@@ -52,11 +50,10 @@ class ChartController extends Controller
      * @Cache(smaxage="10")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function formAction(Request $request, $id)
+    public function formAction($id)
     {
         $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($id);
         $charts = [$chart];
@@ -68,12 +65,7 @@ class ChartController extends Controller
 
         $data = array_merge(
             $data,
-            $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->getFormValues(
-                [
-                    'idChart' => $id,
-                    'idPlayer' => $request->getSession()->get('vgr_player')->getIdPlayer(),
-                ]
-            )
+            $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->getFormValues($this->getPlayer(), $chart)
         );
 
         $form = SubmitFormFactory::createSubmitForm(
