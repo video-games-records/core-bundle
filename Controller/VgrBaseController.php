@@ -24,7 +24,7 @@ class VgrBaseController extends Controller
         }
 
         if ($this->get('session')->has('vgr_player')) {
-            return $this->get('session')->get('vgr_player');
+            return $this->player = $this->get('session')->get('vgr_player');
         }
         return null;
     }

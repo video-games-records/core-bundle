@@ -70,7 +70,6 @@ class PlayerCommand extends ContainerAwareCommand
             case 'maj-rank-game':
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankGame();
                 break;
-
         }
         $this->end($output);
         return true;
