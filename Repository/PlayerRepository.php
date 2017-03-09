@@ -99,13 +99,13 @@ class PlayerRepository extends EntityRepository
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.game g
             WHERE pg.rankPoint = 1
-            AND g.nbPost > 0
+            AND g.nbPlayer > 1
             AND pg.nbEqual = 1
             GROUP BY pg.idPlayer");
 
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['rank0'][$row['idPlayer']] = $row['nb'];
+            $data['rank0'][$row['idPlayer']] = (int) $row['nb'];
         }
 
         //----- data rank1 to rank3
@@ -114,7 +114,6 @@ class PlayerRepository extends EntityRepository
                  pg.idPlayer,
                  COUNT(pg.idGame) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
-            JOIN pg.game g
             WHERE pg.rankPoint = :rank
             GROUP BY pg.idPlayer");
 
@@ -122,7 +121,7 @@ class PlayerRepository extends EntityRepository
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["rank$i"][$row['idPlayer']] = $row['nb'];
+                $data["rank$i"][$row['idPlayer']] = (int) $row['nb'];
             }
         }
 
@@ -137,13 +136,10 @@ class PlayerRepository extends EntityRepository
             $rank2 = (isset($data['rank2'][$idPlayer])) ? $data['rank2'][$idPlayer] : 0;
             $rank3 = (isset($data['rank3'][$idPlayer])) ? $data['rank3'][$idPlayer] : 0;
 
-            if (($player->getGameRank0() != $rank0 || $player->getGameRank1() != $rank1 || $player->getGameRank2() != $rank2 || $player->getGameRank3() != $rank3)) {
-                $player->setGameRank0($rank0);
-                $player->setGameRank1($rank1);
-                $player->setGameRank2($rank2);
-                $player->setGameRank3($rank3);
-                $this->getEntityManager()->persist($player);
-            }
+            $player->setGameRank0($rank0);
+            $player->setGameRank1($rank1);
+            $player->setGameRank2($rank2);
+            $player->setGameRank3($rank3);
         }
         $this->getEntityManager()->flush();
     }
@@ -160,10 +156,7 @@ class PlayerRepository extends EntityRepository
             $list[] = $player;
         }
 
-        $list = Ranking::addObjectRank($list, 'rankPointChart', array('pointChart'));
-        foreach ($list as $player) {
-            $this->getEntityManager()->persist($player);
-        }
+        Ranking::addObjectRank($list, 'rankPointChart', array('pointChart'));
         $this->getEntityManager()->flush();
     }
 
@@ -179,10 +172,7 @@ class PlayerRepository extends EntityRepository
             $list[] = $player;
         }
 
-        $list = Ranking::addObjectRank($list, 'rankPointGame', array('pointGame'));
-        foreach ($list as $player) {
-            $this->getEntityManager()->persist($player);
-        }
+        Ranking::addObjectRank($list, 'rankPointGame', array('pointGame'));
         $this->getEntityManager()->flush();
     }
 
@@ -198,10 +188,7 @@ class PlayerRepository extends EntityRepository
             $list[] = $player;
         }
 
-        $list = Ranking::addObjectRank($list, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
-        foreach ($list as $player) {
-            $this->getEntityManager()->persist($player);
-        }
+        Ranking::addObjectRank($list, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
         $this->getEntityManager()->flush();
     }
 
@@ -218,10 +205,7 @@ class PlayerRepository extends EntityRepository
             $list[] = $player;
         }
 
-        $list = Ranking::addObjectRank($list, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
-        foreach ($list as $player) {
-            $this->getEntityManager()->persist($player);
-        }
+        Ranking::addObjectRank($list, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
         $this->getEntityManager()->flush();
     }
 
@@ -238,10 +222,7 @@ class PlayerRepository extends EntityRepository
             $list[] = $player;
         }
 
-        $list = Ranking::addObjectRank($list, 'rankProof', array('nbChartProven'));
-        foreach ($list as $player) {
-            $this->getEntityManager()->persist($player);
-        }
+        Ranking::addObjectRank($list, 'rankProof', array('nbChartProven'));
         $this->getEntityManager()->flush();
     }
 

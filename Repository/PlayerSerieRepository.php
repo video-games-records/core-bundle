@@ -48,7 +48,7 @@ class PlayerSerieRepository extends EntityRepository
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('min', $row->getRankPoint() - 5)
                 ->setParameter('max', $row->getRankPoint() + 5);
-        } else if (array_key_exists('maxRank', $params)) {
+        } elseif (array_key_exists('maxRank', $params)) {
             $query->andWhere('us.rankPoint <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
@@ -89,7 +89,7 @@ class PlayerSerieRepository extends EntityRepository
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('min', $row->getRankMedal() - 5)
                 ->setParameter('max', $row->getRankMedal() + 5);
-        } else if (array_key_exists('maxRank', $params)) {
+        } elseif (array_key_exists('maxRank', $params)) {
             $query->andWhere('us.rankMedal <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }

@@ -31,6 +31,12 @@ class Player
     private $idPlayer;
 
     /**
+     * @var integer
+     * @ORM\Column(name="idTeam", type="integer", nullable=true)
+     */
+    private $idTeam;
+
+    /**
      * @var string
      *
      * @Assert\Length(max="50")
@@ -226,6 +232,16 @@ class Player
     private $playerGame;
 
     /**
+     * @var Team
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="idTeam")
+     * })
+     */
+    private $team;
+
+    /**
      * Set idPlayer
      *
      * @param integer $idPlayer
@@ -245,6 +261,28 @@ class Player
     public function getIdPlayer()
     {
         return $this->idPlayer;
+    }
+
+    /**
+     * Set idTeam
+     *
+     * @param integer $idTeam
+     * @return Player
+     */
+    public function setIdTeam($idTeam)
+    {
+        $this->idTeam = $idTeam;
+
+        return $this;
+    }
+
+    /**
+     * Get idTeam
+     * @return integer
+     */
+    public function getIdTeam()
+    {
+        return $this->idTeam;
     }
 
     /**
@@ -892,5 +930,26 @@ class Player
     public function getPlayerGame()
     {
         return $this->playerGame;
+    }
+
+    /**
+     * Set team
+     * @param Team $team
+     * @return Player
+     */
+    public function setTeam(Team $team = null)
+    {
+        $this->team = $team;
+        $this->setIdTeam($team->getIdTeam());
+        return $this;
+    }
+
+    /**
+     * Get team
+     * @return Team
+     */
+    public function getTeam()
+    {
+        return $this->team;
     }
 }

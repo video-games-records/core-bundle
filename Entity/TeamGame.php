@@ -82,6 +82,13 @@ class TeamGame
     private $rank3;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbEqual", type="integer", nullable=false)
+     */
+    private $nbEqual = 0;
+
+    /**
      * @var Team
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team")
@@ -96,7 +103,7 @@ class TeamGame
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="idGame")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id")
      * })
      */
     private $game;
@@ -323,6 +330,27 @@ class TeamGame
         return $this->rank3;
     }
 
+    /**
+     * Set nbEqual
+     *
+     * @param integer $nbEqual
+     * @return $this
+     */
+    public function setNbEqual($nbEqual)
+    {
+        $this->nbEqual = $nbEqual;
+        return $this;
+    }
+
+    /**
+     * Get nbEqual
+     *
+     * @return integer
+     */
+    public function getNbEqual()
+    {
+        return $this->nbEqual;
+    }
 
     /**
      * Set game
@@ -333,7 +361,7 @@ class TeamGame
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-        $this->setIdGame($game->getId());
+        //$this->setIdGame($game->getId());
         return $this;
     }
 

@@ -13,7 +13,7 @@ class SerieCommand extends ContainerAwareCommand
     {
         $this
             ->setName('vgr:serie')
-            ->setDescription('Greet someone')
+            ->setDescription('Command to update serie rankings for players')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,

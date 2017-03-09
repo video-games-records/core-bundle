@@ -79,9 +79,9 @@ class Team
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbTeam", type="integer", nullable=true)
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=true)
      */
-    private $nbTeam;
+    private $nbPlayer;
 
     /**
      * @var integer
@@ -202,6 +202,19 @@ class Team
      */
     private $rankPointGame;
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", mappedBy="team")
+     */
+    private $players;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->players = new ArrayCollection();
+    }
 
 
     /**
@@ -388,26 +401,26 @@ class Team
     }
 
     /**
-     * Set nbTeam
+     * Set nbPlayer
      *
-     * @param integer $nbTeam
+     * @param integer $nbPlayer
      * @return Team
      */
-    public function setNbTeam($nbTeam)
+    public function setNbPlayer($nbPlayer)
     {
-        $this->nbTeam = $nbTeam;
+        $this->nbPlayer = $nbPlayer;
 
         return $this;
     }
 
     /**
-     * Get nbTeam
+     * Get nbPlayer
      *
      * @return integer
      */
-    public function getNbTeam()
+    public function getNbPlayer()
     {
-        return $this->nbTeam;
+        return $this->nbPlayer;
     }
 
     /**
@@ -800,5 +813,13 @@ class Team
     public function getRankPointGame()
     {
         return $this->rankPointGame;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayers()
+    {
+        return $this->players;
     }
 }

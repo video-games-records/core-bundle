@@ -12,6 +12,7 @@ DROP TRIGGER IF EXISTS `vgrRecordMembreAfterDelete`;
 DROP TRIGGER IF EXISTS `vgrRecordMembreAfterInsert`;
 DROP TRIGGER IF EXISTS `vgrRecordMembreAfterUpdate`;
 DROP TRIGGER IF EXISTS `vgrRecordMembreBeforeUpdate`;
+DROP TRIGGER IF EXISTS `tVgrJeuBeforeUpdate`;
 
 --
 DROP TRIGGER IF EXISTS `vgrDemandepreuveAfterInsert`;
@@ -110,6 +111,7 @@ ALTER TABLE `vgr_game` CHANGE `statut` `status` VARCHAR(255) CHARACTER SET utf8 
 ALTER TABLE `vgr_game` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` DROP `imagePlateForme`;
+ALTER TABLE `vgr_game` ADD `nbTeam` INT NOT NULL DEFAULT '0' AFTER `nbPlayer`;
 -- Transfert des données
 INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJeu_fr, 'fr' FROM vgr_game;
 INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJeu_en, 'en' FROM vgr_game;
@@ -246,6 +248,7 @@ ALTER TABLE `vgr_team_game` CHANGE `pointJeu` `pointGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_game` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_game` CHANGE `rank` `rankPoint` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_game` ADD `rankMedal` INT NOT NULL AFTER `rankPoint`;
+ALTER TABLE `vgr_team_game` ADD `nbEqual` INT NOT NULL DEFAULT '1';
 
 
 --
@@ -370,4 +373,9 @@ CHANGE vgr_rank_badge rankBadge  INT DEFAULT NULL,
 CHANGE vgr_rank_cup rankCup  INT DEFAULT NULL,
 CHANGE vgr_nbMasterBadge nbMasterBadge  INT DEFAULT NULL,
 CHANGE vgr_rank_pointJeu rankPointGame INT DEFAULT NULL,
-CHANGE vgr_collection collection INT DEFAULT NULL;
+CHANGE vgr_collection collection text DEFAULT NULL;
+
+
+--
+UPDATE vgr_game g
+SET nbTeam = (SELECT COUNT(idGame) FROM vgr_team_game tg WHERE tg.idGame = g.id);
