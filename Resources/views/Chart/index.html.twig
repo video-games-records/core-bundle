@@ -24,7 +24,7 @@
         {% for row in ranking %}
             <tr {{ row['pc'].getPointsBackgroundColor()|raw }}>
                 <td>{{ row['uc'].getRank() }}</td>
-                <td>{{ row['pc'].getPlayer().getPseudo() }}</td>
+                <td><a href="{{ path('vgr_player_index', {'id': row['pc'].getIdPlayer()}) }}">{{ row['pc'].getPlayer().getPseudo() }}</a></td>
                 {% for lib in chart.getLibs() %}
                     <td>{{ vgrFormatScore(row['value_' ~  lib.getIdLibChart()], lib.getType().getMask()) }}</td>
                 {% endfor %}

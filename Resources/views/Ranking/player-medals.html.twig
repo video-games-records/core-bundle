@@ -22,7 +22,7 @@
         {% for row in rankingMedals %}
             <tr {{ row.getMedalsBackgroundColor()|raw }}>
                 <td>{{ row.getRankMedal() }}</td>
-                <td>{{ row.getPlayer().getPseudo() }}</td>
+                <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
                 <td>{{ row.getRank0() }}</td>
                 <td>{{ row.getRank1() }}</td>
                 <td>{{ row.getRank2() }}</td>

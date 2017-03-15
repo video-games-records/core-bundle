@@ -56,7 +56,7 @@
         {% for row in rankingPoints %}
             <tr {{ row.getPointsBackgroundColor()|raw }}>
                 <td>{{ row.getRankPoint() }}</td>
-                <td>{{ row.getPlayer().getPseudo() }}</td>
+                <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
                 <td>{{ row.getPointChart() }}</td>
                 <td>{{ row.getNbChart() }}</td>
             </tr>
@@ -93,7 +93,7 @@
         {% for row in rankingMedals %}
             <tr {{ row.getMedalsBackgroundColor()|raw }}>
                 <td>{{ row.getRankMedal() }}</td>
-                <td>{{ row.getPlayer().getPseudo() }}</td>
+                <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
                 <td>{{ row.getRank0() }}</td>
                 <td>{{ row.getRank1() }}</td>
                 <td>{{ row.getRank2() }}</td>
