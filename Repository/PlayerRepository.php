@@ -332,6 +332,4 @@ class PlayerRepository extends EntityRepository
         $sql = "UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer)";
         $this->_em->getConnection()->executeUpdate($sql);
     }
-
-
 }

@@ -29,7 +29,7 @@ class TeamGameRepository extends EntityRepository
         $query->where('tg.idGame= :idGame')
             ->setParameter('idGame', $idGame);
 
-        if ( ($maxRank !== null) && ($idTeam !== null) ) {
+        if (($maxRank !== null) && ($idTeam !== null)) {
             $query->andWhere('(tg.rankPointChart <= :maxRank OR tg.idTeam = :idTeam)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('idTeam', $idTeam);
