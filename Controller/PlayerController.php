@@ -124,5 +124,4 @@ class PlayerController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-cups.html.twig', ['ranking' => $ranking]);
     }
-
 }

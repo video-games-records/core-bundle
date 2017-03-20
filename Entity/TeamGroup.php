@@ -35,9 +35,9 @@ class TeamGroup
     /**
      * @var integer
      *
-     * @ORM\Column(name="rankPoint", type="integer", nullable=false)
+     * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
      */
-    private $rankPoint;
+    private $rankPointChart;
 
     /**
      * @var integer
@@ -49,30 +49,30 @@ class TeamGroup
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank0", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank0", type="integer", nullable=false)
      */
-    private $rank0;
+    private $chartRank0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank1", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank1", type="integer", nullable=false)
      */
-    private $rank1;
+    private $chartRank1;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank2", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank2", type="integer", nullable=false)
      */
-    private $rank2;
+    private $chartRank2;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank3", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank3", type="integer", nullable=false)
      */
-    private $rank3;
+    private $chartRank3;
 
     /**
      * @var Team
@@ -163,25 +163,25 @@ class TeamGroup
     }
 
     /**
-     * Set rankPoint
+     * Set rankPointChart
      *
-     * @param integer $rankPoint
+     * @param integer $rankPointChart
      * @return $this
      */
-    public function setRankPoint($rankPoint)
+    public function setRankPointChart($rankPointChart)
     {
-        $this->rankPoint = $rankPoint;
+        $this->rankPointChart = $rankPointChart;
         return $this;
     }
 
     /**
-     * Get rankPoint
+     * Get rankPointChart
      *
      * @return integer
      */
-    public function getRankPoint()
+    public function getRankPointChart()
     {
-        return $this->rankPoint;
+        return $this->rankPointChart;
     }
 
     /**
@@ -207,93 +207,92 @@ class TeamGroup
     }
 
     /**
-     * Set rank
+     * Set chartRank0
      *
-     * @param integer $rank0
+     * @param integer $chartRank0
      * @return $this
      */
-    public function setRank0($rank0)
+    public function setChartRank0($chartRank0)
     {
-        $this->rank0 = $rank0;
+        $this->chartRank0 = $chartRank0;
         return $this;
     }
 
     /**
-     * Get rank0
+     * Get chartRank0
      *
      * @return integer
      */
-    public function getRank0()
+    public function getChartRank0()
     {
-        return $this->rank0;
+        return $this->chartRank0;
     }
 
     /**
-     * Set rank1
+     * Set chartRank1
      *
-     * @param integer $rank1
+     * @param integer $chartRank1
      * @return $this
      */
-    public function setRank1($rank1)
+    public function setChartRank1($chartRank1)
     {
-        $this->rank1 = $rank1;
+        $this->chartRank1 = $chartRank1;
         return $this;
     }
 
     /**
-     * Get rank1
+     * Get chartRank1
      *
      * @return integer
      */
-    public function getRank1()
+    public function getChartRank1()
     {
-        return $this->rank1;
+        return $this->chartRank1;
     }
 
     /**
-     * Set rank2
+     * Set chartRank2
      *
-     * @param integer $rank2
+     * @param integer $chartRank2
      * @return $this
      */
-    public function setRank2($rank2)
+    public function setChartRank2($chartRank2)
     {
-        $this->rank2 = $rank2;
+        $this->chartRank2 = $chartRank2;
         return $this;
     }
 
     /**
-     * Get rank2
+     * Get chartRank2
      *
      * @return integer
      */
-    public function getRank2()
+    public function getChartRank2()
     {
-        return $this->rank2;
+        return $this->chartRank2;
     }
 
     /**
-     * Set rank3
+     * Set chartRank3
      *
-     * @param integer $rank3
+     * @param integer $chartRank3
      * @return $this
      */
-    public function setRank3($rank3)
+    public function setChartRank3($chartRank3)
     {
-        $this->rank3 = $rank3;
+        $this->chartRank3 = $chartRank3;
         return $this;
     }
 
     /**
-     * Get rank3
+     * Get chartRank3
      *
      * @return integer
      */
-    public function getRank3()
+    public function getChartRank3()
     {
-        return $this->rank3;
+        return $this->chartRank3;
     }
-
 
     /**
      * Set group

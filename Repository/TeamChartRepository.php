@@ -47,10 +47,10 @@ class TeamChartRepository extends EntityRepository
                     'idTeam' => $idTeam,
                     'nbPlayer' => 1,
                     'pointChart' => $row['pointChart'],
-                    'rank0' => 0,
-                    'rank1' => 0,
-                    'rank2' => 0,
-                    'rank3' => 0,
+                    'chartRank0' => 0,
+                    'chartRank1' => 0,
+                    'chartRank2' => 0,
+                    'chartRank3' => 0,
                 ];
             } elseif ($list[$idTeam]['nbPlayer'] < 5) {
                 $list[$idTeam]['nbPlayer'] = $list[$idTeam]['nbPlayer'] + 1;
@@ -64,7 +64,7 @@ class TeamChartRepository extends EntityRepository
         //----- add some data
         $list = array_values($list);
         $list = Ranking::order($list, ['pointChart' => 'DESC']);
-        $list = Ranking::addRank($list, 'rank', ['pointChart'], true);
+        $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer([$normalizer]);
@@ -73,17 +73,17 @@ class TeamChartRepository extends EntityRepository
 
         foreach ($list as $row) {
             //----- add medals
-            if ($row['rank'] == 1 && $row['nbEqual'] == 1 && $nbTeam > 1) {
-                $row['rank0'] = 1;
-                $row['rank1'] = 1;
-            } elseif ($row['rank'] == 1 && $row['nbEqual'] == 1 && $nbTeam == 1) {
-                $row['rank1'] = 1;
-            } elseif ($row['rank'] == 1 && $row['nbEqual'] > 1) {
-                $row['rank1'] = 1;
-            } elseif ($row['rank'] == 2) {
-                $row['rank2'] = 1;
-            } elseif ($row['rank'] == 3) {
-                $row['rank3'] = 1;
+            if ($row['rankPointChart'] == 1 && $row['nbEqual'] == 1 && $nbTeam > 1) {
+                $row['chartRank0'] = 1;
+                $row['chartRank1'] = 1;
+            } elseif ($row['rankPointChart'] == 1 && $row['nbEqual'] == 1 && $nbTeam == 1) {
+                $row['chartRank1'] = 1;
+            } elseif ($row['rankPointChart'] == 1 && $row['nbEqual'] > 1) {
+                $row['chartRank1'] = 1;
+            } elseif ($row['rankPointChart'] == 2) {
+                $row['chartRank2'] = 1;
+            } elseif ($row['rankPointChart'] == 3) {
+                $row['chartRank3'] = 1;
             }
 
             $teamChart = $serializer->denormalize(

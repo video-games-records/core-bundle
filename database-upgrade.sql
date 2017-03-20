@@ -251,18 +251,33 @@ ALTER TABLE `vgr_team` CHANGE `dateModification` `updated_at` DATETIME NOT NULL;
 
 ALTER TABLE `vgr_team_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_chart` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_chart` CHANGE `rank` `rankPointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_chart` CHANGE `rank0` `chartRank0` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_chart` CHANGE `rank1` `chartRank1` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_chart` CHANGE `rank2` `chartRank2` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_chart` CHANGE `rank3` `chartRank3` INT(11) NOT NULL;
+
 
 ALTER TABLE `vgr_team_group` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_group` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_team_group` CHANGE `rank` `rankPoint` INT(11) NOT NULL;
-ALTER TABLE `vgr_team_group` ADD `rankMedal` INT NOT NULL AFTER `rankPoint`;
+ALTER TABLE `vgr_team_group` CHANGE `rank` `rankPointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_group` ADD `rankMedal` INT NOT NULL AFTER `rankPointChart`;
+ALTER TABLE `vgr_team_group` CHANGE `rank0` `chartRank0` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_group` CHANGE `rank1` `chartRank1` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_group` CHANGE `rank2` `chartRank2` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_group` CHANGE `rank3` `chartRank3` INT(11) NOT NULL;
+
 
 ALTER TABLE `vgr_team_game` CHANGE `idJeu` `idGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_game` CHANGE `pointJeu` `pointGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_game` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
-ALTER TABLE `vgr_team_game` CHANGE `rank` `rankPoint` INT(11) NOT NULL;
-ALTER TABLE `vgr_team_game` ADD `rankMedal` INT NOT NULL AFTER `rankPoint`;
+ALTER TABLE `vgr_team_game` CHANGE `rank` `rankPointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_game` ADD `rankMedal` INT NOT NULL AFTER `rankPointChart`;
 ALTER TABLE `vgr_team_game` ADD `nbEqual` INT NOT NULL DEFAULT '1';
+ALTER TABLE `vgr_team_game` CHANGE `rank0` `chartRank0` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_game` CHANGE `rank1` `chartRank1` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_game` CHANGE `rank2` `chartRank2` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_game` CHANGE `rank3` `chartRank3` INT(11) NOT NULL;
 
 
 --

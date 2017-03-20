@@ -19,10 +19,10 @@ class TeamRepository extends EntityRepository
         $query = $this->_em->createQuery("
             SELECT
                  tg.idTeam,
-                 SUM(tg.rank0) as chartRank0,
-                 SUM(tg.rank1) as chartRank1,
-                 SUM(tg.rank2) as chartRank2,
-                 SUM(tg.rank3) as chartRank3,
+                 SUM(tg.chartRank0) as chartRank0,
+                 SUM(tg.chartRank1) as chartRank1,
+                 SUM(tg.chartRank2) as chartRank2,
+                 SUM(tg.chartRank3) as chartRank3,
                  SUM(pg.pointChart) as pointChart,
                  SUM(pg.pointGame) as pointGame
             FROM VideoGamesRecords\CoreBundle\Entity\teamGame tg
@@ -65,13 +65,13 @@ class TeamRepository extends EntityRepository
             FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
             JOIN tg.game g
             WHERE g.nbTeam > 1
-            AND tg.rankPoint = 1
+            AND tg.rankPointChart = 1
             AND tg.nbEqual = 1
             GROUP BY tg.idTeam");
 
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['rank0'][$row['idTeam']] = (int) $row['nb'];
+            $data['gameRank0'][$row['idTeam']] = (int) $row['nb'];
         }
 
         //----- data rank1 to rank3
@@ -80,14 +80,14 @@ class TeamRepository extends EntityRepository
                  tg.idTeam,
                  COUNT(tg.idGame) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
-            WHERE tg.rankPoint = :rank
+            WHERE tg.rankPointChart = :rank
             GROUP BY tg.idTeam");
 
         for ($i = 1; $i <= 3; $i++) {
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["rank$i"][$row['idTeam']] = (int) $row['nb'];
+                $data["gameRank$i"][$row['idTeam']] = (int) $row['nb'];
             }
         }
 
@@ -97,10 +97,10 @@ class TeamRepository extends EntityRepository
         foreach ($teams as $team) {
             $idTeam = $team->getIdTeam();
 
-            $rank0 = (isset($data['rank0'][$idTeam])) ? $data['rank0'][$idTeam] : 0;
-            $rank1 = (isset($data['rank1'][$idTeam])) ? $data['rank1'][$idTeam] : 0;
-            $rank2 = (isset($data['rank2'][$idTeam])) ? $data['rank2'][$idTeam] : 0;
-            $rank3 = (isset($data['rank3'][$idTeam])) ? $data['rank3'][$idTeam] : 0;
+            $rank0 = (isset($data['gameRank0'][$idTeam])) ? $data['gameRank0'][$idTeam] : 0;
+            $rank1 = (isset($data['gameRank1'][$idTeam])) ? $data['gameRank1'][$idTeam] : 0;
+            $rank2 = (isset($data['gameRank2'][$idTeam])) ? $data['gameRank2'][$idTeam] : 0;
+            $rank3 = (isset($data['gameRank3'][$idTeam])) ? $data['gameRank3'][$idTeam] : 0;
 
             $team->setGameRank0($rank0);
             $team->setGameRank1($rank1);

@@ -31,12 +31,12 @@ class TeamGroupRepository extends EntityRepository
             SELECT
                 tc.idTeam,
                 (c.idGroup) as idGame,
-                '' as rankPoint,
+                '' as rankPointChart,
                 '' as rankMedal,
-                SUM(tc.rank0) as rank0,
-                SUM(tc.rank1) as rank1,
-                SUM(tc.rank2) as rank2,
-                SUM(tc.rank3) as rank3,
+                SUM(tc.chartRank0) as chartRank0,
+                SUM(tc.chartRank1) as chartRank1,
+                SUM(tc.chartRank2) as chartRank2,
+                SUM(tc.chartRank3) as chartRank3,
                 SUM(tc.pointChart) as pointChart
             FROM VideoGamesRecords\CoreBundle\Entity\TeamChart tc
             JOIN tc.chart c
@@ -54,9 +54,9 @@ class TeamGroupRepository extends EntityRepository
         }
 
         //----- add some data
-        $list = Ranking::addRank($list, 'rankPoint', ['pointChart'], true);
-        $list = Ranking::order($list, ['rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC']);
-        $list = Ranking::addRank($list, 'rankMedal', ['rank0', 'rank1', 'rank2', 'rank3']);
+        $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);
+        $list = Ranking::order($list, ['chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC']);
+        $list = Ranking::addRank($list, 'rankMedal', ['chartRank0', 'chartRank1', 'chartRank2', 'chartRank3']);
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer([$normalizer]);

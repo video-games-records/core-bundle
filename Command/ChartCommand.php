@@ -50,16 +50,21 @@ class ChartCommand extends ContainerAwareCommand
     {
         $this->init($input);
         $function = $input->getArgument('function');
+        $idChart = $input->getOption('idChart');
         switch ($function) {
-            case 'maj':
-                $idChart = $input->getOption('idChart');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->maj($idChart);
-                break;
             case 'maj-player':
-                $this->majPlayer($output);
+                if ($idChart) {
+                    $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->maj($idChart);
+                } else {
+                    $this->majPlayer($output);
+                }
                 break;
             case 'maj-team':
-                $this->majTeam($output);
+                if ($idChart) {
+                    $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->maj($idChart);
+                } else {
+                    $this->majTeam($output);
+                }
                 break;
         }
         $this->end($output);
