@@ -22,7 +22,7 @@
         </thead>
         <tbody>
         {% for row in ranking %}
-            <tr {{ row['pc'].getPointsBackgroundColor()|raw }}>
+              <tr {{ vgrRankBgColor(row['uc'].getRank())|raw }}>
                 <td>{{ row['uc'].getRank() }}</td>
                 <td><a href="{{ path('vgr_player_index', {'id': row['pc'].getIdPlayer()}) }}">{{ row['pc'].getPlayer().getPseudo() }}</a></td>
                 {% for lib in chart.getLibs() %}

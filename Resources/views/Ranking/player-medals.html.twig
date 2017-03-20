@@ -5,7 +5,7 @@
 {% block body_id 'ranking_medals' %}
 
 {% block body %}
-    <h1>{Record lib} - {Medal ranking}</h1>
+    <h1>{title}</h1>
 
     <table class="leaderboard">
         <thead>
@@ -19,14 +19,14 @@
             </tr>
         </thead>
         <tbody>
-        {% for row in rankingMedals %}
-            <tr {{ row.getMedalsBackgroundColor()|raw }}>
+        {% for row in ranking %}
+            <tr {{ vgrRankBgColor(row.getRankMedal())|raw }}>
                 <td>{{ row.getRankMedal() }}</td>
                 <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
-                <td>{{ row.getRank0() }}</td>
-                <td>{{ row.getRank1() }}</td>
-                <td>{{ row.getRank2() }}</td>
-                <td>{{ row.getRank3() }}</td>
+                <td>{{ row.getChartRank0() }}</td>
+                <td>{{ row.getChartRank1() }}</td>
+                <td>{{ row.getChartRank2() }}</td>
+                <td>{{ row.getChartRank3() }}</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -605,26 +605,6 @@ class PlayerSerie
         return $this->player;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getPointsBackgroundColor()
-    {
-        $class = [
-            0 => '',
-            1 => 'bg-first',
-            2 => 'bg-second',
-            3 => 'bg-third',
-        ];
-
-        if ($this->getRankPoint() <= 3) {
-            return sprintf("class=\"%s\"", $class[$this->getRankPoint()]);
-        } else {
-            return '';
-        }
-    }
-
     /**
      * @return string
      */

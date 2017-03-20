@@ -324,25 +324,6 @@ class PlayerChart
     }
 
     /**
-     * @return string
-     */
-    public function getPointsBackgroundColor()
-    {
-        $class = [
-            0 => '',
-            1 => 'bg-first',
-            2 => 'bg-second',
-            3 => 'bg-third',
-        ];
-
-        if ($this->getRank() <= 3) {
-            return sprintf("class=\"%s\"", $class[$this->getRank()]);
-        } else {
-            return '';
-        }
-    }
-
-    /**
      * @ORM\PrePersist()
      */
     public function preInsert()

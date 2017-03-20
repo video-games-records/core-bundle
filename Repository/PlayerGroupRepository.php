@@ -19,7 +19,7 @@ class PlayerGroupRepository extends EntityRepository
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
             ->addSelect('p')//----- for using ->getPlayer() on each result
-            ->orderBy('pg.rankPoint');
+            ->orderBy('pg.rankPointChart');
 
         $query->where('pg.idGroup = :idGroup')
             ->setParameter('idGroup', $params['idGroup']);
@@ -29,11 +29,11 @@ class PlayerGroupRepository extends EntityRepository
         }
 
         if ((array_key_exists('maxRank', $params)) && (array_key_exists('idPlayer', $params))) {
-            $query->andWhere('(pg.rankPoint <= :maxRank OR pg.idPlayer = :idPlayer)')
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.idPlayer = :idPlayer)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idPlayer', $params['idPlayer']);
         } elseif (array_key_exists('maxRank', $params)) {
-            $query->andWhere('pg.rankPoint <= :maxRank')
+            $query->andWhere('pg.rankPointChart <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
 
@@ -100,7 +100,7 @@ class PlayerGroupRepository extends EntityRepository
         $query->setParameter('idGroup', $idGroup);
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['rank0'][$row['idPlayer']] = $row['nb'];
+            $data['chartRank0'][$row['idPlayer']] = $row['nb'];
         }
 
         //----- data rank1 to rank5
@@ -119,7 +119,7 @@ class PlayerGroupRepository extends EntityRepository
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["rank$i"][$row['idPlayer']] = $row['nb'];
+                $data["chartRank$i"][$row['idPlayer']] = $row['nb'];
             }
         }
 
@@ -165,20 +165,20 @@ class PlayerGroupRepository extends EntityRepository
         $list = [];
         foreach ($result as $row) {
             $row['rankMedal'] = 0;
-            $row['rank0'] = (isset($data['rank0'][$row['idPlayer']])) ? $data['rank0'][$row['idPlayer']] : 0;
-            $row['rank1'] = (isset($data['rank1'][$row['idPlayer']])) ? $data['rank1'][$row['idPlayer']] : 0;
-            $row['rank2'] = (isset($data['rank2'][$row['idPlayer']])) ? $data['rank2'][$row['idPlayer']] : 0;
-            $row['rank3'] = (isset($data['rank3'][$row['idPlayer']])) ? $data['rank3'][$row['idPlayer']] : 0;
-            $row['rank4'] = (isset($data['rank4'][$row['idPlayer']])) ? $data['rank4'][$row['idPlayer']] : 0;
-            $row['rank5'] = (isset($data['rank5'][$row['idPlayer']])) ? $data['rank5'][$row['idPlayer']] : 0;
+            $row['chartRank0'] = (isset($data['chartRank0'][$row['idPlayer']])) ? $data['chartRank0'][$row['idPlayer']] : 0;
+            $row['chartRank1'] = (isset($data['chartRank1'][$row['idPlayer']])) ? $data['chartRank1'][$row['idPlayer']] : 0;
+            $row['chartRank2'] = (isset($data['chartRank2'][$row['idPlayer']])) ? $data['chartRank2'][$row['idPlayer']] : 0;
+            $row['chartRank3'] = (isset($data['chartRank3'][$row['idPlayer']])) ? $data['chartRank3'][$row['idPlayer']] : 0;
+            $row['chartRank4'] = (isset($data['chartRank4'][$row['idPlayer']])) ? $data['chartRank4'][$row['idPlayer']] : 0;
+            $row['chartRank5'] = (isset($data['chartRank5'][$row['idPlayer']])) ? $data['chartRank5'][$row['idPlayer']] : 0;
             $row['nbChartProven'] = (isset($data['nbChartProven'][$row['idPlayer']])) ? $data['nbChartProven'][$row['idPlayer']] : 0;
             $list[] = $row;
         }
 
         //----- add some data
-        $list = Ranking::addRank($list, 'rankPoint', ['pointChart']);
-        $list = Ranking::order($list, ['rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC']);
-        $list = Ranking::addRank($list, 'rankMedal', ['rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5']);
+        $list = Ranking::addRank($list, 'rankPointChart', ['pointChart']);
+        $list = Ranking::order($list, ['chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC']);
+        $list = Ranking::addRank($list, 'rankMedal', ['chartRank0', 'chartRank1', 'chartRank2', 'chartRank3', 'chartRank4', 'chartRank5']);
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer([$normalizer]);

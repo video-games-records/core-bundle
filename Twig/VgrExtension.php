@@ -10,6 +10,7 @@ class VgrExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('vgrFormatScore', [$this, 'formatScoreFunction']),
+            new \Twig_SimpleFunction('vgrRankBgColor', [$this, 'rankBackgroundColor']),
         ];
     }
 
@@ -57,6 +58,26 @@ class VgrExtension extends \Twig_Extension
                 $result = $tmpValue . $suffixe . $result;
             }
             return $result;
+        }
+    }
+
+    /**
+     * @param $rank
+     * @return string
+     */
+    public function rankBackgroundColor($rank)
+    {
+        $class = [
+            0 => '',
+            1 => 'bg-first',
+            2 => 'bg-second',
+            3 => 'bg-third',
+        ];
+
+        if ($rank <= 3) {
+            return sprintf("class=\"%s\"", $class[$rank]);
+        } else {
+            return '';
         }
     }
 

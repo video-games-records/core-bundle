@@ -18,8 +18,8 @@
         </thead>
         <tbody>
         {% for row in ranking %}
-            <tr {{ vgrRankBgColor(row.getRankPoint())|raw }}>
-                <td>{{ row.getRankPoint() }}</td>
+            <tr {{ vgrRankBgColor(row.getRankPointChart())|raw }}>
+                <td>{{ row.getRankPointChart() }}</td>
                 <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
                 <td>{{ row.getPointChart() }}</td>
                 <td>{{ row.getNbChart() }}</td>

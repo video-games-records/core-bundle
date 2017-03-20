@@ -49,10 +49,10 @@ class PlayerRepository extends EntityRepository
         $query = $this->_em->createQuery("
             SELECT
                  pg.idPlayer,
-                 SUM(pg.rank0) as chartRank0,
-                 SUM(pg.rank1) as chartRank1,
-                 SUM(pg.rank2) as chartRank2,
-                 SUM(pg.rank3) as chartRank3,
+                 SUM(pg.chartRank0) as chartRank0,
+                 SUM(pg.chartRank1) as chartRank1,
+                 SUM(pg.chartRank2) as chartRank2,
+                 SUM(pg.chartRank3) as chartRank3,
                  SUM(pg.nbChart) as nbChart,
                  SUM(pg.nbChartProven) as nbChartProven,
                  SUM(pg.pointChart) as pointChart,
@@ -91,14 +91,14 @@ class PlayerRepository extends EntityRepository
                  COUNT(pg.idGame) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.game g
-            WHERE pg.rankPoint = 1
+            WHERE pg.rankPointChart = 1
             AND g.nbPlayer > 1
             AND pg.nbEqual = 1
             GROUP BY pg.idPlayer");
 
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['rank0'][$row['idPlayer']] = (int) $row['nb'];
+            $data['gameRank0'][$row['idPlayer']] = (int) $row['nb'];
         }
 
         //----- data rank1 to rank3
@@ -107,14 +107,14 @@ class PlayerRepository extends EntityRepository
                  pg.idPlayer,
                  COUNT(pg.idGame) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
-            WHERE pg.rankPoint = :rank
+            WHERE pg.rankPointChart = :rank
             GROUP BY pg.idPlayer");
 
         for ($i = 1; $i <= 3; $i++) {
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["rank$i"][$row['idPlayer']] = (int) $row['nb'];
+                $data["gameRank$i"][$row['idPlayer']] = (int) $row['nb'];
             }
         }
 
@@ -124,10 +124,10 @@ class PlayerRepository extends EntityRepository
         foreach ($players as $player) {
             $idPlayer = $player->getIdPlayer();
 
-            $rank0 = (isset($data['rank0'][$idPlayer])) ? $data['rank0'][$idPlayer] : 0;
-            $rank1 = (isset($data['rank1'][$idPlayer])) ? $data['rank1'][$idPlayer] : 0;
-            $rank2 = (isset($data['rank2'][$idPlayer])) ? $data['rank2'][$idPlayer] : 0;
-            $rank3 = (isset($data['rank3'][$idPlayer])) ? $data['rank3'][$idPlayer] : 0;
+            $rank0 = (isset($data['gameRank0'][$idPlayer])) ? $data['gameRank0'][$idPlayer] : 0;
+            $rank1 = (isset($data['gameRank1'][$idPlayer])) ? $data['gameRank1'][$idPlayer] : 0;
+            $rank2 = (isset($data['gameRank2'][$idPlayer])) ? $data['gameRank2'][$idPlayer] : 0;
+            $rank3 = (isset($data['gameRank3'][$idPlayer])) ? $data['gameRank3'][$idPlayer] : 0;
 
             $player->setGameRank0($rank0);
             $player->setGameRank1($rank1);
@@ -235,4 +235,103 @@ class PlayerRepository extends EntityRepository
 
         return $player;
     }
+
+    /**
+     * @param int $idPlayer
+     * @return array
+     */
+    public function getRankingPointsChart($idPlayer)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->orderBy('p.rankPointChart');
+
+        if ($idPlayer !== null) {
+            $query->where('(p.rankPointChart <= :maxRank OR p.idPlayer = :idPlayer)')
+                ->setParameter('maxRank', 100)
+                ->setParameter('idPlayer', $idPlayer);
+        } else {
+            $query->where('p.rankPointChart <= :maxRank')
+                ->setParameter('maxRank', 100);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param int $idPlayer
+     * @return array
+     */
+    public function getRankingPointsGame($idPlayer)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->orderBy('p.rankPointGame');
+
+        if ($idPlayer !== null) {
+            $query->where('(p.rankPointGame <= :maxRank OR p.idPlayer = :idPlayer)')
+                ->setParameter('maxRank', 100)
+                ->setParameter('idPlayer', $idPlayer);
+        } else {
+            $query->where('p.rankPointGame <= :maxRank')
+                ->setParameter('maxRank', 100);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param int $idPlayer
+     * @return array
+     */
+    public function getRankingMedals($idPlayer)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->orderBy('p.rankMedal');
+
+        if ($idPlayer !== null) {
+            $query->where('(p.rankMedal <= :maxRank OR p.idPlayer = :idPlayer)')
+                ->setParameter('maxRank', 100)
+                ->setParameter('idPlayer', $idPlayer);
+        } else {
+            $query->where('p.rankMedal <= :maxRank')
+                ->setParameter('maxRank', 100);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param int $idPlayer
+     * @return array
+     */
+    public function getRankingCups($idPlayer)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->orderBy('p.rankCup');
+
+        if ($idPlayer !== null) {
+            $query->where('(p.rankCup <= :maxRank OR p.idPlayer = :idPlayer)')
+                ->setParameter('maxRank', 100)
+                ->setParameter('idPlayer', $idPlayer);
+        } else {
+            $query->where('p.rankCup <= :maxRank')
+                ->setParameter('maxRank', 100);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function majNbGame()
+    {
+        //----- MAJ game.nbTeam
+        $sql = "UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer)";
+        $this->_em->getConnection()->executeUpdate($sql);
+    }
+
+
 }

@@ -176,6 +176,13 @@ ALTER TABLE `vgr_player_game` CHANGE `nbRecordSansDLC` `nbChartWithoutDlc` INT(1
 ALTER TABLE `vgr_player_game` CHANGE `nbRecordProuveSansDLC` `nbChartProvenWithoutDlc` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_game` CHANGE `pointJeu` `pointGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_game` ADD `nbEqual` INT NOT NULL DEFAULT '1';
+ALTER TABLE `vgr_player_game` CHANGE `rank0` `chartRank0` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `rank1` `chartRank1` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `rank2` `chartRank2` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `rank3` `chartRank3` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `rank4` `chartRank4` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `rank5` `chartRank5` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` CHANGE `rankPoint` `rankPointChart` INT(11) NOT NULL;
 
 ALTER TABLE `vgr_player_group` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_group` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
@@ -183,6 +190,13 @@ ALTER TABLE `vgr_player_group` CHANGE `rank` `rankPoint` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_group` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_group` CHANGE `nbRecord` `nbChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_group` CHANGE `nbRecordProuve` `nbChartProven` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `rank0` `chartRank0` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `rank1` `chartRank1` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `rank2` `chartRank2` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `rank3` `chartRank3` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `rank4` `chartRank4` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `rank5` `chartRank5` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` CHANGE `rankPoint` `rankPointChart` INT(11) NOT NULL;
 
 ALTER TABLE `vgr_player_serie` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_serie` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
@@ -374,8 +388,12 @@ CHANGE vgr_rank_cup rankCup  INT DEFAULT NULL,
 CHANGE vgr_nbMasterBadge nbMasterBadge  INT DEFAULT NULL,
 CHANGE vgr_rank_pointJeu rankPointGame INT DEFAULT NULL,
 CHANGE vgr_collection collection text DEFAULT NULL;
-
+ALTER TABLE `vgr_player` ADD `nbGame` INT NOT NULL DEFAULT '0' AFTER `gameRank3`;
 
 --
 UPDATE vgr_game g
 SET nbTeam = (SELECT COUNT(idGame) FROM vgr_team_game tg WHERE tg.idGame = g.id);
+
+UPDATE vgr_player p
+SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer);
+

@@ -13,16 +13,16 @@
                 <th scope="col">{{ 'ranking.rank'|trans }}</th>
                 <th scope="col">{{ 'ranking.nickname'|trans }}</th>
                 <th scope="col">{{ 'ranking.points'|trans }}</th>
-                <th scope="col">{{ 'ranking.number.score'|trans }}</th>
+                <th scope="col">{{ 'ranking.number.game'|trans }}</th>
             </tr>
         </thead>
         <tbody>
         {% for row in ranking %}
-            <tr {{ vgrRankBgColor(row.getRankPoint())|raw }}>
-                <td>{{ row.getRankPoint() }}</td>
+            <tr {{ vgrRankBgColor(row.getRankPointGame())|raw }}>
+                <td>{{ row.getRankPointGame() }}</td>
                 <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
-                <td>{{ row.getPointChart() }}</td>
-                <td>{{ row.getNbChart() }}</td>
+                <td>{{ row.getPointGame() }}</td>
+                <td>{{ row.getNbGame() }}</td>
             </tr>
         {% endfor %}
         </tbody>

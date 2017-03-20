@@ -194,6 +194,13 @@ class Player
     /**
      * @var integer
      *
+     * @ORM\Column(name="nbGame", type="integer", nullable=false)
+     */
+    private $nbGame = 0;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
     private $nbChart = 0;
@@ -792,6 +799,29 @@ class Player
     }
 
     /**
+     * Set nbGame
+     *
+     * @param integer $nbGame
+     * @return Player
+     */
+    public function setNbGame($nbGame)
+    {
+        $this->nbGame = $nbGame;
+
+        return $this;
+    }
+
+    /**
+     * Get nbGame
+     *
+     * @return integer
+     */
+    public function getNbGame()
+    {
+        return $this->nbGame;
+    }
+
+    /**
      * Set nbChart
      *
      * @param integer $nbChart
@@ -951,5 +981,13 @@ class Player
     public function getTeam()
     {
         return $this->team;
+    }
+
+    /**
+     * @return $this
+     */
+    public function getPlayer()
+    {
+        return $this;
     }
 }

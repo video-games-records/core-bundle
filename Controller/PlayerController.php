@@ -51,4 +51,78 @@ class PlayerController extends Controller
 
         return $this->render('VideoGamesRecordsCoreBundle:Player:index.html.twig', ['player' => $player, 'nbPlayer' => $nbPlayer, 'lastChart' => $lastChart]);
     }
+
+    /**
+     * @Route("/ranking-points-chart", name="vgr_player_ranking_points_chart")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function rankingPointsChartAction()
+    {
+        $idPlayer = null;
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointsChart($idPlayer);
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addItem('player.pointchartranking.full');
+
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-points-chart.html.twig', ['ranking' => $ranking]);
+    }
+
+    /**
+     * @Route("/ranking-points-game", name="vgr_player_ranking_points_game")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function rankingPointsGameAction()
+    {
+        $idPlayer = null;
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointsGame($idPlayer);
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addItem('player.pointgameranking.full');
+
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-points-game.html.twig', ['ranking' => $ranking]);
+    }
+
+
+    /**
+     * @Route("/ranking-medals", name="vgr_player_ranking_medals")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function rankingMedalsAction()
+    {
+        $idPlayer = null;
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingMedals($idPlayer);
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addItem('player.medalranking.full');
+
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig', ['ranking' => $ranking]);
+    }
+
+    /**
+     * @Route("/ranking-cups", name="vgr_player_ranking_medals")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function rankingCupsAction()
+    {
+        $idPlayer = null;
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCups($idPlayer);
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addItem('player.cupranking.full');
+
+        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-cups.html.twig', ['ranking' => $ranking]);
+    }
+
 }

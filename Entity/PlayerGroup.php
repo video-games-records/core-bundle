@@ -48,9 +48,9 @@ class PlayerGroup
     /**
      * @var integer
      *
-     * @ORM\Column(name="rankPoint", type="integer", nullable=false)
+     * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
      */
-    private $rankPoint;
+    private $rankPointChart;
 
     /**
      * @var integer
@@ -62,44 +62,44 @@ class PlayerGroup
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank0", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank0", type="integer", nullable=false)
      */
-    private $rank0;
+    private $chartRank0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank1", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank1", type="integer", nullable=false)
      */
-    private $rank1;
+    private $chartRank1;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank2", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank2", type="integer", nullable=false)
      */
-    private $rank2;
+    private $chartRank2;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank3", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank3", type="integer", nullable=false)
      */
-    private $rank3;
+    private $chartRank3;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank4", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank4", type="integer", nullable=false)
      */
-    private $rank4;
+    private $chartRank4;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank5", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank5", type="integer", nullable=false)
      */
-    private $rank5;
+    private $chartRank5;
 
     /**
      * @var integer
@@ -168,25 +168,25 @@ class PlayerGroup
 
 
     /**
-     * Set rankPoint
+     * Set rankPointChart
      *
-     * @param integer $rankPoint
+     * @param integer $rankPointChart
      * @return $this
      */
-    public function setRankPoint($rankPoint)
+    public function setRankPointChart($rankPointChart)
     {
-        $this->rankPoint = $rankPoint;
+        $this->rankPointChart = $rankPointChart;
         return $this;
     }
 
     /**
-     * Get rankPoint
+     * Get rankPointChart
      *
      * @return integer
      */
-    public function getRankPoint()
+    public function getRankPointChart()
     {
-        return $this->rankPoint;
+        return $this->rankPointChart;
     }
 
     /**
@@ -212,135 +212,135 @@ class PlayerGroup
     }
 
     /**
-     * Set rank
+     * Set chartRank0
      *
-     * @param integer $rank0
+     * @param integer $chartRank0
      * @return $this
      */
-    public function setRank0($rank0)
+    public function setChartRank0($chartRank0)
     {
-        $this->rank0 = $rank0;
+        $this->chartRank0 = $chartRank0;
         return $this;
     }
 
     /**
-     * Get rank0
+     * Get chartRank0
      *
      * @return integer
      */
-    public function getRank0()
+    public function getChartRank0()
     {
-        return $this->rank0;
+        return $this->chartRank0;
     }
 
     /**
-     * Set rank1
+     * Set chartRank1
      *
-     * @param integer $rank1
+     * @param integer $chartRank1
      * @return $this
      */
-    public function setRank1($rank1)
+    public function setChartRank1($chartRank1)
     {
-        $this->rank1 = $rank1;
+        $this->chartRank1 = $chartRank1;
         return $this;
     }
 
     /**
-     * Get rank1
+     * Get chartRank1
      *
      * @return integer
      */
-    public function getRank1()
+    public function getChartRank1()
     {
-        return $this->rank1;
+        return $this->chartRank1;
     }
 
     /**
-     * Set rank2
+     * Set chartRank2
      *
-     * @param integer $rank2
+     * @param integer $chartRank2
      * @return $this
      */
-    public function setRank2($rank2)
+    public function setChartRank2($chartRank2)
     {
-        $this->rank2 = $rank2;
+        $this->chartRank2 = $chartRank2;
         return $this;
     }
 
     /**
-     * Get rank2
+     * Get chartRank2
      *
      * @return integer
      */
-    public function getRank2()
+    public function getChartRank2()
     {
-        return $this->rank2;
+        return $this->chartRank2;
     }
 
     /**
-     * Set rank3
+     * Set chartRank3
      *
-     * @param integer $rank3
+     * @param integer $chartRank3
      * @return $this
      */
-    public function setRank3($rank3)
+    public function setChartRank3($chartRank3)
     {
-        $this->rank3 = $rank3;
+        $this->chartRank3 = $chartRank3;
         return $this;
     }
 
     /**
-     * Get rank3
+     * Get chartRank3
      *
      * @return integer
      */
-    public function getRank3()
+    public function getChartRank3()
     {
-        return $this->rank3;
+        return $this->chartRank3;
     }
 
     /**
-     * Set rank4
+     * Set chartRank4
      *
-     * @param integer $rank4
+     * @param integer $chartRank4
      * @return $this
      */
-    public function setRank4($rank4)
+    public function setChartRank4($chartRank4)
     {
-        $this->rank4 = $rank4;
+        $this->chartRank4 = $chartRank4;
         return $this;
     }
 
     /**
-     * Get rank4
+     * Get chartRank4
      *
      * @return integer
      */
-    public function getRank4()
+    public function getChartRank4()
     {
-        return $this->rank4;
+        return $this->chartRank4;
     }
 
     /**
-     * Set rank5
+     * Set chartRank5
      *
-     * @param integer $rank5
+     * @param integer $chartRank5
      * @return $this
      */
-    public function setRank5($rank5)
+    public function setChartRank5($chartRank5)
     {
-        $this->rank5 = $rank5;
+        $this->chartRank5 = $chartRank5;
         return $this;
     }
 
     /**
-     * Get rank5
+     * Get chartRank5
      *
      * @return integer
      */
-    public function getRank5()
+    public function getChartRank5()
     {
-        return $this->rank5;
+        return $this->chartRank5;
     }
 
     /**
@@ -455,45 +455,6 @@ class PlayerGroup
     public function getPlayer()
     {
         return $this->player;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getPointsBackgroundColor()
-    {
-        $class = [
-            0 => '',
-            1 => 'bg-first',
-            2 => 'bg-second',
-            3 => 'bg-third',
-        ];
-
-        if ($this->getRankPoint() <= 3) {
-            return sprintf("class=\"%s\"", $class[$this->getRankPoint()]);
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public function getMedalsBackgroundColor()
-    {
-        $class = [
-            0 => '',
-            1 => 'bg-first',
-            2 => 'bg-second',
-            3 => 'bg-third',
-        ];
-
-        if ($this->getRankMedal() <= 3) {
-            return sprintf("class=\"%s\"", $class[$this->getRankMedal()]);
-        } else {
-            return '';
-        }
     }
 
     /**

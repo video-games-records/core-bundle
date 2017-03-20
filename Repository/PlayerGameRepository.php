@@ -18,7 +18,7 @@ class PlayerGameRepository extends EntityRepository
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
             ->addSelect('p')//----- for using ->getPlayer() on each result
-            ->orderBy('pg.rankPoint');
+            ->orderBy('pg.rankPointChart');
 
         $query->where('pg.idGame= :idGame')
             ->setParameter('idGame', $params['idGame']);
@@ -28,11 +28,11 @@ class PlayerGameRepository extends EntityRepository
         }
 
         if ((array_key_exists('maxRank', $params)) && (array_key_exists('idPlayer', $params))) {
-            $query->andWhere('(pg.rankPoint <= :maxRank OR pg.idPlayer = :idPlayer)')
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.idPlayer = :idPlayer)')
                 ->setParameter('maxRank', $params['maxRank'])
                 ->setParameter('idPlayer', $params['idPlayer']);
         } elseif (array_key_exists('maxRank', $params)) {
-            $query->andWhere('pg.rankPoint <= :maxRank')
+            $query->andWhere('pg.rankPointChart <= :maxRank')
                 ->setParameter('maxRank', $params['maxRank']);
         }
         return $query->getQuery()->getResult();
@@ -103,14 +103,14 @@ class PlayerGameRepository extends EntityRepository
             SELECT
                 pg.idPlayer,
                 (g.idGame) as idGame,
-                '' as rankPoint,
+                '' as rankPointChart,
                 '' as rankMedal,
-                SUM(pg.rank0) as rank0,
-                SUM(pg.rank1) as rank1,
-                SUM(pg.rank2) as rank2,
-                SUM(pg.rank3) as rank3,
-                SUM(pg.rank4) as rank4,
-                SUM(pg.rank5) as rank5,
+                SUM(pg.chartRank0) as chartRank0,
+                SUM(pg.chartRank1) as chartRank1,
+                SUM(pg.chartRank2) as chartRank2,
+                SUM(pg.chartRank3) as chartRank3,
+                SUM(pg.chartRank4) as chartRank4,
+                SUM(pg.chartRank5) as chartRank5,
                 SUM(pg.pointChart) as pointChart,
                 SUM(pg.nbChart) as nbChart,
                 SUM(pg.nbChartProven) as nbChartProven
@@ -131,10 +131,10 @@ class PlayerGameRepository extends EntityRepository
         }
 
         //----- add some data
-        $list = Ranking::addRank($list, 'rankPoint', ['pointChart'], true);
-        $list = Ranking::calculateGamePoints($list, ['rankPoint', 'nbEqual'], 'pointGame', 'pointChart');
-        $list = Ranking::order($list, ['rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC']);
-        $list = Ranking::addRank($list, 'rankMedal', ['rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5']);
+        $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);
+        $list = Ranking::calculateGamePoints($list, ['rankPointChart', 'nbEqual'], 'pointGame', 'pointChart');
+        $list = Ranking::order($list, ['chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC']);
+        $list = Ranking::addRank($list, 'rankMedal', ['chartRank0', 'chartRank1', 'chartRank2', 'chartRank3', 'chartRank4', 'chartRank5']);
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer([$normalizer]);
