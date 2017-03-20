@@ -14,6 +14,33 @@ class TeamGameRepository extends EntityRepository
 {
 
     /**
+     * @param int $idGame
+     * @param int $maxRank
+     * @param int $idTeam
+     * @return array
+     */
+    public function getRankingPoints($idGame, $maxRank, $idTeam)
+    {
+        $query = $this->createQueryBuilder('tg')
+            ->join('tg.team', 't')
+            ->addSelect('t')//----- for using ->getTeam() on each result
+            ->orderBy('tg.rankPointChart');
+
+        $query->where('tg.idGame= :idGame')
+            ->setParameter('idGame', $idGame);
+
+        if ( ($maxRank !== null) && ($idTeam !== null) ) {
+            $query->andWhere('(tg.rankPointChart <= :maxRank OR tg.idTeam = :idTeam)')
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('idTeam', $idTeam);
+        } elseif ($maxRank !== null) {
+            $query->andWhere('tg.rankPointChart <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        }
+        return $query->getQuery()->getResult();
+    }
+
+    /**
      * @param $idGame
      * @return array
      */

@@ -53,7 +53,7 @@
         </tr>
         </tfoot>
         <tbody>
-        {% for row in rankingPoints %}
+        {% for row in playerRankingPoints %}
             <tr {{ vgrRankBgColor(row.getRankPointChart())|raw }}>
                 <td>{{ row.getRankPointChart() }}</td>
                 <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
@@ -90,7 +90,7 @@
         </tr>
         </tfoot>
         <tbody>
-        {% for row in rankingMedals %}
+        {% for row in playerRankingMedals %}
             <tr {{ vgrRankBgColor(row.getRankMedal())|raw }}>
                 <td>{{ row.getRankMedal() }}</td>
                 <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
@@ -102,6 +102,40 @@
         {% else %}
             <tr>
                 <td colspan="6">{{ 'game.no_player'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>{{ 'game.ranking.point'|trans }}</h2>
+
+    <table class="leaderboard">
+        <thead>
+        <tr>
+            <th scope="col">{{ 'ranking.rank'|trans }}</th>
+            <th scope="col">{{ 'ranking.nickname'|trans }}</th>
+            <th scope="col">{{ 'ranking.pointsGame'|trans }}</th>
+            <th scope="col">{{ 'ranking.pointsChart'|trans }}</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="4">
+
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% for row in teamRankingPoints %}
+            <tr {{ vgrRankBgColor(row.getRankPointChart())|raw }}>
+                <td>{{ row.getRankPointChart() }}</td>
+                <td>{{ row.getTeam().getLibTeam() }}</td>
+                <td>{{ row.getPointGame() }}</td>
+                <td>{{ row.getPointChart() }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">{{ 'game.no_player'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
