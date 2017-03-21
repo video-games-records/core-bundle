@@ -88,7 +88,7 @@
                                                     <td>
                                                         <ul>
                                                     {% for group in object.getGroups() %}
-                                                            <li><a href="{{ path('vgrcorebundle_admin_group_edit', {'id': group.getIdGroup()}) }}">{{ group }}</a></li>
+                                                            <li><a href="{{ path('vgrcorebundle_admin_group_edit', {'id': group.getId()}) }}">{{ group }}</a></li>
                                                             <ul>
                                                         {% for chart in group.getCharts() %}
                                                             <li><a href="{{ path('vgrcorebundle_admin_chart_edit', {'id': chart.getIdChart()}) }}">{{ chart }}</a></li>
