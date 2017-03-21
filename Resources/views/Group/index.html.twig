@@ -40,7 +40,7 @@
         <tfoot>
         <tr>
             <td colspan="4">
-                <a href="{{ path('vgr_group_ranking_points', {'id': group.getIdGroup()}) }}">{{ 'group.ranking.point.full'|trans }}</a>
+                <a href="{{ path('vgr_group_ranking_points', {'id': group.getId()}) }}">{{ 'group.ranking.point.full'|trans }}</a>
             </td>
         </tr>
         </tfoot>
@@ -75,7 +75,7 @@
         <tfoot>
         <tr>
             <td colspan="6">
-                <a href="{{ path('vgr_group_ranking_medals', {'id': group.getIdGroup()}) }}">{{ 'group.ranking.medal.full'|trans }}</a>
+                <a href="{{ path('vgr_group_ranking_medals', {'id': group.getId()}) }}">{{ 'group.ranking.medal.full'|trans }}</a>
             </td>
         </tr>
         </tfoot>

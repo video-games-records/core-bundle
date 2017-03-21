@@ -145,7 +145,7 @@ class ChartAdmin extends AbstractAdmin
             ->add('libChartEn', null, array('editable' => false))
             ->add('libChartFr')
             ->add('group', null, array(
-                'associated_property' => 'libGroupEn',
+                'associated_property' => 'libGroup',
                 'label' => 'Group',
             ))
             ->add('_action', 'actions', array(
@@ -166,7 +166,7 @@ class ChartAdmin extends AbstractAdmin
             ->add('libChartFr')
             ->add('libChartEn')
             ->add('group', null, array(
-                'associated_property' => 'libGroupEn',
+                'associated_property' => 'libGroup',
                 'label' => 'Group',
             ));
     }

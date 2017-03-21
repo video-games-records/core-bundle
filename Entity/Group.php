@@ -5,46 +5,33 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Group
  *
- * @ORM\Table(name="vgr_group", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxLibGroupFr", columns={"libGroupFr"}), @ORM\Index(name="idxLibGroupEn", columns={"libGroupEn"}), @ORM\Index(name="idxBoolDlc", columns={"boolDlc"})})
+ * @ORM\Table(name="vgr_group", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxBoolDlc", columns={"boolDlc"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
  */
 class Group
 {
     use Timestampable;
+    use Translatable;
 
     /**
      * @var integer
-     * @ORM\Column(name="idGroup", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idGroup;
+    private $id;
 
     /**
      * @var integer
      * @ORM\Column(name="idGame", type="integer", nullable=false)
      */
     private $idGame;
-
-
-    /**
-     * @var string
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="libGroupFr", type="string", length=100, nullable=true)
-     */
-    private $libGroupFr;
-
-    /**
-     * @var string
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="libGroupEn", type="string", length=100, nullable=false)
-     */
-    private $libGroupEn;
 
     /**
      * @var boolean
@@ -101,17 +88,17 @@ class Group
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->libGroupEn, $this->idGroup);
+        return sprintf('%s [%s]', $this->getName(), $this->id);
     }
 
     /**
      * Set idGroup
-     * @param integer $idGroup
+     * @param integer $id
      * @return Group
      */
-    public function setIdGroup($idGroup)
+    public function setId($id)
     {
-        $this->idGroup = $idGroup;
+        $this->id = $id;
         return $this;
     }
 
@@ -119,11 +106,10 @@ class Group
      * Get idGroup
      * @return integer
      */
-    public function getIdGroup()
+    public function getId()
     {
-        return $this->idGroup;
+        return $this->id;
     }
-
 
     /**
      * Get libGroup
@@ -131,49 +117,26 @@ class Group
      */
     public function getLibGroup()
     {
-        return $this->libGroupEn;
+        return $this->getName();
     }
 
     /**
-     * Set libGroupFr
-     * @param string $libGroupFr
-     * @return Group
+     * @param string $name
+     * @return $this
      */
-    public function setLibGroupFr($libGroupFr)
+    public function setName($name)
     {
-        $this->libGroupFr = $libGroupFr;
+        $this->translate(null, false)->setName($name);
 
         return $this;
     }
 
     /**
-     * Get libGroupFr
      * @return string
      */
-    public function getLibGroupFr()
+    public function getName()
     {
-        return $this->libGroupFr;
-    }
-
-    /**
-     * Set libGroupEn
-     * @param string $libGroupEn
-     * @return Group
-     */
-    public function setLibGroupEn($libGroupEn)
-    {
-        $this->libGroupEn = $libGroupEn;
-
-        return $this;
-    }
-
-    /**
-     * Get libGroupEn
-     * @return string
-     */
-    public function getLibGroupEn()
-    {
-        return $this->libGroupEn;
+        return $this->translate(null, false)->getName();
     }
 
     /**

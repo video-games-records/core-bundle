@@ -5,7 +5,7 @@ CREATE TRIGGER `vgrPlayerChartAfterInsert` AFTER INSERT ON `vgr_player_chart`
 FOR EACH ROW
 BEGIN
     UPDATE vgr_chart
-	SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = NEW.idChart AND idEtat != 7),
+	  SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = NEW.idChart AND idEtat != 7),
 		statusUser = 'MAJ',
 		statusTeam = 'MAJ'
 	WHERE idChart = NEW.idChart;
@@ -105,9 +105,11 @@ delimiter //
 DROP TRIGGER IF EXISTS `vgrChartAfterDelete`//
 CREATE TRIGGER vgrChartAfterDelete AFTER DELETE ON vgr_chart
 FOR EACH ROW
-UPDATE vgr_groupe
-SET nbChart = (SELECT COUNT(idChart) FROM vgr_chart WHERE idGroup = OLD.idGroup)
-WHERE idGroup = OLD.idGroup //
+BEGIN
+  UPDATE vgr_group
+  SET nbChart = (SELECT COUNT(idChart) FROM vgr_chart WHERE idGroup = OLD.idGroup)
+  WHERE id = OLD.idGroup
+END //
 delimiter ;
 
 
@@ -118,9 +120,9 @@ CREATE TRIGGER vgrGroupAfterInsert AFTER INSERT ON vgr_group
 FOR EACH ROW
 BEGIN
 	IF (SELECT COUNT(idGroup) FROM vgr_group WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
-		UPDATE vgr_game SET boolDLC=1 WHERE idGame = NEW.idGame;
+		UPDATE vgr_game SET boolDLC=1 WHERE id = NEW.idGame;
 	ELSE
-		UPDATE vgr_game SET boolDLC=0 WHERE idGame = NEW.idGame;
+		UPDATE vgr_game SET boolDLC=0 WHERE id = NEW.idGame;
 	END IF;
 END //
 delimiter ;
@@ -133,19 +135,20 @@ FOR EACH ROW
 BEGIN
 	IF OLD.nbChart != NEW.nbChart	THEN
 		UPDATE vgr_game
-		SET nbChart = (SELECT SUM(nbChart) FROM vgr_groupe WHERE idGame = NEW.idGame)
+		SET nbChart = (SELECT SUM(nbChart) FROM vgr_group WHERE idGame = NEW.idGame)
 		WHERE idGame = NEW.idGame;
 	END IF;
 	IF OLD.nbPost != NEW.nbPost	THEN
 		UPDATE vgr_game
-		SET nbPost = (SELECT SUM(nbPost) FROM vgr_groupe WHERE idGame = NEW.idGame)
+		SET nbPost = (SELECT SUM(nbPost) FROM vgr_group WHERE idGame = NEW.idGame)
 		WHERE idGame = NEW.idGame;
 	END IF;
 	IF OLD.nbPlayer != NEW.nbPlayer THEN
 		UPDATE vgr_game
 		SET nbPlayer = (SELECT COUNT(DISTINCT(a.idPlayer))
-		    			FROM vgr_player_chart a INNER JOIN vgr_chart b ON a.idChart = b.idChart
-		    			INNER JOIN vgr_group c ON b.idGroup = c.idGroup
+		    			FROM vgr_player_chart a
+		    			INNER JOIN vgr_chart b ON a.idChart = b.idChart
+		    			INNER JOIN vgr_group c ON b.idGroup = c.id
 		    			WHERE c.idGame = NEW.idGame)
 		WHERE idGame = NEW.idGame;
 	END IF;

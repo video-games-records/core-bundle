@@ -38,7 +38,7 @@ class ChartController extends VgrBaseController
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibGame(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getId()]);
-        $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getIdGroup()]);
+        $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getId()]);
         $breadcrumbs->addItem($chart->getLibChart());
 
         return $this->render('VideoGamesRecordsCoreBundle:Chart:index.html.twig', ['chart' => $chart, 'ranking' => $ranking]);
@@ -78,7 +78,7 @@ class ChartController extends VgrBaseController
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibGame(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getId()]);
-        $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getIdGroup()]);
+        $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getId()]);
         $breadcrumbs->addItem($chart->getLibChart());
 
         return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', ['chart' => $chart, 'charts' => $charts, 'form' => $form->createView()]);

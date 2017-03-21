@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -44,7 +45,7 @@ class GroupAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('idGroup', 'text', [
+            ->add('id', 'text', [
                 'label' => 'idGroup',
                 'attr' => [
                     'readonly' => true,
@@ -61,17 +62,12 @@ class GroupAdmin extends AbstractAdmin
                     'label' => 'Game',
                 ]
             ))
-            ->add('libGroupEn', 'text', [
-                'label' => 'Name (EN)',
-                'required' => true,
-            ])
-            ->add('libGroupFr', 'text', [
-                'label' => 'Name (FR)',
-                'required' => false,
-            ])
             ->add('boolDLC', 'checkbox', [
                 'label' => 'DLC ?',
                 'required' => false,
+            ])
+            ->add('translations', TranslationsType::class, [
+                'required' => true,
             ]);
     }
 
@@ -81,8 +77,7 @@ class GroupAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('libGroupFr')
-            ->add('libGroupEn')
+            ->add('translations.name')
             ->add('game', 'doctrine_orm_model_autocomplete', [], null, [
                 'property' => 'libGameEn',
             ]);
@@ -94,11 +89,10 @@ class GroupAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idGroup')
-            ->add('libGroupEn', null, ['editable' => false])
-            ->add('libGroupFr')
+            ->addIdentifier('id')
+            ->add('getName', null, ['label' => 'Name'])
             ->add('game', null, [
-                'associated_property' => 'libGameEn',
+                'associated_property' => 'libGame',
                 'label' => 'Game',
             ])
             ->add('boolDLC', 'boolean')
@@ -122,11 +116,10 @@ class GroupAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idGroup')
-            ->add('libGroupFr')
-            ->add('libGroupEn')
+            ->add('id')
+            ->add('getName', null, ['label' => 'Name'])
             ->add('game', null, [
-                'associated_property' => 'libGameEn',
+                'associated_property' => 'libGame',
                 'label' => 'Game',
             ])
             ->add('charts');

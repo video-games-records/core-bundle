@@ -24,7 +24,7 @@
         <tbody>
         {% for group in game.getGroups %}
             <tr>
-                <td><a href="{{ path('vgr_group_index', {'id': group.getIdGroup()}) }}">{{ group.getLibGroup() }}</a>
+                <td><a href="{{ path('vgr_group_index', {'id': group.getId()}) }}">{{ group.getLibGroup() }}</a>
                 </td>
                 <td>{{ group.getNbChart() }}</td>
                 <td>{{ group.getNbPost() }}</td>

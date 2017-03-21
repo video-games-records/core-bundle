@@ -40,7 +40,7 @@ class PlayerGroup
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="idGroup")
+     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id")
      * })
      */
     private $group;
@@ -419,7 +419,7 @@ class PlayerGroup
     public function setGroup(Group $group = null)
     {
         $this->group = $group;
-        $this->setIdGroup($group->getIdGroup());
+        $this->setIdGroup($group->getId());
         return $this;
     }
 

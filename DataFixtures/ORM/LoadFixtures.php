@@ -58,12 +58,10 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $list = [
             [
                 'id' => 1,
-                'name' => 'Forza Motosport',
                 'languages' => ['fr' => 'Forza Motosport', 'en' => 'Forza Motosport']
             ],
             [
                 'id' => 2,
-                'name' => 'Mario Kart',
                 'languages' => ['fr' => 'Mario Kart', 'en' => 'Mario Kart']
             ],
         ];
@@ -199,27 +197,30 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             [
                 'idGroup' => 1,
                 'idGame' => 11,
-                'libGroupEn' => 'Fastest Lap Times',
+                'languages' => ['fr' => 'Meilleur Tour', 'en' => 'Fastest Lap Times'],
             ],
             [
                 'idGroup' => 2,
                 'idGame' => 11,
-                'libGroupEn' => 'Fastest Total Times',
+                'languages' => ['fr' => 'Meilleur Temps', 'en' => 'Fastest Total Times'],
             ],
             [
                 'idGroup' => 3,
                 'idGame' => 11,
-                'libGroupEn' => 'GP',
+                'languages' => ['fr' => 'Grand Prix', 'en' => 'GP'],
             ],
         ];
 
         foreach ($list as $row) {
             $group = new Group();
-            $group->setIdGroup($row['idGroup']);
-            $group->setLibGroupEn($row['libGroupEn']);
+            $group->setId($row['idGroup']);
+            foreach ($row['languages'] as $locale => $label) {
+                $group->translate($locale, false)->setName($label);
+            }
             $group->setGame($this->getReference('game' . $row['idGame']));
+            $group->mergeNewTranslations();
             $manager->persist($group);
-            $this->addReference('group' . $group->getIdGroup(), $group);
+            $this->addReference('group' . $group->getId(), $group);
         }
 
         $manager->flush();
