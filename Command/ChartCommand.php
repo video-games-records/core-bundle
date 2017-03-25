@@ -125,7 +125,7 @@ class ChartCommand extends ContainerAwareCommand
             if (count($charts) > 0) {
                 foreach ($charts as $chart) {
                     $playerList = array_unique(
-                        array_merge($playerList, $playerChartRepository->maj($chart->getIdChart()))
+                        array_merge($playerList, $playerChartRepository->maj($chart->getId()))
                     );
 
                     //----- Group
@@ -200,7 +200,7 @@ class ChartCommand extends ContainerAwareCommand
             if (count($charts) > 0) {
                 foreach ($charts as $chart) {
                     $teamList = array_unique(
-                        array_merge($teamList, $teamChartRepository->maj($chart->getIdChart()))
+                        array_merge($teamList, $teamChartRepository->maj($chart->getId()))
                     );
 
                     //----- Group

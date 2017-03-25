@@ -91,7 +91,7 @@
                                                             <li><a href="{{ path('vgrcorebundle_admin_group_edit', {'id': group.getId()}) }}">{{ group }}</a></li>
                                                             <ul>
                                                         {% for chart in group.getCharts() %}
-                                                            <li><a href="{{ path('vgrcorebundle_admin_chart_edit', {'id': chart.getIdChart()}) }}">{{ chart }}</a></li>
+                                                            <li><a href="{{ path('vgrcorebundle_admin_chart_edit', {'id': chart.getId()}) }}">{{ chart }}</a></li>
                                                         {% endfor %}
                                                             </ul>
                                                     {% endfor %}

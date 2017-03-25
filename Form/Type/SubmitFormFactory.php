@@ -27,10 +27,10 @@ class SubmitFormFactory
 
 
         foreach ($charts as $chart) {
-            $form->add('name_' . $chart->getIdChart(), HiddenType::class, ['label' => $chart->getLibChart()]);
+            $form->add('name_' . $chart->getId(), HiddenType::class, ['label' => $chart->getLibChart()]);
 
             foreach ($chart->getLibs() as $lib) {
-                $id = 'user_' . $chart->getIdChart() . '_' . $lib->getIdLibChart();
+                $id = 'user_' . $chart->getId() . '_' . $lib->getIdLibChart();
                 $form->add($id, HiddenType::class); //----- miss ID
 
                 $inputs = Score::getInputs($lib->getType()->getMask());
@@ -38,7 +38,7 @@ class SubmitFormFactory
                 $i = 1;
                 foreach ($inputs as $k => $input) {
                     $form->add(
-                        'value_' . $chart->getIdChart() . '_' . $lib->getIdLibChart() . '_' . $i,
+                        'value_' . $chart->getId() . '_' . $lib->getIdLibChart() . '_' . $i,
                         TextType::class,
                         [
                             'label' => ($i == 1) ? $lib->getType()->getName() : null,

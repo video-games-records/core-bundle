@@ -54,13 +54,13 @@ class SubmitController extends Controller
                 $post = [];
 
                 foreach ($chart->getLibs() as $lib) {
-                    $oldValue = $data['user_' . $chart->getIdChart() . '_' . $lib->getIdLibChart()];
+                    $oldValue = $data['user_' . $chart->getId() . '_' . $lib->getIdLibChart()];
                     $newValue = '';
                     $values = [];
 
                     $nbInput = $lib->getType()->getNbInput();
                     for ($i = 1; $i <= $nbInput; $i++) {
-                        $value = $data['value_' . $chart->getIdChart() . '_' . $lib->getIdLibChart() . '_' . $i];
+                        $value = $data['value_' . $chart->getId() . '_' . $lib->getIdLibChart() . '_' . $i];
                         $newValue .= $value;
                         $values[] = $value;
                     }
@@ -87,7 +87,7 @@ class SubmitController extends Controller
                     $playerChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->find(
                         [
                             'idPlayer' => $idPlayer,
-                            'idChart' => $chart->getIdChart()
+                            'idChart' => $chart->getId()
                         ]
                     );
 

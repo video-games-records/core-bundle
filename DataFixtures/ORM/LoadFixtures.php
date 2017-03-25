@@ -238,106 +238,109 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             [
                 'idChart' => 1,
                 'idGroup' => 1,
-                'libChartEn' => 'Baby Park',
+                'languages' => ['fr' => 'Baby Park', 'en' => 'Baby Park'],
                 'types' => [1],
             ],
             [
                 'idChart' => 2,
                 'idGroup' => 1,
-                'libChartEn' => 'Bowser\'s Castle',
+                'languages' => ['fr' => 'Bowser\'s Castle', 'en' => 'Bowser\'s Castle'],
                 'types' => [1],
             ],
             [
                 'idChart' => 3,
                 'idGroup' => 1,
-                'libChartEn' => 'Daisy Cruiser',
+                'languages' => ['fr' => 'Daisy Cruiser', 'en' => 'Daisy Cruiser'],
                 'types' => [2],
             ],
             [
                 'idChart' => 4,
                 'idGroup' => 1,
-                'libChartEn' => 'Dino Dino Jungle',
+                'languages' => ['fr' => 'Dino Dino Jungle', 'en' => 'Dino Dino Jungle'],
                 'types' => [3],
             ],
             [
                 'idChart' => 5,
                 'idGroup' => 1,
-                'libChartEn' => 'DK Mountain',
+                'languages' => ['fr' => 'DK Mountain', 'en' => 'DK Mountain'],
                 'types' => [1],
             ],
             [
                 'idChart' => 6,
                 'idGroup' => 1,
-                'libChartEn' => 'Dry Dry Desert',
+                'languages' => ['fr' => 'Dry Dry Desert', 'en' => 'Dry Dry Desert'],
                 'types' => [2],
             ],
             [
                 'idChart' => 7,
                 'idGroup' => 1,
-                'libChartEn' => 'Luigi Circuit',
+                'languages' => ['fr' => 'Luigi Circuit', 'en' => 'Luigi Circuit'],
                 'types' => [1, 2],
             ],
             [
                 'idChart' => 8,
                 'idGroup' => 1,
-                'libChartEn' => 'Mario Circuit',
+                'languages' => ['fr' => 'Mario Circuit', 'en' => 'Mario Circuit'],
                 'types' => [1, 3],
             ],
             [
                 'idChart' => 9,
                 'idGroup' => 1,
-                'libChartEn' => 'Mushroom Bridge',
+                'languages' => ['fr' => 'Mushroom Bridge', 'en' => 'Mushroom Bridge'],
                 'types' => [2, 3],
             ],
             [
                 'idChart' => 10,
                 'idGroup' => 1,
-                'libChartEn' => 'Mushroom City',
+                'languages' => ['fr' => 'Mushroom City', 'en' => 'Mushroom City'],
                 'types' => [1],
             ],
             [
                 'idChart' => 11,
                 'idGroup' => 1,
-                'libChartEn' => 'Peach Beach',
+                'languages' => ['fr' => 'Peach Beach', 'en' => 'Peach Beach'],
                 'types' => [1],
             ],
             [
                 'idChart' => 12,
                 'idGroup' => 1,
-                'libChartEn' => 'Rainbow Road',
+                'languages' => ['fr' => 'Rainbow Road', 'en' => 'Rainbow Road'],
                 'types' => [1],
             ],
             [
                 'idChart' => 13,
                 'idGroup' => 1,
-                'libChartEn' => 'Sherbet Land',
+                'languages' => ['fr' => 'Sherbet Land', 'en' => 'Sherbet Land'],
                 'types' => [1],
             ],
             [
                 'idChart' => 14,
                 'idGroup' => 1,
-                'libChartEn' => 'Waluigi Stadium',
+                'languages' => ['fr' => 'Waluigi Stadium', 'en' => 'Waluigi Stadium'],
                 'types' => [1],
             ],
             [
                 'idChart' => 15,
                 'idGroup' => 1,
-                'libChartEn' => 'Wario Colosseum',
+                'languages' => ['fr' => 'Wario Colosseum', 'en' => 'Wario Colosseum'],
                 'types' => [3],
             ],
             [
                 'idChart' => 16,
                 'idGroup' => 1,
-                'libChartEn' => 'Yoshi Circuit',
+                'languages' => ['fr' => 'Yoshi Circuit', 'en' => 'Yoshi Circuit'],
                 'types' => [2],
             ],
         ];
 
         foreach ($list as $row) {
             $chart = new Chart();
-            $chart->setIdChart($row['idChart']);
-            $chart->setLibChartEn($row['libChartEn']);
+            $chart->setId($row['idChart']);
+            foreach ($row['languages'] as $locale => $label) {
+                $chart->translate($locale, false)->setName($label);
+            }
             $chart->setGroup($this->getReference('group' . $row['idGroup']));
+            $chart->mergeNewTranslations();
 
             foreach ($row['types'] as $type) {
                 $chartLib = new ChartLib();
@@ -350,7 +353,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             }
 
             $manager->persist($chart);
-            $this->addReference('chart' . $chart->getIdChart(), $chart);
+            $this->addReference('chart' . $chart->getId(), $chart);
         }
 
         $manager->flush();
