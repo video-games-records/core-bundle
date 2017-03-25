@@ -42,7 +42,6 @@ class TeamGameRepository extends EntityRepository
 
     /**
      * @param $idGame
-     * @return array
      */
     public function maj($idGame)
     {

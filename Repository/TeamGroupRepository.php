@@ -15,7 +15,6 @@ class TeamGroupRepository extends EntityRepository
 
     /**
      * @param $idGroup
-     * @return array
      */
     public function maj($idGroup)
     {
