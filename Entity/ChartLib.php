@@ -38,7 +38,7 @@ class ChartLib
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="libs")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="idChart")
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id")
      * })
      */
     private $chart;

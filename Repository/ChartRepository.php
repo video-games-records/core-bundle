@@ -19,7 +19,7 @@ class ChartRepository extends EntityRepository
             ->addSelect('gr')
             ->join('gr.game', 'ga')
             ->addSelect('ga')
-            ->where('ch.idChart = :idChart')
+            ->where('ch.id = :idChart')
             ->setParameter('idChart', $id);
 
         return $query->getQuery()
@@ -38,7 +38,7 @@ class ChartRepository extends EntityRepository
             ->addSelect('lib')
             ->join('lib.type', 'type')
             ->addSelect('type')
-            ->where('c.idChart = :idChart')
+            ->where('c.id = :idChart')
             ->setParameter('idChart', $id);
 
         return $query->getQuery()->getOneOrNullResult();
@@ -51,7 +51,7 @@ class ChartRepository extends EntityRepository
     public function isMajPlayerRunning()
     {
         $nb = $this->createQueryBuilder('c')
-            ->select('COUNT(c.idChart)')
+            ->select('COUNT(c.id)')
             ->where('c.statusPlayer = :status')
             ->setParameter('status', Chart::STATUS_GO_TO_MAJ)
             ->getQuery()
@@ -65,7 +65,7 @@ class ChartRepository extends EntityRepository
     public function isMajTeamRunning()
     {
         $nb = $this->createQueryBuilder('c')
-            ->select('COUNT(c.idChart)')
+            ->select('COUNT(c.id)')
             ->where('c.statusTeam = :status')
             ->setParameter('status', Chart::STATUS_GO_TO_MAJ)
             ->getQuery()

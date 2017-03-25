@@ -10,15 +10,15 @@
     {{ form_row(form.type) }}
 
     {% for chart in charts %}
-        {% set formItem = attribute(form,'name_' ~ chart.getIdChart()) %}
+        {% set formItem = attribute(form,'name_' ~ chart.getId()) %}
         {{ form_label(formItem) }}
 
         {% for lib in chart.getLibs() %}
-            {% set formItem = attribute(form,'user_' ~ chart.getIdChart() ~ '_' ~ lib.getIdLibChart()) %}
+            {% set formItem = attribute(form,'user_' ~ chart.getId() ~ '_' ~ lib.getIdLibChart()) %}
             {{ form_row(formItem) }}
 
             {% for i in 1..5 %}
-                {% set item = 'value_' ~ chart.getIdChart() ~ '_' ~ lib.getIdLibChart() ~ '_' ~ i %}
+                {% set item = 'value_' ~ chart.getId() ~ '_' ~ lib.getIdLibChart() ~ '_' ~ i %}
                 {% if attribute(form, item) is defined %}
                     {% set formItem = attribute(form, item) %}
                         {%  if i == 1 %}

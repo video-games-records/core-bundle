@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -47,8 +48,8 @@ class ChartAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('idChart', 'text', array(
-                'label' => 'idChart',
+            ->add('id', 'text', array(
+                'label' => 'id',
                 'attr' => array(
                     'readonly' => true,
                 )
@@ -67,14 +68,9 @@ class ChartAdmin extends AbstractAdmin
             ), array(
                 'placeholder' => 'No group selected'
             ))
-            ->add('libChartEn', 'text', array(
-                'label' => 'Name (EN)',
+            ->add('translations', TranslationsType::class, [
                 'required' => true,
-            ))
-            ->add('libChartFr', 'text', array(
-                'label' => 'Name (FR)',
-                'required' => false,
-            ));
+            ]);
 
         if (($this->hasRequest()) && ($this->isCurrentRoute('edit'))) {
             $formMapper
@@ -126,8 +122,7 @@ class ChartAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('libChartEn')
-            ->add('libChartFr')
+            ->add('translations.name')
             ->add('group', 'doctrine_orm_model_autocomplete', array(), null, array(
                 'property' => 'libGroupEn',
             ))
@@ -141,9 +136,8 @@ class ChartAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idChart')
-            ->add('libChartEn', null, array('editable' => false))
-            ->add('libChartFr')
+            ->addIdentifier('id')
+            ->add('getName', null, ['label' => 'Name'])
             ->add('group', null, array(
                 'associated_property' => 'libGroup',
                 'label' => 'Group',
@@ -162,9 +156,8 @@ class ChartAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idChart')
-            ->add('libChartFr')
-            ->add('libChartEn')
+            ->add('id')
+            ->add('getName', null, ['label' => 'Name'])
             ->add('group', null, array(
                 'associated_property' => 'libGroup',
                 'label' => 'Group',

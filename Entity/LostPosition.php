@@ -71,7 +71,7 @@ class LostPosition
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="idChart")
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id")
      * })
      */
     private $chart;
@@ -223,7 +223,7 @@ class LostPosition
     public function setChart(Chart $chart = null)
     {
         $this->chart = $chart;
-        $this->setIdChart($chart->getIdChart());
+        $this->setIdChart($chart->getId());
         return $this;
     }
 

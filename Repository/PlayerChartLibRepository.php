@@ -37,11 +37,11 @@ class PlayerChartLibRepository extends EntityRepository
 
         foreach ($result as $row) {
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChartLib $row */
-            $data['player_' . $row->getLibChart()->getChart()->getIdChart() . '_' . $row->getLibChart()->getIdLibChart()] = $row->getValue();
+            $data['player_' . $row->getLibChart()->getChart()->getId() . '_' . $row->getLibChart()->getIdLibChart()] = $row->getValue();
             $values = Score::getValues($row->getLibChart()->getType()->getMask(), $row->getValue());
             $i = 1;
             foreach ($values as $key => $value) {
-                $data['value_' . $row->getLibChart()->getChart()->getIdChart() . '_' . $row->getLibChart()->getIdLibChart() . '_' . $i++] = $value['value'];
+                $data['value_' . $row->getLibChart()->getChart()->getId() . '_' . $row->getLibChart()->getIdLibChart() . '_' . $i++] = $value['value'];
             }
         }
 

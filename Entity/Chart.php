@@ -5,17 +5,19 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatusPlayer", columns={"statusPlayer"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxLibChartFr", columns={"libChartFr"}), @ORM\Index(name="idxLibChartEn", columns={"libChartEn"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
+ * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatusPlayer", columns={"statusPlayer"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
  */
 class Chart
 {
     use Timestampable;
+    use Translatable;
 
     const STATUS_NORMAL = 'NORMAL';
     const STATUS_MAJ = 'MAJ';
@@ -26,11 +28,11 @@ class Chart
     /**
      * @var integer
      *
-     * @ORM\Column(name="idChart", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idChart;
+    private $id;
 
     /**
      * @var integer
@@ -38,22 +40,6 @@ class Chart
      * @ORM\Column(name="idGroup", type="integer", nullable=false)
      */
     private $idGroup;
-
-    /**
-     * @var string
-     *
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="libChartFr", type="string", length=100, nullable=true)
-     */
-    private $libChartFr;
-
-    /**
-     * @var string
-     *
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="libChartEn", type="string", length=100, nullable=false)
-     */
-    private $libChartEn;
 
     /**
      * @var string
@@ -107,18 +93,18 @@ class Chart
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->libChartEn, $this->idChart);
+        return sprintf('%s [%s]', $this->getName(), $this->id);
     }
 
     /**
      * Set idChart
      *
-     * @param integer $idChart
+     * @param integer $id
      * @return Chart
      */
-    public function setIdChart($idChart)
+    public function setId($id)
     {
-        $this->idChart = $idChart;
+        $this->id = $id;
 
         return $this;
     }
@@ -128,9 +114,9 @@ class Chart
      *
      * @return integer
      */
-    public function getIdChart()
+    public function getId()
     {
-        return $this->idChart;
+        return $this->id;
     }
 
     /**
@@ -163,53 +149,27 @@ class Chart
      */
     public function getLibChart()
     {
-        return $this->libChartEn;
+        return $this->getName();
     }
 
     /**
-     * Set libChartFr
-     *
-     * @param string $libChartFr
-     * @return Chart
+     * @param string $name
+     * @return $this
      */
-    public function setLibChartFr($libChartFr)
+    public function setName($name)
     {
-        $this->libChartFr = $libChartFr;
+        $this->translate(null, false)->setName($name);
+
         return $this;
     }
 
     /**
-     * Get libCharFr
-     *
      * @return string
      */
-    public function getLibChartFr()
+    public function getName()
     {
-        return $this->libChartFr;
+        return $this->translate(null, false)->getName();
     }
-
-    /**
-     * Set libChartEn
-     *
-     * @param string $libChartEn
-     * @return Chart
-     */
-    public function setLibChartEn($libChartEn)
-    {
-        $this->libChartEn = $libChartEn;
-        return $this;
-    }
-
-    /**
-     * Get libChartEn
-     *
-     * @return string
-     */
-    public function getLibChartEn()
-    {
-        return $this->libChartEn;
-    }
-
 
     /**
      * Set statusPlayer
