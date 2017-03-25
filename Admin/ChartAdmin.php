@@ -75,7 +75,7 @@ class ChartAdmin extends AbstractAdmin
         if (($this->hasRequest()) && ($this->isCurrentRoute('edit'))) {
             $formMapper
                 ->add(
-                    'statusUser',
+                    'statusPlayer',
                     'choice',
                     array(
                         'label' => 'Status Player',
