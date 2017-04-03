@@ -75,55 +75,103 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/ranking-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_points")
+     * @Route("/ranking-player-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_player_points")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function rankingPointsAction($id)
+    public function rankingPlayerPointsAction($id)
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints(
-            [
-                'idGame' => $id,
-                'idLogin' => null,
-            ]
-        );
-
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.pointchartranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-points-chart.html.twig', ['ranking' => $ranking]);
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Ranking:player-points-chart.html.twig',
+            [
+                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($id, 100, null),
+            ]
+        );
     }
 
 
     /**
-     * @Route("/ranking-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_medals")
+     * @Route("/ranking-player-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_player_medals")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function rankingMedalsAction($id)
+    public function rankingPlayerMedalsAction($id)
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals(
-            [
-                'idGame' => $id,
-                'idLogin' => null,
-            ]
-        );
 
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
         $breadcrumbs->addItem('game.medalranking.full');
 
-        return $this->render('VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig', ['ranking' => $ranking]);
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig',
+            [
+                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals(îd, 100, null),
+            ]
+        );
+    }
+
+
+    /**
+     * @Route("/ranking-team-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_team_points")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function rankingTeamPointsAction($id)
+    {
+        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
+        $breadcrumbs->addItem('game.pointchartranking.full');
+
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Ranking:team-points-chart.html.twig',
+            [
+                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($id, 100, null),
+            ]
+        );
+    }
+
+
+    /**
+     * @Route("/ranking-team-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_team_medals")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function rankingTeamMedalsAction($id)
+    {
+        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
+
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
+        $breadcrumbs->addItem('game.medalranking.full');
+
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Ranking:team-medals.html.twig',
+            [
+                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($id, 100, null),
+            ]
+        );
     }
 }
