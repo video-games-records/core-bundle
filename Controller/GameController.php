@@ -58,29 +58,20 @@ class GameController extends Controller
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
 
-        $playerRankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints(
-            [
-                'idGame' => $id,
-                'maxRank' => 5,
-                'idPlayer' => null,
-            ]
-        );
-
-        $playerRankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals(
-            [
-                'idGame' => $id,
-                'maxRank' => 5,
-                'idPlayer' => null,
-            ]
-        );
-
-        $teamRankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($id, 5, null);
-
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem($game->getLibGame());
 
-        return $this->render('VideoGamesRecordsCoreBundle:Game:index.html.twig', ['game' => $game, 'playerRankingPoints' => $playerRankingPoints, 'playerRankingMedals' => $playerRankingMedals, 'teamRankingPoints' => $teamRankingPoints]);
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Game:index.html.twig',
+            [
+                'game' => $game,
+                'playerRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($id, 5, null),
+                'playerRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($id, 5, null),
+                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($id, 5, null),
+                'teamRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($id, 5, null),
+            ]
+        );
     }
 
     /**

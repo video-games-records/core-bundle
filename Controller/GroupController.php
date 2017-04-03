@@ -25,29 +25,22 @@ class GroupController extends Controller
     {
         $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
 
-        $rankingPoints = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints(
-            [
-                'idGroup' => $id,
-                'maxRank' => 5,
-                'idPlayer' => null,
-            ]
-        );
-
-        $rankingMedals = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingMedals(
-            [
-                'idGroup' => $id,
-                'maxRank' => 5,
-                'idPlayer' => null,
-            ]
-        );
-
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem($group->getGame()->getLibGame(), 'vgr_game_index', ['id' => $group->getGame()->getId()]);
         $breadcrumbs->addItem($group->getLibGroup());
 
-        return $this->render('VideoGamesRecordsCoreBundle:Group:index.html.twig', ['group' => $group, 'rankingPoints' => $rankingPoints, 'rankingMedals' => $rankingMedals]);
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Group:index.html.twig',
+            [
+                'group' => $group,
+                'playerRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($id, 5, null),
+                'playerRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingMedals($id, 5, null),
+                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingPoints($id, 5, null),
+                'teamRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingMedals($id, 5, null),
+            ]
+        );
     }
 
 

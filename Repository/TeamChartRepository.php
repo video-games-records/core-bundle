@@ -13,6 +13,37 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 class TeamChartRepository extends EntityRepository
 {
 
+    /**
+     * @param int $idChart
+     * @param int $maxRank
+     * @param int $idTeam
+     * @return array
+     */
+    public function getRankingPoints($idChart, $maxRank = null, $idTeam = null)
+    {
+        $query = $this->createQueryBuilder('tc')
+            ->join('tc.team', 't')
+            ->addSelect('t')//----- for using ->getTeam() on each result
+            ->orderBy('tc.rankPointChart');
+
+        $query->where('tc.idChart = :idChart')
+            ->setParameter('idChart', $idChart);
+
+        if (($maxRank !== null) && ($idTeam !== null)) {
+            $query->andWhere('(tc.rankPointChart <= :maxRank OR tc.idTeam = :idTeam)')
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('idTeam', $idTeam);
+        } elseif ($maxRank !== null) {
+            $query->andWhere('tc.rankPointChart <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
 
     /**
      * @param $idChart

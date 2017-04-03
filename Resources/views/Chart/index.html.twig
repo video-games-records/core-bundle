@@ -41,4 +41,7 @@
             <a href="{{ path('vgr_chart_form', {'id': chart.id}) }}">{{ 'form.action'|trans }}</a>{# todo adapt if player has send his score #}
         </div>
     {% endif %}
+
+    <h2>{{ 'chart.ranking.point'|trans }}</h2>
+    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/team-points-chart.html.twig' with {'ranking': teamRankingPoints} %}
 {% endblock %}

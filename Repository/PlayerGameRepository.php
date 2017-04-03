@@ -10,10 +10,12 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 class PlayerGameRepository extends EntityRepository
 {
     /**
-     * @param array $params idJeu|idPlayer|limit|maxRank
+     * @param int $idGame
+     * @param int $maxRank
+     * @param int $idPlayer
      * @return array
      */
-    public function getRankingPoints($params = [])
+    public function getRankingPoints($idGame, $maxRank = null, $idPlayer = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -21,28 +23,28 @@ class PlayerGameRepository extends EntityRepository
             ->orderBy('pg.rankPointChart');
 
         $query->where('pg.idGame= :idGame')
-            ->setParameter('idGame', $params['idGame']);
+            ->setParameter('idGame', $idGame);
 
-        if (array_key_exists('limit', $params)) {
-            $query->setMaxResults($params['limit']);
-        }
-
-        if ((array_key_exists('maxRank', $params)) && (array_key_exists('idPlayer', $params))) {
+        if (($maxRank !== null) && ($idPlayer !== null)) {
             $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.idPlayer = :idPlayer)')
-                ->setParameter('maxRank', $params['maxRank'])
-                ->setParameter('idPlayer', $params['idPlayer']);
-        } elseif (array_key_exists('maxRank', $params)) {
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('idPlayer', $idPlayer);
+        } elseif ($maxRank !== null) {
             $query->andWhere('pg.rankPointChart <= :maxRank')
-                ->setParameter('maxRank', $params['maxRank']);
+                ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
         }
         return $query->getQuery()->getResult();
     }
 
     /**
-     * @param array $params idJeu|idPlayer|limit|maxRank
+     * @param int $idGame
+     * @param int $maxRank
+     * @param int $idPlayer
      * @return array
      */
-    public function getRankingMedals($params = [])
+    public function getRankingMedals($idGame, $maxRank = null, $idPlayer = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -50,20 +52,19 @@ class PlayerGameRepository extends EntityRepository
             ->orderBy('pg.rankMedal');
 
         $query->where('pg.idGame = :idGame')
-            ->setParameter('idGame', $params['idGame']);
+            ->setParameter('idGame', $idGame);
 
-        if (array_key_exists('limit', $params)) {
-            $query->setMaxResults($params['limit']);
-        }
-
-        if ((array_key_exists('maxRank', $params)) && (array_key_exists('idPlayer', $params))) {
+        if (($maxRank !== null) && ($idPlayer !== null)) {
             $query->andWhere('(pg.rankMedal <= :maxRank OR pg.idPlayer = :idPlayer)')
-                ->setParameter('maxRank', $params['maxRank'])
-                ->setParameter('idPlayer', $params['idPlayer']);
-        } elseif (array_key_exists('maxRank', $params)) {
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('idPlayer', $idPlayer);
+        } elseif ($maxRank !== null) {
             $query->andWhere('pg.rankMedal <= :maxRank')
-                ->setParameter('maxRank', $params['maxRank']);
+                ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
         }
+
         return $query->getQuery()->getResult();
     }
 

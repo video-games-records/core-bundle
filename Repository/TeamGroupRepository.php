@@ -14,6 +14,68 @@ class TeamGroupRepository extends EntityRepository
 {
 
     /**
+     * @param int $idGroup
+     * @param int $maxRank
+     * @param int $idTeam
+     * @return array
+     */
+    public function getRankingPoints($idGroup, $maxRank = null, $idTeam = null)
+    {
+        $query = $this->createQueryBuilder('tg')
+            ->join('tg.team', 't')
+            ->addSelect('t')//----- for using ->getTeam() on each result
+            ->orderBy('tg.rankPointChart');
+
+        $query->where('tg.idGroup = :idGroup')
+            ->setParameter('idGroup', $idGroup);
+
+        if (($maxRank !== null) && ($idTeam !== null)) {
+            $query->andWhere('(tg.rankPointChart <= :maxRank OR tg.idTeam = :idTeam)')
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('idTeam', $idTeam);
+        } elseif ($maxRank !== null) {
+            $query->andWhere('tg.rankPointChart <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param int $idGroup
+     * @param int $maxRank
+     * @param int $idTeam
+     * @return array
+     */
+    public function getRankingMedals($idGroup, $maxRank = null, $idTeam = null)
+    {
+        $query = $this->createQueryBuilder('tg')
+            ->join('tg.team', 't')
+            ->addSelect('t')//----- for using ->getTeam() on each result
+            ->orderBy('tg.rankMedal');
+
+        $query->where('tg.idGroup = :idGroup')
+            ->setParameter('idGroup', $idGroup);
+
+        if (($maxRank !== null) && ($idTeam !== null)) {
+            $query->andWhere('(tg.rankMedal <= :maxRank OR tg.idTeam = :idTeam)')
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('idTeam', $idTeam);
+        } elseif ($maxRank !== null) {
+            $query->andWhere('tg.rankMedal <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
      * @param $idGroup
      */
     public function maj($idGroup)

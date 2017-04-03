@@ -1,0 +1,35 @@
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
+<table class="leaderboard">
+    <thead>
+    <tr>
+        <th scope="col">{{ 'ranking.rank'|trans }}</th>
+        <th scope="col">{{ 'ranking.nickname'|trans }}</th>
+        <th scope="col">{{ 'ranking.points'|trans }}</th>
+        <th scope="col">{{ 'ranking.number.score'|trans }}</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <td colspan="4">
+            {% if link is defined %}
+                <a href="{{ link }}">{{ 'ranking.point.full'|trans }}</a>
+            {% endif %}
+        </td>
+    </tr>
+    </tfoot>
+    <tbody>
+    {% for row in ranking %}
+        <tr {{ vgrRankBgColor(row.getRankPointChart())|raw }}>
+            <td>{{ row.getRankPointChart() }}</td>
+            <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
+            <td>{{ row.getPointChart() }}</td>
+            <td>{{ row.getNbChart() }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">{{ 'ranking.no_player'|trans }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

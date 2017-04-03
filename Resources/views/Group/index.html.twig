@@ -28,72 +28,14 @@
     </table>
 
     <h2>{{ 'group.ranking.point'|trans }}</h2>
-    <table class="leaderboard">
-        <thead>
-        <tr>
-            <th scope="col">{{ 'ranking.rank'|trans }}</th>
-            <th scope="col">{{ 'ranking.nickname'|trans }}</th>
-            <th scope="col">{{ 'ranking.points'|trans }}</th>
-            <th scope="col">{{ 'ranking.number.score'|trans }}</th>
-        </tr>
-        </thead>
-        <tfoot>
-        <tr>
-            <td colspan="4">
-                <a href="{{ path('vgr_group_ranking_points', {'id': group.getId()}) }}">{{ 'group.ranking.point.full'|trans }}</a>
-            </td>
-        </tr>
-        </tfoot>
-        <tbody>
-        {% for row in rankingPoints %}
-            <tr {{ vgrRankBgColor(row.getRankPointChart())|raw }}>
-                <td>{{ row.getRankPointChart() }}</td>
-                <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
-                <td>{{ row.getPointChart() }}</td>
-                <td>{{ row.getNbChart() }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">{{ 'group.no_player'|trans }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/player-points-chart.html.twig' with {'ranking': playerRankingPoints, 'link': path('vgr_group_ranking_points', {'id': group.getId()})} %}
 
     <h2>{{ 'group.ranking.medal'|trans }}</h2>
-    <table class="leaderboard">
-        <thead>
-        <tr>
-            <th scope="col">{{ 'ranking.rank'|trans }}</th>
-            <th scope="col">{{ 'ranking.nickname'|trans }}</th>
-            <th scope="col">{{ 'ranking.platinum'|trans }}</th>
-            <th scope="col">{{ 'ranking.gold'|trans }}</th>
-            <th scope="col">{{ 'ranking.silver'|trans }}</th>
-            <th scope="col">{{ 'ranking.bronze'|trans }}</th>
-        </tr>
-        </thead>
-        <tfoot>
-        <tr>
-            <td colspan="6">
-                <a href="{{ path('vgr_group_ranking_medals', {'id': group.getId()}) }}">{{ 'group.ranking.medal.full'|trans }}</a>
-            </td>
-        </tr>
-        </tfoot>
-        <tbody>
-        {% for row in rankingMedals %}
-            <tr {{ vgrRankBgColor(row.getRankMedal())|raw }}>
-                <td>{{ row.getRankMedal() }}</td>
-                <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
-                <td>{{ row.getChartRank0() }}</td>
-                <td>{{ row.getChartRank1() }}</td>
-                <td>{{ row.getChartRank2() }}</td>
-                <td>{{ row.getChartRank3() }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">{{ 'group.no_player'|trans }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/player-medals.html.twig' with {'ranking': playerRankingMedals, 'link': path('vgr_group_ranking_medals', {'id': group.getId()})} %}
+
+    <h2>{{ 'game.ranking.point'|trans }}</h2>
+    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/team-points-chart.html.twig' with {'ranking': teamRankingPoints} %}
+
+    <h2>{{ 'game.ranking.medal'|trans }}</h2>
+    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/team-medals.html.twig' with {'ranking': teamRankingMedals} %}
 {% endblock %}

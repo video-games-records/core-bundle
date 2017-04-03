@@ -19,7 +19,7 @@ class TeamGameRepository extends EntityRepository
      * @param int $idTeam
      * @return array
      */
-    public function getRankingPoints($idGame, $maxRank, $idTeam)
+    public function getRankingPoints($idGame, $maxRank = null, $idTeam = null)
     {
         $query = $this->createQueryBuilder('tg')
             ->join('tg.team', 't')
@@ -36,7 +36,41 @@ class TeamGameRepository extends EntityRepository
         } elseif ($maxRank !== null) {
             $query->andWhere('tg.rankPointChart <= :maxRank')
                 ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
         }
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param int $idGame
+     * @param int $maxRank
+     * @param int $idTeam
+     * @return array
+     */
+    public function getRankingMedals($idGame, $maxRank = null, $idTeam = null)
+    {
+        $query = $this->createQueryBuilder('tg')
+            ->join('tg.team', 't')
+            ->addSelect('t')//----- for using ->getTeam() on each result
+            ->orderBy('tg.rankMedal');
+
+        $query->where('tg.idGame= :idGame')
+            ->setParameter('idGame', $idGame);
+
+        if (($maxRank !== null) && ($idTeam !== null)) {
+            $query->andWhere('(tg.rankMedal <= :maxRank OR tg.idTeam = :idTeam)')
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('idTeam', $idTeam);
+        } elseif ($maxRank !== null) {
+            $query->andWhere('tg.rankMedal <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
+        }
+
         return $query->getQuery()->getResult();
     }
 

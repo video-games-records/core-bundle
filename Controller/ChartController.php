@@ -41,7 +41,14 @@ class ChartController extends VgrBaseController
         $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getId()]);
         $breadcrumbs->addItem($chart->getLibChart());
 
-        return $this->render('VideoGamesRecordsCoreBundle:Chart:index.html.twig', ['chart' => $chart, 'ranking' => $ranking]);
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Chart:index.html.twig',
+            [
+                'chart' => $chart,
+                'ranking' => $ranking,
+                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->getRankingPoints($id, 20, null),
+            ]
+        );
     }
 
     /**
