@@ -127,8 +127,8 @@ ALTER TABLE `vgr_group` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE nbPost nbPost INT NOT NULL;
 ALTER TABLE `vgr_group` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_group` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
-INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libGroupe_fr, 'fr' FROM vgr_group;
-INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libGroupe_en, 'en' FROM vgr_group;
+INSERT INTO vgr_group_translation (translatable_id, name, locale) SELECT id, libGroupe_fr, 'fr' FROM vgr_group;
+INSERT INTO vgr_group_translation (translatable_id, name, locale) SELECT id, libGroupe_en, 'en' FROM vgr_group;
 ALTER TABLE vgr_group DROP libGroupe_fr, DROP libGroupe_en;
 
 -- Charts
@@ -140,8 +140,8 @@ ALTER TABLE `vgr_chart` CHANGE `statutTeam` `statusTeam` VARCHAR(20) CHARACTER S
 ALTER TABLE `vgr_chart` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_chart` CHANGE statusPlayer statusPlayer VARCHAR(255) NOT NULL, CHANGE statusTeam statusTeam VARCHAR(255) NOT NULL, CHANGE nbPost nbPost INT NOT NULL;
-INSERT INTO vgr_chart_translation (translatable_id, name, locale) SELECT id, libRecord_fr, 'fr' FROM vgr_group;
-INSERT INTO vgr_chart_translation (translatable_id, name, locale) SELECT id, libRecord_en, 'en' FROM vgr_group;
+INSERT INTO vgr_chart_translation (translatable_id, name, locale) SELECT id, libRecord_fr, 'fr' FROM vgr_chart;
+INSERT INTO vgr_chart_translation (translatable_id, name, locale) SELECT id, libRecord_en, 'en' FROM vgr_chart;
 ALTER TABLE vgr_chart DROP libRecord_fr, DROP libRecord_en;
 
 -- Chart lib
