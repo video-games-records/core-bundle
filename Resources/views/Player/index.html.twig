@@ -46,16 +46,16 @@
     <ul>
     {% for playerGame in player.getPlayerGame() %}
         <li>{{ playerGame.getGame().getLibGame() }} |
-            {% if playerGame.getRank0() > 0 %} {{ playerGame.getRank0() }} Platine {% endif %}
-            {% if playerGame.getRank1() > 0 %} {{ playerGame.getRank1() }} Or {% endif %}
-            {% if playerGame.getRank2() > 0 %} {{ playerGame.getRank2() }} Argent {% endif %}
-            {% if playerGame.getRank3() > 0 %} {{ playerGame.getRank3() }} Bronze {% endif %} |
+            {% if playerGame.getChartRank0() > 0 %} {{ playerGame.getChartRank0() }} Platine {% endif %}
+            {% if playerGame.getChartRank1() > 0 %} {{ playerGame.getChartRank1() }} Or {% endif %}
+            {% if playerGame.getChartRank2() > 0 %} {{ playerGame.getChartRank2() }} Argent {% endif %}
+            {% if playerGame.getChartRank3() > 0 %} {{ playerGame.getChartRank3() }} Bronze {% endif %} |
 
-            {% if playerGame.getRankPoint() == 1 %}or
-            {% elseif playerGame.getRankPoint() == 2 %}argent
-            {% elseif playerGame.getRankPoint() == 3 %}bronze
+            {% if playerGame.getRankPointChart() == 1 %}or
+            {% elseif playerGame.getRankPointChart() == 2 %}argent
+            {% elseif playerGame.getRankPointChart() == 3 %}bronze
             {% else %}
-                {{ playerGame.getRankPoint()  }}|
+                {{ playerGame.getRankPointChart()  }}|
             {% endif %} |
             {{ playerGame.pointGame }} points</li>
     {% endfor %}
