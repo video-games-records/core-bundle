@@ -12,6 +12,18 @@ class TeamRepository extends EntityRepository
 {
 
     /**
+     * @return \Doctrine\ORM\Query
+     */
+    public function getPaginatedQuery()
+    {
+        $query = $this->createQueryBuilder('t')
+            ->orderBy('t.libTeam', 'ASC');
+            //->orderBy('t.pointGame', 'DESC');
+
+        return $query->getQuery();
+    }
+
+    /**
      * @param $idTeam
      */
     public function maj($idTeam)

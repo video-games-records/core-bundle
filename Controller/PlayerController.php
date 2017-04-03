@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * Class GameController
+ * Class PlayerController
  * @Route("/player")
  */
 class PlayerController extends Controller

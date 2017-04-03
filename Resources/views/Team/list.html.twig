@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'team_list' %}
+
+{% block body %}
+
+    <table class="team-list">
+        <thead>
+        <tr>
+            <th scope="col">{{ 'team.team'|trans }}</th>
+            <th scope="col">{{ 'team_list.createdAt'|trans }}</th>
+            <th scope="col">{{ 'ranking.platinum'|trans }}</th>
+            <th scope="col">{{ 'ranking.gold'|trans }}</th>
+            <th scope="col">{{ 'ranking.silver'|trans }}</th>
+            <th scope="col">{{ 'ranking.bronze'|trans }}</th>
+            <th scope="col">{{ 'ranking.pointsGame'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in teams %}
+            <tr>
+                <td><a href="{{ path('vgr_team_index', {'id': team.idTeam}) }}">{{ team.LibTeam }}</a></td>
+                <td>{{ team.createdAt|date("m/d/Y") }}</td>
+                <td>{{ team.chartRank0 }}</td>
+                <td>{{ team.chartRank1 }}</td>
+                <td>{{ team.chartRank2 }}</td>
+                <td>{{ team.chartRank3 }}</td>
+                <td>{{ team.pointGame }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">{{ 'team_list.no_team'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(teams) }}
+    </div>
+
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}

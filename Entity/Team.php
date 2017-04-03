@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,9 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Team
 {
+    use Timestampable;
+
     const STATUS_OPENED = 'OPENED';
     const STATUS_CLOSED = 'CLOSED';
 
+    const NUM_ITEMS = 20;
 
     /**
      * @var integer
