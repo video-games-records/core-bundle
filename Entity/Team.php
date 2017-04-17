@@ -212,6 +212,11 @@ class Team
      */
     private $players;
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\TeamGame", mappedBy="team")
+     */
+    private $teamGame;
+
 
     /**
      * Constructor
@@ -826,5 +831,13 @@ class Team
     public function getPlayers()
     {
         return $this->players;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTeamGame()
+    {
+        return $this->teamGame;
     }
 }

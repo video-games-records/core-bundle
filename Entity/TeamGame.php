@@ -91,7 +91,7 @@ class TeamGame
     /**
      * @var Team
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="teamGame")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idTeam", referencedColumnName="idTeam")
      * })
@@ -101,7 +101,7 @@ class TeamGame
     /**
      * @var Game
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGame", referencedColumnName="id")
      * })

@@ -21,4 +21,32 @@
         {%  endif %}
         <li>{{ 'team.createdAt'|trans }} : {{ team.createdAt|date("m/d/Y") }}</li>
     </ul>
+
+    <h2>Player list</h2>
+    <ul>
+    {% for player in team.getPlayers() %}
+        <li><a href="{{ path('vgr_player_index', {'id': player.getIdPlayer()}) }}">{{ player.getPseudo() }}</a></li>
+    {% endfor %}
+    </ul>
+
+
+    <h2>Game list</h2>
+    GAME | MEDALS | RANKING | POINTS
+    <ul>
+        {% for teamGame in team.getTeamGame() %}
+            <li>{{ teamGame.getGame().getLibGame() }} |
+                {% if teamGame.getChartRank0() > 0 %} {{ teamGame.getChartRank0() }} Platine {% endif %}
+                {% if teamGame.getChartRank1() > 0 %} {{ teamGame.getChartRank1() }} Or {% endif %}
+                {% if teamGame.getChartRank2() > 0 %} {{ teamGame.getChartRank2() }} Argent {% endif %}
+                {% if teamGame.getChartRank3() > 0 %} {{ teamGame.getChartRank3() }} Bronze {% endif %} |
+
+                {% if teamGame.getRankPointChart() == 1 %}or
+                {% elseif teamGame.getRankPointChart() == 2 %}argent
+                {% elseif teamGame.getRankPointChart() == 3 %}bronze
+                {% else %}
+                    {{ teamGame.getRankPointChart()  }}|
+                {% endif %} |
+                {{ teamGame.pointGame }} points</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
