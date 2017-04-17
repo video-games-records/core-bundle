@@ -30,7 +30,7 @@ class SubmitFormFactory
             $form->add('name_' . $chart->getId(), HiddenType::class, ['label' => $chart->getLibChart()]);
 
             foreach ($chart->getLibs() as $lib) {
-                $id = 'user_' . $chart->getId() . '_' . $lib->getIdLibChart();
+                $id = 'player_' . $chart->getId() . '_' . $lib->getIdLibChart();
                 $form->add($id, HiddenType::class); //----- miss ID
 
                 $inputs = Score::getInputs($lib->getType()->getMask());

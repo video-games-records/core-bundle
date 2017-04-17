@@ -14,7 +14,7 @@
         {{ form_label(formItem) }}
 
         {% for lib in chart.getLibs() %}
-            {% set formItem = attribute(form,'user_' ~ chart.getId() ~ '_' ~ lib.getIdLibChart()) %}
+            {% set formItem = attribute(form,'player_' ~ chart.getId() ~ '_' ~ lib.getIdLibChart()) %}
             {{ form_row(formItem) }}
 
             {% for i in 1..5 %}

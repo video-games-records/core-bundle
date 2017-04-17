@@ -310,7 +310,7 @@ BEGIN
   DECLARE birthdate date;
   DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
   DECLARE v_email, nom, prenom, siteWeb, statutCompte, sexe varchar(255);
-  DECLARE cur1 CURSOR FOR SELECT idUser, pseudo, email, nom, prenom, dateNaissance, nbConnexion, siteWeb, statutCompte,
+  DECLARE cur1 CURSOR FOR SELECT idPlayer, pseudo, email, nom, prenom, dateNaissance, nbConnexion, siteWeb, statutCompte,
                             dateCreation, dateModification, derniereConnexion, sexe, idPays
                             /*, MSN, presentation, nbForumMessage, nbCommentaire, boolTeam, boolNewsletter, boolAssoc,
                             boolShowFbLikeBox, boolNotifCommentaire, signature, dateFormat, utcFormat, mailSending, don,

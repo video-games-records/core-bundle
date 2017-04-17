@@ -22,7 +22,9 @@ class SubmitController extends Controller
      * @Method({"GET", "POST"})
      *
      * @param Request $request
+     * @return bool
      */
+
     public function indexAction(Request $request)
     {
         $data = $request->request->get('form');
@@ -32,6 +34,10 @@ class SubmitController extends Controller
         if ($data['type'] == 'chart') {
             $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($data['id']);
             $charts = [$chart];
+        } else if ($data['type'] == 'group') {
+
+        } else {
+            throw new Exception('');
         }
 
         $form = SubmitFormFactory::createSubmitForm(
@@ -54,7 +60,7 @@ class SubmitController extends Controller
                 $post = [];
 
                 foreach ($chart->getLibs() as $lib) {
-                    $oldValue = $data['user_' . $chart->getId() . '_' . $lib->getIdLibChart()];
+                    $oldValue = $data['player_' . $chart->getId() . '_' . $lib->getIdLibChart()];
                     $newValue = '';
                     $values = [];
 
@@ -100,8 +106,8 @@ class SubmitController extends Controller
                     }
 
                     $playerChart->setIdStatus(1);
-                    //$userChart->setPeuveImage(0);
-                    //$userChart->setIdVideo(0);
+                    //$playerChart->setPeuveImage(0);
+                    //$playerChart->setIdVideo(0);
                     $playerChart->setDateModif(new \DateTime());
                     $em->persist($playerChart);
                     $em->flush();
@@ -127,8 +133,14 @@ class SubmitController extends Controller
                 }
             }
 
-            //var_dump('nbInsert=' . $nbInsert);
-            //var_dump('nbUpdate=' . $nbUpdate);
+            //----- Message
+            $this->addFlash(
+                'notice',
+                sprintf('Your changes were saved! Add = %d and modify = %d', $nbInsert, $nbUpdate)
+            );
+
+            //----- Redirect
+            return $this->redirectToRoute('vgr_' . $data['type'] . '_index', array('id' => $data['id']));
         }
     }
 }
