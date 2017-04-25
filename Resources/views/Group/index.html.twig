@@ -27,6 +27,12 @@
         </tbody>
     </table>
 
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div>
+            <a href="{{ path('vgr_group_form', {'id': group.id}) }}">{{ 'form.action'|trans }}</a>
+        </div>
+    {% endif %}
+
     <h2>{{ 'group.ranking.point'|trans }}</h2>
     {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/player-points-chart.html.twig' with {'ranking': playerRankingPoints, 'link': path('vgr_group_ranking_player_points', {'id': group.getId()})} %}
 

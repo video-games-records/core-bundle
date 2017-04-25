@@ -46,6 +46,24 @@ class ChartRepository extends EntityRepository
 
 
     /**
+     * @param $id
+     * @return array
+     */
+    public function getFromGroupWithChartType($id)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->join('c.libs', 'lib')
+            ->addSelect('lib')
+            ->join('lib.type', 'type')
+            ->addSelect('type')
+            ->where('c.idGroup = :idGroup')
+            ->setParameter('idGroup', $id);
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
      * @return bool
      */
     public function isMajPlayerRunning()

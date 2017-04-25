@@ -1,5 +1,4 @@
 <?php
-
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -22,9 +21,9 @@ class SubmitController extends Controller
      * @Method({"GET", "POST"})
      *
      * @param Request $request
-     * @return bool
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws Exception
      */
-
     public function indexAction(Request $request)
     {
         $data = $request->request->get('form');
@@ -35,7 +34,7 @@ class SubmitController extends Controller
             $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($data['id']);
             $charts = [$chart];
         } else if ($data['type'] == 'group') {
-
+            $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getFromGroupWithChartType($data['id']);
         } else {
             throw new Exception('');
         }
