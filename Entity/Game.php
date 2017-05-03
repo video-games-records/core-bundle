@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
+use ProjetNormandie\BadgeBundle\Entity\Badge;
 
 /**
  * Game
@@ -121,6 +122,13 @@ class Game
     private $idSerie;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="idBadge", type="integer", nullable=true)
+     */
+    private $idBadge;
+
+    /**
      * @var Serie
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie")
@@ -129,6 +137,16 @@ class Game
      * })
      */
     private $serie;
+
+    /**
+     * @var Badge
+     *
+     * @ORM\ManyToOne(targetEntity="ProjetNormandie\BadgeBundle\Entity\Badge")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="idBadge")
+     * })
+     */
+    private $badge;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -487,6 +505,53 @@ class Game
     public function getSerie()
     {
         return $this->serie;
+    }
+
+
+    /**
+     * Set idBadge
+     *
+     * @param integer $idBadge
+     * @return Game
+     */
+    public function setIdBadge($idBadge)
+    {
+        $this->idBadge = $idBadge;
+
+        return $this;
+    }
+
+    /**
+     * Get idBagde
+     *
+     * @return integer
+     */
+    public function getIdBadge()
+    {
+        return $this->idBadge;
+    }
+
+    /**
+     * Set badge
+     *
+     * @param Badge $badge
+     * @return Game
+     */
+    public function setBadge(Badge $badge = null)
+    {
+        $this->badge = $badge;
+        $this->setIdBadge($badge->getIdBadge());
+        return $this;
+    }
+
+    /**
+     * Get idBadge
+     *
+     * @return Badge
+     */
+    public function getBadge()
+    {
+        return $this->badge;
     }
 
     /**

@@ -51,6 +51,9 @@ RENAME TABLE t_team TO vgr_team;
 RENAME TABLE mv_team_record TO vgr_team_chart;
 RENAME TABLE mv_team_groupe TO vgr_team_group;
 RENAME TABLE mv_team_jeu TO vgr_team_game;
+RENAME TABLE t_badge TO badge;
+RENAME TABLE t_badge_membre TO vgr_player_badge;
+RENAME TABLE t_badge_team TO vgr_team_badge;
 
 ALTER TABLE `vgr_player` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
@@ -416,3 +419,13 @@ SET nbTeam = (SELECT COUNT(idGame) FROM vgr_team_game tg WHERE tg.idGame = g.id)
 UPDATE vgr_player p
 SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer);
 
+-- Badge
+ALTER TABLE `badge` CHANGE `image` `picture` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'defaut.gif';
+ALTER TABLE `vgr_game` ADD `idBadge` INT NULL;
+ALTER TABLE vgr_game ADD CONSTRAINT vgr_game_ibfk_3 FOREIGN KEY (idBadge) REFERENCES badge (idBadge);
+UPDATE vgr_game a, badge b
+SET a.idBadge = b.idBadge
+WHERE a.id = b.idJeu;
+ALTER TABLE `vgr_player_badge` CHANGE `idMembre` `idPlayer` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_player_badge` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
+ALTER TABLE `vgr_player_badge` CHANGE `dateFin` `ended_at` DATETIME NULL DEFAULT NULL;
