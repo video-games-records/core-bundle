@@ -1,0 +1,39 @@
+@charset "UTF-8";
+/**
+ * @site            Projet Normandie
+ * @author          Luc Poupard
+ * @lastmodified    2017-05-03
+ * @note            Alphabetical menu
+ */
+
+
+/* == @section Leaderboards ==================== */
+.menu-alpha {
+    text-align: center;
+
+    ul {
+        display: table;
+        margin: 1em auto;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__item {
+        display: table-cell;
+
+        a {
+            display: inline-block;
+            margin: 0 .25em;
+            padding: .2em .5em;
+            border-radius: .25em; 
+            background-color: $primary-color;
+            color: $white;
+            text-decoration: none;
+
+            &:hover,
+            &:focus {
+                background-color: $base-color;
+            }
+        }
+    }
+}
