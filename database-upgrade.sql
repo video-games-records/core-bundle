@@ -428,4 +428,10 @@ SET a.idBadge = b.idBadge
 WHERE a.id = b.idJeu;
 ALTER TABLE `vgr_player_badge` CHANGE `idMembre` `idPlayer` INT(13) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_player_badge` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
+ALTER TABLE `vgr_player_badge` ADD updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_player_badge` CHANGE `dateFin` `ended_at` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `badge` CHANGE `type` `type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+UPDATE `vgr_player_badge` SET updated_at = NOW();
+UPDATE badge SET type='Chart' WHERE type='Record';
+UPDATE badge SET type='Proof' WHERE type='Preuve';
+ALTER TABLE `vgr_game` ADD UNIQUE(`idBadge`);

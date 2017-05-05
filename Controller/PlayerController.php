@@ -44,12 +44,27 @@ class PlayerController extends Controller
             $lastChart = null;
         }
 
+        //----- badges
+        $badges = array(
+            'master' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->getFromPlayer($id),
+            'chart' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->getFromPlayer($id, 'chart'),
+            'proof' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->getFromPlayer($id, 'proof'),
+        );
+
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem($player->getPseudo());
 
-        return $this->render('VideoGamesRecordsCoreBundle:Player:index.html.twig', ['player' => $player, 'nbPlayer' => $nbPlayer, 'lastChart' => $lastChart]);
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Player:index.html.twig',
+            [
+                'player' => $player,
+                'nbPlayer' => $nbPlayer,
+                'lastChart' => $lastChart,
+                'badges' => $badges,
+            ]
+        );
     }
 
     /**
