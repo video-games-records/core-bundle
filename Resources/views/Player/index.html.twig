@@ -61,4 +61,20 @@
     {% endfor %}
     </ul>
 
+    <h2>Badges</h2>
+        <h3>Master</h3>
+        {% for playerBadge in badges.master %}
+            <img src="http://image.vgr-fr.com/badge/{{ playerBadge.getBadge().getPicture() }}" alt="Master Badge" title="Master Badge" />
+        {% endfor %}
+        <h3>Chart</h3>
+        {% for playerBadge in badges.chart %}
+            <img src="http://image.vgr-fr.com/badge/{{ playerBadge.getBadge().getPicture() }}" alt="Chart Badge : {{ playerBadge.getBadge().getValue() }}" title="Chart Badge : {{ playerBadge.getBadge().getValue() }}" />
+        {% endfor %}
+        <h3>Proof</h3>
+        {% for playerBadge in badges.proof %}
+            <img src="http://image.vgr-fr.com/badge/{{ playerBadge.getBadge().getPicture() }}" alt="Proof Badge : {{ playerBadge.getBadge().getValue() }}" title="Proof Badge : {{ playerBadge.getBadge().getValue() }}" />
+        {% endfor %}
+
+
+
 {% endblock %}

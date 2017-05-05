@@ -112,6 +112,8 @@ class ChartCommand extends ContainerAwareCommand
         $playerGameRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame');
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerRepository $playerRepository */
         $playerRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player');
+        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository $playerChartRepository */
+        $playerBadgeRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge');
 
         if (false === $chartRepository->isMajPlayerRunning()) {
             $chartRepository->goToMajPlayer(self::NB_CHART_TO_MAJ);
@@ -147,6 +149,7 @@ class ChartCommand extends ContainerAwareCommand
                 //----- Maj game
                 foreach ($gameList as $idGame) {
                     $playerGameRepository->maj($idGame);
+                    $playerBadgeRepository->majMasterBadge($idGame);
                     //@todo Maj MasterBadge
                 }
 

@@ -239,6 +239,11 @@ class Player
     private $playerGame;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerBadge", mappedBy="player")
+     */
+    private $playerBadge;
+
+    /**
      * @var Team
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
@@ -960,6 +965,14 @@ class Player
     public function getPlayerGame()
     {
         return $this->playerGame;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerBadge()
+    {
+        return $this->playerBadge;
     }
 
     /**
