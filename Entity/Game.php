@@ -141,7 +141,7 @@ class Game
     /**
      * @var Badge
      *
-     * @ORM\ManyToOne(targetEntity="ProjetNormandie\BadgeBundle\Entity\Badge", inversedBy="games")
+     * @ORM\ManyToOne(targetEntity="ProjetNormandie\BadgeBundle\Entity\Badge")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="idBadge")
      * })

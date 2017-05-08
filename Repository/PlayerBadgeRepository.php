@@ -22,10 +22,10 @@ class PlayerBadgeRepository extends EntityRepository
         $query->join('pb.badge', 'b')
             ->addSelect('b');
 
-        if ($type == 'master') {
-            $query->join('b.objects', 'g')
+        /*if ($type == 'master') {
+            $query->join('b.games', 'g')
                 ->addSelect('g');
-        }
+        }*/
 
         if ($type == 'master') {
             $query->orderBy('pb.mbOrder');

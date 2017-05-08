@@ -44,13 +44,6 @@ class PlayerController extends Controller
             $lastChart = null;
         }
 
-        //----- badges
-        $badges = array(
-            'master' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->getFromPlayer($id),
-            'chart' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->getFromPlayer($id, 'chart'),
-            'proof' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->getFromPlayer($id, 'proof'),
-        );
-
         //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
@@ -61,8 +54,7 @@ class PlayerController extends Controller
             [
                 'player' => $player,
                 'nbPlayer' => $nbPlayer,
-                'lastChart' => $lastChart,
-                'badges' => $badges,
+                'lastChart' => $lastChart
             ]
         );
     }
