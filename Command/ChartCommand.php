@@ -155,8 +155,6 @@ class ChartCommand extends ContainerAwareCommand
                 //----- Maj player
                 foreach ($playerList as $idPlayer) {
                     $playerRepository->maj($idPlayer);
-                    //@todo Maj badge chart
-                    //@todo Maj badge proof
                 }
 
                 //----- Maj all players

@@ -67,6 +67,7 @@ class PlayerBadgeRepository extends EntityRepository
      */
     public function majMasterBadge($idGame)
     {
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Game $game */
         $game = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
 
         //----- get ranking with maxRank = 1
@@ -99,6 +100,19 @@ class PlayerBadgeRepository extends EntityRepository
             }
         }
         $this->_em->flush();
+    }
+
+    /**
+     * @param $idPlayer
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function majChartBadge($idPlayer)
+    {
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
+        $player = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer);
+        $nbChart = $player->getNbChart();
     }
 
     /**
