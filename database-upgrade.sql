@@ -430,6 +430,9 @@ ALTER TABLE `vgr_player_badge` CHANGE `idMembre` `idPlayer` INT(13) NOT NULL DEF
 ALTER TABLE `vgr_player_badge` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
 ALTER TABLE `vgr_player_badge` ADD updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_player_badge` CHANGE `dateFin` `ended_at` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `vgr_team_badge` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
+ALTER TABLE `vgr_team_badge` ADD updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_team_badge` CHANGE `dateFin` `ended_at` DATETIME NULL DEFAULT NULL;
 ALTER TABLE `badge` CHANGE `type` `type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 UPDATE `vgr_player_badge` SET updated_at = NOW();
 UPDATE badge SET type='Chart' WHERE type='Record';

@@ -54,7 +54,7 @@ class BadgeCommand extends ContainerAwareCommand
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majMasterBadge($idGame);
                 break;
             case 'maj-team':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamrBadge')->majMasterBadge($idGame);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamBadge')->majMasterBadge($idGame);
                 break;
         }
         $this->end($output);

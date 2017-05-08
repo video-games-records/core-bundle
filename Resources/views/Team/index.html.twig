@@ -49,4 +49,10 @@
                 {{ teamGame.pointGame }} points</li>
         {% endfor %}
     </ul>
+
+    <h2>Badges</h2>
+    {{ render(controller(
+    'VideoGamesRecordsCoreBundle:Badge:teamList',
+        { 'idTeam': team.idTeam(), 'type': 'master' }
+    )) }}
 {% endblock %}

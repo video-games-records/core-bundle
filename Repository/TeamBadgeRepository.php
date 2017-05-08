@@ -4,21 +4,21 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
+use VideoGamesRecords\CoreBundle\Entity\TeamBadge;
 
-class PlayerBadgeRepository extends EntityRepository
+class TeamBadgeRepository extends EntityRepository
 {
 
     /**
-     * @param $idPlayer
+     * @param $idTeam
      * @param string $type
      * @return array
      */
-    public function getFromPlayer($idPlayer, $type = 'master')
+    public function getFromTeam($idTeam, $type = 'master')
     {
-        $query = $this->createQueryBuilder('pb');
+        $query = $this->createQueryBuilder('tb');
 
-        $query->join('pb.badge', 'b')
+        $query->join('tb.badge', 'b')
             ->addSelect('b');
 
         /*if ($type == 'master') {
@@ -27,13 +27,13 @@ class PlayerBadgeRepository extends EntityRepository
         }*/
 
         if ($type == 'master') {
-            $query->orderBy('pb.createdAt');
+            $query->orderBy('tb.createdAt');
         } else {
             $query->orderBy('b.value', 'ASC');
         }
 
-        $query->where('pb.idPlayer = :idPlayer')
-            ->setParameter('idPlayer', $idPlayer)
+        $query->where('tb.idTeam = :idTeam')
+            ->setParameter('idTeam', $idTeam)
             ->andWhere('b.type = :type')
             ->setParameter('type', $type);
 
@@ -48,9 +48,9 @@ class PlayerBadgeRepository extends EntityRepository
      */
     public function getFromBadge($idBadge)
     {
-        $query = $this->createQueryBuilder('pb');
+        $query = $this->createQueryBuilder('tb');
         $query
-            ->where('pb.idBadge = :idBadge')
+            ->where('tb.idBadge = :idBadge')
             ->setParameter('idBadge', $idBadge);
 
         $this->onlyActive($query);
@@ -70,32 +70,32 @@ class PlayerBadgeRepository extends EntityRepository
         $game = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
 
         //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($idGame, 1);
-        $players = array();
-        foreach ($ranking as $playerGame) {
-            $players[$playerGame->getIdPlayer()] = 0;
+        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($idGame, 1);
+        $teams = array();
+        foreach ($ranking as $teamGame) {
+            $teams[$teamGame->getIdTeam()] = 0;
         }
 
-        //----- get players with master badge
+        //----- get teams with master badge
         $list = $this->getFromBadge($game->getIdBadge());
 
         //----- Remove master badge
-        foreach ($list as $playerBadge) {
-            $idPlayer = $playerBadge->getIdPlayer();
+        foreach ($list as $teamBadge) {
+            $idTeam = $teamBadge->getIdTeam();
             //----- Remove badge
-            if (!array_key_exists($idPlayer, $players)) {
-                $playerBadge->setEndedAt(new \DateTime());
-                $this->_em->persist($playerBadge);
+            if (!array_key_exists($idTeam, $teams)) {
+                $teamBadge->setEndedAt(new \DateTime());
+                $this->_em->persist($teamBadge);
             }
-            $players[$idPlayer] = 1;
+            $teams[$idTeam] = 1;
         }
         //----- Add master badge
-        foreach ($players as $idPlayer => $value) {
+        foreach ($teams as $idTeam => $value) {
             if ($value == 0) {
-                $playerBadge = new PlayerBadge();
-                $playerBadge->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer));
-                $playerBadge->setBadge($this->_em->getReference('ProjetNormandie\BadgeBundle\Entity\Badge', $game->getIdBadge()));
-                $this->_em->persist($playerBadge);
+                $teamBadge = new TeamBadge();
+                $teamBadge->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam));
+                $teamBadge->setBadge($this->_em->getReference('ProjetNormandie\BadgeBundle\Entity\Badge', $game->getIdBadge()));
+                $this->_em->persist($teamBadge);
             }
         }
         $this->_em->flush();
@@ -106,6 +106,6 @@ class PlayerBadgeRepository extends EntityRepository
      */
     private function onlyActive(QueryBuilder $query)
     {
-        $query->andWhere($query->expr()->isNull('pb.ended_at'));
+        $query->andWhere($query->expr()->isNull('tb.ended_at'));
     }
 }
