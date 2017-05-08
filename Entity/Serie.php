@@ -3,8 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Serie
@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Serie
 {
     use Translatable;
+    use Sluggable;
 
     /**
      * @var integer
@@ -73,5 +74,15 @@ class Serie
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Returns an array of the fields used to generate the slug.
+     *
+     * @return array
+     */
+    public function getSluggableFields()
+    {
+        return ['name'];
     }
 }

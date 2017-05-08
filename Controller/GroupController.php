@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 
 /**
@@ -16,21 +16,22 @@ use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 class GroupController extends VgrBaseController
 {
     /**
-     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_group_index")
+     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_group_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
      * @param int $id
+     * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction($id)
+    public function indexAction($id, $slug)
     {
         $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
+        if ($slug !== $group->getSlug()) {
+            return $this->redirectToRoute('vgr_group_index', ['id' => $group->getId(), 'slug' => $group->getSlug()], 301);
+        }
 
-        //----- breadcrumbs
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($group->getGame()->getLibGame(), 'vgr_game_index', ['id' => $group->getGame()->getId()]);
+        $breadcrumbs = $this->getGroupBreadcrumbs($group);
         $breadcrumbs->addItem($group->getLibGroup());
 
         return $this->render(
@@ -59,10 +60,7 @@ class GroupController extends VgrBaseController
         $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
 
         //----- breadcrumbs
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($group->getGame()->getLibGame(), 'vgr_game_index', ['id' => $group->getGame()->getId()]);
-        $breadcrumbs->addRouteItem($group->getLibGroup(), 'vgr_group_index', ['id' => $id]);
+        $breadcrumbs = $this->getGroupBreadcrumbs($group);
         $breadcrumbs->addItem('game.pointchartranking.full');
 
         return $this->render(
@@ -86,11 +84,7 @@ class GroupController extends VgrBaseController
     {
         $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
 
-        //----- breadcrumbs
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($group->getGame()->getLibGame(), 'vgr_game_index', ['id' => $group->getGame()->getId()]);
-        $breadcrumbs->addRouteItem($group->getLibGroup(), 'vgr_group_index', ['id' => $id]);
+        $breadcrumbs = $this->getGroupBreadcrumbs($group);
         $breadcrumbs->addItem('game.medalranking.full');
 
         return $this->render(
@@ -113,11 +107,7 @@ class GroupController extends VgrBaseController
     {
         $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
 
-        //----- breadcrumbs
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($group->getGame()->getLibGame(), 'vgr_game_index', ['id' => $group->getGame()->getId()]);
-        $breadcrumbs->addRouteItem($group->getLibGroup(), 'vgr_group_index', ['id' => $id]);
+        $breadcrumbs = $this->getGroupBreadcrumbs($group);
         $breadcrumbs->addItem('game.pointchartranking.full');
 
         return $this->render(
@@ -141,11 +131,7 @@ class GroupController extends VgrBaseController
     {
         $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
 
-        //----- breadcrumbs
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($group->getGame()->getLibGame(), 'vgr_game_index', ['id' => $group->getGame()->getId()]);
-        $breadcrumbs->addRouteItem($group->getLibGroup(), 'vgr_group_index', ['id' => $id]);
+        $breadcrumbs = $this->getGroupBreadcrumbs($group);
         $breadcrumbs->addItem('game.medalranking.full');
 
         return $this->render(
@@ -186,13 +172,31 @@ class GroupController extends VgrBaseController
             $charts
         );
 
-
-        //----- breadcrumbs
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($group->getGame()->getLibGame(), 'vgr_game_index', ['id' => $group->getGame()->getId()]);
+        $breadcrumbs = $this->getGroupBreadcrumbs($group);
         $breadcrumbs->addItem($group->getLibGroup());
 
         return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', ['group' => $group, 'charts' => $charts, 'form' => $form->createView()]);
+    }
+
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
+     * @return object|\WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs
+     */
+    private function getGroupBreadcrumbs(Group $group)
+    {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem(
+            $group->getGame()->getLibGame(),
+            'vgr_game_index',
+            ['id' => $group->getGame()->getId(), 'slug' => $group->getGame()->getSlug()]
+        );
+        $breadcrumbs->addRouteItem(
+            $group->getLibGroup(),
+            'vgr_group_index',
+            ['id' => $group->getId(), 'slug' => $group->getSlug()]
+        );
+
+        return $breadcrumbs;
     }
 }

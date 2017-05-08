@@ -29,7 +29,7 @@
         <tbody>
         {% for game in games %}
             <tr>
-                <td><a href="{{ path('vgr_game_index', {'id': game.id}) }}">{{ game.name }}</a></td>
+                <td><a href="{{ path('vgr_game_index', {'id': game.id, 'slug': game.slug}) }}">{{ game.name }}</a></td>
                 <td>
                     {% for platform in game.getPlatforms() %}
                         {{ platform.getLibPlatform() }}

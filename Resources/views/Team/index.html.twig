@@ -25,7 +25,7 @@
     <h2>Player list</h2>
     <ul>
     {% for player in team.getPlayers() %}
-        <li><a href="{{ path('vgr_player_index', {'id': player.getIdPlayer()}) }}">{{ player.getPseudo() }}</a></li>
+        <li><a href="{{ path('vgr_player_index', {'id': player.getIdPlayer(), 'slug': row.slug}) }}">{{ player.pseudo }}</a></li>
     {% endfor %}
     </ul>
 

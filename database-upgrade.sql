@@ -98,6 +98,33 @@ DROP TABLE country_code;
 -- Series
 ALTER TABLE vgr_serie CHANGE idSerie id INT AUTO_INCREMENT NOT NULL;
 CREATE TABLE vgr_serie_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_B355773C2C2AC5D3 (translatable_id), UNIQUE INDEX serie_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+ALTER TABLE vgr_serie ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `vgr_serie` SET
+    slug = lower(libSerie),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
 -- Transfert des données
 INSERT INTO vgr_serie_translation (translatable_id, name, locale) SELECT id, libSerie, 'fr' FROM vgr_serie;
 INSERT INTO vgr_serie_translation (translatable_id, name, locale) SELECT id, libSerie, 'en' FROM vgr_serie;
@@ -115,6 +142,33 @@ ALTER TABLE `vgr_game` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` DROP `imagePlateForme`;
 ALTER TABLE `vgr_game` ADD `nbTeam` INT NOT NULL DEFAULT '0' AFTER `nbPlayer`;
+ALTER TABLE `vgr_game` ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `vgr_game` SET
+    slug = lower(libJeu_en),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
 -- Transfert des données
 INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJeu_fr, 'fr' FROM vgr_game;
 INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJeu_en, 'en' FROM vgr_game;
@@ -130,6 +184,33 @@ ALTER TABLE `vgr_group` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE nbPost nbPost INT NOT NULL;
 ALTER TABLE `vgr_group` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_group` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_group` ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `vgr_group` SET
+    slug = lower(libGroupe_en),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
 INSERT INTO vgr_group_translation (translatable_id, name, locale) SELECT id, libGroupe_fr, 'fr' FROM vgr_group;
 INSERT INTO vgr_group_translation (translatable_id, name, locale) SELECT id, libGroupe_en, 'en' FROM vgr_group;
 ALTER TABLE vgr_group DROP libGroupe_fr, DROP libGroupe_en;
@@ -142,6 +223,33 @@ ALTER TABLE `vgr_chart` CHANGE `statut` `statusPlayer` VARCHAR(20) CHARACTER SET
 ALTER TABLE `vgr_chart` CHANGE `statutTeam` `statusTeam` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
 ALTER TABLE `vgr_chart` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_chart` ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `vgr_chart` SET
+    slug = lower(libGroupe_en),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
 ALTER TABLE `vgr_chart` CHANGE statusPlayer statusPlayer VARCHAR(255) NOT NULL, CHANGE statusTeam statusTeam VARCHAR(255) NOT NULL, CHANGE nbPost nbPost INT NOT NULL;
 INSERT INTO vgr_chart_translation (translatable_id, name, locale) SELECT id, libRecord_fr, 'fr' FROM vgr_chart;
 INSERT INTO vgr_chart_translation (translatable_id, name, locale) SELECT id, libRecord_en, 'en' FROM vgr_chart;
@@ -411,6 +519,33 @@ CHANGE vgr_nbMasterBadge nbMasterBadge  INT DEFAULT NULL,
 CHANGE vgr_rank_pointJeu rankPointGame INT DEFAULT NULL,
 CHANGE vgr_collection collection text DEFAULT NULL;
 ALTER TABLE `vgr_player` ADD `nbGame` INT NOT NULL DEFAULT '0' AFTER `gameRank3`;
+ALTER TABLE `vgr_player` ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `vgr_player` SET
+    slug = lower(pseudo),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
 
 --
 UPDATE vgr_game g

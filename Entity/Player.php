@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Player
 {
+    use Sluggable;
+
     /**
      * @var \AppBundle\Entity\User
      *
@@ -1002,5 +1005,15 @@ class Player
     public function getPlayer()
     {
         return $this;
+    }
+
+    /**
+     * Returns an array of the fields used to generate the slug.
+     *
+     * @return array
+     */
+    public function getSluggableFields()
+    {
+        return ['pseudo'];
     }
 }

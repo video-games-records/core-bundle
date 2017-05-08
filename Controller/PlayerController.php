@@ -14,17 +14,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class PlayerController extends Controller
 {
     /**
-     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_player_index")
+     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_player_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
      * @param int $id
+     * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      */
-    public function indexAction($id)
+    public function indexAction($id, $slug)
     {
         $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($id);
+        if ($slug !== $player->getSlug()) {
+            return $this->redirectToRoute('vgr_player_index', ['id' => $player->getIdPlayer(), 'slug' => $player->getSlug()], 301);
+        }
 
         $nbPlayer = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getNbPlayer(['nbChart>0' => true]);
 

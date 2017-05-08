@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 
 /**
@@ -15,16 +16,20 @@ use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 class ChartController extends VgrBaseController
 {
     /**
-     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
+     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
      * @param int $id
+     * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction($id)
+    public function indexAction($id, $slug)
     {
         $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithGame($id);
+        if ($slug !== $chart->getSlug()) {
+            return $this->redirectToRoute('vgr_chart_index', ['id' => $chart->getId(), 'slug' => $chart->getSlug()], 301);
+        }
 
         $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getRanking(
             [
@@ -34,11 +39,7 @@ class ChartController extends VgrBaseController
             ]
         );
 
-        //----- breadcrumbs
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibGame(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getId()]);
-        $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getId()]);
+        $breadcrumbs = $this->getChartBreadcrumbs($chart);
         $breadcrumbs->addItem($chart->getLibChart());
 
         return $this->render(
@@ -80,14 +81,31 @@ class ChartController extends VgrBaseController
             $charts
         );
 
-
-        //----- breadcrumbs
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($chart->getGroup()->getGame()->getLibGame(), 'vgr_game_index', ['id' => $chart->getGroup()->getGame()->getId()]);
-        $breadcrumbs->addRouteItem($chart->getGroup()->getLibGroup(), 'vgr_group_index', ['id' => $chart->getGroup()->getId()]);
+        $breadcrumbs = $this->getChartBreadcrumbs($chart);
         $breadcrumbs->addItem($chart->getLibChart());
 
         return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', ['chart' => $chart, 'charts' => $charts, 'form' => $form->createView()]);
+    }
+
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
+     * @return object|\WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs
+     */
+    private function getChartBreadcrumbs(Chart $chart)
+    {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem(
+            $chart->getGroup()->getGame()->getLibGame(),
+            'vgr_game_index',
+            ['id' => $chart->getGroup()->getGame()->getId(), 'slug' => $chart->getGroup()->getGame()->getSlug()]
+        );
+        $breadcrumbs->addRouteItem(
+            $chart->getGroup()->getLibGroup(),
+            'vgr_group_index',
+            ['id' => $chart->getGroup()->getId(), 'slug' => $chart->getGroup()->getSlug()]
+        );
+
+        return $breadcrumbs;
     }
 }
