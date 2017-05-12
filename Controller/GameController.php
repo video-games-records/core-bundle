@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 
 /**
  * Class GameController
@@ -46,17 +47,21 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_index")
+     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_game_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
      * @param int $id
+     * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function indexAction($id)
+    public function indexAction($id, $slug)
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
+        if ($slug !== $game->getSlug()) {
+            return $this->redirectToRoute('vgr_game_index', ['id' => $game->getId(), 'slug' => $game->getSlug()], 301);
+        }
 
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
@@ -85,9 +90,8 @@ class GameController extends Controller
     public function rankingPlayerPointsAction($id)
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
+
+        $breadcrumbs = $this->getGameBreadcrumbs($game);
         $breadcrumbs->addItem('game.pointchartranking.full');
 
         return $this->render(
@@ -111,15 +115,13 @@ class GameController extends Controller
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
 
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
+        $breadcrumbs = $this->getGameBreadcrumbs($game);
         $breadcrumbs->addItem('game.medalranking.full');
 
         return $this->render(
             'VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig',
             [
-                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals(îd, 100, null),
+                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($id, 100, null),
             ]
         );
     }
@@ -136,9 +138,8 @@ class GameController extends Controller
     public function rankingTeamPointsAction($id)
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
+
+        $breadcrumbs = $this->getGameBreadcrumbs($game);
         $breadcrumbs->addItem('game.pointchartranking.full');
 
         return $this->render(
@@ -162,9 +163,7 @@ class GameController extends Controller
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
 
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $id]);
+        $breadcrumbs = $this->getGameBreadcrumbs($game);
         $breadcrumbs->addItem('game.medalranking.full');
 
         return $this->render(
@@ -173,5 +172,18 @@ class GameController extends Controller
                 'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($id, 100, null),
             ]
         );
+    }
+
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\Game $game
+     * @return object|\WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs
+     */
+    private function getGameBreadcrumbs(Game $game)
+    {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $game->getId(), 'slug' => $game->getSlug()]);
+
+        return $breadcrumbs;
     }
 }

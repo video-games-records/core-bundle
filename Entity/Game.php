@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,6 +22,7 @@ class Game
 {
     use Timestampable;
     use Translatable;
+    use Sluggable;
 
     const NUM_ITEMS = 20;
 
@@ -630,5 +632,15 @@ class Game
             self::ETAT_PICTURE => self::ETAT_PICTURE,
             self::ETAT_END => self::ETAT_END,
         ];
+    }
+
+    /**
+     * Returns an array of the fields used to generate the slug.
+     *
+     * @return array
+     */
+    public function getSluggableFields()
+    {
+        return ['name'];
     }
 }

@@ -19,7 +19,7 @@
         <tbody>
         {% for chart in group.getCharts %}
             <tr>
-                <td><a href="{{ path('vgr_chart_index', {'id': chart.getId()}) }}">{{ chart.getLibChart() }}</a>
+                <td><a href="{{ path('vgr_chart_index', {'id': chart.id, 'slug': chart.slug}) }}">{{ chart.getLibChart() }}</a>
                 </td>
                 <td>{{ chart.getNbPost() }}</td>
             </tr>

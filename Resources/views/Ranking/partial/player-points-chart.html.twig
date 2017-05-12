@@ -22,7 +22,7 @@
     {% for row in ranking %}
         <tr {{ vgrRankBgColor(row.getRankPointChart())|raw }}>
             <td>{{ row.getRankPointChart() }}</td>
-            <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer()}) }}">{{ row.getPlayer().getPseudo() }}</a></td>
+            <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer(), 'slug': row.player.slug}) }}">{{ row.player.pseudo }}</a></td>
             <td>{{ row.getPointChart() }}</td>
             <td>{{ row.getNbChart() }}</td>
         </tr>

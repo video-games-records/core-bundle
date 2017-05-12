@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,6 +19,7 @@ class Chart
 {
     use Timestampable;
     use Translatable;
+    use Sluggable;
 
     const STATUS_NORMAL = 'NORMAL';
     const STATUS_MAJ = 'MAJ';
@@ -300,5 +302,15 @@ class Chart
             self::STATUS_ERROR => self::STATUS_ERROR,
             self::STATUS_WORK_DELETE => self::STATUS_WORK_DELETE,
         ];
+    }
+
+    /**
+     * Returns an array of the fields used to generate the slug.
+     *
+     * @return array
+     */
+    public function getSluggableFields()
+    {
+        return ['name'];
     }
 }

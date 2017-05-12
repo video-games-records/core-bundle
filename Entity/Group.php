@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,6 +19,7 @@ class Group
 {
     use Timestampable;
     use Translatable;
+    use Sluggable;
 
     /**
      * @var integer
@@ -290,5 +292,15 @@ class Group
     public function getIdGame()
     {
         return $this->idGame;
+    }
+
+    /**
+     * Returns an array of the fields used to generate the slug.
+     *
+     * @return array
+     */
+    public function getSluggableFields()
+    {
+        return ['name'];
     }
 }
