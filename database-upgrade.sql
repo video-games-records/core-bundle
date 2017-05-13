@@ -48,6 +48,7 @@ RENAME TABLE t_pays TO country;
 RENAME TABLE t_email TO email;
 RENAME TABLE t_membre TO vgr_player;
 RENAME TABLE t_team TO vgr_team;
+RENAME TABLE t_team_demande TO vgr_team_demand;
 RENAME TABLE mv_team_record TO vgr_team_chart;
 RENAME TABLE mv_team_groupe TO vgr_team_group;
 RENAME TABLE mv_team_jeu TO vgr_team_game;
@@ -286,7 +287,16 @@ ALTER TABLE `vgr_team_game` CHANGE `rank1` `chartRank1` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_game` CHANGE `rank2` `chartRank2` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_game` CHANGE `rank3` `chartRank3` INT(11) NOT NULL;
 
-
+ALTER TABLE `vgr_team_demand` CHANGE `idDemande` `idDemand` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_team_demand` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
+ALTER TABLE `vgr_team_demand` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
+ALTER TABLE `vgr_team_demand` CHANGE `dateModification` `updated_at` DATETIME NOT NULL;
+ALTER TABLE `vgr_team_demand` CHANGE `statut` `status` ENUM('ACTIF','ACCEPT','CANCEL','REFUSE','ACTIVE','ACCEPTED','CANCELED','REFUSED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'ACTIF';
+UPDATE `vgr_team_demand` SET status = 'ACTIVE' WHERE status = 'ACTIF';
+UPDATE `vgr_team_demand` SET status = 'ACCEPTED' WHERE status = 'ACCEPT';
+UPDATE `vgr_team_demand` SET status = 'CANCELED' WHERE status = 'CANCEL';
+UPDATE `vgr_team_demand` SET status = 'REFUSED' WHERE status = 'REFUSE';
+ALTER TABLE `vgr_team_demand` CHANGE `status` `status` ENUM('ACTIVE','ACCEPTED','CANCELED','REFUSED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'ACTIVE';
 --
 -- Members
 --

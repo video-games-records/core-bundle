@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'VideoGamesRecordsCoreBundle' %}
+
+{% block title %}My account{% endblock %}
+
+{% block body_id 'account_index' %}
+
+{% block body %}
+    <h1>My account</h1>
+
+    <h2>Team</h2>
+    {% if player.getTeam() != null %}
+        {% if player.getTeam().getIdLeader() == player.getIdPlayer() %}
+            DEMANDS LIST FOR LEADER
+            FORM CHANGE LEADER
+        {% else %}
+            FORM QUIT
+        {% endif %}
+    {% else %}
+        DEMANDS LIST FOR PLAYER
+    {% endif %}
+
+
+{% endblock %}
