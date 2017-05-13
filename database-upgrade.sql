@@ -28,6 +28,27 @@ DROP TABLE IF EXISTS copy_vgr_groupe;
 DROP TABLE IF EXISTS copy_vgr_record;
 DROP TABLE IF EXISTS t_team_demande_old;
 
+-- DROP VIEW
+DROP VIEW IF EXISTS view_commentaire;
+DROP VIEW IF EXISTS view_forum_message;
+DROP VIEW IF EXISTS view_forum_home;
+DROP VIEW IF EXISTS view_forum_topic;
+DROP VIEW IF EXISTS view_groupe;
+DROP VIEW IF EXISTS view_jeu;
+DROP VIEW IF EXISTS view_librecord;
+DROP VIEW IF EXISTS view_librecord_membre;
+DROP VIEW IF EXISTS view_membre;
+DROP VIEW IF EXISTS view_membre2;
+DROP VIEW IF EXISTS view_membre3;
+DROP VIEW IF EXISTS view_membre_cup;
+DROP VIEW IF EXISTS view_pays;
+DROP VIEW IF EXISTS view_record;
+DROP VIEW IF EXISTS view_record_membre_last;
+DROP VIEW IF EXISTS view_team_cup;
+DROP VIEW IF EXISTS view_team_demande;
+DROP VIEW IF EXISTS view_topscore;
+DROP VIEW IF EXISTS view_video;
+
 -- TRUNCATE t_session;
 
 RENAME TABLE vgr_jeu TO vgr_game;
@@ -225,7 +246,7 @@ ALTER TABLE `vgr_chart` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_chart` ADD slug VARCHAR(255) DEFAULT NULL;
 UPDATE `vgr_chart` SET
-    slug = lower(libGroupe_en),
+    slug = lower(libRecord_en),
     slug = replace(slug, '.', ' '),
     slug = replace(slug, ',', ' '),
     slug = replace(slug, ';', ' '),
@@ -476,7 +497,7 @@ BEGIN
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
       );
     SET member_id = LAST_INSERT_ID();
-    UPDATE vgr_player SET normandie_player_id = member_id WHERE idUser = vgr_member_id;
+    UPDATE vgr_player SET normandie_user_id = member_id WHERE idPlayer = vgr_member_id;
   END LOOP;
   CLOSE cur1;
 END&&

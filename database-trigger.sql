@@ -108,7 +108,7 @@ FOR EACH ROW
 BEGIN
   UPDATE vgr_group
   SET nbChart = (SELECT COUNT(idChart) FROM vgr_chart WHERE idGroup = OLD.idGroup)
-  WHERE id = OLD.idGroup
+  WHERE id = OLD.idGroup;
 END //
 delimiter ;
 
