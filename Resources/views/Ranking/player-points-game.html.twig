@@ -21,8 +21,8 @@
             <tr {{ vgrRankBgColor(row.getRankPointGame())|raw }}>
                 <td>{{ row.getRankPointGame() }}</td>
                 <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer(), 'slug': row.player.slug}) }}">{{ row.player.pseudo }}</a></td>
-                <td>{{ row.getPointGame() }}</td>
-                <td>{{ row.getNbGame() }}</td>
+                <td>{{ row.getPointGame()|localizednumber }}</td>
+                <td>{{ row.getNbGame()|localizednumber }}</td>
             </tr>
         {% endfor %}
         </tbody>

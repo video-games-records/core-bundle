@@ -14,7 +14,7 @@
 <h1>{{ team.libTeam }}</h1>
 
     <ul>
-        <li>{{ 'team.team'|trans }} : {{ team.libTeam }} </li>
+        <li>{{ 'team.name'|trans }} : {{ team.libTeam }} </li>
         <li>{{ 'team.tag'|trans }} : {{ team.tag }} </li>
         {% if team.siteWeb  %}
         <li>{{ 'team.siteWeb'|trans }} : <a href="{{ team.siteWeb }}" target="_blank">{{ team.siteWeb }}</a> </li>
@@ -25,7 +25,7 @@
     <h2>Player list</h2>
     <ul>
     {% for player in team.getPlayers() %}
-        <li><a href="{{ path('vgr_player_index', {'id': player.getIdPlayer(), 'slug': row.slug}) }}">{{ player.pseudo }}</a></li>
+        <li><a href="{{ path('vgr_player_index', {'id': player.getIdPlayer(), 'slug': player.slug}) }}">{{ player.pseudo }}</a></li>
     {% endfor %}
     </ul>
 
@@ -35,18 +35,18 @@
     <ul>
         {% for teamGame in team.getTeamGame() %}
             <li>{{ teamGame.getGame().getLibGame() }} |
-                {% if teamGame.getChartRank0() > 0 %} {{ teamGame.getChartRank0() }} Platine {% endif %}
-                {% if teamGame.getChartRank1() > 0 %} {{ teamGame.getChartRank1() }} Or {% endif %}
-                {% if teamGame.getChartRank2() > 0 %} {{ teamGame.getChartRank2() }} Argent {% endif %}
-                {% if teamGame.getChartRank3() > 0 %} {{ teamGame.getChartRank3() }} Bronze {% endif %} |
+                {% if teamGame.getChartRank0() > 0 %} {{ teamGame.getChartRank0()|localizednumber }} Platine {% endif %}
+                {% if teamGame.getChartRank1() > 0 %} {{ teamGame.getChartRank1()|localizednumber }} Or {% endif %}
+                {% if teamGame.getChartRank2() > 0 %} {{ teamGame.getChartRank2()|localizednumber }} Argent {% endif %}
+                {% if teamGame.getChartRank3() > 0 %} {{ teamGame.getChartRank3()|localizednumber }} Bronze {% endif %} |
 
                 {% if teamGame.getRankPointChart() == 1 %}or
                 {% elseif teamGame.getRankPointChart() == 2 %}argent
                 {% elseif teamGame.getRankPointChart() == 3 %}bronze
                 {% else %}
-                    {{ teamGame.getRankPointChart()  }}|
+                    {{ teamGame.getRankPointChart()|localizednumber }}|
                 {% endif %} |
-                {{ teamGame.pointGame }} points</li>
+                {{ teamGame.pointGame|localizednumber }} points</li>
         {% endfor %}
     </ul>
 

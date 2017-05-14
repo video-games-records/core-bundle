@@ -20,7 +20,7 @@
             <tr {{ vgrRankBgColor(row.getRankPointChart())|raw }}>
                 <td>{{ row.getRankPointChart() }}</td>
                 <td>{{ row.getTeam().getLibTeam() }}</td>
-                <td>{{ row.getPointChart() }}</td>
+                <td>{{ row.getPointChart()|localizednumber }}</td>
             </tr>
         {% endfor %}
         </tbody>

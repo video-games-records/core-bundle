@@ -26,8 +26,8 @@
             <tr>
                 <td><a href="{{ path('vgr_group_index', {'id': group.id, 'slug': group.slug}) }}">{{ group.getLibGroup() }}</a>
                 </td>
-                <td>{{ group.getNbChart() }}</td>
-                <td>{{ group.getNbPost() }}</td>
+                <td>{{ group.getNbChart()|localizednumber }}</td>
+                <td>{{ group.getNbPost()|localizednumber }}</td>
             </tr>
         {% endfor %}
         </tbody>

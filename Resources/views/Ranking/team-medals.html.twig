@@ -23,10 +23,10 @@
             <tr {{ vgrRankBgColor(row.getRankMedal())|raw }}>
                 <td>{{ row.getRankMedal() }}</td>
                 <td>{{ row.getTeam().getLibTeam() }}</td>
-                <td>{{ row.getChartRank0() }}</td>
-                <td>{{ row.getChartRank1() }}</td>
-                <td>{{ row.getChartRank2() }}</td>
-                <td>{{ row.getChartRank3() }}</td>
+                <td>{{ row.getChartRank0()|localizednumber }}</td>
+                <td>{{ row.getChartRank1()|localizednumber }}</td>
+                <td>{{ row.getChartRank2()|localizednumber }}</td>
+                <td>{{ row.getChartRank3()|localizednumber }}</td>
             </tr>
         {% endfor %}
         </tbody>

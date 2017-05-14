@@ -35,9 +35,9 @@
                         {{ platform.getLibPlatform() }}
                     {% endfor %}
                 </td>
-                <td>{{ game.nbChart }}</td>
-                <td>{{ game.nbPost }}</td>
-                <td>{{ game.nbPlayer }}</td>
+                <td>{{ game.nbChart|localizednumber }}</td>
+                <td>{{ game.nbPost|localizednumber }}</td>
+                <td>{{ game.nbPlayer|localizednumber }}</td>
             </tr>
         {% else %}
             <tr>

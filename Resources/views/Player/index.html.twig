@@ -15,24 +15,24 @@
 
     <ul>
         <li> | COUPES | MEDAILLES </li>
-        <li> RANG | {{ player.getRankCup() }} / {{ nbPlayer }} | {{ player.getRankMedal() }} / {{ nbPlayer }} </li>
-        <li> Platine | {{ player.getGameRank0() }} | {{ player.getChartRank0() }} </li>
-        <li> Or | {{ player.getGameRank1() }} | {{ player.getChartRank1() }} </li>
-        <li> Argent | {{ player.getGameRank2() }}  | {{ player.getChartRank2() }} </li>
-        <li> Bronze | {{ player.getGameRank3() }}  | {{ player.getChartRank3() }} </li>
+        <li> RANG | {{ player.getRankCup()|localizednumber }} / {{ nbPlayer|localizednumber }} | {{ player.getRankMedal()|localizednumber }} / {{ nbPlayer|localizednumber }} </li>
+        <li> Platine | {{ player.getGameRank0()|localizednumber }} | {{ player.getChartRank0()|localizednumber }} </li>
+        <li> Or | {{ player.getGameRank1()|localizednumber }} | {{ player.getChartRank1()|localizednumber }} </li>
+        <li> Argent | {{ player.getGameRank2()|localizednumber }}  | {{ player.getChartRank2()|localizednumber }} </li>
+        <li> Bronze | {{ player.getGameRank3()|localizednumber }}  | {{ player.getChartRank3()|localizednumber }} </li>
     </ul>
 
     <ul>
         <li>| pointGame | pointChart | badge | proof</li>
-        <li>rank |  {{ player.getRankPointGame() }} / {{ nbPlayer }}  | {{ player.getRankPointChart() }} / {{ nbPlayer }} | {{ player.getRankBadge() }} / {{ nbPlayer }} | {{ player.getRankProof() }} / {{ nbPlayer }} </li>
-        <li>point | {{ player.getPointGame() }} | {{ player.getPointChart() }} | {{ player.getPointBadge() }} | {{ player.getNbChartProven() }}</li>
+        <li>rank |  {{ player.getRankPointGame()|localizednumber }} / {{ nbPlayer|localizednumber }}  | {{ player.getRankPointChart()|localizednumber }} / {{ nbPlayer|localizednumber }} | {{ player.getRankBadge()|localizednumber }} / {{ nbPlayer|localizednumber }} | {{ player.getRankProof()|localizednumber }} / {{ nbPlayer|localizednumber }} </li>
+        <li>point | {{ player.getPointGame()|localizednumber }} | {{ player.getPointChart()|localizednumber }} | {{ player.getPointBadge()|localizednumber }} | {{ player.getNbChartProven()|localizednumber }}</li>
     </ul>
 
     <ul>
         <li>Pseudo : {{ player.getPseudo() }}</li>
-        <li>nbGame : {{ player.getPlayerGame()|length }}</li>
-        <li>nbPost : {{ player.getNbChart() }}</li>
-        <li>nbProof : {{ player.getNbChartProven() }}</li>
+        <li>nbGame : {{ player.getPlayerGame()|length|localizednumber }}</li>
+        <li>nbPost : {{ player.getNbChart()|localizednumber }}</li>
+        <li>nbProof : {{ player.getNbChartProven()|localizednumber }}</li>
     </ul>
 
     <ul>
@@ -46,18 +46,18 @@
     <ul>
     {% for playerGame in player.getPlayerGame() %}
         <li>{{ playerGame.getGame().getLibGame() }} |
-            {% if playerGame.getChartRank0() > 0 %} {{ playerGame.getChartRank0() }} Platine {% endif %}
-            {% if playerGame.getChartRank1() > 0 %} {{ playerGame.getChartRank1() }} Or {% endif %}
-            {% if playerGame.getChartRank2() > 0 %} {{ playerGame.getChartRank2() }} Argent {% endif %}
-            {% if playerGame.getChartRank3() > 0 %} {{ playerGame.getChartRank3() }} Bronze {% endif %} |
+            {% if playerGame.getChartRank0() > 0 %} {{ playerGame.getChartRank0()|localizednumber }} Platine {% endif %}
+            {% if playerGame.getChartRank1() > 0 %} {{ playerGame.getChartRank1()|localizednumber }} Or {% endif %}
+            {% if playerGame.getChartRank2() > 0 %} {{ playerGame.getChartRank2()|localizednumber }} Argent {% endif %}
+            {% if playerGame.getChartRank3() > 0 %} {{ playerGame.getChartRank3()|localizednumber }} Bronze {% endif %} |
 
             {% if playerGame.getRankPointChart() == 1 %}or
             {% elseif playerGame.getRankPointChart() == 2 %}argent
             {% elseif playerGame.getRankPointChart() == 3 %}bronze
             {% else %}
-                {{ playerGame.getRankPointChart()  }}|
+                {{ playerGame.getRankPointChart()|localizednumber }}|
             {% endif %} |
-            {{ playerGame.pointGame }} points</li>
+            {{ playerGame.pointGame|localizednumber }} points</li>
     {% endfor %}
     </ul>
 

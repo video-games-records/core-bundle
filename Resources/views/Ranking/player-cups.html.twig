@@ -23,10 +23,10 @@
             <tr {{ vgrRankBgColor(row.getRankCup())|raw }}>
                 <td>{{ row.getRankCup() }}</td>
                 <td><a href="{{ path('vgr_player_index', {'id': row.getIdPlayer(), 'slug': row.player.slug}) }}">{{ row.player.pseudo }}</a></td>
-                <td>{{ row.getGameRank0() }}</td>
-                <td>{{ row.getGameRank1() }}</td>
-                <td>{{ row.getGameRank2() }}</td>
-                <td>{{ row.getGameRank3() }}</td>
+                <td>{{ row.getGameRank0()|localizednumber }}</td>
+                <td>{{ row.getGameRank1()|localizednumber }}</td>
+                <td>{{ row.getGameRank2()|localizednumber }}</td>
+                <td>{{ row.getGameRank3()|localizednumber }}</td>
             </tr>
         {% endfor %}
         </tbody>

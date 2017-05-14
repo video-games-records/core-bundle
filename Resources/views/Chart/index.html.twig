@@ -28,7 +28,7 @@
                 {% for lib in chart.getLibs() %}
                     <td>{{ vgrFormatScore(row['value_' ~  lib.getIdLibChart()], lib.getType().getMask()) }}</td>
                 {% endfor %}
-                <td>{{ row['pc'].getPointChart()|number_format }}</td>
+                <td>{{ row['pc'].getPointChart()|localizednumber }}</td>
             </tr>
         {% else %}
             <div class="well">{{ 'chart.no_ranking'|trans }}</div>
