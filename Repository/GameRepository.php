@@ -28,6 +28,7 @@ class GameRepository extends EntityRepository
                 ->where('SUBSTRING(translation.name , 1, 1) = :letter')
                 ->setParameter('letter', $letter);
         }
+        $query->orderBy('translation.name', 'ASC');
 
         $this->onlyActive($query);
         $this->withPlatforms($query);
