@@ -13,53 +13,122 @@
 {% block body %}
 <h1>{{ player.getPseudo() }}</h1>
 
-    <ul>
-        <li> | COUPES | MEDAILLES </li>
-        <li> RANG | {{ player.getRankCup()|localizednumber }} / {{ nbPlayer|localizednumber }} | {{ player.getRankMedal()|localizednumber }} / {{ nbPlayer|localizednumber }} </li>
-        <li> Platine | {{ player.getGameRank0()|localizednumber }} | {{ player.getChartRank0()|localizednumber }} </li>
-        <li> Or | {{ player.getGameRank1()|localizednumber }} | {{ player.getChartRank1()|localizednumber }} </li>
-        <li> Argent | {{ player.getGameRank2()|localizednumber }}  | {{ player.getChartRank2()|localizednumber }} </li>
-        <li> Bronze | {{ player.getGameRank3()|localizednumber }}  | {{ player.getChartRank3()|localizednumber }} </li>
-    </ul>
+    <dl>
+        <dt>Nombre de jeux</dt>
+        <dd>{{ player.getPlayerGame()|length|localizednumber }}</dd>
 
-    <ul>
-        <li>| pointGame | pointChart | badge | proof</li>
-        <li>rank |  {{ player.getRankPointGame()|localizednumber }} / {{ nbPlayer|localizednumber }}  | {{ player.getRankPointChart()|localizednumber }} / {{ nbPlayer|localizednumber }} | {{ player.getRankBadge()|localizednumber }} / {{ nbPlayer|localizednumber }} | {{ player.getRankProof()|localizednumber }} / {{ nbPlayer|localizednumber }} </li>
-        <li>point | {{ player.getPointGame()|localizednumber }} | {{ player.getPointChart()|localizednumber }} | {{ player.getPointBadge()|localizednumber }} | {{ player.getNbChartProven()|localizednumber }}</li>
-    </ul>
+        <dt>Nombre de scores postés</dt>
+        <dd>{{ player.getNbChart()|localizednumber }}</dd>
 
-    <ul>
-        <li>Pseudo : {{ player.getPseudo() }}</li>
-        <li>nbGame : {{ player.getPlayerGame()|length|localizednumber }}</li>
-        <li>nbPost : {{ player.getNbChart()|localizednumber }}</li>
-        <li>nbProof : {{ player.getNbChartProven()|localizednumber }}</li>
-    </ul>
+        <dt>Nombre de preuves</dt>
+        <dd>{{ player.getNbChartProven()|localizednumber }}</dd>
 
-    <ul>
         {% if lastChart %}
-        <li>Dernier record posté :</li> {{ lastChart.getChart().getGroup().getGame().getLibGame() }} - {{ lastChart.getChart().getGroup().getLibGroup() }} - {{ lastChart.getChart().getLibChart() }} - {{ lastChart.getCreatedAt()|date('Y-m-d H:i:s')  }}
+        <dt>Dernier record posté</dt>
+        <dd>{{ lastChart.getChart().getGroup().getGame().getLibGame() }} - {{ lastChart.getChart().getGroup().getLibGroup() }} - {{ lastChart.getChart().getLibChart() }} - {{ lastChart.getCreatedAt()|date('Y-m-d H:i:s')  }}</dd>
         {% endif %}
-    </ul>
+    </dl>
 
-    <h2>Game list</h2>
-    GAME | MEDALS | RANKING | POINTS
-    <ul>
-    {% for playerGame in player.getPlayerGame() %}
-        <li>{{ playerGame.getGame().getLibGame() }} |
-            {% if playerGame.getChartRank0() > 0 %} {{ playerGame.getChartRank0()|localizednumber }} Platine {% endif %}
-            {% if playerGame.getChartRank1() > 0 %} {{ playerGame.getChartRank1()|localizednumber }} Or {% endif %}
-            {% if playerGame.getChartRank2() > 0 %} {{ playerGame.getChartRank2()|localizednumber }} Argent {% endif %}
-            {% if playerGame.getChartRank3() > 0 %} {{ playerGame.getChartRank3()|localizednumber }} Bronze {% endif %} |
+    <table>
+        <caption>Classement coupes et médailles</caption>
+        <thead>
+            <tr>
+                <td></td>
+                <th scope="col">Coupes</th>
+                <th scope="col">Médailles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Rang</th>
+                <td>{{ player.getRankCup()|localizednumber }} / {{ nbPlayer|localizednumber }}</td>
+                <td>{{ player.getRankMedal()|localizednumber }} / {{ nbPlayer|localizednumber }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Platine</th>
+                <td>{{ player.getGameRank0()|localizednumber }}</td>
+                <td>{{ player.getChartRank0()|localizednumber }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Or</th>
+                <td>{{ player.getGameRank1()|localizednumber }}</td>
+                <td>{{ player.getChartRank1()|localizednumber }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Argent</th>
+                <td>{{ player.getGameRank2()|localizednumber }}</td>
+                <td>{{ player.getChartRank2()|localizednumber }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Bronze</th>
+                <td>{{ player.getGameRank3()|localizednumber }}</td>
+                <td>{{ player.getChartRank3()|localizednumber }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-            {% if playerGame.getRankPointChart() == 1 %}or
-            {% elseif playerGame.getRankPointChart() == 2 %}argent
-            {% elseif playerGame.getRankPointChart() == 3 %}bronze
-            {% else %}
-                {{ playerGame.getRankPointChart()|localizednumber }}|
-            {% endif %} |
-            {{ playerGame.pointGame|localizednumber }} points</li>
-    {% endfor %}
-    </ul>
+    <table>
+        <caption>Classement points</caption>
+        <thead>
+            <tr>
+                <td></td>
+                <th scope="col">Jeux</th>
+                <th scope="col">Charts</th>
+                <th scope="col">Badges</th>
+                <th scope="col">Preuves</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Rang</th>
+                <td>{{ player.getRankPointGame()|localizednumber }} / {{ nbPlayer|localizednumber }}</td>
+                <td>{{ player.getRankPointChart()|localizednumber }} / {{ nbPlayer|localizednumber }}</td>
+                <td>{{ player.getRankBadge()|localizednumber }} / {{ nbPlayer|localizednumber }}</td>
+                <td>{{ player.getRankProof()|localizednumber }} / {{ nbPlayer|localizednumber }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Points</th>
+                <td>{{ player.getPointGame()|localizednumber }}</td>
+                <td>{{ player.getPointChart()|localizednumber }}</td>
+                <td>{{ player.getPointBadge()|localizednumber }}</td>
+                <td>{{ player.getNbChartProven()|localizednumber }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <caption>Liste des jeux</caption>
+        <thead>
+            <tr>
+                <th scope="col">Jeu</th>
+                <th scope="col">Médailles</th>
+                <th scope="col">Classement</th>
+                <th scope="col">Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for playerGame in player.getPlayerGame() %}
+            <tr>
+                <td>{{ playerGame.getGame().getLibGame() }}</td>
+                <td>
+                    <div>{% if playerGame.getChartRank0() > 0 %} {{ playerGame.getChartRank0()|localizednumber }} Platine {% endif %}</div>
+                    <div>{% if playerGame.getChartRank1() > 0 %} {{ playerGame.getChartRank1()|localizednumber }} Or {% endif %}</div>
+                    <div>{% if playerGame.getChartRank2() > 0 %} {{ playerGame.getChartRank2()|localizednumber }} Argent {% endif %}</div>
+                    <div>{% if playerGame.getChartRank3() > 0 %} {{ playerGame.getChartRank3()|localizednumber }} Bronze {% endif %}</div>
+                </td>
+                <td>
+                    {% if playerGame.getRankPointChart() == 1 %}or
+                    {% elseif playerGame.getRankPointChart() == 2 %}argent
+                    {% elseif playerGame.getRankPointChart() == 3 %}bronze
+                    {% else %}
+                        {{ playerGame.getRankPointChart()|localizednumber }}|
+                    {% endif %}
+                </td>
+                <td>{{ playerGame.pointGame|localizednumber }} points</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <h2>Badges</h2>
         {{ render(controller(
