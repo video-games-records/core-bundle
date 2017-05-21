@@ -16,7 +16,8 @@ class GameRepository extends EntityRepository
      */
     public function findWithLetter($letter)
     {
-        $query = $this->createQueryBuilder('g');
+        $query = $this->createQueryBuilder('g')
+            ->addSelect('translation');
         if ($letter == '0') {
             $query
                 ->innerJoin('g.translations', 'translation')
