@@ -10,17 +10,16 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 class PlayerChartRepository extends EntityRepository
 {
     /**
-     * @param array $params idChart|idPlayer|limit|maxRank
+     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
+     * @param \VideoGamesRecords\CoreBundle\Entity\Player $player
+     * @param int $limit
+     * @return array
      * @todo
      * => Join etat to keep only boolRanking = 1
      * => If idPlayer, search for the rank and display a range of -5 and +5
-     * @return array
      */
-    public function getRanking($params = [])
+    public function getRanking($chart, $player = null, $limit = 5)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
-        $chart = $params['chart'];
-
         $rsm = new ResultSetMapping;
         $rsm->addEntityResult('VideoGamesRecords\CoreBundle\Entity\PlayerChart', 'pc', 'pc');
         $rsm->addFieldResult('pc', 'idChart', 'idChart');
@@ -44,7 +43,7 @@ class PlayerChartRepository extends EntityRepository
         $fields[] = 'u.*';
 
         $where[] = 'pc.idChart = :idChart';
-        $parameters['idChart'] = $params['idChart'];
+        $parameters['idChart'] = $chart->getId();
         foreach ($chart->getLibs() as $lib) {
             $columnName = "value_" . $lib->getIdLibChart();
             $fields[] = "(SELECT value FROM vgr_player_chartlib WHERE idLibChart=" . $lib->getIdLibChart() . " AND idPlayer = pc.idPlayer) AS $columnName";
@@ -54,13 +53,13 @@ class PlayerChartRepository extends EntityRepository
         }
 
 
-        if ((array_key_exists('maxRank', $params)) && (array_key_exists('idPlayer', $params))) {
+        if (null !== $limit && null !== $player) {
             $where[] = '(pc.rank <= :maxRank OR pc.idPlayer = :idPlayer)';
-            $parameters['maxRank'] = $params['maxRank'];
-            $parameters['idLogin'] = $params['idLogin'];
-        } elseif (array_key_exists('maxRank', $params)) {
+            $parameters['maxRank'] = $limit;
+            $parameters['idLogin'] = $player->getIdPlayer();
+        } elseif (null !== $limit) {
             $where[] = 'pc.rank <= :maxRank';
-            $parameters['maxRank'] = $params['maxRank'];
+            $parameters['maxRank'] = $limit;
         }
 
         $where[] = 'pc.rank IS NOT NULL'; //----- Disabeld post
@@ -76,19 +75,9 @@ class PlayerChartRepository extends EntityRepository
         );
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
-        foreach ($parameters as $key => $value) {
-            $query->setParameter($key, $value);
-        }
+        $query->setParameters($parameters);
 
-        $result = $query->getResult();
-
-        $list = [];
-        foreach ($result as $row) {
-            $list[] = $row;
-        }
-        $list = Ranking::addChartRank($list, $columns);
-
-        return $list;
+        return $query->getResult();
     }
 
     /**
@@ -98,12 +87,7 @@ class PlayerChartRepository extends EntityRepository
     public function maj($idChart)
     {
         $chart = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($idChart);
-        $ranking = $this->getRanking(
-            [
-                'idChart' => $idChart,
-                'chart' => $chart,
-            ]
-        );
+        $ranking = $this->getRanking($chart);
 
         // @todo disabled post (Rank is null)
 

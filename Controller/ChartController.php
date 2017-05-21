@@ -31,13 +31,9 @@ class ChartController extends VgrBaseController
             return $this->redirectToRoute('vgr_chart_index', ['id' => $chart->getId(), 'slug' => $chart->getSlug()], 301);
         }
 
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getRanking(
-            [
-                'chart' => $chart,
-                'idChart' => $id,
-                'maxRank' => 20,
-            ]
-        );
+        $ranking = $this->getDoctrine()
+            ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+            ->getRanking($chart, $this->getPlayer(), 20);
 
         $breadcrumbs = $this->getChartBreadcrumbs($chart);
         $breadcrumbs->addItem($chart->getLibChart());
