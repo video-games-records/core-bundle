@@ -121,7 +121,7 @@
                     {% elseif playerGame.getRankPointChart() == 2 %}argent
                     {% elseif playerGame.getRankPointChart() == 3 %}bronze
                     {% else %}
-                        {{ playerGame.getRankPointChart()|localizednumber }}|
+                        {{ playerGame.getRankPointChart()|localizednumber }}
                     {% endif %}
                 </td>
                 <td>{{ playerGame.pointGame|localizednumber }} points</td>
