@@ -1,0 +1,13 @@
+<h2>Team</h2>
+{% if player.getTeam() != null %}
+    {% if player.isLeader() %}
+        {{ render(controller('VideoGamesRecordsCoreBundle:Team:demands')) }}
+        FORM CHANGE LEADER
+        UPDATE TEAM
+    {% else %}
+        {{ render(controller('VideoGamesRecordsCoreBundle:Team:quit')) }}
+    {% endif %}
+{% else %}
+    {{ render(controller('VideoGamesRecordsCoreBundle:Team:demands')) }}
+    CREATE TEAM
+{% endif %}

@@ -20,6 +20,9 @@
         <li>{{ 'team.siteWeb'|trans }} : <a href="{{ team.siteWeb }}" target="_blank">{{ team.siteWeb }}</a> </li>
         {%  endif %}
         <li>{{ 'team.createdAt'|trans }} : {{ team.createdAt|date("m/d/Y") }}</li>
+        {% if (team.isOpened()) and (is_granted('IS_AUTHENTICATED_REMEMBERED')) %}
+            {{ render(controller('VideoGamesRecordsCoreBundle:Team:join',{'idTeam' : team.idTeam} ))}}
+        {% endif %}
     </ul>
 
     <h2>Player list</h2>

@@ -1016,4 +1016,15 @@ class Player
     {
         return ['pseudo'];
     }
+
+    /**
+     * @return bool
+     */
+    public function isLeader()
+    {
+        if (($this->getTeam() != null) && ($this->getTeam()->getIdLeader() == $this->getIdPlayer())) {
+            return true;
+        }
+        return false;
+    }
 }
