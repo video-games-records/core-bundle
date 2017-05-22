@@ -9,17 +9,6 @@
 {% block body %}
     <h1>My account</h1>
 
-    <h2>Team</h2>
-    {% if player.getTeam() != null %}
-        {% if player.getTeam().getIdLeader() == player.getIdPlayer() %}
-            DEMANDS LIST FOR LEADER
-            FORM CHANGE LEADER
-        {% else %}
-            FORM QUIT
-        {% endif %}
-    {% else %}
-        DEMANDS LIST FOR PLAYER
-    {% endif %}
-
+    {{ render(controller('VideoGamesRecordsCoreBundle:Team:account')) }}
 
 {% endblock %}

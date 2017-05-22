@@ -235,7 +235,9 @@ ALTER TABLE `vgr_player_chart_status` CHANGE `idEtat` `idStatus` INT(11) NOT NUL
 ALTER TABLE `vgr_player_chart_status` CHANGE `libEtat` `libStatus` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 
 -- Team
-ALTER TABLE `vgr_team` CHANGE `statut` `status` ENUM('OPEN','CLOSED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'OPEN';
+ALTER TABLE `vgr_team` CHANGE `statut` `status` ENUM('OPEN','CLOSED','OPENED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'OPENED';
+UPDATE vgr_team SET status = 'OPENED' WHERE status = 'OPEN';
+ALTER TABLE `vgr_team` CHANGE `status` `status` ENUM('CLOSED','OPENED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'OPENED';
 ALTER TABLE `vgr_team` CHANGE `nbMembre` `nbPlayer` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_team` CHANGE `vgr_pointRecord` `pointChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_team` CHANGE `vgr_pointBadge` `pointBadge` INT(11) NOT NULL DEFAULT '0';

@@ -840,4 +840,12 @@ class Team
     {
         return $this->teamGame;
     }
+
+    /**
+     * @return bool
+     */
+    public function isOpened()
+    {
+        return ($this->getStatus()== self::STATUS_OPENED) ? true : false;
+    }
 }

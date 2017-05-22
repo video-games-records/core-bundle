@@ -10,6 +10,8 @@ use VideoGamesRecords\CoreBundle\Entity\TeamDemand;
 class TeamDemandRepository extends EntityRepository
 {
 
+
+
     /**
      * @param $idTeam
      * @return array
@@ -35,7 +37,28 @@ class TeamDemandRepository extends EntityRepository
         $query = $this->createQueryBuilder('td');
 
         $query->where('td.idPlayer = :idPlayer')
-            ->setParameter('idTeam', $idPlayer);
+            ->setParameter('idPlayer', $idPlayer);
+
+        $this->onlyActive($query);
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $idPlayer
+     * @param $idTeam
+     * @return array
+     */
+    public function getFromPlayerAndTeam($idPlayer, $idTeam)
+    {
+        $query = $this->createQueryBuilder('td');
+
+        $query->where('td.idPlayer = :idPlayer')
+            ->setParameter('idPlayer', $idPlayer);
+
+        $query->andWhere('td.idTeam = :idTeam')
+            ->setParameter('idTeam', $idTeam);
 
         $this->onlyActive($query);
 

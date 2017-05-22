@@ -253,6 +253,12 @@ class Player
      */
     private $team;
 
+
+    public function __construct()
+    {
+        $this->team = null;
+    }
+
     /**
      * Set idPlayer
      *
@@ -1002,5 +1008,16 @@ class Player
     public function getPlayer()
     {
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLeader()
+    {
+        if (($this->getTeam() != null) && ($this->getTeam()->getIdLeader() == $this->getIdPlayer())) {
+            return true;
+        }
+        return false;
     }
 }

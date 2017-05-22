@@ -1,0 +1,30 @@
+<h3>{{ 'team_demand.demands'|trans }}</h3>
+<table class="team-demands-list">
+    <thead>
+    <tr>
+        <th scope="col">{{ 'team.team'|trans }}</th>
+        <th scope="col">{{ 'team_demand.createdAt'|trans }}</th>
+        <th scope="col">{{ 'team_demand.actions'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for demand in demands %}
+        <tr>
+            <td><a href="{{ path('vgr_team_index', {'id': demand.getTeam().idTeam}) }}">{{ demand.getTeam().LibTeam }}</a></td>
+            <td>{{ demand.createdAt|date("m/d/Y") }}</td>
+            <td>
+                {% if isLeader %}
+                    {{ render(controller('VideoGamesRecordsCoreBundle:Team:accept',{'idDemand' : demand.idDemand} ))}}
+                    {{ render(controller('VideoGamesRecordsCoreBundle:Team:refuse',{'idDemand' : demand.idDemand} ))}}
+                {% else %}
+                    {{ render(controller('VideoGamesRecordsCoreBundle:Team:cancel',{'idDemand' : demand.idDemand} ))}}
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">{{ 'team_demand.no_demand'|trans }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

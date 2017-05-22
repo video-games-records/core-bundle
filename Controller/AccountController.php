@@ -31,10 +31,7 @@ class AccountController extends VgrBaseController
         $breadcrumbs->addItem('Account');
 
         return $this->render(
-            'VideoGamesRecordsCoreBundle:Account:index.html.twig',
-            [
-                'player' => $this->getPlayer(),
-            ]
+            'VideoGamesRecordsCoreBundle:Account:index.html.twig'
         );
     }
 }
