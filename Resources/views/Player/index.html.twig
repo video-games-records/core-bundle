@@ -131,16 +131,17 @@
     </table>
 
     <h2>Badges</h2>
-        {{ render(controller(
-            'VideoGamesRecordsCoreBundle:Badge:playerList',
-            { 'idPlayer': player.idPlayer(), 'type': 'master' }
-        )) }}
-        {{ render(controller(
-            'VideoGamesRecordsCoreBundle:Badge:playerList',
-            { 'idPlayer': player.idPlayer(), 'type': 'chart' }
-        )) }}
-        {{ render(controller(
-            'VideoGamesRecordsCoreBundle:Badge:playerList',
-            { 'idPlayer': player.idPlayer(), 'type': 'proof' }
-        )) }}
+
+    {{ render(controller(
+        'VideoGamesRecordsCoreBundle:Badge:playerList',
+        { 'idPlayer': player.idPlayer(), 'type': 'master' }
+    )) }}
+    {{ render(controller(
+        'VideoGamesRecordsCoreBundle:Badge:playerList',
+        { 'idPlayer': player.idPlayer(), 'type': 'chart' }
+    )) }}
+    {{ render(controller(
+        'VideoGamesRecordsCoreBundle:Badge:playerList',
+        { 'idPlayer': player.idPlayer(), 'type': 'proof' }
+    )) }}
 {% endblock %}
