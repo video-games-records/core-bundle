@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Team
 {
+    use Sluggable;
     use Timestampable;
 
     const STATUS_OPENED = 'OPENED';
@@ -857,5 +859,13 @@ class Team
     public function isOpened()
     {
         return ($this->getStatus()== self::STATUS_OPENED) ? true : false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSluggableFields()
+    {
+        return ['libTeam'];
     }
 }

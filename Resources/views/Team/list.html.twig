@@ -19,7 +19,7 @@
         <tbody>
         {% for team in teams %}
             <tr>
-                <td><a href="{{ path('vgr_team_index', {'id': team.idTeam}) }}">{{ team.LibTeam }}</a></td>
+                <td><a href="{{ path('vgr_team_index', {'id': team.idTeam, 'slug': team.slug}) }}">{{ team.LibTeam }}</a></td>
                 <td>{{ team.createdAt|date("m/d/Y") }}</td>
                 <td>{{ team.chartRank0 }}</td>
                 <td>{{ team.chartRank1 }}</td>
