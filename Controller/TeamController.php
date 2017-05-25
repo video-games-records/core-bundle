@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\TeamDemand;
+use VideoGamesRecords\CoreBundle\Form\Team\DemandForm;
+use VideoGamesRecords\CoreBundle\Form\Team\ChangeLeaderForm;
 
 /**
  * Class TeamController
@@ -110,7 +112,13 @@ class TeamController extends VgrBaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $idPlayer = $this->getPlayer()->getIdPlayer();
+
+            /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
+            $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer()->getIdPlayer());
+            $player->setTeam(null);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
 
             //----- Message
             $this->addFlash(
@@ -397,6 +405,176 @@ class TeamController extends VgrBaseController
             [
                 'demands' => $demands,
                 'isLeader' => $player->isLeader(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/create", name="vgr_team_create")
+     * @Method({"GET","POST"})
+     * @Cache(smaxage="10")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function createAction(Request $request)
+    {
+        //----- breadcrumbs
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem('Account', 'vgr_account_index');
+        $breadcrumbs->addItem('Create team');
+
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
+        $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer()->getIdPlayer());
+
+        $team = new Team();
+
+        $form = $this->createForm(DemandForm::class, $team);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $team->setIdLeader($player->getIdPlayer());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($team);
+                $em->flush();
+
+                $player->setTeam($team);
+                $em->flush();
+
+                //----- Message
+                $this->addFlash(
+                    'notice',
+                    sprintf('Your changes were saved!!!')
+                );
+
+                return $this->redirectToRoute('vgr_account_index');
+            }
+        }
+
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Team:create.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+
+    /**
+     * @Route("/update", name="vgr_team_update")
+     * @Method({"GET","POST"})
+     * @Cache(smaxage="10")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function updateAction(Request $request)
+    {
+        //----- breadcrumbs
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem('Account', 'vgr_account_index');
+        $breadcrumbs->addItem('Update team');
+
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
+        $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer()->getIdPlayer());
+
+        $team = $player->getTeam();
+
+        $form = $this->createForm(DemandForm::class, $team);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+
+                //----- Message
+                $this->addFlash(
+                    'notice',
+                    sprintf('Your changes were saved!!!')
+                );
+
+                return $this->redirectToRoute('vgr_account_index');
+            }
+        }
+
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Team:update.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+
+    /**
+     * @Route("/change-leader", name="vgr_team_change_leader")
+     * @Method({"GET","POST"})
+     * @Cache(smaxage="10")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function changeLeaderAction(Request $request)
+    {
+        //----- breadcrumbs
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'homepage');
+        $breadcrumbs->addRouteItem('Account', 'vgr_account_index');
+        $breadcrumbs->addItem('Change leader');
+
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
+        $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer()->getIdPlayer());
+
+        $players = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayersFromTeam($player->getIdTeam());
+        $choices = array();
+        foreach($players as $row) {
+            if ($this->getPlayer()->getIdPlayer() != $row->getIdPlayer()) {
+                $choices[$row->getPseudo()] = $row->getIdPlayer();
+            }
+        }
+        $form = $this->createForm(ChangeLeaderForm::class, null, array('players' => $choices));
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $form->getData();
+
+            $team = $player->getTeam();
+            $team->setIdLeader($data['idPlayer']);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            //----- Message
+            $this->addFlash(
+                'notice',
+                sprintf('Your changes were saved!!!')
+            );
+
+            return $this->redirectToRoute('vgr_account_index');
+        }
+
+        return $this->render(
+            'VideoGamesRecordsCoreBundle:Team:change-leader.html.twig',
+            [
+            'form' => $form->createView(),
             ]
         );
     }

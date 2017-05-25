@@ -25,6 +25,20 @@ class PlayerRepository extends EntityRepository
         return (null !== $player) ? $player : $this->createPlayerFromUser($user);
     }
 
+
+    /**
+     * @param $idTeam
+     * @return array
+     */
+    public function getPlayersFromTeam($idTeam)
+    {
+        $qb = $this->createQueryBuilder('player')
+            ->where('player.idTeam = :idTeam')
+            ->setParameter('idTeam', $idTeam);
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * @param array $params
      * @return mixed
