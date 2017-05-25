@@ -986,7 +986,9 @@ class Player
     public function setTeam(Team $team = null)
     {
         $this->team = $team;
-        $this->setIdTeam($team->getIdTeam());
+        if ($team != null) {
+            $this->setIdTeam($team->getIdTeam());
+        }
         return $this;
     }
 

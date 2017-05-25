@@ -34,7 +34,8 @@ class Team
     /**
      * @var string
      *
-     * @Assert\Length(max="50")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="5", max="50")
      * @ORM\Column(name="libTeam", type="string", length=50, nullable=false)
      */
     private $libTeam;
@@ -42,6 +43,8 @@ class Team
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3", max="10")
      * @ORM\Column(name="tag", type="string", length=50, nullable=true)
      */
     private $tag;
@@ -56,6 +59,11 @@ class Team
     /**
      * @var string
      *
+     * @Assert\Length(max="255")
+     * @Assert\Url(
+     *    checkDNS = true,
+     *    protocols = {"http", "https"}
+     * )
      * @ORM\Column(name="siteWeb", type="string", length=255, nullable=true)
      */
     private $siteWeb;
@@ -77,6 +85,8 @@ class Team
     /**
      * @var string
      *
+     * @Assert\Choice({"CLOSED", "OPENED"})
+     *
      * @ORM\Column(name="status", type="string", nullable=false)
      */
     private $status = self::STATUS_CLOSED;
@@ -84,9 +94,9 @@ class Team
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=true)
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=false)
      */
-    private $nbPlayer;
+    private $nbPlayer = 0;
 
     /**
      * @var integer

@@ -216,5 +216,16 @@ BEGIN
                                 AND value > NEW.nbChartProven);
 
   END IF;
+  IF OLD.idTeam IS NULL && NEW.idTeam	IS NOT NULL THEN
+    UPDATE vgr_chart
+    SET statusTeam = 'MAJ'
+    WHERE id IN (SELECT idChart FROM vgr_player_chart WHERE idPlayer = OLD.idPlayer);
+  END IF;
+
+  IF NEW.idTeam IS NULL && OLD.idTeam	IS NOT NULL THEN
+    UPDATE vgr_chart
+    SET statusTeam = 'MAJ'
+    WHERE id IN (SELECT idChart FROM vgr_player_chart WHERE idPlayer = OLD.idPlayer);
+  END IF;
 END //
 delimiter ;

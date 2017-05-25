@@ -56,7 +56,7 @@ class PlayerChartRepository extends EntityRepository
         if (null !== $limit && null !== $player) {
             $where[] = '(pc.rank <= :maxRank OR pc.idPlayer = :idPlayer)';
             $parameters['maxRank'] = $limit;
-            $parameters['idLogin'] = $player->getIdPlayer();
+            $parameters['idPlayer'] = $player->getIdPlayer();
         } elseif (null !== $limit) {
             $where[] = 'pc.rank <= :maxRank';
             $parameters['maxRank'] = $limit;
