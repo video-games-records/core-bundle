@@ -15,7 +15,7 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 class GameController extends Controller
 {
     /**
-     * @Route("/list", defaults={"letter": 1}, name="vgr_game_list")
+     * @Route("/list", defaults={"letter": 0}, name="vgr_game_list")
      * @Route("/list/letter/{letter}", requirements={"letter": "[0|A-Z]"}, name="vgr_game_list_letter")
      * @Method("GET")
      * @Cache(smaxage="10")
