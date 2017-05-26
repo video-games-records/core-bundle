@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -144,12 +143,12 @@ class TeamController extends VgrBaseController
      * @Cache(smaxage="10")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
-     * @param integer $idDemand
      * @param Request $request
+     * @param integer $idDemand
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function cancelAction($idDemand = null, Request $request)
+    public function cancelAction(Request $request, $idDemand = null)
     {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('vgr_team_cancel'))
@@ -195,12 +194,12 @@ class TeamController extends VgrBaseController
      * @Cache(smaxage="10")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
-     * @param integer $idDemand
      * @param Request $request
+     * @param integer $idDemand
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function acceptAction($idDemand = null, Request $request)
+    public function acceptAction(Request $request, $idDemand = null)
     {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('vgr_team_accept'))
@@ -232,7 +231,6 @@ class TeamController extends VgrBaseController
                     $demand->setStatus(TeamDemand::STATUS_CANCELED);
                 }
                 $em->flush();
-
             } else {
                 $message = sprintf('The player has already joined a team');
             }
@@ -258,12 +256,12 @@ class TeamController extends VgrBaseController
      * @Cache(smaxage="10")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
-     * @param integer $idDemand
      * @param Request $request
+     * @param integer $idDemand
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function refuseAction($idDemand = null, Request $request)
+    public function refuseAction(Request $request, $idDemand = null)
     {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('vgr_team_refuse'))
@@ -307,13 +305,13 @@ class TeamController extends VgrBaseController
      * @Cache(smaxage="10")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
-     * @param integer $idTeam
      * @param Request $request
+     * @param integer $idTeam
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function joinAction($idTeam = null, Request $request)
+    public function joinAction(Request $request, $idTeam = null)
     {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('vgr_team_join'))
@@ -343,14 +341,13 @@ class TeamController extends VgrBaseController
 
             $demand = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamDemand')->getFromPlayerAndTeam($this->getPlayer()->getIdPlayer(), $data['idTeam']);
 
-            if ($demand != null) {
+            if ($demand !== null) {
                 //----- Message
                 $this->addFlash(
                     'notice',
                     sprintf('Your have already ask to join the team %s', $team->getLibTeam())
                 );
             } else {
-
                 $em = $this->getDoctrine()->getManager();
                 //----- Create demand
                 $demand = new TeamDemand();
@@ -437,24 +434,22 @@ class TeamController extends VgrBaseController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $team->setIdLeader($player->getIdPlayer());
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($team);
-                $em->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $team->setIdLeader($player->getIdPlayer());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($team);
+            $em->flush();
 
-                $player->setTeam($team);
-                $em->flush();
+            $player->setTeam($team);
+            $em->flush();
 
-                //----- Message
-                $this->addFlash(
-                    'notice',
-                    sprintf('Your changes were saved!!!')
-                );
+            //----- Message
+            $this->addFlash(
+                'notice',
+                sprintf('Your changes were saved!!!')
+            );
 
-                return $this->redirectToRoute('vgr_account_index');
-            }
+            return $this->redirectToRoute('vgr_account_index');
         }
 
         return $this->render(
@@ -479,7 +474,6 @@ class TeamController extends VgrBaseController
      */
     public function updateAction(Request $request)
     {
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem('Account', 'vgr_account_index');
@@ -494,20 +488,17 @@ class TeamController extends VgrBaseController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
 
-                $em = $this->getDoctrine()->getManager();
-                $em->flush();
+            //----- Message
+            $this->addFlash(
+                'notice',
+                sprintf('Your changes were saved!!!')
+            );
 
-                //----- Message
-                $this->addFlash(
-                    'notice',
-                    sprintf('Your changes were saved!!!')
-                );
-
-                return $this->redirectToRoute('vgr_account_index');
-            }
+            return $this->redirectToRoute('vgr_account_index');
         }
 
         return $this->render(
@@ -517,7 +508,6 @@ class TeamController extends VgrBaseController
             ]
         );
     }
-
 
     /**
      * @Route("/change-leader", name="vgr_team_change_leader")
@@ -532,7 +522,6 @@ class TeamController extends VgrBaseController
      */
     public function changeLeaderAction(Request $request)
     {
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addRouteItem('Account', 'vgr_account_index');
@@ -543,7 +532,7 @@ class TeamController extends VgrBaseController
 
         $players = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayersFromTeam($player->getIdTeam());
         $choices = array();
-        foreach($players as $row) {
+        foreach ($players as $row) {
             if ($this->getPlayer()->getIdPlayer() != $row->getIdPlayer()) {
                 $choices[$row->getPseudo()] = $row->getIdPlayer();
             }
@@ -553,7 +542,6 @@ class TeamController extends VgrBaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $form->getData();
 
             $team = $player->getTeam();
@@ -574,7 +562,7 @@ class TeamController extends VgrBaseController
         return $this->render(
             'VideoGamesRecordsCoreBundle:Team:change-leader.html.twig',
             [
-            'form' => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

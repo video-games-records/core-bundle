@@ -6,12 +6,8 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\TeamDemand;
 
-
 class TeamDemandRepository extends EntityRepository
 {
-
-
-
     /**
      * @param $idTeam
      * @return array
@@ -48,7 +44,7 @@ class TeamDemandRepository extends EntityRepository
     /**
      * @param $idPlayer
      * @param $idTeam
-     * @return array
+     * @return \VideoGamesRecords\CoreBundle\Entity\TeamDemand[]
      */
     public function getFromPlayerAndTeam($idPlayer, $idTeam)
     {
