@@ -25,10 +25,9 @@ class PlayerRepository extends EntityRepository
         return (null !== $player) ? $player : $this->createPlayerFromUser($user);
     }
 
-
     /**
-     * @param $idTeam
-     * @return array
+     * @param int $idTeam
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player[]
      */
     public function getPlayersFromTeam($idTeam)
     {
@@ -41,7 +40,7 @@ class PlayerRepository extends EntityRepository
 
     /**
      * @param array $params
-     * @return mixed
+     * @return int
      */
     public function getNbPlayer($params = [])
     {
