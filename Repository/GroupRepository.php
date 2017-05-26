@@ -13,8 +13,12 @@ class GroupRepository extends EntityRepository
     public function getWithGame($id)
     {
         $query = $this->createQueryBuilder('gr')
+            ->leftJoin('gr.translations', 'gr_translation')
+            ->addSelect('gr_translation')
             ->join('gr.game', 'ga')
             ->addSelect('ga')
+            ->leftJoin('ga.translations', 'ga_translation')
+            ->addSelect('ga_translation')
             ->where('gr.id = :idGroup')
             ->setParameter('idGroup', $id);
 
