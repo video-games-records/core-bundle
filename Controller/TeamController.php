@@ -21,20 +21,23 @@ use VideoGamesRecords\CoreBundle\Form\Team\ChangeLeaderForm;
 class TeamController extends VgrBaseController
 {
     /**
-     * @Route("/index/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_team_index")
+     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_team_index")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
      * @param int $id
+     * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function indexAction($id)
+    public function indexAction($id, $slug)
     {
         /** @var \VideoGamesRecords\CoreBundle\Entity\Team $team */
         $team = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->find($id);
+        if ($slug !== $team->getSlug()) {
+            return $this->redirectToRoute('vgr_team_index', ['id' => $team->getIdTeam(), 'slug' => $team->getSlug()], 301);
+        }
 
-        //----- breadcrumbs
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem($team->getLibTeam());

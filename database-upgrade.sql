@@ -387,6 +387,33 @@ ALTER TABLE `vgr_team` CHANGE `vgr_pointJeu` `pointGame` INT(11) NOT NULL DEFAUL
 ALTER TABLE `vgr_team` CHANGE `vgr_rank_pointJeu` `rankPointGame` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `vgr_team` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
 ALTER TABLE `vgr_team` CHANGE `dateModification` `updated_at` DATETIME NOT NULL;
+ALTER TABLE `vgr_team` ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `vgr_team` SET
+    slug = lower(libTeam),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
 
 ALTER TABLE `vgr_team_chart` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
 ALTER TABLE `vgr_team_chart` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;

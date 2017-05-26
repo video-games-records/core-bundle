@@ -10,7 +10,7 @@
     <tbody>
     {% for demand in demands %}
         <tr>
-            <td><a href="{{ path('vgr_team_index', {'id': demand.getTeam().idTeam}) }}">{{ demand.getTeam().LibTeam }}</a></td>
+            <td><a href="{{ path('vgr_team_index', {'id': demand.getTeam().idTeam, 'slug': row.team.slug}) }}">{{ demand.getTeam().LibTeam }}</a></td>
             <td>{{ demand.createdAt|date("m/d/Y") }}</td>
             <td>
                 {% if isLeader %}
