@@ -15,10 +15,16 @@ class ChartRepository extends EntityRepository
     public function getWithGame($id)
     {
         $query = $this->createQueryBuilder('ch')
+            ->leftJoin('ch.translations', 'ch_translation')
+            ->addSelect('ch_translation')
             ->join('ch.group', 'gr')
             ->addSelect('gr')
+            ->leftJoin('gr.translations', 'gr_translation')
+            ->addSelect('gr_translation')
             ->join('gr.game', 'ga')
             ->addSelect('ga')
+            ->leftJoin('ga.translations', 'ga_translation')
+            ->addSelect('ga_translation')
             ->where('ch.id = :idChart')
             ->setParameter('idChart', $id);
 
