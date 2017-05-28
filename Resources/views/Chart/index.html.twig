@@ -22,17 +22,17 @@
         </thead>
         <tbody>
         {% for row in ranking %}
-              <tr {{ vgrRankBgColor(row['pc'].getRank()|localizednumber)|raw }}>
-                <td>{{ row['pc'].getRank()|localizednumber }}</td>
+              <tr {{ vgrRankBgColor(row[0].rank|localizednumber)|raw }}>
+                <td>{{ row[0].rank|localizednumber }}</td>
                 <td>
-                    <a href="{{ path('vgr_player_index', {'id': row['pc'].getIdPlayer(), 'slug': row['pc'].player.slug}) }}">
-                        {{ row['pc'].getPlayer().getPseudo() }}
+                    <a href="{{ path('vgr_player_index', {'id': row[0].idPlayer, 'slug': row[0].player.slug}) }}">
+                        {{ row[0].player.pseudo }}
                     </a>
                 </td>
                 {% for lib in chart.getLibs() %}
                     <td>{{ vgrFormatScore(row['value_' ~  lib.getIdLibChart()], lib.getType().getMask()) }}</td>
                 {% endfor %}
-                <td>{{ row['pc'].getPointChart()|localizednumber }}</td>
+                <td>{{ row[0].pointChart|localizednumber }}</td>
             </tr>
         {% else %}
             <div class="well">{{ 'chart.no_ranking'|trans }}</div>
