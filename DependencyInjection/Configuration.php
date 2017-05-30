@@ -20,12 +20,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('video_games_records_core');
 
-        $rootNode
-            ->children()
-                ->scalarNode('idSerie')->defaultValue(null)->end()
-                ->arrayNode('games')->defaultValue([])->prototype('scalar')->end()
-            ->end();
-
         return $treeBuilder;
     }
 }
