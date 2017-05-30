@@ -15,19 +15,20 @@
   ],
   "require": {
     "php": ">=5.5.9",
+    "doctrine/doctrine-bundle": "~1.6",
+    "doctrine/orm": "^2.5",
+    "knplabs/doctrine-behaviors": "~1.4",
+    "knplabs/knp-paginator-bundle": "~2.4",
+    "projet-normandie/badge-bundle": "~1",
+    "sensio/framework-extra-bundle": "^3.0.2",
     "symfony/form": "~3.0",
-    "symfony/validator": "~3.0",
-    "symfony/serializer": "~3.0",
     "symfony/framework-bundle": "~3.0",
     "symfony/security-bundle": "~3.0",
+    "symfony/serializer": "~3.0",
     "symfony/twig-bundle": "~3.0",
-    "sensio/framework-extra-bundle": "^3.0.2",
-    "doctrine/orm": "^2.5",
-    "doctrine/doctrine-bundle": "~1.6",
-    "knplabs/knp-paginator-bundle": "~2.4",
-    "whiteoctober/breadcrumbs-bundle": "~1.2",
-    "knplabs/doctrine-behaviors": "~1.4",
-    "twig/extensions": "^1.3"
+    "symfony/validator": "~3.0",
+    "twig/extensions": "^1.3",
+    "whiteoctober/breadcrumbs-bundle": "~1.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.8",
@@ -40,5 +41,8 @@
   },
   "autoload": {
     "psr-4": { "VideoGamesRecords\\CoreBundle\\": "" }
+  },
+  "config": {
+    "sort-packages": true
   }
 }
