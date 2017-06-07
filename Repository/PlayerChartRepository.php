@@ -20,64 +20,44 @@ class PlayerChartRepository extends EntityRepository
      */
     public function getRanking($chart, $player = null, $limit = 5)
     {
-        $rsm = new ResultSetMapping;
-        $rsm->addEntityResult('VideoGamesRecords\CoreBundle\Entity\PlayerChart', 'pc', 'pc');
-        $rsm->addFieldResult('pc', 'idChart', 'idChart');
-        $rsm->addFieldResult('pc', 'idPlayer', 'idPlayer');
-        $rsm->addFieldResult('pc', 'rank', 'rank');
-        $rsm->addFieldResult('pc', 'nbEqual', 'nbEqual');
-        $rsm->addFieldResult('pc', 'pointChart', 'pointChart');
-        $rsm->addFieldResult('pc', 'idEtat', 'idEtat');
-        $rsm->addFieldResult('pc', 'dateModif', 'dateModif');
-        //$rsm->addJoinedEntityResult('VideoGamesRecords\CoreBundle\Entity\Player' , 'p', 'pc', 'player');
-        //$rsm->addFieldResult('u','pseudo','pseudo');
-        //$rsm->addFieldResult('u','idMembre','idMembre');
-
-        $fields = [];
-        $orders = [];
-        $where = [];
-        $parameters = [];
-        $columns = [];
-
-        $fields[] = 'pc.*';
-        $fields[] = 'u.*';
-
-        $where[] = 'pc.idChart = :idChart';
-        $parameters['idChart'] = $chart->getId();
-        foreach ($chart->getLibs() as $lib) {
-            $columnName = "value_" . $lib->getIdLibChart();
-            $fields[] = "(SELECT value FROM vgr_player_chartlib WHERE idLibChart=" . $lib->getIdLibChart() . " AND idPlayer = pc.idPlayer) AS $columnName";
-            $orders[] = $columnName . " " . $lib->getType()->getOrderBy();
-            $columns[] = $columnName;
-            $rsm->addScalarResult($columnName, $columnName);
-        }
-
+        $queryBuilder = $this->createQueryBuilder('pc');
+        $queryBuilder
+            ->innerJoin('pc.player', 'p')
+            ->addSelect('p')
+            ->where('pc.rank IS NOT NULL')
+            ->andWhere('pc.idChart = :idChart')
+            ->setParameter('idChart', $chart->getId());
 
         if (null !== $limit && null !== $player) {
-            $where[] = '(pc.rank <= :maxRank OR pc.idPlayer = :idPlayer)';
-            $parameters['maxRank'] = $limit;
-            $parameters['idPlayer'] = $player->getIdPlayer();
+            $queryBuilder
+                ->andWhere(
+                    $queryBuilder->expr()->orX('pc.rank <= :maxRank', 'pc.player = :player')
+                )
+                ->setParameter('maxRank', $limit)
+                ->setParameter('player', $player);
         } elseif (null !== $limit) {
-            $where[] = 'pc.rank <= :maxRank';
-            $parameters['maxRank'] = $limit;
+            $queryBuilder
+                ->andWhere('pc.rank <= :maxRank')
+                ->setParameter('maxRank', $limit);
         }
 
-        $where[] = 'pc.rank IS NOT NULL'; //----- Disabeld post
+        foreach ($chart->getLibs() as $lib) {
+            $key = 'value_' . $lib->getIdLibChart();
+            $alias = 'pcl_' . $lib->getIdLibChart();
+            $subQueryBuilder = $this->getEntityManager()->createQueryBuilder()
+                ->select(sprintf('%s.value', $alias))
+                ->from('VideoGamesRecordsCoreBundle:PlayerChartLib', $alias)
+                ->where(sprintf('%s.libChart = :%s', $alias, $key))
+                ->andWhere(sprintf('%s.player = pc.player', $alias))
+                ->setParameter($key, $lib);
 
+            $queryBuilder
+                ->addSelect(sprintf('(%s) as %s', $subQueryBuilder->getQuery()->getDQL(), $key))
+                ->addOrderBy($key, $lib->getType()->getOrderBy())
+                ->setParameter($key, $lib);
+        }
 
-        $sql = sprintf(
-            "SELECT %s
-            FROM vgr_player_chart pc INNER JOIN vgr_player u ON pc.idPlayer = u.idPlayer
-            WHERE %s ORDER BY %s",
-            implode(',', $fields),
-            implode(' AND ', $where),
-            implode(',', $orders)
-        );
-
-        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
-        $query->setParameters($parameters);
-
-        return $query->getResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
@@ -99,7 +79,7 @@ class PlayerChartRepository extends EntityRepository
 
         foreach ($ranking as $k => $row) {
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
-            $playerChart = $row['pc'];
+            $playerChart = $row[0];
             //----- If equal
             if ($playerChart->getNbEqual() == 1) {
                 $pointChart = $pointsChart[$playerChart->getRank()];
