@@ -10,7 +10,7 @@ use VideoGamesRecords\CoreBundle\Entity\Team;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Entity\TeamDemand;
+use VideoGamesRecords\CoreBundle\Entity\TeamRequest;
 use VideoGamesRecords\CoreBundle\Form\Team\DemandForm;
 use VideoGamesRecords\CoreBundle\Form\Team\ChangeLeaderForm;
 
@@ -147,16 +147,16 @@ class TeamController extends VgrBaseController
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
      * @param Request $request
-     * @param integer $idDemand
+     * @param integer $idRequest
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function cancelAction(Request $request, $idDemand = null)
+    public function cancelAction(Request $request, $idRequest = null)
     {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('vgr_team_cancel'))
             ->setMethod('POST')
-            ->add('idDemand', HiddenType::class, array('data' => $idDemand))
+            ->add('idRequest', HiddenType::class, array('data' => $idRequest))
             ->add('save', SubmitType::class, array('label' => 'CANCEL'))
             ->getForm();
 
@@ -166,10 +166,10 @@ class TeamController extends VgrBaseController
             $data = $form->getData();
 
             $em = $this->getDoctrine()->getManager();
-            /** @var \VideoGamesRecords\CoreBundle\Entity\TeamDemand $demand */
-            $demand = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamDemand')->find($data['idDemand']);
-            if ($demand->getStatus() == TeamDemand::STATUS_ACTIVE) {
-                $demand->setStatus(TeamDemand::STATUS_CANCELED);
+            /** @var \VideoGamesRecords\CoreBundle\Entity\TeamRequest $request */
+            $request = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->find($data['idRequest']);
+            if ($request->getStatus() == TeamRequest::STATUS_ACTIVE) {
+                $request->setStatus(TeamRequest::STATUS_CANCELED);
                 $em->flush();
             }
 
@@ -198,16 +198,16 @@ class TeamController extends VgrBaseController
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
      * @param Request $request
-     * @param integer $idDemand
+     * @param integer $idRequest
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function acceptAction(Request $request, $idDemand = null)
+    public function acceptAction(Request $request, $idRequest = null)
     {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('vgr_team_accept'))
             ->setMethod('POST')
-            ->add('idDemand', HiddenType::class, array('data' => $idDemand))
+            ->add('idRequest', HiddenType::class, array('data' => $idRequest))
             ->add('save', SubmitType::class, array('label' => 'ACCEPT'))
             ->getForm();
 
@@ -217,21 +217,21 @@ class TeamController extends VgrBaseController
             $data = $form->getData();
 
             $em = $this->getDoctrine()->getManager();
-            /** @var \VideoGamesRecords\CoreBundle\Entity\TeamDemand $demand */
-            $demand = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamDemand')->find($data['idDemand']);
+            /** @var \VideoGamesRecords\CoreBundle\Entity\TeamRequest $request */
+            $request = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->find($data['idRequest']);
 
-            if ($demand->getStatus() == TeamDemand::STATUS_ACTIVE) {
-                $demand->setStatus(TeamDemand::STATUS_ACCEPTED);
+            if ($request->getStatus() == TeamRequest::STATUS_ACTIVE) {
+                $request->setStatus(TeamRequest::STATUS_ACCEPTED);
                 /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
-                $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($demand->getIdPlayer());
-                $player->setTeam($demand->getTeam());
+                $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($request->getIdPlayer());
+                $player->setTeam($request->getTeam());
 
                 $message = sprintf('Your changes were saved!!!');
 
-                //----- Cancel all active demands for this player
-                $demands = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamDemand')->getFromPlayer($player->getIdPlayer());
-                foreach ($demands as $demand) {
-                    $demand->setStatus(TeamDemand::STATUS_CANCELED);
+                //----- Cancel all active $requests for this player
+                $requests = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->getFromPlayer($player->getIdPlayer());
+                foreach ($requests as $request) {
+                    $request->setStatus(TeamRequest::STATUS_CANCELED);
                 }
                 $em->flush();
             } else {
@@ -260,16 +260,16 @@ class TeamController extends VgrBaseController
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
      * @param Request $request
-     * @param integer $idDemand
+     * @param integer $idRequest
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function refuseAction(Request $request, $idDemand = null)
+    public function refuseAction(Request $request, $idRequest = null)
     {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('vgr_team_refuse'))
             ->setMethod('POST')
-            ->add('idDemand', HiddenType::class, array('data' => $idDemand))
+            ->add('idRequest', HiddenType::class, array('data' => $idRequest))
             ->add('save', SubmitType::class, array('label' => 'REFUSE'))
             ->getForm();
 
@@ -279,9 +279,9 @@ class TeamController extends VgrBaseController
             $data = $form->getData();
 
             $em = $this->getDoctrine()->getManager();
-            /** @var \VideoGamesRecords\CoreBundle\Entity\TeamDemand $demand */
-            $demand = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamDemand')->find($data['idDemand']);
-            $demand->setStatus(TeamDemand::STATUS_REFUSED);
+            /** @var \VideoGamesRecords\CoreBundle\Entity\TeamRequest $request */
+            $request = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->find($data['idRequest']);
+            $request->setStatus(TeamRequest::STATUS_REFUSED);
             $em->flush();
 
             //----- Message
@@ -342,9 +342,9 @@ class TeamController extends VgrBaseController
                 return $this->redirectToRoute('vgr_account_index');
             }
 
-            $demand = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamDemand')->getFromPlayerAndTeam($this->getPlayer()->getIdPlayer(), $data['idTeam']);
+            $request = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->getFromPlayerAndTeam($this->getPlayer()->getIdPlayer(), $data['idTeam']);
 
-            if ($demand !== null) {
+            if ($request !== null) {
                 //----- Message
                 $this->addFlash(
                     'notice',
@@ -352,17 +352,17 @@ class TeamController extends VgrBaseController
                 );
             } else {
                 $em = $this->getDoctrine()->getManager();
-                //----- Create demand
-                $demand = new TeamDemand();
-                $demand->setPlayer($em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $this->getPlayer()->getIdPlayer()));
-                $demand->setTeam($team);
-                $em->persist($demand);
+                //----- Create request
+                $request = new TeamRequest();
+                $request->setPlayer($em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $this->getPlayer()->getIdPlayer()));
+                $request->setTeam($team);
+                $em->persist($request);
                 $em->flush();
 
                 //----- Message
                 $this->addFlash(
                     'notice',
-                    sprintf('Your demand to join team %s is sended to leader of the team', $team->getLibTeam())
+                    sprintf('Your request to join team %s is sended to leader of the team', $team->getLibTeam())
                 );
             }
 
@@ -379,7 +379,7 @@ class TeamController extends VgrBaseController
 
 
     /**
-     * @Route("/join", name="vgr_team_demands")
+     * @Route("/join", name="vgr_team_requests")
      * @Method({"GET","POST"})
      * @Cache(smaxage="10")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
@@ -387,23 +387,23 @@ class TeamController extends VgrBaseController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function demandsAction()
+    public function requestsAction()
     {
         /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
         $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer()->getIdPlayer());
 
         if ($player->isLeader()) {
-            $demands = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamDemand')->getFromTeam($player->getTeam()->getIdTeam());
+            $requests = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->getFromTeam($player->getTeam()->getIdTeam());
         } else if ($player->getTeam() == null) {
-            $demands = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamDemand')->getFromPlayer($player->getIdPlayer());
+            $requests = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->getFromPlayer($player->getIdPlayer());
         } else {
             return;
         }
 
         return $this->render(
-            'VideoGamesRecordsCoreBundle:Team:demands.html.twig',
+            'VideoGamesRecordsCoreBundle:Team:requests.html.twig',
             [
-                'demands' => $demands,
+                'requests' => $requests,
                 'isLeader' => $player->isLeader(),
             ]
         );

@@ -4,9 +4,9 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use VideoGamesRecords\CoreBundle\Entity\TeamDemand;
+use VideoGamesRecords\CoreBundle\Entity\TeamRequest;
 
-class TeamDemandRepository extends EntityRepository
+class TeamRequestRepository extends EntityRepository
 {
     /**
      * @param $idTeam
@@ -14,9 +14,9 @@ class TeamDemandRepository extends EntityRepository
      */
     public function getFromTeam($idTeam)
     {
-        $query = $this->createQueryBuilder('td');
+        $query = $this->createQueryBuilder('tr');
 
-        $query->where('td.idTeam = :idTeam')
+        $query->where('tr.idTeam = :idTeam')
             ->setParameter('idTeam', $idTeam);
 
         $this->onlyActive($query);
@@ -30,9 +30,9 @@ class TeamDemandRepository extends EntityRepository
      */
     public function getFromPlayer($idPlayer)
     {
-        $query = $this->createQueryBuilder('td');
+        $query = $this->createQueryBuilder('tr');
 
-        $query->where('td.idPlayer = :idPlayer')
+        $query->where('tr.idPlayer = :idPlayer')
             ->setParameter('idPlayer', $idPlayer);
 
         $this->onlyActive($query);
@@ -44,32 +44,34 @@ class TeamDemandRepository extends EntityRepository
     /**
      * @param $idPlayer
      * @param $idTeam
-     * @return \VideoGamesRecords\CoreBundle\Entity\TeamDemand[]
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
+
     public function getFromPlayerAndTeam($idPlayer, $idTeam)
     {
-        $query = $this->createQueryBuilder('td');
+        $query = $this->createQueryBuilder('tr');
 
-        $query->where('td.idPlayer = :idPlayer')
+        $query->where('tr.idPlayer = :idPlayer')
             ->setParameter('idPlayer', $idPlayer);
 
-        $query->andWhere('td.idTeam = :idTeam')
+        $query->andWhere('tr.idTeam = :idTeam')
             ->setParameter('idTeam', $idTeam);
 
         $this->onlyActive($query);
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     /**
-     * Requires only active games.
+     * Requires only active requests.
      *
      * @param \Doctrine\ORM\QueryBuilder $query
      */
     private function onlyActive(QueryBuilder $query)
     {
         $query
-            ->andWhere('td.status = :status')
-            ->setParameter('status', TeamDemand::STATUS_ACTIVE);
+            ->andWhere('tr.status = :status')
+            ->setParameter('status', TeamRequest::STATUS_ACTIVE);
     }
 }

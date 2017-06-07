@@ -9,10 +9,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
- * @ORM\Table(name="vgr_team_demand")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamDemandRepository")
+ * @ORM\Table(name="vgr_team_request")
+ * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRequestRepository")
  */
-class TeamDemand
+class TeamRequest
 {
     use Timestampable;
 
@@ -24,11 +24,11 @@ class TeamDemand
     /**
      * @var integer
      *
-     * @ORM\Column(name="idDemand", type="integer")
+     * @ORM\Column(name="idRequest", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idDemand;
+    private $idRequest;
 
     /**
      * @var integer
@@ -54,7 +54,7 @@ class TeamDemand
     /**
      * @var Team
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="teamDemand")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="teamRequest")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idTeam", referencedColumnName="idTeam")
      * })
@@ -64,7 +64,7 @@ class TeamDemand
     /**
      * @var Player
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="teamDemand")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="teamRequest")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
      * })
@@ -80,25 +80,25 @@ class TeamDemand
     }
 
     /**
-     * Set idDemand
+     * Set idRequest
      *
-     * @param integer $idDemand
+     * @param integer $idRequest
      * @return $this
      */
-    public function setIdDemand($idDemand)
+    public function setIdRequest($idRequest)
     {
-        $this->idDemand = $idDemand;
+        $this->idRequest = $idRequest;
         return $this;
     }
 
     /**
-     * Get idDemand
+     * Get idRequest
      *
      * @return integer
      */
-    public function getIdDemand()
+    public function getIdRequest()
     {
-        return $this->idDemand;
+        return $this->idRequest;
     }
 
     /**

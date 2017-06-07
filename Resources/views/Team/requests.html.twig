@@ -1,0 +1,38 @@
+<h3>{{ 'team_request.requests'|trans }}</h3>
+<table class="team-request-list">
+    <thead>
+    <tr>
+        {% if isLeader %}
+        <th scope="col">{{ 'team_request.pseudo'|trans }}</th>
+        {% else %}
+        <th scope="col">{{ 'team.team'|trans }}</th>
+        {% endif %}
+        <th scope="col">{{ 'team_request.createdAt'|trans }}</th>
+        <th scope="col">{{ 'team_request.actions'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for request in requests %}
+        <tr>
+            {% if isLeader %}
+                <td><a href="{{ path('vgr_player_index', {'id': request.getPlayer().idPlayer, 'slug': request.player.slug}) }}">{{ request.getPlayer().pseudo }}</a></td>
+            {% else %}
+                <td><a href="{{ path('vgr_team_index', {'id': request.getTeam().idTeam, 'slug': request.team.slug}) }}">{{ request.getTeam().LibTeam }}</a></td>
+            {% endif %}
+            <td>{{ request.createdAt|date("m/d/Y") }}</td>
+            <td>
+                {% if isLeader %}
+                    {{ render(controller('VideoGamesRecordsCoreBundle:Team:accept',{'idRequest' : request.idRequest} ))}}
+                    {{ render(controller('VideoGamesRecordsCoreBundle:Team:refuse',{'idRequest' : request.idRequest} ))}}
+                {% else %}
+                    {{ render(controller('VideoGamesRecordsCoreBundle:Team:cancel',{'idRequest' : request.idRequest} ))}}
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">{{ 'team_request.no_request'|trans }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
