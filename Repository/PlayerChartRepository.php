@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 

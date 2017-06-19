@@ -1,6 +1,7 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
+use Doctrine\ORM\Events;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;

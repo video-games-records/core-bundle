@@ -36,7 +36,7 @@ class PlayerSerieRepository extends EntityRepository
             );
         }
 
-        if (null != $maxRank) {
+        if (null !== $maxRank) {
             if (null !== $row) {
                 $query->andWhere('(ps.rankPoint <= :maxRank OR ps.rankPoint BETWEEN :min AND :max)')
                     ->setParameter('min', $row->getRankPoint() - 5)
@@ -82,7 +82,7 @@ class PlayerSerieRepository extends EntityRepository
             );
         }
 
-        if (null != $maxRank) {
+        if (null !== $maxRank) {
             if (null !== $row) {
                 $query->andWhere('(ps.rankMedal <= :maxRank OR ps.rankMedal BETWEEN :min AND :max)')
                     ->setParameter('min', $row->getRankPoint() - 5)

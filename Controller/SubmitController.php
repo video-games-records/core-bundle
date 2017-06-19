@@ -22,7 +22,7 @@ class SubmitController extends Controller
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @throws Exception
+     * @throws \Exception
      */
     public function indexAction(Request $request)
     {
@@ -36,7 +36,7 @@ class SubmitController extends Controller
         } else if ($data['type'] == 'group') {
             $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getFromGroupWithChartType($data['id']);
         } else {
-            throw new Exception('');
+            throw new \Exception('');
         }
 
         $form = SubmitFormFactory::createSubmitForm(

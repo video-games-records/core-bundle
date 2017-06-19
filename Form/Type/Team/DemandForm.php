@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\Form\Team;
+namespace VideoGamesRecords\CoreBundle\Form\Type\Team;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
