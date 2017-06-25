@@ -10,7 +10,6 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
  */
 class TeamRepository extends EntityRepository
 {
-
     /**
      * @return \Doctrine\ORM\Query
      */
@@ -21,6 +20,21 @@ class TeamRepository extends EntityRepository
             //->orderBy('t.pointGame', 'DESC');
 
         return $query->getQuery();
+    }
+
+    /**
+     * @param int $idTeam
+     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     */
+    public function getTeamWithGames($idTeam)
+    {
+        $qb = $this->createQueryBuilder('team')
+            ->join('team.teamGame', 'teamGame')
+            ->addSelect('teamGame')
+            ->where('team.idTeam = :idTeam')
+            ->setParameter('idTeam', $idTeam);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**

@@ -24,7 +24,7 @@ class PlayerController extends Controller
      */
     public function indexAction($id, $slug)
     {
-        $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($id);
+        $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerWithGames($id);
         if ($slug !== $player->getSlug()) {
             return $this->redirectToRoute('vgr_player_index', ['id' => $player->getIdPlayer(), 'slug' => $player->getSlug()], 301);
         }
