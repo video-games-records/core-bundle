@@ -12,9 +12,10 @@ class GameRepository extends EntityRepository
      * Finds games begining with a letter.
      *
      * @param string $letter
+     * @param string $locale
      * @return array
      */
-    public function findWithLetter($letter)
+    public function findWithLetter($letter, $locale)
     {
         $query = $this->createQueryBuilder('g')
             ->addSelect('translation');
@@ -29,7 +30,10 @@ class GameRepository extends EntityRepository
                 ->where('SUBSTRING(translation.name , 1, 1) = :letter')
                 ->setParameter('letter', $letter);
         }
-        $query->orderBy('translation.name', 'ASC');
+        $query
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('locale', $locale)
+            ->orderBy('translation.name', 'ASC');
 
         $this->onlyActive($query);
         $this->withPlatforms($query);

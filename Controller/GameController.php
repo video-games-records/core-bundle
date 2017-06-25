@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 
 /**
@@ -20,12 +21,14 @@ class GameController extends Controller
      * @Method("GET")
      * @Cache(smaxage="10")
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param string $letter
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction($letter)
+    public function listAction(Request $request, $letter)
     {
-        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->findWithLetter($letter);
+        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
+            ->findWithLetter($letter, $request->getLocale());
 
         $alphabet = array_merge(['0'], range('A', 'Z'));
 
