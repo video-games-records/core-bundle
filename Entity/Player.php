@@ -986,7 +986,7 @@ class Player
     public function setTeam(Team $team = null)
     {
         $this->team = $team;
-        if ($team != null) {
+        if ($team !== null) {
             $this->setIdTeam($team->getIdTeam());
         }
         return $this;
@@ -1024,7 +1024,7 @@ class Player
      */
     public function isLeader()
     {
-        if (($this->getTeam() != null) && ($this->getTeam()->getIdLeader() == $this->getIdPlayer())) {
+        if (($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getIdPlayer())) {
             return true;
         }
         return false;

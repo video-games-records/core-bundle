@@ -11,8 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\TeamRequest;
-use VideoGamesRecords\CoreBundle\Form\Team\DemandForm;
-use VideoGamesRecords\CoreBundle\Form\Team\ChangeLeaderForm;
+use VideoGamesRecords\CoreBundle\Form\Type\Team\DemandForm;
+use VideoGamesRecords\CoreBundle\Form\Type\Team\ChangeLeaderForm;
 
 /**
  * Class TeamController
@@ -139,7 +139,6 @@ class TeamController extends VgrBaseController
         );
     }
 
-
     /**
      * @Route("/cancel", name="vgr_team_cancel")
      * @Method({"GET","POST"})
@@ -173,7 +172,6 @@ class TeamController extends VgrBaseController
                 $em->flush();
             }
 
-            //----- Message
             $this->addFlash(
                 'notice',
                 sprintf('Your changes were saved!!!')
@@ -189,7 +187,6 @@ class TeamController extends VgrBaseController
             ]
         );
     }
-
 
     /**
      * @Route("/accept", name="vgr_team_accept")
@@ -333,11 +330,11 @@ class TeamController extends VgrBaseController
 
             /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
             $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer()->getIdPlayer());
-            if ($player->getTeam() != null) {
+            if ($player->getTeam() !== null) {
                 //----- Message
                 $this->addFlash(
                     'notice',
-                    sprintf('Your are already join the team %s, you may re login on the site to see changes', $player->getTeam()->getLibTeam())
+                    sprintf('Your have already joined the team %s, you may re login on the site to see changes', $player->getTeam()->getLibTeam())
                 );
                 return $this->redirectToRoute('vgr_account_index');
             }
@@ -348,7 +345,7 @@ class TeamController extends VgrBaseController
                 //----- Message
                 $this->addFlash(
                     'notice',
-                    sprintf('Your have already ask to join the team %s', $team->getLibTeam())
+                    sprintf('Your have already asked to join the team %s', $team->getLibTeam())
                 );
             } else {
                 $em = $this->getDoctrine()->getManager();
@@ -394,7 +391,7 @@ class TeamController extends VgrBaseController
 
         if ($player->isLeader()) {
             $requests = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->getFromTeam($player->getTeam()->getIdTeam());
-        } else if ($player->getTeam() == null) {
+        } else if ($player->getTeam() === null) {
             $requests = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')->getFromPlayer($player->getIdPlayer());
         } else {
             return;

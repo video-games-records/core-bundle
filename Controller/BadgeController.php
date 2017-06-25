@@ -5,8 +5,6 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 
 /**
  * Class BadgeController
@@ -20,7 +18,7 @@ class BadgeController extends VgrBaseController
      * @Method("GET")
      * @Cache(smaxage="10")
      *
-     * @param int idPlayer
+     * @param int $idPlayer
      * @param string $type
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -40,7 +38,7 @@ class BadgeController extends VgrBaseController
      * @Method("GET")
      * @Cache(smaxage="10")
      *
-     * @param int idTeam
+     * @param int $idTeam
      * @param string $type
      * @return \Symfony\Component\HttpFoundation\Response
      */

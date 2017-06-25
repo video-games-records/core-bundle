@@ -51,14 +51,6 @@ class AppKernel extends Kernel
 Step 3: Configuration
 ---------------------
 
-### Module Configuration
-
-```yaml
-video_games_records_core:
-    idSerie: ID
-    games: [ID, ID, ...]
-```
-
 ### Routing
 
 ```yaml
