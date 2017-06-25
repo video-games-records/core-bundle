@@ -33,7 +33,7 @@ class TeamController extends VgrBaseController
     public function indexAction($id, $slug)
     {
         /** @var \VideoGamesRecords\CoreBundle\Entity\Team $team */
-        $team = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->find($id);
+        $team = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getTeamWithGames($id);
         if ($slug !== $team->getSlug()) {
             return $this->redirectToRoute('vgr_team_index', ['id' => $team->getIdTeam(), 'slug' => $team->getSlug()], 301);
         }

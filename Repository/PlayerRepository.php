@@ -39,6 +39,21 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
+     * @param int $idPlayer
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
+     */
+    public function getPlayerWithGames($idPlayer)
+    {
+        $qb = $this->createQueryBuilder('player')
+            ->join('player.playerGame', 'playerGame')
+            ->addSelect('playerGame')
+            ->where('player.idPlayer = :idPlayer')
+            ->setParameter('idPlayer', $idPlayer);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
      * @param array $params
      * @return int
      */
