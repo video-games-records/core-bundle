@@ -469,6 +469,10 @@ ALTER TABLE member_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId)
 -- New id for link between normandie & vgr
 ALTER TABLE vgr_player ADD normandie_user_id INT DEFAULT NULL;
 
+ALTER TABLE `vgr_player` CHANGE `derniereConnexion` `derniereConnexion` DATETIME NULL;
+UPDATE vgr_player SET derniereConnexion = NULL  WHERE CAST(derniereConnexion AS CHAR(20)) = '0000-00-00 00:00:00';
+UPDATE vgr_player SET dateNaissance = NULL  WHERE CAST(dateNaissance AS CHAR(11)) LIKE '0%';
+
 -- Procedure to migrate member
 DELIMITER &&
 CREATE PROCEDURE member_migrate()
