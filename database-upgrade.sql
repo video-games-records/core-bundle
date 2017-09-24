@@ -637,3 +637,7 @@ UPDATE `vgr_player_badge` SET updated_at = NOW();
 UPDATE badge SET type='Chart' WHERE type='Record';
 UPDATE badge SET type='Proof' WHERE type='Preuve';
 ALTER TABLE `vgr_game` ADD UNIQUE(`idBadge`);
+
+-- PlayerChartStatus
+ALTER TABLE `vgr_player_chart_status` ADD `boolSendProof` TINYINT NOT NULL DEFAULT '0' AFTER `boolRanking`;
+UPDATE `vgr_player_chart_status` SET boolSendProof = 1 WHERE idStatus IN (1,3,7);

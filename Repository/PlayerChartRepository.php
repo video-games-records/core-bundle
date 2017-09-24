@@ -8,6 +8,25 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 class PlayerChartRepository extends EntityRepository
 {
+
+    /**
+     * @param int $idPlayer
+     * @param int $idChart
+     * @return \VideoGamesRecords\CoreBundle\Entity\PlayerChart
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getFromId($idPlayer, $idChart)
+    {
+        $query = $this->createQueryBuilder('pc')
+            ->where('pc.idPlayer = :idPlayer')
+            ->setParameter('idPlayer', $idPlayer)
+            ->andWhere('pc.idChart = :idChart')
+            ->setParameter('idChart', $idChart);
+
+        return $query->getQuery()
+            ->getOneOrNullResult();
+    }
+
     /**
      * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
      * @param \VideoGamesRecords\CoreBundle\Entity\Player $player

@@ -15,7 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PlayerChartStatus
 {
     const ID_STATUS_NORMAL = 1;
+    const ID_STATUS_DEMAND = 2;
+    const ID_STATUS_INVESTIGATION = 3;
+    const ID_STATUS_DEMAND_SEND_PROOF = 4;
+    const ID_STATUS_NORMAL_SEND_PROOF = 5;
     const ID_STATUS_PROOVED = 6;
+    const ID_STATUS_NOT_PROOVED = 7;
 
 
     /**
@@ -32,7 +37,21 @@ class PlayerChartStatus
      */
     private $libStatus;
 
-      /**
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="boolRanking", type="integer", nullable=false)
+     */
+    private $boolRanking = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="boolSendProof", type="integer", nullable=false)
+     */
+    private $boolSendProof = 0;
+
+    /**
      * Set idStatus
      *
      * @param integer $idStatus
@@ -76,5 +95,51 @@ class PlayerChartStatus
     public function getLibStatusr()
     {
         return $this->libStatus;
+    }
+
+
+    /**
+     * Set boolRanking
+     *
+     * @param integer $boolRanking
+     * @return PlayerChartStatus
+     */
+    public function setBoolRanking($boolRanking)
+    {
+        $this->boolRanking = $boolRanking;
+        return $this;
+    }
+
+    /**
+     * Get boolRanking
+     *
+     * @return integer
+     */
+    public function getBoolRanking()
+    {
+        return $this->boolRanking;
+    }
+
+
+    /**
+     * Set boolSendProof
+     *
+     * @param integer $boolSendProof
+     * @return PlayerChartStatus
+     */
+    public function setBoolSendProof($boolSendProof)
+    {
+        $this->boolSendProof = $boolSendProof;
+        return $this;
+    }
+
+    /**
+     * Get boolSendProof
+     *
+     * @return integer
+     */
+    public function getBoolSendProof()
+    {
+        return $this->boolSendProof;
     }
 }

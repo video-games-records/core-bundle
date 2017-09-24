@@ -77,6 +77,13 @@ class PlayerChart
     private $dateModif;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="idPicture", type="float", nullable=true)
+     */
+    private $idPicture = null;
+
+    /**
      * @var Player
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
@@ -95,6 +102,17 @@ class PlayerChart
      * })
      */
     private $chart;
+
+    /**
+     * @var Status
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="idStatus")
+     * })
+     */
+    private $status;
+
 
 
     /**
@@ -275,6 +293,28 @@ class PlayerChart
         return $this->dateModif;
     }
 
+    /**
+     * Set idPicture
+     *
+     * @param integer $idPicture
+     * @return PlayerChart
+     */
+    public function setIdPicture($idPicture)
+    {
+        $this->idPicture = $idPicture;
+        return $this;
+    }
+
+    /**
+     * Get idPicture
+     *
+     * @return integer
+     */
+    public function getIdPicture()
+    {
+        return $this->idPicture;
+    }
+
 
     /**
      * Set chart
@@ -321,6 +361,30 @@ class PlayerChart
     public function getPlayer()
     {
         return $this->player;
+    }
+
+
+    /**
+     * Set status
+     *
+     * @param PlayerChartStatus $status
+     * @return PlayerChart
+     */
+    public function setStatus(PlayerChartStatus $status = null)
+    {
+        $this->status = $status;
+        $this->setIdStatus($status->getIdStatus());
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return Status
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**

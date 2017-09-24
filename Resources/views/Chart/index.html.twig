@@ -18,6 +18,7 @@
                 <th>{{ lib.name }}</th>
             {% endfor %}
             <th scope="col">{{ 'ranking.points'|trans }}</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                     <td>{{ vgrFormatScore(row['value_' ~  lib.getIdLibChart()], lib.getType().getMask()) }}</td>
                 {% endfor %}
                 <td>{{ row[0].pointChart|localizednumber }}</td>
+                <td>{{ vgrProofDisplayStatus(row[0])|raw }}</td>
             </tr>
         {% else %}
             <div class="well">{{ 'chart.no_ranking'|trans }}</div>
