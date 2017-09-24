@@ -142,5 +142,4 @@ class PlayerChartStatus
     {
         return $this->boolSendProof;
     }
-
 }
