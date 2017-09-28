@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\ProofBundle\Entity\Proof;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
@@ -64,6 +65,11 @@ class PlayerChart
     private $idStatus;
 
     /**
+     * @ORM\Column(name="idProof", type="integer")
+     */
+    private $idProof;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
@@ -96,6 +102,16 @@ class PlayerChart
      * })
      */
     private $chart;
+
+    /**
+     * @var Proof
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\ProofBundle\Entity\Proof")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idProof", referencedColumnName="idProof")
+     * })
+     */
+    private $proof;
 
     /**
      * @var Status
@@ -264,6 +280,28 @@ class PlayerChart
     }
 
     /**
+     * Set idProof
+     *
+     * @param integer $idProof
+     * @return PlayerChart
+     */
+    public function setIdProof($idProof)
+    {
+        $this->idProof = $idProof;
+        return $this;
+    }
+
+    /**
+     * Get idProof
+     *
+     * @return integer
+     */
+    public function getIdProof()
+    {
+        return $this->idProof;
+    }
+
+    /**
      * Set topScore
      *
      * @param integer $topScore
@@ -352,6 +390,29 @@ class PlayerChart
     public function getPlayer()
     {
         return $this->player;
+    }
+
+    /**
+     * Set proof
+     *
+     * @param Proof $proof
+     * @return PlayerChart
+     */
+    public function setPProof(Proof $proof = null)
+    {
+        $this->proof = $proof;
+        $this->setIdProof($proof->getIdProof());
+        return $this;
+    }
+
+    /**
+     * Get proof
+     *
+     * @return Proof
+     */
+    public function getProof()
+    {
+        return $this->proof;
     }
 
 
