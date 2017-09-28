@@ -14,12 +14,6 @@ use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
  */
 class PlayerChart
 {
-    /**
-     * This columns are missing on this entity
-     *  - preuveImage
-     *  - idVideo
-     *  - idPicture
-     */
     use Timestampable;
 
     /**
@@ -82,13 +76,6 @@ class PlayerChart
      * @ORM\Column(name="dateModif", type="datetime", nullable=false)
      */
     private $dateModif;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idPicture", type="float", nullable=true)
-     */
-    private $idPicture = null;
 
     /**
      * @var Player
@@ -319,29 +306,6 @@ class PlayerChart
     {
         return $this->dateModif;
     }
-
-    /**
-     * Set idPicture
-     *
-     * @param integer $idPicture
-     * @return PlayerChart
-     */
-    public function setIdPicture($idPicture)
-    {
-        $this->idPicture = $idPicture;
-        return $this;
-    }
-
-    /**
-     * Get idPicture
-     *
-     * @return integer
-     */
-    public function getIdPicture()
-    {
-        return $this->idPicture;
-    }
-
 
     /**
      * Set chart
