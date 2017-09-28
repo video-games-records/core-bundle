@@ -15,7 +15,7 @@ class PlayerChartRepository extends EntityRepository
      * @return \VideoGamesRecords\CoreBundle\Entity\PlayerChart
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getFromId($idPlayer, $idChart)
+    public function getFromUnique($idPlayer, $idChart)
     {
         $query = $this->createQueryBuilder('pc')
             ->where('pc.idPlayer = :idPlayer')

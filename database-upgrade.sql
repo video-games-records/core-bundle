@@ -298,6 +298,9 @@ ALTER TABLE `vgr_player_chart` CHANGE dateCreation created_at DATETIME DEFAULT N
 ALTER TABLE `vgr_player_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE rank rank INT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
 ALTER TABLE `vgr_player_chart` ADD INDEX `idxPlayerDateModif` (`idPlayer`, `dateModif`);
+ALTER TABLE `vgr_player_chart` DROP PRIMARY KEY;
+ALTER TABLE `vgr_player_chart` ADD `idPlayerChart` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`idPlayerChart`);
+ALTER TABLE `vgr_player_chart` ADD UNIQUE( `idChart`, `idPlayer`);
 
 ALTER TABLE `vgr_player_chartlib` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL;
