@@ -95,7 +95,6 @@ class SubmitController extends Controller
                     $playerChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getFromUnique(
                         $idPlayer,
                         $chart->getId()
-
                     );
 
                     $isNew = false;
