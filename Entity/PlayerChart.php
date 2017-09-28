@@ -23,14 +23,21 @@ class PlayerChart
     use Timestampable;
 
     /**
-     * @ORM\Column(name="idPlayer", type="integer")
+     * @var integer
+     *
+     * @ORM\Column(name="idPlayerChart", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idPlayerChart;
+
+    /**
+     * @ORM\Column(name="idPlayer", type="integer")
      */
     private $idPlayer;
 
     /**
      * @ORM\Column(name="idChart", type="integer")
-     * @ORM\Id
      */
     private $idChart;
 
@@ -113,7 +120,27 @@ class PlayerChart
      */
     private $status;
 
+    /**
+     * Set idPlayerChart
+     *
+     * @param integer $idPlayerChart
+     * @return PlayerChart
+     */
+    public function setIdPlayerChart($idPlayerChart)
+    {
+        $this->idPlayerChart = $idPlayerChart;
+        return $this;
+    }
 
+    /**
+     * Get idPlayerChart
+     *
+     * @return integer
+     */
+    public function getIdPlayerChart()
+    {
+        return $this->idPlayerChart;
+    }
 
     /**
      * Set idPlayer

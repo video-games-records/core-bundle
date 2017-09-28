@@ -33,8 +33,11 @@ class SubmitController extends Controller
         if ($data['type'] == 'chart') {
             $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($data['id']);
             $charts = [$chart];
+            $slug = $chart->getSlug();
         } else if ($data['type'] == 'group') {
             $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getFromGroupWithChartType($data['id']);
+            $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->find($data['id']);
+            $slug = $group->getSLug();
         } else {
             throw new \Exception('');
         }
@@ -89,11 +92,10 @@ class SubmitController extends Controller
 
 
                 if (!$isNull && $isModify) {
-                    $playerChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->find(
-                        [
-                            'idPlayer' => $idPlayer,
-                            'idChart' => $chart->getId()
-                        ]
+                    $playerChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getFromUnique(
+                        $idPlayer,
+                        $chart->getId()
+
                     );
 
                     $isNew = false;
@@ -104,9 +106,7 @@ class SubmitController extends Controller
                         $playerChart->setChart($chart);
                     }
 
-                    $playerChart->setIdStatus(1);
-                    //$playerChart->setPeuveImage(0);
-                    //$playerChart->setIdVideo(0);
+                    $playerChart->setStatus($em->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
                     $playerChart->setDateModif(new \DateTime());
                     $em->persist($playerChart);
                     $em->flush();
@@ -135,11 +135,11 @@ class SubmitController extends Controller
             //----- Message
             $this->addFlash(
                 'notice',
-                sprintf('Your changes were saved! Add = %d and modify = %d', $nbInsert, $nbUpdate)
+                sprintf('Your changes were saved! add = %d and modify = %d', $nbInsert, $nbUpdate)
             );
 
             //----- Redirect
-            return $this->redirectToRoute('vgr_' . $data['type'] . '_index', array('id' => $data['id']));
+            return $this->redirectToRoute('vgr_' . $data['type'] . '_index', array('id' => $data['id'], 'slug' => $slug));
         }
     }
 }
