@@ -79,7 +79,7 @@ class GroupAdmin extends AbstractAdmin
         $datagridMapper
             ->add('translations.name')
             ->add('game', 'doctrine_orm_model_autocomplete', [], null, [
-                'property' => 'libGameEn',
+                'property' => 'translations.name',
             ]);
     }
 

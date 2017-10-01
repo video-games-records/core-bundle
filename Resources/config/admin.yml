@@ -57,3 +57,11 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Platform
             - ~
+    sonata.admin.player:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "Player" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Player
+            - ~

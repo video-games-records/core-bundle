@@ -257,6 +257,14 @@ class Player
     private $team;
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s [%s]', $this->getPseudo(), $this->idPlayer);
+    }
+
+    /**
      * Set idPlayer
      *
      * @param integer $idPlayer
