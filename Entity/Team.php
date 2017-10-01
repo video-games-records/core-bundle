@@ -238,6 +238,14 @@ class Team
         $this->players = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s [%s]', $this->getLibTeam(), $this->idTeam);
+    }
+
 
     /**
      * Set idTeam
