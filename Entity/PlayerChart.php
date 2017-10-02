@@ -398,7 +398,7 @@ class PlayerChart
      * @param Proof $proof
      * @return PlayerChart
      */
-    public function setPProof(Proof $proof = null)
+    public function setProof(Proof $proof = null)
     {
         $this->proof = $proof;
         $this->setIdProof($proof->getIdProof());
