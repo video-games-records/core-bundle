@@ -83,15 +83,7 @@ class PlayerChart
      */
     private $dateModif;
 
-    /**
-     * @var Player
-     *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
-     * })
-     */
-    private $player;
+
 
     /**
      * @var Chart
