@@ -76,6 +76,7 @@ RENAME TABLE mv_team_jeu TO vgr_team_game;
 RENAME TABLE t_badge TO badge;
 RENAME TABLE t_badge_membre TO vgr_player_badge;
 RENAME TABLE t_badge_team TO vgr_team_badge;
+RENAME TABLE t_video TO video;
 
 ALTER TABLE `vgr_player` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
@@ -644,3 +645,20 @@ ALTER TABLE `vgr_game` ADD UNIQUE(`idBadge`);
 -- PlayerChartStatus
 ALTER TABLE `vgr_player_chart_status` ADD `boolSendProof` TINYINT NOT NULL DEFAULT '0' AFTER `boolRanking`;
 UPDATE `vgr_player_chart_status` SET boolSendProof = 1 WHERE idStatus IN (1,3,7);
+
+
+
+
+
+
+
+-- BUNDLE VIDEO --
+ALTER TABLE `video` CHANGE `statut` `status` ENUM('UPLOAD','WORK','OK','ERROR','UPLOADED','IN PROGRESS') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UPLOADED';
+UPDATE `video` SET `status` = 'UPLOADED' WHERE `status` = 'UPLOAD';
+UPDATE `video` SET `status` = 'IN PROGRESS' WHERE `status` = 'WORK';
+ALTER TABLE `video` CHANGE `status` `status` ENUM('OK','ERROR','UPLOADED','IN PROGRESS') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UPLOADED';
+ALTER TABLE `video` CHANGE `dateCreation` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `video` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `video` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
+ALTER TABLE `video` CHANGE `vgr_idJeu` `idGame` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `vgr_video` CHANGE `nbCommentaire` `nbComment` INT(10) UNSIGNED NOT NULL DEFAULT '0';
