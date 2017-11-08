@@ -661,3 +661,4 @@ ALTER TABLE `video` CHANGE `dateCreation` `created_at` DATETIME NOT NULL DEFAULT
 ALTER TABLE `video` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE `video` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `video` CHANGE `vgr_idJeu` `idGame` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `vgr_video` CHANGE `nbCommentaire` `nbComment` INT(10) UNSIGNED NOT NULL DEFAULT '0';
