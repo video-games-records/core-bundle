@@ -1,6 +1,7 @@
 <?php
 
 namespace VideoGamesRecords\CoreBundle\Model\Game;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 
 trait GameMethods
 {
