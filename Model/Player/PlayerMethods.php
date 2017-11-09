@@ -1,6 +1,7 @@
 <?php
 
 namespace VideoGamesRecords\CoreBundle\Model\Player;
+
 use VideoGamesRecords\CoreBundle\Entity\Player;
 
 trait PlayerMethods
