@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\ProofBundle\Entity\Proof;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use VideoGamesRecords\CoreBundle\Model\Player\Player;
 
 /**
  * PlayerChart
@@ -16,6 +17,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 class PlayerChart
 {
     use Timestampable;
+    use Player;
 
     /**
      * @var integer
@@ -25,11 +27,6 @@ class PlayerChart
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idPlayerChart;
-
-    /**
-     * @ORM\Column(name="idPlayer", type="integer")
-     */
-    private $idPlayer;
 
     /**
      * @ORM\Column(name="idChart", type="integer")
@@ -138,29 +135,6 @@ class PlayerChart
     }
 
     /**
-     * Set idPlayer
-     *
-     * @param integer $idPlayer
-     * @return PlayerChart
-     */
-    public function setIdPlayer($idPlayer)
-    {
-        $this->idPlayer = $idPlayer;
-        return $this;
-    }
-
-    /**
-     * Get idPlayer
-     *
-     * @return integer
-     */
-    public function getIdPlayer()
-    {
-        return $this->idPlayer;
-    }
-
-
-    /**
      * Set idChart
      *
      * @param integer $idChart
@@ -181,7 +155,6 @@ class PlayerChart
     {
         return $this->idChart;
     }
-
 
     /**
      * Set rank
