@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 
@@ -84,6 +85,7 @@ class PlayerChartRepository extends EntityRepository
      */
     public function maj($idChart)
     {
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
         $chart = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($idChart);
         $ranking = $this->getRanking($chart);
 
@@ -121,6 +123,30 @@ class PlayerChartRepository extends EntityRepository
         $this->getEntityManager()->flush();
 
         return $players;
+    }
+
+
+    /**
+     *
+     */
+    public function majInvestigation()
+    {
+        $date = new \DateTime();
+        $date->sub(new \DateInterval('P14D'));
+
+        $query = $this->createQueryBuilder('pc')
+           ->where('pc.idStatus = :idStatus')
+           ->setParameter('idStatus', PlayerChartStatus::ID_STATUS_INVESTIGATION)
+           ->andWhere('pc.dateInvestigation < :date')
+           ->setParameter('date', $date->format('Y-m-d'));
+
+        $list = $query->getQuery()->getResult();
+
+        /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+        foreach ($list as $playerChart) {
+            $playerChart->setIdStatus(PlayerChartStatus::ID_STATUS_NOT_PROOVED);
+        }
+        $this->getEntityManager()->flush();
     }
 
 
