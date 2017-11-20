@@ -3,9 +3,11 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Date;
 use VideoGamesRecords\ProofBundle\Entity\Proof;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use VideoGamesRecords\CoreBundle\Model\Player\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 
 /**
  * PlayerChart
@@ -80,7 +82,12 @@ class PlayerChart
      */
     private $dateModif;
 
-
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="dateInvestigation", type="date", nullable=false)
+     */
+    private $dateInvestigation;
 
     /**
      * @var Chart
@@ -311,6 +318,28 @@ class PlayerChart
     }
 
     /**
+     * Set dateInvestigation
+     *
+     * @param date $dateInvestigation
+     * @return PlayerChart
+     */
+    public function setDateInvestigation($dateInvestigation)
+    {
+        $this->dateInvestigation = $dateInvestigation;
+        return $this;
+    }
+
+    /**
+     * Get dateInvestigation
+     *
+     * @return date
+     */
+    public function getDateInvestigation()
+    {
+        return $this->dateInvestigation;
+    }
+
+    /**
      * Set chart
      *
      * @param Chart $chart
@@ -422,6 +451,15 @@ class PlayerChart
             $this->setTopScore(true);
         } else {
             $this->setTopScore(false);
+        }
+        if (($this->getDateInvestigation() == null) && ($this->getIdStatus() == PlayerChartStatus::ID_STATUS_INVESTIGATION)) {
+            $this->setDateInvestigation(new \DateTime());
+        }
+        if (($this->getDateInvestigation() != null) && ($this->getIdStatus() == PlayerChartStatus::ID_STATUS_PROOVED)) {
+            $this->setDateInvestigation(null);
+        }
+        if (($this->getDateInvestigation() != null) && ($this->getIdStatus() == PlayerChartStatus::ID_STATUS_NOT_PROOVED)) {
+            $this->setDateInvestigation(null);
         }
     }
 }
