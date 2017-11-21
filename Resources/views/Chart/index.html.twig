@@ -49,5 +49,5 @@
     {% endif %}
 
     <h2>{{ 'chart.ranking.point'|trans }}</h2>
-    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/team-points-chart.html.twig' with {'ranking': teamRankingPoints} %}
+    {% include 'VideoGamesRecordsTeamBundle:Ranking:partial/points-chart.html.twig' with {'ranking': teamRankingPoints} %}
 {% endblock %}

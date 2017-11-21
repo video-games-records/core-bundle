@@ -76,8 +76,8 @@ class GameController extends Controller
                 'game' => $game,
                 'playerRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($id, 5, null),
                 'playerRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($id, 5, null),
-                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($id, 5, null),
-                'teamRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($id, 5, null),
+                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGame')->getRankingPoints($id, 5, null),
+                'teamRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGame')->getRankingMedals($id, 5, null),
             ]
         );
     }
@@ -130,52 +130,6 @@ class GameController extends Controller
     }
 
 
-    /**
-     * @Route("/ranking-team-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_team_points")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function rankingTeamPointsAction($id)
-    {
-        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-
-        $breadcrumbs = $this->getGameBreadcrumbs($game);
-        $breadcrumbs->addItem('game.pointchartranking.full');
-
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Ranking:team-points-chart.html.twig',
-            [
-                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($id, 100, null),
-            ]
-        );
-    }
-
-
-    /**
-     * @Route("/ranking-team-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_team_medals")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function rankingTeamMedalsAction($id)
-    {
-        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-
-        $breadcrumbs = $this->getGameBreadcrumbs($game);
-        $breadcrumbs->addItem('game.medalranking.full');
-
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Ranking:team-medals.html.twig',
-            [
-                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($id, 100, null),
-            ]
-        );
-    }
 
     /**
      * @param \VideoGamesRecords\CoreBundle\Entity\Game $game
