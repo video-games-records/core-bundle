@@ -41,9 +41,9 @@
     {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/player-medals.html.twig' with {'ranking': playerRankingMedals, 'link': path('vgr_game_ranking_player_medals', {'id': game.id})} %}
 
     <h2>{{ 'game.ranking.point'|trans }}</h2>
-    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/team-points-chart.html.twig' with {'ranking': teamRankingPoints, 'link': path('vgr_game_ranking_team_points', {'id': game.id})} %}
+    {% include 'VideoGamesRecordsTeamBundle:Ranking:partial/points-chart.html.twig' with {'ranking': teamRankingPoints, 'link': path('vgr_team_game_ranking_points', {'id': game.id})} %}
 
     <h2>{{ 'game.ranking.medal'|trans }}</h2>
-    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/team-medals.html.twig' with {'ranking': teamRankingMedals, 'link': path('vgr_game_ranking_team_medals', {'id': game.id})} %}
+    {% include 'VideoGamesRecordsTeamBundle:Ranking:partial/medals.html.twig' with {'ranking': teamRankingMedals, 'link': path('vgr_team_game_ranking_medals', {'id': game.id})} %}
 
 {% endblock %}

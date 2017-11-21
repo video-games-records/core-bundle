@@ -40,8 +40,8 @@
     {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/player-medals.html.twig' with {'ranking': playerRankingMedals, 'link': path('vgr_group_ranking_player_medals', {'id': group.getId()})} %}
 
     <h2>{{ 'game.ranking.point'|trans }}</h2>
-    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/team-points-chart.html.twig' with {'ranking': teamRankingPoints, 'link': path('vgr_group_ranking_team_points', {'id': group.getId()})} %}
+    {% include 'VideoGamesRecordsTeamBundle:Ranking:partial/points-chart.html.twig' with {'ranking': teamRankingPoints, 'link': path('vgr_team_group_ranking_points', {'id': group.getId()})} %}
 
     <h2>{{ 'game.ranking.medal'|trans }}</h2>
-    {% include 'VideoGamesRecordsCoreBundle:Ranking:partial/team-medals.html.twig' with {'ranking': teamRankingMedals, 'link': path('vgr_group_ranking_team_medals', {'id': group.getId()})} %}
+    {% include 'VideoGamesRecordsTeamBundle:Ranking:partial/medals.html.twig' with {'ranking': teamRankingMedals, 'link': path('vgr_team_group_ranking_medals', {'id': group.getId()})} %}
 {% endblock %}

@@ -43,7 +43,7 @@ class ChartController extends VgrBaseController
             [
                 'chart' => $chart,
                 'ranking' => $ranking,
-                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->getRankingPoints($id, 20, null),
+                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamChart')->getRankingPoints($id, 20, null),
             ]
         );
     }
