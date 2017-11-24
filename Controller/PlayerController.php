@@ -6,12 +6,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use VideoGamesRecords\CoreBundle\Controller\VgrBaseController;
 
 /**
  * Class PlayerController
  * @Route("/player")
  */
-class PlayerController extends Controller
+class PlayerController extends VgrBaseController
 {
     /**
      * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_player_index")
@@ -71,8 +72,7 @@ class PlayerController extends Controller
      */
     public function rankingPointsChartAction()
     {
-        $idPlayer = null;
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointsChart($idPlayer);
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointsChart($this->getIdPlayer());
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('player.pointchartranking.full');
@@ -89,8 +89,7 @@ class PlayerController extends Controller
      */
     public function rankingPointsGameAction()
     {
-        $idPlayer = null;
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointsGame($idPlayer);
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointsGame($this->getIdPlayer());
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('player.pointgameranking.full');
@@ -108,8 +107,7 @@ class PlayerController extends Controller
      */
     public function rankingMedalsAction()
     {
-        $idPlayer = null;
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingMedals($idPlayer);
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingMedals($this->getIdPlayer());
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('player.medalranking.full');
@@ -118,7 +116,7 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/ranking-cups", name="vgr_player_ranking_medals")
+     * @Route("/ranking-cups", name="vgr_player_ranking_cup")
      * @Method("GET")
      * @Cache(smaxage="10")
      *
@@ -126,8 +124,7 @@ class PlayerController extends Controller
      */
     public function rankingCupsAction()
     {
-        $idPlayer = null;
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCups($idPlayer);
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCups($this->getIdPlayer());
         $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'homepage');
         $breadcrumbs->addItem('player.cupranking.full');
