@@ -28,4 +28,15 @@ class VgrBaseController extends Controller
         }
         return null;
     }
+
+    /**
+     * @return int|null
+     */
+    protected function getIdPlayer()
+    {
+        if ($this->getPlayer()) {
+            return $this->getPlayer()->getIdPlayer();
+        }
+        return null;
+    }
 }
