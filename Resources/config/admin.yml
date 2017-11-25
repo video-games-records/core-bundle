@@ -65,3 +65,19 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Player
             - ~
+    sonata.admin.game_topic:
+        class: VideoGamesRecords\CoreBundle\Admin\GameTopicAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "GameTopic" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\GameTopic
+            - ~
+    sonata.admin.game_messahe:
+        class: VideoGamesRecords\CoreBundle\Admin\GameMessageAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "GameMessage" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\GameMessage
+            - ~

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\TeamBundle\Entity\Team;
 
 /**
- * User
+ * Player
  *
  * @ORM\Table(name="vgr_player", indexes={@ORM\Index(name="pointGame", columns={"pointGame"}), @ORM\Index(name="rank_pointGame", columns={"rankPointGame"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")

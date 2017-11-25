@@ -648,10 +648,6 @@ UPDATE `vgr_player_chart_status` SET boolSendProof = 1 WHERE idStatus IN (1,3,7)
 
 
 
-
-
-
-
 -- BUNDLE VIDEO --
 ALTER TABLE `video` CHANGE `statut` `status` ENUM('UPLOAD','WORK','OK','ERROR','UPLOADED','IN PROGRESS') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UPLOADED';
 UPDATE `video` SET `status` = 'UPLOADED' WHERE `status` = 'UPLOAD';
@@ -662,3 +658,81 @@ ALTER TABLE `video` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEF
 ALTER TABLE `video` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `video` CHANGE `vgr_idJeu` `idGame` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `vgr_video` CHANGE `nbCommentaire` `nbComment` INT(10) UNSIGNED NOT NULL DEFAULT '0';
+
+
+
+-- GAME TOPIC et MESSAGE
+CREATE TABLE `vgr_game_topic` (
+  `idTopic` int(11) NOT NULL,
+  `idGame` int(11) NOT NULL,
+  `idPlayer` int(11) NOT NULL,
+  `libTopic` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `oldIdTopic` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `vgr_game_topic`
+  ADD PRIMARY KEY (`idTopic`),
+  ADD KEY `idxPlayer` (`idPlayer`),
+  ADD KEY `idxGame` (`idGame`);
+
+ALTER TABLE `vgr_game_topic`
+  MODIFY `idTopic` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `vgr_game_topic`
+  ADD CONSTRAINT `fk_game_topic_game` FOREIGN KEY (`idGame`) REFERENCES `vgr_game` (`id`),
+  ADD CONSTRAINT `fk_game_topic_player` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player` (`idPlayer`);
+
+CREATE TABLE `vgr_game_message` (
+  `idMessage` int(11) NOT NULL,
+  `idTopic` int(11) NOT NULL,
+  `idPlayer` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `vgr_game_message`
+  ADD PRIMARY KEY (`idMessage`),
+  ADD KEY `idxTopic` (`idTopic`),
+  ADD KEY `idxPlayer` (`idPlayer`);
+
+ALTER TABLE `vgr_game_message`
+  MODIFY `idMessage` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `vgr_game_message`
+  ADD CONSTRAINT `fk_game_message_player` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player` (`idPlayer`),
+  ADD CONSTRAINT `fk_game_message_topic` FOREIGN KEY (`idTopic`) REFERENCES `vgr_game_topic` (`idTopic`);
+
+
+SELECT vgr_game.id, libTopic, idMembre
+FROM t_forum
+  INNER JOIN vgr_game ON t_forum.idForum = vgr_game.idForum
+  INNER JOIN t_forum_topic ON t_forum_topic.idForum = t_forum.idForum;
+
+
+INSERT INTO vgr_game_topic (idPlayer, idGame, libTopic, oldIdTopic)
+SELECT idMembre,vgr_game.id, libTopic, idTopic
+FROM t_forum
+  INNER JOIN vgr_game ON t_forum.idForum = vgr_game.idForum
+  INNER JOIN t_forum_topic ON t_forum_topic.idForum = t_forum.idForum;
+
+
+INSERT INTO vgr_game_message (idTopic, idPlayer, text, created_at, updated_at)
+SELECT vgr_game_topic.idTopic, t_forum_message.idMembre, t_forum_message.texte, t_forum_message.dateCreation, t_forum_message.dateModification
+FROM t_forum_message INNER JOIN vgr_game_topic ON vgr_game_topic.oldIdTopic = t_forum_message.idTopic
+ORDER BY t_forum_message.idMessage ASC;
+
+UPDATE vgr_game_topic a, vgr_game_message b
+SET a.created_at = b.created_at
+WHERE a.idTopic = b.idTopic;
+
+UPDATE vgr_game_topic a, vgr_game_message b
+SET a.updated_at = b.created_at
+WHERE a.idTopic = b.idTopic;
+
+ALTER TABLE `t_forum_topic` DROP FOREIGN KEY `t_forum_topic_ibfk_2`; ALTER TABLE `t_forum_topic` ADD CONSTRAINT `t_forum_topic_ibfk_2` FOREIGN KEY (`idForum`) REFERENCES `t_forum`(`idForum`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+DELETE FROM t_forum WHERE idForumPere = 42;
