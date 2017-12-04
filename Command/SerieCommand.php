@@ -1,18 +1,18 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use ProjetNormandie\CommonBundle\Command\DefaultCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SerieCommand extends ContainerAwareCommand
+class SerieCommand extends DefaultCommand
 {
     protected function configure()
     {
         $this
-            ->setName('vgr:serie')
+            ->setName('vgr-core:serie')
             ->setDescription('Command to update serie rankings for players')
             ->addArgument(
                 'function',
@@ -37,8 +37,5 @@ class SerieCommand extends ContainerAwareCommand
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')->maj($idSerie);
                 break;
         }
-
-        /*$output->writeln($function);
-        $output->writeln($idSerie);*/
     }
 }

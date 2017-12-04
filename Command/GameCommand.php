@@ -1,19 +1,19 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use ProjetNormandie\CommonBundle\Command\DefaultCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GameCommand extends ContainerAwareCommand
+class GameCommand extends DefaultCommand
 {
     protected function configure()
     {
         $this
-            ->setName('vgr:game')
-            ->setDescription('Command to update game rankings for players and teams')
+            ->setName('vgr-core:game')
+            ->setDescription('Command to update game rankings for players')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
@@ -41,12 +41,7 @@ class GameCommand extends ContainerAwareCommand
                 $idGame = $input->getOption('idGame');
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj($idGame);
                 break;
-            case 'maj-team':
-                $idGame = $input->getOption('idGame');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->maj($idGame);
-                break;
         }
-
         return true;
     }
 }

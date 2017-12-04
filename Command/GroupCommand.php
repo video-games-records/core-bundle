@@ -1,19 +1,19 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use ProjetNormandie\CommonBundle\Command\DefaultCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GroupCommand extends ContainerAwareCommand
+class GroupCommand extends DefaultCommand
 {
     protected function configure()
     {
         $this
-            ->setName('vgr:group')
-            ->setDescription('Command to update group rankings for players and teams')
+            ->setName('vgr-core:group')
+            ->setDescription('Command to update group rankings for players')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
@@ -40,10 +40,6 @@ class GroupCommand extends ContainerAwareCommand
             case 'maj-player':
                 $idGroup = $input->getOption('idGroup');
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj($idGroup);
-                break;
-            case 'maj-team':
-                $idGroup = $input->getOption('idGroup');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->maj($idGroup);
                 break;
         }
 

@@ -2,25 +2,21 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Doctrine\DBAL\Logging\DebugStack;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use ProjetNormandie\CommonBundle\Command\DefaultCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ChartCommand extends ContainerAwareCommand
+class ChartCommand extends DefaultCommand
 {
     const NB_CHART_TO_MAJ = 1;
-
-    private $sglLoggerEnabled = false;
-    private $stack = null;
 
     protected function configure()
     {
         $this
-            ->setName('vgr:chart')
-            ->setDescription('Command to update chart rankings for players and teams')
+            ->setName('vgr-core:chart')
+            ->setDescription('Command to update chart rankings for players')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
@@ -44,7 +40,10 @@ class ChartCommand extends ContainerAwareCommand
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return bool
+     * @return bool|int|null
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -54,16 +53,9 @@ class ChartCommand extends ContainerAwareCommand
         switch ($function) {
             case 'maj-player':
                 if ($idChart) {
-                    $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->maj($idChart);
+                    $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->maj($idChart);
                 } else {
                     $this->majPlayer($output);
-                }
-                break;
-            case 'maj-team':
-                if ($idChart) {
-                    $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->maj($idChart);
-                } else {
-                    $this->majTeam($output);
                 }
                 break;
         }
@@ -72,33 +64,10 @@ class ChartCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param $input
-     */
-    private function init($input)
-    {
-        if ($input->getOption('debug')) {
-            $this->sglLoggerEnabled = true;
-            // Start setup logger
-            $doctrine = $this->getContainer()->get('doctrine');
-            $doctrineConnection = $doctrine->getConnection();
-            $this->stack = new DebugStack();
-            $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
-            // End setup logger
-        }
-    }
-
-    /**
-     * @param $output
-     */
-    private function end($output)
-    {
-        if ($this->sglLoggerEnabled) {
-            $output->writeln(sprintf('%s queries', count($this->stack->queries)));
-        }
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
      */
     private function majPlayer(OutputInterface $output)
     {
@@ -112,7 +81,7 @@ class ChartCommand extends ContainerAwareCommand
         $playerGameRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame');
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerRepository $playerRepository */
         $playerRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository $playerChartRepository */
+        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository $playerBadgeRepository */
         $playerBadgeRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge');
 
         if (false === $chartRepository->isMajPlayerRunning()) {
@@ -169,79 +138,6 @@ class ChartCommand extends ContainerAwareCommand
             }
         } else {
             $output->writeln("vgr:chart maj-player is allready running");
-        }
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     */
-    public function majTeam(OutputInterface $output)
-    {
-        /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
-        $chartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamChartRepository $teamChartRepository */
-        $teamChartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamChart');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamGroupRepository $teamGroupRepository */
-        $teamGroupRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGroup');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamGameRepository $teamGameRepository */
-        $teamGameRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGame');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamRepository $teamrRepository */
-        $teamRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Team');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository $playerChartRepository */
-        $teamBadgeRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamBadge');
-
-        if (false === $chartRepository->isMajTeamRunning()) {
-            $chartRepository->goToMajTeam(self::NB_CHART_TO_MAJ);
-
-            $teamList = array();
-            $groupList = array();
-            $gameList = array();
-
-            $charts = $chartRepository->getChartToMajTeam();
-
-            if (count($charts) > 0) {
-                foreach ($charts as $chart) {
-                    $teamList = array_unique(
-                        array_merge($teamList, $teamChartRepository->maj($chart->getId()))
-                    );
-
-                    //----- Group
-                    if (!in_array($chart->getIdGroup(), $groupList)) {
-                        $groupList[] = $chart->getIdGroup();
-                    }
-                    //----- Game
-                    if (!in_array($chart->getGroup()->getIdGame(), $gameList)) {
-                        $gameList[] = $chart->getGroup()
-                            ->getIdGame();
-                    }
-                }
-
-                //----- Maj group
-                foreach ($groupList as $idGroup) {
-                    $teamGroupRepository->maj($idGroup);
-                }
-
-                //----- Maj game
-                foreach ($gameList as $idGame) {
-                    $teamGameRepository->maj($idGame);
-                    $teamBadgeRepository->majMasterBadge($idGame);
-                }
-
-                //----- Maj player
-                foreach ($teamList as $idTeam) {
-                    $teamRepository->maj($idTeam);
-                }
-
-                //----- Maj all teams
-                $teamRepository->majRankPointChart();
-                $teamRepository->majRankPointGame();
-                $teamRepository->majRankMedal();
-                $teamRepository->majRankCup();
-            } else {
-                $output->writeln("No record to maj");
-            }
-        } else {
-            $output->writeln("vgr:chart maj-team is allready running");
         }
     }
 }
