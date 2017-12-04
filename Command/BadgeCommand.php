@@ -2,22 +2,18 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Doctrine\DBAL\Logging\DebugStack;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use ProjetNormandie\CommonBundle\Command\DefaultCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class BadgeCommand extends ContainerAwareCommand
+class BadgeCommand extends DefaultCommand
 {
-    private $sglLoggerEnabled = false;
-    private $stack = null;
-
     protected function configure()
     {
         $this
-            ->setName('vgr:badge')
+            ->setName('vgr-core:badge')
             ->setDescription('Command to maj master badge for players and teams')
             ->addArgument(
                 'function',
@@ -59,31 +55,5 @@ class BadgeCommand extends ContainerAwareCommand
         }
         $this->end($output);
         return true;
-    }
-
-    /**
-     * @param $input
-     */
-    private function init($input)
-    {
-        if ($input->getOption('debug')) {
-            $this->sglLoggerEnabled = true;
-            // Start setup logger
-            $doctrine = $this->getContainer()->get('doctrine');
-            $doctrineConnection = $doctrine->getConnection();
-            $this->stack = new DebugStack();
-            $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
-            // End setup logger
-        }
-    }
-
-    /**
-     * @param $output
-     */
-    private function end($output)
-    {
-        if ($this->sglLoggerEnabled) {
-            $output->writeln(sprintf('%s queries', count($this->stack->queries)));
-        }
     }
 }
