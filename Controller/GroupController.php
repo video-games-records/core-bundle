@@ -132,6 +132,25 @@ class GroupController extends VgrBaseController
         return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', ['group' => $group, 'charts' => $charts, 'form' => $form->createView()]);
     }
 
+
+    /**
+     * @Route("/test/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_group_test")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     *
+     * @param int $id
+     * @param string $slug
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function test($id, $slug)
+    {
+        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
+
+        $topScores = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->getTopValues($group);
+        var_dump($topScores);
+        exit;
+    }
+
     /**
      * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
      * @return object|\WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs
