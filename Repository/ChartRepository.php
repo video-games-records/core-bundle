@@ -71,6 +71,8 @@ class ChartRepository extends EntityRepository
 
     /**
      * @return bool
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function isMajPlayerRunning()
     {
@@ -85,6 +87,8 @@ class ChartRepository extends EntityRepository
 
     /**
      * @return bool
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function isMajTeamRunning()
     {
@@ -99,6 +103,7 @@ class ChartRepository extends EntityRepository
 
     /**
      * @param int $limit
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function goToMajPlayer($limit)
     {
@@ -108,6 +113,7 @@ class ChartRepository extends EntityRepository
 
     /**
      * @param int $limit
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function goToMajTeam($limit)
     {

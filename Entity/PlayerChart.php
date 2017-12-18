@@ -73,7 +73,7 @@ class PlayerChart
      *
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
      */
-    private $topScore = false;
+    private $isTopScore = false;
 
     /**
      * @var \DateTime
@@ -92,7 +92,7 @@ class PlayerChart
     /**
      * @var Chart
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id")
      * })
@@ -274,25 +274,25 @@ class PlayerChart
     }
 
     /**
-     * Set topScore
+     * Set isTopScore
      *
-     * @param integer $topScore
+     * @param integer $isTopScore
      * @return PlayerChart
      */
-    public function setTopScore($topScore)
+    public function setIsTopScore($isTopScore)
     {
-        $this->topScore = $topScore;
+        $this->isTopScore = $isTopScore;
         return $this;
     }
 
     /**
-     * Get topScore
+     * Get isTopScore
      *
      * @return integer
      */
-    public function getTopScore()
+    public function getIsTopScore()
     {
-        return $this->topScore;
+        return $this->isTopScore;
     }
 
     /**

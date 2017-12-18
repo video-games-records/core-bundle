@@ -83,11 +83,19 @@ class Chart
     private $libs;
 
     /**
+     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[]
+     *
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart")
+     */
+    private $playerCharts;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->libs = new ArrayCollection();
+        $this->playerCharts = new ArrayCollection();
     }
 
     /**

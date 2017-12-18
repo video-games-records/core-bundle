@@ -80,8 +80,9 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * @param int $idChart
+     * @param $idChart
      * @return array
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function maj($idChart)
     {
@@ -111,6 +112,11 @@ class PlayerChartRepository extends EntityRepository
                 );
             }
             $playerChart->setPointChart($pointChart);
+            if ($k == 0) {
+                $playerChart->setTopScore(1);
+            } else {
+                $playerChart->setTopScore(0);
+            }
 
             $this->_em->persist($playerChart);
             $this->_em->flush($playerChart);

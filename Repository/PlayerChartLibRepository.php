@@ -54,4 +54,44 @@ class PlayerChartLibRepository extends EntityRepository
 
         return $data;
     }
+
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
+     * @return array
+     */
+    public function getTopValues($group)
+    {
+        $query = $this->createQueryBuilder('pcl')
+            ->join('pcl.libChart', 'lib')
+            ->addSelect('lib')
+            ->join('lib.type', 'type')
+            ->addSelect('type')
+            ->join('lib.chart', 'c')
+            ->addSelect('c.id')
+            ->join('c.playerCharts', 'pc')
+            ->join('pc.player', 'p')
+            ->addSelect('p.pseudo')
+            ->orderBy('lib.idLibChart');
+
+        $query->where('c.idGroup = :idGroup')
+            ->setParameter('idGroup', $group->getId());
+
+
+        $query->andWhere('pc.isTopScore = 1')
+            ->andWhere('pc.player = pcl.player');
+
+        $result = $query->getQuery()->getArrayResult();
+        $list = array();
+        foreach ($result as $row) {
+            if (!array_key_exists($row['id'], $list)) {
+                $list[$row['id']] = array(
+                    'idPlayer' => $row[0]['idPlayer'],
+                    'pseudo' => $row['pseudo'],
+                    'values' => array(),
+                );
+            }
+            $list[$row['id']]['values'][] = Score::formatScore($row[0]['value'], $row[0]['libChart']['type']['mask']);
+        }
+        return $list;
+    }
 }
