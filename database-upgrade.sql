@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS t_team_demande_old;
 
 -- DROP VIEW
 DROP VIEW IF EXISTS view_commentaire;
+DROP VIEW IF EXISTS view_forum;
 DROP VIEW IF EXISTS view_forum_message;
 DROP VIEW IF EXISTS view_forum_home;
 DROP VIEW IF EXISTS view_forum_topic;
@@ -46,7 +47,7 @@ DROP VIEW IF EXISTS view_record;
 DROP VIEW IF EXISTS view_record_membre_last;
 DROP VIEW IF EXISTS view_team_cup;
 DROP VIEW IF EXISTS view_team_demande;
-DROP VIEW IF EXISTS view_topscore;
+DROP VIEW IF EXISTS view_topScore;
 DROP VIEW IF EXISTS view_video;
 
 -- TRUNCATE t_session;
