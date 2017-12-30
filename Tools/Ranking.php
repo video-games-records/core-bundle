@@ -6,8 +6,10 @@ class Ranking
 {
     /**
      * Order an array
+     *
      * @param array $array
      * @param array $columns
+     *
      * @return array
      */
     public static function order($array, $columns)
@@ -22,9 +24,9 @@ class Ranking
                     if ((($order == 'ASC') && ($row1[$column] < $row2[$column])) || (($order == 'DESC') && ($row1[$column] > $row2[$column]))) {
                         break;
                     } elseif ((($order == 'ASC') && ($row1[$column] > $row2[$column])) || (($order == 'DESC') && ($row1[$column] < $row2[$column]))) {
-                        $array[$j] = $row2;
+                        $array[$j]     = $row2;
                         $array[$j + 1] = $row1;
-                        $change = true;
+                        $change        = true;
                         break;
                     }
                 }
@@ -33,6 +35,7 @@ class Ranking
                 break;
             }
         }
+
         return $array;
     }
 
@@ -48,15 +51,15 @@ class Ranking
      */
     public static function addRank($array, $key = 'rank', $columns = ['pointChart'], $boolEqual = false)
     {
-        $rank = 1;
+        $rank     = 1;
         $compteur = 0;
-        $nbEqual = 1;
-        $nb = count($array);
+        $nbEqual  = 1;
+        $nb       = count($array);
 
         for ($i = 0; $i <= $nb - 1; $i++) {
             if ($i >= 1) {
-                $row1 = $array[$i - 1];
-                $row2 = $array[$i];
+                $row1    = $array[$i - 1];
+                $row2    = $array[$i];
                 $isEqual = true;
                 foreach ($columns as $column) {
                     if ($row1[$column] != $row2[$column]) {
@@ -68,14 +71,14 @@ class Ranking
                     $compteur++;
                     $nbEqual = $nbEqual + 1;
                 } else {
-                    $rank = $rank + $compteur + 1;
+                    $rank     = $rank + $compteur + 1;
                     $compteur = 0;
                     unset($nbEqual);
                     $nbEqual = 1;
                 }
             }
 
-            $row = $array[$i];
+            $row       = $array[$i];
             $row[$key] = $rank;
             if ($boolEqual) {
                 $row['nbEqual'] = &$nbEqual;
@@ -83,6 +86,7 @@ class Ranking
             $array[$i] = $row;
         }
         unset($nbEqual);
+
         return $array;
     }
 
@@ -90,75 +94,70 @@ class Ranking
     /**
      * Add a rank for chart ranking
      *
-     * @param array $array
-     * @param array $columns
+     * @param \VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $array
      *
      * @return array
      */
-    public static function addChartRank($array, $columns = ['pointChart'])
+    public static function addChartRank($array)
     {
-        $rank = 1;
+        $rank     = 1;
         $compteur = 0;
-        $nbEqual = 1;
-        $nb = count($array);
+        $nbEqual  = 1;
+        $nb       = count($array);
 
         for ($i = 0; $i <= $nb - 1; $i++) {
             if ($i >= 1) {
-                $row1 = $array[$i - 1];
-                $row2 = $array[$i];
+                $row1    = $array[$i - 1];
+                $row2    = $array[$i];
                 $isEqual = true;
-                foreach ($columns as $column) {
-                    if ($row1[$column] != $row2[$column]) {
-                        $isEqual = false;
-                        break;
-                    }
+                if ($row1->getPointChart() !== $row2->getPointChart()) {
+                    $isEqual = false;
                 }
                 if ($isEqual) {
                     $compteur++;
-                    $nbEqual = $nbEqual + 1;
+                    ++$nbEqual;
                 } else {
-                    $rank = $rank + $compteur + 1;
+                    $rank     = $rank + $compteur + 1;
                     $compteur = 0;
-                    $nbEqual = 1;
+                    $nbEqual  = 1;
                 }
             }
 
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
-            $playerChart = $array[$i]['pc'];
+            $playerChart = $array[$i];
             $playerChart->setRank($rank);
             $playerChart->setNbEqual($nbEqual);
-            $array[$i]['uc'] = $playerChart;
 
             if ($nbEqual >= 2) {
                 for ($k = $i - 1; $k >= $i - $nbEqual + 1; $k--) {
-                    $playerChart = $array[$k]['pc'];
+                    $playerChart = $array[$k];
                     $playerChart->setNbEqual($nbEqual);
-                    $array[$k]['pc'] = $playerChart;
                 }
             }
         }
+
         return $array;
     }
 
 
     /**
-     * @param        $array
-     * @param string $rank
+     * @param \VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $array
+     * @param string $ranking
      * @param array $columns
+     *
      * @return mixed
      */
-    public static function addObjectRank($array, $rank = 'rankPointChart', $columns = array('pointChart'))
+    public static function addObjectRank($array, $ranking = 'rankPointChart', array $columns = ['pointChart'])
     {
-        $setter = 'set' . ucfirst($rank);
-        $getters = array();
+        $setter  = 'set' . ucfirst($ranking);
+        $getters = [];
         foreach ($columns as $column) {
             $getters[] = 'get' . ucfirst($column);
         }
 
-        $rank = 1;
+        $rank     = 1;
         $compteur = 0;
-        $nbEqual = 1;
-        $nb = count($array);
+        $nbEqual  = 1;
+        $nb       = count($array);
 
         for ($i = 0; $i <= $nb - 1; $i++) {
             if ($i >= 1) {
@@ -166,18 +165,18 @@ class Ranking
                 $object2 = $array[$i];
                 $isEqual = true;
                 foreach ($getters as $getter) {
-                    if ($object1->$getter() != $object2->$getter()) {
+                    if ($object1->$getter() !== $object2->$getter()) {
                         $isEqual = false;
                         break;
                     }
                 }
                 if ($isEqual) {
-                    $compteur++;
-                    $nbEqual = $nbEqual + 1;
+                    ++$compteur;
+                    ++$nbEqual;
                 } else {
-                    $rank = $rank + $compteur + 1;
+                    $rank     = $rank + $compteur + 1;
                     $compteur = 0;
-                    $nbEqual = 1;
+                    $nbEqual  = 1;
                 }
             }
 
@@ -186,12 +185,15 @@ class Ranking
             $object->$setter($rank);
             $array[$i] = $object;
         }
+
         return $array;
     }
 
     /**
      * Renvoie le tableau des pointsVGR
+     *
      * @param $iNbPartcipant
+     *
      * @return mixed
      */
     public static function arrayPointRecord($iNbPartcipant)
@@ -203,19 +205,19 @@ class Ranking
         }
 
         $pointRecord = 100 * $p;
-        $nb = 80;// % différence entre deux positions
-        $compteur = 0;// compteur de position
+        $nb          = 80;// % différence entre deux positions
+        $compteur    = 0;// compteur de position
 
         // 1er
         $liste[1] = $pointRecord;
 
         for ($i = 2; $i <= $p; $i++) {
             $pointRecord = intval($pointRecord * $nb / 100);
-            $liste[$i] = $pointRecord;
+            $liste[$i]   = $pointRecord;
             $compteur++;
 
             if ($nb < 85) {
-                if ($compteur == 2) {
+                if ($compteur === 2) {
                     $nb++;// le % augmente donc la différence diminue
                     $compteur = 0;
                 }
@@ -235,6 +237,7 @@ class Ranking
 
     /**
      * @param $iNbPartcipant
+     *
      * @return mixed
      */
     public static function arrayPointRecord2($iNbPartcipant)
@@ -246,17 +249,17 @@ class Ranking
         }
 
         $pointRecord = 1000 * pow($p, 1.1);
-        $nb = 80;// % différence entre deux positions
-        $maxPercent = 97;
+        $nb          = 80;// % différence entre deux positions
+        $maxPercent  = 97;
 
         // 1er
         $liste[1] = $pointRecord;
         for ($i = 2; $i <= $p; $i++) {
             $pointRecord = $pointRecord * $nb / 100.0;
-            $liste[$i] = $pointRecord;
-            $nb += ((100 - $nb) / 20.0);
+            $liste[$i]   = $pointRecord;
+            $nb          += ((100 - $nb) / 20.0);
             if ($nb > $maxPercent) { //97.5 semble optimal
-                $nb = $maxPercent;
+                $nb         = $maxPercent;
                 $maxPercent += (100 - $maxPercent) / 80.0;
                 $maxPercent = min(99, $maxPercent);
             }
@@ -279,8 +282,10 @@ class Ranking
      * Calcule la somme des éléments d'indice désiré dans un tableau 2D
      * Renvoi 0 si le tableau est vide
      * Les éléments non numériques et non présents sont ignorés
+     *
      * @param $aArray
      * @param $sKey
+     *
      * @return int
      */
     public static function arraySumOn2Dkey($aArray, $sKey)
@@ -294,6 +299,7 @@ class Ranking
                 $iValue += $aElements[$sKey];
             }
         }
+
         return $iValue;
     }
 
@@ -302,6 +308,7 @@ class Ranking
      * @param        $aBaseCol
      * @param        $sNameNewCol
      * @param string $sColNameToForceZero
+     *
      * @return mixed
      */
     public static function calculateGamePoints($aArray, $aBaseCol, $sNameNewCol, $sColNameToForceZero = '')
@@ -310,10 +317,10 @@ class Ranking
             return $aArray;
         }
 
-        $nameRankCol = array_shift($aBaseCol);
+        $nameRankCol  = array_shift($aBaseCol);
         $nameEqualCol = array_shift($aBaseCol);
 
-        $nbPlayers = count($aArray);
+        $nbPlayers     = count($aArray);
         $nbFirstEquals = 1;
         foreach ($aArray as $aRank) {
             if ($aRank[$nameRankCol] == 1) {
@@ -327,10 +334,10 @@ class Ranking
         $b = (atan($nbPlayers - 25) + M_PI_2) * (25000 * ($nbPlayers - 25)) / (200 * M_PI);
         $f = ceil((10400000 * $a + $b) / (pow($nbFirstEquals, 6 / 5)));
 
-        $aF = [];
+        $aF    = [];
         $aF[1] = $f;
         for ($i = 2; $i <= $nbPlayers; ++$i) {
-            $g = min(0.99, log($i) / (log(71428.6 * $i + 857142.8)) + 0.7);
+            $g      = min(0.99, log($i) / (log(71428.6 * $i + 857142.8)) + 0.7);
             $aF[$i] = $aF[$i - 1] * $g;
         }
 

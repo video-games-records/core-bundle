@@ -7,10 +7,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 class ChartCommand extends DefaultCommand
 {
-    const NB_CHART_TO_MAJ = 1;
+    const NB_CHART_TO_MAJ = 1000;
 
     protected function configure()
     {
@@ -20,26 +21,26 @@ class ChartCommand extends DefaultCommand
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
-                'Who do you want to do?'
+                'What do you want to do?'
             )
             ->addOption(
                 'idChart',
                 null,
                 InputOption::VALUE_REQUIRED,
-                ''
+                'Chart identifier'
             )
             ->addOption(
                 'debug',
                 null,
                 InputOption::VALUE_NONE,
-                ''
-            )
-        ;
+                'Debug option (sql)'
+            );
     }
 
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     *
      * @return bool|int|null
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -49,7 +50,8 @@ class ChartCommand extends DefaultCommand
     {
         $this->init($input);
         $function = $input->getArgument('function');
-        $idChart = $input->getOption('idChart');
+        $idChart  = $input->getOption('idChart');
+
         switch ($function) {
             case 'maj-player':
                 if ($idChart) {
@@ -60,11 +62,13 @@ class ChartCommand extends DefaultCommand
                 break;
         }
         $this->end($output);
+
         return true;
     }
 
     /**
      * @param OutputInterface $output
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
@@ -87,26 +91,27 @@ class ChartCommand extends DefaultCommand
         if (false === $chartRepository->isMajPlayerRunning()) {
             $chartRepository->goToMajPlayer(self::NB_CHART_TO_MAJ);
 
-            $playerList = array();
-            $groupList = array();
-            $gameList = array();
+            $playerList = [];
+            $groupList  = [];
+            $gameList   = [];
 
             $charts = $chartRepository->getChartToMajPlayer();
 
             if (count($charts) > 0) {
                 foreach ($charts as $chart) {
+                    $idGroup = $chart->getIdGroup();
+                    $idGame  = $chart->getGroup()->getIdGame();
+                    //----- Player
                     $playerList = array_unique(
                         array_merge($playerList, $playerChartRepository->maj($chart->getId()))
                     );
-
                     //----- Group
-                    if (!in_array($chart->getIdGroup(), $groupList)) {
-                        $groupList[] = $chart->getIdGroup();
+                    if (!isset($groupList[$idGroup])) {
+                        $groupList[$idGroup] = $idGroup;
                     }
                     //----- Game
-                    if (!in_array($chart->getGroup()->getIdGame(), $gameList)) {
-                        $gameList[] = $chart->getGroup()
-                            ->getIdGame();
+                    if (!isset($gameList[$idGame])) {
+                        $gameList[$idGame] = $idGame;
                     }
                 }
 
@@ -134,10 +139,15 @@ class ChartCommand extends DefaultCommand
                 $playerRepository->majRankProof();
                 //@todo MAJ badge best player on country
             } else {
-                $output->writeln("No record to maj");
+                $output->writeln('No chart to be updated');
             }
         } else {
-            $output->writeln("vgr:chart maj-player is allready running");
+            $output->writeln('vgr:chart maj-player is already running');
         }
+    }
+
+    public function majChart(Chart $chart)
+    {
+
     }
 }

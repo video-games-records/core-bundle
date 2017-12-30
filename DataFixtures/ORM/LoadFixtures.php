@@ -13,6 +13,7 @@ use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\ChartType;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -45,6 +46,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $this->loadChartType($manager);
         $this->loadCharts($manager);
         $this->loadPlayers($manager);
+        $this->loadPlayerChartStatus($manager);
         $this->loadPlayerChart($manager);
     }
 
@@ -57,12 +59,12 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $list = [
             [
-                'id' => 1,
-                'languages' => ['fr' => 'Forza Motosport', 'en' => 'Forza Motosport']
+                'id'        => 1,
+                'languages' => ['fr' => 'Forza Motosport', 'en' => 'Forza Motosport'],
             ],
             [
-                'id' => 2,
-                'languages' => ['fr' => 'Mario Kart', 'en' => 'Mario Kart']
+                'id'        => 2,
+                'languages' => ['fr' => 'Mario Kart', 'en' => 'Mario Kart'],
             ],
         ];
 
@@ -88,15 +90,15 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $list = [
             [
-                'idPlatform' => 1,
+                'idPlatform'  => 1,
                 'libPlatform' => 'Game Cube',
             ],
             [
-                'idPlatform' => 2,
+                'idPlatform'  => 2,
                 'libPlatform' => 'Playstation 2',
             ],
             [
-                'idPlatform' => 3,
+                'idPlatform'  => 3,
                 'libPlatform' => 'Xbox',
             ],
         ];
@@ -119,45 +121,45 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $list = [
             [
-                'idGame' => 1,
+                'idGame'    => 1,
                 'languages' => ['fr' => 'Burnout 2', 'en' => 'Burnout 2'],
                 'platforms' => [1, 2, 3],
-                'status' => Game::STATUS_ACTIVE,
+                'status'    => Game::STATUS_ACTIVE,
             ],
             [
-                'idGame' => 2,
+                'idGame'    => 2,
                 'languages' => ['fr' => 'Mario Kart 8', 'en' => 'Mario Kart 8'],
-                'idSerie' => 2,
+                'idSerie'   => 2,
             ],
             [
-                'idGame' => 3,
+                'idGame'    => 3,
                 'languages' => ['fr' => 'Forza Motosport 4', 'en' => 'Forza Motosport 4'],
-                'idSerie' => 1,
+                'idSerie'   => 1,
             ],
             [
-                'idGame' => 4,
+                'idGame'    => 4,
                 'languages' => ['fr' => 'Forza Motosport 3', 'en' => 'Forza Motosport 3'],
-                'idSerie' => 1,
+                'idSerie'   => 1,
             ],
             [
-                'idGame' => 5,
+                'idGame'    => 5,
                 'languages' => ['fr' => 'Sega Rallye', 'en' => 'Sega Rallye'],
             ],
             [
-                'idGame' => 6,
+                'idGame'    => 6,
                 'languages' => ['fr' => 'Gran Turismo', 'en' => 'Gran Turismo'],
                 'platforms' => [2],
             ],
             [
-                'idGame' => 7,
+                'idGame'    => 7,
                 'languages' => ['fr' => 'Jet Set Radio', 'en' => 'Jet Set Radio'],
             ],
             [
-                'idGame' => 11,
+                'idGame'    => 11,
                 'languages' => ['fr' => 'Mario Kart Double Dash', 'en' => 'Mario Kart Double Dash'],
-                'idSerie' => 2,
+                'idSerie'   => 2,
                 'platforms' => [1],
-                'status' => Game::STATUS_ACTIVE,
+                'status'    => Game::STATUS_ACTIVE,
             ],
         ];
 
@@ -195,18 +197,18 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
 
         $list = [
             [
-                'idGroup' => 1,
-                'idGame' => 11,
+                'idGroup'   => 1,
+                'idGame'    => 11,
                 'languages' => ['fr' => 'Meilleur Tour', 'en' => 'Fastest Lap Times'],
             ],
             [
-                'idGroup' => 2,
-                'idGame' => 11,
+                'idGroup'   => 2,
+                'idGame'    => 11,
                 'languages' => ['fr' => 'Meilleur Temps', 'en' => 'Fastest Total Times'],
             ],
             [
-                'idGroup' => 3,
-                'idGame' => 11,
+                'idGroup'   => 3,
+                'idGame'    => 11,
                 'languages' => ['fr' => 'Grand Prix', 'en' => 'GP'],
             ],
         ];
@@ -227,6 +229,50 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
     }
 
     /**
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     */
+    private function loadChartType(ObjectManager $manager)
+    {
+        $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\ChartType');
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+
+        $list = [
+            [
+                'idType'  => 1,
+                'name'    => 'Score',
+                'mask'    => '30~',
+                'orderBy' => 'DESC',
+            ],
+            [
+                'idType'  => 2,
+                'name'    => 'Temps',
+                'mask'    => '30~:|2~.|2~',
+                'orderBy' => 'ASC',
+            ],
+            [
+                'idType'  => 3,
+                'name'    => 'Distance',
+                'mask'    => '30~ m',
+                'orderBy' => 'DESC',
+            ],
+        ];
+
+        foreach ($list as $row) {
+            /** @var \VideoGamesRecords\CoreBundle\Entity\ChartType $chartType */
+            $chartType = new ChartType();
+            $chartType
+                ->setIdType($row['idType'])
+                ->setName($row['name'])
+                ->setMask($row['mask'])
+                ->setOrderBy($row['orderBy']);
+
+            $manager->persist($chartType);
+            $this->addReference('charttype.' . $chartType->getIdType(), $chartType);
+        }
+        $manager->flush();
+    }
+
+    /**
      * @param ObjectManager $manager
      */
     private function loadCharts(ObjectManager $manager)
@@ -236,100 +282,100 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
 
         $list = [
             [
-                'idChart' => 1,
-                'idGroup' => 1,
+                'idChart'   => 1,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Baby Park', 'en' => 'Baby Park'],
-                'types' => [1],
+                'types'     => [1],
             ],
             [
-                'idChart' => 2,
-                'idGroup' => 1,
+                'idChart'   => 2,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Bowser\'s Castle', 'en' => 'Bowser\'s Castle'],
-                'types' => [1],
+                'types'     => [1],
             ],
             [
-                'idChart' => 3,
-                'idGroup' => 1,
+                'idChart'   => 3,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Daisy Cruiser', 'en' => 'Daisy Cruiser'],
-                'types' => [2],
+                'types'     => [2],
             ],
             [
-                'idChart' => 4,
-                'idGroup' => 1,
+                'idChart'   => 4,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Dino Dino Jungle', 'en' => 'Dino Dino Jungle'],
-                'types' => [3],
+                'types'     => [3],
             ],
             [
-                'idChart' => 5,
-                'idGroup' => 1,
+                'idChart'   => 5,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'DK Mountain', 'en' => 'DK Mountain'],
-                'types' => [1],
+                'types'     => [1],
             ],
             [
-                'idChart' => 6,
-                'idGroup' => 1,
+                'idChart'   => 6,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Dry Dry Desert', 'en' => 'Dry Dry Desert'],
-                'types' => [2],
+                'types'     => [2],
             ],
             [
-                'idChart' => 7,
-                'idGroup' => 1,
+                'idChart'   => 7,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Luigi Circuit', 'en' => 'Luigi Circuit'],
-                'types' => [1, 2],
+                'types'     => [1, 2],
             ],
             [
-                'idChart' => 8,
-                'idGroup' => 1,
+                'idChart'   => 8,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Mario Circuit', 'en' => 'Mario Circuit'],
-                'types' => [1, 3],
+                'types'     => [1, 3],
             ],
             [
-                'idChart' => 9,
-                'idGroup' => 1,
+                'idChart'   => 9,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Mushroom Bridge', 'en' => 'Mushroom Bridge'],
-                'types' => [2, 3],
+                'types'     => [2, 3],
             ],
             [
-                'idChart' => 10,
-                'idGroup' => 1,
+                'idChart'   => 10,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Mushroom City', 'en' => 'Mushroom City'],
-                'types' => [1],
+                'types'     => [1],
             ],
             [
-                'idChart' => 11,
-                'idGroup' => 1,
+                'idChart'   => 11,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Peach Beach', 'en' => 'Peach Beach'],
-                'types' => [1],
+                'types'     => [1],
             ],
             [
-                'idChart' => 12,
-                'idGroup' => 1,
+                'idChart'   => 12,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Rainbow Road', 'en' => 'Rainbow Road'],
-                'types' => [1],
+                'types'     => [1],
             ],
             [
-                'idChart' => 13,
-                'idGroup' => 1,
+                'idChart'   => 13,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Sherbet Land', 'en' => 'Sherbet Land'],
-                'types' => [1],
+                'types'     => [1],
             ],
             [
-                'idChart' => 14,
-                'idGroup' => 1,
+                'idChart'   => 14,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Waluigi Stadium', 'en' => 'Waluigi Stadium'],
-                'types' => [1],
+                'types'     => [1],
             ],
             [
-                'idChart' => 15,
-                'idGroup' => 1,
+                'idChart'   => 15,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Wario Colosseum', 'en' => 'Wario Colosseum'],
-                'types' => [3],
+                'types'     => [3],
             ],
             [
-                'idChart' => 16,
-                'idGroup' => 1,
+                'idChart'   => 16,
+                'idGroup'   => 1,
                 'languages' => ['fr' => 'Yoshi Circuit', 'en' => 'Yoshi Circuit'],
-                'types' => [2],
+                'types'     => [2],
             ],
         ];
 
@@ -362,51 +408,6 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
     /**
      * @param \Doctrine\Common\Persistence\ObjectManager $manager
      */
-    private function loadChartType(ObjectManager $manager)
-    {
-        $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\ChartType');
-        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-
-        $list = [
-            [
-                'idType' => 1,
-                'name' => 'Score',
-                'mask' => '30~',
-                'orderBy' => 'DESC',
-            ],
-            [
-                'idType' => 2,
-                'name' => 'Temps',
-                'mask' => '30~:|2~.|2~',
-                'orderBy' => 'ASC',
-            ],
-            [
-                'idType' => 3,
-                'name' => 'Distance',
-                'mask' => '30~ m',
-                'orderBy' => 'DESC',
-            ],
-        ];
-
-        foreach ($list as $row) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\ChartType $chartType */
-            $chartType = new ChartType();
-            $chartType
-                ->setIdType($row['idType'])
-                ->setName($row['name'])
-                ->setMask($row['mask'])
-                ->setOrderBy($row['orderBy']);
-
-            $manager->persist($chartType);
-            $this->addReference('charttype.' . $chartType->getIdType(), $chartType);
-        }
-        $manager->flush();
-    }
-
-
-    /**
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
-     */
     private function loadPlayers(ObjectManager $manager)
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Player');
@@ -415,15 +416,15 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $list = [
             [
                 'idPlayer' => 1,
-                'pseudo' => 'magicbart',
+                'pseudo'   => 'magicbart',
             ],
             [
                 'idPlayer' => 2,
-                'pseudo' => 'kloh',
+                'pseudo'   => 'kloh',
             ],
             [
                 'idPlayer' => 3,
-                'pseudo' => 'viviengaetan',
+                'pseudo'   => 'viviengaetan',
             ],
         ];
 
@@ -435,6 +436,60 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
 
             $manager->persist($player);
             $this->addReference('player' . $player->getIdPlayer(), $player);
+        }
+        $manager->flush();
+    }
+
+    public function loadPlayerChartStatus($manager)
+    {
+        $list = [
+            [
+                'libStatus' => 'NORMAL',
+                'ranking'   => 1,
+                'proof'     => 0,
+            ],
+            [
+                'libStatus' => 'DEMAND',
+                'ranking'   => 1,
+                'proof'     => 0,
+            ],
+            [
+                'libStatus' => 'INVESTIGATION',
+                'ranking'   => 0,
+                'proof'     => 0,
+            ],
+            [
+                'libStatus' => 'DEMAND_SEND_PROOF',
+                'ranking'   => 1,
+                'proof'     => 1,
+            ],
+            [
+                'libStatus' => 'NORMAL_SEND_PROOF',
+                'ranking'   => 1,
+                'proof'     => 1,
+            ],
+            [
+                'libStatus' => 'PROOVED',
+                'ranking'   => 1,
+                'proof'     => 1,
+            ],
+            [
+                'libStatus' => 'NOT_PROOVED',
+                'ranking'   => 1,
+                'proof'     => 0,
+            ],
+        ];
+
+        foreach ($list as $key => $row) {
+            $playerChartStatus = new PlayerChartStatus();
+            $playerChartStatus
+                ->setIdStatus($key + 1)
+                ->setLibStatus($row['libStatus'])
+                ->setBoolRanking($row['ranking'])
+                ->setBoolSendProof($row['proof']);
+
+            $manager->persist($playerChartStatus);
+            $this->addReference('playerchartstatus' . $playerChartStatus->getIdStatus(), $playerChartStatus);
         }
         $manager->flush();
     }
@@ -451,15 +506,18 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $list = [
             [
                 'idPlayer' => 1,
-                'value' => 9999,
+                'value'    => 9999,
+                'status'   => 1,
             ],
             [
                 'idPlayer' => 2,
-                'value' => 10101,
+                'value'    => 10101,
+                'status'   => 6,
             ],
             [
                 'idPlayer' => 3,
-                'value' => 8900,
+                'value'    => 10101,
+                'status'   => 2,
             ],
         ];
 
@@ -468,7 +526,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             $playerChart = new PlayerChart();
             $playerChart->setPlayer($this->getReference('player' . $row['idPlayer']));
             $playerChart->setChart($chart);
-            $playerChart->setIdStatus(1);
+            $playerChart->setStatus($this->getReference(sprintf('playerchartstatus%d', $row['status'])));
             $playerChart->setDateModif(new \DateTime());
             $manager->persist($playerChart);
 
@@ -481,12 +539,13 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
                 $manager->persist($playerChartLib);
             }
         }
+        $chart->setNbPost(count($list));
 
         $manager->flush();
 
-        $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->maj(1);
-        $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj(1);
-        $this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj(11);
+        //$this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->maj(1);
+        //$this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj(1);
+        //$this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj(11);
     }
 
     /**
