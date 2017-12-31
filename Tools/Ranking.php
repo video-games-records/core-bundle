@@ -198,21 +198,15 @@ class Ranking
      */
     public static function arrayPointRecord($iNbPartcipant)
     {
-        if ($iNbPartcipant > 200) {
-            $p = 200;
-        } else {
-            $p = $iNbPartcipant;
-        }
-
-        $pointRecord = 100 * $p;
+        $pointRecord = 100 * $iNbPartcipant;
         $nb          = 80;// % différence entre deux positions
         $compteur    = 0;// compteur de position
 
         // 1er
         $liste[1] = $pointRecord;
 
-        for ($i = 2; $i <= $p; $i++) {
-            $pointRecord = intval($pointRecord * $nb / 100);
+        for ($i = 2; $i <= $iNbPartcipant; $i++) {
+            $pointRecord = (int)($pointRecord * $nb / 100);
             $liste[$i]   = $pointRecord;
             $compteur++;
 
@@ -226,12 +220,6 @@ class Ranking
             }
         }
 
-        if ($iNbPartcipant > 200) {
-            for ($i = 201; $i <= $iNbPartcipant; $i++) {
-                $liste[$i] = 0;
-            }
-        }
-
         return $liste;
     }
 
@@ -242,13 +230,12 @@ class Ranking
      */
     public static function arrayPointRecord2($iNbPartcipant)
     {
+        $p = $iNbPartcipant;
         if ($iNbPartcipant > 1000) {
             $p = 1000;
-        } else {
-            $p = $iNbPartcipant;
         }
 
-        $pointRecord = 1000 * pow($p, 1.1);
+        $pointRecord = 1000 * ($p ** 1.1);
         $nb          = 80;// % différence entre deux positions
         $maxPercent  = 97;
 
@@ -304,12 +291,12 @@ class Ranking
     }
 
     /**
-     * @param        $aArray
-     * @param        $aBaseCol
-     * @param        $sNameNewCol
+     * @param array  $aArray
+     * @param array  $aBaseCol
+     * @param string $sNameNewCol
      * @param string $sColNameToForceZero
      *
-     * @return mixed
+     * @return array
      */
     public static function calculateGamePoints($aArray, $aBaseCol, $sNameNewCol, $sColNameToForceZero = '')
     {
@@ -332,7 +319,7 @@ class Ranking
         //Get formula to first into ranking
         $a = (-1 / (100 + $nbPlayers - $nbFirstEquals)) + 0.0101 + (log($nbPlayers) / 15000);
         $b = (atan($nbPlayers - 25) + M_PI_2) * (25000 * ($nbPlayers - 25)) / (200 * M_PI);
-        $f = ceil((10400000 * $a + $b) / (pow($nbFirstEquals, 6 / 5)));
+        $f = ceil((10400000 * $a + $b) / ($nbFirstEquals ** (6 / 5)));
 
         $aF    = [];
         $aF[1] = $f;
