@@ -145,9 +145,4 @@ class ChartCommand extends DefaultCommand
             $output->writeln('vgr:chart maj-player is already running');
         }
     }
-
-    public function majChart(Chart $chart)
-    {
-
-    }
 }
