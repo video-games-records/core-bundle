@@ -39,13 +39,15 @@ class Score
      * Transform a value for the form
      *
      * @param string $mask
-     * @param string $value
+     * @param string|int $value
      *
      * @return array
      */
     public static function getValues($mask, $value)
     {
         $parse   = self::parse($mask);
+        $negative = 0 === strpos($value, '-');
+        $value = $negative ? (int)substr($value, 1) : $value;
         $data    = [];
         $laValue = $value;
         for ($k = count($parse) - 1; $k >= 0; $k--) {
@@ -56,14 +58,15 @@ class Score
                 $laValue = substr($laValue, 0, strlen($laValue) - $size);
             } else {
                 if ($k !== 0) {
-                    $result  = str_pad($laValue, $size - strlen($laValue), '0', STR_PAD_LEFT);
+                    $result  = str_pad($laValue, $size, '0', STR_PAD_LEFT);
                     $laValue = '';
                 } else {
                     $result = $laValue;
                     if ('' === $laValue) {
                         $result = '0';
-                    } elseif ('-' === $laValue) {
-                        $result = '-0';
+                    }
+                    if ($negative) {
+                        $result = '-' . $result;
                     }
                 }
             }
