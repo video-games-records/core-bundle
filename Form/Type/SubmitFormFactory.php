@@ -33,7 +33,7 @@ class SubmitFormFactory
                 $id = 'player_' . $chart->getId() . '_' . $lib->getIdLibChart();
                 $form->add($id, HiddenType::class); //----- miss ID
 
-                $inputs = Score::getInputs($lib->getType()->getMask());
+                $inputs = Score::parseChartMask($lib->getType()->getMask());
 
                 $i = 1;
                 foreach ($inputs as $k => $input) {

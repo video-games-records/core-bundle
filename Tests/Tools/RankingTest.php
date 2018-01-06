@@ -14,7 +14,7 @@ class RankingTest extends TestCase
      */
     public function testArrayPointRecord($nbParticipant)
     {
-        $pointsRanking = Ranking::arrayPointRecord($nbParticipant);
+        $pointsRanking = Ranking::chartPointProvider($nbParticipant);
         $this->assertCount($nbParticipant, $pointsRanking);
     }
 
@@ -56,11 +56,11 @@ class RankingTest extends TestCase
                         'idGame'         => 1,
                         'rankMedal'      => 1,
                         'chartRank0'     => 1,
-                        'chartRank1'     => 1,
-                        'chartRank2'     => 1,
+                        'chartRank1'     => 2,
+                        'chartRank2'     => 3,
                         'chartRank3'     => 1,
-                        'chartRank4'     => 1,
-                        'chartRank5'     => 1,
+                        'chartRank4'     => 2,
+                        'chartRank5'     => 3,
                         'pointChart'     => 1,
                         'nbChart'        => 1,
                         'nbChartProven'  => 1,
@@ -70,11 +70,11 @@ class RankingTest extends TestCase
                         'idGame'         => 1,
                         'rankMedal'      => 1,
                         'chartRank0'     => 1,
-                        'chartRank1'     => 1,
-                        'chartRank2'     => 1,
+                        'chartRank1'     => 2,
+                        'chartRank2'     => 3,
                         'chartRank3'     => 1,
-                        'chartRank4'     => 1,
-                        'chartRank5'     => 1,
+                        'chartRank4'     => 2,
+                        'chartRank5'     => 2,
                         'pointChart'     => 1,
                         'nbChart'        => 1,
                         'nbChartProven'  => 1,

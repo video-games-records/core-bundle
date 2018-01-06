@@ -9,16 +9,14 @@ class ScoreTest extends TestCase
 {
     /**
      * @dataProvider parseProvider
-     * @covers       Score::parse()
-     * @covers       Score::getInputs()
+     * @covers       Score::parseChartMask()
      *
      * @param string $scoreFormat
      * @param array $expected
      */
-    public function testParse($scoreFormat, array $expected)
+    public function testParseLibRecord($scoreFormat, array $expected)
     {
-        $this->assertSame($expected, Score::parse($scoreFormat));
-        $this->assertSame($expected, Score::getInputs($scoreFormat));
+        $this->assertSame($expected, Score::parseChartMask($scoreFormat));
     }
 
     /**

@@ -21,9 +21,10 @@ class Ranking
                 $row1 = $array[$j];
                 $row2 = $array[$j + 1];
                 foreach ($columns as $column => $order) {
-                    if ((($order == 'ASC') && ($row1[$column] < $row2[$column])) || (($order == 'DESC') && ($row1[$column] > $row2[$column]))) {
+                    if ((($order === 'ASC') && ($row1[$column] < $row2[$column])) || (($order === 'DESC') && ($row1[$column] > $row2[$column]))) {
                         break;
-                    } elseif ((($order == 'ASC') && ($row1[$column] > $row2[$column])) || (($order == 'DESC') && ($row1[$column] < $row2[$column]))) {
+                    }
+                    if ((($order === 'ASC') && ($row1[$column] > $row2[$column])) || (($order === 'DESC') && ($row1[$column] < $row2[$column]))) {
                         $array[$j]     = $row2;
                         $array[$j + 1] = $row1;
                         $change        = true;
@@ -138,7 +139,6 @@ class Ranking
         return $array;
     }
 
-
     /**
      * @param \VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $array
      * @param string $ranking
@@ -196,7 +196,7 @@ class Ranking
      *
      * @return mixed
      */
-    public static function arrayPointRecord($iNbPartcipant)
+    public static function chartPointProvider($iNbPartcipant)
     {
         $pointRecord = 100 * $iNbPartcipant;
         $nb          = 80;// % différence entre deux positions
@@ -224,75 +224,8 @@ class Ranking
     }
 
     /**
-     * @param $iNbPartcipant
-     *
-     * @return mixed
-     */
-    public static function arrayPointRecord2($iNbPartcipant)
-    {
-        $p = $iNbPartcipant;
-        if ($iNbPartcipant > 1000) {
-            $p = 1000;
-        }
-
-        $pointRecord = 1000 * ($p ** 1.1);
-        $nb          = 80;// % différence entre deux positions
-        $maxPercent  = 97;
-
-        // 1er
-        $liste[1] = $pointRecord;
-        for ($i = 2; $i <= $p; $i++) {
-            $pointRecord = $pointRecord * $nb / 100.0;
-            $liste[$i]   = $pointRecord;
-            $nb          += ((100 - $nb) / 20.0);
-            if ($nb > $maxPercent) { //97.5 semble optimal
-                $nb         = $maxPercent;
-                $maxPercent += (100 - $maxPercent) / 80.0;
-                $maxPercent = min(99, $maxPercent);
-            }
-        }
-        if ($iNbPartcipant > 1000) {
-            for ($i = 1001; $i <= $iNbPartcipant; $i++) {
-                $liste[$i] = 0;
-            }
-        }
-
-        foreach ($liste as &$elt) {
-            $elt = floor($elt);
-        }
-        unset($elt);
-
-        return $liste;
-    }
-
-    /**
-     * Calcule la somme des éléments d'indice désiré dans un tableau 2D
-     * Renvoi 0 si le tableau est vide
-     * Les éléments non numériques et non présents sont ignorés
-     *
-     * @param $aArray
-     * @param $sKey
-     *
-     * @return int
-     */
-    public static function arraySumOn2Dkey($aArray, $sKey)
-    {
-        $iValue = 0;
-        if (empty($aArray)) {
-            return 0;
-        }
-        foreach ($aArray as $aElements) {
-            if (isset($aElements[$sKey]) && is_numeric($aElements[$sKey])) {
-                $iValue += $aElements[$sKey];
-            }
-        }
-
-        return $iValue;
-    }
-
-    /**
-     * @param array  $aArray
-     * @param array  $aBaseCol
+     * @param array $aArray
+     * @param array $aBaseCol
      * @param string $sNameNewCol
      * @param string $sColNameToForceZero
      *

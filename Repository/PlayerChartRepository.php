@@ -41,7 +41,7 @@ class PlayerChartRepository extends EntityRepository
         $chart       = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($idChart);
         $nbLib       = $chart->getLibs()->count();
         $ranking     = $this->getRankingForUpdate($chart);
-        $pointsChart = Ranking::arrayPointRecord(count($ranking));
+        $pointsChart = Ranking::chartPointProvider(count($ranking));
         $players     = [];
 
         $topScoreLibValue = '';

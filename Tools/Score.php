@@ -5,25 +5,13 @@ namespace VideoGamesRecords\CoreBundle\Tools;
 class Score
 {
     /**
-     * Return the data to create imput field
-     *
-     * @param string $mask
-     *
-     * @return array
-     */
-    public static function getInputs($mask)
-    {
-        return self::parse($mask);
-    }
-
-    /**
      * Parse a type of a libRecord
      *
      * @param string $mask
      *
      * @return array
      */
-    public static function parse($mask)
+    public static function parseChartMask($mask)
     {
         $result     = [];
         $arrayParts = explode('|', $mask);
@@ -45,7 +33,7 @@ class Score
      */
     public static function getValues($mask, $value)
     {
-        $parse   = self::parse($mask);
+        $parse   = self::parseChartMask($mask);
         $negative = 0 === strpos($value, '-');
         $value = $negative ? (int)substr($value, 1) : $value;
         $data    = [];
@@ -89,7 +77,7 @@ class Score
      */
     public static function formToBdd($mask, $values)
     {
-        $parse   = self::parse($mask);
+        $parse   = self::parseChartMask($mask);
         $nbInput = count($parse);
 
         $value = implode('', $values);
@@ -130,7 +118,7 @@ class Score
      */
     public static function formatScore($value, $mask)
     {
-        $parse = self::parse($mask);
+        $parse = self::parseChartMask($mask);
 
         if ($value === null) {
             return '';
