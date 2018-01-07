@@ -70,6 +70,10 @@ class PlayerBadgeRepository extends EntityRepository
         /** @var \VideoGamesRecords\CoreBundle\Entity\Game $game */
         $game = $this->_em->find(Game::class, $idGame);
 
+        if (null === $game || null === $game->getIdBadge()) {
+            return;
+        }
+
         //----- get ranking with maxRank = 1
         $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($idGame, 1);
         $players = array();
