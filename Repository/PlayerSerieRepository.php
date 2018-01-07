@@ -146,7 +146,7 @@ class PlayerSerieRepository extends EntityRepository
         }
 
         $list = Ranking::addRank($list, 'rankPoint', ['pointChart']);
-        $list = Ranking::order($list, ['rank0' => 'DESC', 'rank1' => 'DESC', 'rank2' => 'DESC', 'rank3' => 'DESC']);
+        $list = Ranking::order($list, ['rank0' => SORT_DESC, 'rank1' => SORT_DESC, 'rank2' => SORT_DESC, 'rank3' => SORT_DESC]);
         $list = Ranking::addRank($list, 'rankMedal', ['rank0', 'rank1', 'rank2', 'rank3', 'rank4', 'rank5']);
 
         $normalizer = new ObjectNormalizer();

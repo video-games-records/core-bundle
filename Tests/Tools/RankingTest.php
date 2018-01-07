@@ -12,7 +12,7 @@ class RankingTest extends TestCase
      *
      * @param int $nbParticipant
      */
-    public function testArrayPointRecord($nbParticipant)
+    public function testChartPointProvider($nbParticipant)
     {
         $pointsRanking = Ranking::chartPointProvider($nbParticipant);
         $this->assertCount($nbParticipant, $pointsRanking);
@@ -37,6 +37,19 @@ class RankingTest extends TestCase
         }
     }
 
+    /**
+     * @dataProvider arrayProvider
+     *
+     * @param array $list
+     * @param array $expected
+     * @param array $sorting
+     */
+    public function testArrayMultisort(array $list, array $expected, array $sorting)
+    {
+        $list = Ranking::order($list, $sorting);
+        $this->assertSame($list, $expected);
+    }
+
     public function arrayPointRecordProvider()
     {
         return [
@@ -52,33 +65,78 @@ class RankingTest extends TestCase
             [
                 [
                     [
-                        'idPlayer'       => 1,
-                        'idGame'         => 1,
-                        'rankMedal'      => 1,
-                        'chartRank0'     => 1,
-                        'chartRank1'     => 2,
-                        'chartRank2'     => 3,
-                        'chartRank3'     => 1,
-                        'chartRank4'     => 2,
-                        'chartRank5'     => 3,
-                        'pointChart'     => 1,
-                        'nbChart'        => 1,
-                        'nbChartProven'  => 1,
+                        'idPlayer'      => 1,
+                        'idGame'        => 1,
+                        'rankMedal'     => 1,
+                        'chartRank0'    => 1,
+                        'chartRank1'    => 2,
+                        'chartRank2'    => 3,
+                        'chartRank3'    => 1,
+                        'chartRank4'    => 2,
+                        'chartRank5'    => 3,
+                        'pointChart'    => 1,
+                        'nbChart'       => 1,
+                        'nbChartProven' => 1,
                     ],
                     [
-                        'idPlayer'       => 2,
-                        'idGame'         => 1,
-                        'rankMedal'      => 1,
-                        'chartRank0'     => 1,
-                        'chartRank1'     => 2,
-                        'chartRank2'     => 3,
-                        'chartRank3'     => 1,
-                        'chartRank4'     => 2,
-                        'chartRank5'     => 2,
-                        'pointChart'     => 1,
-                        'nbChart'        => 1,
-                        'nbChartProven'  => 1,
+                        'idPlayer'      => 2,
+                        'idGame'        => 1,
+                        'rankMedal'     => 1,
+                        'chartRank0'    => 1,
+                        'chartRank1'    => 2,
+                        'chartRank2'    => 3,
+                        'chartRank3'    => 1,
+                        'chartRank4'    => 2,
+                        'chartRank5'    => 2,
+                        'pointChart'    => 1,
+                        'nbChart'       => 1,
+                        'nbChartProven' => 1,
                     ],
+                ],
+            ],
+        ];
+    }
+
+    public function arrayProvider()
+    {
+        return [
+            [
+                // actual
+                [
+                    ['id' => 0, 'pointChart' => 100],
+                    ['id' => 1, 'pointChart' => 1],
+                    ['id' => 2, 'pointChart' => 10],
+                ],
+                // expected
+                [
+                    ['id' => 0, 'pointChart' => 100],
+                    ['id' => 2, 'pointChart' => 10],
+                    ['id' => 1, 'pointChart' => 1],
+                ],
+                // sorting
+                [
+                    'pointChart' => SORT_DESC,
+                ],
+            ],
+            [
+                // actual
+                [
+                    ['id' => 0, 'rank0' => 100, 'rank1' => 10, 'rank2' => 1, 'rank3' => 0],
+                    ['id' => 1, 'rank0' => 10, 'rank1' => 10, 'rank2' => 1, 'rank3' => 0],
+                    ['id' => 2, 'rank0' => 100, 'rank1' => 9, 'rank2' => 1, 'rank3' => 0],
+                ],
+                // expected
+                [
+                    ['id' => 0, 'rank0' => 100, 'rank1' => 10, 'rank2' => 1, 'rank3' => 0],
+                    ['id' => 2, 'rank0' => 100, 'rank1' => 9, 'rank2' => 1, 'rank3' => 0],
+                    ['id' => 1, 'rank0' => 10, 'rank1' => 10, 'rank2' => 1, 'rank3' => 0],
+                ],
+                // sorting
+                [
+                    'rank0' => SORT_DESC,
+                    'rank1' => SORT_DESC,
+                    'rank2' => SORT_DESC,
+                    'rank3' => SORT_DESC,
                 ],
             ],
         ];

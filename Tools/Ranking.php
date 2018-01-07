@@ -8,34 +8,19 @@ class Ranking
      * Order an array
      *
      * @param array $array
-     * @param array $columns
+     * @param array $columns array of 'column' => SORT_*
      *
      * @return array
      */
-    public static function order($array, $columns)
+    public static function order(array $array, array $columns)
     {
-        $nb = count($array);
-        for ($i = 0; $i <= $nb; $i++) {
-            $change = false;
-            for ($j = 0; $j < $nb - 2; $j++) {
-                $row1 = $array[$j];
-                $row2 = $array[$j + 1];
-                foreach ($columns as $column => $order) {
-                    if ((($order === 'ASC') && ($row1[$column] < $row2[$column])) || (($order === 'DESC') && ($row1[$column] > $row2[$column]))) {
-                        break;
-                    }
-                    if ((($order === 'ASC') && ($row1[$column] > $row2[$column])) || (($order === 'DESC') && ($row1[$column] < $row2[$column]))) {
-                        $array[$j]     = $row2;
-                        $array[$j + 1] = $row1;
-                        $change        = true;
-                        break;
-                    }
-                }
-            }
-            if (!$change) {
-                break;
-            }
+        $arrayMultisortParameters = [];
+        foreach ($columns as $column => $order) {
+            $arrayMultisortParameters[] = array_column($array, $column);
+            $arrayMultisortParameters[] = $order;
         }
+        $arrayMultisortParameters[] = &$array;
+        array_multisort(...$arrayMultisortParameters);
 
         return $array;
     }
