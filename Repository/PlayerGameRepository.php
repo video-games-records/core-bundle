@@ -13,7 +13,7 @@ class PlayerGameRepository extends EntityRepository
      * @param int $idGame
      * @param int $maxRank
      * @param int $idPlayer
-     * @return array
+     * @return \VideoGamesRecords\CoreBundle\Entity\PlayerGame[]
      */
     public function getRankingPoints($idGame, $maxRank = null, $idPlayer = null)
     {

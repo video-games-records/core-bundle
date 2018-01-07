@@ -33,6 +33,8 @@ class Ranking
      * @param array $columns
      * @param bool $boolEqual
      *
+     * @todo unittest
+     *
      * @return array
      */
     public static function addRank($array, $key = 'rank', $columns = ['pointChart'], $boolEqual = false)
@@ -82,6 +84,9 @@ class Ranking
      *
      * @param \VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $array
      *
+     * @todo analyse to replace addObjectRank
+     * @todo unittest
+     *
      * @return array
      */
     public static function addChartRank($array)
@@ -128,6 +133,8 @@ class Ranking
      * @param \VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $array
      * @param string $ranking
      * @param array $columns
+     *
+     * @todo unittest
      *
      * @return mixed
      */

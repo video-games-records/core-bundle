@@ -542,10 +542,6 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $chart->setNbPost(count($list));
 
         $manager->flush();
-
-        //$this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->maj(1);
-        //$this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj(1);
-        //$this->container->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj(11);
     }
 
     /**

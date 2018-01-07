@@ -74,8 +74,6 @@ class ChartRepository extends EntityRepository
 
     /**
      * @return bool
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function isMajPlayerRunning()
     {

@@ -38,13 +38,13 @@ class RankingTest extends TestCase
     }
 
     /**
-     * @dataProvider arrayProvider
+     * @dataProvider orderProvider
      *
      * @param array $list
      * @param array $expected
      * @param array $sorting
      */
-    public function testArrayMultisort(array $list, array $expected, array $sorting)
+    public function testOrder(array $list, array $expected, array $sorting)
     {
         $list = Ranking::order($list, $sorting);
         $this->assertSame($list, $expected);
@@ -97,7 +97,7 @@ class RankingTest extends TestCase
         ];
     }
 
-    public function arrayProvider()
+    public function orderProvider()
     {
         return [
             [

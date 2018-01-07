@@ -5,10 +5,10 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 
 class PlayerBadgeRepository extends EntityRepository
 {
-
     /**
      * @param $idPlayer
      * @param string $type
@@ -26,7 +26,7 @@ class PlayerBadgeRepository extends EntityRepository
                 ->addSelect('g');
         }*/
 
-        if ($type == 'master') {
+        if ($type === 'master') {
             $query->orderBy('pb.createdAt');
         } else {
             $query->orderBy('b.value', 'ASC');
@@ -68,7 +68,7 @@ class PlayerBadgeRepository extends EntityRepository
     public function majMasterBadge($idGame)
     {
         /** @var \VideoGamesRecords\CoreBundle\Entity\Game $game */
-        $game = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
+        $game = $this->_em->find(Game::class, $idGame);
 
         //----- get ranking with maxRank = 1
         $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($idGame, 1);
@@ -92,7 +92,7 @@ class PlayerBadgeRepository extends EntityRepository
         }
         //----- Add master badge
         foreach ($players as $idPlayer => $value) {
-            if ($value == 0) {
+            if (0 === $value) {
                 $playerBadge = new PlayerBadge();
                 $playerBadge->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer));
                 $playerBadge->setBadge($this->_em->getReference('ProjetNormandie\BadgeBundle\Entity\Badge', $game->getIdBadge()));
@@ -100,19 +100,6 @@ class PlayerBadgeRepository extends EntityRepository
             }
         }
         $this->_em->flush();
-    }
-
-    /**
-     * @param $idPlayer
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
-     */
-    public function majChartBadge($idPlayer)
-    {
-        /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
-        $player = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer);
-        $nbChart = $player->getNbChart();
     }
 
     /**

@@ -22,7 +22,7 @@
     "projet-normandie/badge-bundle": "~1",
     "sensio/framework-extra-bundle": "^3.0.2",
     "symfony/form": "~3.0",
-    "symfony/framework-bundle": "~3.0",
+    "symfony/framework-bundle": "~3.3",
     "symfony/security-bundle": "~3.0",
     "symfony/serializer": "~3.0",
     "symfony/twig-bundle": "~3.0",
