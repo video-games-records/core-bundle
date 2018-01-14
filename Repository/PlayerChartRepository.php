@@ -56,18 +56,18 @@ class PlayerChartRepository extends EntityRepository
             $playerChart = $item[0];
             $players[]   = $playerChart->getIdPlayer();
             $playerChart
-                ->setIsTopScore(false);
+                ->setTopScore(false);
 
             for ($i = 1; $i <= $nbLib; $i++) {
                 $libValue .= $item['value_' . $i] . '/';
             }
             if ($k === 0) {
                 // Premier élément => topScore
-                $playerChart->setIsTopScore(true);
+                $playerChart->setTopScore(true);
                 $topScoreLibValue = $libValue;
             } else {
                 if ($libValue === $topScoreLibValue) {
-                    $playerChart->setIsTopScore(true);
+                    $playerChart->setTopScore(true);
                 }
                 if ($previousLibValue === $libValue) {
                     ++$nbEqual;

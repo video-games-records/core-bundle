@@ -37,7 +37,10 @@ trait PlayerMethods
     public function setPlayer(Player $player = null)
     {
         $this->player = $player;
-        $this->setIdPlayer($player->getIdPlayer());
+        if (null !== $player) {
+            $this->setIdPlayer($player->getIdPlayer());
+        }
+
         return $this;
     }
 

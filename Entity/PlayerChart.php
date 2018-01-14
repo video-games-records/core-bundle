@@ -70,7 +70,7 @@ class PlayerChart
      *
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
      */
-    private $isTopScore = false;
+    private $topScore = false;
 
     /**
      * @var \DateTime
@@ -271,25 +271,26 @@ class PlayerChart
     }
 
     /**
-     * Set isTopScore
+     * Set topScore
      *
-     * @param bool $isTopScore
+     * @param bool $topScore
+     *
      * @return PlayerChart
      */
-    public function setIsTopScore($isTopScore)
+    public function setTopScore($topScore)
     {
-        $this->isTopScore = $isTopScore;
+        $this->topScore = $topScore;
         return $this;
     }
 
     /**
-     * Get isTopScore
+     * Get topScore
      *
      * @return bool
      */
-    public function getIsTopScore()
+    public function isTopScore()
     {
-        return $this->isTopScore;
+        return $this->topScore;
     }
 
     /**
@@ -418,9 +419,9 @@ class PlayerChart
     public function preUpdate()
     {
         if ($this->getRank() === 1) {
-            $this->setIsTopScore(true);
+            $this->setTopScore(true);
         } else {
-            $this->setIsTopScore(false);
+            $this->setTopScore(false);
         }
         if ((null === $this->getDateInvestigation()) && (PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getIdStatus())) {
             $this->setDateInvestigation(new \DateTime());

@@ -2,6 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\Model\Player;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait PlayerProperties
 {
     /**

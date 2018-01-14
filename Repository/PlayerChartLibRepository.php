@@ -77,7 +77,7 @@ class PlayerChartLibRepository extends EntityRepository
             ->setParameter('idGroup', $group->getId());
 
 
-        $query->andWhere('pc.isTopScore = 1')
+        $query->andWhere('pc.topScore = 1')
             ->andWhere('pc.player = pcl.player');
 
         $result = $query->getQuery()->getArrayResult();
