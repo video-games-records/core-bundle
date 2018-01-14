@@ -13,7 +13,7 @@ class PlayerGameRepository extends EntityRepository
      * @param int $idGame
      * @param int $maxRank
      * @param int $idPlayer
-     * @return array
+     * @return \VideoGamesRecords\CoreBundle\Entity\PlayerGame[]
      */
     public function getRankingPoints($idGame, $maxRank = null, $idPlayer = null)
     {
@@ -134,7 +134,7 @@ class PlayerGameRepository extends EntityRepository
         //----- add some data
         $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);
         $list = Ranking::calculateGamePoints($list, ['rankPointChart', 'nbEqual'], 'pointGame', 'pointChart');
-        $list = Ranking::order($list, ['chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC']);
+        $list = Ranking::order($list, ['chartRank0' => SORT_DESC, 'chartRank1' => SORT_DESC, 'chartRank2' => SORT_DESC, 'chartRank3' => SORT_DESC]);
         $list = Ranking::addRank($list, 'rankMedal', ['chartRank0', 'chartRank1', 'chartRank2', 'chartRank3', 'chartRank4', 'chartRank5']);
 
         $normalizer = new ObjectNormalizer();

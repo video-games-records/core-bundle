@@ -153,10 +153,10 @@ class PlayerRepository extends EntityRepository
         foreach ($players as $player) {
             $idPlayer = $player->getIdPlayer();
 
-            $rank0 = (isset($data['gameRank0'][$idPlayer])) ? $data['gameRank0'][$idPlayer] : 0;
-            $rank1 = (isset($data['gameRank1'][$idPlayer])) ? $data['gameRank1'][$idPlayer] : 0;
-            $rank2 = (isset($data['gameRank2'][$idPlayer])) ? $data['gameRank2'][$idPlayer] : 0;
-            $rank3 = (isset($data['gameRank3'][$idPlayer])) ? $data['gameRank3'][$idPlayer] : 0;
+            $rank0 = isset($data['gameRank0'][$idPlayer]) ? $data['gameRank0'][$idPlayer] : 0;
+            $rank1 = isset($data['gameRank1'][$idPlayer]) ? $data['gameRank1'][$idPlayer] : 0;
+            $rank2 = isset($data['gameRank2'][$idPlayer]) ? $data['gameRank2'][$idPlayer] : 0;
+            $rank3 = isset($data['gameRank3'][$idPlayer]) ? $data['gameRank3'][$idPlayer] : 0;
 
             $player->setGameRank0($rank0);
             $player->setGameRank1($rank1);
@@ -173,12 +173,7 @@ class PlayerRepository extends EntityRepository
     {
         $players = $this->findBy(array(), array('pointChart' => 'DESC'));
 
-        $list = array();
-        foreach ($players as $player) {
-            $list[] = $player;
-        }
-
-        Ranking::addObjectRank($list, 'rankPointChart', array('pointChart'));
+        Ranking::addObjectRank($players, 'rankPointChart', array('pointChart'));
         $this->getEntityManager()->flush();
     }
 
@@ -189,12 +184,7 @@ class PlayerRepository extends EntityRepository
     {
         $players = $this->findBy(array(), array('pointGame' => 'DESC'));
 
-        $list = array();
-        foreach ($players as $player) {
-            $list[] = $player;
-        }
-
-        Ranking::addObjectRank($list, 'rankPointGame', array('pointGame'));
+        Ranking::addObjectRank($players, 'rankPointGame', array('pointGame'));
         $this->getEntityManager()->flush();
     }
 
@@ -205,12 +195,7 @@ class PlayerRepository extends EntityRepository
     {
         $players = $this->findBy(array(), array('chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC'));
 
-        $list = array();
-        foreach ($players as $player) {
-            $list[] = $player;
-        }
-
-        Ranking::addObjectRank($list, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
+        Ranking::addObjectRank($players, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
         $this->getEntityManager()->flush();
     }
 
@@ -222,12 +207,7 @@ class PlayerRepository extends EntityRepository
         $this->majGameRank();
         $players = $this->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
 
-        $list = array();
-        foreach ($players as $player) {
-            $list[] = $player;
-        }
-
-        Ranking::addObjectRank($list, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
+        Ranking::addObjectRank($players, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
         $this->getEntityManager()->flush();
     }
 
@@ -239,12 +219,7 @@ class PlayerRepository extends EntityRepository
     {
         $players = $this->findBy(array(), array('nbChartProven' => 'DESC'));
 
-        $list = array();
-        foreach ($players as $player) {
-            $list[] = $player;
-        }
-
-        Ranking::addObjectRank($list, 'rankProof', array('nbChartProven'));
+        Ranking::addObjectRank($players, 'rankProof', array('nbChartProven'));
         $this->getEntityManager()->flush();
     }
 
@@ -358,7 +333,7 @@ class PlayerRepository extends EntityRepository
     public function majNbGame()
     {
         //----- MAJ game.nbTeam
-        $sql = "UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer)";
+        $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer)';
         $this->_em->getConnection()->executeUpdate($sql);
     }
 }

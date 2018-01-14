@@ -6,65 +6,55 @@ class Score
 {
     /**
      * Parse a type of a libRecord
+     *
      * @param string $mask
+     *
      * @return array
      */
-    public static function parse($mask)
+    public static function parseChartMask($mask)
     {
-        $result = [];
+        $result     = [];
         $arrayParts = explode('|', $mask);
         foreach ($arrayParts as $partOfMask) {
             $arrayLib = explode('~', $partOfMask);
-            $result[] = ['size' => $arrayLib[0], 'suffixe' => $arrayLib[1]];
+            $result[] = ['size' => (int)$arrayLib[0], 'suffixe' => $arrayLib[1]];
         }
 
         return $result;
     }
 
     /**
-     * Return the data to create imput field
-     * @param string $mask
-     * @return array
-     */
-    public static function getInputs($mask)
-    {
-        $parse = self::parse($mask);
-        $data = [];
-        for ($k = count($parse) - 1; $k >= 0; $k--) {
-            $size = $parse[$k]['size'];
-            $suffixe = $parse[$k]['suffixe'];
-            $data[] = ['size' => $size, 'suffixe' => $suffixe];
-        }
-        return array_reverse($data);
-    }
-
-
-    /**
      * Transform a value for the form
+     *
      * @param string $mask
-     * @param string $value
+     * @param string|int $value
+     *
      * @return array
      */
     public static function getValues($mask, $value)
     {
-        $parse = self::parse($mask);
-        $data = [];
+        $parse   = self::parseChartMask($mask);
+        $negative = 0 === strpos($value, '-');
+        $value = $negative ? (int)substr($value, 1) : $value;
+        $data    = [];
         $laValue = $value;
         for ($k = count($parse) - 1; $k >= 0; $k--) {
             $size = $parse[$k]['size'];
 
             if (strlen($laValue) > $size) {
-                $result = substr($laValue, strlen($laValue) - $size, $size);
+                $result  = substr($laValue, strlen($laValue) - $size, $size);
                 $laValue = substr($laValue, 0, strlen($laValue) - $size);
             } else {
-                if ($k != 0) {
-                    $result = str_pad($laValue, $size - strlen($laValue), '0', STR_PAD_LEFT);
+                if ($k !== 0) {
+                    $result  = str_pad($laValue, $size, '0', STR_PAD_LEFT);
                     $laValue = '';
                 } else {
-                    if (strlen($laValue) === 0) {
+                    $result = $laValue;
+                    if ('' === $laValue) {
                         $result = '0';
-                    } else {
-                        $result = $laValue;
+                    }
+                    if ($negative) {
+                        $result = '-' . $result;
                     }
                 }
             }
@@ -73,93 +63,92 @@ class Score
             }
             $data[] = ['value' => $result];
         }
+
         return array_reverse($data);
     }
 
     /**
      * Transform values to insert database
+     *
      * @param string $mask
      * @param array $values
+     *
      * @return string
      */
     public static function formToBdd($mask, $values)
     {
-        $parse = self::parse($mask);
+        $parse   = self::parseChartMask($mask);
         $nbInput = count($parse);
 
         $value = implode('', $values);
         if ($value == '') {
             return null;
-        } elseif ($nbInput == 1) {
-            return $value;
-        } else {
-            $value = '';
-            for ($k = 0; $k <= $nbInput - 1; $k++) {
-                $part = $values[$k];
-                $length = $parse[$k]['size'];
-                if (strlen($part) < $length) {
-                    if ($k == 0) {
-                        if ($part == '') {
-                            $part = '0';
-                        }
-                    } else {
-                        if ($k == $nbInput - 1) {
-                            $part = str_pad($part, $length, '0', STR_PAD_RIGHT);
-                        } else {
-                            $part = str_pad($part, $length, '0', STR_PAD_LEFT);
-                        }
-                    }
-                }
-                $value .= $part;
-            }
+        }
+        if ($nbInput === 1) {
             return $value;
         }
+        $value = '';
+        for ($k = 0; $k <= $nbInput - 1; $k++) {
+            $part   = $values[$k];
+            $length = $parse[$k]['size'];
+            if (strlen($part) < $length) {
+                if ($k === 0) {
+                    if ($part === '') {
+                        $part = '0';
+                    }
+                } else {
+                    if ($k === $nbInput - 1) {
+                        $part = str_pad($part, $length, '0', STR_PAD_RIGHT);
+                    } else {
+                        $part = str_pad($part, $length, '0', STR_PAD_LEFT);
+                    }
+                }
+            }
+            $value .= $part;
+        }
+
+        return $value;
     }
 
     /**
      * @param $value
      * @param $mask
+     *
      * @return string
      */
     public static function formatScore($value, $mask)
     {
-        //----- Parse mask
-        $parse = [];
-        $arrayParts = explode('|', $mask);
-        foreach ($arrayParts as $partOfMask) {
-            $arrayLib = explode('~', $partOfMask);
-            $parse[] = ['size' => $arrayLib[0], 'suffixe' => $arrayLib[1]];
-        }
+        $parse = self::parseChartMask($mask);
 
-        //-----
         if ($value === null) {
             return '';
-        } else {
-            $result = '';
-            $localValue = $value;
-            $nbElement = count($parse) - 1;
-            for ($k = $nbElement; $k >= 0; --$k) {
-                $size = $parse[$k]['size'];
-                $suffixe = $parse[$k]['suffixe'];
-                $lengthLocalValue = strlen($localValue);
-
-                if ($lengthLocalValue > $size) {
-                    $tmpValue = substr($localValue, $lengthLocalValue - $size, $size);
-                    $localValue = substr($localValue, 0, $lengthLocalValue - $size);
-                } elseif ($k != 0) {
-                    $tmpValue = str_pad($localValue, $size, '0', STR_PAD_LEFT);
-                    $localValue = '';
-                } elseif ($lengthLocalValue == 0) {
-                    $tmpValue = '0';
-                } elseif ($size == 30) {
-                    $tmpValue = number_format($localValue);
-                } else {
-                    $tmpValue = $localValue;
-                }
-
-                $result = $tmpValue . $suffixe . $result;
-            }
-            return $result;
         }
+
+        $result     = '';
+        $localValue = $value;
+        $nbElement  = count($parse) - 1;
+        for ($k = $nbElement; $k >= 0; --$k) {
+            $size             = $parse[$k]['size'];
+            $suffixe          = $parse[$k]['suffixe'];
+            $lengthLocalValue = strlen($localValue);
+
+            if ($lengthLocalValue > $size) {
+                $tmpValue   = substr($localValue, $lengthLocalValue - $size, $size);
+                $localValue = substr($localValue, 0, $lengthLocalValue - $size);
+            } elseif ($k !== 0) {
+                $tmpValue   = str_pad($localValue, $size, '0', STR_PAD_LEFT);
+                $localValue = '';
+            } elseif ($lengthLocalValue === 0) {
+                $tmpValue = '0';
+            } elseif ($size === 30) {
+                $tmpValue = number_format($localValue);
+            } else {
+                $tmpValue = $localValue;
+            }
+
+            $result = $tmpValue . $suffixe . $result;
+        }
+
+        return $result;
     }
 }

@@ -18,13 +18,13 @@ class PlayerChartCommand extends DefaultCommand
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
-                'Who do you want to do?'
+                'What do you want to do?'
             )
             ->addOption(
                 'debug',
                 null,
                 InputOption::VALUE_NONE,
-                ''
+                'Debug option (sql)'
             )
         ;
     }

@@ -2,6 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\Model\Game;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait GameProperties
 {
     /**

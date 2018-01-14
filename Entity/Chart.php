@@ -226,6 +226,26 @@ class Chart
     }
 
     /**
+     * @return \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[]
+     */
+    public function getPlayerCharts()
+    {
+        return $this->playerCharts;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $playerCharts
+     *
+     * @return Chart
+     */
+    public function setPlayerCharts($playerCharts)
+    {
+        $this->playerCharts = $playerCharts;
+
+        return $this;
+    }
+
+    /**
      * Set nbPost
      *
      * @param integer $nbPost

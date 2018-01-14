@@ -37,7 +37,10 @@ trait GameMethods
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-        $this->setIdGame($game->getId());
+        if (null !== $game) {
+            $this->setIdGame($game->getId());
+        }
+
         return $this;
     }
 

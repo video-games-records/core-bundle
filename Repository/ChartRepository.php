@@ -9,6 +9,7 @@ class ChartRepository extends EntityRepository
 {
     /**
      * @param int $id
+     *
      * @return \VideoGamesRecords\CoreBundle\Entity\Chart
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -34,6 +35,7 @@ class ChartRepository extends EntityRepository
 
     /**
      * @param $id
+     *
      * @return \VideoGamesRecords\CoreBundle\Entity\Chart
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -53,6 +55,7 @@ class ChartRepository extends EntityRepository
 
     /**
      * @param $id
+     *
      * @return array
      */
     public function getFromGroupWithChartType($id)
@@ -71,8 +74,6 @@ class ChartRepository extends EntityRepository
 
     /**
      * @return bool
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function isMajPlayerRunning()
     {
@@ -82,7 +83,8 @@ class ChartRepository extends EntityRepository
             ->setParameter('status', Chart::STATUS_GO_TO_MAJ)
             ->getQuery()
             ->getSingleScalarResult();
-        return ($nb > 0) ? true : false;
+
+        return $nb > 0;
     }
 
     /**
@@ -98,11 +100,13 @@ class ChartRepository extends EntityRepository
             ->setParameter('status', Chart::STATUS_GO_TO_MAJ)
             ->getQuery()
             ->getSingleScalarResult();
-        return ($nb > 0) ? true : false;
+
+        return $nb > 0;
     }
 
     /**
      * @param int $limit
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function goToMajPlayer($limit)
@@ -113,6 +117,7 @@ class ChartRepository extends EntityRepository
 
     /**
      * @param int $limit
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function goToMajTeam($limit)
