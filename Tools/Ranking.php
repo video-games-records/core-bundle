@@ -26,14 +26,12 @@ class Ranking
     }
 
     /**
-     * Add a rank column checking one or more columns to a sort array
+     * Add a rank column checking one or more columns to a sorted array
      *
      * @param array $array
      * @param string $key
      * @param array $columns
      * @param bool $boolEqual
-     *
-     * @todo unittest
      *
      * @return array
      */
@@ -57,7 +55,7 @@ class Ranking
                 }
                 if ($isEqual) {
                     $compteur++;
-                    $nbEqual = $nbEqual + 1;
+                    ++$nbEqual;
                 } else {
                     $rank     = $rank + $compteur + 1;
                     $compteur = 0;
@@ -78,65 +76,12 @@ class Ranking
         return $array;
     }
 
-
-    /**
-     * Add a rank for chart ranking
-     *
-     * @param \VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $array
-     *
-     * @todo analyse to replace addObjectRank
-     * @todo unittest
-     *
-     * @return array
-     */
-    public static function addChartRank($array)
-    {
-        $rank     = 1;
-        $compteur = 0;
-        $nbEqual  = 1;
-        $nb       = count($array);
-
-        for ($i = 0; $i <= $nb - 1; $i++) {
-            if ($i >= 1) {
-                $row1    = $array[$i - 1];
-                $row2    = $array[$i];
-                $isEqual = true;
-                if ($row1->getPointChart() !== $row2->getPointChart()) {
-                    $isEqual = false;
-                }
-                if ($isEqual) {
-                    $compteur++;
-                    ++$nbEqual;
-                } else {
-                    $rank     = $rank + $compteur + 1;
-                    $compteur = 0;
-                    $nbEqual  = 1;
-                }
-            }
-
-            $playerChart = $array[$i];
-            $playerChart->setRank($rank);
-            $playerChart->setNbEqual($nbEqual);
-
-            if ($nbEqual >= 2) {
-                for ($k = $i - 1; $k >= $i - $nbEqual + 1; $k--) {
-                    $playerChart = $array[$k];
-                    $playerChart->setNbEqual($nbEqual);
-                }
-            }
-        }
-
-        return $array;
-    }
-
     /**
      * @param \VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $array
      * @param string $ranking
      * @param array $columns
      *
-     * @todo unittest
-     *
-     * @return mixed
+     * @return array
      */
     public static function addObjectRank($array, $ranking = 'rankPointChart', array $columns = ['pointChart'])
     {
