@@ -47,7 +47,7 @@ DROP VIEW IF EXISTS view_record;
 DROP VIEW IF EXISTS view_record_membre_last;
 DROP VIEW IF EXISTS view_team_cup;
 DROP VIEW IF EXISTS view_team_demande;
-DROP VIEW IF EXISTS view_topScore;
+DROP VIEW IF EXISTS view_topscore;
 DROP VIEW IF EXISTS view_video;
 
 -- TRUNCATE t_session;
@@ -65,7 +65,8 @@ RENAME TABLE vgr_librecord_membre TO vgr_player_chartlib;
 RENAME TABLE vgr_perteposition TO vgr_lostposition;
 RENAME TABLE vgr_plateforme TO vgr_platform;
 RENAME TABLE vgr_jeu_plateforme TO vgr_game_platform;
-RENAME TABLE VGR_etatrecord TO vgr_player_chart_status;
+
+RENAME TABLE vgr_etatrecord TO vgr_player_chart_status;
 RENAME TABLE t_pays TO country;
 RENAME TABLE t_email TO email;
 RENAME TABLE t_membre TO vgr_player;
@@ -477,6 +478,7 @@ ALTER TABLE vgr_player ADD normandie_user_id INT DEFAULT NULL;
 ALTER TABLE `vgr_player` CHANGE `derniereConnexion` `derniereConnexion` DATETIME NULL;
 UPDATE vgr_player SET derniereConnexion = NULL  WHERE CAST(derniereConnexion AS CHAR(20)) = '0000-00-00 00:00:00';
 UPDATE vgr_player SET dateNaissance = NULL  WHERE CAST(dateNaissance AS CHAR(11)) LIKE '0%';
+UPDATE vgr_player SET dateCreation = '2004-10-30 00:00:00', dateModification = '2004-10-30 00:00:00'  WHERE idPlayer = 0;
 
 -- Procedure to migrate member
 DELIMITER &&
@@ -703,11 +705,6 @@ FROM t_forum
 
 
 INSERT INTO vgr_game_topic (idPlayer, idGame, libTopic, oldIdTopic)
-SELECT idMembre,vgr_game.id, libTopic, idTopic
-FROM t_forum
-  INNER JOIN vgr_game ON t_forum.idForum = vgr_game.idForum
-  INNER JOIN t_forum_topic ON t_forum_topic.idForum = t_forum.idForum;
-
 
 INSERT INTO vgr_game_message (idTopic, idPlayer, text, created_at, updated_at)
 SELECT vgr_game_topic.idTopic, t_forum_message.idMembre, t_forum_message.texte, t_forum_message.dateCreation, t_forum_message.dateModification
