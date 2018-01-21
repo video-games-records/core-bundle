@@ -43,7 +43,7 @@ BEGIN
 	END IF;
 	IF (OLD.idStatus != NEW.idStatus && (NEW.idStatus != 2 || NEW.idStatus != 5)) THEN
 		UPDATE vgr_chart
-	    SET statusUSer = 'MAJ'
+	    SET statusUser = 'MAJ'
 	    WHERE idChart = OLD.idChart;
 	END IF;
 	IF (OLD.idStatus != NEW.idStatus && (OLD.idStatus = 7 || NEW.idStatus = 7) ) THEN
