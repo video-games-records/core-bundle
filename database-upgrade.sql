@@ -705,6 +705,10 @@ FROM t_forum
 
 
 INSERT INTO vgr_game_topic (idPlayer, idGame, libTopic, oldIdTopic)
+SELECT idMembre,vgr_game.id, libTopic, idTopic
+FROM t_forum
+  INNER JOIN vgr_game ON t_forum.idForum = vgr_game.idForum
+  INNER JOIN t_forum_topic ON t_forum_topic.idForum = t_forum.idForum;
 
 INSERT INTO vgr_game_message (idTopic, idPlayer, text, created_at, updated_at)
 SELECT vgr_game_topic.idTopic, t_forum_message.idMembre, t_forum_message.texte, t_forum_message.dateCreation, t_forum_message.dateModification
