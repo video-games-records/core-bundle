@@ -82,4 +82,35 @@ class GameRepository extends EntityRepository
         $query->join('g.platforms', 'p')
             ->addSelect('p');
     }
+
+    /**
+     * @param $date1
+     * @param $date2
+     * @return array
+     */
+    public function getNbPostDay($date1, $date2)
+    {
+        //----- data nbPostDay
+        $query = $this->_em->createQuery("
+            SELECT
+                 g.idGame,
+                 COUNT(pc.idChart) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            JOIN pc.chart c
+            JOIN c.group g
+            WHERE pc.dateModif BETWEEN :date1 AND :date2
+            GROUP BY g.idGame");
+
+
+        $query->setParameter('date1', $date1);
+        $query->setParameter('date2', $date2);
+        $result = $query->getResult();
+
+        $data = array();
+        foreach ($result as $row) {
+            $data[$row['idGame']] = $row['nb'];
+        }
+
+        return $data;
+    }
 }

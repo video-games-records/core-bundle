@@ -304,6 +304,7 @@ ALTER TABLE `vgr_player_chart` ADD INDEX `idxPlayerDateModif` (`idPlayer`, `date
 ALTER TABLE `vgr_player_chart` DROP PRIMARY KEY;
 ALTER TABLE `vgr_player_chart` ADD `idPlayerChart` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`idPlayerChart`);
 ALTER TABLE `vgr_player_chart` ADD UNIQUE( `idChart`, `idPlayer`);
+ALTER TABLE `vgr_player_chart` ADD `dateInvestigation` DATE NULL AFTER `isTopScore`;
 
 ALTER TABLE `vgr_player_chartlib` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL;

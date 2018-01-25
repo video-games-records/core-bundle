@@ -273,4 +273,27 @@ class PlayerChartRepository extends EntityRepository
 
         return $query->getQuery()->getResult();
     }
+
+
+    /**
+     * @return array
+     */
+    public function getDataRank()
+    {
+        $query = $this->_em->createQuery("
+                    SELECT
+                         pc.idPlayer,
+                         CASE WHEN pc.rank > 29 THEN 30 ELSE pc.rank AS rank,
+                         COUNT(pc.idPlayerChart) as nb
+                    FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+                    WHERE pc.rank > 3            
+                    GROUP BY pc.idPlayer, rank");
+
+        $result = $query->getResult();
+        $data = array();
+        foreach ($result as $row) {
+            $data[$row['idPlayer']][$row['rank']] = $row['nb'];
+        }
+        return $data;
+    }
 }
