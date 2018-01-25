@@ -53,6 +53,30 @@ class PlayerRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+
+    /**
+     * Get data to maj dwh.vgr_player
+     */
+    public function getDataForDwh()
+    {
+        $query = $this->_em->createQuery("
+            SELECT p.idPlayer,
+                   p.chartRank0,
+                   p.chartRank1,
+                   p.chartRank2,
+                   p.chartRank3,
+                   p.pointChart,
+                   p.rankPointChart,
+                   p.rankMedal,
+                   p.nbChart,
+                   p.pointGame,
+                   p.rankPointGame                   
+            FROM VideoGamesRecords\CoreBundle\Entity\Player p
+            WHERE p.idPlayer <> 0");
+        return $query->getResult();
+    }
+
+
     /**
      * @param array $params
      * @return int
@@ -109,6 +133,9 @@ class PlayerRepository extends EntityRepository
         $this->_em->flush($player);
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function majGameRank()
     {
         $data = [];
@@ -335,5 +362,32 @@ class PlayerRepository extends EntityRepository
         //----- MAJ game.nbTeam
         $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer)';
         $this->_em->getConnection()->executeUpdate($sql);
+    }
+
+    /**
+     * @param $date1
+     * @param $date2
+     * @return array
+     */
+    public function getNbPostDay($date1, $date2)
+    {
+        $query = $this->_em->createQuery("
+            SELECT
+                 pc.idPlayer,
+                 COUNT(pc.idChart) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            WHERE pc.dateModif BETWEEN :date1 AND :date2
+            GROUP BY pc.idPlayer");
+
+
+        $query->setParameter('date1', $date1);
+        $query->setParameter('date2', $date2);
+        $result = $query->getResult();
+
+        $data = array();
+        foreach ($result as $row) {
+            $data[$row['idPlayer']] = $row['nb'];
+        }
+        return $data;
     }
 }
