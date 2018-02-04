@@ -79,6 +79,7 @@ RENAME TABLE t_badge TO badge;
 RENAME TABLE t_badge_membre TO vgr_player_badge;
 RENAME TABLE t_badge_team TO vgr_team_badge;
 RENAME TABLE t_video TO video;
+RENAME TABLE t_partenaire TO partner;
 
 ALTER TABLE `vgr_player` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
@@ -728,3 +729,19 @@ ALTER TABLE t_forum_topic DROP FOREIGN KEY t_forum_topic_ibfk_2;
 ALTER TABLE t_forum_topic ADD CONSTRAINT t_forum_topic_ibfk_2 FOREIGN KEY (idForum) REFERENCES t_forum(idForum) ON DELETE CASCADE ON UPDATE CASCADE;
 
 DELETE FROM t_forum WHERE idForumPere = 42;
+
+
+-- PARTNER
+ALTER TABLE `partner` CHANGE `idPartenaire` `idPartner` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `partner` CHANGE `libPartenaire` `libPartner` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `partner` CHANGE `commentaire` `comment` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `partner` CHANGE `statut` `status` ENUM('ACTIF','INACTIF','BANNI','ACTIVE','INACTIVE','CANCELED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'INACTIF';
+UPDATE `partner` SET status = 'ACTIVE' WHERE status = 'ACTIF';
+UPDATE `partner` SET status = 'INACTIVE' WHERE status = 'INACTIF';
+UPDATE `partner` SET status = 'CANCELED' WHERE status = 'BANNI';
+ALTER TABLE `partner` CHANGE `status` `status` ENUM('ACTIVE','INACTIVE','CANCELED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'INACTIVE';
+ALTER TABLE `partner` DROP `image`;
+ALTER TABLE `partner` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `order`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+ALTER TABLE `partner` ADD `contact` VARCHAR(255) NULL AFTER `url`;
+
+
