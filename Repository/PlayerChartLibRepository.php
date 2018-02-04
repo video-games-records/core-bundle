@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -61,6 +62,44 @@ class PlayerChartLibRepository extends EntityRepository
      */
     public function getTopValues($group)
     {
+        $query = $this->getScoreQuery();
+
+        // group
+        $query->andWhere('c.idGroup = :idGroup')
+            ->setParameter('idGroup', $group->getId());
+
+        // top score
+        $query->andWhere('pc.topScore = 1');
+
+        return $this->getScores($query);
+    }
+
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
+     * @param \VideoGamesRecords\CoreBundle\Entity\Player $player
+     * @return array
+     */
+    public function getPlayerScore($group, $player)
+    {
+        $query = $query = $this->getScoreQuery();
+
+        // group
+        $query->andWhere('c.idGroup = :idGroup')
+            ->setParameter('idGroup', $group->getId());
+
+        // player
+        $query->andWhere('pc.player = :player')
+            ->setParameter('player', $player);
+
+        return $this->getScores($query);
+    }
+
+
+    /**
+     * @return QueryBuilder
+     */
+    private function getScoreQuery()
+    {
         $query = $this->createQueryBuilder('pcl')
             ->join('pcl.libChart', 'lib')
             ->addSelect('lib')
@@ -71,15 +110,18 @@ class PlayerChartLibRepository extends EntityRepository
             ->join('c.playerCharts', 'pc')
             ->join('pc.player', 'p')
             ->addSelect('p.pseudo')
-            ->orderBy('lib.idLibChart');
+            ->orderBy('lib.idLibChart')
+            ->where('pc.player = pcl.player');
+        return $query;
+    }
 
-        $query->where('c.idGroup = :idGroup')
-            ->setParameter('idGroup', $group->getId());
 
-
-        $query->andWhere('pc.topScore = 1')
-            ->andWhere('pc.player = pcl.player');
-
+    /**
+     * @param $query
+     * @return array
+     */
+    private function getScores($query)
+    {
         $result = $query->getQuery()->getArrayResult();
         $list = array();
         foreach ($result as $row) {
