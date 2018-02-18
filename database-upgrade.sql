@@ -80,6 +80,7 @@ RENAME TABLE t_badge_membre TO vgr_player_badge;
 RENAME TABLE t_badge_team TO vgr_team_badge;
 RENAME TABLE t_video TO video;
 RENAME TABLE t_partenaire TO partner;
+RENAME TABLE t_messageprive TO message;
 
 ALTER TABLE `vgr_player` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
@@ -499,7 +500,7 @@ BEGIN
                             /*, MSN, presentation, nbForumMessage, nbCommentaire, boolTeam, boolNewsletter, boolAssoc,
                             boolShowFbLikeBox, boolNotifCommentaire, signature, dateFormat, utcFormat, mailSending, don,
                             idLangue, idLangueForum, idRang, idStatut, idTeam*/
-                          FROM vgr_player;
+                          FROM vgr_player WHERE idPlayer != 0;
   -- Handler for duplicate email
   DECLARE CONTINUE HANDLER FOR 1062
     BEGIN
@@ -745,3 +746,50 @@ ALTER TABLE `partner` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTA
 ALTER TABLE `partner` ADD `contact` VARCHAR(255) NULL AFTER `url`;
 
 
+
+-- MESSAGE
+ALTER TABLE `message` CHANGE `idMessagePrive` `idMessage` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `message` CHANGE `idAuteur` `idSender` INT(11) NULL;
+ALTER TABLE `message` CHANGE `idDestinataire` `idRecipient` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `message` CHANGE `objet` `object` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `message` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
+ALTER TABLE `message` CHANGE `dateModification` `updated_at` DATETIME NOT NULL;
+ALTER TABLE `message` CHANGE `boolOpen` `isOpened` TINYINT(4) NOT NULL DEFAULT '0';
+ALTER TABLE `message` CHANGE `boolDeleteAuteur` `isDeletedSender` TINYINT(4) NOT NULL DEFAULT '0';
+ALTER TABLE `message` CHANGE `boolDeleteDestinataire` `isDeletedRecipient` TINYINT(4) NOT NULL DEFAULT '0';
+ALTER TABLE `message` ADD `type` VARCHAR(50) NOT NULL DEFAULT 'DEFAULT' AFTER `object`;
+
+UPDATE `message` SET type = 'VGR_PROOF_ACCEPTED' WHERE vgr_proof = 1 AND vgr_accepted = 1;
+UPDATE `message` SET type = 'VGR_PROOF_REFUSED' WHERE vgr_proof = 1 AND vgr_accepted = 0;
+UPDATE `message` SET type = 'VGR_REQUEST_ACCEPTED' WHERE vgr_request = 1 AND vgr_accepted = 1;
+UPDATE `message` SET type = 'VGR_REQUEST_REFUSED' WHERE vgr_request = 1 AND vgr_accepted = 0;
+UPDATE `message` SET type = 'VIDEO_COMMENT' WHERE  commentaireVideo = 1;
+UPDATE `message` SET type = 'FORUM_NOTIF' WHERE  notification = 1;
+
+ALTER TABLE `message` DROP `boolRepondre`;
+ALTER TABLE `message` DROP `notification`;
+ALTER TABLE `message` DROP `commentaireVideo`;
+ALTER TABLE `message` DROP `vgr_request`;
+ALTER TABLE `message` DROP `vgr_proof`;
+ALTER TABLE `message` DROP `vgr_accepted`;
+
+ALTER TABLE `message` ADD INDEX `idxType` (`type`);
+
+
+ALTER TABLE message DROP FOREIGN KEY message_ibfk_1;
+ALTER TABLE message DROP FOREIGN KEY message_ibfk_2;
+
+UPDATE message SET idSender = null WHERE idSender = 0;
+
+UPDATE message m, vgr_player p
+SET m.idSender = p.normandie_user_id
+WHERE m.idSender = p.idPlayer;
+
+
+UPDATE message m, vgr_player p
+SET m.idRecipient = p.normandie_user_id
+WHERE m.idRecipient = p.idPlayer;
+
+
+ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `message` ADD CONSTRAINT `fk_recipient` FOREIGN KEY (`idRecipient`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
