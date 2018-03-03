@@ -20,3 +20,17 @@ services:
         arguments: ["@=service('doctrine').getRepository('VideoGamesRecordsCoreBundle:Player')"]
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }
+    VideoGamesRecords\CoreBundle\Controller\Api\GameController:
+        arguments: ['@serializer']
+        public: true
+    VideoGamesRecords\CoreBundle\Controller\Api\RankingController:
+        arguments: ['@serializer']
+        public: true
+    array_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+        public: false
+        tags: [serializer.normalizer]
+    json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+        public: false
+        tags: [serializer.encoder]

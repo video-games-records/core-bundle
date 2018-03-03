@@ -13,13 +13,14 @@ class GameRepository extends EntityRepository
      *
      * @param string $letter
      * @param string $locale
-     * @return array
+     *
+     * @return \Doctrine\ORM\Query
      */
     public function findWithLetter($letter, $locale)
     {
         $query = $this->createQueryBuilder('g')
             ->addSelect('translation');
-        if ($letter == '0') {
+        if ($letter === '0') {
             $query
                 ->innerJoin('g.translations', 'translation')
                 ->where('SUBSTRING(translation.name , 1, 1) NOT IN (:list)')
@@ -38,7 +39,7 @@ class GameRepository extends EntityRepository
         $this->onlyActive($query);
         $this->withPlatforms($query);
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery();
     }
 
     /**

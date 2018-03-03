@@ -1,0 +1,58 @@
+VideoGamesRecords\CoreBundle\Entity\Game:
+  attributes:
+    id:
+      groups:
+        - 'game_show'
+        - 'game_list'
+    picture:
+      groups:
+        - 'game_show'
+        - 'game_list'
+    status:
+      groups: []
+    etat:
+      groups: []
+    dateActivation:
+      groups: []
+    boolDlc:
+      groups: []
+    nbChart:
+      groups:
+        - 'game_show'
+        - 'game_list'
+    nbPost:
+      groups:
+        - 'game_show'
+        - 'game_list'
+    nbPlayer:
+      groups:
+        - 'game_show'
+        - 'game_list'
+    nbTeam:
+      groups:
+        - 'game_show'
+        - 'game_list'
+    ordre:
+      groups: []
+    serie:
+      groups:
+        - 'game_show'
+    badge:
+      groups:
+        - 'game_show'
+    platforms:
+      groups:
+        - 'game_show'
+        - 'game_list'
+    name:
+      groups:
+        - 'game_show'
+        - 'game_list'
+    slug:
+        - 'game_show'
+        - 'game_list'
+    createdAt:
+      groups:
+        - 'game_show'
+    updatedAt:
+        - 'game_show'

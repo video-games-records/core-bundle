@@ -1,0 +1,10 @@
+VideoGamesRecords\CoreBundle\Entity\Player:
+  attributes:
+    pseudo:
+      groups:
+        - 'ranking_point'
+        - 'ranking_medal'
+    avatar:
+      groups:
+        - 'ranking_point'
+        - 'ranking_medal'
