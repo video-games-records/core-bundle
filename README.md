@@ -1,7 +1,8 @@
 VideoGamesRecordsCoreBundle
 ===========================
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/464c439d-2dce-4c20-a8bd-810389e9e81e/mini.png)](https://insight.sensiolabs.com/projects/464c439d-2dce-4c20-a8bd-810389e9e81e)[![Build Status](https://travis-ci.org/video-games-records/CoreBundle.svg?branch=master)](https://travis-ci.org/video-games-records/CoreBundle)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/?branch=develop)
+[![Build Status](https://travis-ci.org/video-games-records/CoreBundle.svg?branch=master)](https://travis-ci.org/video-games-records/CoreBundle)
 
 Installation
 ============
