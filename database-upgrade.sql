@@ -82,6 +82,9 @@ RENAME TABLE t_video TO video;
 RENAME TABLE t_partenaire TO partner;
 RENAME TABLE t_messageprive TO message;
 
+RENAME TABLE vgr_demandepreuve TO vgr_proof_request;
+RENAME TABLE vgr_preuves TO vgr_proof;
+
 ALTER TABLE `vgr_player` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
 
@@ -654,7 +657,9 @@ UPDATE `vgr_player_chart_status` SET boolSendProof = 1 WHERE idStatus IN (1,3,7)
 
 
 
--- BUNDLE VIDEO --
+--
+-- VIDEO Part
+--
 ALTER TABLE video CHANGE statut status ENUM('UPLOAD','WORK','OK','ERROR','UPLOADED','IN PROGRESS') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UPLOADED';
 UPDATE video SET status = 'UPLOADED' WHERE status = 'UPLOAD';
 UPDATE video SET status = 'IN PROGRESS' WHERE status = 'WORK';
@@ -667,7 +672,9 @@ ALTER TABLE video CHANGE nbCommentaire nbComment INT(10) UNSIGNED NOT NULL DEFAU
 
 
 
--- GAME TOPIC et MESSAGE
+--
+-- VGR GAME MESSAGE Part
+--
 CREATE TABLE vgr_game_topic (idTopic int(11) NOT NULL, idGame int(11) NOT NULL, idPlayer int(11) NOT NULL, libTopic varchar(255) NOT NULL, created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, oldIdTopic int(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -701,12 +708,6 @@ ALTER TABLE vgr_game_message
   ADD CONSTRAINT fk_game_message_topic FOREIGN KEY (idTopic) REFERENCES vgr_game_topic (idTopic);
 
 
-SELECT vgr_game.id, libTopic, idMembre
-FROM t_forum
-  INNER JOIN vgr_game ON t_forum.idForum = vgr_game.idForum
-  INNER JOIN t_forum_topic ON t_forum_topic.idForum = t_forum.idForum;
-
-
 INSERT INTO vgr_game_topic (idPlayer, idGame, libTopic, oldIdTopic)
 SELECT idMembre,vgr_game.id, libTopic, idTopic
 FROM t_forum
@@ -732,7 +733,9 @@ ALTER TABLE t_forum_topic ADD CONSTRAINT t_forum_topic_ibfk_2 FOREIGN KEY (idFor
 DELETE FROM t_forum WHERE idForumPere = 42;
 
 
--- PARTNER
+--
+-- PARTNER Part
+--
 ALTER TABLE `partner` CHANGE `idPartenaire` `idPartner` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `partner` CHANGE `libPartenaire` `libPartner` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `partner` CHANGE `commentaire` `comment` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
@@ -747,7 +750,9 @@ ALTER TABLE `partner` ADD `contact` VARCHAR(255) NULL AFTER `url`;
 
 
 
--- MESSAGE
+--
+-- MESSAGE Part
+--
 ALTER TABLE `message` CHANGE `idMessagePrive` `idMessage` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `message` CHANGE `idAuteur` `idSender` INT(11) NULL;
 ALTER TABLE `message` CHANGE `idDestinataire` `idRecipient` INT(11) NOT NULL DEFAULT '0';
@@ -785,6 +790,7 @@ UPDATE message m, vgr_player p
 SET m.idSender = p.normandie_user_id
 WHERE m.idSender = p.idPlayer;
 
+DELETE FROM message WHERE idRecipient = 0;
 
 UPDATE message m, vgr_player p
 SET m.idRecipient = p.normandie_user_id
@@ -793,3 +799,119 @@ WHERE m.idRecipient = p.idPlayer;
 
 ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `message` ADD CONSTRAINT `fk_recipient` FOREIGN KEY (`idRecipient`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- VGR PROOF PART
+--
+
+-- request
+ALTER TABLE `vgr_proof_request` CHANGE `idDemande` `idRequest` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_proof_request` CHANGE `idMembre` `idPlayer` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_proof_request` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_proof_request` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
+ALTER TABLE `vgr_proof_request` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+UPDATE `vgr_proof_request` SET updated_at = NOW() WHERE CAST(updated_at AS CHAR(20)) LIKE '0%';
+ALTER TABLE `vgr_proof_request` CHANGE `statut` `status` ENUM('EN COURS','FINI','IN PROGRESS','REFUSED','ACCEPTED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
+ALTER TABLE `vgr_proof_request` CHANGE `idDemandeur` `idPlayerRequesting` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_proof_request` CHANGE `texte` `message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `vgr_proof_request` CHANGE `dateAcceptation` `dateAcceptance` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `vgr_proof_request` CHANGE `idAdmin` `idPlayerResponding` INT(11) NULL DEFAULT NULL;
+UPDATE `vgr_proof_request` SET status = 'REFUSED' WHERE status = 'FINI' AND dateAcceptance IS NULL;
+UPDATE `vgr_proof_request` SET status = 'ACCEPTED' WHERE status = 'FINI' AND dateAcceptance IS NOT NULL;
+UPDATE `vgr_proof_request` SET status = 'IN PROGRESS' WHERE status = 'EN COURS';
+ALTER TABLE `vgr_proof_request` CHANGE `status` `status` ENUM('IN PROGRESS','REFUSED','ACCEPTED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
+ALTER TABLE `vgr_proof_request` ADD `idPlayerChart` INT NOT NULL AFTER `idRequest`;
+UPDATE `vgr_proof_request` r, `vgr_player_chart` c
+SET r.idPlayerChart = c.idPlayerChart
+WHERE r.idPlayer = c.idPlayer AND r.idChart = c.idChart;
+DELETE FROM `vgr_proof_request` WHERE idPlayerChart = 0;
+ALTER TABLE `vgr_proof_request` ADD INDEX(`idPlayerChart`);
+ALTER TABLE `vgr_proof_request` ADD FOREIGN KEY (`idPlayerChart`) REFERENCES `vgr_player_chart`(`idPlayerChart`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+
+-- proof
+ALTER TABLE `vgr_proof` CHANGE `idPreuve` `idProof` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_proof` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
+ALTER TABLE `vgr_proof` CHANGE `idRecord` `idChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_proof` CHANGE `dateAjout` `created_at` DATETIME NOT NULL;
+ALTER TABLE `vgr_proof` ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `bAccept`;
+ALTER TABLE `vgr_proof` CHANGE `idAdmin` `idPlayerResponding` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `vgr_proof` CHANGE `bAccept` `boolAccepted` TINYINT(1) NULL DEFAULT NULL;
+UPDATE `vgr_proof` set updated_at = dateTraitement WHERE boolAccepted IS NOT NULL;
+UPDATE `vgr_proof` set updated_at = created_at WHERE boolAccepted IS NULL;
+ALTER TABLE `vgr_proof` DROP `dateTraitement`;
+ALTER TABLE `vgr_proof` ADD `idPicture` INT NULL AFTER `idChart`;
+ALTER TABLE `vgr_proof` CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `vgr_proof` ADD INDEX(`idPicture`);
+ALTER TABLE `vgr_proof` ADD `status` ENUM('IN PROGRESS','REFUSED','ACCEPTED') NOT NULL DEFAULT 'IN PROGRESS' AFTER `idVideo`, ADD INDEX (`status`);
+UPDATE `vgr_proof` SET status = 'ACCEPTED' WHERE boolAccepted = 1;
+UPDATE `vgr_proof` SET status = 'REFUSED' WHERE boolAccepted = 0;
+ALTER TABLE `vgr_proof` DROP `boolAccepted`;
+
+
+-- playerChart
+ALTER TABLE `vgr_player_chart` ADD `idProof` INT NULL AFTER `idStatus`;
+
+
+-- VGR PROOF PLAYER CHART
+CREATE TABLE `vgr_proof_player_chart` (
+  `idProof` int(11) NOT NULL,
+  `idPlayerChart` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `vgr_proof_player_chart` ADD FOREIGN KEY (`idProof`) REFERENCES `vgr_proof`(`idProof`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `vgr_proof_player_chart` ADD FOREIGN KEY (`idPlayerChart`) REFERENCES `vgr_player_chart`(`idPlayerChart`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+
+-- update
+UPDATE vgr_proof p, vgr_player_chart pc
+SET p.idPicture = pc.idPicture
+WHERE p.idPlayer = pc.idPlayer
+      AND p.idChart = pc.idChart;
+
+UPDATE vgr_proof p, vgr_player_chart pc
+SET p.idVideo = pc.idVideo
+WHERE p.idPlayer = pc.idPlayer
+      AND p.idChart = pc.idChart;
+
+
+-- delete
+DELETE FROM vgr_proof WHERE idPlayer NOT IN (SELECT idPlayer FROM vgr_player);
+UPDATE vgr_proof SET idVideo = NULL WHERE idVideo = 0;
+DELETE FROM vgr_proof WHERE idPicture IS NULL AND idVideo IS NULL;
+
+
+-- insert from vgr_proof / vgr_player_chart
+INSERT INTO vgr_proof_player_chart (idProof, idPlayerChart)
+  SELECT p.idProof,pc.idPlayerChart
+  FROM vgr_player_chart pc INNER JOIN vgr_proof p ON pc.idPicture = p.idPicture
+  WHERE pc.idPicture = p.idPicture
+        AND pc.idPicture IS NOT NULL;
+
+-- Attention pas de video + picture en même temps
+UPDATE vgr_player_chart SET idVideo = 0 WHERE idPicture IS NOT NULL and idVideo != 0;
+
+-- insert
+INSERT INTO vgr_proof_player_chart (idProof, idPlayerChart)
+  SELECT p.idProof,pc.idPlayerChart
+  FROM vgr_player_chart pc INNER JOIN vgr_proof p ON pc.idVideo = p.idVideo
+  WHERE pc.idVideo = p.idVideo
+        AND pc.idVideo != 0;
+
+-- update from vgr_proof_player_chart
+UPDATE vgr_player_chart pc, vgr_proof_player_chart ppc
+SET pc.idProof = ppc.idProof
+WHERE pc.idPlayerChart = ppc.idPlayerChart;
+
+
+-- drop
+ALTER TABLE `vgr_player_chart` DROP `idVideo`;
+ALTER TABLE `vgr_player_chart` DROP `preuveImage`;
+ALTER TABLE `vgr_player_chart` DROP `idPicture`;
+ALTER TABLE vgr_proof_request DROP FOREIGN KEY vgr_proof_request_ibfk_1;
+ALTER TABLE vgr_proof_request DROP FOREIGN KEY vgr_proof_request_ibfk_3;
+ALTER TABLE vgr_proof_request DROP INDEX idxUnique;
+ALTER TABLE vgr_proof_request DROP COLUMN idPlayer;
+ALTER TABLE vgr_proof_request DROP COLUMN idChart;
+ALTER TABLE vgr_proof DROP COLUMN idPlayer;
+ALTER TABLE vgr_proof DROP COLUMN idChart;
