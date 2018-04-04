@@ -117,6 +117,16 @@ class PlayerChart
     private $status;
 
     /**
+     * @var Platform
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="idPlatform")
+     * })
+     */
+    private $platform;
+
+    /**
      * Set idPlayerChart
      *
      * @param integer $idPlayerChart
@@ -385,6 +395,29 @@ class PlayerChart
     public function getProof()
     {
         return $this->proof;
+    }
+
+
+    /**
+     * Set platform
+     *
+     * @param Platform $platform
+     * @return PlayerChart
+     */
+    public function setPlatform(Platform $platform = null)
+    {
+        $this->platform = $platform;
+        return $this;
+    }
+
+    /**
+     * Get platform
+     *
+     * @return Platform
+     */
+    public function getPlatform()
+    {
+        return $this->platform;
     }
 
 

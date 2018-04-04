@@ -55,6 +55,8 @@ class SubmitController extends Controller
             $nbInsert = 0;
             $nbUpdate = 0;
 
+            $platform = $data['platform'];
+
             foreach ($charts as $chart) {
                 //----- init
                 $isNull = false;
@@ -104,6 +106,7 @@ class SubmitController extends Controller
                         $playerChart->setPlayer($player);
                         $playerChart->setChart($chart);
                     }
+                    $playerChart->setPlatform($platform);
 
                     $playerChart->setStatus($em->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
                     $playerChart->setDateModif(new \DateTime());
