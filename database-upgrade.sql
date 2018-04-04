@@ -48,6 +48,7 @@ DROP VIEW IF EXISTS view_record_membre_last;
 DROP VIEW IF EXISTS view_team_cup;
 DROP VIEW IF EXISTS view_team_demande;
 DROP VIEW IF EXISTS view_topscore;
+DROP VIEW IF EXISTS view_topScore;
 DROP VIEW IF EXISTS view_video;
 
 -- TRUNCATE t_session;
@@ -173,6 +174,7 @@ ALTER TABLE `vgr_game` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` DROP `imagePlateForme`;
 ALTER TABLE `vgr_game` ADD `nbTeam` INT NOT NULL DEFAULT '0' AFTER `nbPlayer`;
 ALTER TABLE `vgr_game` ADD slug VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `vgr_game` add `nbPlatform` INT(11) NOT NULL DEFAULT '0';
 UPDATE `vgr_game` SET
     slug = lower(libJeu_en),
     slug = replace(slug, '.', ' '),
@@ -203,6 +205,10 @@ UPDATE `vgr_game` SET
 INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJeu_fr, 'fr' FROM vgr_game;
 INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJeu_en, 'en' FROM vgr_game;
 ALTER TABLE vgr_game DROP libJeu_fr, DROP libJeu_en;
+
+
+UPDATE vgr_game a
+SET nbPlatform = (SELECT COUNT(idGame) FROM vgr_game_platform WHERE idGame = a.id);
 
 -- Groups
 CREATE TABLE vgr_group_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX game_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
@@ -310,6 +316,29 @@ ALTER TABLE `vgr_player_chart` DROP PRIMARY KEY;
 ALTER TABLE `vgr_player_chart` ADD `idPlayerChart` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`idPlayerChart`);
 ALTER TABLE `vgr_player_chart` ADD UNIQUE( `idChart`, `idPlayer`);
 ALTER TABLE `vgr_player_chart` ADD `dateInvestigation` DATE NULL AFTER `isTopScore`;
+ALTER TABLE `vgr_player_chart` ADD `idPlatform` INT NULL;
+
+-- maj idPlatform
+CREATE VIEW view_chart_platform
+  AS
+    SELECT a.idGame, d.id as idChart, b.idPlatform
+  FROM
+    (SELECT idGame, count(idPlatform) as nb
+     FROM vgr_game_platform
+     GROUP BY idGame
+     HAVING nb = 1
+    ) a
+  INNER JOIN vgr_game_platform b ON a.idGame = b.idGame
+  INNER JOIN vgr_group c ON b.idGame = c.idGame
+  INNER JOIN vgr_chart d ON c.id = d.idGroup;
+
+UPDATE vgr_player_chart a, view_chart_platform b
+SET a.idPlatform = b.idPlatform
+WHERE a.idChart = b.idChart;
+DROP view view_chart_platform;
+
+
+
 
 ALTER TABLE `vgr_player_chartlib` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL;

@@ -5,7 +5,9 @@ namespace VideoGamesRecords\CoreBundle\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormInterface;
+use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 
 class SubmitFormFactory
@@ -26,6 +28,16 @@ class SubmitFormFactory
             ->add('valid', SubmitType::class);
 
 
+        // platform
+        $chart = $charts[0];
+
+        $form->add('platform', EntityType::class, array(
+            'required'   => false,
+            'class' => Platform::class,
+            'choice_label' => 'libPlatform',
+            //'choices' => $chart->getGroup()->getGame()->getPlatforms()
+        ));
+
         foreach ($charts as $chart) {
             $form->add('name_' . $chart->getId(), HiddenType::class, ['label' => $chart->getLibChart()]);
 
@@ -41,6 +53,7 @@ class SubmitFormFactory
                         'value_' . $chart->getId() . '_' . $lib->getIdLibChart() . '_' . $i,
                         TextType::class,
                         [
+                            'required'   => false,
                             'label' => ($i == 1) ? $lib->getType()->getName() : null,
                             'attr' => [
                                 'maxlength' => $input['size'],

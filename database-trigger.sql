@@ -229,3 +229,25 @@ BEGIN
   END IF;
 END //
 delimiter ;
+
+
+-- GamePlatform
+delimiter //
+DROP TRIGGER IF EXISTS `vgrGamePlatformAfterInsert`//
+CREATE TRIGGER vgrGamePlatformAfterInsert AFTER INSERT ON vgr_game_platform
+	FOR EACH ROW
+	UPDATE vgr_game
+	SET nbPlatform = (SELECT COUNT(idPlatform) FROM vgr_game_platform WHERE idGame = NEW.idGame)
+	WHERE id = NEW.idGame //
+delimiter ;
+
+
+delimiter //
+DROP TRIGGER IF EXISTS `vgrGamePlatformAfterDelete`//
+CREATE TRIGGER vgrGamePlatformAfterDelete AFTER DELETE ON vgr_game_platform
+	FOR EACH ROW
+	UPDATE vgr_game
+	SET nbPlatform = (SELECT COUNT(idPlatform) FROM vgr_game_platform WHERE idGame = OLD.idGame)
+	WHERE id = OLD.idGame //
+delimiter ;
+
