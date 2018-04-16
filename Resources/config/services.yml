@@ -34,3 +34,9 @@ services:
         class: Symfony\Component\Serializer\Encoder\JsonEncoder
         public: false
         tags: [serializer.encoder]
+    vgr.game:
+        class:    VideoGamesRecords\CoreBundle\Service\Game
+        arguments: [
+            "@=service('doctrine.orm.default_entity_manager')",
+            "%kernel.root_dir%"
+            ]
