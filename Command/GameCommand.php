@@ -41,6 +41,14 @@ class GameCommand extends DefaultCommand
                 $idGame = $input->getOption('idGame');
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj($idGame);
                 break;
+            case 'add-from-csv':
+                $service = $this->getContainer()->get('vgr.game');
+                $service->addFromCsv();
+                break;
+            case 'update-from-csv':
+                $service = $this->getContainer()->get('vgr.game');
+                $service->updateFromCsv();
+                break;
         }
         return true;
     }
