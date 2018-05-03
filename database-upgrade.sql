@@ -207,9 +207,6 @@ INSERT INTO vgr_game_translation (translatable_id, name, locale) SELECT id, libJ
 ALTER TABLE vgr_game DROP libJeu_fr, DROP libJeu_en;
 
 
-UPDATE vgr_game a
-SET nbPlatform = (SELECT COUNT(idGame) FROM vgr_game_platform WHERE idGame = a.id);
-
 -- Groups
 CREATE TABLE vgr_group_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX game_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 ALTER TABLE `vgr_group` CHANGE `idGroupe` `id` INT(11) NOT NULL AUTO_INCREMENT;
@@ -318,26 +315,6 @@ ALTER TABLE `vgr_player_chart` ADD UNIQUE( `idChart`, `idPlayer`);
 ALTER TABLE `vgr_player_chart` ADD `dateInvestigation` DATE NULL AFTER `isTopScore`;
 ALTER TABLE `vgr_player_chart` ADD `idPlatform` INT NULL;
 
--- maj idPlatform
-CREATE VIEW view_chart_platform
-  AS
-    SELECT a.idGame, d.id as idChart, b.idPlatform
-  FROM
-    (SELECT idGame, count(idPlatform) as nb
-     FROM vgr_game_platform
-     GROUP BY idGame
-     HAVING nb = 1
-    ) a
-  INNER JOIN vgr_game_platform b ON a.idGame = b.idGame
-  INNER JOIN vgr_group c ON b.idGame = c.idGame
-  INNER JOIN vgr_chart d ON c.id = d.idGroup;
-
-UPDATE vgr_player_chart a, view_chart_platform b
-SET a.idPlatform = b.idPlatform
-WHERE a.idChart = b.idChart;
-DROP view view_chart_platform;
-
-
 
 
 ALTER TABLE `vgr_player_chartlib` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
@@ -400,6 +377,10 @@ ALTER TABLE `vgr_platform` CHANGE `classPlateforme` `class` VARCHAR(30) NOT NULL
 
 ALTER TABLE `vgr_game_platform` CHANGE `idJeu` `idGame` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_game_platform` CHANGE `idPlateForme` `idPlatform` INT(11) NOT NULL DEFAULT '0';
+
+UPDATE vgr_game a
+SET nbPlatform = (SELECT COUNT(idGame) FROM vgr_game_platform WHERE idGame = a.id);
+
 
 ALTER TABLE `vgr_player_chart_status` CHANGE `idEtat` `idStatus` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_player_chart_status` CHANGE `libEtat` `libStatus` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
@@ -931,6 +912,26 @@ INSERT INTO vgr_proof_player_chart (idProof, idPlayerChart)
 UPDATE vgr_player_chart pc, vgr_proof_player_chart ppc
 SET pc.idProof = ppc.idProof
 WHERE pc.idPlayerChart = ppc.idPlayerChart;
+
+
+-- maj idPlatform
+CREATE VIEW view_chart_platform
+  AS
+    SELECT a.idGame, d.id as idChart, b.idPlatform
+  FROM
+    (SELECT idGame, count(idPlatform) as nb
+     FROM vgr_game_platform
+     GROUP BY idGame
+     HAVING nb = 1
+    ) a
+  INNER JOIN vgr_game_platform b ON a.idGame = b.idGame
+  INNER JOIN vgr_group c ON b.idGame = c.idGame
+  INNER JOIN vgr_chart d ON c.id = d.idGroup;
+
+UPDATE vgr_player_chart a, view_chart_platform b
+SET a.idPlatform = b.idPlatform
+WHERE a.idChart = b.idChart;
+DROP view view_chart_platform;
 
 
 -- drop
