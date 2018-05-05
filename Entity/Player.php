@@ -18,9 +18,9 @@ class Player
     use Sluggable;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var \VideoGamesRecords\CoreBundle\Entity\UserInterface
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\UserInterface")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
      */
     private $normandieUser;
@@ -33,12 +33,6 @@ class Player
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idPlayer;
-
-    /**
-     * @var integer
-     * @ORM\Column(name="idTeam", type="integer", nullable=true)
-     */
-    private $idTeam;
 
     /**
      * @var string
@@ -285,28 +279,6 @@ class Player
     public function getIdPlayer()
     {
         return $this->idPlayer;
-    }
-
-    /**
-     * Set idTeam
-     *
-     * @param integer $idTeam
-     * @return Player
-     */
-    public function setIdTeam($idTeam)
-    {
-        $this->idTeam = $idTeam;
-
-        return $this;
-    }
-
-    /**
-     * Get idTeam
-     * @return integer
-     */
-    public function getIdTeam()
-    {
-        return $this->idTeam;
     }
 
     /**
@@ -954,7 +926,7 @@ class Player
     }
 
     /**
-     * @return \AppBundle\Entity\User
+     * @return \VideoGamesRecords\CoreBundle\Entity\UserInterface
      */
     public function getNormandieUser()
     {
@@ -962,7 +934,7 @@ class Player
     }
 
     /**
-     * @param \AppBundle\Entity\User $normandieUser
+     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $normandieUser
      * @return Player
      */
     public function setNormandieUser($normandieUser)
@@ -995,9 +967,7 @@ class Player
     public function setTeam(Team $team = null)
     {
         $this->team = $team;
-        if ($team !== null) {
-            $this->setIdTeam($team->getIdTeam());
-        }
+
         return $this;
     }
 
@@ -1033,9 +1003,6 @@ class Player
      */
     public function isLeader()
     {
-        if (($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getIdPlayer())) {
-            return true;
-        }
-        return false;
+        return ($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getIdPlayer());
     }
 }

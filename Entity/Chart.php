@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatusPlayer", columns={"statusPlayer"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
+ * @method ChartTranslation translate(string $locale, bool $fallbackToDefault)
  */
 class Chart
 {
@@ -35,13 +36,6 @@ class Chart
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idGroup", type="integer", nullable=false)
-     */
-    private $idGroup;
 
     /**
      * @var string
@@ -70,7 +64,7 @@ class Chart
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", inversedBy="charts")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id", nullable=false)
      * })
      */
     private $group;
@@ -127,29 +121,6 @@ class Chart
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set idGroup
-     *
-     * @param integer $idGroup
-     * @return Chart
-     */
-    public function setIdGroup($idGroup)
-    {
-        $this->idGroup = $idGroup;
-
-        return $this;
-    }
-
-    /**
-     * Get idGroup
-     *
-     * @return integer
-     */
-    public function getIdGroup()
-    {
-        return $this->idGroup;
     }
 
     /**
@@ -276,7 +247,7 @@ class Chart
     public function setGroup(Group $group = null)
     {
         $this->group = $group;
-        $this->setIdGroup($group->getId());
+
         return $this;
     }
 

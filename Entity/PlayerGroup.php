@@ -12,25 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PlayerGroup
 {
-
-    /**
-     * @ORM\Column(name="idPlayer", type="integer")
-     * @ORM\Id
-     */
-    private $idPlayer;
-
-    /**
-     * @ORM\Column(name="idGroup", type="integer")
-     * @ORM\Id
-     */
-    private $idGroup;
-
     /**
      * @var Player
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer", nullable=false)
      * })
      */
     private $player;
@@ -38,9 +26,10 @@ class PlayerGroup
     /**
      * @var Group
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id", nullable=false)
      * })
      */
     private $group;
@@ -121,51 +110,6 @@ class PlayerGroup
      * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
     private $nbChartProven;
-
-    /**
-     * Set idPlayer
-     *
-     * @param integer $idPlayer
-     * @return $this
-     */
-    public function setIdPlayer($idPlayer)
-    {
-        $this->idPlayer = $idPlayer;
-        return $this;
-    }
-
-    /**
-     * Get idPlayer
-     *
-     * @return integer
-     */
-    public function getIdPlayer()
-    {
-        return $this->idPlayer;
-    }
-
-    /**
-     * Set idGroup
-     *
-     * @param integer $idGroup
-     * @return $this
-     */
-    public function setIdGroup($idGroup)
-    {
-        $this->idGroup = $idGroup;
-        return $this;
-    }
-
-    /**
-     * Get idGroup
-     *
-     * @return integer
-     */
-    public function getIdGroup()
-    {
-        return $this->idGroup;
-    }
-
 
     /**
      * Set rankPointChart
@@ -419,7 +363,7 @@ class PlayerGroup
     public function setGroup(Group $group = null)
     {
         $this->group = $group;
-        $this->setIdGroup($group->getId());
+
         return $this;
     }
 
@@ -443,7 +387,7 @@ class PlayerGroup
     public function setPlayer(Player $player = null)
     {
         $this->player = $player;
-        $this->setIdPlayer($player->getIdPlayer());
+
         return $this;
     }
 

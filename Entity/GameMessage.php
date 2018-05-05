@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Player\Player;
+use VideoGamesRecords\CoreBundle\Model\Player as PlayerModel;
 
 /**
  * GameMessage
@@ -16,8 +16,7 @@ use VideoGamesRecords\CoreBundle\Model\Player\Player;
 class GameMessage
 {
     use Timestampable;
-    use Player;
-
+    use PlayerModel;
 
     /**
      * @var integer
@@ -27,12 +26,6 @@ class GameMessage
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idMessage;
-
-    /**
-     * @var integer
-     * @ORM\Column(name="idTopic", type="integer", nullable=false)
-     */
-    private $idTopic;
 
     /**
      * @var string
@@ -48,7 +41,7 @@ class GameMessage
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameTopic", inversedBy="messages")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTopic", referencedColumnName="idTopic")
+     *   @ORM\JoinColumn(name="idTopic", referencedColumnName="idTopic", nullable=false)
      * })
      */
     private $topic;
@@ -84,28 +77,6 @@ class GameMessage
     }
 
     /**
-     * Set idTopic
-     *
-     * @param integer $idTopic
-     * @return GameMessage
-     */
-    public function setIdTopic($idTopic)
-    {
-        $this->idTopic = $idTopic;
-        return $this;
-    }
-
-    /**
-     * Get idTopic
-     *
-     * @return integer
-     */
-    public function getIdTopic()
-    {
-        return $this->idTopic;
-    }
-
-    /**
      * Set text
      *
      * @param string $text
@@ -136,7 +107,7 @@ class GameMessage
     public function setTopic(GameTopic $topic = null)
     {
         $this->topic = $topic;
-        $this->setIdTopic($topic->getIdTopic());
+
         return $this;
     }
 

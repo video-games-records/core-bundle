@@ -24,20 +24,6 @@ class LostPosition
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPlayer", type="integer", nullable=false, options={"default":0})
-     */
-    private $idPlayer;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idChart", type="integer", nullable=false, options={"default":0})
-     */
-    private $idChart;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="oldRank", type="integer", nullable=false, options={"default":0})
      */
     private $oldRank;
@@ -61,7 +47,7 @@ class LostPosition
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer", nullable=false)
      * })
      */
     private $player;
@@ -71,7 +57,7 @@ class LostPosition
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
      */
     private $chart;
@@ -101,50 +87,6 @@ class LostPosition
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set idPlayer
-     *
-     * @param integer $idPlayer
-     * @return LostPosition
-     */
-    public function setIdPlayer($idPlayer)
-    {
-        $this->idPlayer = $idPlayer;
-        return $this;
-    }
-
-    /**
-     * Get idPlayer
-     *
-     * @return integer
-     */
-    public function geIdPlayer()
-    {
-        return $this->idPlayer;
-    }
-
-    /**
-     * Set idChart
-     *
-     * @param integer $idChart
-     * @return LostPosition
-     */
-    public function setIdChart($idChart)
-    {
-        $this->idChart = $idChart;
-        return $this;
-    }
-
-    /**
-     * Get idChart
-     *
-     * @return integer
-     */
-    public function geIdChart()
-    {
-        return $this->idChart;
     }
 
     /**
@@ -223,7 +165,7 @@ class LostPosition
     public function setChart(Chart $chart = null)
     {
         $this->chart = $chart;
-        $this->setIdChart($chart->getId());
+
         return $this;
     }
 
@@ -247,7 +189,7 @@ class LostPosition
     public function setPlayer(Player $player = null)
     {
         $this->player = $player;
-        $this->setIdPlayer($player->getIdPlayer());
+
         return $this;
     }
 

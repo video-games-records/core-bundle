@@ -1,9 +1,12 @@
 <?php
+
 namespace VideoGamesRecords\CoreBundle\Service;
 
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
+use VideoGamesRecords\CoreBundle\Entity\Game as GameEntity;
+use VideoGamesRecords\CoreBundle\Entity\ChartType;
 
 class Game
 {
@@ -12,33 +15,32 @@ class Game
 
     public function __construct(\Doctrine\ORM\EntityManager $em, $rootDir)
     {
-        $this->em = $em;
+        $this->em        = $em;
         $this->directory = $rootDir . '/../var/data/game';
     }
-
 
     /**
      * Add groups and charts from a csv file
      */
     public function addFromCsv()
     {
-        $files = array_diff(scandir($this->directory . '/in'), array('..', '.'));
+        $files = array_diff(scandir($this->directory . '/in', SCANDIR_SORT_NONE), ['..', '.']);
         foreach ($files as $file) {
-            if (substr($file, 0, 8) != 'game-add') {
+            if (0 !== strpos($file, 'game-add')) {
                 continue;
             }
 
-            $fileIn = $this->directory . '/in/' . $file;
+            $fileIn  = $this->directory . '/in/' . $file;
             $fileOut = $this->directory . '/out/' . $file;
-            $handle = fopen($fileIn, 'r');
-            $idGame = substr($file, 8, -4);
+            $handle  = fopen($fileIn, 'rb');
+            $idGame  = substr($file, 8, -4);
 
             if (!is_numeric($idGame)) {
                 continue;
             }
 
             /** @var \VideoGamesRecords\CoreBundle\Entity\Game $game */
-            $game = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
+            $game = $this->em->getReference(GameEntity::class, $idGame);
 
             if ($game === null) {
                 continue;
@@ -47,12 +49,9 @@ class Game
             $group = null;
             $types = null;
             while (($row = fgetcsv($handle, null, ';')) !== false) {
-                $libEn = $row[1];
-                $libFr = $row[2];
-                if ((in_array($row[0], array('group', 'chart'))) && (isset($row[3]))) {
-                    if ($row[3] != null) {
-                        $types = explode('|', $row[3]);
-                    }
+                list($type, $libEn, $libFr) = $row;
+                if (isset($row[3]) && null !== $row[3] && in_array($type, ['group', 'chart'])) {
+                    $types = explode('|', $row[3]);
                 }
                 switch ($row[0]) {
                     case 'object':
@@ -73,13 +72,12 @@ class Game
                         $chart->setGroup($group);
                         $chart->mergeNewTranslations();
 
-                        if ($types != null) {
+                        if ($types !== null) {
                             foreach ($types as $idType) {
-                                var_dump($idType);
                                 $chartLib = new ChartLib();
                                 $chartLib
                                     ->setChart($chart)
-                                    ->setType($this->em->getReference('VideoGamesRecords\CoreBundle\Entity\ChartType', $idType));
+                                    ->setType($this->em->getReference(ChartType::class, $idType));
                                 $chart->addLib($chartLib);
                             }
                         }
@@ -93,22 +91,21 @@ class Game
         }
     }
 
-
     /**
      * Update groups and charts from a csv file
      */
     public function updateFromCsv()
     {
-        $files = array_diff(scandir($this->directory . '/in'), array('..', '.'));
+        $files = array_diff(scandir($this->directory . '/in', SCANDIR_SORT_NONE), ['..', '.']);
         foreach ($files as $file) {
-            if (substr($file, 0, 11) != 'game-update') {
+            if (0 !== strpos($file, 'game-update')) {
                 continue;
             }
 
-            $fileIn = $this->directory . '/in/' . $file;
+            $fileIn  = $this->directory . '/in/' . $file;
             $fileOut = $this->directory . '/out/' . $file;
-            $handle = fopen($fileIn, 'r');
-            $idGame = substr($file, 11, -4);
+            $handle  = fopen($fileIn, 'rb');
+            $idGame  = substr($file, 11, -4);
 
             if (!is_numeric($idGame)) {
                 continue;
@@ -117,12 +114,10 @@ class Game
             $group = null;
             $types = null;
             while (($row = fgetcsv($handle, null, ';')) !== false) {
-                $id = $row[1];
-                $libEn = $row[2];
-                $libFr = $row[3];
-                switch ($row[0]) {
+                list($type, $id, $libEn, $libFr) = $row;
+                switch ($type) {
                     case 'object':
-                        // DO nohting
+                        // DO nothing
                         break;
                     case 'group':
                         $group = $this->em->getRepository('VideoGamesRecordsCoreBundle:Group')->find($id);
@@ -141,7 +136,7 @@ class Game
                 }
             }
             $this->em->flush();
-            //rename($fileIn, $fileOut);
+            rename($fileIn, $fileOut);
         }
     }
 }

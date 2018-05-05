@@ -15,7 +15,7 @@ use ProjetNormandie\BadgeBundle\Entity\Badge;
  *
  * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
- * @method GameTranslation translate(string $locale, integer $fallbackToDefault)
+ * @method GameTranslation translate(string $locale, bool $fallbackToDefault)
  * @todo check etat / imagePlateforme / ordre
  */
 class Game
@@ -115,20 +115,6 @@ class Game
      * @ORM\Column(name="ordre", type="integer", nullable=true)
      */
     private $ordre;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idSerie", type="integer", nullable=true)
-     */
-    private $idSerie;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idBadge", type="integer", nullable=true)
-     */
-    private $idBadge;
 
     /**
      * @var Serie
@@ -464,29 +450,6 @@ class Game
     }
 
     /**
-     * Set idSerie
-     *
-     * @param integer $idSerie
-     * @return Game
-     */
-    public function setIdSerie($idSerie)
-    {
-        $this->idSerie = $idSerie;
-
-        return $this;
-    }
-
-    /**
-     * Get idSerie
-     *
-     * @return integer
-     */
-    public function getIdSerie()
-    {
-        return $this->idSerie;
-    }
-
-    /**
      * Set serie
      *
      * @param Serie $serie
@@ -495,7 +458,7 @@ class Game
     public function setSerie(Serie $serie = null)
     {
         $this->serie = $serie;
-        $this->setIdSerie($serie->getId());
+
         return $this;
     }
 
@@ -509,30 +472,6 @@ class Game
         return $this->serie;
     }
 
-
-    /**
-     * Set idBadge
-     *
-     * @param integer $idBadge
-     * @return Game
-     */
-    public function setIdBadge($idBadge)
-    {
-        $this->idBadge = $idBadge;
-
-        return $this;
-    }
-
-    /**
-     * Get idBagde
-     *
-     * @return integer
-     */
-    public function getIdBadge()
-    {
-        return $this->idBadge;
-    }
-
     /**
      * Set badge
      *
@@ -542,7 +481,7 @@ class Game
     public function setBadge(Badge $badge = null)
     {
         $this->badge = $badge;
-        $this->setIdBadge($badge->getIdBadge());
+
         return $this;
     }
 

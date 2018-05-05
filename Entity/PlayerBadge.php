@@ -17,18 +17,6 @@ class PlayerBadge
     use Timestampable;
 
     /**
-     * @ORM\Column(name="idPlayer", type="integer")
-     * @ORM\Id
-     */
-    private $idPlayer;
-
-    /**
-     * @ORM\Column(name="idBadge", type="integer")
-     * @ORM\Id
-     */
-    private $idBadge;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="ended_at", type="datetime", nullable=true)
@@ -45,9 +33,10 @@ class PlayerBadge
     /**
      * @var Player
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerBadge")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer", nullable=false)
      * })
      */
     private $player;
@@ -55,57 +44,13 @@ class PlayerBadge
     /**
      * @var Badge
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\BadgeBundle\Entity\Badge", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="idBadge")
+     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="idBadge", nullable=false)
      * })
      */
     private $badge;
-
-    /**
-     * Set idPlayer
-     *
-     * @param integer $idPlayer
-     * @return $this
-     */
-    public function setIdPlayer($idPlayer)
-    {
-        $this->idPlayer = $idPlayer;
-        return $this;
-    }
-
-    /**
-     * Get idPlayer
-     *
-     * @return integer
-     */
-    public function getIdPlayer()
-    {
-        return $this->idPlayer;
-    }
-
-
-    /**
-     * Set idBadge
-     *
-     * @param integer $idBadge
-     * @return $this
-     */
-    public function setIdBadge($idBadge)
-    {
-        $this->idBadge = $idBadge;
-        return $this;
-    }
-
-    /**
-     * Get idBadge
-     *
-     * @return integer
-     */
-    public function getIdBadge()
-    {
-        return $this->idBadge;
-    }
 
     /**
      * Set ended_at
@@ -153,7 +98,6 @@ class PlayerBadge
         return $this->mbOrder;
     }
 
-
     /**
      * Set badge
      *
@@ -163,7 +107,7 @@ class PlayerBadge
     public function setBadge(Badge $badge = null)
     {
         $this->badge = $badge;
-        $this->setIdBadge($badge->getIdBadge());
+
         return $this;
     }
 
@@ -187,7 +131,7 @@ class PlayerBadge
     public function setPlayer(Player $player = null)
     {
         $this->player = $player;
-        $this->setIdPlayer($player->getIdPlayer());
+
         return $this;
     }
 

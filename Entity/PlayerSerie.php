@@ -13,23 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 class PlayerSerie
 {
     /**
-     * @ORM\Column(name="idPlayer", type="integer")
-     * @ORM\Id
-     */
-    private $idPlayer;
-
-    /**
-     * @ORM\Column(name="idSerie", type="integer")
-     * @ORM\Id
-     */
-    private $idSerie;
-
-    /**
      * @var Player
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer", nullable=false)
      * })
      */
     private $player;
@@ -37,9 +26,10 @@ class PlayerSerie
     /**
      * @var Serie
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id", nullable=false)
      * })
      */
     private $serie;
@@ -155,51 +145,6 @@ class PlayerSerie
      * @ORM\Column(name="nbGame", type="integer", nullable=false)
      */
     private $nbGame;
-
-
-    /**
-     * Set idPlayer
-     *
-     * @param integer $idPlayer
-     * @return PlayerSerie
-     */
-    public function setIdPlayer($idPlayer)
-    {
-        $this->idPlayer = $idPlayer;
-        return $this;
-    }
-
-    /**
-     * Get idPlayer
-     *
-     * @return integer
-     */
-    public function getIdPlayer()
-    {
-        return $this->idPlayer;
-    }
-
-    /**
-     * Set idSerie
-     *
-     * @param integer $idSerie
-     * @return PlayerSerie
-     */
-    public function setIdSerie($idSerie)
-    {
-        $this->idSerie = $idSerie;
-        return $this;
-    }
-
-    /**
-     * Get idSerie
-     *
-     * @return integer
-     */
-    public function getIdSerie()
-    {
-        return $this->idSerie;
-    }
 
     /**
      * Set rankPoint
@@ -567,7 +512,7 @@ class PlayerSerie
     public function setSerie(Serie $serie = null)
     {
         $this->serie = $serie;
-        $this->setIdSerie($serie->getId());
+
         return $this;
     }
 
@@ -591,7 +536,7 @@ class PlayerSerie
     public function setPlayer(Player $player = null)
     {
         $this->player = $player;
-        $this->setIdPlayer($player->getIdPlayer());
+
         return $this;
     }
 
@@ -618,9 +563,9 @@ class PlayerSerie
         ];
 
         if ($this->getRankMedal() <= 3) {
-            return sprintf("class=\"%s\"", $class[$this->getRankMedal()]);
-        } else {
-            return '';
+            return sprintf('class="%s"', $class[$this->getRankMedal()]);
         }
+
+        return '';
     }
 }

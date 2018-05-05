@@ -12,25 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PlayerGame
 {
-
-    /**
-     * @ORM\Column(name="idPlayer", type="integer")
-     * @ORM\Id
-     */
-    private $idPlayer;
-
-    /**
-     * @ORM\Column(name="idGame", type="integer")
-     * @ORM\Id
-     */
-    private $idGame;
-
     /**
      * @var Player
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerGame")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer")
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer", nullable=false)
      * })
      */
     private $player;
@@ -38,9 +26,10 @@ class PlayerGame
     /**
      * @var Game
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
      * })
      */
     private $game;
@@ -156,53 +145,6 @@ class PlayerGame
      * @ORM\Column(name="nbEqual", type="integer", nullable=false)
      */
     private $nbEqual = 0;
-
-
-    /**
-     * Set idPlayer
-     *
-     * @param integer $idPlayer
-     * @return $this
-     */
-    public function setIdPlayer($idPlayer)
-    {
-        $this->idPlayer = $idPlayer;
-        return $this;
-    }
-
-    /**
-     * Get idPlayer
-     *
-     * @return integer
-     */
-    public function getIdPlayer()
-    {
-        return $this->idPlayer;
-    }
-
-
-    /**
-     * Set idGame
-     *
-     * @param integer $idGame
-     * @return $this
-     */
-    public function setIdGame($idGame)
-    {
-        $this->idGame = $idGame;
-        return $this;
-    }
-
-    /**
-     * Get idGame
-     *
-     * @return integer
-     */
-    public function getIdGame()
-    {
-        return $this->idGame;
-    }
-
 
     /**
      * Set rankPointChart
@@ -545,7 +487,7 @@ class PlayerGame
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-        $this->setIdGame($game->getId());
+
         return $this;
     }
 
@@ -569,7 +511,7 @@ class PlayerGame
     public function setPlayer(Player $player = null)
     {
         $this->player = $player;
-        $this->setIdPlayer($player->getIdPlayer());
+
         return $this;
     }
 

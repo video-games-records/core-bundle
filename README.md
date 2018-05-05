@@ -1,8 +1,17 @@
 VideoGamesRecordsCoreBundle
 ===========================
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/?branch=develop)
+Master
+------
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/?branch=master)
 [![Build Status](https://travis-ci.org/video-games-records/CoreBundle.svg?branch=master)](https://travis-ci.org/video-games-records/CoreBundle)
+
+Develop
+-------
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/?branch=develop)
+[![Build Status](https://travis-ci.org/video-games-records/CoreBundle.svg?branch=develop)](https://travis-ci.org/video-games-records/CoreBundle)
 
 Installation
 ============
@@ -51,6 +60,24 @@ class AppKernel extends Kernel
 
 Step 3: Configuration
 ---------------------
+
+### Database
+
+In order to link your User entity to this module you should add the following configuration:
+(Replace ProjetNormandie\UserBundle\Entity\User with your user class).
+
+[Official documentation](http://symfony.com/doc/current/cookbook/doctrine/resolve_target_entity.html)
+
+```yaml
+# Doctrine Configuration - config.yml
+doctrine:
+    orm:
+        ...
+        resolve_target_entities:
+            VideoGamesRecords\CoreBundle\Entity\UserInterface: AppBundle\Entity\User
+```
+
+After resolving the entity you can update your database schema.
 
 ### Routing
 

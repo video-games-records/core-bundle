@@ -81,7 +81,7 @@ class PlayerChartLibRepository extends EntityRepository
      */
     public function getPlayerScore($group, $player)
     {
-        $query = $query = $this->getScoreQuery();
+        $query = $this->getScoreQuery();
 
         // group
         $query->andWhere('c.idGroup = :idGroup')
@@ -120,7 +120,7 @@ class PlayerChartLibRepository extends EntityRepository
      * @param $query
      * @return array
      */
-    private function getScores($query)
+    private function getScores(QueryBuilder $query)
     {
         $result = $query->getQuery()->getArrayResult();
         $list = array();

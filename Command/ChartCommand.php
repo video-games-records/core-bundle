@@ -94,6 +94,14 @@ class ChartCommand extends DefaultCommand
         $output->writeln(sprintf('%d chart(s) updated', count($charts)));
     }
 
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\Chart[]|array $charts
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function updateCharts(array $charts)
     {
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository $playerChartRepository */
@@ -111,8 +119,8 @@ class ChartCommand extends DefaultCommand
         $gameList   = [];
 
         foreach ($charts as $chart) {
-            $idGroup = $chart->getIdGroup();
-            $idGame  = $chart->getGroup()->getIdGame();
+            $idGroup = $chart->getGroup()->getId();
+            $idGame  = $chart->getGroup()->getGame()->getId();
             //----- Player
             $playerList = array_unique(
                 array_merge($playerList, $playerChartRepository->maj($chart->getId()))

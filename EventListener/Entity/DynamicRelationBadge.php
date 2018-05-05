@@ -26,12 +26,12 @@ class DynamicRelationBadge implements EventSubscriber
         // the $metadata is the whole mapping info for this class
         $metadata = $eventArgs->getClassMetadata();
 
-        if ($metadata->getName() != 'ProjetNormandie\BadgeBundle\Entity\Badge') {
+        if ($metadata->getName() !== 'ProjetNormandie\BadgeBundle\Entity\Badge') {
             return;
         }
 
         $metadata->mapOneToMany(array(
-            'targetEntity' => Game::CLASS,
+            'targetEntity' => Game::class,
             'fieldName' => 'games',
             'mappedBy' => 'badge',
         ));

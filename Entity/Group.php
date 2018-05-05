@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="vgr_group", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxBoolDlc", columns={"boolDlc"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
+ * @method GroupTranslation translate(string $locale, bool $fallbackToDefault)
  */
 class Group
 {
@@ -28,12 +29,6 @@ class Group
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var integer
-     * @ORM\Column(name="idGame", type="integer", nullable=false)
-     */
-    private $idGame;
 
     /**
      * @var boolean
@@ -65,7 +60,7 @@ class Group
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="groups")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
      * })
      */
     private $game;
@@ -233,7 +228,7 @@ class Group
     public function setGame(Game $game = null)
     {
         $this->game = $game;
-        $this->setIdGame($game->getId());
+
         return $this;
     }
 
@@ -270,28 +265,6 @@ class Group
     public function getCharts()
     {
         return $this->charts;
-    }
-
-    /**
-     * Set idGame
-     *
-     * @param integer $idGame
-     * @return Group
-     */
-    public function setIdGame($idGame)
-    {
-        $this->idGame = $idGame;
-
-        return $this;
-    }
-
-    /**
-     * Get idGame
-     * @return integer
-     */
-    public function getIdGame()
-    {
-        return $this->idGame;
     }
 
     /**

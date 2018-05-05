@@ -54,7 +54,7 @@ class PlayerChartRepository extends EntityRepository
             $libValue = '';
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
             $playerChart = $item[0];
-            $players[]   = $playerChart->getIdPlayer();
+            $players[]   = $playerChart->getPlayer()->getIdPlayer();
             $playerChart
                 ->setTopScore(false);
 
@@ -242,9 +242,10 @@ class PlayerChartRepository extends EntityRepository
 
         $list = $query->getQuery()->getResult();
 
+        $statusReference = $this->_em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NOT_PROOVED);
         /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
         foreach ($list as $playerChart) {
-            $playerChart->setIdStatus(PlayerChartStatus::ID_STATUS_NOT_PROOVED);
+            $playerChart->setStatus($statusReference);
         }
         $this->getEntityManager()->flush();
     }

@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Player\Player;
-use VideoGamesRecords\CoreBundle\Model\Game\Game;
+use VideoGamesRecords\CoreBundle\Model\Player as PlayerModel;
+use VideoGamesRecords\CoreBundle\Model\Game as GameModel;
 
 /**
  * GameTopic
@@ -18,8 +18,8 @@ use VideoGamesRecords\CoreBundle\Model\Game\Game;
 class GameTopic
 {
     use Timestampable;
-    use Player;
-    use Game;
+    use PlayerModel;
+    use GameModel;
 
     /**
      * @var integer

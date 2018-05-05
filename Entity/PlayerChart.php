@@ -16,7 +16,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 class PlayerChart
 {
     use Timestampable;
-    use \VideoGamesRecords\CoreBundle\Model\Player\Player;
+    use \VideoGamesRecords\CoreBundle\Model\Player;
 
     /**
      * @var integer
@@ -26,11 +26,6 @@ class PlayerChart
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idPlayerChart;
-
-    /**
-     * @ORM\Column(name="idChart", type="integer")
-     */
-    private $idChart;
 
     /**
      * @var integer
@@ -52,18 +47,6 @@ class PlayerChart
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
     private $pointChart = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idStatus", type="integer", nullable=false)
-     */
-    private $idStatus;
-
-    /**
-     * @ORM\Column(name="idProof", type="integer", nullable=true)
-     */
-    private $idProof;
 
     /**
      * @var boolean
@@ -91,7 +74,7 @@ class PlayerChart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
      */
     private $chart;
@@ -111,7 +94,7 @@ class PlayerChart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="idStatus")
+     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="idStatus", nullable=false)
      * })
      */
     private $status;
@@ -146,28 +129,6 @@ class PlayerChart
     public function getIdPlayerChart()
     {
         return $this->idPlayerChart;
-    }
-
-    /**
-     * Set idChart
-     *
-     * @param integer $idChart
-     * @return PlayerChart
-     */
-    public function setIdChart($idChart)
-    {
-        $this->idChart = $idChart;
-        return $this;
-    }
-
-    /**
-     * Get idChart
-     *
-     * @return integer
-     */
-    public function getIdChart()
-    {
-        return $this->idChart;
     }
 
     /**
@@ -234,50 +195,6 @@ class PlayerChart
     public function getPointChart()
     {
         return $this->pointChart;
-    }
-
-    /**
-     * Set idStatus
-     *
-     * @param integer $idStatus
-     * @return PlayerChart
-     */
-    public function setIdStatus($idStatus)
-    {
-        $this->idStatus = $idStatus;
-        return $this;
-    }
-
-    /**
-     * Get idStatus
-     *
-     * @return integer
-     */
-    public function getIdStatus()
-    {
-        return $this->idStatus;
-    }
-
-    /**
-     * Set idProof
-     *
-     * @param integer $idProof
-     * @return PlayerChart
-     */
-    public function setIdProof($idProof)
-    {
-        $this->idProof = $idProof;
-        return $this;
-    }
-
-    /**
-     * Get idProof
-     *
-     * @return integer
-     */
-    public function getIdProof()
-    {
-        return $this->idProof;
     }
 
     /**
@@ -356,9 +273,7 @@ class PlayerChart
     public function setChart(Chart $chart = null)
     {
         $this->chart = $chart;
-        if (null !== $chart) {
-            $this->setIdChart($chart->getId());
-        }
+
         return $this;
     }
 
@@ -381,9 +296,7 @@ class PlayerChart
     public function setProof(Proof $proof = null)
     {
         $this->proof = $proof;
-        if (null !== $proof) {
-            $this->setIdProof($proof->getIdProof());
-        }
+
         return $this;
     }
 
@@ -430,9 +343,7 @@ class PlayerChart
     public function setStatus(PlayerChartStatus $status = null)
     {
         $this->status = $status;
-        if (null !== $status) {
-            $this->setIdStatus($status->getIdStatus());
-        }
+
         return $this;
     }
 
@@ -451,18 +362,15 @@ class PlayerChart
      */
     public function preUpdate()
     {
+        $this->setTopScore(false);
         if ($this->getRank() === 1) {
             $this->setTopScore(true);
-        } else {
-            $this->setTopScore(false);
         }
-        if ((null === $this->getDateInvestigation()) && (PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getIdStatus())) {
+
+        if (null === $this->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getStatus()->getIdStatus()) {
             $this->setDateInvestigation(new \DateTime());
         }
-        if ((null !== $this->getDateInvestigation()) && (PlayerChartStatus::ID_STATUS_PROOVED === $this->getIdStatus())) {
-            $this->setDateInvestigation(null);
-        }
-        if ((null !== $this->getDateInvestigation()) && (PlayerChartStatus::ID_STATUS_NOT_PROOVED === $this->getIdStatus())) {
+        if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getIdStatus(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
             $this->setDateInvestigation(null);
         }
     }

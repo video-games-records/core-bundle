@@ -135,6 +135,7 @@ class Ranking
      */
     public static function chartPointProvider($iNbPartcipant)
     {
+        $liste       = [];
         $pointRecord = 100 * $iNbPartcipant;
         $nb          = 80;// % différence entre deux positions
         $compteur    = 0;// compteur de position

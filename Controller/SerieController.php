@@ -17,7 +17,7 @@ class SerieController extends VgrBaseController
         //@todo define how we list them (same way as game?)
     }
 
-    public function indexAction($id)
+    public function indexAction()
     {
         //@todo display a series with its game list and ranking
     }

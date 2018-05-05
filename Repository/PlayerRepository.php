@@ -9,9 +9,8 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 class PlayerRepository extends EntityRepository
 {
     /**
-     * @param \AppBundle\Entity\User $user
+     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getPlayerFromUser($user)
     {
@@ -251,7 +250,7 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param \AppBundle\Entity\User $user
+     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
     private function createPlayerFromUser($user)
@@ -271,7 +270,7 @@ class PlayerRepository extends EntityRepository
      * @param int $idPlayer
      * @return array
      */
-    public function getRankingPointsChart($idPlayer)
+    public function getRankingPointsChart($idPlayer = null)
     {
         $query = $this->createQueryBuilder('p')
             ->orderBy('p.rankPointChart');
@@ -293,7 +292,7 @@ class PlayerRepository extends EntityRepository
      * @param int $idPlayer
      * @return array
      */
-    public function getRankingPointsGame($idPlayer)
+    public function getRankingPointsGame($idPlayer = null)
     {
         $query = $this->createQueryBuilder('p')
             ->orderBy('p.rankPointGame');
@@ -315,7 +314,7 @@ class PlayerRepository extends EntityRepository
      * @param int $idPlayer
      * @return array
      */
-    public function getRankingMedals($idPlayer)
+    public function getRankingMedals($idPlayer = null)
     {
         $query = $this->createQueryBuilder('p')
             ->orderBy('p.rankMedal');
@@ -337,7 +336,7 @@ class PlayerRepository extends EntityRepository
      * @param int $idPlayer
      * @return array
      */
-    public function getRankingCups($idPlayer)
+    public function getRankingCups($idPlayer = null)
     {
         $query = $this->createQueryBuilder('p')
             ->orderBy('p.rankCup');
@@ -365,11 +364,11 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param $date1
-     * @param $date2
+     * @param \DateTime $date1
+     * @param \DateTime $date2
      * @return array
      */
-    public function getNbPostDay($date1, $date2)
+    public function getNbPostDay(\DateTime $date1, \DateTime $date2)
     {
         $query = $this->_em->createQuery("
             SELECT

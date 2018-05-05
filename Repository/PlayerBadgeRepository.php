@@ -44,7 +44,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * @param $idBadge
-     * @return array
+     * @return \VideoGamesRecords\CoreBundle\Entity\PlayerBadge[]|array
      */
     public function getFromBadge($idBadge)
     {
@@ -70,7 +70,7 @@ class PlayerBadgeRepository extends EntityRepository
         /** @var \VideoGamesRecords\CoreBundle\Entity\Game $game */
         $game = $this->_em->find(Game::class, $idGame);
 
-        if (null === $game || null === $game->getIdBadge()) {
+        if (null === $game || null === $game->getBadge()) {
             return;
         }
 
@@ -78,15 +78,15 @@ class PlayerBadgeRepository extends EntityRepository
         $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($idGame, 1);
         $players = array();
         foreach ($ranking as $playerGame) {
-            $players[$playerGame->getIdPlayer()] = 0;
+            $players[$playerGame->getPlayer()->getIdPlayer()] = 0;
         }
 
         //----- get players with master badge
-        $list = $this->getFromBadge($game->getIdBadge());
+        $list = $this->getFromBadge($game->getBadge()->getIdBadge());
 
         //----- Remove master badge
         foreach ($list as $playerBadge) {
-            $idPlayer = $playerBadge->getIdPlayer();
+            $idPlayer = $playerBadge->getPlayer()->getIdPlayer();
             //----- Remove badge
             if (!array_key_exists($idPlayer, $players)) {
                 $playerBadge->setEndedAt(new \DateTime());
@@ -99,7 +99,7 @@ class PlayerBadgeRepository extends EntityRepository
             if (0 === $value) {
                 $playerBadge = new PlayerBadge();
                 $playerBadge->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer));
-                $playerBadge->setBadge($this->_em->getReference('ProjetNormandie\BadgeBundle\Entity\Badge', $game->getIdBadge()));
+                $playerBadge->setBadge($this->_em->getReference('ProjetNormandie\BadgeBundle\Entity\Badge', $game->getBadge()->getIdBadge()));
                 $this->_em->persist($playerBadge);
             }
         }

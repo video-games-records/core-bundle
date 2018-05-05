@@ -2,8 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener;
 
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class LoginListener
 {
@@ -11,9 +11,9 @@ class LoginListener
     private $playerRepository;
 
     /**
-     * @param \Doctrine\ORM\EntityRepository $repository
+     * @param \VideoGamesRecords\CoreBundle\Repository\PlayerRepository $repository
      */
-    public function __construct(EntityRepository $repository)
+    public function __construct(PlayerRepository $repository)
     {
         $this->playerRepository = $repository;
     }

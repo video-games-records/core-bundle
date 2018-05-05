@@ -11,7 +11,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
  *
  * @ORM\Table(name="vgr_serie")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
- * @method SerieTranslation translate(string $locale, integer $fallbackToDefault)
+ * @method SerieTranslation translate(string $locale, bool $fallbackToDefault)
  */
 class Serie
 {

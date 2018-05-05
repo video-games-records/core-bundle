@@ -6,10 +6,12 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 class PlayerChartUpdateListener
 {
-    private $lostPosition = null;
+    private $lostPosition;
 
     /**
      * @param PreUpdateEventArgs $args
@@ -20,7 +22,7 @@ class PlayerChartUpdateListener
         $this->lostPosition = null;
 
         // False check is compulsory otherwise duplication occurs
-        if (($entity instanceof PlayerChart) === true) {
+        if ($entity instanceof PlayerChart) {
             $em = $args->getEntityManager();
 
             //----- LostPosition
@@ -41,13 +43,13 @@ class PlayerChartUpdateListener
             }
 
             if ((($oldRank >= 1) && ($oldRank <= 3) && ($newRank > $oldRank)) ||
-                (($oldRank == 1) && ($oldNbEqual == 1) && ($newRank == 1) && ($newNbEqual > 1))
+                (($oldRank === 1) && ($oldNbEqual === 1) && ($newRank === 1) && ($newNbEqual > 1))
             ) {
                 $this->lostPosition = new LostPosition();
                 $this->lostPosition->setNewRank($newRank);
-                $this->lostPosition->setOldRank(($newRank == 1) ? 0 : $oldRank); //----- zero for losing platinum medal
-                $this->lostPosition->setPlayer($em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $entity->getIdPlayer()));
-                $this->lostPosition->setChart($em->getReference('VideoGamesRecords\CoreBundle\Entity\Chart', $entity->getIdChart()));
+                $this->lostPosition->setOldRank(($newRank === 1) ? 0 : $oldRank); //----- zero for losing platinum medal
+                $this->lostPosition->setPlayer($em->getReference(Player::class, $entity->getPlayer()->getIdPlayer()));
+                $this->lostPosition->setChart($em->getReference(Chart::class, $entity->getChart()->getId()));
             }
         }
     }
