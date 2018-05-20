@@ -42,7 +42,7 @@
         </tbody>
     </table>
 
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% if is_granted('ROLE_CHART_SUBMIT') %}
         <div>
             <a href="{{ path('vgr_chart_form', {'id': chart.id}) }}">{{ 'form.action'|trans }}</a>{# todo adapt if player has send his score #}
         </div>
