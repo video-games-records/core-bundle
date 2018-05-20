@@ -39,7 +39,7 @@ class GameRepository extends EntityRepository
         $this->onlyActive($query);
         $this->withPlatforms($query);
 
-        return $query->getQuery();
+        return $query->getQuery()->getResult();
     }
 
     /**
