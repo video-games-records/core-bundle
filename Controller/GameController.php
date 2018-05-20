@@ -28,7 +28,8 @@ class GameController extends Controller
     public function listAction(Request $request, $letter)
     {
         $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
-            ->findWithLetter($letter, $request->getLocale());
+            ->findWithLetter($letter, $request->getLocale())
+            ->getResult();
 
         $alphabet = array_merge(['0'], range('A', 'Z'));
 
