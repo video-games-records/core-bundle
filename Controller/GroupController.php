@@ -101,7 +101,7 @@ class GroupController extends VgrBaseController
      * @Route("/form/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_group_form")
      * @Method("GET")
      * @Cache(smaxage="10")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("is_granted('ROLE_CHART_SUBMIT')")
      *
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\Response
