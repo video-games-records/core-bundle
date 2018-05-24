@@ -26,7 +26,7 @@
               <tr {{ vgrRankBgColor(row[0].rank|localizednumber)|raw }}>
                 <td>{{ row[0].rank|localizednumber }}</td>
                 <td>
-                    <a href="{{ path('vgr_player_index', {'id': row[0].idPlayer, 'slug': row[0].player.slug}) }}">
+                    <a href="{{ path('vgr_player_index', {'id': row[0].player.idPlayer, 'slug': row[0].player.slug}) }}">
                         {{ row[0].player.pseudo }}
                     </a>
                 </td>

@@ -19,9 +19,11 @@ class PlayerChartRepository extends EntityRepository
     public function getFromUnique($idPlayer, $idChart)
     {
         $query = $this->createQueryBuilder('pc')
-            ->where('pc.idPlayer = :idPlayer')
+            ->join('pc.player', 'p')
+            ->join('pc.chart', 'c')
+            ->where('p.idPlayer = :idPlayer')
             ->setParameter('idPlayer', $idPlayer)
-            ->andWhere('pc.idChart = :idChart')
+            ->andWhere('c.id = :idChart')
             ->setParameter('idChart', $idChart);
 
         return $query->getQuery()
@@ -189,9 +191,10 @@ class PlayerChartRepository extends EntityRepository
         $queryBuilder
             ->innerJoin('pc.player', 'p')
             ->addSelect('p')
+            ->innerJoin('pc.chart', 'c')
             ->innerJoin('pc.status', 'status')
             ->addSelect('status')
-            ->where('pc.idChart = :idChart')
+            ->where('c.id = :idChart')
             ->setParameter('idChart', $chart->getId())
             ->orderBy('pc.rank');
 
