@@ -63,6 +63,7 @@ class GameController extends Controller
     public function indexAction($id, $slug)
     {
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
+
         if ($slug !== $game->getSlug()) {
             return $this->redirectToRoute('vgr_game_index', ['id' => $game->getId(), 'slug' => $game->getSlug()], 301);
         }

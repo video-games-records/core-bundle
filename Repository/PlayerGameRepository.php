@@ -19,14 +19,15 @@ class PlayerGameRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
+            ->join('pg.game', 'g')
             ->addSelect('p')//----- for using ->getPlayer() on each result
             ->orderBy('pg.rankPointChart');
 
-        $query->where('pg.idGame= :idGame')
+        $query->where('g.id = :idGame')
             ->setParameter('idGame', $idGame);
 
         if (($maxRank !== null) && ($idPlayer !== null)) {
-            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.idPlayer = :idPlayer)')
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR p.idPlayer = :idPlayer)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('idPlayer', $idPlayer);
         } elseif ($maxRank !== null) {
@@ -48,14 +49,15 @@ class PlayerGameRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
+            ->join('pg.game', 'g')
             ->addSelect('p')//----- for using ->getPlayer() on each result
             ->orderBy('pg.rankMedal');
 
-        $query->where('pg.idGame = :idGame')
+        $query->where('g.id = :idGame')
             ->setParameter('idGame', $idGame);
 
         if (($maxRank !== null) && ($idPlayer !== null)) {
-            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.idPlayer = :idPlayer)')
+            $query->andWhere('(pg.rankMedal <= :maxRank OR p.idPlayer = :idPlayer)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('idPlayer', $idPlayer);
         } elseif ($maxRank !== null) {
@@ -69,7 +71,7 @@ class PlayerGameRepository extends EntityRepository
     }
 
     /**
-     * @param int $idGame
+     * @param $idGame
      */
     public function maj($idGame)
     {

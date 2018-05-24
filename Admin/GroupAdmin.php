@@ -57,6 +57,7 @@ class GroupAdmin extends AbstractAdmin
                     'data_class' => null,
                     'btn_add' => false,
                     'btn_list' => true,
+                    'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => true,
                     'label' => 'Game',

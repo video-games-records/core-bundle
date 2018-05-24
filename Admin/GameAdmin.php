@@ -34,13 +34,15 @@ class GameAdmin extends AbstractAdmin
             ->add('serie', 'sonata_type_model_list', [
                 'btn_add' => false,
                 'btn_list' => true,
-                'btn_delete' => false,
+                'btn_edit' => false,
+                'btn_delete' => true,
                 'btn_catalogue' => true,
                 'label' => 'Serie',
             ])
             ->add('badge', 'sonata_type_model_list', [
                 'btn_add' => true,
                 'btn_list' => true,
+                'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
                 'label' => 'Badge',
