@@ -60,8 +60,8 @@ class PlayerChartRepository extends EntityRepository
             $playerChart
                 ->setTopScore(false);
 
-            for ($i = 1; $i <= $nbLib; $i++) {
-                $libValue .= $item['value_' . $i] . '/';
+            foreach ($chart->getLibs() as $lib) {
+                $libValue .= $item['value_' . $lib->getIdLibChart()] . '/';
             }
             if ($k === 0) {
                 // Premier élément => topScore
@@ -103,7 +103,7 @@ class PlayerChartRepository extends EntityRepository
         }
 
         $chart->setStatusPlayer(Chart::STATUS_NORMAL);
-        $this->getEntityManager()->persist($chart);
+        //$this->getEntityManager()->persist($chart);
         $this->getEntityManager()->flush();
 
         return $players;
@@ -124,8 +124,8 @@ class PlayerChartRepository extends EntityRepository
             ->addSelect('p')
             ->innerJoin('pc.status', 'status')
             ->addSelect('status')
-            ->where('pc.idChart = :idChart')
-            ->setParameter('idChart', $chart->getId())
+            ->where('pc.chart = :chart')
+            ->setParameter('chart', $chart)
             ->andWhere('status.boolRanking = 1');
 
         foreach ($chart->getLibs() as $lib) {
@@ -143,7 +143,6 @@ class PlayerChartRepository extends EntityRepository
                 ->addOrderBy($key, $lib->getType()->getOrderBy())
                 ->setParameter($key, $lib);
         }
-
         return $queryBuilder->getQuery()->getResult();
     }
 

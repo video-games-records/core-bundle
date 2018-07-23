@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerGameRepository extends EntityRepository
@@ -71,31 +72,32 @@ class PlayerGameRepository extends EntityRepository
     }
 
     /**
-     * @param $idGame
+     * @param Game $game
      */
-    public function maj($idGame)
+    public function maj($game)
     {
         //----- delete
-        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerGame pg WHERE pg.idGame = :idGame');
-        $query->setParameter('idGame', $idGame);
+        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerGame pg WHERE pg.game = :game');
+        $query->setParameter('game', $game);
         $query->execute();
 
         //----- data without DLC
         $query = $this->_em->createQuery("
             SELECT
-                 pg.idPlayer,
+                 p.idPlayer,
                  SUM(pg.pointChart) as pointChartWithoutDlc,
                  SUM(pg.nbChart) as nbChartWithoutDlc,
                  SUM(pg.nbChartProven) as nbChartProvenWithoutDlc
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGroup pg
+            JOIN pg.player p
             JOIN pg.group g
-            WHERE g.idGame = :idGame
+            WHERE g.game = :game
             AND g.boolDlc = 0
-            GROUP BY pg.idPlayer");
+            GROUP BY p.idPlayer");
 
         $dataWithoutDlc = [];
 
-        $query->setParameter('idGame', $idGame);
+        $query->setParameter('game', $game);
         $result = $query->getResult();
         foreach ($result as $row) {
             $dataWithoutDlc[$row['idPlayer']] = $row;
@@ -104,8 +106,7 @@ class PlayerGameRepository extends EntityRepository
         //----- select ans save result in array
         $query = $this->_em->createQuery("
             SELECT
-                pg.idPlayer,
-                (g.idGame) as idGame,
+                p.idPlayer,
                 '' as rankPointChart,
                 '' as rankMedal,
                 SUM(pg.chartRank0) as chartRank0,
@@ -118,13 +119,14 @@ class PlayerGameRepository extends EntityRepository
                 SUM(pg.nbChart) as nbChart,
                 SUM(pg.nbChartProven) as nbChartProven
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGroup pg
+            JOIN pg.player p
             JOIN pg.group g
-            WHERE g.idGame = :idGame
-            GROUP BY pg.idPlayer
+            WHERE g.game = :game
+            GROUP BY p.idPlayer
             ORDER BY pointChart DESC");
 
 
-        $query->setParameter('idGame', $idGame);
+        $query->setParameter('game', $game);
         $result = $query->getResult();
 
         $list = [];
@@ -141,8 +143,6 @@ class PlayerGameRepository extends EntityRepository
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer([$normalizer]);
-
-        $game = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
 
         foreach ($list as $row) {
             $playerGame = $serializer->denormalize(

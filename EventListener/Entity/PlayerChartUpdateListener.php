@@ -61,8 +61,10 @@ class PlayerChartUpdateListener
     {
         $em = $args->getEntityManager();
         if ($this->lostPosition !== null) {
+            var_dump($this->lostPosition->getPlayer()->getPseudo());
             $em->persist($this->lostPosition);
             $em->flush($this->lostPosition);
+            $this->lostPosition = null;
         }
     }
 }

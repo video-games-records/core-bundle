@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 
@@ -74,13 +75,13 @@ class PlayerGroupRepository extends EntityRepository
     }
 
     /**
-     * @param int $idGroup
+     * @param Group $group
      */
-    public function maj($idGroup)
+    public function maj($group)
     {
         //----- delete
-        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerGroup pg WHERE pg.idGroup = :idGroup');
-        $query->setParameter('idGroup', $idGroup);
+        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerGroup pg WHERE pg.group = :group');
+        $query->setParameter('group', $group);
         $query->execute();
 
         $data = [];
@@ -88,18 +89,19 @@ class PlayerGroupRepository extends EntityRepository
         //----- data rank0
         $query = $this->_em->createQuery("
             SELECT
-                 pc.idPlayer,
-                 COUNT(pc.idChart) as nb
+                 p.idPlayer,
+                 COUNT(pc.idPlayerChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            JOIN pc.player p
             JOIN pc.chart c
-            WHERE c.idGroup = :idGroup
+            WHERE c.group = :group
             AND pc.rank = 1
             AND c.nbPost > 0
             AND pc.nbEqual = 1
-            GROUP BY pc.idPlayer");
+            GROUP BY p.idPlayer");
 
 
-        $query->setParameter('idGroup', $idGroup);
+        $query->setParameter('group', $group);
         $result = $query->getResult();
         foreach ($result as $row) {
             $data['chartRank0'][$row['idPlayer']] = $row['nb'];
@@ -108,14 +110,15 @@ class PlayerGroupRepository extends EntityRepository
         //----- data rank1 to rank5
         $query = $this->_em->createQuery("
             SELECT
-                 pc.idPlayer,
-                 COUNT(pc.idChart) as nb
+                 p.idPlayer,
+                 COUNT(pc.idPlayerChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            JOIN pc.player p
             JOIN pc.chart c
-            WHERE c.idGroup = :idGroup
+            WHERE c.group = :group
             AND pc.rank = :rank
-            GROUP BY pc.idPlayer");
-        $query->setParameter('idGroup', $idGroup);
+            GROUP BY p.idPlayer");
+        $query->setParameter('group', $group);
 
         for ($i = 1; $i <= 5; $i++) {
             $query->setParameter('rank', $i);
@@ -128,16 +131,23 @@ class PlayerGroupRepository extends EntityRepository
         //----- data nbRecordProuve
         $query = $this->_em->createQuery("
             SELECT
-                 pc.idPlayer,
-                 COUNT(pc.idChart) as nb
+                 p.idPlayer,
+                 COUNT(pc.idPlayerChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            JOIN pc.player p
             JOIN pc.chart c
-            WHERE c.idGroup = :idGroup
-            AND pc.idStatus = :idStatus
-            GROUP BY pc.idPlayer");
+            WHERE c.group = :group
+            AND pc.status = :status
+            GROUP BY p.idPlayer");
 
-        $query->setParameter('idGroup', $idGroup);
-        $query->setParameter('idStatus', PlayerChartStatus::ID_STATUS_PROOVED);
+        $query->setParameter('group', $group);
+        $query->setParameter(
+            'status',
+            $this->_em->getReference(
+                PlayerChartStatus::class,
+                PlayerChartStatus::ID_STATUS_PROOVED
+            )
+        );
 
         $result = $query->getResult();
         foreach ($result as $row) {
@@ -148,20 +158,20 @@ class PlayerGroupRepository extends EntityRepository
         //----- select ans save result in array
         $query = $this->_em->createQuery("
             SELECT
-                pc.idPlayer,
-                (c.idGroup) as idGroup,
+                p.idPlayer,
                 '' as rankPoint,
                 '' as rankMedal,
                 SUM(pc.pointChart) as pointChart,
-                COUNT(pc.idChart) as nbChart
+                COUNT(pc.idPlayerChart) as nbChart
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            JOIN pc.player p
             JOIN pc.chart c
-            WHERE c.idGroup = :idGroup
-            GROUP BY pc.idPlayer
+            WHERE c.group = :group
+            GROUP BY p.idPlayer
             ORDER BY pointChart DESC");
 
 
-        $query->setParameter('idGroup', $idGroup);
+        $query->setParameter('group', $group);
         $result = $query->getResult();
 
         $list = [];
@@ -184,8 +194,6 @@ class PlayerGroupRepository extends EntityRepository
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer([$normalizer]);
-
-        $group = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Group', $idGroup);
 
         foreach ($list as $row) {
             $playerGroup = $serializer->denormalize(
