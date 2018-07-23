@@ -100,7 +100,7 @@ class PlayerRepository extends EntityRepository
     {
         $query = $this->_em->createQuery("
             SELECT
-                 pg.idPlayer,
+                 p.idPlayer,
                  SUM(pg.chartRank0) as chartRank0,
                  SUM(pg.chartRank1) as chartRank1,
                  SUM(pg.chartRank2) as chartRank2,
@@ -110,8 +110,9 @@ class PlayerRepository extends EntityRepository
                  SUM(pg.pointChart) as pointChart,
                  SUM(pg.pointGame) as pointGame
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
-            WHERE pg.idPlayer = :idPlayer
-            GROUP BY pg.idPlayer");
+            JOIN pg.player p
+            WHERE p.idPlayer = :idPlayer
+            GROUP BY p.idPlayer");
 
         $query->setParameter('idPlayer', $idPlayer);
         $result = $query->getResult();
@@ -142,14 +143,15 @@ class PlayerRepository extends EntityRepository
         //----- data rank0
         $query = $this->_em->createQuery("
             SELECT
-                 pg.idPlayer,
-                 COUNT(pg.idGame) as nb
+                 p.idPlayer,
+                 COUNT(pg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.game g
+            JOIN pg.player p
             WHERE pg.rankPointChart = 1
             AND g.nbPlayer > 1
             AND pg.nbEqual = 1
-            GROUP BY pg.idPlayer");
+            GROUP BY p.idPlayer");
 
         $result = $query->getResult();
         foreach ($result as $row) {
@@ -159,11 +161,12 @@ class PlayerRepository extends EntityRepository
         //----- data rank1 to rank3
         $query = $this->_em->createQuery("
             SELECT
-                 pg.idPlayer,
-                 COUNT(pg.idGame) as nb
+                 p.idPlayer,
+                 COUNT(pg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
+            JOIN pg.player p
             WHERE pg.rankPointChart = :rank
-            GROUP BY pg.idPlayer");
+            GROUP BY p.idPlayer");
 
         for ($i = 1; $i <= 3; $i++) {
             $query->setParameter('rank', $i);
@@ -234,6 +237,7 @@ class PlayerRepository extends EntityRepository
         $players = $this->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
 
         Ranking::addObjectRank($players, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
+
         $this->getEntityManager()->flush();
     }
 

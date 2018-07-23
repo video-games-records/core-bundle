@@ -80,11 +80,11 @@ class ChartCommand extends DefaultCommand
         /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
         $chartRepository = $this->doctrine->getRepository('VideoGamesRecordsCoreBundle:Chart');
 
-        if ($chartRepository->isMajPlayerRunning()) {
+        /*if ($chartRepository->isMajPlayerRunning()) {
             $output->writeln('vgr:chart maj-player is already running');
 
             return;
-        }
+        }*/
         $chartRepository->goToMajPlayer(self::NB_CHART_TO_MAJ);
 
 
@@ -127,23 +127,23 @@ class ChartCommand extends DefaultCommand
             );
             //----- Group
             if (!isset($groupList[$idGroup])) {
-                $groupList[$idGroup] = $idGroup;
+                $groupList[$idGroup] = $chart->getGroup();
             }
             //----- Game
             if (!isset($gameList[$idGame])) {
-                $gameList[$idGame] = $idGame;
+                $gameList[$idGame] = $chart->getGroup()->getGame();
             }
         }
 
         //----- Maj group
-        foreach ($groupList as $idGroup) {
-            $playerGroupRepository->maj($idGroup);
+        foreach ($groupList as $group) {
+            $playerGroupRepository->maj($group);
         }
 
         //----- Maj game
-        foreach ($gameList as $idGame) {
-            $playerGameRepository->maj($idGame);
-            $playerBadgeRepository->majMasterBadge($idGame);
+        foreach ($gameList as $game) {
+            $playerGameRepository->maj($game);
+            $playerBadgeRepository->majMasterBadge($game);
         }
 
         //----- Maj player
