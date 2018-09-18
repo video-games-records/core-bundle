@@ -237,6 +237,11 @@ class Player
     private $playerGame;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGroup", mappedBy="player")
+     */
+    private $playerGroup;
+
+    /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerBadge", mappedBy="player")
      */
     private $playerBadge;

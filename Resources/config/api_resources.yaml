@@ -1,4 +1,9 @@
 resources:
+    VideoGamesRecords\CoreBundle\Entity\Serie:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
     VideoGamesRecords\CoreBundle\Entity\Game:
         collectionOperations:
             get: ~
@@ -25,6 +30,10 @@ resources:
                 path: '/game/{id}/player-ranking-points'
                 swagger_context:
                     parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
                         - name: maxRank
                           in: query
                           required: false
@@ -39,6 +48,10 @@ resources:
                 path: '/game/{id}/player-ranking-medals'
                 swagger_context:
                     parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
                         - name: maxRank
                           in: query
                           required: false
@@ -53,6 +66,10 @@ resources:
                 path: '/game/{id}/team-ranking-points'
                 swagger_context:
                     parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
                         - name: maxRank
                           in: query
                           required: false
@@ -61,12 +78,16 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\TeamBundle\Controller\GameController::teamRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingPoints'
             team-ranking-medals:
                 method: 'GET'
                 path: '/game/{id}/team-ranking-medals'
                 swagger_context:
                     parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
                         - name: maxRank
                           in: query
                           required: false
@@ -75,7 +96,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\TeamBundle\Controller\GameController::teamRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingMedals'
         properties:
             groups:
                 subresource:
@@ -86,6 +107,78 @@ resources:
             get: ~
         itemOperations:
             get: ~
+            player-ranking-points:
+                method: 'GET'
+                path: '/group/{id}/player-ranking-points'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                        - name: idPlayer
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingPoints'
+            player-ranking-medals:
+                method: 'GET'
+                path: '/group/{id}/player-ranking-medals'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                        - name: idPlayer
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingMedals'
+            team-ranking-points:
+                method: 'GET'
+                path: '/group/{id}/team-ranking-points'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                        - name: idPlayer
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingPoints'
+            team-ranking-medals:
+                method: 'GET'
+                path: '/group/{id}/team-ranking-medals'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                        - name: idPlayer
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingMedals'
         properties:
             charts:
                 subresource:
@@ -96,12 +189,17 @@ resources:
             get: ~
         itemOperations:
             get: ~
-    VideoGamesRecords\CoreBundle\Entity\Serie:
+    VideoGamesRecords\CoreBundle\Entity\PlayerGame:
         collectionOperations:
             get: ~
         itemOperations:
             get: ~
-    VideoGamesRecords\CoreBundle\Entity\PlayerGame:
+    VideoGamesRecords\CoreBundle\Entity\PlayerGroup:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         collectionOperations:
             get: ~
         itemOperations:
@@ -111,7 +209,7 @@ resources:
             get: ~
         itemOperations:
             get: ~
-    VideoGamesRecords\TeamBundle\Entity\Team:
+    VideoGamesRecords\CoreBundle\Entity\Platform:
         collectionOperations:
             get: ~
         itemOperations:
