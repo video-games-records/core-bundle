@@ -84,8 +84,8 @@ class PlayerChartController extends Controller
                     );
                 }
                 $value = Score::formToBdd(
-                    $lib->getType()
-                        ->getMask(), $values
+                    $lib->getType()->getMask(),
+                    $values
                 );
                 $post[$lib->getIdLibChart()] = $value;
             }
@@ -93,7 +93,8 @@ class PlayerChartController extends Controller
             $playerChart = $this->getDoctrine()
                 ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
                 ->getFromUnique(
-                    $idPlayer, $idChart
+                    $idPlayer,
+                    $idChart
                 );
 
             $isNew = false;
@@ -136,7 +137,6 @@ class PlayerChartController extends Controller
                     'isNew' => $isNew,
                 )
             );
-
         } catch (DBALException $e) {
             return new JsonResponse(
                 array(
@@ -145,8 +145,6 @@ class PlayerChartController extends Controller
                 )
             );
         }
-
-
     }
 
 

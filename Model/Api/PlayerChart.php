@@ -2,7 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Model\Api;
 
-Class PlayerChart
+class PlayerChart
 {
     private $idPlayer;
     private $idChart;
