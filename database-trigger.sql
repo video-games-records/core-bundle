@@ -5,12 +5,12 @@ CREATE TRIGGER `vgrPlayerChartAfterInsert` AFTER INSERT ON `vgr_player_chart`
 FOR EACH ROW
 BEGIN
     UPDATE vgr_chart
-	  SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = NEW.idChart AND idEtat != 7),
+	  SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = NEW.idChart AND idStatus != 7),
 		statusPlayer = 'MAJ',
 		statusTeam = 'MAJ'
 	WHERE id = NEW.idChart;
 	UPDATE vgr_player
-	SET vgr_nbChart = (SELECT COUNT(idChart) FROM vgr_player_chart WHERE idPlayer = NEW.idPlayer)
+	SET nbChart = (SELECT COUNT(idChart) FROM vgr_player_chart WHERE idPlayer = NEW.idPlayer)
 	WHERE idPlayer = NEW.idPlayer;
 END //
 delimiter ;
@@ -48,7 +48,7 @@ BEGIN
 	END IF;
 	IF (OLD.idStatus != NEW.idStatus && (OLD.idStatus = 7 || NEW.idStatus = 7) ) THEN
 		UPDATE vgr_chart
-		SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = OLD.idChart AND idEtat != 7)
+		SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = OLD.idChart AND idStatus != 7)
 		WHERE id = OLD.idChart;
 	END IF;
 
@@ -62,12 +62,12 @@ CREATE TRIGGER `vgrChartPlayerAfterDelete` AFTER DELETE ON `vgr_player_chart`
 FOR EACH ROW
 BEGIN
     UPDATE vgr_chart
-	SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = OLD.idChart AND idEtat != 7),
+	SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = OLD.idChart AND idStatus != 7),
 	    statusPlayer = 'MAJ',
 	    statusTeam = 'MAJ'
 	WHERE id = OLD.idChart;
 	UPDATE vgr_player
-	SET vgr_nbChart = (SELECT COUNT(idChart) FROM vgr_player_chart WHERE idPlayer = OLD.idPlayer)
+	SET nbChart = (SELECT COUNT(idChart) FROM vgr_player_chart WHERE idPlayer = OLD.idPlayer)
 	WHERE idPlayer = OLD.idPlayer;
 END //
 delimiter ;
@@ -78,9 +78,9 @@ delimiter //
 DROP TRIGGER IF EXISTS `vgrChartAfterInsert`//
 CREATE TRIGGER vgrChartAfterInsert AFTER INSERT ON vgr_chart
 FOR EACH ROW
-UPDATE vgr_groupe
+UPDATE vgr_group
 SET nbChart = (SELECT COUNT(id) FROM vgr_chart WHERE idGroup = NEW.idGroup)
-WHERE idGroup = NEW.idGroup //
+WHERE id = NEW.idGroup //
 delimiter ;
 
 
@@ -95,7 +95,7 @@ BEGIN
 		    nbPlayer = (SELECT COUNT(DISTINCT(a.idPlayer))
 		    			FROM vgr_player_chart a INNER JOIN vgr_chart b ON a.idChart = b.id
 		    			WHERE b.idGroup = NEW.idGroup)
-		WHERE idGroup = NEW.idGroup;
+		WHERE id = NEW.idGroup;
 	END IF;
 END //
 delimiter ;
@@ -119,7 +119,7 @@ DROP TRIGGER IF EXISTS `vgrGroupAfterInsert`//
 CREATE TRIGGER vgrGroupAfterInsert AFTER INSERT ON vgr_group
 FOR EACH ROW
 BEGIN
-	IF (SELECT COUNT(idGroup) FROM vgr_group WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
+	IF (SELECT COUNT(id) FROM vgr_group WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
 		UPDATE vgr_game SET boolDLC=1 WHERE id = NEW.idGame;
 	ELSE
 		UPDATE vgr_game SET boolDLC=0 WHERE id = NEW.idGame;
@@ -136,12 +136,12 @@ BEGIN
 	IF OLD.nbChart != NEW.nbChart	THEN
 		UPDATE vgr_game
 		SET nbChart = (SELECT SUM(nbChart) FROM vgr_group WHERE idGame = NEW.idGame)
-		WHERE idGame = NEW.idGame;
+		WHERE id = NEW.idGame;
 	END IF;
 	IF OLD.nbPost != NEW.nbPost	THEN
 		UPDATE vgr_game
 		SET nbPost = (SELECT SUM(nbPost) FROM vgr_group WHERE idGame = NEW.idGame)
-		WHERE idGame = NEW.idGame;
+		WHERE id = NEW.idGame;
 	END IF;
 	IF OLD.nbPlayer != NEW.nbPlayer THEN
 		UPDATE vgr_game
@@ -150,12 +150,12 @@ BEGIN
 		    			INNER JOIN vgr_chart b ON a.idChart = b.id
 		    			INNER JOIN vgr_group c ON b.idGroup = c.id
 		    			WHERE c.idGame = NEW.idGame)
-		WHERE idGame = NEW.idGame;
+		WHERE id = NEW.idGame;
 	END IF;
-	IF (SELECT COUNT(idGroup) FROM vgr_groue WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
-		UPDATE vgr_game SET boolDLC=1 WHERE idGame = NEW.idGame;
+	IF (SELECT COUNT(id) FROM vgr_group WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
+		UPDATE vgr_game SET boolDLC=1 WHERE id = NEW.idGame;
 	ELSE
-		UPDATE vgr_game SET boolDLC=0 WHERE idGame = NEW.idGame;
+		UPDATE vgr_game SET boolDLC=0 WHERE id = NEW.idGame;
 	END IF;
 END //
 delimiter ;
@@ -166,10 +166,10 @@ DROP TRIGGER IF EXISTS `vgrGroupAfterDelete`//
 CREATE TRIGGER vgrGroupAfterDelete AFTER DELETE ON vgr_group
 FOR EACH ROW
 BEGIN
-	IF (SELECT COUNT(idGroup) FROM vgr_group WHERE idGame = OLD.idGame AND boolDLC = 1) > 0 THEN
-		UPDATE vgr_game SET boolDLC=1 WHERE idGame = OLD.idGame;
+	IF (SELECT COUNT(id) FROM vgr_group WHERE idGame = OLD.idGame AND boolDLC = 1) > 0 THEN
+		UPDATE vgr_game SET boolDLC=1 WHERE id = OLD.idGame;
 	ELSE
-		UPDATE vgr_game SET boolDLC=0 WHERE idGame = OLD.idGame;
+		UPDATE vgr_game SET boolDLC=0 WHERE id = OLD.idGame;
 	END IF;
 END //
 delimiter ;
