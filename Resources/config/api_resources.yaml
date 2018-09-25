@@ -2,8 +2,10 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Serie:
         collectionOperations:
             get: ~
+            post: ~
         itemOperations:
             get: ~
+
     VideoGamesRecords\CoreBundle\Entity\Game:
         collectionOperations:
             get: ~
@@ -189,6 +191,19 @@ resources:
             get: ~
         itemOperations:
             get: ~
+            player-ranking:
+                method: 'GET'
+                path: '/chart/{id}/player-ranking'
+                swagger_context:
+                    summary: 'Retrive ranking of a chart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::playerRanking'
+                defaults:
+                    _api_receive: false
+    VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerGame:
         collectionOperations:
             get: ~
@@ -202,6 +217,28 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         collectionOperations:
             get: ~
+            submit:
+                method: 'POST'
+                path: '/player-charts/submit'
+                swagger_context:
+                    summary: 'Submit scores on a chart'
+                    parameters:
+                        - in: body
+                          schema:
+                              type: object
+                              properties:
+                                  idPlayer: {type: integer}
+                                  idChart: {type: integer}
+                                  idPlaform: {type: integer}
+                                  values: {type: array}
+                          example:
+                              idPlayer: 1
+                              idChart: 1
+                              idPlatform : 1
+                              values: []
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::submit'
+                defaults:
+                    _api_receive: false
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\Player:
