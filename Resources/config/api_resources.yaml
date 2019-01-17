@@ -219,6 +219,7 @@ resources:
             get: ~
             submit:
                 method: 'POST'
+                access_control: 'is_granted("ROLE_USER")'
                 path: '/player-charts/submit'
                 swagger_context:
                     summary: 'Submit scores on a chart'
