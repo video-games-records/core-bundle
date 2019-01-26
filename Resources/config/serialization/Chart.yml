@@ -1,0 +1,32 @@
+VideoGamesRecords\CoreBundle\Entity\Chart:
+  attributes:
+    id:
+      groups:
+        - 'chart_show'
+        - 'chart_list'
+    group:
+      groups:
+        - 'chart_show'
+        - 'chart_list'
+    nbPost:
+      groups:
+        - 'chart_show'
+        - 'chart_list'
+    nbPlayer:
+      groups:
+        - 'chart_show'
+        - 'chart_list'
+    name:
+      groups:
+        - 'chart_show'
+        - 'chart_list'
+    slug:
+      groups:
+        - 'chart_show'
+        - 'chart_list'
+    createdAt:
+      groups:
+        - 'chart_show'
+    updatedAt:
+      groups:
+        - 'chart_show'
