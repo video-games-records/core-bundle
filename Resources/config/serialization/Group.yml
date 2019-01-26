@@ -4,10 +4,12 @@ VideoGamesRecords\CoreBundle\Entity\Group:
       groups:
         - 'group_show'
         - 'group_list'
+        - 'chart_show'
     game:
       groups:
         - 'group_show'
         - 'group_list'
+        - 'chart_show'
     boolDlc:
       groups: []
     nbChart:
@@ -26,6 +28,7 @@ VideoGamesRecords\CoreBundle\Entity\Group:
       groups:
         - 'group_show'
         - 'group_list'
+        - 'chart_show'
     slug:
       groups:
         - 'group_show'

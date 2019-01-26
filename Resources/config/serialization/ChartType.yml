@@ -1,0 +1,9 @@
+VideoGamesRecords\CoreBundle\Entity\ChartType:
+  attributes:
+    idType:
+      groups:
+        - 'chart_show'
+    name:
+    mask:
+      groups:
+        - 'chart_show'

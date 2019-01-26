@@ -196,9 +196,11 @@ resources:
         collectionOperations:
             get: ~
         itemOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [chart_show]}
             player-ranking:
                 method: 'GET'
+                normalization_context: {'groups': [player_show, ranking]}
                 path: '/chart/{id}/player-ranking'
                 swagger_context:
                     summary: 'Retrive ranking of a chart'

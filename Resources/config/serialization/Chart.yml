@@ -8,6 +8,9 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
       groups:
         - 'chart_show'
         - 'chart_list'
+    libs:
+      groups:
+        - 'chart_show'
     nbPost:
       groups:
         - 'chart_show'

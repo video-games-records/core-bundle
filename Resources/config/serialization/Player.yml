@@ -1,9 +1,13 @@
 VideoGamesRecords\CoreBundle\Entity\Player:
   attributes:
+    id:
+      groups:
+        - 'player_show'
     pseudo:
       groups:
         - 'ranking_point'
         - 'ranking_medal'
+        - 'player_show'
     avatar:
       groups:
         - 'ranking_point'
