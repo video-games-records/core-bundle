@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Tools\Score;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -28,6 +29,16 @@ class ChartController extends Controller
             ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
             ->getRanking($chart, null, $maxRank);
 
+
+        for ($i=0; $i<=count($ranking)-1; $i++) {
+            foreach ($chart->getLibs() as $lib) {
+                $key = $lib->getIdLibChart();
+                $ranking[$i]["value_$key"] = Score::formatScore(
+                    $ranking[$i]["value_$key"],
+                    $lib->getType()->getMask()
+                );
+            }
+        }
         return $ranking;
     }
 }

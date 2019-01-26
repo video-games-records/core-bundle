@@ -1,0 +1,38 @@
+VideoGamesRecords\CoreBundle\Entity\PlayerChart:
+  attributes:
+    idPlayerChart:
+    chart:
+    player:
+      groups:
+        - 'player_show'
+    rank:
+      groups:
+        - 'ranking'
+    nbEqual:
+      groups:
+        - 'ranking'
+    pointChart:
+      groups:
+        - 'ranking'
+    status:
+      groups:
+        - 'ranking'
+    proof:
+      groups:
+        - 'ranking'
+    isTopScore:
+    dateInvestigation:
+      groups:
+        - 'ranking'
+    platform:
+      groups:
+        - 'ranking'
+    dateModif:
+      groups:
+        - 'ranking'
+    createdAt:
+      groups:
+        - 'ranking'
+    updatedAt:
+      groups:
+        - 'ranking'
