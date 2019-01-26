@@ -4,6 +4,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game_show'
         - 'game_list'
+        - 'group_show'
     picture:
       groups:
         - 'game_show'
@@ -48,6 +49,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game_show'
         - 'game_list'
+        - 'group_show'
     slug:
         - 'game_show'
         - 'game_list'

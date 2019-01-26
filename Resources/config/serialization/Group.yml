@@ -1,0 +1,38 @@
+VideoGamesRecords\CoreBundle\Entity\Group:
+  attributes:
+    id:
+      groups:
+        - 'group_show'
+        - 'group_list'
+    game:
+      groups:
+        - 'group_show'
+        - 'group_list'
+    boolDlc:
+      groups: []
+    nbChart:
+      groups:
+        - 'group_show'
+        - 'group_list'
+    nbPost:
+      groups:
+        - 'group_show'
+        - 'group_list'
+    nbPlayer:
+      groups:
+        - 'group_show'
+        - 'group_list'
+    name:
+      groups:
+        - 'group_show'
+        - 'group_list'
+    slug:
+      groups:
+        - 'group_show'
+        - 'group_list'
+    createdAt:
+      groups:
+        - 'group_show'
+    updatedAt:
+      groups:
+        - 'group_show'
