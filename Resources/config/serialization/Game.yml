@@ -46,6 +46,8 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game_show'
         - 'game_list'
+        - 'group_show'
+        - 'chart_show'
     name:
       groups:
         - 'game_show'

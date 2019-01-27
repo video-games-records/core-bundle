@@ -4,10 +4,14 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
       groups:
         - 'game_show'
         - 'game_list'
+        - 'group_show'
+        - 'chart_show'
     libPlatform:
       groups:
         - 'game_show'
         - 'game_list'
+        - 'group_show'
+        - 'chart_show'
     picture:
       groups:
         - 'game_show'
