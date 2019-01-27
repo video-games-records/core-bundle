@@ -10,10 +10,10 @@ resources:
             get:
         itemOperations:
             get:
-                normalization_context: {'groups': [game_show]}
+                normalization_context: {'groups': [game_show, platform_show]}
             list-by-letter:
                 method: 'GET'
-                normalization_context: {'groups': [game_list]}
+                normalization_context: {'groups': [game_list, platform_show]}
                 path: '/game/list-by-letter'
                 swagger_context:
                     parameters:
@@ -112,7 +112,7 @@ resources:
             get: ~
         itemOperations:
             get:
-                normalization_context: {'groups': [group_show]}
+                normalization_context: {'groups': [group_show, platform_show]}
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [ranking_point]}
@@ -197,7 +197,7 @@ resources:
             get: ~
         itemOperations:
             get:
-                normalization_context: {'groups': [chart_show]}
+                normalization_context: {'groups': [chart_show, platform_show]}
             player-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [player_show, ranking]}
