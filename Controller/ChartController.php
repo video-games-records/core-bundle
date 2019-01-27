@@ -33,7 +33,8 @@ class ChartController extends Controller
         for ($i=0; $i<=count($ranking)-1; $i++) {
             foreach ($chart->getLibs() as $lib) {
                 $key = $lib->getIdLibChart();
-                $ranking[$i]["value_$key"] = Score::formatScore(
+                // format value
+                $ranking[$i]['values'][] = Score::formatScore(
                     $ranking[$i]["value_$key"],
                     $lib->getType()->getMask()
                 );
