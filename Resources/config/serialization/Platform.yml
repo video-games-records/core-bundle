@@ -2,16 +2,10 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
   attributes:
     idPlatform:
       groups:
-        - 'game_show'
-        - 'game_list'
-        - 'group_show'
-        - 'chart_show'
+        - 'platform_show'
     libPlatform:
       groups:
-        - 'game_show'
-        - 'game_list'
-        - 'group_show'
-        - 'chart_show'
+        - 'platform_show'
     picture:
       groups:
         - 'game_show'
