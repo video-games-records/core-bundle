@@ -223,8 +223,15 @@ resources:
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerChart:
+        attributes:
+            normalization_context:
+                groups: ['playerChart.read']
+            denormalization_context:
+                groups: ['playerChart.write']
         collectionOperations:
-            get: ~
+            get:
+                filters : ['playerChart.player_filter','playerChart.chart_filter']
+            post: ~
             submit:
                 method: 'POST'
                 access_control: 'is_granted("ROLE_USER")'
@@ -249,13 +256,27 @@ resources:
                 defaults:
                     _api_receive: false
         itemOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [playerChart_show, playerChart.read]}
+            put:
+                normalization_context: {'groups': [playerChart.write, playerChart.write]}
+                _api_receive: true
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
             get: ~
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\Platform:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\ChartLib:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\PlayerChartLib:
         collectionOperations:
             get: ~
         itemOperations:

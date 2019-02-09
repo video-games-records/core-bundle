@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Tools\Score;
 
 /**
  * Chart
@@ -77,6 +78,7 @@ class ChartType
         return $this->mask;
     }
 
+
     /**
      * Set orderBy
      *
@@ -143,5 +145,15 @@ class ChartType
     {
         $this->name = $name;
         return $this;
+    }
+
+    /**
+     * Get parseMask
+     *
+     * @return array
+     */
+    public function getParseMask()
+    {
+        return Score::parseChartMask($this->mask);
     }
 }

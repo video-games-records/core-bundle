@@ -204,7 +204,7 @@ class PlayerChartRepository extends EntityRepository
                 ->select(sprintf('%s.value', $alias))
                 ->from('VideoGamesRecordsCoreBundle:PlayerChartLib', $alias)
                 ->where(sprintf('%s.libChart = :%s', $alias, $key))
-                ->andWhere(sprintf('%s.player = pc.player', $alias))
+                ->andWhere(sprintf('%s.playerChart = pc', $alias))
                 ->setParameter($key, $lib);
 
             $queryBuilder

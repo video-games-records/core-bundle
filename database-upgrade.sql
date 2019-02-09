@@ -316,9 +316,31 @@ ALTER TABLE `vgr_player_chart` ADD `dateInvestigation` DATE NULL AFTER `isTopSco
 ALTER TABLE `vgr_player_chart` ADD `idPlatform` INT NULL;
 
 
-
+ALTER TABLE `vgr_player_chartlib` ADD `idPlayerChart` INT NULL;
 ALTER TABLE `vgr_player_chartlib` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT NULL;
+
+-- UPDATE vgr_player_chartlib.idPlayerChart
+UPDATE  vgr_player_chart, vgr_chartlib,vgr_player_chartlib
+SET vgr_player_chartlib.idPlayerChart = vgr_player_chart.idPlayerChart
+WHERE vgr_player_chart.idChart = vgr_chartlib.idChart
+AND vgr_chartlib.idLibChart = vgr_player_chartlib.idLibChart
+AND vgr_player_chartlib.idPlayer = vgr_player_chart.idPlayer;
+DELETE FROM vgr_player_chartlib WHERE idPlayerChart IS NULL;
+ALTER TABLE `vgr_player_chartlib` CHANGE `idPlayerChart` `idPlayerChart` INT(11) NOT NULL;
+
+ALTER TABLE `vgr_player_chartlib` DROP PRIMARY KEY;
+ALTER TABLE `vgr_player_chartlib` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
+ALTER TABLE vgr_player_chartlib DROP FOREIGN KEY vgr_player_chartlib_ibfk_1;
+ALTER TABLE `vgr_player_chartlib` DROP `idPlayer`
+ALTER TABLE  `vgr_player_chartlib` ADD UNIQUE `idxUniq` (`idLibChart`, `idPlayerChart`);
+
+
+
+
+ALTER TABLE `vgr_player_chartlib` ADD INDEX(`idPlayerChart`);
+ALTER TABLE `vgr_player_chartlib` ADD FOREIGN KEY (`idPlayerChart`) REFERENCES `vgr_player_chart`(`idPlayerChart`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
 
 ALTER TABLE `vgr_player_game` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_game` CHANGE `idJeu` `idGame` INT(11) NOT NULL;

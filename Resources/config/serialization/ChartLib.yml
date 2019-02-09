@@ -6,6 +6,7 @@ VideoGamesRecords\CoreBundle\Entity\ChartLib:
     name:
       groups:
         - 'chart_show'
+    chart:
     type:
       groups:
         - 'chart_show'
