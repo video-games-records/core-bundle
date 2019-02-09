@@ -110,6 +110,21 @@ class PlayerChart
     private $platform;
 
     /**
+     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChartLib[]
+     *
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartLib", mappedBy="playerChart", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $libs;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->libs = new ArrayCollection();
+    }
+
+    /**
      * Set idPlayerChart
      *
      * @param integer $idPlayerChart
@@ -355,6 +370,33 @@ class PlayerChart
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @param PlayerChartLib $lib
+     * @return $this
+     */
+    public function addLib(PlayerChartLib $lib)
+    {
+        $lib->setPlayerChart($this);
+        $this->libs[] = $lib;
+        return $this;
+    }
+
+    /**
+     * @param PlayerChartLib $lib
+     */
+    public function removeLib(PlayerChartLib $lib)
+    {
+        $this->libs->removeElement($lib);
+    }
+
+    /**
+     * @return ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChartLib[]
+     */
+    public function getLibs()
+    {
+        return $this->libs;
     }
 
     /**

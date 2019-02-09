@@ -79,17 +79,19 @@ class Score
     {
         $parse   = self::parseChartMask($mask);
         $nbInput = count($parse);
-
-        $value = implode('', $values);
+        $value = '';
+        foreach ($values as $row) {
+            $value .= $row['value'];
+        }
         if ($value == '') {
             return null;
         }
         if ($nbInput === 1) {
-            return $value;
+            return $values[0]['value'];
         }
         $value = '';
         for ($k = 0; $k <= $nbInput - 1; $k++) {
-            $part   = $values[$k];
+            $part   = $values[$k]['value'];
             $length = $parse[$k]['size'];
             if (strlen($part) < $length) {
                 if ($k === 0) {
