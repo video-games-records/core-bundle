@@ -191,7 +191,7 @@ class PlayerChartLib
      */
     public function setValueFromPaseValue()
     {
-        $this->value = Score::formToBdd(
+        $this->value = (int) Score::formToBdd(
             $this->getLibChart()
                 ->getType()
                 ->getMask(),
