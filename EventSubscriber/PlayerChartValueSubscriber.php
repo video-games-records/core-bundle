@@ -30,12 +30,10 @@ final class PlayerChartValueSubscriber implements EventSubscriberInterface
         $playerChart = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if (!$playerChart instanceof PlayerChart || Request::METHOD_PUT !== $method) {
-            return;
-        }
-
-        foreach ($playerChart->getLibs() as $lib) {
-            $lib->setValueFromPaseValue();
+        if (($playerChart instanceof PlayerChart) && in_array($method, array(Request::METHOD_POST, Request::METHOD_PUT))) {
+            foreach ($playerChart->getLibs() as $lib) {
+                $lib->setValueFromPaseValue();
+            }
         }
     }
 }
