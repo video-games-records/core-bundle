@@ -5,6 +5,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\ProofBundle\Entity\Proof;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 /**
  * PlayerChart
@@ -399,6 +401,19 @@ class PlayerChart
         return $this->libs;
     }
 
+
+    /**
+     * @ORM\PrePersist()
+     * @param LifecycleEventArgs $args
+     * @throws \Exception
+     */
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $entityManager = $args->getObjectManager();
+        $this->setStatus($entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
+        $this->setDateModif(new \DateTime());
+    }
+
     /**
      * @ORM\PreUpdate()
      */
@@ -415,5 +430,8 @@ class PlayerChart
         if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getIdStatus(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
             $this->setDateInvestigation(null);
         }
+
+        /*$playerChart->setStatus($em->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
+        $playerChart->setDateModif(new \DateTime());*/
     }
 }

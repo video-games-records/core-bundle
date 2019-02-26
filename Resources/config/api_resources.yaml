@@ -231,30 +231,22 @@ resources:
         collectionOperations:
             get:
                 filters : ['playerChart.player_filter','playerChart.chart_filter']
-            post: ~
-            submit:
-                method: 'POST'
-                access_control: 'is_granted("ROLE_USER")'
-                path: '/player-charts/submit'
+            getOne:
+                method: 'GET'
+                path: '/player_charts/get-one'
                 swagger_context:
-                    summary: 'Submit scores on a chart'
+                    summary: 'Retrive an playerChart object (maybe juste initialized)'
                     parameters:
-                        - in: body
-                          schema:
-                              type: object
-                              properties:
-                                  idPlayer: {type: integer}
-                                  idChart: {type: integer}
-                                  idPlaform: {type: integer}
-                                  values: {type: array}
-                          example:
-                              idPlayer: 1
-                              idChart: 1
-                              idPlatform : 1
-                              values: []
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::submit'
-                defaults:
-                    _api_receive: false
+                        - name: idPlayer
+                          in: query
+                          required: true
+                          type: integer
+                        - name: idChart
+                          in: query
+                          required: true
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::getOne'
+            post: ~
         itemOperations:
             get:
                 normalization_context: {'groups': [playerChart_show, playerChart.read]}
