@@ -145,7 +145,7 @@ class Game
      * @ORM\ManyToMany(targetEntity="Platform")
      * @ORM\JoinTable(name="vgr_game_platform",
      *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="idPlatform")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="id")}
      *      )
      * @ORM\OrderBy({"libPlatform" = "ASC"})
      */

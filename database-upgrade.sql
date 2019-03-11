@@ -391,7 +391,7 @@ ALTER TABLE `vgr_lostposition` CHANGE `oldPosition` `oldRank` INT(5) NOT NULL DE
 ALTER TABLE `vgr_lostposition` CHANGE `newPosition` `newRank` INT(5) NOT NULL DEFAULT '0';
 
 -- Platforms
-ALTER TABLE `vgr_platform` CHANGE `idPlateforme` `idPlatform` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_platform` CHANGE `idPlateforme` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_platform` CHANGE `libPlateforme` `libPlatform` VARCHAR(50) NOT NULL;
 ALTER TABLE `vgr_platform` CHANGE `statut` `status` ENUM('ACTIF','INACTIF') NOT NULL DEFAULT 'INACTIF';
 ALTER TABLE `vgr_platform` CHANGE `image` `picture` VARCHAR(30) NOT NULL DEFAULT '';

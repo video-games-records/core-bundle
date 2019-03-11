@@ -19,11 +19,11 @@ class Platform
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPlatform", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idPlatform;
+    private $id;
 
     /**
      * @var string
@@ -61,30 +61,30 @@ class Platform
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->libPlatform, $this->idPlatform);
+        return sprintf('%s [%s]', $this->libPlatform, $this->id);
     }
 
     /**
-     * Set idPlatform
+     * Set id
      *
-     * @param integer $idPlatform
+     * @param integer $id
      * @return $this
      */
-    public function setIdPlatform($idPlatform)
+    public function setId($id)
     {
-        $this->idPlatform = $idPlatform;
+        $this->id = $id;
         return $this;
     }
 
 
     /**
-     * Get idPlatform
+     * Get id
      *
      * @return integer
      */
-    public function getIdPlatform()
+    public function getId()
     {
-        return $this->idPlatform;
+        return $this->id;
     }
 
     /**

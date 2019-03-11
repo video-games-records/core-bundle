@@ -8,6 +8,7 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Game:
         collectionOperations:
             get:
+                filters: ['game.status_filter','platform_filter']
         itemOperations:
             get:
                 normalization_context: {'groups': [game_show, platform_show]}
@@ -27,7 +28,7 @@ resources:
                           type: string
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::listByLetter'
                 defaults:
-                    _api_receive: false
+                      _api_receive: false
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [ranking_point]}
@@ -259,6 +260,8 @@ resources:
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\Platform:
+        attributes:
+            pagination_enabled: false
         collectionOperations:
             get: ~
         itemOperations:
