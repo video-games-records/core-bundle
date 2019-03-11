@@ -1,6 +1,6 @@
 VideoGamesRecords\CoreBundle\Entity\Platform:
   attributes:
-    idPlatform:
+    id:
       groups:
         - 'platform_show'
     libPlatform:

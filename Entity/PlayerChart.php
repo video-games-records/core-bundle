@@ -106,7 +106,7 @@ class PlayerChart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="idPlatform")
+     *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="id")
      * })
      */
     private $platform;
