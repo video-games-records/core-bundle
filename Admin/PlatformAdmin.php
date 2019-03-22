@@ -27,8 +27,8 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idPlatform', 'text', [
-                'label' => 'idPlatform',
+            ->add('id', 'text', [
+                'label' => 'id',
                 'attr' => [
                     'readonly' => true,
                 ]
@@ -73,7 +73,7 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idPlatform')
+            ->addIdentifier('id')
             ->add('libPlatform', null, ['editable' => false])
             ->add(
                 'picture',
