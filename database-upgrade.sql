@@ -86,7 +86,7 @@ RENAME TABLE t_messageprive TO message;
 RENAME TABLE vgr_demandepreuve TO vgr_proof_request;
 RENAME TABLE vgr_preuves TO vgr_proof;
 
-ALTER TABLE `vgr_player` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `vgr_player` CHANGE `idMembre` `id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -516,7 +516,7 @@ ALTER TABLE vgr_player ADD normandie_user_id INT DEFAULT NULL;
 ALTER TABLE `vgr_player` CHANGE `derniereConnexion` `derniereConnexion` DATETIME NULL;
 UPDATE vgr_player SET derniereConnexion = NULL  WHERE CAST(derniereConnexion AS CHAR(20)) = '0000-00-00 00:00:00';
 UPDATE vgr_player SET dateNaissance = NULL  WHERE CAST(dateNaissance AS CHAR(11)) LIKE '0%';
-UPDATE vgr_player SET dateCreation = '2004-10-30 00:00:00', dateModification = '2004-10-30 00:00:00'  WHERE idPlayer = 0;
+UPDATE vgr_player SET dateCreation = '2004-10-30 00:00:00', dateModification = '2004-10-30 00:00:00'  WHERE id = 0;
 
 -- Procedure to migrate member
 DELIMITER &&
@@ -530,12 +530,12 @@ BEGIN
   DECLARE birthdate date;
   DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
   DECLARE v_email, nom, prenom, siteWeb, statutCompte, sexe varchar(255);
-  DECLARE cur1 CURSOR FOR SELECT idPlayer, pseudo, email, nom, prenom, dateNaissance, nbConnexion, siteWeb, statutCompte,
+  DECLARE cur1 CURSOR FOR SELECT id, pseudo, email, nom, prenom, dateNaissance, nbConnexion, siteWeb, statutCompte,
                             dateCreation, dateModification, derniereConnexion, sexe, idPays
                             /*, MSN, presentation, nbForumMessage, nbCommentaire, boolTeam, boolNewsletter, boolAssoc,
                             boolShowFbLikeBox, boolNotifCommentaire, signature, dateFormat, utcFormat, mailSending, don,
                             idLangue, idLangueForum, idRang, idStatut, idTeam*/
-                          FROM vgr_player WHERE idPlayer != 0;
+                          FROM vgr_player WHERE id != 0;
   -- Handler for duplicate email
   DECLARE CONTINUE HANDLER FOR 1062
     BEGIN
@@ -585,7 +585,7 @@ BEGIN
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
       );
     SET member_id = LAST_INSERT_ID();
-    UPDATE vgr_player SET normandie_user_id = member_id WHERE idPlayer = vgr_member_id;
+    UPDATE vgr_player SET normandie_user_id = member_id WHERE id = vgr_member_id;
   END LOOP;
   CLOSE cur1;
 END&&
@@ -661,7 +661,7 @@ UPDATE vgr_game g
 SET nbTeam = (SELECT COUNT(idGame) FROM vgr_team_game tg WHERE tg.idGame = g.id);
 
 UPDATE vgr_player p
-SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer);
+SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.id);
 
 -- Badge
 ALTER TABLE `badge` CHANGE `image` `picture` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'defaut.gif';
@@ -716,7 +716,7 @@ ALTER TABLE vgr_game_topic MODIFY idTopic int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE vgr_game_topic
   ADD CONSTRAINT fk_game_topic_game FOREIGN KEY (idGame) REFERENCES vgr_game (id),
-  ADD CONSTRAINT fk_game_topic_player FOREIGN KEY (idPlayer) REFERENCES vgr_player (idPlayer);
+  ADD CONSTRAINT fk_game_topic_player FOREIGN KEY (idPlayer) REFERENCES vgr_player (id);
 
 CREATE TABLE vgr_game_message (
   idMessage int(11) NOT NULL,
@@ -736,7 +736,7 @@ ALTER TABLE vgr_game_message
   MODIFY idMessage int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE vgr_game_message
-  ADD CONSTRAINT fk_game_message_player FOREIGN KEY (idPlayer) REFERENCES vgr_player (idPlayer),
+  ADD CONSTRAINT fk_game_message_player FOREIGN KEY (idPlayer) REFERENCES vgr_player (id),
   ADD CONSTRAINT fk_game_message_topic FOREIGN KEY (idTopic) REFERENCES vgr_game_topic (idTopic);
 
 
@@ -820,13 +820,13 @@ UPDATE message SET idSender = null WHERE idSender = 0;
 
 UPDATE message m, vgr_player p
 SET m.idSender = p.normandie_user_id
-WHERE m.idSender = p.idPlayer;
+WHERE m.idSender = p.id;
 
 DELETE FROM message WHERE idRecipient = 0;
 
 UPDATE message m, vgr_player p
 SET m.idRecipient = p.normandie_user_id
-WHERE m.idRecipient = p.idPlayer;
+WHERE m.idRecipient = p.id;
 
 
 ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
@@ -908,7 +908,7 @@ WHERE p.idPlayer = pc.idPlayer
 
 
 -- delete
-DELETE FROM vgr_proof WHERE idPlayer NOT IN (SELECT idPlayer FROM vgr_player);
+DELETE FROM vgr_proof WHERE idPlayer NOT IN (SELECT id FROM vgr_player);
 UPDATE vgr_proof SET idVideo = NULL WHERE idVideo = 0;
 DELETE FROM vgr_proof WHERE idPicture IS NULL AND idVideo IS NULL;
 

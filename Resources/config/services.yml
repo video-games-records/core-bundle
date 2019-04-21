@@ -17,17 +17,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate}
             - { name: doctrine.event_listener, event: postUpdate, method: postUpdate}
-    vgr.event_listener.login_listener:
-        class: VideoGamesRecords\CoreBundle\EventListener\LoginListener
-        arguments: ["@=service('doctrine').getRepository('VideoGamesRecordsCoreBundle:Player')"]
-        tags:
-            - { name: 'kernel.event_listener', event: 'security.interactive_login' }
-    VideoGamesRecords\CoreBundle\Controller\Api\GameController:
-        arguments: ['@serializer']
-        public: true
-    VideoGamesRecords\CoreBundle\Controller\Api\RankingController:
-        arguments: ['@serializer']
-        public: true
     array_normalizer:
         class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
         public: false
@@ -58,7 +47,7 @@ services:
         parent: 'api_platform.doctrine.orm.search_filter'
         arguments: [ { platforms: ~ } ]
         tags:  [ 'api_platform.filter' ]
-    vgr.toto:
+    vgr.playerChartValueSubscriber:
         class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]
 

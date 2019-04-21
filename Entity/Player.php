@@ -28,11 +28,11 @@ class Player
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPlayer", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idPlayer;
+    private $id;
 
     /**
      * @var string
@@ -261,29 +261,29 @@ class Player
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getPseudo(), $this->idPlayer);
+        return sprintf('%s [%s]', $this->getPseudo(), $this->getId());
     }
 
     /**
-     * Set idPlayer
+     * Set id
      *
-     * @param integer $idPlayer
+     * @param integer $id
      * @return Player
      */
-    public function setIdPlayer($idPlayer)
+    public function setId($id)
     {
-        $this->idPlayer = $idPlayer;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idPlayer
+     * Get id
      *
      * @return integer
      */
-    public function getIdPlayer()
+    public function getId()
     {
-        return $this->idPlayer;
+        return $this->id;
     }
 
     /**
@@ -1008,6 +1008,6 @@ class Player
      */
     public function isLeader()
     {
-        return ($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getIdPlayer());
+        return ($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getId());
     }
 }
