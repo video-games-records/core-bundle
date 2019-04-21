@@ -6,13 +6,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use VideoGamesRecords\CoreBundle\Controller\VgrBaseController;
 
 /**
  * Class PlayerController
  * @Route("/player")
  */
-class PlayerController extends VgrBaseController
+class PlayerController extends Controller
 {
     /**
      * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_player_index")

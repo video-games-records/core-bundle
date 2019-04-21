@@ -46,7 +46,7 @@ class PlayerRepository extends EntityRepository
         $qb = $this->createQueryBuilder('player')
             ->join('player.playerGame', 'playerGame')
             ->addSelect('playerGame')
-            ->where('player.idPlayer = :idPlayer')
+            ->where('player.id = :idPlayer')
             ->setParameter('idPlayer', $idPlayer);
 
         return $qb->getQuery()->getOneOrNullResult();
@@ -83,7 +83,7 @@ class PlayerRepository extends EntityRepository
     public function getNbPlayer($params = [])
     {
         $qb = $this->createQueryBuilder('player')
-            ->select('COUNT(player.idPlayer)');
+            ->select('COUNT(player.id)');
 
         if (array_key_exists('nbChart>0', $params)) {
             $qb->where('player.nbChart > 0');
@@ -100,7 +100,7 @@ class PlayerRepository extends EntityRepository
     {
         $query = $this->_em->createQuery("
             SELECT
-                 p.idPlayer,
+                 p.id,
                  SUM(pg.chartRank0) as chartRank0,
                  SUM(pg.chartRank1) as chartRank1,
                  SUM(pg.chartRank2) as chartRank2,
@@ -143,7 +143,7 @@ class PlayerRepository extends EntityRepository
         //----- data rank0
         $query = $this->_em->createQuery("
             SELECT
-                 p.idPlayer,
+                 p.id,
                  COUNT(pg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.game g
@@ -161,7 +161,7 @@ class PlayerRepository extends EntityRepository
         //----- data rank1 to rank3
         $query = $this->_em->createQuery("
             SELECT
-                 p.idPlayer,
+                 p.id,
                  COUNT(pg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
