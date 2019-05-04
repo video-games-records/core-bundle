@@ -111,7 +111,7 @@ class PlayerRepository extends EntityRepository
                  SUM(pg.pointGame) as pointGame
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
-            WHERE p.idPlayer = :idPlayer
+            WHERE p.id = :idPlayer
             GROUP BY p.idPlayer");
 
         $query->setParameter('idPlayer', $idPlayer);
@@ -280,7 +280,7 @@ class PlayerRepository extends EntityRepository
             ->orderBy('p.rankPointChart');
 
         if ($idPlayer !== null) {
-            $query->where('(p.rankPointChart <= :maxRank OR p.idPlayer = :idPlayer)')
+            $query->where('(p.rankPointChart <= :maxRank OR p.id = :idPlayer)')
                 ->setParameter('maxRank', 100)
                 ->setParameter('idPlayer', $idPlayer);
         } else {
@@ -302,7 +302,7 @@ class PlayerRepository extends EntityRepository
             ->orderBy('p.rankPointGame');
 
         if ($idPlayer !== null) {
-            $query->where('(p.rankPointGame <= :maxRank OR p.idPlayer = :idPlayer)')
+            $query->where('(p.rankPointGame <= :maxRank OR p.id = :idPlayer)')
                 ->setParameter('maxRank', 100)
                 ->setParameter('idPlayer', $idPlayer);
         } else {
@@ -324,7 +324,7 @@ class PlayerRepository extends EntityRepository
             ->orderBy('p.rankMedal');
 
         if ($idPlayer !== null) {
-            $query->where('(p.rankMedal <= :maxRank OR p.idPlayer = :idPlayer)')
+            $query->where('(p.rankMedal <= :maxRank OR p.id = :idPlayer)')
                 ->setParameter('maxRank', 100)
                 ->setParameter('idPlayer', $idPlayer);
         } else {
@@ -346,7 +346,7 @@ class PlayerRepository extends EntityRepository
             ->orderBy('p.rankCup');
 
         if ($idPlayer !== null) {
-            $query->where('(p.rankCup <= :maxRank OR p.idPlayer = :idPlayer)')
+            $query->where('(p.rankCup <= :maxRank OR p.id = :idPlayer)')
                 ->setParameter('maxRank', 100)
                 ->setParameter('idPlayer', $idPlayer);
         } else {

@@ -29,7 +29,7 @@ class PlayerGroupRepository extends EntityRepository
             ->setParameter('idGroup', $idGroup);
 
         if (($maxRank !== null) && ($idPlayer !== null)) {
-            $query->andWhere('(pg.rankPointChart <= :maxRank OR p.idPlayer = :idPlayer)')
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR p.id = :idPlayer)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('idPlayer', $idPlayer);
         } elseif ($maxRank !== null) {
@@ -61,7 +61,7 @@ class PlayerGroupRepository extends EntityRepository
             ->setParameter('idGroup', $idGroup);
 
         if (($maxRank !== null) && ($idPlayer !== null)) {
-            $query->andWhere('(pg.rankMedal <= :maxRank OR p.idPlayer = :idPlayer)')
+            $query->andWhere('(pg.rankMedal <= :maxRank OR p.id = :idPlayer)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('idPlayer', $idPlayer);
         } elseif ($maxRank !== null) {
