@@ -21,7 +21,7 @@ class PlayerChartRepository extends EntityRepository
         $query = $this->createQueryBuilder('pc')
             ->join('pc.player', 'p')
             ->join('pc.chart', 'c')
-            ->where('p.idPlayer = :idPlayer')
+            ->where('p.id = :idPlayer')
             ->setParameter('idPlayer', $idPlayer)
             ->andWhere('c.id = :idChart')
             ->setParameter('idChart', $idChart);
