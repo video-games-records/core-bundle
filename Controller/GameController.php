@@ -6,12 +6,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class GameController
  */
 class GameController extends Controller
 {
+
+    private $userManager;
+
+    public function __construct(UserManagerInterface $userManager)
+    {
+        $this->userManager = $userManager;
+    }
+
+    /**
+     * @return Player|null
+     */
+    private function getPlayer()
+    {
+        if ($this->getUser() !== null) {
+            return $this->getUser()->getPlayer();
+        }
+        return null;
+    }
 
     /**
      * @param Request $request
@@ -37,7 +56,7 @@ class GameController extends Controller
     {
         $maxRank = $request->query->get('maxRank', 5);
         $idPlayer = $request->query->get('idPlayer', null);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game->getId(), $maxRank, $idPlayer);
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game->getId(), $maxRank, $this->getPlayer());
         return $ranking;
     }
 
@@ -51,7 +70,7 @@ class GameController extends Controller
     {
         $maxRank = $request->query->get('maxRank', 5);
         $idPlayer = $request->query->get('idPlayer', null);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($game->getId(), $maxRank, $idPlayer);
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($game->getId(), $maxRank, $this->getPlayer());
         return $ranking;
     }
 
@@ -65,7 +84,7 @@ class GameController extends Controller
     {
         $maxRank = $request->query->get('maxRank', 5);
         $idPlayer = $request->query->get('idPlayer', null);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGame')->getRankingPoints($game->getId(), $maxRank, $idPlayer);
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGame')->getRankingPoints($game->getId(), $maxRank, $this->getPlayer());
         return $ranking;
     }
 
@@ -79,7 +98,7 @@ class GameController extends Controller
     {
         $maxRank = $request->query->get('maxRank', 5);
         $idPlayer = $request->query->get('idPlayer', null);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGame')->getRankingMedals($game->getId(), $maxRank, $idPlayer);
+        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGame')->getRankingMedals($game->getId(), $maxRank, $this->getPlayer());
         return $ranking;
     }
 }

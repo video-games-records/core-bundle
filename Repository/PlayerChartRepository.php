@@ -164,9 +164,11 @@ class PlayerChartRepository extends EntityRepository
             ->andWhere('status.boolRanking = 1');
 
         if (null !== $limit && null !== $player) {
+            $playerChart = $this->getFromUnique($player->getId(), $chart->getId());
+            $rank = $playerChart->getRank();
             $queryBuilder
                 ->andWhere(
-                    $queryBuilder->expr()->orX('pc.rank <= :maxRank', 'pc.player = :player')
+                    $queryBuilder->expr()->orX('(pc.rank <= :maxRank)', 'pc.player = :player')
                 )
                 ->setParameter('maxRank', $limit)
                 ->setParameter('player', $player);
