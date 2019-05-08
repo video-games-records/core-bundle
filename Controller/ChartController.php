@@ -10,6 +10,7 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class ChartController
@@ -17,6 +18,24 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ChartController extends Controller
 {
 
+    private $userManager;
+
+    public function __construct(UserManagerInterface $userManager)
+    {
+        $this->userManager = $userManager;
+    }
+
+
+    /**
+     * @return Player|null
+     */
+    private function getPlayer()
+    {
+        if ($this->getUser() !== null) {
+            return $this->getUser()->getPlayer();
+        }
+        return null;
+    }
 
     /**
      * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
@@ -41,10 +60,9 @@ class ChartController extends Controller
     public function playerRanking(Chart $chart, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 20);
-        $idPlayer = $request->query->get('idPlayer', null);
         $ranking = $this->getDoctrine()
             ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
-            ->getRanking($chart, null, $maxRank);
+            ->getRanking($chart, $this->getPlayer(), $maxRank);
 
 
         for ($i=0; $i<=count($ranking)-1; $i++) {
