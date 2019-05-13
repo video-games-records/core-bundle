@@ -59,7 +59,7 @@ class PlayerRepository extends EntityRepository
     public function getDataForDwh()
     {
         $query = $this->_em->createQuery("
-            SELECT p.idPlayer,
+            SELECT p.id,
                    p.chartRank0,
                    p.chartRank1,
                    p.chartRank2,
@@ -71,7 +71,7 @@ class PlayerRepository extends EntityRepository
                    p.pointGame,
                    p.rankPointGame                   
             FROM VideoGamesRecords\CoreBundle\Entity\Player p
-            WHERE p.idPlayer <> 0");
+            WHERE p.id <> 0");
         return $query->getResult();
     }
 
@@ -112,7 +112,7 @@ class PlayerRepository extends EntityRepository
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
             WHERE p.id = :idPlayer
-            GROUP BY p.idPlayer");
+            GROUP BY p.id");
 
         $query->setParameter('idPlayer', $idPlayer);
         $result = $query->getResult();
@@ -151,11 +151,11 @@ class PlayerRepository extends EntityRepository
             WHERE pg.rankPointChart = 1
             AND g.nbPlayer > 1
             AND pg.nbEqual = 1
-            GROUP BY p.idPlayer");
+            GROUP BY p.id");
 
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['gameRank0'][$row['idPlayer']] = (int) $row['nb'];
+            $data['gameRank0'][$row['id']] = (int) $row['nb'];
         }
 
         //----- data rank1 to rank3
@@ -166,13 +166,13 @@ class PlayerRepository extends EntityRepository
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
             WHERE pg.rankPointChart = :rank
-            GROUP BY p.idPlayer");
+            GROUP BY p.id");
 
         for ($i = 1; $i <= 3; $i++) {
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["gameRank$i"][$row['idPlayer']] = (int) $row['nb'];
+                $data["gameRank$i"][$row['id']] = (int) $row['nb'];
             }
         }
 
@@ -180,7 +180,7 @@ class PlayerRepository extends EntityRepository
         $players = $this->findAll();
 
         foreach ($players as $player) {
-            $idPlayer = $player->getIdPlayer();
+            $idPlayer = $player->getId();
 
             $rank0 = isset($data['gameRank0'][$idPlayer]) ? $data['gameRank0'][$idPlayer] : 0;
             $rank1 = isset($data['gameRank1'][$idPlayer]) ? $data['gameRank1'][$idPlayer] : 0;
@@ -363,7 +363,7 @@ class PlayerRepository extends EntityRepository
     public function majNbGame()
     {
         //----- MAJ game.nbTeam
-        $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer)';
+        $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.id)';
         $this->_em->getConnection()->executeUpdate($sql);
     }
 

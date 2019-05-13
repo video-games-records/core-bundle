@@ -56,7 +56,7 @@ class PlayerChartRepository extends EntityRepository
             $libValue = '';
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
             $playerChart = $item[0];
-            $players[]   = $playerChart->getPlayer()->getIdPlayer();
+            $players[]   = $playerChart->getPlayer()->getId();
             $playerChart
                 ->setTopScore(false);
 
@@ -135,7 +135,7 @@ class PlayerChartRepository extends EntityRepository
                 ->select(sprintf('%s.value', $alias))
                 ->from('VideoGamesRecordsCoreBundle:PlayerChartLib', $alias)
                 ->where(sprintf('%s.libChart = :%s', $alias, $key))
-                ->andWhere(sprintf('%s.player = pc.player', $alias))
+                ->andWhere(sprintf('%s.playerChart = pc', $alias))
                 ->setParameter($key, $lib);
 
             $queryBuilder
@@ -154,8 +154,6 @@ class PlayerChartRepository extends EntityRepository
      * @param int|null $limit
      *
      * @return array
-     * @todo
-     * => If idPlayer, search for the rank and display a range of -5 and +5
      */
     public function getRanking(Chart $chart, $player = null, $limit = null)
     {
@@ -165,13 +163,30 @@ class PlayerChartRepository extends EntityRepository
 
         if (null !== $limit && null !== $player) {
             $playerChart = $this->getFromUnique($player->getId(), $chart->getId());
-            $rank = $playerChart->getRank();
-            $queryBuilder
-                ->andWhere(
-                    $queryBuilder->expr()->orX('(pc.rank <= :maxRank)', 'pc.player = :player')
-                )
-                ->setParameter('maxRank', $limit)
-                ->setParameter('player', $player);
+            if ($playerChart) {
+                $rank = $playerChart->getRank();
+                $queryBuilder
+                    ->andWhere(
+                        $queryBuilder->expr()->orX(
+                            '(pc.rank <= :maxRank)',
+                            '(pc.rank IS NULL)',
+                            '(:min <= pc.rank) AND (pc.rank <= :max)',
+                            '(pc.player = :player)'
+                        )
+                    )
+                    ->setParameter('maxRank', $limit)
+                    ->setParameter('player', $player)
+                    ->setParameter(':min', $rank - 5)
+                    ->setParameter(':max', $rank + 5);
+            } else {
+                $queryBuilder
+                    ->andWhere(
+                        $queryBuilder->expr()->orX('(pc.rank <= :maxRank)', '(pc.rank IS NULL)', 'pc.player = :player')
+                    )
+                    ->setParameter('maxRank', $limit)
+                    ->setParameter('player', $player);
+            }
+
         } elseif (null !== $limit) {
             $queryBuilder
                 ->andWhere('pc.rank <= :maxRank')

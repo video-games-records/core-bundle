@@ -84,7 +84,7 @@ class PlayerGameRepository extends EntityRepository
         //----- data without DLC
         $query = $this->_em->createQuery("
             SELECT
-                 p.idPlayer,
+                 p.id,
                  SUM(pg.pointChart) as pointChartWithoutDlc,
                  SUM(pg.nbChart) as nbChartWithoutDlc,
                  SUM(pg.nbChartProven) as nbChartProvenWithoutDlc
@@ -93,20 +93,20 @@ class PlayerGameRepository extends EntityRepository
             JOIN pg.group g
             WHERE g.game = :game
             AND g.boolDlc = 0
-            GROUP BY p.idPlayer");
+            GROUP BY p.id");
 
         $dataWithoutDlc = [];
 
         $query->setParameter('game', $game);
         $result = $query->getResult();
         foreach ($result as $row) {
-            $dataWithoutDlc[$row['idPlayer']] = $row;
+            $dataWithoutDlc[$row['id']] = $row;
         }
 
         //----- select ans save result in array
         $query = $this->_em->createQuery("
             SELECT
-                p.idPlayer,
+                p.id,
                 '' as rankPointChart,
                 '' as rankMedal,
                 SUM(pg.chartRank0) as chartRank0,
@@ -122,7 +122,7 @@ class PlayerGameRepository extends EntityRepository
             JOIN pg.player p
             JOIN pg.group g
             WHERE g.game = :game
-            GROUP BY p.idPlayer
+            GROUP BY p.id
             ORDER BY pointChart DESC");
 
 
@@ -131,7 +131,7 @@ class PlayerGameRepository extends EntityRepository
 
         $list = [];
         foreach ($result as $row) {
-            $row = array_merge($row, $dataWithoutDlc[$row['idPlayer']]);
+            $row = array_merge($row, $dataWithoutDlc[$row['id']]);
             $list[] = $row;
         }
 
@@ -149,7 +149,7 @@ class PlayerGameRepository extends EntityRepository
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\PlayerGame'
             );
-            $playerGame->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['idPlayer']));
+            $playerGame->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['id']));
             $playerGame->setGame($game);
 
             $this->_em->persist($playerGame);
