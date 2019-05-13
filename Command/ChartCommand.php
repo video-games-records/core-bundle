@@ -80,11 +80,11 @@ class ChartCommand extends DefaultCommand
         /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
         $chartRepository = $this->doctrine->getRepository('VideoGamesRecordsCoreBundle:Chart');
 
-        /*if ($chartRepository->isMajPlayerRunning()) {
+        if ($chartRepository->isMajPlayerRunning()) {
             $output->writeln('vgr:chart maj-player is already running');
 
             return;
-        }*/
+        }
         $chartRepository->goToMajPlayer(self::NB_CHART_TO_MAJ);
 
 
@@ -95,12 +95,8 @@ class ChartCommand extends DefaultCommand
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart[]|array $charts
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
+     * @param array $charts
+     * @throws \Exception
      */
     public function updateCharts(array $charts)
     {

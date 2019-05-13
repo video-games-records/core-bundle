@@ -61,9 +61,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * @param $game
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
+     * @throws \Exception
      */
     public function majMasterBadge($game)
     {
@@ -71,7 +69,7 @@ class PlayerBadgeRepository extends EntityRepository
         $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game->getId(), 1);
         $players = array();
         foreach ($ranking as $playerGame) {
-            $players[$playerGame->getPlayer()->getIdPlayer()] = 0;
+            $players[$playerGame->getPlayer()->getId()] = 0;
         }
 
         //----- get players with master badge
@@ -79,7 +77,7 @@ class PlayerBadgeRepository extends EntityRepository
 
         //----- Remove master badge
         foreach ($list as $playerBadge) {
-            $idPlayer = $playerBadge->getPlayer()->getIdPlayer();
+            $idPlayer = $playerBadge->getPlayer()->getId();
             //----- Remove badge
             if (!array_key_exists($idPlayer, $players)) {
                 $playerBadge->setEndedAt(new \DateTime());

@@ -89,7 +89,7 @@ class PlayerGroupRepository extends EntityRepository
         //----- data rank0
         $query = $this->_em->createQuery("
             SELECT
-                 p.idPlayer,
+                 p.id,
                  COUNT(pc.idPlayerChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
@@ -98,47 +98,47 @@ class PlayerGroupRepository extends EntityRepository
             AND pc.rank = 1
             AND c.nbPost > 0
             AND pc.nbEqual = 1
-            GROUP BY p.idPlayer");
+            GROUP BY p.id");
 
 
         $query->setParameter('group', $group);
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['chartRank0'][$row['idPlayer']] = $row['nb'];
+            $data['chartRank0'][$row['id']] = $row['nb'];
         }
 
         //----- data rank1 to rank5
         $query = $this->_em->createQuery("
             SELECT
-                 p.idPlayer,
+                 p.id,
                  COUNT(pc.idPlayerChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
             JOIN pc.chart c
             WHERE c.group = :group
             AND pc.rank = :rank
-            GROUP BY p.idPlayer");
+            GROUP BY p.id");
         $query->setParameter('group', $group);
 
         for ($i = 1; $i <= 5; $i++) {
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["chartRank$i"][$row['idPlayer']] = $row['nb'];
+                $data["chartRank$i"][$row['id']] = $row['nb'];
             }
         }
 
         //----- data nbRecordProuve
         $query = $this->_em->createQuery("
             SELECT
-                 p.idPlayer,
+                 p.id,
                  COUNT(pc.idPlayerChart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
             JOIN pc.chart c
             WHERE c.group = :group
             AND pc.status = :status
-            GROUP BY p.idPlayer");
+            GROUP BY p.id");
 
         $query->setParameter('group', $group);
         $query->setParameter(
@@ -151,14 +151,14 @@ class PlayerGroupRepository extends EntityRepository
 
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['nbChartProven'][$row['idPlayer']] = $row['nb'];
+            $data['nbChartProven'][$row['id']] = $row['nb'];
         }
 
 
         //----- select ans save result in array
         $query = $this->_em->createQuery("
             SELECT
-                p.idPlayer,
+                p.id,
                 '' as rankPoint,
                 '' as rankMedal,
                 SUM(pc.pointChart) as pointChart,
@@ -167,7 +167,7 @@ class PlayerGroupRepository extends EntityRepository
             JOIN pc.player p
             JOIN pc.chart c
             WHERE c.group = :group
-            GROUP BY p.idPlayer
+            GROUP BY p.id
             ORDER BY pointChart DESC");
 
 
@@ -177,13 +177,13 @@ class PlayerGroupRepository extends EntityRepository
         $list = [];
         foreach ($result as $row) {
             $row['rankMedal'] = 0;
-            $row['chartRank0'] = (isset($data['chartRank0'][$row['idPlayer']])) ? $data['chartRank0'][$row['idPlayer']] : 0;
-            $row['chartRank1'] = (isset($data['chartRank1'][$row['idPlayer']])) ? $data['chartRank1'][$row['idPlayer']] : 0;
-            $row['chartRank2'] = (isset($data['chartRank2'][$row['idPlayer']])) ? $data['chartRank2'][$row['idPlayer']] : 0;
-            $row['chartRank3'] = (isset($data['chartRank3'][$row['idPlayer']])) ? $data['chartRank3'][$row['idPlayer']] : 0;
-            $row['chartRank4'] = (isset($data['chartRank4'][$row['idPlayer']])) ? $data['chartRank4'][$row['idPlayer']] : 0;
-            $row['chartRank5'] = (isset($data['chartRank5'][$row['idPlayer']])) ? $data['chartRank5'][$row['idPlayer']] : 0;
-            $row['nbChartProven'] = (isset($data['nbChartProven'][$row['idPlayer']])) ? $data['nbChartProven'][$row['idPlayer']] : 0;
+            $row['chartRank0'] = (isset($data['chartRank0'][$row['id']])) ? $data['chartRank0'][$row['id']] : 0;
+            $row['chartRank1'] = (isset($data['chartRank1'][$row['id']])) ? $data['chartRank1'][$row['id']] : 0;
+            $row['chartRank2'] = (isset($data['chartRank2'][$row['id']])) ? $data['chartRank2'][$row['id']] : 0;
+            $row['chartRank3'] = (isset($data['chartRank3'][$row['id']])) ? $data['chartRank3'][$row['id']] : 0;
+            $row['chartRank4'] = (isset($data['chartRank4'][$row['id']])) ? $data['chartRank4'][$row['id']] : 0;
+            $row['chartRank5'] = (isset($data['chartRank5'][$row['id']])) ? $data['chartRank5'][$row['id']] : 0;
+            $row['nbChartProven'] = (isset($data['nbChartProven'][$row['id']])) ? $data['nbChartProven'][$row['id']] : 0;
             $list[] = $row;
         }
 
@@ -200,7 +200,7 @@ class PlayerGroupRepository extends EntityRepository
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\PlayerGroup'
             );
-            $playerGroup->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['idPlayer']));
+            $playerGroup->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['id']));
             $playerGroup->setGroup($group);
 
             $this->_em->persist($playerGroup);
