@@ -1,71 +1,3 @@
--- Migration script for video-games-records.com
-SET NAMES 'utf8';
-SET CHARACTER SET utf8;
-
-DROP TRIGGER IF EXISTS `vgrGroupeAfterDelete`;
-DROP TRIGGER IF EXISTS `vgrGroupeAfterInsert`;
-DROP TRIGGER IF EXISTS `vgrGroupeAfterUpdate`;
-DROP TRIGGER IF EXISTS `vgrRecordAfterDelete`;
-DROP TRIGGER IF EXISTS `vgrRecordAfterInsert`;
-DROP TRIGGER IF EXISTS `vgrRecordAfterUpdate`;
-DROP TRIGGER IF EXISTS `vgrRecordMembreAfterDelete`;
-DROP TRIGGER IF EXISTS `vgrRecordMembreAfterInsert`;
-DROP TRIGGER IF EXISTS `vgrRecordMembreAfterUpdate`;
-DROP TRIGGER IF EXISTS `vgrRecordMembreBeforeUpdate`;
-DROP TRIGGER IF EXISTS `tVgrJeuBeforeUpdate`;
-
---
-DROP TRIGGER IF EXISTS `vgrDemandepreuveAfterInsert`;
-DROP TRIGGER IF EXISTS `tTeamDemandeAfterUpdate`;
-DROP TRIGGER IF EXISTS `tMembreBeforeUpdate`;
-DROP TRIGGER IF EXISTS `tMembreAfterUpdate`;
-DROP TRIGGER IF EXISTS `tCommentaireAfterInsert`;
-DROP TRIGGER IF EXISTS `tCommentaireAfterDelete`;
-DROP TRIGGER IF EXISTS `mvTeamRecordAfterDelete`;
-
-
-DROP TABLE IF EXISTS copy_vgr_groupe;
-DROP TABLE IF EXISTS copy_vgr_record;
-DROP TABLE IF EXISTS t_team_demande_old;
-
--- DROP VIEW
-DROP VIEW IF EXISTS view_commentaire;
-DROP VIEW IF EXISTS view_forum;
-DROP VIEW IF EXISTS view_forum_message;
-DROP VIEW IF EXISTS view_forum_home;
-DROP VIEW IF EXISTS view_forum_topic;
-DROP VIEW IF EXISTS view_groupe;
-DROP VIEW IF EXISTS view_jeu;
-DROP VIEW IF EXISTS view_librecord;
-DROP VIEW IF EXISTS view_librecord_membre;
-DROP VIEW IF EXISTS view_membre;
-DROP VIEW IF EXISTS view_membre2;
-DROP VIEW IF EXISTS view_membre3;
-DROP VIEW IF EXISTS view_membre_cup;
-DROP VIEW IF EXISTS view_pays;
-DROP VIEW IF EXISTS view_record;
-DROP VIEW IF EXISTS view_record_membre_last;
-DROP VIEW IF EXISTS view_team_cup;
-DROP VIEW IF EXISTS view_team_demande;
-DROP VIEW IF EXISTS view_topscore;
-DROP VIEW IF EXISTS view_topScore;
-DROP VIEW IF EXISTS view_video;
-
--- TRUNCATE t_session;
-
-RENAME TABLE vgr_jeu TO vgr_game;
-RENAME TABLE vgr_groupe TO vgr_group;
-RENAME TABLE vgr_record TO vgr_chart;
-RENAME TABLE vgr_record_membre TO vgr_player_chart;
-RENAME TABLE mv_membre_serie TO vgr_player_serie;
-RENAME TABLE mv_membre_jeu TO vgr_player_game;
-RENAME TABLE mv_membre_groupe TO vgr_player_group;
-RENAME TABLE vgr_librecord TO vgr_chartlib;
-RENAME TABLE vgr_librecord_type TO vgr_charttype;
-RENAME TABLE vgr_librecord_membre TO vgr_player_chartlib;
-RENAME TABLE vgr_perteposition TO vgr_lostposition;
-RENAME TABLE vgr_plateforme TO vgr_platform;
-RENAME TABLE vgr_jeu_plateforme TO vgr_game_platform;
 
 RENAME TABLE vgr_etatrecord TO vgr_player_chart_status;
 RENAME TABLE t_pays TO country;
@@ -332,7 +264,7 @@ ALTER TABLE `vgr_player_chartlib` CHANGE `idPlayerChart` `idPlayerChart` INT(11)
 ALTER TABLE `vgr_player_chartlib` DROP PRIMARY KEY;
 ALTER TABLE `vgr_player_chartlib` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 ALTER TABLE vgr_player_chartlib DROP FOREIGN KEY vgr_player_chartlib_ibfk_1;
-ALTER TABLE `vgr_player_chartlib` DROP `idPlayer`
+ALTER TABLE `vgr_player_chartlib` DROP `idPlayer`;
 ALTER TABLE  `vgr_player_chartlib` ADD UNIQUE `idxUniq` (`idLibChart`, `idPlayerChart`);
 
 
@@ -763,7 +695,67 @@ ALTER TABLE t_forum_topic DROP FOREIGN KEY t_forum_topic_ibfk_2;
 ALTER TABLE t_forum_topic ADD CONSTRAINT t_forum_topic_ibfk_2 FOREIGN KEY (idForum) REFERENCES t_forum(idForum) ON DELETE CASCADE ON UPDATE CASCADE;
 
 DELETE FROM t_forum WHERE idForumPere = 42;
+DELETE FROM t_forum WHERE idForum = 42;
 
+--
+-- VGR TEAM MESSAGE Part
+--
+CREATE TABLE vgr_team_topic (idTopic int(11) NOT NULL, idteam int(11) NOT NULL, idPlayer int(11) NOT NULL, libTopic varchar(255) NOT NULL, created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, oldIdTopic int(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE vgr_team_topic ADD PRIMARY KEY (idTopic), ADD KEY idxPlayer (idPlayer), ADD KEY idxTeam (idTeam);
+
+ALTER TABLE vgr_team_topic MODIFY idTopic int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE vgr_team_topic
+  ADD CONSTRAINT fk_team_topic_team FOREIGN KEY (idTeam) REFERENCES vgr_team (idTeam),
+  ADD CONSTRAINT fk_team_topic_player FOREIGN KEY (idPlayer) REFERENCES vgr_player (id);
+
+CREATE TABLE vgr_team_message (
+  idMessage int(11) NOT NULL,
+  idTopic int(11) NOT NULL,
+  idPlayer int(11) NOT NULL,
+  text text NOT NULL,
+  created_at datetime NOT NULL,
+  updated_at datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE vgr_team_message
+  ADD PRIMARY KEY (idMessage),
+  ADD KEY idxTopic (idTopic),
+  ADD KEY idxPlayer (idPlayer);
+
+ALTER TABLE vgr_team_message
+  MODIFY idMessage int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE vgr_team_message
+  ADD CONSTRAINT fk_team_message_player FOREIGN KEY (idPlayer) REFERENCES vgr_player (id),
+  ADD CONSTRAINT fk_team_message_topic FOREIGN KEY (idTopic) REFERENCES vgr_team_topic (idTopic);
+
+
+INSERT INTO vgr_team_topic (idPlayer, idTeam, libTopic, oldIdTopic)
+SELECT idMembre,vgr_team.idTeam, libTopic, idTopic
+FROM t_forum
+  INNER JOIN vgr_team ON t_forum.idForum = vgr_team.idForum
+  INNER JOIN t_forum_topic ON t_forum_topic.idForum = t_forum.idForum;
+
+INSERT INTO vgr_team_message (idTopic, idPlayer, text, created_at, updated_at)
+SELECT vgr_team_topic.idTopic, t_forum_message.idMembre, t_forum_message.texte, t_forum_message.dateCreation, t_forum_message.dateModification
+FROM t_forum_message INNER JOIN vgr_team_topic ON vgr_team_topic.oldIdTopic = t_forum_message.idTopic
+ORDER BY t_forum_message.idMessage ASC;
+
+
+UPDATE vgr_team_topic a, vgr_team_message b
+SET a.created_at = b.created_at
+WHERE a.idTopic = b.idTopic;
+
+UPDATE vgr_team_topic a, vgr_team_message b
+SET a.updated_at = b.created_at
+WHERE a.idTopic = b.idTopic;
+
+ALTER TABLE vgr_team DROP FOREIGN KEY vgr_team_ibfk_2;
+ALTER TABLE `vgr_team` DROP `idForum`;
+DELETE FROM t_forum WHERE idForumPere = 793;
+DELETE FROM t_forum WHERE idForum = 793;
 
 --
 -- PARTNER Part
