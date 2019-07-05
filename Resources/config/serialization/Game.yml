@@ -2,14 +2,14 @@ VideoGamesRecords\CoreBundle\Entity\Game:
   attributes:
     id:
       groups:
-        - 'game_show'
-        - 'game_list'
-        - 'group_show'
-        - 'chart_show'
+        - 'game.show'
+        - 'game.list'
+        - 'group.show'
+        - 'chart.show'
     picture:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
+        - 'game.list'
     status:
       groups: []
     etat:
@@ -20,42 +20,42 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups: []
     nbChart:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
+        - 'game.list'
     nbPost:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
+        - 'game.list'
     nbPlayer:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
+        - 'game.list'
     nbTeam:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
+        - 'game.list'
     ordre:
       groups: []
     serie:
       groups:
-        - 'game_show'
+        - 'game.show'
     badge:
       groups:
-        - 'game_show'
+        - 'game.show'
     platforms:
       groups:
-        - 'platform_show'
+        - 'platform.show'
     name:
       groups:
-        - 'game_show'
-        - 'game_list'
-        - 'group_show'
-        - 'chart_show'
+        - 'game.show'
+        - 'game.list'
+        - 'group.show'
+        - 'chart.show'
     slug:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
+        - 'game.list'
     createdAt:
       groups:
-        - 'game_show'
+        - 'game.show'
     updatedAt:
-        - 'game_show'
+        - 'game.show'

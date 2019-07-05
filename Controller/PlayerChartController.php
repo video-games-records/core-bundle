@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Tools\Score;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use Doctrine\DBAL\DBALException;
@@ -18,6 +17,7 @@ class PlayerChartController extends Controller
 {
 
     /**
+     * @deprecated
      * @param Request $request
      * @return mixed
      */
