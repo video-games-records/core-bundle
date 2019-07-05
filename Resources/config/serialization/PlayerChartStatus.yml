@@ -2,9 +2,9 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
   attributes:
     idStatus:
       groups:
-        - 'playerChartStatus_show'
+        - 'playerChartStatus.show'
     libStatus:
       groups:
-        - 'playerChartStatus_show'
+        - 'playerChartStatus.show'
     boolRanking:
     boolSendProof:

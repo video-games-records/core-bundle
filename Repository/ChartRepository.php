@@ -153,4 +153,33 @@ class ChartRepository extends EntityRepository
 
         return $query->getQuery()->getResult();
     }
+
+    /**
+     * /**
+     * @param      $game
+     * @param      $player
+     * @param null $idGroup
+     * @param null $libChart
+     * @return mixed
+     */
+    public function getList($game, $player, $idGroup = null, $idChart = null, $libChart = null)
+    {
+        $query = $this->createQueryBuilder('ch')
+            ->join('ch.group', 'gr')
+            ->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.player = :player')
+            ->addSelect('gr')
+            ->addSelect('pc')
+            ->andWhere('gr.game = :game')
+            ->setParameter('game', $game)
+            ->setParameter('player', $player);
+        if ($idGroup != null) {
+            $query->andWhere('gr.id = :idGroup')
+                ->setParameter('idGroup', $idGroup);
+        }
+        if ($idChart != null) {
+            $query->andWhere('ch.id = :idChart')
+                ->setParameter('idChart', $idChart);
+        }
+        return $query->getQuery()->getResult();
+    }
 }

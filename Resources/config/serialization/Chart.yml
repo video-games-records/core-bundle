@@ -2,34 +2,38 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
   attributes:
     id:
       groups:
-        - 'chart_show'
-        - 'chart_list'
+        - 'chart.show'
+        - 'chart.list'
     group:
       groups:
-        - 'chart_show'
-        - 'chart_list'
+        - 'chart.show'
+        - 'chart.list'
     libs:
       groups:
-        - 'chart_show'
+        - 'chartLib.show'
     nbPost:
       groups:
-        - 'chart_show'
-        - 'chart_list'
+        - 'chart.show'
+        - 'chart.list'
     nbPlayer:
       groups:
-        - 'chart_show'
-        - 'chart_list'
+        - 'chart.show'
+        - 'chart.list'
     name:
       groups:
-        - 'chart_show'
-        - 'chart_list'
+        - 'chart.show'
+        - 'chart.list'
     slug:
       groups:
-        - 'chart_show'
-        - 'chart_list'
+        - 'chart.show'
+        - 'chart.list'
+    playerCharts:
+      groups:
+        - 'game.charts.submit'
+      max_depth: 1
     createdAt:
       groups:
-        - 'chart_show'
+        - 'chart.show'
     updatedAt:
       groups:
-        - 'chart_show'
+        - 'chart.show'

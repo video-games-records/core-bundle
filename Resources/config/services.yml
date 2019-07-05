@@ -8,6 +8,14 @@ services:
     VideoGamesRecords\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+#    VideoGamesRecords\CoreBundle\Serializer\ChartContextBuilder:
+#        decorates: 'api_platform.serializer.context_builder'
+#        arguments: [ '@VideoGamesRecords\CoreBundle\Serializer\ChartContextBuilder.inner' ]
+#        autoconfigure: false
+#    VideoGamesRecords\CoreBundle\Doctrine\ChartExtension:
+#        tags:
+#            - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
+#            - { name: api_platform.doctrine.orm.query_extension.item }
     VideoGamesRecords\CoreBundle\Command\ChartCommand:
         class: VideoGamesRecords\CoreBundle\Command\ChartCommand
         arguments: [null, '@doctrine.orm.entity_manager']

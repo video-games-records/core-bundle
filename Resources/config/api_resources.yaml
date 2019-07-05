@@ -11,10 +11,10 @@ resources:
                 filters: ['game.status_filter','platform_filter']
         itemOperations:
             get:
-                normalization_context: {'groups': [game_show, platform_show]}
+                normalization_context: {'groups': [game.show, platform.show]}
             list-by-letter:
                 method: 'GET'
-                normalization_context: {'groups': [game_list, platform_show]}
+                normalization_context: {'groups': [game.list, platform.show]}
                 path: '/game/list-by-letter'
                 swagger_context:
                     parameters:
@@ -103,6 +103,25 @@ resources:
                           required: false
                           type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingMedals'
+            charts:
+                method: 'GET'
+                normalization_context: {'groups': [chart.show, chartLib.show, game.charts.submit, playerChart.read]}
+                path: '/game/{id}/charts'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: idGroup
+                          in: query
+                          required: false
+                          type: integer
+                        - name: libChart
+                          in: query
+                          required: false
+                          type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::charts'
         properties:
             groups:
                 subresource:
@@ -113,7 +132,7 @@ resources:
             get: ~
         itemOperations:
             get:
-                normalization_context: {'groups': [group_show, platform_show]}
+                normalization_context: {'groups': [group.show, platform.show]}
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [ranking_point]}
@@ -195,13 +214,17 @@ resources:
                     collection: true
     VideoGamesRecords\CoreBundle\Entity\Chart:
         collectionOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [chart.show], 'enable_max_depth':true}
+            api_groups_charts_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [chart.show], 'enable_max_depth':true}
         itemOperations:
             get:
-                normalization_context: {'groups': [chart_show, platform_show]}
+                normalization_context: {'groups': [chart.show, platform.show]}
             player-ranking:
                 method: 'GET'
-                normalization_context: {'groups': [player_show, ranking]}
+                normalization_context: {'groups': [player.show, ranking]}
                 path: '/chart/{id}/player-ranking'
                 swagger_context:
                     summary: 'Retrive ranking of a chart'
@@ -225,34 +248,17 @@ resources:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         attributes:
-            normalization_context:
-                groups: ['playerChart.read']
-            denormalization_context:
-                groups: ['playerChart.write']
+            normalization_context: {'groups': [playerChart.read]}
+            denormalization_context: {'groups': [playerChart.write]}
         collectionOperations:
             get:
                 filters : ['playerChart.player_filter','playerChart.chart_filter']
-            getOne:
-                method: 'GET'
-                path: '/player_charts/get-one'
-                swagger_context:
-                    summary: 'Retrive an playerChart object (maybe juste initialized)'
-                    parameters:
-                        - name: idPlayer
-                          in: query
-                          required: true
-                          type: integer
-                        - name: idChart
-                          in: query
-                          required: true
-                          type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::getOne'
             post: ~
         itemOperations:
             get:
-                normalization_context: {'groups': [playerChart_show, playerChart.read]}
+                normalization_context: {'groups': [playerChart.read]}
             put:
-                normalization_context: {'groups': [playerChart.write, playerChart.write]}
+                normalization_context: {'groups': [playerChart.write]}
                 _api_receive: true
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
@@ -267,6 +273,9 @@ resources:
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\ChartLib:
+        properties:
+            idLibChart:
+                identifier: true
         collectionOperations:
             get: ~
         itemOperations:
