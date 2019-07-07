@@ -107,15 +107,17 @@ class GameController extends Controller
      */
     public function charts(Game $game, Request $request)
     {
-        $idGroup = $request->query->get('idGroup', null);
-        $idChart = $request->query->get('idChart', null);
-        $libChart = $request->query->get('libChart', null);
+        $page = (int) $request->query->get('page', 1);
+        $search = array(
+            'idChart' => $request->query->get('idChart', null),
+            'idGroup' => $request->query->get('idGroup', null),
+            'libChart' => $request->query->get('libChart', null),
+        );
         $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getList(
+            $page,
             $game->getId(),
             $this->getPlayer(),
-            $idGroup,
-            $idChart,
-            $libChart
+            $search
         );
         // IF NOT EXIST => Create a playerChart with id=-1 AND value = null
         foreach ($charts as $chart) {
@@ -134,7 +136,6 @@ class GameController extends Controller
                 $chart->setPlayerCharts(array($playerChart));
             }
         }
-
         return $charts;
     }
 }

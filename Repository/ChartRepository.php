@@ -2,11 +2,16 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 class ChartRepository extends EntityRepository
 {
+
+    const ITEMS_PER_PAGE = 10;
+
     /**
      * @param int $id
      *
@@ -155,15 +160,16 @@ class ChartRepository extends EntityRepository
     }
 
     /**
-     * /**
-     * @param      $game
-     * @param      $player
-     * @param null $idGroup
-     * @param null $libChart
-     * @return mixed
+     * @param int   $page
+     * @param null  $game
+     * @param null  $player
+     * @param array $search
+     * @return Paginator
      */
-    public function getList($game, $player, $idGroup = null, $idChart = null, $libChart = null)
+    public function getList(int $page = 1, $game = null, $player = null, $search = array()) : Paginator
     {
+        $firstResult = ($page -1) * self::ITEMS_PER_PAGE;
+
         $query = $this->createQueryBuilder('ch')
             ->join('ch.group', 'gr')
             ->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.player = :player')
@@ -172,14 +178,20 @@ class ChartRepository extends EntityRepository
             ->andWhere('gr.game = :game')
             ->setParameter('game', $game)
             ->setParameter('player', $player);
-        if ($idGroup != null) {
+        if ($search['idGroup'] != null) {
             $query->andWhere('gr.id = :idGroup')
-                ->setParameter('idGroup', $idGroup);
+                ->setParameter('idGroup', $search['idGroup']);
         }
-        if ($idChart != null) {
+        if ($search['idChart'] != null) {
             $query->andWhere('ch.id = :idChart')
-                ->setParameter('idChart', $idChart);
+                ->setParameter('idChart', $search['idChart']);
         }
-        return $query->getQuery()->getResult();
+        $query = $query->getQuery()
+            ->setFirstResult($firstResult)
+            ->setMaxResults(self::ITEMS_PER_PAGE);
+        $doctrinePaginator = new DoctrinePaginator($query);
+        $paginator = new Paginator($doctrinePaginator);
+
+        return $paginator;
     }
 }
