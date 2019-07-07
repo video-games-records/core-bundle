@@ -253,12 +253,14 @@ resources:
         collectionOperations:
             get:
                 filters : ['playerChart.player_filter','playerChart.chart_filter']
-            post: ~
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
         itemOperations:
             get:
                 normalization_context: {'groups': [playerChart.read]}
             put:
                 normalization_context: {'groups': [playerChart.write]}
+                access_control: 'is_granted("ROLE_PLAYER")'
                 _api_receive: true
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
