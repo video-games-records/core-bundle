@@ -1,3 +1,91 @@
+-- Migration script for video-games-records.com
+SET NAMES 'utf8';
+SET CHARACTER SET utf8;
+
+DROP TRIGGER IF EXISTS `vgrGroupeAfterDelete`;
+DROP TRIGGER IF EXISTS `vgrGroupeAfterInsert`;
+DROP TRIGGER IF EXISTS `vgrGroupeAfterUpdate`;
+DROP TRIGGER IF EXISTS `vgrRecordAfterDelete`;
+DROP TRIGGER IF EXISTS `vgrRecordAfterInsert`;
+DROP TRIGGER IF EXISTS `vgrRecordAfterUpdate`;
+DROP TRIGGER IF EXISTS `vgrRecordMembreAfterDelete`;
+DROP TRIGGER IF EXISTS `vgrRecordMembreAfterInsert`;
+DROP TRIGGER IF EXISTS `vgrRecordMembreAfterUpdate`;
+DROP TRIGGER IF EXISTS `vgrRecordMembreBeforeUpdate`;
+DROP TRIGGER IF EXISTS `tVgrJeuBeforeUpdate`;
+
+--
+DROP TRIGGER IF EXISTS `vgrDemandepreuveAfterInsert`;
+DROP TRIGGER IF EXISTS `tTeamDemandeAfterUpdate`;
+DROP TRIGGER IF EXISTS `tMembreBeforeUpdate`;
+DROP TRIGGER IF EXISTS `tMembreAfterUpdate`;
+DROP TRIGGER IF EXISTS `tCommentaireAfterInsert`;
+DROP TRIGGER IF EXISTS `tCommentaireAfterDelete`;
+DROP TRIGGER IF EXISTS `mvTeamRecordAfterDelete`;
+
+
+DROP TABLE IF EXISTS copy_vgr_groupe;
+DROP TABLE IF EXISTS copy_vgr_record;
+DROP TABLE IF EXISTS t_team_demande_old;
+DROP TABLE IF EXISTS t_email_cron;
+DROP TABLE IF EXISTS t_banniere;
+DROP TABLE IF EXISTS t_fan;
+DROP TABLE IF EXISTS t_newsletter;
+DROP TABLE IF EXISTS t_variable;
+DROP TABLE IF EXISTS t_poll_question;
+DROP TABLE IF EXISTS t_poll_reponse;
+DROP TABLE IF EXISTS t_poll_vote;
+DROP TABLE IF EXISTS t_acl_deny;
+
+DROP TABLE IF EXISTS t_concours_participant_reponse;
+DROP TABLE IF EXISTS t_concours_participant;
+DROP TABLE IF EXISTS t_concours_reponse;
+DROP TABLE IF EXISTS t_concours_participant;
+DROP TABLE IF EXISTS t_concours_question;
+DROP TABLE IF EXISTS t_concours;
+DROP TABLE IF EXISTS t_theme;
+DROP TABLE IF EXISTS t_session2;
+DROP TABLE IF EXISTS t_membre_ip;
+DROP TABLE IF EXISTS t_ip;
+
+-- DROP VIEW
+DROP VIEW IF EXISTS view_commentaire;
+DROP VIEW IF EXISTS view_forum;
+DROP VIEW IF EXISTS view_forum_message;
+DROP VIEW IF EXISTS view_forum_home;
+DROP VIEW IF EXISTS view_forum_topic;
+DROP VIEW IF EXISTS view_groupe;
+DROP VIEW IF EXISTS view_jeu;
+DROP VIEW IF EXISTS view_librecord;
+DROP VIEW IF EXISTS view_librecord_membre;
+DROP VIEW IF EXISTS view_membre;
+DROP VIEW IF EXISTS view_membre2;
+DROP VIEW IF EXISTS view_membre3;
+DROP VIEW IF EXISTS view_membre_cup;
+DROP VIEW IF EXISTS view_pays;
+DROP VIEW IF EXISTS view_record;
+DROP VIEW IF EXISTS view_record_membre_last;
+DROP VIEW IF EXISTS view_team_cup;
+DROP VIEW IF EXISTS view_team_demande;
+DROP VIEW IF EXISTS view_topscore;
+DROP VIEW IF EXISTS view_topScore;
+DROP VIEW IF EXISTS view_video;
+
+-- TRUNCATE t_session;
+
+RENAME TABLE vgr_jeu TO vgr_game;
+RENAME TABLE vgr_groupe TO vgr_group;
+RENAME TABLE vgr_record TO vgr_chart;
+RENAME TABLE vgr_record_membre TO vgr_player_chart;
+RENAME TABLE mv_membre_serie TO vgr_player_serie;
+RENAME TABLE mv_membre_jeu TO vgr_player_game;
+RENAME TABLE mv_membre_groupe TO vgr_player_group;
+RENAME TABLE vgr_librecord TO vgr_chartlib;
+RENAME TABLE vgr_librecord_type TO vgr_charttype;
+RENAME TABLE vgr_librecord_membre TO vgr_player_chartlib;
+RENAME TABLE vgr_perteposition TO vgr_lostposition;
+RENAME TABLE vgr_plateforme TO vgr_platform;
+RENAME TABLE vgr_jeu_plateforme TO vgr_game_platform;
 
 RENAME TABLE vgr_etatrecord TO vgr_player_chart_status;
 RENAME TABLE t_pays TO country;
@@ -527,6 +615,11 @@ DELIMITER ;
 CALL member_migrate();
 DROP PROCEDURE member_migrate;
 
+-- INSERT VGR USER
+INSERT INTO member (id, username, username_canonical, email, email_canonical, enabled, idPays, created_at, updated_at,salt,password, locked, expired, roles, credentials_expired, nbConnexion)
+VALUES (0, 'VGR', 'VGR', 'videogamesrecords@gmail.com', 'videogamesrecords@gmail.com', 0, 1, NOW(), NOW(), '', '', 1, 1, 'a:0:{}',1,0);
+UPDATE member SET id=0 WHERE email = 'videogamesrecords@gmail.com';
+
 ALTER TABLE vgr_player DROP password, DROP email, DROP confirm_email, DROP nom, DROP prenom, DROP dateNaissance,
 DROP statutCompte, DROP siteWeb, DROP nbConnexion, DROP derniereConnexion, DROP sexe, DROP dateCreation, DROP dateModification
 /*DROP MSN, DROP presentation,
@@ -777,7 +870,7 @@ ALTER TABLE `partner` ADD `contact` VARCHAR(255) NULL AFTER `url`;
 --
 -- MESSAGE Part
 --
-ALTER TABLE `message` CHANGE `idMessagePrive` `idMessage` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `message` CHANGE `idMessagePrive` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `message` CHANGE `idAuteur` `idSender` INT(11) NULL;
 ALTER TABLE `message` CHANGE `idDestinataire` `idRecipient` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `message` CHANGE `objet` `object` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
@@ -803,6 +896,8 @@ ALTER TABLE `message` DROP `vgr_proof`;
 ALTER TABLE `message` DROP `vgr_accepted`;
 
 ALTER TABLE `message` ADD INDEX `idxType` (`type`);
+ALTER TABLE `message` ADD INDEX `idxIsDeletedSender` (`isDeletedSender`);
+ALTER TABLE `message` ADD INDEX `idxIsDeletedRecipient` (`isDeletedRecipient`);
 
 
 ALTER TABLE message DROP FOREIGN KEY message_ibfk_1;
@@ -823,6 +918,8 @@ WHERE m.idRecipient = p.id;
 
 ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `message` ADD CONSTRAINT `fk_recipient` FOREIGN KEY (`idRecipient`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+UPDATE message SET idSender = 0 WHERE idSender IS NULL;
 
 --
 -- VGR PROOF PART
@@ -959,3 +1056,15 @@ ALTER TABLE vgr_proof_request DROP COLUMN idPlayer;
 ALTER TABLE vgr_proof_request DROP COLUMN idChart;
 ALTER TABLE vgr_proof DROP COLUMN idPlayer;
 ALTER TABLE vgr_proof DROP COLUMN idChart;
+
+
+-- ROLE
+INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
+(1, 'Admin', 'a:1:{i:0;s:10:\"ROLE_ADMIN\";}'),
+(2, 'Player', 'a:1:{i:0;s:11:\"ROLE_PLAYER\";}'),
+(3, 'AdminUser', 'a:1:{i:0;s:15:\"ROLE_USER_ADMIN\";}'),
+(4, 'AdminVgrCore', 'a:1:{i:0;s:18:\"ROLE_VGRCORE_ADMIN\";}'),
+(5, 'AdminVgrProof', 'a:1:{i:0;s:19:\"ROLE_VGRPROOF_ADMIN\";}'),
+(6, 'AdminForum', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
+(7, 'AdminMessage', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
+(8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}');
