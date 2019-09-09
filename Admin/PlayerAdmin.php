@@ -20,7 +20,8 @@ class PlayerAdmin extends AbstractAdmin
     {
         $collection
             ->remove('create')
-            ->remove('export');
+            ->remove('export')
+            ->remove('delete');
     }
 
     /**
@@ -29,8 +30,8 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idPlayer', 'text', [
-                'label' => 'idPlayer',
+            ->add('id', 'text', [
+                'label' => 'id',
                 'attr' => [
                     'readonly' => true,
                 ]
@@ -58,7 +59,7 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idPlayer')
+            ->addIdentifier('id')
             ->add('pseudo')
             ->add('_action', 'actions', [
                 'actions' => [
@@ -74,7 +75,7 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idPlayer')
+            ->add('id')
             ->add('pseudo')
             ->add('team');
     }
