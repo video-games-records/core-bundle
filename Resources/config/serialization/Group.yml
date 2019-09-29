@@ -5,12 +5,13 @@ VideoGamesRecords\CoreBundle\Entity\Group:
         - 'group.show'
         - 'group.list'
         - 'chart.show'
-        - 'playerChart.write'
+        - 'chart.label.read'
     game:
       groups:
         - 'group.show'
         - 'group.list'
         - 'chart.show'
+        - 'chart.label.read'
     boolDlc:
       groups: []
     nbChart:
@@ -30,7 +31,7 @@ VideoGamesRecords\CoreBundle\Entity\Group:
         - 'group.show'
         - 'group.list'
         - 'chart.show'
-        - 'playerChart.write'
+        - 'chart.label.read'
     slug:
       groups:
         - 'group.show'

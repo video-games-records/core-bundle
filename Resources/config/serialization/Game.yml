@@ -6,6 +6,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'game.list'
         - 'group.show'
         - 'chart.show'
+        - 'chart.label.read'
     picture:
       groups:
         - 'game.show'
@@ -51,6 +52,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'game.list'
         - 'group.show'
         - 'chart.show'
+        - 'chart.label.read'
     slug:
         - 'game.show'
         - 'game.list'

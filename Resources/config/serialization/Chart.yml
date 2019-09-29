@@ -4,10 +4,12 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
       groups:
         - 'chart.show'
         - 'chart.list'
+        - 'chart.label.read'
     group:
       groups:
         - 'chart.show'
         - 'chart.list'
+        - 'chart.label.read'
     libs:
       groups:
         - 'chartLib.show'
@@ -23,6 +25,7 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
       groups:
         - 'chart.show'
         - 'chart.list'
+        - 'chart.label.read'
     slug:
       groups:
         - 'chart.show'
