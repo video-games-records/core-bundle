@@ -974,16 +974,6 @@ ALTER TABLE `vgr_proof` DROP `boolAccepted`;
 ALTER TABLE `vgr_player_chart` ADD `idProof` INT NULL AFTER `idStatus`;
 
 
--- VGR PROOF PLAYER CHART
-CREATE TABLE `vgr_proof_player_chart` (
-  `idProof` int(11) NOT NULL,
-  `idPlayerChart` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `vgr_proof_player_chart` ADD FOREIGN KEY (`idProof`) REFERENCES `vgr_proof`(`idProof`) ON DELETE CASCADE ON UPDATE RESTRICT;
-ALTER TABLE `vgr_proof_player_chart` ADD FOREIGN KEY (`idPlayerChart`) REFERENCES `vgr_player_chart`(`idPlayerChart`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
-
 -- update
 UPDATE vgr_proof p, vgr_player_chart pc
 SET p.idPicture = pc.idPicture
@@ -1002,27 +992,8 @@ UPDATE vgr_proof SET idVideo = NULL WHERE idVideo = 0;
 DELETE FROM vgr_proof WHERE idPicture IS NULL AND idVideo IS NULL;
 
 
--- insert from vgr_proof / vgr_player_chart
-INSERT INTO vgr_proof_player_chart (idProof, idPlayerChart)
-  SELECT p.idProof,pc.idPlayerChart
-  FROM vgr_player_chart pc INNER JOIN vgr_proof p ON pc.idPicture = p.idPicture
-  WHERE pc.idPicture = p.idPicture
-        AND pc.idPicture IS NOT NULL;
-
 -- Attention pas de video + picture en même temps
 UPDATE vgr_player_chart SET idVideo = 0 WHERE idPicture IS NOT NULL and idVideo != 0;
-
--- insert
-INSERT INTO vgr_proof_player_chart (idProof, idPlayerChart)
-  SELECT p.idProof,pc.idPlayerChart
-  FROM vgr_player_chart pc INNER JOIN vgr_proof p ON pc.idVideo = p.idVideo
-  WHERE pc.idVideo = p.idVideo
-        AND pc.idVideo != 0;
-
--- update from vgr_proof_player_chart
-UPDATE vgr_player_chart pc, vgr_proof_player_chart ppc
-SET pc.idProof = ppc.idProof
-WHERE pc.idPlayerChart = ppc.idPlayerChart;
 
 
 -- maj idPlatform
@@ -1068,3 +1039,26 @@ INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
 (6, 'AdminForum', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
 (7, 'AdminMessage', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
 (8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}');
+
+
+-- VGR PICTURE
+CREATE TABLE `vgr_picture` (
+  `id` int(11) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `metadata` text,
+  `idPlayer` int(11) NOT NULL,
+  `idGame` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `vgr_picture`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idxPath` (`path`) USING BTREE,
+  ADD KEY `idxPlayer` (`idPlayer`) USING BTREE,
+  ADD KEY `idxGame` (`idGame`) USING BTREE;
+
+
+
+
+ALTER TABLE `vgr_picture` ADD CONSTRAINT `FK_PICTURE_PLAYER` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `vgr_picture` ADD CONSTRAINT `FK_PICTURE_GAME` FOREIGN KEY (`idGame`) REFERENCES `vgr_game`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+

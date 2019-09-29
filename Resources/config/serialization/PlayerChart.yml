@@ -4,6 +4,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
       groups:
         - 'playerChart.read'
         - 'playerChart.write'
+        - 'ranking'
     chart:
       groups:
         - 'playerChart.read'
@@ -24,7 +25,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         - 'ranking'
     status:
       groups:
-        - 'ranking'
+        - 'playerChartStatus.show'
     proof:
       groups:
         - 'ranking'

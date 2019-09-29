@@ -84,7 +84,7 @@ class PlayerChart
     /**
      * @var Proof
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\ProofBundle\Entity\Proof")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\ProofBundle\Entity\Proof")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idProof", referencedColumnName="idProof")
      * })

@@ -51,7 +51,6 @@ BEGIN
 		SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = OLD.idChart AND idStatus != 7)
 		WHERE id = OLD.idChart;
 	END IF;
-
 END //
 delimiter ;
 
@@ -216,7 +215,7 @@ BEGIN
                                 AND value > NEW.nbChartProven);
 
   END IF;
-  IF OLD.idTeam IS NULL && NEW.idTeam	IS NOT NULL THEN
+  IF OLD.idTeam IS NULL && NEW.idTeam IS NOT NULL THEN
     UPDATE vgr_chart
     SET statusTeam = 'MAJ'
     WHERE id IN (SELECT idChart FROM vgr_player_chart WHERE idPlayer = OLD.id);

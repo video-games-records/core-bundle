@@ -221,10 +221,10 @@ resources:
                 normalization_context: {'groups': [chart.show], 'enable_max_depth':true}
         itemOperations:
             get:
-                normalization_context: {'groups': [chart.show, platform.show]}
+                normalization_context: {'groups': [chart.show, platform.show, chartLib.show]}
             player-ranking:
                 method: 'GET'
-                normalization_context: {'groups': [player.show, ranking]}
+                normalization_context: {'groups': [player.show, ranking, playerChartStatus.show]}
                 path: '/chart/{id}/player-ranking'
                 swagger_context:
                     summary: 'Retrive ranking of a chart'
@@ -257,7 +257,7 @@ resources:
                 access_control: 'is_granted("ROLE_PLAYER")'
         itemOperations:
             get:
-                normalization_context: {'groups': [playerChart.read]}
+                normalization_context: {'groups': [playerChart.read, chart.label.read]}
             put:
                 normalization_context: {'groups': [playerChart.write]}
                 access_control: 'is_granted("ROLE_PLAYER")'
