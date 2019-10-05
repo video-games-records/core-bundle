@@ -142,4 +142,16 @@ class PlayerChartStatus
     {
         return $this->boolSendProof;
     }
+
+    /**
+     * @return array
+     */
+    public static function getStatusForProving()
+    {
+        return array(
+            self::ID_STATUS_NORMAL,
+            self::ID_STATUS_INVESTIGATION,
+            self::ID_STATUS_NOT_PROOVED,
+        );
+    }
 }
