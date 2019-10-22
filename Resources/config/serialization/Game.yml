@@ -53,6 +53,11 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'group.show'
         - 'chart.show'
         - 'chart.label.read'
+    rules:
+      groups:
+        - 'game.show'
+        - 'group.show'
+        - 'chart.show'
     slug:
         - 'game.show'
         - 'game.list'

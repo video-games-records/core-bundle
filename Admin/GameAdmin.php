@@ -69,6 +69,16 @@ class GameAdmin extends AbstractAdmin
             )
             ->add('translations', TranslationsType::class, [
                 'required' => true,
+                'fields' => [
+                    'name' => [
+                        'field_type' => 'text',
+                        'label' => ' Name',
+                    ],
+                    'rules' => [
+                        'field_type' => 'textarea',
+                        'label' => ' Rules',
+                    ]
+                ]
             ])
             ->add('platforms', null, ['required' => false, 'expanded' => false]);
     }
