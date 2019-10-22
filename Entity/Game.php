@@ -191,16 +191,6 @@ class Game
     }
 
     /**
-     * Get libGame
-     *
-     * @return string
-     */
-    public function getLibGame()
-    {
-        return $this->getName();
-    }
-
-    /**
      * @param string $name
      * @return $this
      */
@@ -218,6 +208,26 @@ class Game
     {
         return $this->translate(null, false)->getName();
     }
+
+    /**
+     * @param string $rules
+     * @return $this
+     */
+    public function setRules($rules)
+    {
+        $this->translate(null, false)->setRules($rules);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRules()
+    {
+        return $this->translate(null, false)->getRules();
+    }
+
 
     /**
      * Set picture
