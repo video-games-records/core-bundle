@@ -15,7 +15,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups: []
     etat:
       groups: []
-    dateActivation:
+    publishedAt:
       groups: []
     boolDlc:
       groups: []

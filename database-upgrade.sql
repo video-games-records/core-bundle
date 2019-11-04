@@ -192,6 +192,7 @@ ALTER TABLE `vgr_game` CHANGE `boolDLC` `boolDlc` TINYINT(1) NOT NULL DEFAULT '0
 ALTER TABLE `vgr_game` CHANGE `statut` `status` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
 ALTER TABLE `vgr_game` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_game` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
+ALTER TABLE `vgr_game` CHANGE `dateActivation` `published_at` DATETIME NULL DEFAULT NULL;
 ALTER TABLE `vgr_game` DROP `imagePlateForme`;
 ALTER TABLE `vgr_game` ADD `nbTeam` INT NOT NULL DEFAULT '0' AFTER `nbPlayer`;
 ALTER TABLE `vgr_game` ADD slug VARCHAR(255) DEFAULT NULL;
