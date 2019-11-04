@@ -69,9 +69,9 @@ class Game
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateActivation", type="datetime", nullable=true)
+     * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
-    private $dateActivation;
+    private $publishedAt;
 
     /**
      * @var boolean
@@ -301,24 +301,24 @@ class Game
     /**
      * Set dateActivation
      *
-     * @param \DateTime $dateActivation
+     * @param \DateTime $pubishedAt
      * @return Game
      */
-    public function setDateActivation($dateActivation)
+    public function setPublishedAt($pubishedAt)
     {
-        $this->dateActivation = $dateActivation;
+        $this->publishedAt = $pubishedAt;
 
         return $this;
     }
 
     /**
-     * Get dateActivation
+     * Get publishedAt
      *
      * @return \DateTime
      */
-    public function getDateActivation()
+    public function getPublishedAt()
     {
-        return $this->dateActivation;
+        return $this->publishedAt;
     }
 
     /**

@@ -59,6 +59,11 @@ class GameAdmin extends AbstractAdmin
                     'choices' => Game::getStatusChoices(),
                 ]
             )
+            ->add('publishedAt', 'date', [
+                'label' => 'Published At',
+                'required' => false,
+                'years' => range(2004, date('Y'))
+            ])
             ->add(
                 'etat',
                 ChoiceType::class,
@@ -68,15 +73,16 @@ class GameAdmin extends AbstractAdmin
                 ]
             )
             ->add('translations', TranslationsType::class, [
-                'required' => true,
                 'fields' => [
                     'name' => [
                         'field_type' => 'text',
                         'label' => ' Name',
+                        'required' => true,
                     ],
                     'rules' => [
                         'field_type' => 'textarea',
                         'label' => ' Rules',
+                        'required' => false,
                     ]
                 ]
             ])
@@ -153,5 +159,23 @@ class GameAdmin extends AbstractAdmin
             ->add('status')
             ->add('etat')
             ->add('groups');
+    }
+
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\Game $object
+     * @throws \Exception
+     */
+    public function preUpdate($object)
+    {
+        /** @var \Doctrine\ORM\EntityManager $em */
+        $em = $this->getModelManager()->getEntityManager($this->getClass());
+        $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
+
+        // PUBLISHED
+        if ($originalObject['status'] === Game::STATUS_INACTIVE && $object->getStatus() === Game::STATUS_ACTIVE) {
+            if ($object->getPublishedAt() == null) {
+                $object->setPublishedAt(new \DateTime());
+            }
+        }
     }
 }
