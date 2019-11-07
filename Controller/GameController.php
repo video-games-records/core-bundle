@@ -3,15 +3,19 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use Symfony\Component\HttpFoundation\Response;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class GameController
+ * @Route("/game")
  */
 class GameController extends Controller
 {
@@ -137,5 +141,33 @@ class GameController extends Controller
             }
         }
         return $charts;
+    }
+
+    /**
+     * @Route("/rss", name="game_rss")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function rssAction()
+    {
+        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(
+            array(
+                'status' => 'ACTIF'
+            ),
+            array('publishedAt' => 'DESC'),
+            20
+        );
+
+        $feed = $this->get('eko_feed.feed.manager')->get('game');
+
+        // Add prefixe link
+        foreach ($games as $game) {
+            $game->setLink($feed->get('link') . $game->getId() . '/' . $game->getSlug());
+        }
+
+        $feed->addFromArray($games);
+
+        return new Response($feed->render('rss'));
     }
 }

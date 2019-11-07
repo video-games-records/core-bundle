@@ -9,6 +9,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 use ProjetNormandie\BadgeBundle\Entity\Badge;
+use Eko\FeedBundle\Item\Writer\ItemInterface;
 
 /**
  * Game
@@ -18,7 +19,7 @@ use ProjetNormandie\BadgeBundle\Entity\Badge;
  * @method GameTranslation translate(string $locale, bool $fallbackToDefault)
  * @todo check etat / imagePlateforme / ordre
  */
-class Game
+class Game implements ItemInterface
 {
     use Timestampable;
     use Translatable;
@@ -150,6 +151,9 @@ class Game
      * @ORM\OrderBy({"libPlatform" = "ASC"})
      */
     private $platforms;
+
+
+    private $link;
 
     /**
      * Constructor
@@ -582,6 +586,63 @@ class Game
             self::ETAT_END => self::ETAT_END,
         ];
     }
+
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     * @return string
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemTitle()
+    {
+        return 'New Game: ' . $this->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemDescription()
+    {
+        return null;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFeedItemPubDate()
+    {
+        return $this->getPublishedAt();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemLink()
+    {
+        return $this->getLink();
+    }
+
 
     /**
      * Returns an array of the fields used to generate the slug.
