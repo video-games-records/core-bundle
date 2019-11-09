@@ -72,6 +72,10 @@ class GameAdmin extends AbstractAdmin
                     'choices' => Game::getEtatsChoices(),
                 ]
             )
+            ->add('boolRanking', 'checkbox', [
+                'label' => 'Ranking ?',
+                'required' => false,
+            ])
             ->add('translations', TranslationsType::class, [
                 'fields' => [
                     'name' => [
@@ -97,7 +101,8 @@ class GameAdmin extends AbstractAdmin
         $datagridMapper
             ->add('translations.name')
             ->add('status')
-            ->add('etat');
+            ->add('etat')
+            ->add('boolRanking');
     }
 
     /**

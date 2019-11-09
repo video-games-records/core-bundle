@@ -19,6 +19,10 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups: []
     boolDlc:
       groups: []
+    boolRanking:
+      groups:
+        - 'game.show'
+        - 'game.list'
     nbChart:
       groups:
         - 'game.show'
