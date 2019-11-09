@@ -46,10 +46,10 @@ class ChartCommand extends DefaultCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
-     *
-     * @return bool|int|null
+     * @return bool
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -74,6 +74,7 @@ class ChartCommand extends DefaultCommand
 
     /**
      * @param OutputInterface $output
+     * @throws \Exception
      */
     private function majPlayer(OutputInterface $output)
     {

@@ -82,6 +82,13 @@ class Game implements ItemInterface
     private $boolDlc = false;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="boolRanking", type="boolean", nullable=true, options={"default":1})
+     */
+    private $boolRanking = true;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
@@ -346,6 +353,29 @@ class Game implements ItemInterface
     public function getBoolDlc()
     {
         return $this->boolDlc;
+    }
+
+    /**
+     * Set boolRanking
+     *
+     * @param boolean $boolRanking
+     * @return Game
+     */
+    public function setBoolRanking($boolRanking)
+    {
+        $this->boolRanking = $boolRanking;
+
+        return $this;
+    }
+
+    /**
+     * Get boolRanking
+     *
+     * @return boolean
+     */
+    public function getBoolRanking()
+    {
+        return $this->boolRanking;
     }
 
     /**

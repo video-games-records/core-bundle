@@ -98,6 +98,7 @@ class PlayerRepository extends EntityRepository
      */
     public function maj($idPlayer)
     {
+        // query 1
         $query = $this->_em->createQuery("
             SELECT
                  p.id,
@@ -116,18 +117,34 @@ class PlayerRepository extends EntityRepository
 
         $query->setParameter('idPlayer', $idPlayer);
         $result = $query->getResult();
-        $row = $result[0];
+        $row1 = $result[0];
+
+        // query 2
+        $query = $this->_em->createQuery("
+            SELECT
+                 p.id,
+                 SUM(pg.pointChart) as pointChart,
+                 SUM(pg.pointGame) as pointGame
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
+            JOIN pg.player p
+            JOIN pg.game g
+            WHERE p.id = :idPlayer
+            AND g.boolRanking = 1
+            GROUP BY p.id");
+        $query->setParameter('idPlayer', $idPlayer);
+        $result = $query->getResult();
+        $row2 = $result[0];
 
         $player = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer);
 
-        $player->setChartRank0($row['chartRank0']);
-        $player->setChartRank1($row['chartRank1']);
-        $player->setChartRank2($row['chartRank2']);
-        $player->setChartRank3($row['chartRank3']);
-        $player->setNbChart($row['nbChart']);
-        $player->setNbChartProven($row['nbChartProven']);
-        $player->setPointChart($row['pointChart']);
-        $player->setPointGame($row['pointGame']);
+        $player->setChartRank0($row1['chartRank0']);
+        $player->setChartRank1($row1['chartRank1']);
+        $player->setChartRank2($row1['chartRank2']);
+        $player->setChartRank3($row1['chartRank3']);
+        $player->setNbChart($row1['nbChart']);
+        $player->setNbChartProven($row1['nbChartProven']);
+        $player->setPointChart($row2['pointChart']);
+        $player->setPointGame($row2['pointGame']);
 
         $this->_em->persist($player);
         $this->_em->flush($player);
