@@ -105,6 +105,8 @@ class GameController extends Controller
     }
 
     /**
+     * Return charts with the one relation player-chart of the connected user
+     * If the user has not relation, a default relation is created
      * @param Game    $game
      * @param Request $request
      * @return mixed
@@ -124,6 +126,7 @@ class GameController extends Controller
             $search
         );
         // IF NOT EXIST => Create a playerChart with id=-1 AND value = null
+        $platforms = $game->getPlatforms();
         foreach ($charts as $chart) {
             if (count($chart->getPlayerCharts()) == 0) {
                 $playerChart = new PlayerChart();
@@ -131,6 +134,9 @@ class GameController extends Controller
                 $playerChart->setIdPlayerChart(-1);
                 $playerChart->setChart($chart);
                 $playerChart->setPlayer($player);
+                if (count($platforms) == 1) {
+                    $playerChart->setPlatform($platforms[0]);
+                }
                 foreach ($chart->getLibs() as $lib) {
                     $playerChartLib = new PlayerChartLib();
                     $playerChartLib->setId(-1);

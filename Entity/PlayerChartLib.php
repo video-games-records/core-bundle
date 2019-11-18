@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Tools\Score;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * PlayerChartLib
@@ -27,6 +28,8 @@ class PlayerChartLib
 
     /**
      * @var integer
+     * @Assert\NotNull
+     * @Assert\NotBlank
      *
      * @ORM\Column(name="value", type="integer", nullable=false)
      */
@@ -191,11 +194,15 @@ class PlayerChartLib
      */
     public function setValueFromPaseValue()
     {
-        $this->value = (int) Score::formToBdd(
-            $this->getLibChart()
-                ->getType()
-                ->getMask(),
-            $this->parseValue
-        );
+        if ($this->parseValue == null) {
+            $this->value = null;
+        } else {
+            $this->value = (int)Score::formToBdd(
+                $this->getLibChart()
+                    ->getType()
+                    ->getMask(),
+                $this->parseValue
+            );
+        }
     }
 }
