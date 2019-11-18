@@ -117,6 +117,10 @@ resources:
                           in: query
                           required: false
                           type: integer
+                        - name: idChart
+                          in: query
+                          required: false
+                          type: integer
                         - name: libChart
                           in: query
                           required: false
@@ -265,6 +269,12 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
             get: ~
+            profile:
+                method: 'GET'
+                access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
+                normalization_context: {'groups': [user.profile]}
+                path: '/players/profile'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profile'
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\Platform:

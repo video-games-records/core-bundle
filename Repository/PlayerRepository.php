@@ -383,31 +383,4 @@ class PlayerRepository extends EntityRepository
         $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.id)';
         $this->_em->getConnection()->executeUpdate($sql);
     }
-
-    /**
-     * @param \DateTime $date1
-     * @param \DateTime $date2
-     * @return array
-     */
-    public function getNbPostDay(\DateTime $date1, \DateTime $date2)
-    {
-        $query = $this->_em->createQuery("
-            SELECT
-                 pc.idPlayer,
-                 COUNT(pc.idChart) as nb
-            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
-            WHERE pc.dateModif BETWEEN :date1 AND :date2
-            GROUP BY pc.idPlayer");
-
-
-        $query->setParameter('date1', $date1);
-        $query->setParameter('date2', $date2);
-        $result = $query->getResult();
-
-        $data = array();
-        foreach ($result as $row) {
-            $data[$row['idPlayer']] = $row['nb'];
-        }
-        return $data;
-    }
 }
