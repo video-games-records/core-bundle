@@ -269,31 +269,6 @@ class PlayerChartRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    /**
-     * @param array $params
-     *
-     * @return array
-     */
-    /*public function getRows(array $params = [])
-    {
-        $query = $this->createQueryBuilder('pc');
-
-        if (array_key_exists('idPlayer', $params)) {
-            $query->where('pc.player = :player')
-                ->setParameter('player', $this->_em->getReference(Player::class, $params['idPlayer']));
-        }
-
-        if (array_key_exists('limit', $params)) {
-            $query->setMaxResults($params['limit']);
-        }
-
-        if (array_key_exists('orderBy', $params)) {
-            $query->orderBy($params['orderBy']['column'], $params['orderBy']['order']);
-        }
-
-        return $query->getQuery()->getResult();
-    }*/
-
 
     /**
      * @return array
@@ -344,5 +319,28 @@ class PlayerChartRepository extends EntityRepository
             $data[$row['id']] = $row['nb'];
         }
         return $data;
+    }
+
+
+    /**
+     * @param $player
+     * @param $game
+     * @param $platform
+     */
+    public function majPlatform($player, $game, $platform)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\PlayerChart', 'pc')
+            ->set('pc.platform', ':platform')
+            ->where('pc.player = :player')
+            ->setParameter('platform', $platform)
+            ->setParameter('player', $player)
+            ->andWhere('pc.chart IN (
+                            SELECT c FROM VideoGamesRecords\CoreBundle\Entity\Chart c
+                            join c.group g
+                        WHERE g.game = :game)')
+            ->setParameter('game', $game);
+
+        $query->getQuery()->execute();
     }
 }

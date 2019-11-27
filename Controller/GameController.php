@@ -33,7 +33,8 @@ class GameController extends Controller
     private function getPlayer()
     {
         if ($this->getUser() !== null) {
-            return $this->getUser()->getPlayer();
+            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                               ->getPlayerFromUser($this->getUser());
         }
         return null;
     }
