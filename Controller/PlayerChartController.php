@@ -4,11 +4,13 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Entity\Platform;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use Doctrine\DBAL\DBALException;
+use FOS\UserBundle\Model\UserManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class PlayerChartController
@@ -16,31 +18,40 @@ use Doctrine\DBAL\DBALException;
 class PlayerChartController extends Controller
 {
 
-    /**
-     * @deprecated
-     * @param Request $request
-     * @return mixed
-     */
-    public function getOne(Request $request)
-    {
-        $idPlayer = $request->query->get('idPlayer', 0);
-        $idChart = $request->query->get('idChart', 0);
+    private $em;
+    private $userManager;
 
-        $playerChart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getFromUnique($idPlayer, $idChart);
-        if ($playerChart === null) {
-            $playerChart = new PlayerChart();
-            $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->find($idChart);
-            $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($idPlayer);
-            $playerChart->setIdPlayerChart(-1);
-            $playerChart->setChart($chart);
-            $playerChart->setPlayer($player);
-            foreach ($chart->getLibs() as $lib) {
-                $playerChartLib = new PlayerChartLib();
-                $playerChartLib->setId(-1);
-                $playerChartLib->setLibChart($lib);
-                $playerChart->addLib($playerChartLib);
-            }
-        }
-        return $playerChart;
+    public function __construct(UserManagerInterface $userManager, EntityManagerInterface $em)
+    {
+        $this->userManager = $userManager;
+        $this->em = $em;
+    }
+
+    /**
+     *
+     */
+    public function getPlayer()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+            ->getPlayerFromUser($this->getUser());
+    }
+
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function majPlatform(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        $idGame = $data['idGame'];
+        $idPlatform = $data['idPlatform'];
+
+        $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majPlatform(
+            $this->getPlayer(),
+            $this->em->getReference(Game::class, $idGame),
+            $this->em->getReference(Platform::class, $idPlatform)
+        );
+        return new JsonResponse(['data' => true]);
     }
 }

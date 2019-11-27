@@ -1043,6 +1043,9 @@ INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
 (7, 'AdminMessage', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
 (8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}');
 
+-- all users have player role
+INSERT INTO user_group (userId, groupId) SELECT id,2 FROM user WHERE id != 0;
+
 
 -- VGR PICTURE
 CREATE TABLE `vgr_picture` (
@@ -1129,3 +1132,5 @@ ALTER TABLE `article` DROP `idJeu`;
 ALTER TABLE `article` DROP `idPlateforme`;
 
 --
+
+UPDATE user SET enabled = 1;

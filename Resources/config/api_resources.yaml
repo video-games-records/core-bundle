@@ -259,6 +259,25 @@ resources:
                 filters : ['playerChart.player_filter','playerChart.chart_filter']
             post:
                 access_control: 'is_granted("ROLE_PLAYER")'
+            maj-platform:
+                method: 'POST'
+                path: '/player-charts/maj-platform'
+                access_control: 'is_granted("ROLE_PLAYER")'
+                swagger_context:
+                    parameters:
+                        - in: body
+                          name: playerChart
+                          schema:
+                              type: object
+                              required:
+                                  - idGame
+                                  - idPlatform
+                              properties:
+                                  idGame:
+                                      type: integer
+                                  idPlatform:
+                                      type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::majPlatform'
         itemOperations:
             get:
                 normalization_context: {'groups': [playerChart.read, chart.label.read]}
