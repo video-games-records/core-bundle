@@ -523,15 +523,15 @@ UPDATE `vgr_team_request` SET status = 'CANCELED' WHERE status = 'CANCEL';
 UPDATE `vgr_team_request` SET status = 'REFUSED' WHERE status = 'REFUSE';
 ALTER TABLE `vgr_team_request` CHANGE `status` `status` ENUM('ACTIVE','ACCEPTED','CANCELED','REFUSED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'ACTIVE';
 --
--- Members
+-- User
 --
-CREATE TABLE member_group (userId INT NOT NULL, groupId INT NOT NULL, INDEX IDX_FE1D13664B64DCC (userId), INDEX IDX_FE1D136ED8188B0 (groupId), PRIMARY KEY(userId, groupId)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+CREATE TABLE user_group (userId INT NOT NULL, groupId INT NOT NULL, INDEX IDX_FE1D13664B64DCC (userId), INDEX IDX_FE1D136ED8188B0 (groupId), PRIMARY KEY(userId, groupId)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 CREATE TABLE groupRole (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', UNIQUE INDEX UNIQ_39A2D4D75E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
-CREATE TABLE member (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL, last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL, locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idPays INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idPays), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
-ALTER TABLE member ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idPays) REFERENCES country (id);
-ALTER TABLE member_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES member (id);
-ALTER TABLE member_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
+CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL, last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL, locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idPays INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idPays), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
+ALTER TABLE user ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idPays) REFERENCES country (id);
+ALTER TABLE user_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES user (id);
+ALTER TABLE user_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
 
 -- New id for link between normandie & vgr
 ALTER TABLE vgr_player ADD normandie_user_id INT DEFAULT NULL;
@@ -541,13 +541,13 @@ UPDATE vgr_player SET derniereConnexion = NULL  WHERE CAST(derniereConnexion AS 
 UPDATE vgr_player SET dateNaissance = NULL  WHERE CAST(dateNaissance AS CHAR(11)) LIKE '0%';
 UPDATE vgr_player SET dateCreation = '2004-10-30 00:00:00', dateModification = '2004-10-30 00:00:00'  WHERE id = 0;
 
--- Procedure to migrate member
+-- Procedure to migrate user
 DELIMITER &&
-CREATE PROCEDURE member_migrate()
+CREATE PROCEDURE user_migrate()
 BEGIN
   DECLARE done, locked INT DEFAULT FALSE;
   DECLARE duplicateIncrement INT DEFAULT 100;
-  DECLARE member_id, vgr_member_id, pays, nb_connection INT;
+  DECLARE user_id, vgr_user_id, pays, nb_connection INT;
   DECLARE userName varchar(180) CHARSET utf8;
   DECLARE gender varchar(1);
   DECLARE birthdate date;
@@ -568,7 +568,7 @@ BEGIN
       SET v_email = duplicateIncrement;
       SET locked = TRUE;
       -- Retry with new mail
-      INSERT INTO member (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+      INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
                           enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender,
                           created_at, updated_at, last_login, idPays, confirmation_token, password_requested_at)
       VALUES
@@ -584,7 +584,7 @@ BEGIN
 
   OPEN cur1;
   read_loop: LOOP
-    FETCH cur1 INTO vgr_member_id, userName, v_email, nom, prenom, birthdate, nb_connection, siteWeb, statutCompte,
+    FETCH cur1 INTO vgr_user_id, userName, v_email, nom, prenom, birthdate, nb_connection, siteWeb, statutCompte,
       userDateCreation, userDateModification, userDerniereConnexion, sexe, pays;
     IF done THEN
       LEAVE read_loop;
@@ -598,7 +598,7 @@ BEGIN
       SET gender = 'I';
     END IF;
 
-    INSERT INTO member (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+    INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
               enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender,
               created_at, updated_at, last_login, idPays, confirmation_token, password_requested_at)
     VALUES
@@ -607,21 +607,21 @@ BEGIN
        userDateCreation, userDateModification, userDerniereConnexion, pays,
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
       );
-    SET member_id = LAST_INSERT_ID();
-    UPDATE vgr_player SET normandie_user_id = member_id WHERE id = vgr_member_id;
+    SET user_id = LAST_INSERT_ID();
+    UPDATE vgr_player SET normandie_user_id = user_id WHERE id = vgr_user_id;
   END LOOP;
   CLOSE cur1;
 END&&
 
 DELIMITER ;
 
-CALL member_migrate();
-DROP PROCEDURE member_migrate;
+CALL user_migrate();
+DROP PROCEDURE user_migrate;
 
 -- INSERT VGR USER
-INSERT INTO member (id, username, username_canonical, email, email_canonical, enabled, idPays, created_at, updated_at,salt,password, locked, expired, roles, credentials_expired, nbConnexion)
+INSERT INTO user (id, username, username_canonical, email, email_canonical, enabled, idPays, created_at, updated_at,salt,password, locked, expired, roles, credentials_expired, nbConnexion)
 VALUES (0, 'VGR', 'VGR', 'videogamesrecords@gmail.com', 'videogamesrecords@gmail.com', 0, 1, NOW(), NOW(), '', '', 1, 1, 'a:0:{}',1,0);
-UPDATE member SET id=0 WHERE email = 'videogamesrecords@gmail.com';
+UPDATE user SET id=0 WHERE email = 'videogamesrecords@gmail.com';
 
 ALTER TABLE vgr_player DROP password, DROP email, DROP confirm_email, DROP nom, DROP prenom, DROP dateNaissance,
 DROP statutCompte, DROP siteWeb, DROP nbConnexion, DROP derniereConnexion, DROP sexe, DROP dateCreation, DROP dateModification
@@ -919,8 +919,8 @@ SET m.idRecipient = p.normandie_user_id
 WHERE m.idRecipient = p.id;
 
 
-ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-ALTER TABLE `message` ADD CONSTRAINT `fk_recipient` FOREIGN KEY (`idRecipient`) REFERENCES `member`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `message` ADD CONSTRAINT `fk_recipient` FOREIGN KEY (`idRecipient`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 UPDATE message SET idSender = 0 WHERE idSender IS NULL;
 
@@ -1074,7 +1074,7 @@ UPDATE `article` SET status='UNDER CONSTRUCTION' WHERE status = 'EN_CONSTRUCTION
 UPDATE `article` SET status='PUBLISHED' WHERE status = 'PUBLIE';
 UPDATE `article` SET status='CANCELED' WHERE status = 'ANNULE';
 ALTER TABLE `article` CHANGE `status` `status` ENUM('UNDER CONSTRUCTION','PUBLISHED','CANCELED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UNDER CONSTRUCTION';
-ALTER TABLE a`article`DROP FOREIGN KEY article_ibfk_2;
+ALTER TABLE `article`DROP FOREIGN KEY article_ibfk_2;
 ALTER TABLE `article` DROP `idTraducteur`;
 ALTER TABLE `article` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `article` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
@@ -1088,14 +1088,44 @@ TRUNCATE article_translation;
 INSERT INTO article_translation (translatable_id, title, text, locale) SELECT id, libArticle_fr, texte_fr, 'fr' FROM article;
 INSERT INTO article_translation (translatable_id, title, text, locale) SELECT id, libArticle_en, texte_en, 'en' FROM article;
 
+ALTER TABLE `article` ADD `link` VARCHAR(255) NULL AFTER `status`;
+ALTER TABLE `article` ADD `slug` VARCHAR(255) NULL AFTER `status`;
+
+UPDATE `article` SET
+    slug = lower(libArticle_en),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
 ALTER TABLE `article` DROP `libArticle_fr`;
 ALTER TABLE `article` DROP `libArticle_en`;
 ALTER TABLE `article` DROP `texte_fr`;
 ALTER TABLE `article` DROP `texte_en`;
-ALTER TABLE `article` ADD `link` VARCHAR(255) NULL AFTER `status`;
-ALTER TABLE `article` ADD `slug` VARCHAR(255) NULL AFTER `status`;
 
 DELETE FROM `article` WHERE flag = 'NEWS_VGRJ';
 ALTER TABLE `article` DROP `flag`;
 ALTER TABLE `article` DROP `idJeu`;
 ALTER TABLE `article` DROP `idPlateforme`;
+
+--
