@@ -89,6 +89,13 @@ class Game implements ItemInterface
     private $boolRanking = true;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
+     */
+    private $boolMaj = false;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
@@ -376,6 +383,29 @@ class Game implements ItemInterface
     public function getBoolRanking()
     {
         return $this->boolRanking;
+    }
+
+    /**
+     * Set boolMaj
+     *
+     * @param boolean $boolMaj
+     * @return Game
+     */
+    public function setBoolMaj($boolMaj)
+    {
+        $this->boolMaj = $boolMaj;
+
+        return $this;
+    }
+
+    /**
+     * Get boolMaj
+     *
+     * @return boolean
+     */
+    public function getBoolMaj()
+    {
+        return $this->boolMaj;
     }
 
     /**

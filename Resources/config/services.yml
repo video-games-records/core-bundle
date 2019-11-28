@@ -40,6 +40,7 @@ services:
         public: false
         tags: [serializer.encoder]
     vgr.game:
+        public: true
         class:    VideoGamesRecords\CoreBundle\Service\Game
         arguments: [
             "@=service('doctrine.orm.default_entity_manager')",

@@ -76,6 +76,10 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'Ranking ?',
                 'required' => false,
             ])
+            ->add('boolMaj', 'checkbox', [
+                'label' => 'Maj ?',
+                'required' => false,
+            ])
             ->add('translations', TranslationsType::class, [
                 'fields' => [
                     'name' => [
