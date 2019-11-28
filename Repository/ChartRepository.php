@@ -194,4 +194,24 @@ class ChartRepository extends EntityRepository
 
         return $paginator;
     }
+
+
+    /**
+     * @param        $game
+     * @param string $status
+     */
+    public function majStatus($game, $status = 'MAJ')
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
+            ->set('c.statusPlayer', ':status')
+            ->set('c.statusTeam', ':status')
+            ->setParameter('status', $status)
+            ->where('c.group IN (
+                            SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
+                        WHERE g.game = :game)')
+            ->setParameter('game', $game);
+
+        $query->getQuery()->execute();
+    }
 }

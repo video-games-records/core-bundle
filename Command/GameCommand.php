@@ -49,6 +49,10 @@ class GameCommand extends DefaultCommand
                 $service = $this->getContainer()->get('vgr.game');
                 $service->updateFromCsv();
                 break;
+            case 'maj-rank':
+                $service = $this->getContainer()->get('vgr.game');
+                $service->majRank();
+                break;
         }
         return true;
     }
