@@ -114,14 +114,13 @@ class ChartCommand extends DefaultCommand
         $playerList = [];
         $groupList  = [];
         $gameList   = [];
+        $countryList = [];
 
         foreach ($charts as $chart) {
             $idGroup = $chart->getGroup()->getId();
             $idGame  = $chart->getGroup()->getGame()->getId();
             //----- Player
-            $playerList = array_unique(
-                array_merge($playerList, $playerChartRepository->maj($chart->getId()))
-            );
+            $playerList = array_merge($playerList, $playerChartRepository->maj($chart));
             //----- Group
             if (!isset($groupList[$idGroup])) {
                 $groupList[$idGroup] = $chart->getGroup();
@@ -144,8 +143,15 @@ class ChartCommand extends DefaultCommand
         }
 
         //----- Maj player
-        foreach ($playerList as $idPlayer) {
-            $playerRepository->maj($idPlayer);
+        foreach ($playerList as $player) {
+            $playerRepository->maj($player);
+            $countryList[$player->getCountry()->getId()] = $player->getCountry();
+        }
+
+        //----- Maj rank country
+        foreach ($countryList as $country) {
+            $playerRepository->majRankCountry($country);
+            $playerBadgeRepository->majCountryBadge($country);
         }
 
         //----- Maj all players
@@ -154,6 +160,5 @@ class ChartCommand extends DefaultCommand
         $playerRepository->majRankMedal();
         $playerRepository->majRankCup();
         $playerRepository->majRankProof();
-        //@todo MAJ badge best player on country
     }
 }

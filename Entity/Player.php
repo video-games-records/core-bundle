@@ -164,6 +164,13 @@ class Player
     /**
      * @var integer
      *
+     * @ORM\Column(name="rankCountry", type="integer", nullable=true)
+     */
+    private $rankCountry;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="gameRank0", type="integer", nullable=true)
      */
     private $gameRank0;
@@ -251,10 +258,20 @@ class Player
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\TeamBundle\Entity\Team", inversedBy="players")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="idTeam")
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id")
      * })
      */
     private $team;
+
+    /**
+     * @var Country
+     *
+     * @ORM\ManyToOne(targetEntity="ProjetNormandie\CountryBundle\Entity\Country")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idCountry", referencedColumnName="id")
+     * })
+     */
+    protected $country;
 
     /**
      * @return string
@@ -701,6 +718,29 @@ class Player
     }
 
     /**
+     * Set rankCountry
+     *
+     * @param integer $rankCountry
+     * @return Player
+     */
+    public function setRankCountry($rankCountry)
+    {
+        $this->rankCountry = $rankCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get rankCountry
+     *
+     * @return integer
+     */
+    public function getRankCountry()
+    {
+        return $this->rankCountry;
+    }
+
+    /**
      * Set gameRank0
      *
      * @param integer $gameRank0
@@ -990,6 +1030,24 @@ class Player
      */
     public function getPlayer()
     {
+        return $this;
+    }
+
+    /**
+     * @return Country
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param Country $country
+     * @return Player
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
         return $this;
     }
 

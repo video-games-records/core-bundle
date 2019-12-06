@@ -46,11 +46,12 @@ class BadgeCommand extends DefaultCommand
         $function = $input->getArgument('function');
         $idGame = $input->getOption('idGame');
         switch ($function) {
-            case 'maj-player':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majMasterBadge($idGame);
+            case 'maj':
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majBadge();
                 break;
-            case 'maj-team':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamBadge')->majMasterBadge($idGame);
+            case 'maj-master':
+                $game = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majMasterBadge($game);
                 break;
         }
         $this->end($output);

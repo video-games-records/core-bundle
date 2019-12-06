@@ -26,6 +26,12 @@ class PlayerCommand extends DefaultCommand
                 ''
             )
             ->addOption(
+                'idCountry',
+                null,
+                InputOption::VALUE_REQUIRED,
+                ''
+            )
+            ->addOption(
                 'debug',
                 null,
                 InputOption::VALUE_NONE,
@@ -65,6 +71,11 @@ class PlayerCommand extends DefaultCommand
                 break;
             case 'maj-rank-game':
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankGame();
+                break;
+            case 'maj-rank-country':
+                $country = $this->getContainer()->get('doctrine')->getRepository('ProjetNormandieCountryBundle:Country')->find($input->getOption('idCountry'));
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCountry($country);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majCountryBadge($country);
                 break;
         }
         $this->end($output);

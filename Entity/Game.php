@@ -146,7 +146,7 @@ class Game implements ItemInterface
      *
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\BadgeBundle\Entity\Badge")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="idBadge")
+     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })
      */
     private $badge;

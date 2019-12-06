@@ -31,16 +31,16 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * @param $idChart
+     * @param $chart
      *
      * @return array
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function maj($idChart)
+    public function maj(Chart $chart)
     {
         /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
-        $chart       = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($idChart);
+        $chart       = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($chart);
         $nbLib       = $chart->getLibs()->count();
         $ranking     = $this->getRankingForUpdate($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
@@ -56,7 +56,7 @@ class PlayerChartRepository extends EntityRepository
             $libValue = '';
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
             $playerChart = $item[0];
-            $players[]   = $playerChart->getPlayer()->getId();
+            $players[$playerChart->getPlayer()->getId()]   = $playerChart->getPlayer();
             $playerChart
                 ->setTopScore(false);
 
