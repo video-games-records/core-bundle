@@ -270,6 +270,19 @@ class PlayerRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+
+    /**
+     * Update column rankCountry
+     * @param $country
+     */
+    public function majRankCountry($country)
+    {
+        $players = $this->findBy(array('country' => $country), array('rankPointChart' => 'ASC'));
+
+        Ranking::addObjectRank($players, 'rankCountry', array('rankPointChart'));
+        $this->getEntityManager()->flush();
+    }
+
     /**
      * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
@@ -369,6 +382,28 @@ class PlayerRepository extends EntityRepository
         } else {
             $query->where('p.rankCup <= :maxRank')
                 ->setParameter('maxRank', 100);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * @param Country $country
+     * @param int $maxRank
+     * @return array
+     */
+    public function getRankingCountry($country, $maxRank = null)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->where('(p.country = :country)')
+            ->setParameter('country', $country)
+            ->orderBy('p.rankCountry');
+
+        if ($maxRank !== null) {
+            $query->andWhere('p.rankCountry <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
         }
 
         return $query->getQuery()->getResult();

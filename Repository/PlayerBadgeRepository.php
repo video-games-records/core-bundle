@@ -98,10 +98,87 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
+     * @param $country
+     * @throws \Exception
+     */
+    public function majCountryBadge($country)
+    {
+        if ($country->getBadge() === null) {
+            return;
+        }
+
+        //----- get ranking with maxRank = 1
+        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCountry($country, 1);
+
+        $players = array();
+        foreach ($ranking as $player) {
+            $players[$player->getId()] = 0;
+        }
+
+        $this->updateBadge($players, $country->getBadge());
+    }
+
+    /**
+     * @param $players ranking
+     * @param $badge badge
+     * @throws \Exception
+     */
+    private function updateBadge($players, $badge)
+    {
+        //----- get players with country badge
+        $list = $this->getFromBadge($badge);
+
+        //----- Remove country badge
+        foreach ($list as $playerBadge) {
+            $idPlayer = $playerBadge->getPlayer()->getId();
+            //----- Remove badge
+            if (!array_key_exists($idPlayer, $players)) {
+                $playerBadge->setEndedAt(new \DateTime());
+                $this->_em->persist($playerBadge);
+            }
+            $players[$idPlayer] = 1;
+        }
+        //----- Add master badge
+        foreach ($players as $idPlayer => $value) {
+            if (0 === $value) {
+                $playerBadge = new PlayerBadge();
+                $playerBadge->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer));
+                $playerBadge->setBadge($badge);
+                $this->_em->persist($playerBadge);
+            }
+        }
+        $this->_em->flush();
+    }
+
+    /**
      * @param \Doctrine\ORM\QueryBuilder $query
      */
     private function onlyActive(QueryBuilder $query)
     {
         $query->andWhere($query->expr()->isNull('pb.ended_at'));
+    }
+
+    /**
+     * Maj badges
+     */
+    public function majBadge()
+    {
+        $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
+        SELECT vgr_player.id,badge.id, NOW(), NOW()
+        FROM vgr_player,badge
+        WHERE type = '%s'
+        AND value <= vgr_player.%s
+        AND badge.id NOT IN (SELECT idBadge FROM vgr_player_badge WHERE idPlayer = vgr_player.id)";
+
+        $this->_em->getConnection()->executeUpdate(sprintf($sql, 'VgrChart', 'nbChart'));
+        $this->_em->getConnection()->executeUpdate(sprintf($sql, 'VgrProof', 'nbChartProven'));
+
+        // Inscrition badge
+        $sql = " INSERT INTO user_badge (idUser, idBadge)
+        SELECT user.id,1
+        FROM user
+        WHERE id NOT IN (SELECT idUser FROM user_badge WHERE idBadge = 1)";
+
+        $this->_em->getConnection()->executeUpdate($sql);
     }
 }

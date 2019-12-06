@@ -41,6 +41,13 @@ class PlayerAdmin extends AbstractAdmin
                 'attr' => [
                     'readonly' => true,
                 ]
+            ])
+            ->add('country', ModelListType::class, [
+                'btn_add' => false,
+                'btn_list' => true,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'Country',
             ]);
     }
 
@@ -61,6 +68,7 @@ class PlayerAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('pseudo')
+            ->add('country')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -77,6 +85,7 @@ class PlayerAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('pseudo')
+            ->add('country')
             ->add('team');
     }
 }
