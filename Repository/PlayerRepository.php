@@ -301,90 +301,42 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingPointsChart($idPlayer = null)
+    public function getRankingPointChart($player = null)
     {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.rankPointChart');
-
-        if ($idPlayer !== null) {
-            $query->where('(p.rankPointChart <= :maxRank OR p.id = :idPlayer)')
-                ->setParameter('maxRank', 100)
-                ->setParameter('idPlayer', $idPlayer);
-        } else {
-            $query->where('p.rankPointChart <= :maxRank')
-                ->setParameter('maxRank', 100);
-        }
-
-        return $query->getQuery()->getResult();
+        return $this->getRanking('rankPointChart', $player);
     }
 
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingPointsGame($idPlayer = null)
+    public function getRankingPointGame($player = null)
     {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.rankPointGame');
-
-        if ($idPlayer !== null) {
-            $query->where('(p.rankPointGame <= :maxRank OR p.id = :idPlayer)')
-                ->setParameter('maxRank', 100)
-                ->setParameter('idPlayer', $idPlayer);
-        } else {
-            $query->where('p.rankPointGame <= :maxRank')
-                ->setParameter('maxRank', 100);
-        }
-
-        return $query->getQuery()->getResult();
+        return $this->getRanking('rankPointGame', $player);
     }
 
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingMedals($idPlayer = null)
+    public function getRankingMedal($player = null)
     {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.rankMedal');
-
-        if ($idPlayer !== null) {
-            $query->where('(p.rankMedal <= :maxRank OR p.id = :idPlayer)')
-                ->setParameter('maxRank', 100)
-                ->setParameter('idPlayer', $idPlayer);
-        } else {
-            $query->where('p.rankMedal <= :maxRank')
-                ->setParameter('maxRank', 100);
-        }
-
-        return $query->getQuery()->getResult();
+        return $this->getRanking('rankMedal', $player);
     }
 
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingCups($idPlayer = null)
+    public function getRankingCup($player = null)
     {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.rankCup');
-
-        if ($idPlayer !== null) {
-            $query->where('(p.rankCup <= :maxRank OR p.id = :idPlayer)')
-                ->setParameter('maxRank', 100)
-                ->setParameter('idPlayer', $idPlayer);
-        } else {
-            $query->where('p.rankCup <= :maxRank')
-                ->setParameter('maxRank', 100);
-        }
-
-        return $query->getQuery()->getResult();
+        return $this->getRanking('rankCup', $player);
     }
 
     /**
@@ -417,5 +369,26 @@ class PlayerRepository extends EntityRepository
         //----- MAJ game.nbTeam
         $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.id)';
         $this->_em->getConnection()->executeUpdate($sql);
+    }
+
+    /**
+     * @param string $column
+     * @param Player $player
+     * @return array
+     */
+    private function getRanking($column, $player = null)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->orderBy("p.$column");
+
+        if ($player !== null) {
+            $query->where("(p.$column <= :maxRank OR p = player)")
+                ->setParameter('maxRank', 100)
+                ->setParameter('player', $player);
+        } else {
+            $query->where("p.$column <= :maxRank")
+                ->setParameter('maxRank', 100);
+        }
+        return $query->getQuery()->getResult();
     }
 }

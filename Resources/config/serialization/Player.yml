@@ -6,10 +6,53 @@ VideoGamesRecords\CoreBundle\Entity\Player:
         - 'user.profile'
     pseudo:
       groups:
-        - 'ranking_point'
-        - 'ranking_medal'
         - 'player.show'
         - 'user.profile'
+    rankPointChart:
+      groups:
+        - 'player.pointChart'
+    pointChart:
+      groups:
+        - 'player.pointChart'
+    rankPointGame:
+      groups:
+        - 'player.pointGame'
+    pointGame:
+      groups:
+        - 'player.pointGame'
+    rankMedal:
+      groups:
+        - 'player.medal'
+    pointMedal:
+      groups:
+        - 'player.medal'
+    chartRank0:
+      groups:
+        - 'player.medal'
+    chartRank1:
+      groups:
+        - 'player.medal'
+    chartRank2:
+      groups:
+        - 'player.medal'
+    chartRank3:
+      groups:
+        - 'player.medal'
+    rankCup:
+      groups:
+        - 'player.cup'
+    gameRank0:
+      groups:
+        - 'player.cup'
+    gameRank1:
+      groups:
+        - 'player.cup'
+    gameRank2:
+      groups:
+        - 'player.cup'
+    gameRank3:
+      groups:
+        - 'player.cup'
     avatar:
       groups:
         - 'ranking_point'
@@ -18,3 +61,5 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     team:
       groups:
         - 'user.profile'
+    country:
+      groups: []
