@@ -179,42 +179,6 @@ DROP TRIGGER IF EXISTS `vgrPlayerAfterUpdate`//
 CREATE TRIGGER vgrPlayerAfterUpdate AFTER UPDATE ON vgr_player
 FOR EACH ROW
 BEGIN
-	IF OLD.nbChart != NEW.nbChart THEN
-		INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
-    SELECT OLD.id, idBadge, NOW(), NOW()
-    FROM badge
-    WHERE type = 'Chart'
-    AND value <= NEW.nbChart
-    AND idBadge NOT IN (SELECT a.idBadge
-                        FROM vgr_player_badge a INNER JOIN badge b ON a.idBadge = b.idBadge
-                        WHERE a.idPlayer = OLD.id
-                        AND type = 'Chart');
-    DELETE FROM vgr_player_badge
-    WHERE idPlayer = OLD.id
-    AND idBadge IN (SELECT idBadge
-                    FROM badge
-                    WHERE type = 'Chart'
-                    AND value > NEW.nbChart);
-
-	END IF;
-  IF OLD.nbChartProven != NEW.nbChartProven THEN
-    INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
-      SELECT OLD.id, idBadge, NOW(), NOW()
-      FROM badge
-      WHERE type = 'Proof'
-            AND value <= NEW.nbChartProven
-            AND idBadge NOT IN (SELECT a.idBadge
-                                FROM vgr_player_badge a INNER JOIN badge b ON a.idBadge = b.idBadge
-                                WHERE a.idPlayer = OLD.id
-                                      AND type = 'Chart');
-    DELETE FROM vgr_player_badge
-    WHERE idPlayer = OLD.id
-          AND idBadge IN (SELECT idBadge
-                          FROM badge
-                          WHERE type = 'Proof'
-                                AND value > NEW.nbChartProven);
-
-  END IF;
   IF OLD.idTeam IS NULL && NEW.idTeam IS NOT NULL THEN
     UPDATE vgr_chart
     SET statusTeam = 'MAJ'

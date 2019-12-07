@@ -288,6 +288,26 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
             get: ~
+            player-ranking-point-chart:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.pointChart]}
+                path: '/players/ranking-point-chart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointChart'
+            player-ranking-point-game:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.pointGame]}
+                path: '/players/ranking-point-game'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointGame'
+            player-ranking-medal:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.medal]}
+                path: '/players/ranking-medal'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingMedal'
+            player-ranking-cup:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.cup]}
+                path: '/players/ranking-cup'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingCup'
             profile:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
