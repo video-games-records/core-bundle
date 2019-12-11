@@ -31,7 +31,7 @@ resources:
                       _api_receive: false
             player-ranking-points:
                 method: 'GET'
-                normalization_context: {'groups': [ranking_point]}
+                normalization_context: {'groups': [player.show,playerGame.pointChart]}
                 path: '/game/{id}/player-ranking-points'
                 swagger_context:
                     parameters:
@@ -43,14 +43,10 @@ resources:
                           in: query
                           required: false
                           type: integer
-                        - name: idPlayer
-                          in: query
-                          required: false
-                          type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::playerRankingPoints'
             player-ranking-medals:
                 method: 'GET'
-                normalization_context: {'groups': [ranking_medal]}
+                normalization_context: {'groups': [player.show,playerGame.medal]}
                 path: '/game/{id}/player-ranking-medals'
                 swagger_context:
                     parameters:
@@ -62,13 +58,10 @@ resources:
                           in: query
                           required: false
                           type: integer
-                        - name: idPlayer
-                          in: query
-                          required: false
-                          type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::playerRankingMedals'
             team-ranking-points:
                 method: 'GET'
+                normalization_context: {'groups': [team.show,teamGame.pointChart]}
                 path: '/game/{id}/team-ranking-points'
                 swagger_context:
                     parameters:
@@ -80,13 +73,10 @@ resources:
                           in: query
                           required: false
                           type: integer
-                        - name: idPlayer
-                          in: query
-                          required: false
-                          type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingPoints'
             team-ranking-medals:
                 method: 'GET'
+                normalization_context: {'groups': [team.show,teamGame.medal]}
                 path: '/game/{id}/team-ranking-medals'
                 swagger_context:
                     parameters:
@@ -95,10 +85,6 @@ resources:
                           required: true
                           type: integer
                         - name: maxRank
-                          in: query
-                          required: false
-                          type: integer
-                        - name: idPlayer
                           in: query
                           required: false
                           type: integer
@@ -139,7 +125,7 @@ resources:
                 normalization_context: {'groups': [group.show, platform.show]}
             player-ranking-points:
                 method: 'GET'
-                normalization_context: {'groups': [ranking_point]}
+                normalization_context: {'groups': [player.show,playerGroup.pointChart]}
                 path: '/group/{id}/player-ranking-points'
                 swagger_context:
                     parameters:
@@ -151,14 +137,10 @@ resources:
                           in: query
                           required: false
                           type: integer
-                        - name: idPlayer
-                          in: query
-                          required: false
-                          type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingPoints'
             player-ranking-medals:
                 method: 'GET'
-                normalization_context: {'groups': [ranking_medal]}
+                normalization_context: {'groups': [player.show,playerGroup.medal]}
                 path: '/group/{id}/player-ranking-medals'
                 swagger_context:
                     parameters:
@@ -170,13 +152,10 @@ resources:
                           in: query
                           required: false
                           type: integer
-                        - name: idPlayer
-                          in: query
-                          required: false
-                          type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingMedals'
             team-ranking-points:
                 method: 'GET'
+                normalization_context: {'groups': [team.show,teamGroup.pointChart]}
                 path: '/group/{id}/team-ranking-points'
                 swagger_context:
                     parameters:
@@ -188,13 +167,10 @@ resources:
                           in: query
                           required: false
                           type: integer
-                        - name: idPlayer
-                          in: query
-                          required: false
-                          type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingPoints'
             team-ranking-medals:
                 method: 'GET'
+                normalization_context: {'groups': [team.show,teamGroup.medal]}
                 path: '/group/{id}/team-ranking-medals'
                 swagger_context:
                     parameters:
@@ -203,10 +179,6 @@ resources:
                           required: true
                           type: integer
                         - name: maxRank
-                          in: query
-                          required: false
-                          type: integer
-                        - name: idPlayer
                           in: query
                           required: false
                           type: integer
@@ -226,6 +198,21 @@ resources:
         itemOperations:
             get:
                 normalization_context: {'groups': [chart.show, platform.show, chartLib.show]}
+            team-ranking-points:
+                method: 'GET'
+                normalization_context: {'groups': [team.show,teamChart.pointChart]}
+                path: '/chart/{id}/team-ranking-points'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::teamRankingPoints'
             player-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [player.show, ranking, playerChartStatus.show]}

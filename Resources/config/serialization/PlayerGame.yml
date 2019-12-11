@@ -2,49 +2,47 @@ VideoGamesRecords\CoreBundle\Entity\PlayerGame:
   attributes:
     player:
       groups:
-        - 'ranking_point'
-        - 'ranking_medal'
+        - 'player.show'
     game:
+      groups: []
     rankPointChart:
       groups:
-        - 'ranking_point'
+        - 'playerGame.pointChart'
     rankMedal:
       groups:
-        - 'ranking_medal'
+        - 'playerGame.medal'
     chartRank0:
       groups:
-        - 'ranking_medal'
+        - 'playerGame.medal'
     chartRank1:
       groups:
-        - 'ranking_medal'
+        - 'playerGame.medal'
     chartRank2:
       groups:
-        - 'ranking_medal'
+        - 'playerGame.medal'
     chartRank3:
       groups:
-        - 'ranking_medal'
+        - 'playerGame.medal'
     chartRank4:
     chartRank5:
     pointChart:
       groups:
-        - 'ranking_point'
+        - 'playerGame.pointChart'
     pointChartWithoutDlc:
       groups:
-        - 'ranking_point'
+        - 'playerGame.pointChart'
     nbChart:
       groups:
-        - 'ranking_point'
-        - 'ranking_medal'
+        - 'playerGame.pointChart'
+        - 'playerGame.medal'
     nbChartProven:
       groups:
-        - 'ranking_point'
-        - 'ranking_medal'
+        - 'playerGame.pointChart'
+        - 'playerGame.medal'
     nbChartWithoutDlc:
     nbChartProvenWithoutDlc:
     pointGame:
       groups:
-        - 'ranking_point'
+        - 'playerGame.pointChart'
     nbEqual:
-      groups:
-        - 'ranking_point'
-        - 'ranking_medal'
+      groups: []

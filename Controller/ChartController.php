@@ -38,6 +38,19 @@ class ChartController extends Controller
     }
 
     /**
+     * @return Team|null
+     */
+    private function getTeam()
+    {
+        if ($this->getUser() !== null) {
+            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                ->getPlayerFromUser($this->getUser());
+            return $player->getTeam();
+        }
+        return null;
+    }
+
+    /**
      * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
      * @Method("GET")
      * @Cache(smaxage="10")
@@ -76,5 +89,17 @@ class ChartController extends Controller
             }
         }
         return $ranking;
+    }
+
+
+    /**
+     * @param Chart    $chart
+     * @param Request $request
+     * @return mixed
+     */
+    public function teamRankingPoints(Chart $chart, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamChart')->getRankingPoints($chart, $maxRank, $this->getTeam());
     }
 }
