@@ -3,6 +3,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     id:
       groups:
         - 'game.show'
+        - 'game.show.mini'
         - 'game.list'
         - 'group.show'
         - 'chart.show'
@@ -53,6 +54,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     name:
       groups:
         - 'game.show'
+        - 'game.show.mini'
         - 'game.list'
         - 'group.show'
         - 'chart.show'

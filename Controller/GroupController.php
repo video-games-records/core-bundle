@@ -33,6 +33,19 @@ class GroupController extends Controller
     }
 
     /**
+     * @return Team|null
+     */
+    private function getTeam()
+    {
+        if ($this->getUser() !== null) {
+            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                ->getPlayerFromUser($this->getUser());
+            return $player->getTeam();
+        }
+        return null;
+    }
+
+    /**
      * @param Group    $group
      * @param Request $request
      * @return mixed
@@ -40,8 +53,7 @@ class GroupController extends Controller
     public function playerRankingPoints(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($group->getId(), $maxRank, $this->getPlayer());
-        return $ranking;
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($group, $maxRank, $this->getPlayer());
     }
 
 
@@ -53,8 +65,7 @@ class GroupController extends Controller
     public function playerRankingMedals(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingMedals($group->getId(), $maxRank, $this->getPlayer());
-        return $ranking;
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingMedals($group, $maxRank, $this->getPlayer());
     }
 
 
@@ -66,8 +77,7 @@ class GroupController extends Controller
     public function teamRankingPoints(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGroup')->getRankingPoints($group->getId(), $maxRank, $this->getPlayer());
-        return $ranking;
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGroup')->getRankingPoints($group, $maxRank, $this->getTeam());
     }
 
 
@@ -79,7 +89,6 @@ class GroupController extends Controller
     public function teamRankingMedals(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        $ranking = $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGroup')->getRankingMedals($group->getId(), $maxRank, $this->getPlayer());
-        return $ranking;
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGroup')->getRankingMedals($group, $maxRank, $this->getTeam());
     }
 }

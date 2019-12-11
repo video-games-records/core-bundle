@@ -8,6 +8,7 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.show'
         - 'user.profile'
+        - 'team.leader.show'
     rankPointChart:
       groups:
         - 'player.pointChart'
@@ -21,9 +22,6 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.pointGame'
     rankMedal:
-      groups:
-        - 'player.medal'
-    pointMedal:
       groups:
         - 'player.medal'
     chartRank0:
@@ -58,6 +56,7 @@ VideoGamesRecords\CoreBundle\Entity\Player:
         - 'ranking_point'
         - 'ranking_medal'
         - 'user.profile'
+        - 'team.leader.show'
     team:
       groups:
         - 'user.profile'

@@ -6,32 +6,32 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Entity\Group;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 
 class PlayerGroupRepository extends EntityRepository
 {
     /**
-     * @param int $idGroup
+     * @param Group $group
      * @param int $maxRank
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingPoints($idGroup, $maxRank = null, $idPlayer = null)
+    public function getRankingPoints($group, $maxRank = null, $player = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
-            ->join('pg.group', 'g')
-            ->addSelect('p')//----- for using ->getPlayer() on each result
+            ->addSelect('p')
             ->orderBy('pg.rankPointChart');
 
-        $query->where('g.id = :idGroup')
-            ->setParameter('idGroup', $idGroup);
+        $query->where('pg.group = :group')
+            ->setParameter('group', $group);
 
-        if (($maxRank !== null) && ($idPlayer !== null)) {
-            $query->andWhere('(pg.rankPointChart <= :maxRank OR p.id = :idPlayer)')
+        if (($maxRank !== null) && ($player !== null)) {
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player= :player)')
                 ->setParameter('maxRank', $maxRank)
-                ->setParameter('idPlayer', $idPlayer);
+                ->setParameter('player', $player);
         } elseif ($maxRank !== null) {
             $query->andWhere('pg.rankPointChart <= :maxRank')
                 ->setParameter('maxRank', $maxRank);
@@ -44,26 +44,25 @@ class PlayerGroupRepository extends EntityRepository
 
 
     /**
-     * @param int $idGroup
+     * @param Group $group
      * @param int $maxRank
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingMedals($idGroup, $maxRank = null, $idPlayer = null)
+    public function getRankingMedals($group, $maxRank = null, $player = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
-            ->join('pg.group', 'g')
-            ->addSelect('p')//----- for using ->getPlayer() on each result
+            ->addSelect('p')
             ->orderBy('pg.rankMedal');
 
-        $query->where('g.id = :idGroup')
-            ->setParameter('idGroup', $idGroup);
+        $query->where('pg.group = :group')
+            ->setParameter('group', $group);
 
-        if (($maxRank !== null) && ($idPlayer !== null)) {
-            $query->andWhere('(pg.rankMedal <= :maxRank OR p.id = :idPlayer)')
+        if (($maxRank !== null) && ($player !== null)) {
+            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.player= :player)')
                 ->setParameter('maxRank', $maxRank)
-                ->setParameter('idPlayer', $idPlayer);
+                ->setParameter('player', $player);
         } elseif ($maxRank !== null) {
             $query->andWhere('pg.rankMedal <= :maxRank')
                 ->setParameter('maxRank', $maxRank);

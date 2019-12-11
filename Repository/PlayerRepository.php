@@ -382,7 +382,7 @@ class PlayerRepository extends EntityRepository
             ->orderBy("p.$column");
 
         if ($player !== null) {
-            $query->where("(p.$column <= :maxRank OR p = player)")
+            $query->where("(p.$column <= :maxRank OR p = :player)")
                 ->setParameter('maxRank', 100)
                 ->setParameter('player', $player);
         } else {
