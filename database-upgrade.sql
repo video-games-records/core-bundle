@@ -100,7 +100,7 @@ RENAME TABLE mv_team_jeu TO vgr_team_game;
 RENAME TABLE t_badge TO badge;
 RENAME TABLE t_badge_membre TO vgr_player_badge;
 RENAME TABLE t_badge_team TO vgr_team_badge;
-RENAME TABLE t_video TO video;
+RENAME TABLE t_video TO vgr_video;
 RENAME TABLE t_partenaire TO partner;
 RENAME TABLE t_messageprive TO message;
 
@@ -779,17 +779,20 @@ UPDATE `vgr_player_chart_status` SET boolSendProof = 1 WHERE idStatus IN (1,3,7)
 --
 -- VIDEO Part
 --
-ALTER TABLE video CHANGE statut status ENUM('UPLOAD','WORK','OK','ERROR','UPLOADED','IN PROGRESS') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UPLOADED';
-UPDATE video SET status = 'UPLOADED' WHERE status = 'UPLOAD';
-UPDATE video SET status = 'IN PROGRESS' WHERE status = 'WORK';
-ALTER TABLE video CHANGE status status ENUM('OK','ERROR','UPLOADED','IN PROGRESS') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UPLOADED';
-ALTER TABLE video CHANGE dateCreation created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE video CHANGE dateModification updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE video CHANGE idMembre idPlayer INT(11) NOT NULL;
-ALTER TABLE video CHANGE vgr_idJeu idGame INT(11) NULL DEFAULT NULL;
-ALTER TABLE video CHANGE nbCommentaire nbComment INT(10) UNSIGNED NOT NULL DEFAULT '0';
-
-
+ALTER TABLE `vgr_video` CHANGE `idVideo` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE vgr_video CHANGE statut status ENUM('UPLOAD','WORK','OK','ERROR','UPLOADED','IN PROGRESS') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UPLOADED';
+UPDATE vgr_video SET status = 'UPLOADED' WHERE status = 'UPLOAD';
+UPDATE vgr_video SET status = 'IN PROGRESS' WHERE status = 'WORK';
+ALTER TABLE vgr_video CHANGE status status ENUM('OK','ERROR','UPLOADED','IN PROGRESS') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UPLOADED';
+ALTER TABLE vgr_video CHANGE dateCreation created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE vgr_video CHANGE dateModification updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE vgr_video CHANGE idMembre idPlayer INT(11) NOT NULL;
+ALTER TABLE vgr_video CHANGE vgr_idJeu idGame INT(11) NULL DEFAULT NULL;
+ALTER TABLE vgr_video CHANGE nbCommentaire nbComment INT(10) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_video` ADD `url` VARCHAR(255) NULL AFTER `status`;
+ALTER TABLE `vgr_video` DROP `thumb`;
+DELETE FROM `vgr_video` WHERE status IN ('IN PROGRESS', 'ERROR', 'UPLOADED');
+ALTER TABLE `vgr_video` CHANGE `fileIn` `fileIn` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '';
 
 --
 -- VGR GAME MESSAGE Part

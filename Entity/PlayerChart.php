@@ -7,6 +7,7 @@ use VideoGamesRecords\ProofBundle\Entity\Proof;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Eko\FeedBundle\Item\Writer\ItemInterface;
 
 /**
  * PlayerChart
@@ -15,7 +16,7 @@ use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class PlayerChart
+class PlayerChart implements ItemInterface
 {
     use Timestampable;
     use \VideoGamesRecords\CoreBundle\Model\Player;
@@ -117,6 +118,8 @@ class PlayerChart
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartLib", mappedBy="playerChart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $libs;
+
+    private $link;
 
     /**
      * Constructor
@@ -401,6 +404,66 @@ class PlayerChart
         return $this->libs;
     }
 
+    /**
+     * Set link
+     *
+     * @param string $link
+     * @return string
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemTitle()
+    {
+        return sprintf(
+            'New score on %s by %s rank#%d',
+            $this->getChart()->getGroup()->getGame()->getName(),
+            $this->getPlayer()->getPseudo(),
+            $this->getRank()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemDescription()
+    {
+        return null;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFeedItemPubDate()
+    {
+        return $this->getDateModif();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemLink()
+    {
+        return $this->getLink();
+    }
+
 
     /**
      * @ORM\PrePersist()
@@ -430,8 +493,5 @@ class PlayerChart
         if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getIdStatus(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
             $this->setDateInvestigation(null);
         }
-
-        /*$playerChart->setStatus($em->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
-        $playerChart->setDateModif(new \DateTime());*/
     }
 }

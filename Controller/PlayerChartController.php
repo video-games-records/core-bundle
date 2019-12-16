@@ -3,17 +3,21 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Doctrine\DBAL\DBALException;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class PlayerChartController
+ * @Route("/player-chart")
  */
 class PlayerChartController extends Controller
 {
@@ -53,5 +57,29 @@ class PlayerChartController extends Controller
             $this->em->getReference(Platform::class, $idPlatform)
         );
         return new JsonResponse(['data' => true]);
+    }
+
+    /**
+     * @Route("/top-score", name="playerChart_top_score")
+     * @Method("GET")
+     * @Cache(smaxage="10")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function rssAction(Request $request)
+    {
+        $idGame = $request->query->get('idGame', null);
+        $idGroup = $request->query->get('idGroup', null);
+
+        $playerCharts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->rssTopScore($idGame, $idGroup);
+
+        $feed = $this->get('eko_feed.feed.manager')->get('player.chart.high.scores');
+
+        // Add prefixe link
+        foreach ($playerCharts as $playerChart) {
+            $playerChart->setLink($feed->get('link') . $playerChart->getChart()->getId() . '/' . $playerChart->getChart()->getSlug());
+        }
+
+        $feed->addFromArray($playerCharts);
+        return new Response($feed->render('rss'));
     }
 }
