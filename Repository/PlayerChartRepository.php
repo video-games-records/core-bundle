@@ -343,4 +343,30 @@ class PlayerChartRepository extends EntityRepository
 
         $query->getQuery()->execute();
     }
+
+    /**
+     * @param integer $idGame
+     * @param integer $idGroup
+     * @param integer $limit
+     * @return mixed
+     */
+    public function rssTopScore($idGame = null, $idGroup = null, $limit = 20)
+    {
+        $query = $this->createQueryBuilder('pc')
+            ->innerJoin('pc.chart', 'chart')
+            ->innerJoin('chart.group', 'grp')
+            ->innerJoin('grp.game', 'game')
+            ->innerJoin('pc.player', 'player')
+            ->where('pc.rank = 1')
+            ->orderBy('pc.dateModif', 'DESC')
+            ->setMaxResults($limit);
+        if ($idGame != null) {
+            $query->andWhere('game.id = :idGame')
+                ->setParameter('idGame', $idGame);
+        } elseif ($idGroup != null) {
+            $query->andWhere('grp.id = :idGroup')
+                ->setParameter('idGroup', $idGroup);
+        }
+        return $query->getQuery()->getResult();
+    }
 }
