@@ -45,8 +45,6 @@ DROP TABLE IF EXISTS t_concours_question;
 DROP TABLE IF EXISTS t_concours;
 DROP TABLE IF EXISTS t_theme;
 DROP TABLE IF EXISTS t_session2;
-DROP TABLE IF EXISTS t_membre_ip;
-DROP TABLE IF EXISTS t_ip;
 
 -- DROP VIEW
 DROP VIEW IF EXISTS view_commentaire;
@@ -106,6 +104,9 @@ RENAME TABLE t_messageprive TO message;
 
 RENAME TABLE vgr_demandepreuve TO vgr_proof_request;
 RENAME TABLE vgr_preuves TO vgr_proof;
+
+RENAME TABLE `t_ip` TO `ip`;
+RENAME TABLE `t_membre_ip` TO `user_ip`;
 
 ALTER TABLE `vgr_player` CHANGE `idMembre` `id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `idPays` `idPays` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `email` CHANGE `idEmail` `emailId` INT(11) NOT NULL AUTO_INCREMENT;
@@ -1102,7 +1103,7 @@ INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
 (4, 'AdminVgrCore', 'a:1:{i:0;s:18:\"ROLE_VGRCORE_ADMIN\";}'),
 (5, 'AdminVgrProof', 'a:1:{i:0;s:19:\"ROLE_VGRPROOF_ADMIN\";}'),
 (6, 'AdminForum', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
-(7, 'AdminMessage', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
+(7, 'AdminMessage', 'a:1:{i:0;s:16:\"ROLE_MESSAGE_ADMIN\";}'),
 (8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}');
 
 -- all users have player role
@@ -1196,3 +1197,31 @@ ALTER TABLE `article` DROP `idPlateforme`;
 --
 
 UPDATE user SET enabled = 1;
+
+-- IP
+ALTER TABLE user_ip DROP FOREIGN KEY t_membre_ip_ibfk_1;
+ALTER TABLE user_ip DROP FOREIGN KEY t_membre_ip_ibfk_2;
+
+ALTER TABLE `ip` CHANGE `idIp` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `ip` CHANGE `IP` `label` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `ip` ADD `status` ENUM('NORMAL','SUSPICIOUS','BANNED') NOT NULL DEFAULT 'NORMAL' AFTER `banni`;
+UPDATE `ip` SET status = 'BANNED' WHERE banni = 1;
+ALTER TABLE `ip` DROP `banni`;
+ALTER TABLE `ip` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `status`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+
+ALTER TABLE `user_ip` CHANGE `idMembre` `idUser` INT(13) NOT NULL;
+ALTER TABLE `user_ip` CHANGE `nbUtilisation` `nbConnexion` INT(11) NOT NULL DEFAULT '0';
+
+ALTER TABLE `user_ip` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `nbConnexion`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+
+UPDATE `user_ip` SET created_at = dateDernierLogin,updated_at = dateDernierLogin;
+ALTER TABLE `user_ip` DROP `dateDernierLogin`;
+ALTER TABLE ``user_ip`` DROP PRIMARY KEY;
+ALTER TABLE `user_ip` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
+
+UPDATE user_ip up, vgr_player p
+SET up.idUser = p.normandie_user_id
+WHERE up.idUser = p.id;
+
+ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_IP` FOREIGN KEY (`idIp`) REFERENCES `ip`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
