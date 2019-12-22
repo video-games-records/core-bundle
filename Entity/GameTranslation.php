@@ -15,14 +15,12 @@ class GameTranslation
 
     /**
      * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="rules", type="text", nullable=true)
      */
     private $rules;

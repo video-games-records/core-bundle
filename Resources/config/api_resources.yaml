@@ -14,7 +14,7 @@ resources:
                 normalization_context: {'groups': [game.show, platform.show]}
             list-by-letter:
                 method: 'GET'
-                normalization_context: {'groups': [game.list, platform.show]}
+                normalization_context: {'groups': [game.list.letter, platform.show]}
                 path: '/game/list-by-letter'
                 swagger_context:
                     parameters:
@@ -28,7 +28,7 @@ resources:
                           type: string
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::listByLetter'
                 defaults:
-                      _api_receive: false
+                    _api_receive: false
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [player.show,playerGame.pointChart]}
@@ -119,7 +119,11 @@ resources:
                     collection: true
     VideoGamesRecords\CoreBundle\Entity\Group:
         collectionOperations:
-            get: ~
+            get:
+              normalization_context: {'groups': [group.list]}
+            api_games_groups_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [game.groups]}
         itemOperations:
             get:
                 normalization_context: {'groups': [group.show, platform.show]}
@@ -194,7 +198,7 @@ resources:
                 normalization_context: {'groups': [chart.show], 'enable_max_depth':true}
             api_groups_charts_get_subresource:
                 method: 'GET'
-                normalization_context: {'groups': [chart.show], 'enable_max_depth':true}
+                normalization_context: {'groups': [group.charts], 'enable_max_depth':true}
         itemOperations:
             get:
                 normalization_context: {'groups': [chart.show, platform.show, chartLib.show]}

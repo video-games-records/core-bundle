@@ -183,7 +183,15 @@ class Game implements ItemInterface
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getName(), $this->id);
+        return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        return $this->translate('en', false)->getName();
     }
 
     /**

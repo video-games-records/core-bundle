@@ -97,7 +97,15 @@ class Chart
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getName(), $this->id);
+        return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        return $this->translate('en', false)->getName();
     }
 
     /**
@@ -121,16 +129,6 @@ class Chart
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get libChart
-     *
-     * @return string
-     */
-    public function getLibChart()
-    {
-        return $this->getName();
     }
 
     /**

@@ -3,12 +3,9 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
     id:
       groups:
         - 'game.show'
-        - 'game.list'
     name:
       groups:
         - 'game.show'
-        - 'game.list'
     slug:
       groups:
         - 'game.show'
-        - 'game.list'

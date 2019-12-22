@@ -2,16 +2,16 @@ VideoGamesRecords\CoreBundle\Entity\Game:
   attributes:
     id:
       groups:
+        - 'game.list'
+        - 'game.list.letter'
         - 'game.show'
         - 'game.show.mini'
-        - 'game.list'
         - 'group.show'
         - 'chart.show'
         - 'chart.label.read'
     picture:
       groups:
         - 'game.show'
-        - 'game.list'
     status:
       groups: []
     etat:
@@ -22,40 +22,42 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups: []
     boolRanking:
       groups:
-        - 'game.show'
         - 'game.list'
+        - 'game.show'
     nbChart:
       groups:
-        - 'game.show'
         - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
     nbPost:
       groups:
-        - 'game.show'
         - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
     nbPlayer:
       groups:
-        - 'game.show'
         - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
     nbTeam:
       groups:
         - 'game.show'
-        - 'game.list'
     ordre:
       groups: []
     serie:
       groups:
         - 'game.show'
     badge:
-      groups:
-        - 'game.show'
+      groups: []
     platforms:
       groups:
         - 'platform.show'
     name:
       groups:
+        - 'game.list'
+        - 'game.list.letter'
         - 'game.show'
         - 'game.show.mini'
-        - 'game.list'
         - 'group.show'
         - 'chart.show'
         - 'chart.label.read'
@@ -65,8 +67,9 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'group.show'
         - 'chart.show'
     slug:
-        - 'game.show'
         - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
     createdAt:
       groups:
         - 'game.show'

@@ -5,6 +5,7 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
         - 'chart.show'
         - 'chart.list'
         - 'chart.label.read'
+        - 'group.charts'
     group:
       groups:
         - 'chart.show'
@@ -17,19 +18,23 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
       groups:
         - 'chart.show'
         - 'chart.list'
+        - 'group.charts'
     nbPlayer:
       groups:
         - 'chart.show'
         - 'chart.list'
+        - 'group.charts'
     name:
       groups:
         - 'chart.show'
         - 'chart.list'
         - 'chart.label.read'
+        - 'group.charts'
     slug:
       groups:
         - 'chart.show'
         - 'chart.list'
+        - 'group.charts'
     playerCharts:
       groups:
         - 'game.charts.submit'
