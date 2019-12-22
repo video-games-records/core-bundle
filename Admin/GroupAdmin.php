@@ -91,9 +91,9 @@ class GroupAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('game', null, [
-                'associated_property' => 'libGame',
+                'associated_property' => 'name',
                 'label' => 'Game',
             ])
             ->add('boolDLC', 'boolean')
@@ -118,9 +118,9 @@ class GroupAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('game', null, [
-                'associated_property' => 'libGame',
+                'associated_property' => 'name',
                 'label' => 'Game',
             ])
             ->add('charts');

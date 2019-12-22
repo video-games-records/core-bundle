@@ -59,11 +59,10 @@ class GameController extends Controller
     public function listByLetter(Request $request)
     {
         $letter = $request->query->get('letter', '0');
-        $locale = $request->query->get('locale', 'en');
-        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
+        $locale = $request->query->get('locale', $request->getLocale());
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
             ->findWithLetter($letter, $locale)
             ->getResult();
-        return $games;
     }
 
 

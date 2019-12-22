@@ -85,7 +85,15 @@ class Group
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getName(), $this->id);
+        return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        return $this->translate('en', false)->getName();
     }
 
     /**
@@ -106,15 +114,6 @@ class Group
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get libGroup
-     * @return string
-     */
-    public function getLibGroup()
-    {
-        return $this->getName();
     }
 
     /**
@@ -204,7 +203,7 @@ class Group
      * @param integer $nbPlayer
      * @return Group
      */
-    public function setNbUser($nbPlayer)
+    public function setNbPlayer($nbPlayer)
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -215,7 +214,7 @@ class Group
      * Get nbPlayer
      * @return integer
      */
-    public function getNbUser()
+    public function getNbPlayer()
     {
         return $this->nbPlayer;
     }
