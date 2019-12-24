@@ -145,8 +145,7 @@ ALTER TABLE country DROP libPays_fr, DROP libPays_en, DROP classPays, DROP codeI
 DROP TABLE country_code;
 
 ALTER TABLE `country` ADD `idBadge` INT NULL AFTER `code_iso_numeric`;
-ALTER TABLE `vgr`.`country` ADD UNIQUE `idxBadge` (`idBadge`);
-ALTER TABLE `country` ADD CONSTRAINT `FK_COUNTRY_BADGE` FOREIGN KEY (`idBadge`) REFERENCES `badge`(`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+ALTER TABLE `country` ADD UNIQUE `idxBadge` (`idBadge`);
 
 --
 -- VGR Part
@@ -536,7 +535,7 @@ CREATE TABLE user_group (userId INT NOT NULL, groupId INT NOT NULL, INDEX IDX_FE
 CREATE TABLE groupRole (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', UNIQUE INDEX UNIQ_39A2D4D75E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
 CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL, last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL DEFAULT 0, nbForumMessage INT NOT NULL DEFAULT 0,locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idCountry INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idCountry), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
-ALTER TABLE user ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idPays) REFERENCES country (id);
+ALTER TABLE user ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idCountry) REFERENCES country (id);
 ALTER TABLE user_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES user (id);
 ALTER TABLE user_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
 
@@ -607,7 +606,7 @@ BEGIN
 
     INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
               enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender,
-              created_at, updated_at, last_login, idPays, confirmation_token, password_requested_at)
+              created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
     VALUES
       (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, siteWeb, gender,
@@ -626,7 +625,7 @@ CALL user_migrate();
 DROP PROCEDURE user_migrate;
 
 -- INSERT VGR USER
-INSERT INTO user (id, username, username_canonical, email, email_canonical, enabled, idPays, created_at, updated_at,salt,password, locked, expired, roles, credentials_expired, nbConnexion)
+INSERT INTO user (id, username, username_canonical, email, email_canonical, enabled, idCountry, created_at, updated_at,salt,password, locked, expired, roles, credentials_expired, nbConnexion)
 VALUES (0, 'VGR', 'VGR', 'videogamesrecords@gmail.com', 'videogamesrecords@gmail.com', 0, 1, NOW(), NOW(), '', '', 1, 1, 'a:0:{}',1,0);
 UPDATE user SET id=0 WHERE email = 'videogamesrecords@gmail.com';
 
@@ -722,7 +721,7 @@ ALTER TABLE `vgr_player_badge` CHANGE `dateFin` `ended_at` DATETIME NULL DEFAULT
 ALTER TABLE `vgr_team_badge` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
 ALTER TABLE `vgr_team_badge` ADD updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_team_badge` CHANGE `dateFin` `ended_at` DATETIME NULL DEFAULT NULL;
-ALTER TABLE ``vgr_team_badge`` DROP PRIMARY KEY;
+ALTER TABLE `vgr_team_badge` DROP PRIMARY KEY;
 ALTER TABLE `vgr_team_badge` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 ALTER TABLE `badge` CHANGE `type` `type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 UPDATE `vgr_player_badge` SET updated_at = NOW();
@@ -767,6 +766,7 @@ UPDATE country,badge
 SET idBadge = badge.id
 WHERE country.id = badge.value
 AND type = 'VgrSpecialCountry';
+-- ALTER TABLE `country` ADD CONSTRAINT `FK_COUNTRY_BADGE` FOREIGN KEY (`idBadge`) REFERENCES `badge`(`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 ALTER TABLE `vgr_player_badge` DROP PRIMARY KEY;
 ALTER TABLE `vgr_player_badge` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
@@ -859,14 +859,14 @@ DELETE FROM t_forum WHERE idForum = 42;
 --
 -- VGR TEAM MESSAGE Part
 --
-CREATE TABLE vgr_team_topic (idTopic int(11) NOT NULL, idteam int(11) NOT NULL, idPlayer int(11) NOT NULL, libTopic varchar(255) NOT NULL, created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, oldIdTopic int(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE vgr_team_topic (idTopic int(11) NOT NULL, idTeam int(11) NOT NULL, idPlayer int(11) NOT NULL, libTopic varchar(255) NOT NULL, created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, oldIdTopic int(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE vgr_team_topic ADD PRIMARY KEY (idTopic), ADD KEY idxPlayer (idPlayer), ADD KEY idxTeam (idTeam);
 
 ALTER TABLE vgr_team_topic MODIFY idTopic int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE vgr_team_topic
-  ADD CONSTRAINT fk_team_topic_team FOREIGN KEY (idTeam) REFERENCES vgr_team (idTeam),
+  ADD CONSTRAINT fk_team_topic_team FOREIGN KEY (idTeam) REFERENCES vgr_team (id),
   ADD CONSTRAINT fk_team_topic_player FOREIGN KEY (idPlayer) REFERENCES vgr_player (id);
 
 CREATE TABLE vgr_team_message (
@@ -892,7 +892,7 @@ ALTER TABLE vgr_team_message
 
 
 INSERT INTO vgr_team_topic (idPlayer, idTeam, libTopic, oldIdTopic)
-SELECT idMembre,vgr_team.idTeam, libTopic, idTopic
+SELECT idMembre,vgr_team.id, libTopic, idTopic
 FROM t_forum
   INNER JOIN vgr_team ON t_forum.idForum = vgr_team.idForum
   INNER JOIN t_forum_topic ON t_forum_topic.idForum = t_forum.idForum;
@@ -1051,6 +1051,18 @@ SET p.idVideo = pc.idVideo
 WHERE p.idPlayer = pc.idPlayer
       AND p.idChart = pc.idChart;
 
+UPDATE vgr_player_chart pc, vgr_proof p
+SET pc.idProof = p.idProof
+WHERE pc.idPicture = p.idPicture
+AND pc.idPicture IS NOT NULL;
+
+UPDATE vgr_player_chart pc, vgr_proof p
+SET pc.idProof = p.idProof
+WHERE pc.idVideo = p.idVideo
+AND pc.idVideo IS NOT NULL
+AND pc.idVideo != 0
+AND p.idVideo IS NOT NULL
+AND p.idVideo != 0;
 
 -- delete
 DELETE FROM vgr_proof WHERE idPlayer NOT IN (SELECT id FROM vgr_player);
@@ -1135,6 +1147,7 @@ ALTER TABLE `vgr_picture` ADD CONSTRAINT `FK_PICTURE_GAME` FOREIGN KEY (`idGame`
 ALTER TABLE `article` CHANGE `idArticle` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `article` CHANGE `idMembre` `idAuthor` INT(13) NULL;
 
+DELETE FROM article WHERE id in (1540,6486,6243,6148,4058,4059,3466,107,138);
 ALTER TABLE `article` CHANGE `statut` `status` ENUM('EN_CONSTRUCTION','PUBLIE','ANNULE','UNDER CONSTRUCTION','PUBLISHED','CANCELED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'EN_CONSTRUCTION';
 UPDATE `article` SET status='UNDER CONSTRUCTION' WHERE status = 'EN_CONSTRUCTION';
 UPDATE `article` SET status='PUBLISHED' WHERE status = 'PUBLIE';
@@ -1199,8 +1212,8 @@ ALTER TABLE `article` DROP `idPlateforme`;
 UPDATE user SET enabled = 1;
 
 -- IP
-ALTER TABLE user_ip DROP FOREIGN KEY t_membre_ip_ibfk_1;
-ALTER TABLE user_ip DROP FOREIGN KEY t_membre_ip_ibfk_2;
+ALTER TABLE user_ip DROP FOREIGN KEY user_ip_ibfk_1;
+ALTER TABLE user_ip DROP FOREIGN KEY user_ip_ibfk_2;
 
 ALTER TABLE `ip` CHANGE `idIp` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ip` CHANGE `IP` `label` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
@@ -1216,12 +1229,13 @@ ALTER TABLE `user_ip` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTA
 
 UPDATE `user_ip` SET created_at = dateDernierLogin,updated_at = dateDernierLogin;
 ALTER TABLE `user_ip` DROP `dateDernierLogin`;
-ALTER TABLE ``user_ip`` DROP PRIMARY KEY;
+ALTER TABLE `user_ip` DROP PRIMARY KEY;
 ALTER TABLE `user_ip` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 
 UPDATE user_ip up, vgr_player p
 SET up.idUser = p.normandie_user_id
-WHERE up.idUser = p.id;
+WHERE up.idUser = p.id
+AND p.normandie_user_id IS NOT NULL;
 
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_IP` FOREIGN KEY (`idIp`) REFERENCES `ip`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
