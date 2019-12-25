@@ -35,7 +35,7 @@ DROP TRIGGER IF EXISTS `vgrChartPlayerAfterUpdate`//
 CREATE TRIGGER vgrChartPlayerAfterUpdate AFTER UPDATE ON vgr_player_chart
 FOR EACH ROW
 BEGIN
-	IF OLD.dateModif != NEW.dateModif THEN
+	IF OLD.lastUpdate != NEW.lastUpdate THEN
 		UPDATE vgr_chart
 	    SET statusPlayer = 'MAJ',
 	        statusTeam = 'MAJ'

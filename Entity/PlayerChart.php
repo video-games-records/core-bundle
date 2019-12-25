@@ -61,9 +61,9 @@ class PlayerChart implements ItemInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateModif", type="datetime", nullable=false)
+     * @ORM\Column(name="lastUpdate", type="datetime", nullable=false)
      */
-    private $dateModif;
+    private $lastUpdate;
 
     /**
      * @var \DateTime
@@ -241,25 +241,26 @@ class PlayerChart implements ItemInterface
     }
 
     /**
-     * Set dateModif
+     * Set lastUpdate
      *
-     * @param \DateTime $dateModif
-     * @return PlayerChart
+     * @param \DateTime $lastUpdate
+     * @return $this
      */
-    public function setDateModif($dateModif)
+    public function setLastUpdate($lastUpdate)
     {
-        $this->dateModif = $dateModif;
+        $this->lastUpdate = $lastUpdate;
+
         return $this;
     }
 
     /**
-     * Get dateModif
+     * Get lastUpdate
      *
      * @return \DateTime
      */
-    public function getDateModif()
+    public function getLastUpdate()
     {
-        return $this->dateModif;
+        return $this->lastUpdate;
     }
 
     /**
@@ -453,7 +454,7 @@ class PlayerChart implements ItemInterface
      */
     public function getFeedItemPubDate()
     {
-        return $this->getDateModif();
+        return $this->getLastUpdate();
     }
 
     /**
@@ -474,7 +475,7 @@ class PlayerChart implements ItemInterface
     {
         $entityManager = $args->getObjectManager();
         $this->setStatus($entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
-        $this->setDateModif(new \DateTime());
+        $this->setLastUpdate(new \DateTime());
     }
 
     /**

@@ -140,7 +140,7 @@ class ChartAdmin extends AbstractAdmin
             ->addIdentifier('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('group', null, array(
-                'associated_property' => 'name',
+                'associated_property' => 'defaultName',
                 'label' => 'Group',
             ))
             ->add('_action', 'actions', array(
@@ -160,7 +160,7 @@ class ChartAdmin extends AbstractAdmin
             ->add('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('group', null, array(
-                'associated_property' => 'name',
+                'associated_property' => 'defaultName',
                 'label' => 'Group',
             ));
     }

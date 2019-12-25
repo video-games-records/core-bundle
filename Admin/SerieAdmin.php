@@ -48,7 +48,7 @@ class SerieAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -63,6 +63,6 @@ class SerieAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('getName', null, ['label' => 'Name']);
+            ->add('getDefaultName', null, ['label' => 'Name']);
     }
 }

@@ -254,7 +254,6 @@ class PlayerRepository extends EntityRepository
         $players = $this->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
 
         Ranking::addObjectRank($players, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
-
         $this->getEntityManager()->flush();
     }
 

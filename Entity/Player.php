@@ -37,8 +37,8 @@ class Player
     /**
      * @var string
      *
-     * @Assert\Length(max="50")
-     * @ORM\Column(name="pseudo", type="string", length=50, nullable=false)
+     * @Assert\Length(min="3",max="50")
+     * @ORM\Column(name="pseudo", type="string", length=50, nullable=false, unique=true)
      */
     private $pseudo;
 

@@ -36,6 +36,14 @@ class Serie
     }
 
     /**
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        return $this->translate('en', false)->getName();
+    }
+
+    /**
      * @param string $name
      * @return $this
      */
@@ -83,6 +91,6 @@ class Serie
      */
     public function getSluggableFields()
     {
-        return ['name'];
+        return ['defaultName'];
     }
 }

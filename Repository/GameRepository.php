@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 
 class GameRepository extends EntityRepository
 {
@@ -99,7 +100,7 @@ class GameRepository extends EntityRepository
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.chart c
             JOIN c.group g
-            WHERE pc.dateModif BETWEEN :date1 AND :date2
+            WHERE pc.lastUpdate BETWEEN :date1 AND :date2
             GROUP BY g.idGame");
 
 

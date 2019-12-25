@@ -102,7 +102,7 @@ class PlayerGameRepository extends EntityRepository
             $dataWithoutDlc[$row['id']] = $row;
         }
 
-        //----- select ans save result in array
+        //----- select and save result in array
         $query = $this->_em->createQuery("
             SELECT
                 p.id,
@@ -116,7 +116,8 @@ class PlayerGameRepository extends EntityRepository
                 SUM(pg.chartRank5) as chartRank5,
                 SUM(pg.pointChart) as pointChart,
                 SUM(pg.nbChart) as nbChart,
-                SUM(pg.nbChartProven) as nbChartProven
+                SUM(pg.nbChartProven) as nbChartProven,
+                MAX(pg.lastUpdate) as lastUpdate
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGroup pg
             JOIN pg.player p
             JOIN pg.group g
@@ -130,6 +131,7 @@ class PlayerGameRepository extends EntityRepository
 
         $list = [];
         foreach ($result as $row) {
+            $row['lastUpdate'] = new \DateTime($row['lastUpdate']);
             $row = array_merge($row, $dataWithoutDlc[$row['id']]);
             $list[] = $row;
         }
@@ -155,4 +157,22 @@ class PlayerGameRepository extends EntityRepository
         }
         $this->_em->flush();
     }
+
+    /**
+     * @param Player $player
+     * @param int    $limit
+     * @return mixed
+     */
+    public function getLast(Player $player, $limit = 5)
+    {
+        $query = $this->createQueryBuilder('pg')
+            ->innerJoin('pg.game', 'g')
+            ->innerJoin('g.badge', 'b')
+            ->where('pg.player = :player')
+            ->setParameter('player', $player)
+            ->orderBy('pg.lastUpdate', 'DESC')
+            ->setMaxResults($limit);
+        return $query->getQuery()->getResult();
+    }
+
 }

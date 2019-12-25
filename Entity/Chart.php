@@ -308,6 +308,6 @@ class Chart
      */
     public function getSluggableFields()
     {
-        return ['name'];
+        return ['defaultName'];
     }
 }

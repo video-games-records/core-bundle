@@ -80,7 +80,7 @@ class GroupAdmin extends AbstractAdmin
         $datagridMapper
             ->add('translations.name')
             ->add('game', 'doctrine_orm_model_autocomplete', [], null, [
-                'property' => 'translations.name',
+                'property' => 'defaultName',
             ]);
     }
 
@@ -93,7 +93,7 @@ class GroupAdmin extends AbstractAdmin
             ->addIdentifier('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('game', null, [
-                'associated_property' => 'name',
+                'associated_property' => 'defaultName',
                 'label' => 'Game',
             ])
             ->add('boolDLC', 'boolean')
@@ -120,7 +120,7 @@ class GroupAdmin extends AbstractAdmin
             ->add('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('game', null, [
-                'associated_property' => 'name',
+                'associated_property' => 'defaultName',
                 'label' => 'Game',
             ])
             ->add('charts');

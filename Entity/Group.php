@@ -273,6 +273,6 @@ class Group
      */
     public function getSluggableFields()
     {
-        return ['name'];
+        return ['defaultName'];
     }
 }
