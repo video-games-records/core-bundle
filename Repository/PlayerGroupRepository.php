@@ -154,14 +154,15 @@ class PlayerGroupRepository extends EntityRepository
         }
 
 
-        //----- select ans save result in array
+        //----- select and save result in array
         $query = $this->_em->createQuery("
             SELECT
                 p.id,
                 '' as rankPoint,
                 '' as rankMedal,
                 SUM(pc.pointChart) as pointChart,
-                COUNT(pc.idPlayerChart) as nbChart
+                COUNT(pc.idPlayerChart) as nbChart,
+                MAX(pc.lastUpdate) as lastUpdate
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
             JOIN pc.chart c
@@ -183,6 +184,7 @@ class PlayerGroupRepository extends EntityRepository
             $row['chartRank4'] = (isset($data['chartRank4'][$row['id']])) ? $data['chartRank4'][$row['id']] : 0;
             $row['chartRank5'] = (isset($data['chartRank5'][$row['id']])) ? $data['chartRank5'][$row['id']] : 0;
             $row['nbChartProven'] = (isset($data['nbChartProven'][$row['id']])) ? $data['nbChartProven'][$row['id']] : 0;
+            $row['lastUpdate'] = new \DateTime($row['lastUpdate']);
             $list[] = $row;
         }
 

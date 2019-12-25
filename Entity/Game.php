@@ -719,6 +719,6 @@ class Game implements ItemInterface
      */
     public function getSluggableFields()
     {
-        return ['name'];
+        return ['defaultName'];
     }
 }

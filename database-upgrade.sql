@@ -336,12 +336,13 @@ ALTER TABLE `vgr_player_chart` CHANGE `idEtat` `idStatus` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE rank rank INT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
-ALTER TABLE `vgr_player_chart` ADD INDEX `idxPlayerDateModif` (`idPlayer`, `dateModif`);
 ALTER TABLE `vgr_player_chart` DROP PRIMARY KEY;
 ALTER TABLE `vgr_player_chart` ADD `idPlayerChart` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`idPlayerChart`);
 ALTER TABLE `vgr_player_chart` ADD UNIQUE( `idChart`, `idPlayer`);
 ALTER TABLE `vgr_player_chart` ADD `dateInvestigation` DATE NULL AFTER `isTopScore`;
 ALTER TABLE `vgr_player_chart` ADD `idPlatform` INT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE `dateModif` `lastUpdate` DATETIME NOT NULL;
+ALTER TABLE `vgr_player_chart` ADD INDEX `idxPlayerLastUpdate` (`idPlayer`, `lastUpdate`);
 
 
 ALTER TABLE `vgr_player_chartlib` ADD `idPlayerChart` INT NULL;
@@ -388,6 +389,7 @@ ALTER TABLE `vgr_player_game` CHANGE `rank3` `chartRank3` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_game` CHANGE `rank4` `chartRank4` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_game` CHANGE `rank5` `chartRank5` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_game` CHANGE `rankPoint` `rankPointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_game` ADD `lastUpdate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `nbEqual`;
 
 ALTER TABLE `vgr_player_group` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_group` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
@@ -402,6 +404,7 @@ ALTER TABLE `vgr_player_group` CHANGE `rank3` `chartRank3` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_group` CHANGE `rank4` `chartRank4` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_group` CHANGE `rank5` `chartRank5` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_group` CHANGE `rankPoint` `rankPointChart` INT(11) NOT NULL;
+ALTER TABLE `vgr_player_group` ADD `lastUpdate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `nbChartProven`;
 
 ALTER TABLE `vgr_player_serie` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_serie` CHANGE `pointRecord` `pointChart` INT(11) NOT NULL;
@@ -1239,3 +1242,21 @@ AND p.normandie_user_id IS NOT NULL;
 
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_IP` FOREIGN KEY (`idIp`) REFERENCES `ip`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+
+-- maj lastUpdate
+UPDATE vgr_player_group pg
+SET pg.lastUpdate = (
+    SELECT IFNULL(MAX(pc.lastUpdate), NOW())
+    FROM vgr_player_chart pc INNER JOIN vgr_chart c ON pc.idChart = c.id
+    WHERE pg.idPlayer = pc.idPlayer
+    AND pg.idGroup = c.idGroup);
+
+-- maj lastUpdate
+UPDATE vgr_player_game pga
+SET pga.lastUpdate = (
+    SELECT IFNULL(MAX(pgr.lastUpdate), NOW())
+    FROM vgr_player_group pgr INNER JOIN vgr_group g ON pgr.idGroup = g.id
+    WHERE pgr.idPlayer = pga.idPlayer
+    AND g.idGame = pga.idGame);
+

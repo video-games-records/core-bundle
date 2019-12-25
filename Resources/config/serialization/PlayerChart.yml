@@ -38,15 +38,13 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         - 'ranking'
         - 'playerChart.read'
         - 'playerChart.write'
-    dateModif:
+    lastUpdate:
       groups:
         - 'ranking'
     createdAt:
-      groups:
-        - 'ranking'
+      groups: []
     updatedAt:
-      groups:
-        - 'ranking'
+      groups: []
     libs:
       groups:
         - 'playerChart.read'

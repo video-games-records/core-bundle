@@ -42,11 +42,13 @@ class PlayerAdmin extends AbstractAdmin
                     'readonly' => true,
                 ]
             ])
-            ->add('country', ModelListType::class, [
+            ->add('country', 'sonata_type_model_list', [
+                'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
+                'btn_edit' => false,
                 'btn_delete' => false,
-                'btn_catalogue' => true,
+                'btn_catalogue' => false,
                 'label' => 'Country',
             ]);
     }

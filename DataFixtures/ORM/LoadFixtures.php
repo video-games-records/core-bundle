@@ -527,7 +527,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             $playerChart->setPlayer($this->getReference('player' . $row['idPlayer']));
             $playerChart->setChart($chart);
             $playerChart->setStatus($this->getReference(sprintf('playerchartstatus%d', $row['status'])));
-            $playerChart->setDateModif(new \DateTime());
+            $playerChart->setLastUpdate(new \DateTime());
             $manager->persist($playerChart);
 
             foreach ($chart->getLibs() as $lib) {

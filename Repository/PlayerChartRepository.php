@@ -306,7 +306,7 @@ class PlayerChartRepository extends EntityRepository
                  COUNT(pc.chart) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
-            WHERE pc.dateModif BETWEEN :date1 AND :date2
+            WHERE pc.lastUpdate BETWEEN :date1 AND :date2
             GROUP BY p.id");
 
 
@@ -358,7 +358,7 @@ class PlayerChartRepository extends EntityRepository
             ->innerJoin('grp.game', 'game')
             ->innerJoin('pc.player', 'player')
             ->where('pc.rank = 1')
-            ->orderBy('pc.dateModif', 'DESC')
+            ->orderBy('pc.lastUpdate', 'DESC')
             ->setMaxResults($limit);
         if ($idGame != null) {
             $query->andWhere('game.id = :idGame')
