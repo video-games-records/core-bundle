@@ -11,7 +11,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 
 class PlayerAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'vgrcorebundle_player_group';
+    protected $baseRouteName = 'vgrcorebundle_player';
 
     /**
      * @inheritdoc

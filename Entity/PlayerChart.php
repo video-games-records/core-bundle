@@ -24,11 +24,11 @@ class PlayerChart implements ItemInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPlayerChart", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idPlayerChart;
+    private $id;
 
     /**
      * @var integer
@@ -75,7 +75,7 @@ class PlayerChart implements ItemInterface
     /**
      * @var Chart
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
@@ -97,7 +97,7 @@ class PlayerChart implements ItemInterface
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="idStatus", nullable=false)
+     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })
      */
     private $status;
@@ -130,25 +130,33 @@ class PlayerChart implements ItemInterface
     }
 
     /**
-     * Set idPlayerChart
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s # %s [%s]', $this->getChart()->getDefaultName(), $this->getPlayer()->getPseudo(), $this->id);
+    }
+
+    /**
+     * Set id
      *
-     * @param integer $idPlayerChart
+     * @param integer $id
      * @return PlayerChart
      */
-    public function setIdPlayerChart($idPlayerChart)
+    public function setId($id)
     {
-        $this->idPlayerChart = $idPlayerChart;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idPlayerChart
+     * Get id
      *
      * @return integer
      */
-    public function getIdPlayerChart()
+    public function getId()
     {
-        return $this->idPlayerChart;
+        return $this->id;
     }
 
     /**

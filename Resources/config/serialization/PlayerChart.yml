@@ -1,6 +1,6 @@
 VideoGamesRecords\CoreBundle\Entity\PlayerChart:
   attributes:
-    idPlayerChart:
+    id:
       groups:
         - 'playerChart.read'
         - 'playerChart.write'

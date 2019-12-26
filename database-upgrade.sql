@@ -36,6 +36,9 @@ DROP TABLE IF EXISTS t_poll_question;
 DROP TABLE IF EXISTS t_poll_reponse;
 DROP TABLE IF EXISTS t_poll_vote;
 DROP TABLE IF EXISTS t_acl_deny;
+DROP TABLE IF EXISTS vgr_editeur;
+DROP TABLE IF EXISTS vgr_sanction_membre;
+DROP TABLE IF EXISTS vgr_sanction;
 
 DROP TABLE IF EXISTS t_concours_participant_reponse;
 DROP TABLE IF EXISTS t_concours_participant;
@@ -337,7 +340,7 @@ ALTER TABLE `vgr_player_chart` CHANGE dateCreation created_at DATETIME DEFAULT N
 ALTER TABLE `vgr_player_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE rank rank INT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
 ALTER TABLE `vgr_player_chart` DROP PRIMARY KEY;
-ALTER TABLE `vgr_player_chart` ADD `idPlayerChart` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`idPlayerChart`);
+ALTER TABLE `vgr_player_chart` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 ALTER TABLE `vgr_player_chart` ADD UNIQUE( `idChart`, `idPlayer`);
 ALTER TABLE `vgr_player_chart` ADD `dateInvestigation` DATE NULL AFTER `isTopScore`;
 ALTER TABLE `vgr_player_chart` ADD `idPlatform` INT NULL;
@@ -351,7 +354,7 @@ ALTER TABLE `vgr_player_chartlib` CHANGE `idLibRecord` `idLibChart` INT(11) NOT 
 
 -- UPDATE vgr_player_chartlib.idPlayerChart
 UPDATE  vgr_player_chart, vgr_chartlib,vgr_player_chartlib
-SET vgr_player_chartlib.idPlayerChart = vgr_player_chart.idPlayerChart
+SET vgr_player_chartlib.idPlayerChart = vgr_player_chart.id
 WHERE vgr_player_chart.idChart = vgr_chartlib.idChart
 AND vgr_chartlib.idLibChart = vgr_player_chartlib.idLibChart
 AND vgr_player_chartlib.idPlayer = vgr_player_chart.idPlayer;
@@ -435,8 +438,8 @@ UPDATE vgr_game a
 SET nbPlatform = (SELECT COUNT(idGame) FROM vgr_game_platform WHERE idGame = a.id);
 
 
-ALTER TABLE `vgr_player_chart_status` CHANGE `idEtat` `idStatus` INT(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `vgr_player_chart_status` CHANGE `libEtat` `libStatus` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `vgr_player_chart_status` CHANGE `idEtat` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_player_chart_status` CHANGE `libEtat` `label` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 
 -- Team
 ALTER TABLE `vgr_team` CHANGE `idTeam` `id` INT(11) NOT NULL AUTO_INCREMENT;
@@ -1012,11 +1015,11 @@ UPDATE `vgr_proof_request` SET status = 'IN PROGRESS' WHERE status = 'EN COURS';
 ALTER TABLE `vgr_proof_request` CHANGE `status` `status` ENUM('IN PROGRESS','REFUSED','ACCEPTED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
 ALTER TABLE `vgr_proof_request` ADD `idPlayerChart` INT NOT NULL AFTER `idRequest`;
 UPDATE `vgr_proof_request` r, `vgr_player_chart` c
-SET r.idPlayerChart = c.idPlayerChart
+SET r.idPlayerChart = c.id
 WHERE r.idPlayer = c.idPlayer AND r.idChart = c.idChart;
 DELETE FROM `vgr_proof_request` WHERE idPlayerChart = 0;
 ALTER TABLE `vgr_proof_request` ADD INDEX(`idPlayerChart`);
-ALTER TABLE `vgr_proof_request` ADD FOREIGN KEY (`idPlayerChart`) REFERENCES `vgr_player_chart`(`idPlayerChart`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `vgr_proof_request` ADD FOREIGN KEY (`idPlayerChart`) REFERENCES `vgr_player_chart`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 
 -- proof
@@ -1260,3 +1263,9 @@ SET pga.lastUpdate = (
     WHERE pgr.idPlayer = pga.idPlayer
     AND g.idGame = pga.idGame);
 
+-- FK_PLAYERCHART_PLATFORM
+ALTER TABLE `vgr_player_chart` ADD INDEX(`idPlatform`);
+ALTER TABLE `vgr_player_chart` ADD CONSTRAINT `FK_PLAYERCHART_PLATFORM` FOREIGN KEY (`idPlatform`) REFERENCES `vgr_platform`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `vgr_player_chart` ADD INDEX(`idProof`);
+ALTER TABLE `vgr_player_chart` ADD CONSTRAINT `FK_PLAYERCHART_PROOF` FOREIGN KEY (`idProof`) REFERENCES `vgr_proof`(`idProof`) ON DELETE RESTRICT ON UPDATE RESTRICT;

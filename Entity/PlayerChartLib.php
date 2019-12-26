@@ -52,13 +52,21 @@ class PlayerChartLib
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="idPlayerChart")
+     *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id")
      * })
      */
     private $playerChart;
 
 
     private $parseValue;
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s', Score::formatScore($this->value, $this->getLibChart()->getType()->getMask()));
+    }
 
 
     /**
