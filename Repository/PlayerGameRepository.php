@@ -157,22 +157,4 @@ class PlayerGameRepository extends EntityRepository
         }
         $this->_em->flush();
     }
-
-    /**
-     * @param Player $player
-     * @param int    $limit
-     * @return mixed
-     */
-    public function getLast(Player $player, $limit = 5)
-    {
-        $query = $this->createQueryBuilder('pg')
-            ->innerJoin('pg.game', 'g')
-            ->innerJoin('g.badge', 'b')
-            ->where('pg.player = :player')
-            ->setParameter('player', $player)
-            ->orderBy('pg.lastUpdate', 'DESC')
-            ->setMaxResults($limit);
-        return $query->getQuery()->getResult();
-    }
-
 }
