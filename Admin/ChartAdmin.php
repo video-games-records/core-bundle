@@ -125,7 +125,7 @@ class ChartAdmin extends AbstractAdmin
         $datagridMapper
             ->add('translations.name')
             ->add('group', 'doctrine_orm_model_autocomplete', array(), null, array(
-                'property' => 'name',
+                'property' => 'translations.name',
             ))
             ->add('statusPlayer', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
             ->add('statusTeam', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()));
@@ -138,7 +138,7 @@ class ChartAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('defaultName', null, ['label' => 'Name'])
             ->add('group', null, array(
                 'associated_property' => 'defaultName',
                 'label' => 'Group',
@@ -158,7 +158,7 @@ class ChartAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('defaultName', null, ['label' => 'Name'])
             ->add('group', null, array(
                 'associated_property' => 'defaultName',
                 'label' => 'Group',

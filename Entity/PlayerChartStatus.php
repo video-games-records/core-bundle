@@ -24,18 +24,18 @@ class PlayerChartStatus
 
 
     /**
-     * @ORM\Column(name="idStatus", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      */
-    private $idStatus;
+    private $id;
 
     /**
      * @var string
      *
      * @Assert\Length(max="50")
-     * @ORM\Column(name="libStatus", type="string", length=50, nullable=false)
+     * @ORM\Column(name="label", type="string", length=50, nullable=false)
      */
-    private $libStatus;
+    private $label;
 
     /**
      * @var integer
@@ -52,49 +52,49 @@ class PlayerChartStatus
     private $boolSendProof = 0;
 
     /**
-     * Set idStatus
+     * Set id
      *
-     * @param integer $idStatus
-     * @return PlayerChartStatus
+     * @param integer $id
+     * @return $this
      */
-    public function setIdStatus($idStatus)
+    public function setId($id)
     {
-        $this->idStatus = $idStatus;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idStatus
+     * Get id
      *
      * @return integer
      */
-    public function getIdStatus()
+    public function getId()
     {
-        return $this->idStatus;
+        return $this->id;
     }
 
 
     /**
-     * Set libStatus
+     * Set label
      *
-     * @param string $libStatus
-     * @return PlayerChartStatus
+     * @param string $label
+     * @return $this
      */
-    public function setLibStatus($libStatus)
+    public function setLabel($label)
     {
-        $this->libStatus = $libStatus;
+        $this->label = $label;
 
         return $this;
     }
 
     /**
-     * Get libStatus
+     * Get label
      *
      * @return string
      */
-    public function getLibStatusr()
+    public function getLabel()
     {
-        return $this->libStatus;
+        return $this->label;
     }
 
 
@@ -102,7 +102,7 @@ class PlayerChartStatus
      * Set boolRanking
      *
      * @param integer $boolRanking
-     * @return PlayerChartStatus
+     * @return $this
      */
     public function setBoolRanking($boolRanking)
     {
@@ -125,7 +125,7 @@ class PlayerChartStatus
      * Set boolSendProof
      *
      * @param integer $boolSendProof
-     * @return PlayerChartStatus
+     * @return $this
      */
     public function setBoolSendProof($boolSendProof)
     {

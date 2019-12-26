@@ -81,3 +81,20 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\GameMessage
             - ~
+    sonata.admin.vgr.core.playerchart:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerChartAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "PlayerChart" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\PlayerChart
+            - ~
+    sonata.admin.vgr.core.playerchart_lib:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "PlayerChartLib", show_in_dashboard: false }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\PlayerChartLib
+            - ~
+
