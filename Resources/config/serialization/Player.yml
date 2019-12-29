@@ -7,7 +7,6 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     pseudo:
       groups:
         - 'player.show'
-        - 'user.profile'
         - 'team.leader.show'
     rankPointChart:
       groups:
@@ -55,7 +54,7 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'ranking_point'
         - 'ranking_medal'
-        - 'user.profile'
+        - 'player.profile'
         - 'team.leader.show'
     team:
       groups:

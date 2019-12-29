@@ -8,20 +8,10 @@ services:
     VideoGamesRecords\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-#    VideoGamesRecords\CoreBundle\Serializer\ChartContextBuilder:
-#        decorates: 'api_platform.serializer.context_builder'
-#        arguments: [ '@VideoGamesRecords\CoreBundle\Serializer\ChartContextBuilder.inner' ]
-#        autoconfigure: false
-#    VideoGamesRecords\CoreBundle\Doctrine\ChartExtension:
+#    VideoGamesRecords\CoreBundle\EventListener\Entity\DynamicRelationUser:
+#        arguments: []
 #        tags:
-#            - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
-#            - { name: api_platform.doctrine.orm.query_extension.item }
-    VideoGamesRecords\CoreBundle\Command\ChartCommand:
-        class: VideoGamesRecords\CoreBundle\Command\ChartCommand
-        arguments: [null, '@doctrine.orm.entity_manager']
-        public: true
-        tags:
-            - { name: 'console.command' }
+#            - { name: doctrine.event_subscriber, connection: default }
     VideoGamesRecords\CoreBundle\Twig\VgrExtension:
         public: false
         tags:
@@ -31,14 +21,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate}
             - { name: doctrine.event_listener, event: postUpdate, method: postUpdate}
-    array_normalizer:
-        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
-        public: false
-        tags: [serializer.normalizer]
-    json_encoder:
-        class: Symfony\Component\Serializer\Encoder\JsonEncoder
-        public: false
-        tags: [serializer.encoder]
     vgr.game:
         public: true
         class:    VideoGamesRecords\CoreBundle\Service\Game
@@ -46,14 +28,14 @@ services:
             "@=service('doctrine.orm.default_entity_manager')",
             "%kernel.root_dir%"
             ]
-    playerChart.player_filter:
+    player.filter:
         parent: 'api_platform.doctrine.orm.search_filter'
         arguments: [ { player: ~ } ]
         tags:  [ 'api_platform.filter' ]
         public: true
         autowire: true
         autoconfigure: false
-    playerChart.chart_filter:
+    chart.filter:
         parent: 'api_platform.doctrine.orm.search_filter'
         arguments: [ { chart: ~ } ]
         tags:  [ 'api_platform.filter' ]
