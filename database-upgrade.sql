@@ -1119,8 +1119,8 @@ INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
 (1, 'Admin', 'a:1:{i:0;s:10:\"ROLE_ADMIN\";}'),
 (2, 'Player', 'a:1:{i:0;s:11:\"ROLE_PLAYER\";}'),
 (3, 'AdminUser', 'a:1:{i:0;s:15:\"ROLE_USER_ADMIN\";}'),
-(4, 'AdminVgrCore', 'a:1:{i:0;s:18:\"ROLE_VGRCORE_ADMIN\";}'),
-(5, 'AdminVgrProof', 'a:1:{i:0;s:19:\"ROLE_VGRPROOF_ADMIN\";}'),
+(4, 'AdminGames', 'a:1:{i:0;s:15:\"ROLE_GAME_ADMIN\";}'),
+(5, 'AdminProof', 'a:1:{i:0;s:16:\"ROLE_PROOF_ADMIN\";}'),
 (6, 'AdminForum', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
 (7, 'AdminMessage', 'a:1:{i:0;s:18:\"ROLE_MESSAGE_ADMIN\";}'),
 (8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}');
