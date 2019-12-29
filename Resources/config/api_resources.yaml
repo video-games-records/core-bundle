@@ -378,3 +378,39 @@ resources:
             get: ~
         itemOperations:
             get: ~
+    VideoGamesRecords\CoreBundle\Entity\Proof:
+        collectionOperations:
+            get: ~
+            send-picture:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                method: 'POST'
+                path: '/player-chart/{id}/send-picture'
+                consumes:
+                    - application/json
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - in: body
+                          name: file
+                          description: Picture encoded in base64
+                          schema:
+                              type: object
+                              required:
+                                - base64
+                              properties:
+                                  base64:
+                                    type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::sendPicture'
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\ProofRequest:
+        shortName: 'ProofRequest'
+        collectionOperations:
+            get: ~
+            post:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayerChart().getStatus().getIdStatus() == 1'
+        itemOperations:
+            get: ~

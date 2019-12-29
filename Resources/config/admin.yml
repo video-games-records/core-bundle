@@ -105,4 +105,42 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Team
             - ~
+    sonata.admin.proof.request:
+        class: VideoGamesRecords\CoreBundle\Admin\ProofRequestAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Proof", label: "Request" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\ProofRequest
+            - ~
+    sonata.admin.proof.proof:
+        class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Proof", label: "Proof" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Proof
+            - ~
+        calls:
+            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:proof_show.html.twig']]
+    osnata.admin.proof.picture:
+        class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Proof", label: "Picture" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Picture
+            - ~
+        calls:
+            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:picture_show.html.twig']]
+    sonata.admin.proof.video:
+        class: VideoGamesRecords\CoreBundle\Admin\VideoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Proof", label: "Video" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Video
+            - ~
+        calls:
+            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:video_show.html.twig']]
 

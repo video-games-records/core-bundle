@@ -3,7 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\ProofBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
@@ -85,7 +85,7 @@ class PlayerChart implements ItemInterface
     /**
      * @var Proof
      *
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\ProofBundle\Entity\Proof")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idProof", referencedColumnName="id")
      * })
@@ -496,10 +496,10 @@ class PlayerChart implements ItemInterface
             $this->setTopScore(true);
         }
 
-        if (null === $this->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getStatus()->getIdStatus()) {
+        if (null === $this->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getStatus()->getId()) {
             $this->setDateInvestigation(new \DateTime());
         }
-        if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getIdStatus(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
+        if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
             $this->setDateInvestigation(null);
         }
     }
