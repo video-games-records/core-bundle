@@ -20,6 +20,7 @@
     "knplabs/doctrine-behaviors": "~1.4",
     "knplabs/knp-paginator-bundle": "~2.4",
     "projet-normandie/badge-bundle": "~1",
+    "projet-normandie/country-bundle": "~1",
     "projet-normandie/common-bundle": "~1",
     "sensio/framework-extra-bundle": "^3.0.2",
     "symfony/form": "~3.0",

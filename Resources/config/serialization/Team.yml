@@ -1,0 +1,66 @@
+VideoGamesRecords\CoreBundle\Entity\Team:
+  attributes:
+    id:
+      groups:
+        - 'team.show'
+    libTeam:
+      groups:
+        - 'team.show'
+    tag:
+      groups:
+        - 'team.show'
+    logo:
+      groups:
+        - 'team.show'
+    leader:
+      groups:
+        - 'team.profile'
+    rankPointChart:
+      groups:
+        - 'team.pointChart'
+    pointChart:
+      groups:
+        - 'team.pointChart'
+    rankPointGame:
+      groups:
+        - 'team.pointGame'
+    pointGame:
+      groups:
+        - 'team.pointGame'
+    rankMedal:
+      groups:
+        - 'team.medal'
+    chartRank0:
+      groups:
+        - 'team.medal'
+    chartRank1:
+      groups:
+        - 'team.medal'
+    chartRank2:
+      groups:
+        - 'team.medal'
+    chartRank3:
+      groups:
+        - 'team.medal'
+    rankCup:
+      groups:
+        - 'team.cup'
+    gameRank0:
+      groups:
+        - 'team.cup'
+    gameRank1:
+      groups:
+        - 'team.cup'
+    gameRank2:
+      groups:
+        - 'team.cup'
+    gameRank3:
+      groups:
+        - 'team.cup'
+    teamBadge:
+      groups:
+        - 'team.badge'
+    teamGame:
+      groups:
+        - 'team.game'
+      max_depth: 1

@@ -78,7 +78,7 @@ class GroupController extends Controller
     public function teamRankingPoints(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGroup')->getRankingPoints($group, $maxRank, $this->getTeam());
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingPoints($group, $maxRank, $this->getTeam());
     }
 
 
@@ -90,6 +90,6 @@ class GroupController extends Controller
     public function teamRankingMedals(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGroup')->getRankingMedals($group, $maxRank, $this->getTeam());
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingMedals($group, $maxRank, $this->getTeam());
     }
 }

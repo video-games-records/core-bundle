@@ -41,6 +41,10 @@ class GroupCommand extends DefaultCommand
                 $idGroup = $input->getOption('idGroup');
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj($idGroup);
                 break;
+            case 'maj-team':
+                $idGroup = $input->getOption('idGroup');
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->maj($idGroup);
+                break;
         }
 
         return true;

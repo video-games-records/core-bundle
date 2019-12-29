@@ -214,3 +214,13 @@ CREATE TRIGGER vgrGamePlatformAfterDelete AFTER DELETE ON vgr_game_platform
 	WHERE id = OLD.idGame //
 delimiter ;
 
+
+delimiter //
+DROP TRIGGER IF EXISTS `vgrProofRequestAfterInsert`//
+CREATE TRIGGER vgrProofRequestAfterInsert AFTER INSERT ON vgr_proof_request
+FOR EACH ROW
+UPDATE vgr_player_chart
+SET idStatus = 2
+WHERE id = NEW.idPlayerChart //
+delimiter ;
+

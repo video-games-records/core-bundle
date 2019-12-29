@@ -279,7 +279,7 @@ class PlayerChartRepository extends EntityRepository
                     SELECT
                          p.id,
                          CASE WHEN pc.rank > 29 THEN 30 ELSE pc.rank END AS rank,
-                         COUNT(pc.idPlayerChart) as nb
+                         COUNT(pc.id) as nb
                     FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
                     JOIN pc.player p
                     WHERE pc.rank > 3            

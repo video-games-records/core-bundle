@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\TeamBundle\Entity\Team;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * Player
@@ -256,7 +256,7 @@ class Player
     /**
      * @var Team
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\TeamBundle\Entity\Team", inversedBy="players")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id")
      * })

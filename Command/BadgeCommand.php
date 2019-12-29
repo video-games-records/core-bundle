@@ -49,9 +49,13 @@ class BadgeCommand extends DefaultCommand
             case 'maj':
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majBadge();
                 break;
-            case 'maj-master':
+            case 'maj-player-master':
                 $game = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majMasterBadge($game);
+                break;
+            case 'maj-team-master':
+                $game = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamBadge')->majMasterBadge($game);
                 break;
         }
         $this->end($output);

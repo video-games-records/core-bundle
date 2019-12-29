@@ -89,7 +89,7 @@ class PlayerGroupRepository extends EntityRepository
         $query = $this->_em->createQuery("
             SELECT
                  p.id,
-                 COUNT(pc.idPlayerChart) as nb
+                 COUNT(pc.id) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
             JOIN pc.chart c
@@ -110,7 +110,7 @@ class PlayerGroupRepository extends EntityRepository
         $query = $this->_em->createQuery("
             SELECT
                  p.id,
-                 COUNT(pc.idPlayerChart) as nb
+                 COUNT(pc.id) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
             JOIN pc.chart c
@@ -131,7 +131,7 @@ class PlayerGroupRepository extends EntityRepository
         $query = $this->_em->createQuery("
             SELECT
                  p.id,
-                 COUNT(pc.idPlayerChart) as nb
+                 COUNT(pc.id) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
             JOIN pc.chart c
@@ -161,7 +161,7 @@ class PlayerGroupRepository extends EntityRepository
                 '' as rankPoint,
                 '' as rankMedal,
                 SUM(pc.pointChart) as pointChart,
-                COUNT(pc.idPlayerChart) as nbChart,
+                COUNT(pc.id) as nbChart,
                 MAX(pc.lastUpdate) as lastUpdate
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
