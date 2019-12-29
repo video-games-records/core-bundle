@@ -371,7 +371,7 @@ ALTER TABLE  `vgr_player_chartlib` ADD UNIQUE `idxUniq` (`idLibChart`, `idPlayer
 
 
 ALTER TABLE `vgr_player_chartlib` ADD INDEX(`idPlayerChart`);
-ALTER TABLE `vgr_player_chartlib` ADD FOREIGN KEY (`idPlayerChart`) REFERENCES `vgr_player_chart`(`idPlayerChart`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `vgr_player_chartlib` ADD FOREIGN KEY (`idPlayerChart`) REFERENCES `vgr_player_chart`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 
 ALTER TABLE `vgr_player_game` CHANGE `idMembre` `idPlayer` INT(11) NOT NULL;
@@ -1050,7 +1050,8 @@ ALTER TABLE `vgr_player_chart` ADD `idProof` INT NULL AFTER `idStatus`;
 UPDATE vgr_proof p, vgr_player_chart pc
 SET p.idPicture = pc.idPicture
 WHERE p.idPlayer = pc.idPlayer
-      AND p.idChart = pc.idChart;
+AND p.idChart = pc.idChart
+AND pc.idPicture IS NOT NULL;
 
 UPDATE vgr_proof p, vgr_player_chart pc
 SET p.idVideo = pc.idVideo
@@ -1121,7 +1122,7 @@ INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
 (4, 'AdminVgrCore', 'a:1:{i:0;s:18:\"ROLE_VGRCORE_ADMIN\";}'),
 (5, 'AdminVgrProof', 'a:1:{i:0;s:19:\"ROLE_VGRPROOF_ADMIN\";}'),
 (6, 'AdminForum', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
-(7, 'AdminMessage', 'a:1:{i:0;s:16:\"ROLE_MESSAGE_ADMIN\";}'),
+(7, 'AdminMessage', 'a:1:{i:0;s:18:\"ROLE_MESSAGE_ADMIN\";}'),
 (8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}');
 
 -- all users have player role
@@ -1269,3 +1270,7 @@ ALTER TABLE `vgr_player_chart` ADD CONSTRAINT `FK_PLAYERCHART_PLATFORM` FOREIGN 
 
 ALTER TABLE `vgr_player_chart` ADD INDEX(`idProof`);
 ALTER TABLE `vgr_player_chart` ADD CONSTRAINT `FK_PLAYERCHART_PROOF` FOREIGN KEY (`idProof`) REFERENCES `vgr_proof`(`idProof`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+-- rename id
+ALTER TABLE `vgr_proof` CHANGE `idProof` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_proof_request` CHANGE `idRequest` `id` INT(11) NOT NULL AUTO_INCREMENT;
