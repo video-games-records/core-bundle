@@ -87,7 +87,7 @@ class PlayerChart implements ItemInterface
      *
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\ProofBundle\Entity\Proof")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idProof", referencedColumnName="idProof")
+     *   @ORM\JoinColumn(name="idProof", referencedColumnName="id")
      * })
      */
     private $proof;
