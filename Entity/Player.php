@@ -23,7 +23,7 @@ class Player
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\UserInterface")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
      */
-    private $normandieUser;
+    private $user;
 
     /**
      * @var integer
@@ -973,18 +973,18 @@ class Player
     /**
      * @return \VideoGamesRecords\CoreBundle\Entity\UserInterface
      */
-    public function getNormandieUser()
+    public function getUser()
     {
-        return $this->normandieUser;
+        return $this->user;
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $normandieUser
-     * @return Player
+     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
+     * @return $this
      */
-    public function setNormandieUser($normandieUser)
+    public function setUser($user)
     {
-        $this->normandieUser = $normandieUser;
+        $this->user = $user;
         return $this;
     }
 

@@ -15,7 +15,7 @@ class PlayerRepository extends EntityRepository
     public function getPlayerFromUser($user)
     {
         $qb = $this->createQueryBuilder('player')
-            ->where('player.normandieUser = :userId')
+            ->where('player.user = :userId')
             ->setParameter('userId', $user->getId())
             ->addSelect('team')->leftJoin('player.team', 'team');
 

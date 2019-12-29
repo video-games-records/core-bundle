@@ -13,14 +13,6 @@ class ChartCommand extends DefaultCommand
 {
     const NB_CHART_TO_MAJ = 1000;
 
-    private $doctrine;
-
-    public function __construct($name, EntityManagerInterface $registry)
-    {
-        parent::__construct($name);
-        $this->doctrine = $registry;
-    }
-
     protected function configure()
     {
         $this

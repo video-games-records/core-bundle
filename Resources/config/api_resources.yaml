@@ -247,7 +247,7 @@ resources:
             denormalization_context: {'groups': [playerChart.write]}
         collectionOperations:
             get:
-                filters : ['playerChart.player_filter','playerChart.chart_filter']
+                filters : ['player.filter','chart.filter']
             post:
                 access_control: 'is_granted("ROLE_PLAYER")'
             maj-platform:
@@ -274,7 +274,7 @@ resources:
                 normalization_context: {'groups': [playerChart.read, chart.label.read]}
             put:
                 normalization_context: {'groups': [playerChart.write]}
-                access_control: 'is_granted("ROLE_PLAYER")'
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
                 _api_receive: true
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
@@ -302,7 +302,7 @@ resources:
             profile:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
-                normalization_context: {'groups': [user.profile]}
+                normalization_context: {'groups': [user.profile,player.show]}
                 path: '/players/profile'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profile'
         itemOperations:
