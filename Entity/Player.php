@@ -220,6 +220,13 @@ class Player
     /**
      * @var integer
      *
+     * @ORM\Column(name="nbChartDisabled", type="integer", nullable=false)
+     */
+    private $nbChartDisabled = 0;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
      */
     private $nbMasterBadge = 0;
@@ -899,6 +906,29 @@ class Player
     public function getNbChartProven()
     {
         return $this->nbChartProven;
+    }
+
+    /**
+     * Set nbChartDisabled
+     *
+     * @param integer $nbChartDisabled
+     * @return Player
+     */
+    public function setNbChartDisabled($nbChartDisabled)
+    {
+        $this->nbChartDisabled = $nbChartDisabled;
+
+        return $this;
+    }
+
+    /**
+     * Get nbChartDisabled
+     *
+     * @return integer
+     */
+    public function getNbChartDisabled()
+    {
+        return $this->nbChartDisabled;
     }
 
     /**

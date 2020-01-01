@@ -675,6 +675,9 @@ CHANGE vgr_collection collection text DEFAULT NULL;
 ALTER TABLE `vgr_player` ADD `nbGame` INT NOT NULL DEFAULT '0' AFTER `gameRank3`;
 ALTER TABLE `vgr_player` ADD `rankCountry` INT NOT NULL AFTER `rankCup`;
 ALTER TABLE `vgr_player` ADD slug VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `vgr_player` ADD `nbChartDisabled` INT NULL DEFAULT '0' AFTER `nbChartProven`;
+UPDATE `vgr_player`
+SET nbChartDisabled = (SELECT (COUNT(id)) FROM vgr_player_chart WHERE idStatus = 7 AND idPlayer = vgr_player.id);
 UPDATE `vgr_player` SET
     slug = lower(pseudo),
     slug = replace(slug, '.', ' '),

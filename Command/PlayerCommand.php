@@ -77,8 +77,42 @@ class PlayerCommand extends DefaultCommand
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCountry($country);
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majCountryBadge($country);
                 break;
+            case 'maj-role-player':
+                $this->majRolePlayer($output);
+                break;
         }
         $this->end($output);
         return true;
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @throws \Exception
+     */
+    private function majRolePlayer(OutputInterface $output)
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+
+        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerRepository $playerRepository */
+        $playerRepository = $em->getRepository('VideoGamesRecordsCoreBundle:Player');
+
+        $group = $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 2);
+
+        $players = $playerRepository->getPlayerToDisabled();
+        foreach ($players as $player) {
+            $user = $player->getUser();
+            $user->removeGroup($group);
+        }
+        $em->flush();
+        $output->writeln(sprintf('%d players(s) disabled', count($players)));
+
+
+        $players = $playerRepository->getPlayerToEnabled();
+        foreach ($players as $player) {
+            $user = $player->getUser();
+            $user->addGroup($group);
+        }
+        $em->flush();
+        $output->writeln(sprintf('%d players(s) enabled', count($players)));
     }
 }
