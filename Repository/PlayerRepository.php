@@ -25,35 +25,6 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param int $idTeam
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player[]
-     */
-    public function getPlayersFromTeam($idTeam)
-    {
-        $qb = $this->createQueryBuilder('player')
-            ->where('player.idTeam = :idTeam')
-            ->setParameter('idTeam', $idTeam);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @param int $idPlayer
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
-     */
-    public function getPlayerWithGames($idPlayer)
-    {
-        $qb = $this->createQueryBuilder('player')
-            ->join('player.playerGame', 'playerGame')
-            ->addSelect('playerGame')
-            ->where('player.id = :idPlayer')
-            ->setParameter('idPlayer', $idPlayer);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-
-    /**
      * Get data to maj dwh.vgr_player
      */
     public function getDataForDwh()
@@ -388,6 +359,34 @@ class PlayerRepository extends EntityRepository
             $query->where("p.$column <= :maxRank")
                 ->setParameter('maxRank', 100);
         }
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Get list who cant send scores
+     */
+    public function getPlayerToDisabled()
+    {
+        $query = $this->createQueryBuilder('p')
+            ->where('(p.nbChartDisabled >= :nbChartDisabled OR (p.nbChart > :nbChart AND p.nbChart/p.nbChartProven * 300 < :percentage))')
+            ->setParameter('nbChartDisabled', 30)
+            ->setParameter('nbChart', 300)
+            ->setParameter('percentage', 3)
+            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\UserInterface u join u.groups g WHERE g.id = 2)');
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Get list that can now send scores
+     */
+    public function getPlayerToEnabled()
+    {
+        $query = $this->createQueryBuilder('p')
+            ->where('(p.nbChartDisabled < :nbChartDisabled AND (p.nbChart > :nbChart AND p.nbChart/p.nbChartProven * 300 >= :percentage))')
+            ->setParameter('nbChartDisabled', 30)
+            ->setParameter('nbChart', 300)
+            ->setParameter('percentage', 3)
+            ->andWhere('p.user NOT IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\UserInterface u join u.groups g WHERE g.id = 2)');
         return $query->getQuery()->getResult();
     }
 }
