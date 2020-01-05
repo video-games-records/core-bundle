@@ -6,8 +6,6 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'game.list.letter'
         - 'game.show'
         - 'game.show.mini'
-        - 'group.show'
-        - 'chart.show'
         - 'chart.label.read'
     picture:
       groups:
@@ -58,14 +56,10 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'game.list.letter'
         - 'game.show'
         - 'game.show.mini'
-        - 'group.show'
-        - 'chart.show'
         - 'chart.label.read'
     rules:
       groups:
         - 'game.show'
-        - 'group.show'
-        - 'chart.show'
     slug:
         - 'game.list'
         - 'game.list.letter'

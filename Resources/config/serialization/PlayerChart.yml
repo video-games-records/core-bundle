@@ -16,7 +16,9 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         - 'player.show'
     rank:
       groups:
+        - 'playerChart.read'
         - 'ranking'
+        - 'chart.top-score'
     nbEqual:
       groups:
         - 'ranking'
@@ -49,4 +51,5 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
       groups:
         - 'playerChart.read'
         - 'playerChart.write'
+        - 'playerchart.libs'
 

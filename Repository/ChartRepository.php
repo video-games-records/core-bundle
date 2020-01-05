@@ -13,32 +13,6 @@ class ChartRepository extends EntityRepository
     const ITEMS_PER_PAGE = 10;
 
     /**
-     * @param int $id
-     *
-     * @return \VideoGamesRecords\CoreBundle\Entity\Chart
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function getWithGame($id)
-    {
-        $query = $this->createQueryBuilder('ch')
-            ->leftJoin('ch.translations', 'ch_translation')
-            ->addSelect('ch_translation')
-            ->join('ch.group', 'gr')
-            ->addSelect('gr')
-            ->leftJoin('gr.translations', 'gr_translation')
-            ->addSelect('gr_translation')
-            ->join('gr.game', 'ga')
-            ->addSelect('ga')
-            ->leftJoin('ga.translations', 'ga_translation')
-            ->addSelect('ga_translation')
-            ->where('ch.id = :idChart')
-            ->setParameter('idChart', $id);
-
-        return $query->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
      * @param $id
      *
      * @return \VideoGamesRecords\CoreBundle\Entity\Chart
@@ -56,26 +30,6 @@ class ChartRepository extends EntityRepository
 
         return $query->getQuery()->getOneOrNullResult();
     }
-
-
-    /**
-     * @param $id
-     *
-     * @return array
-     */
-    public function getFromGroupWithChartType($id)
-    {
-        $query = $this->createQueryBuilder('c')
-            ->join('c.libs', 'lib')
-            ->addSelect('lib')
-            ->join('lib.type', 'type')
-            ->addSelect('type')
-            ->where('c.idGroup = :idGroup')
-            ->setParameter('idGroup', $id);
-
-        return $query->getQuery()->getResult();
-    }
-
 
     /**
      * @return bool
@@ -190,9 +144,33 @@ class ChartRepository extends EntityRepository
             ->setFirstResult($firstResult)
             ->setMaxResults(self::ITEMS_PER_PAGE);
         $doctrinePaginator = new DoctrinePaginator($query);
-        $paginator = new Paginator($doctrinePaginator);
+        return new Paginator($doctrinePaginator);
+    }
 
-        return $paginator;
+
+    /**
+     * @param $group
+     * @param $player
+     * @return mixed
+     */
+    public function getTopScore($group, $player)
+    {
+        $query = $this->createQueryBuilder('ch')
+            ->join('ch.group', 'gr')
+            ->addSelect('gr')
+            ->addSelect('pc')
+            ->andWhere('ch.group = :group')
+            ->setParameter('group', $group);
+
+        if ($player !== null) {
+            $query->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.rank = 1 OR pc.player = :player')
+                ->setParameter('player', $player);
+        } else {
+            $query->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.rank = 1');
+        }
+        /*$query->join('pc.libs', 'libs')
+            ->join('pc.player', 'p');*/
+        return $query->getQuery()->getResult();
     }
 
 

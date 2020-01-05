@@ -91,7 +91,7 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingMedals'
             charts:
                 method: 'GET'
-                normalization_context: {'groups': [chart.show, chartLib.show, game.charts.submit, playerChart.read]}
+                normalization_context: {'groups': [chart.show, group.show, game.show, chartLib.show, chart.playerCharts, playerChart.read]}
                 path: '/game/{id}/charts'
                 swagger_context:
                     parameters:
@@ -126,7 +126,7 @@ resources:
                 normalization_context: {'groups': [game.groups]}
         itemOperations:
             get:
-                normalization_context: {'groups': [group.show, platform.show]}
+                normalization_context: {'groups': [group.show, game.show, platform.show]}
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [player.show,playerGroup.pointChart]}
@@ -187,6 +187,17 @@ resources:
                           required: false
                           type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingMedals'
+            top-score:
+                method: 'GET'
+                normalization_context: {'groups': [chart.show, chart.top-score, playerchart.libs, playerChart.format, player.show]}
+                path: '/group/{id}/top-score'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::topScore'
         properties:
             charts:
                 subresource:
@@ -195,13 +206,13 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Chart:
         collectionOperations:
             get:
-                normalization_context: {'groups': [chart.show], 'enable_max_depth':true}
+                normalization_context: {'groups': [chart.show, group.show, game.show], 'enable_max_depth':true}
             api_groups_charts_get_subresource:
                 method: 'GET'
                 normalization_context: {'groups': [group.charts], 'enable_max_depth':true}
         itemOperations:
             get:
-                normalization_context: {'groups': [chart.show, platform.show, chartLib.show]}
+                normalization_context: {'groups': [chart.show, group.show, game.show, platform.show, chartLib.show]}
             team-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [team.show,teamChart.pointChart]}
