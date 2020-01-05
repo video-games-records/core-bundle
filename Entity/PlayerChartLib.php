@@ -59,6 +59,7 @@ class PlayerChartLib
 
 
     private $parseValue;
+    private $formatValue;
 
     /**
      * @return string
@@ -212,5 +213,15 @@ class PlayerChartLib
                 $this->parseValue
             );
         }
+    }
+
+    public function getFormatValue()
+    {
+        return Score::formatScore(
+            $this->value,
+            $this->getLibChart()
+                ->getType()
+                ->getMask()
+        );
     }
 }

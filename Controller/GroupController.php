@@ -92,4 +92,25 @@ class GroupController extends Controller
         $maxRank = $request->query->get('maxRank', 5);
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingMedals($group, $maxRank, $this->getTeam());
     }
+
+    /**
+     * @param Group    $group
+     * @return mixed
+     */
+    public function topScore(Group $group)
+    {
+        $player = $this->getPlayer();
+        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getTopScore($group, $player);
+        foreach ($charts as $chart) {
+            foreach ($chart->getPlayerCharts() as $playerChart) {
+                if ($playerChart->getRank() == 1) {
+                    $chart->setPlayerChart1($playerChart);
+                }
+                if (($player !== null) && ($playerChart->getPlayer()->getId() == $player->getId())) {
+                    $chart->setPlayerChartP($playerChart);
+                }
+            }
+        }
+        return $charts;
+    }
 }

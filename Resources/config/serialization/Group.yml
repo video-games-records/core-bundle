@@ -5,12 +5,10 @@ VideoGamesRecords\CoreBundle\Entity\Group:
         - 'group.list'
         - 'game.groups'
         - 'group.show'
-        - 'chart.show'
         - 'chart.label.read'
     game:
       groups:
-        - 'group.show'
-        - 'chart.show'
+        - 'game.show'
         - 'chart.label.read'
     boolDlc:
       groups:
