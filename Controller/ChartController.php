@@ -4,30 +4,18 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class ChartController
  */
 class ChartController extends Controller
 {
-
-    private $userManager;
-
-    public function __construct(UserManagerInterface $userManager)
-    {
-        $this->userManager = $userManager;
-    }
-
-
     /**
-     * @return Player|null
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
      */
     private function getPlayer()
     {
@@ -39,7 +27,7 @@ class ChartController extends Controller
     }
 
     /**
-     * @return Team|null
+     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
      */
     private function getTeam()
     {
@@ -52,8 +40,7 @@ class ChartController extends Controller
     }
 
     /**
-     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
-     * @Method("GET")
+     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index", methods={"GET"})
      * @Cache(smaxage="10")
      *
      * @param int $id
@@ -64,7 +51,6 @@ class ChartController extends Controller
         //@todo redirect to front
         exit;
     }
-
 
     /**
      * @param Chart    $chart
@@ -91,7 +77,6 @@ class ChartController extends Controller
         }
         return $ranking;
     }
-
 
     /**
      * @param Chart    $chart

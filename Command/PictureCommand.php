@@ -19,7 +19,6 @@ class PictureCommand extends DefaultCommand
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             );
-        ;
     }
 
     /**

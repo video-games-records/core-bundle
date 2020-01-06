@@ -11,7 +11,6 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Response;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
-use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class GameController
@@ -19,16 +18,8 @@ use FOS\UserBundle\Model\UserManagerInterface;
  */
 class GameController extends Controller
 {
-
-    private $userManager;
-
-    public function __construct(UserManagerInterface $userManager)
-    {
-        $this->userManager = $userManager;
-    }
-
     /**
-     * @return Player|null
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
      */
     private function getPlayer()
     {
@@ -40,7 +31,7 @@ class GameController extends Controller
     }
 
     /**
-     * @return Team|null
+     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
      */
     private function getTeam()
     {

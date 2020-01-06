@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Form\Type\TeamForm;
 use VideoGamesRecords\CoreBundle\Form\Type\ChangeLeaderForm;
-use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class TeamController
@@ -20,15 +19,6 @@ use FOS\UserBundle\Model\UserManagerInterface;
  */
 class TeamController extends Controller
 {
-
-    private $userManager;
-
-    public function __construct(UserManagerInterface $userManager)
-    {
-        $this->userManager = $userManager;
-    }
-
-
     /**
      * @return Team|null
      */

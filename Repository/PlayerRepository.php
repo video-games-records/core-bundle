@@ -21,7 +21,7 @@ class PlayerRepository extends EntityRepository
 
         $player = $qb->getQuery()->getOneOrNullResult();
 
-        return (null !== $player) ? $player : $this->createPlayerFromUser($user);
+        return $player ?? $this->createPlayerFromUser($user);
     }
 
     /**
@@ -324,7 +324,7 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param Country $country
+     * @param \ProjetNormandie\CountryBundle\Entity\Country $country
      * @param int $maxRank
      * @return array
      */

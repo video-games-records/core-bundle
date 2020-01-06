@@ -2,11 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class PlayerController
@@ -14,16 +11,8 @@ use FOS\UserBundle\Model\UserManagerInterface;
  */
 class PlayerController extends Controller
 {
-
-    private $userManager;
-
-    public function __construct(UserManagerInterface $userManager)
-    {
-        $this->userManager = $userManager;
-    }
-
     /**
-     * @return Player|null
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
      */
     private function getPlayer()
     {

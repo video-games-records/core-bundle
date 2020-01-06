@@ -2,27 +2,17 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Group;
-use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class GroupController
  */
 class GroupController extends Controller
 {
-
-    private $userManager;
-
-    public function __construct(UserManagerInterface $userManager)
-    {
-        $this->userManager = $userManager;
-    }
-
     /**
-     * @return Player|null
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
      */
     private function getPlayer()
     {
@@ -34,7 +24,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @return Team|null
+     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
      */
     private function getTeam()
     {

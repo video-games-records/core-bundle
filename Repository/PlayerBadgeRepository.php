@@ -98,7 +98,7 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param $country
+     * @param \ProjetNormandie\CountryBundle\Entity\Country $country
      * @throws \Exception
      */
     public function majCountryBadge($country)
@@ -119,8 +119,8 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param $players ranking
-     * @param $badge badge
+     * @param array $players ranking
+     * @param \ProjetNormandie\BadgeBundle\Entity\Badge $badge badge
      * @throws \Exception
      */
     private function updateBadge($players, $badge)
