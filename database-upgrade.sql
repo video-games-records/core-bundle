@@ -782,7 +782,7 @@ ALTER TABLE `vgr_player_badge` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD P
 
 -- PlayerChartStatus
 ALTER TABLE `vgr_player_chart_status` ADD `boolSendProof` TINYINT NOT NULL DEFAULT '0' AFTER `boolRanking`;
-UPDATE `vgr_player_chart_status` SET boolSendProof = 1 WHERE idStatus IN (1,3,7);
+UPDATE `vgr_player_chart_status` SET boolSendProof = 1 WHERE id IN (1,3,7);
 
 
 
