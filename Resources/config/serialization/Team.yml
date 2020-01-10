@@ -3,18 +3,25 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     id:
       groups:
         - 'team.show'
+        - 'team.list'
     libTeam:
       groups:
         - 'team.show'
+        - 'team.list'
     tag:
       groups:
         - 'team.show'
+        - 'team.list'
     logo:
       groups:
         - 'team.show'
     leader:
       groups:
-        - 'team.profile'
+        - 'team.leader'
+    nbPlayer:
+      groups:
+        - 'team.show'
+        - 'team.list'
     rankPointChart:
       groups:
         - 'team.pointChart'
@@ -64,3 +71,6 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       groups:
         - 'team.game'
       max_depth: 1
+    createdAt:
+      groups:
+        - 'team.list'

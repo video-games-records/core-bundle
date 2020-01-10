@@ -340,30 +340,32 @@ resources:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\Team:
         collectionOperations:
-            get: ~
+            get:
+                method: 'GET'
+                normalization_context: {'groups': [team.list, team.leader, player.show]}
             team-ranking-point-chart:
                 method: 'GET'
-                normalization_context: {'groups': [team.show,team.pointChart]}
+                normalization_context: {'groups': [team.show, team.pointChart]}
                 path: '/teams/ranking-point-chart'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointChart'
             team-ranking-point-game:
                 method: 'GET'
-                normalization_context: {'groups': [team.show,team.pointGame]}
+                normalization_context: {'groups': [team.show, team.pointGame]}
                 path: '/teams/ranking-point-game'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointGame'
             team-ranking-medal:
                 method: 'GET'
-                normalization_context: {'groups': [team.show,team.medal]}
+                normalization_context: {'groups': [team.show, team.medal]}
                 path: '/teams/ranking-medal'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingMedal'
             team-ranking-cup:
                 method: 'GET'
-                normalization_context: {'groups': [team.show,team.cup]}
+                normalization_context: {'groups': [team.show, team.cup]}
                 path: '/teams/ranking-cup'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingCup'
         itemOperations:
             get:
-                normalization_context: {'groups': [team.show,team.profile,team.leader.show,team.game,game.show.mini], 'enable_max_depth':true}
+                normalization_context: {'groups': [team.show, team.profile, team.leader, team.game, game.show.mini], 'enable_max_depth':true}
     VideoGamesRecords\CoreBundle\Entity\TeamBadge:
         collectionOperations:
               get: ~
