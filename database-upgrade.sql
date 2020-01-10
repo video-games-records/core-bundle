@@ -1277,3 +1277,6 @@ ALTER TABLE `vgr_player_chart` ADD CONSTRAINT `FK_PLAYERCHART_PROOF` FOREIGN KEY
 -- rename id
 ALTER TABLE `vgr_proof` CHANGE `idProof` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_proof_request` CHANGE `idRequest` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `forum_topic` DROP `idLanguage`;
+DROP TABLE forum_language;

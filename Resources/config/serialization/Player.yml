@@ -7,7 +7,6 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     pseudo:
       groups:
         - 'player.show'
-        - 'team.leader.show'
     rankPointChart:
       groups:
         - 'player.pointChart'
