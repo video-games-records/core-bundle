@@ -4,6 +4,7 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.show'
         - 'user.profile'
+        - 'player.put'
     pseudo:
       groups:
         - 'player.show'
@@ -58,5 +59,7 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     team:
       groups:
         - 'user.profile'
+        - 'team.show'
+        - 'player.put'
     country:
       groups: []
