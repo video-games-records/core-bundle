@@ -318,6 +318,10 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profile'
         itemOperations:
             get: ~
+            put:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
+                denormalization_context: {'groups': [player.put]}
+                normalization_context: {'groups': [player.show, team.show]}
     VideoGamesRecords\CoreBundle\Entity\Platform:
         attributes:
             pagination_enabled: false
