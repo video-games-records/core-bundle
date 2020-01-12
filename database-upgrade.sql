@@ -1283,3 +1283,6 @@ ALTER TABLE `user` CHANGE `locked` `locked` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `user` CHANGE `expired` `expired` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `user` CHANGE `credentials_expired` `credentials_expired` TINYINT(1) NOT NULL DEFAULT '0';
 
+ALTER TABLE `forum_topic` DROP `idLanguage`;
+DROP TABLE forum_language;
+

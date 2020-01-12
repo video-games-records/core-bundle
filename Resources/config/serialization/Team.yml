@@ -3,18 +3,36 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     id:
       groups:
         - 'team.show'
+        - 'team.list'
+        - 'team.put'
     libTeam:
       groups:
         - 'team.show'
+        - 'team.list'
+        - 'team.put'
     tag:
       groups:
         - 'team.show'
+        - 'team.list'
+        - 'team.put'
+    status:
+      groups:
+        - 'team.show'
+        - 'team.put'
+    siteWeb:
+      groups:
+        - 'team.show'
+        - 'team.put'
     logo:
       groups:
         - 'team.show'
     leader:
       groups:
-        - 'team.profile'
+        - 'team.leader'
+    nbPlayer:
+      groups:
+        - 'team.show'
+        - 'team.list'
     rankPointChart:
       groups:
         - 'team.pointChart'
@@ -64,3 +82,6 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       groups:
         - 'team.game'
       max_depth: 1
+    createdAt:
+      groups:
+        - 'team.list'
