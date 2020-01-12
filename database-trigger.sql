@@ -1,3 +1,33 @@
+-- User
+delimiter //
+DROP TRIGGER IF EXISTS `userAfterInsert`//
+CREATE TRIGGER `userAfterInsert` AFTER INSERT ON `user`
+FOR EACH ROW
+BEGIN
+    -- ROLE PLAYER
+    INSERT INTO user_group (userId, groupId) VALUE (NEW.id, 2);
+    -- Player
+    INSERT INTO vgr_player (pseudo, normandie_user_id) values (NEW.username, NEW.id);
+END //
+delimiter ;
+
+delimiter //
+DROP TRIGGER IF EXISTS `userAfterUpdate`//
+CREATE TRIGGER `userAfterUpdate` AFTER INSERT ON `user`
+FOR EACH ROW
+BEGIN
+    -- Player
+    UPDATE vgr_player
+    SET
+        pseudo = NEW.username,
+        avatar = NEW.avatar,
+        idLanguage = NEW.idLanguage,
+        idCountry = NEW .idCountry
+    WHERE normandie_user_id = NEW.id;
+END //
+delimiter ;
+
+
 -- PlayerChart
 delimiter //
 DROP TRIGGER IF EXISTS `vgrPlayerChartAfterInsert`//

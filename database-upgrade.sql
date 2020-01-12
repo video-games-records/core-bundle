@@ -1286,3 +1286,20 @@ ALTER TABLE `user` CHANGE `credentials_expired` `credentials_expired` TINYINT(1)
 ALTER TABLE `forum_topic` DROP `idLanguage`;
 DROP TABLE forum_language;
 
+ALTER TABLE `vgr_player` CHANGE `pointChart` `pointChart` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_player` CHANGE `pointVGR` `pointVGR` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_player` CHANGE `pointBadge` `pointBadge` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_player` DROP `displayGamerCard`;
+ALTER TABLE `vgr_player` DROP `displayGoalBar`;
+ALTER TABLE `vgr_player` DROP `dateFormat`;
+ALTER TABLE `vgr_player` DROP `utcFormat`;
+ALTER TABLE `vgr_player` CHANGE `signature` `signature` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `vgr_player` CHANGE `avatar` `avatar` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'default.png';
+ALTER TABLE `vgr_player` CHANGE `rankCountry` `rankCountry` INT(11) NULL;
+
+RENAME TABLE `t_langue` TO `language`;
+ALTER TABLE `language` CHANGE `idLangue` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `language` CHANGE `libLangue` `label` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `language` CHANGE `fichier` `file` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+ALTER TABLE `vgr_player` CHANGE `idLangue` `idLanguage` INT(11) NOT NULL DEFAULT '2';
