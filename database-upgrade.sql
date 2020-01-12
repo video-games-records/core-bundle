@@ -1277,3 +1277,9 @@ ALTER TABLE `vgr_player_chart` ADD CONSTRAINT `FK_PLAYERCHART_PROOF` FOREIGN KEY
 -- rename id
 ALTER TABLE `vgr_proof` CHANGE `idProof` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_proof_request` CHANGE `idRequest` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
+--
+ALTER TABLE `user` CHANGE `locked` `locked` TINYINT(1) NOT NULL DEFAULT '0';
+ALTER TABLE `user` CHANGE `expired` `expired` TINYINT(1) NOT NULL DEFAULT '0';
+ALTER TABLE `user` CHANGE `credentials_expired` `credentials_expired` TINYINT(1) NOT NULL DEFAULT '0';
+
