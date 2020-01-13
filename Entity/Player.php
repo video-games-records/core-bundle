@@ -57,20 +57,6 @@ class Player
     private $gamerCard;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="displayGamerCard", type="boolean", nullable=false)
-     */
-    private $displayGamerCard = true;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="displayGoalBar", type="boolean", nullable=false)
-     */
-    private $displayGoalBar = true;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="chartRank0", type="integer", nullable=true)
@@ -377,52 +363,6 @@ class Player
     public function getGamerCard()
     {
         return $this->gamerCard;
-    }
-
-    /**
-     * Set displayGamerCard
-     *
-     * @param boolean $displayGamerCard
-     * @return Player
-     */
-    public function setDisplayGamerCard($displayGamerCard)
-    {
-        $this->displayGamerCard = $displayGamerCard;
-
-        return $this;
-    }
-
-    /**
-     * Get displayGamerCard
-     *
-     * @return boolean
-     */
-    public function getDisplayGamerCard()
-    {
-        return $this->displayGamerCard;
-    }
-
-    /**
-     * Set displayGoalBar
-     *
-     * @param boolean $displayGoalBar
-     * @return Player
-     */
-    public function setDisplayGoalBar($displayGoalBar)
-    {
-        $this->displayGoalBar = $displayGoalBar;
-
-        return $this;
-    }
-
-    /**
-     * Get displayGoalBar
-     *
-     * @return boolean
-     */
-    public function getDisplayGoalBar()
-    {
-        return $this->displayGoalBar;
     }
 
     /**

@@ -1396,3 +1396,6 @@ UPDATE `forum_forum` SET role = 'ROLE_FORUM_ADMINISTRATION' WHERE id = 16;
 
 ALTER TABLE `forum_topic_type` DROP `image1`;
 ALTER TABLE `forum_topic_type` DROP `image2`;
+
+
+UPDATE `user` set locale='en';
