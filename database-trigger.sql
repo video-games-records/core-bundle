@@ -21,7 +21,6 @@ BEGIN
     SET
         pseudo = NEW.username,
         avatar = NEW.avatar,
-        idLanguage = NEW.idLanguage,
         idCountry = NEW .idCountry
     WHERE normandie_user_id = NEW.id;
 END //
