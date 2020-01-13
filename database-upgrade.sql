@@ -13,6 +13,11 @@ DROP TRIGGER IF EXISTS `vgrRecordMembreAfterInsert`;
 DROP TRIGGER IF EXISTS `vgrRecordMembreAfterUpdate`;
 DROP TRIGGER IF EXISTS `vgrRecordMembreBeforeUpdate`;
 DROP TRIGGER IF EXISTS `tVgrJeuBeforeUpdate`;
+DROP TRIGGER IF EXISTS `tForumTopicAfterDelete`;
+DROP TRIGGER IF EXISTS `tForumTopicAfterInsert`;
+DROP TRIGGER IF EXISTS `tForumTopicAfterUpdate`;
+DROP TRIGGER IF EXISTS `tForumMessageAfterDelete`;
+DROP TRIGGER IF EXISTS `tForumMessageAfterInsert`;
 
 --
 DROP TRIGGER IF EXISTS `vgrDemandepreuveAfterInsert`;
@@ -48,6 +53,12 @@ DROP TABLE IF EXISTS t_concours_question;
 DROP TABLE IF EXISTS t_concours;
 DROP TABLE IF EXISTS t_theme;
 DROP TABLE IF EXISTS t_session2;
+
+DROP TABLE IF EXISTS t_groupeutilisateur_membre;
+DROP TABLE IF EXISTS t_forum_groupeutilisateur;
+DROP TABLE IF EXISTS t_groupeutilisateur;
+
+
 
 -- DROP VIEW
 DROP VIEW IF EXISTS view_commentaire;
@@ -540,7 +551,7 @@ ALTER TABLE `vgr_team_request` CHANGE `status` `status` ENUM('ACTIVE','ACCEPTED'
 CREATE TABLE user_group (userId INT NOT NULL, groupId INT NOT NULL, INDEX IDX_FE1D13664B64DCC (userId), INDEX IDX_FE1D136ED8188B0 (groupId), PRIMARY KEY(userId, groupId)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 CREATE TABLE groupRole (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', UNIQUE INDEX UNIQ_39A2D4D75E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
-CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL, last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL DEFAULT 0, nbForumMessage INT NOT NULL DEFAULT 0,locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idCountry INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idCountry), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
+CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL, avatar VARCHAR(100) NOT NULL DEFAULT 'default.png', last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL DEFAULT 0, nbForumMessage INT NOT NULL DEFAULT 0,locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idCountry INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idCountry), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
 ALTER TABLE user ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idCountry) REFERENCES country (id);
 ALTER TABLE user_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES user (id);
 ALTER TABLE user_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
@@ -561,15 +572,13 @@ BEGIN
   DECLARE duplicateIncrement INT DEFAULT 100;
   DECLARE user_id, vgr_user_id, pays, nb_connection, nb_forum_message INT;
   DECLARE userName varchar(180) CHARSET utf8;
+  DECLARE userAvatar varchar(100) CHARSET utf8;
   DECLARE gender varchar(1);
   DECLARE birthdate date;
   DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
   DECLARE v_email, nom, prenom, siteWeb, statutCompte, sexe varchar(255);
   DECLARE cur1 CURSOR FOR SELECT id, pseudo, email, nom, prenom, dateNaissance, nbConnexion, nbForumMessage, siteWeb, statutCompte,
-                            dateCreation, dateModification, derniereConnexion, sexe, idPays
-                            /*, MSN, presentation, nbCommentaire, boolTeam, boolNewsletter, boolAssoc,
-                            boolShowFbLikeBox, boolNotifCommentaire, signature, dateFormat, utcFormat, mailSending, don,
-                            idLangue, idLangueForum, idRang, idStatut, idTeam*/
+                            dateCreation, dateModification, derniereConnexion, sexe, idPays, avatar
                           FROM vgr_player WHERE id != 0;
   -- Handler for duplicate email
   DECLARE CONTINUE HANDLER FOR 1062
@@ -581,11 +590,11 @@ BEGIN
       SET locked = TRUE;
       -- Retry with new mail
       INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
-                          enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, nbForumMessage, personalWebsite, gender,
+                          enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, nbForumMessage, personalWebsite, gender, avatar,
                           created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
       VALUES
         (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
-         MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, nb_forum_message, siteWeb, gender,
+         MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, nb_forum_message, siteWeb, gender, userAvatar,
          userDateCreation, userDateModification, userDerniereConnexion, pays,
          MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
         );
@@ -597,7 +606,7 @@ BEGIN
   OPEN cur1;
   read_loop: LOOP
     FETCH cur1 INTO vgr_user_id, userName, v_email, nom, prenom, birthdate, nb_connection, nb_forum_message, siteWeb, statutCompte,
-      userDateCreation, userDateModification, userDerniereConnexion, sexe, pays;
+      userDateCreation, userDateModification, userDerniereConnexion, sexe, pays, userAvatar;
     IF done THEN
       LEAVE read_loop;
     END IF;
@@ -611,11 +620,11 @@ BEGIN
     END IF;
 
     INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
-              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender,
+              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender, avatar,
               created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
     VALUES
       (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
-       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, siteWeb, gender,
+       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, siteWeb, gender, userAvatar,
        userDateCreation, userDateModification, userDerniereConnexion, pays,
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
       );
@@ -1283,9 +1292,6 @@ ALTER TABLE `user` CHANGE `locked` `locked` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `user` CHANGE `expired` `expired` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `user` CHANGE `credentials_expired` `credentials_expired` TINYINT(1) NOT NULL DEFAULT '0';
 
-ALTER TABLE `forum_topic` DROP `idLanguage`;
-DROP TABLE forum_language;
-
 ALTER TABLE `vgr_player` CHANGE `pointChart` `pointChart` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_player` CHANGE `pointVGR` `pointVGR` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_player` CHANGE `pointBadge` `pointBadge` INT(11) NOT NULL DEFAULT '0';
@@ -1303,3 +1309,90 @@ ALTER TABLE `language` CHANGE `libLangue` `label` VARCHAR(30) CHARACTER SET utf8
 ALTER TABLE `language` CHANGE `fichier` `file` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
 ALTER TABLE `vgr_player` CHANGE `idLangue` `idLanguage` INT(11) NOT NULL DEFAULT '2';
+
+
+-- FORUM
+RENAME TABLE t_forum_categorie TO forum_category;
+RENAME TABLE t_forum TO forum_forum;
+RENAME TABLE t_forum_message TO forum_message;
+RENAME TABLE t_forum_topic TO forum_topic;
+RENAME TABLE t_forum_typetopic TO forum_topic_type;
+RENAME TABLE t_forum_topic_membre TO forum_topic_user;
+
+DROP TABLE IF EXISTS t_forum_rang;
+
+ALTER TABLE `forum_category` CHANGE `idCategorie` `id` INT(13) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `forum_category` DROP `libCategorie_fr`;
+ALTER TABLE `forum_category` CHANGE `libCategorie_en` `libCategory` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `forum_category` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `position`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+
+
+ALTER TABLE `forum_forum` CHANGE `idForum` `id` INT(13) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `forum_forum` CHANGE `libForum_en` `libForum` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `forum_forum` CHANGE `idCategorie` `idCategory` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `forum_forum` CHANGE `statut` `status` ENUM('public','private') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'public';
+ALTER TABLE `forum_forum` CHANGE `idForumPere` `idForumFather` INT(13) NULL DEFAULT NULL;
+ALTER TABLE `forum_forum` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `idMessageMax`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+
+
+ALTER TABLE `forum_topic` CHANGE `idTopic` `id` INT(13) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `forum_topic` CHANGE `idMembre` `idUser` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `forum_topic` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `idLangue`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+ALTER TABLE `forum_topic` DROP `idLangue`;
+
+ALTER TABLE forum_topic DROP FOREIGN KEY forum_topic_ibfk_1;
+UPDATE forum_topic t, vgr_player p
+SET t.idUser = p.normandie_user_id
+WHERE t.idUser = p.id;
+ALTER TABLE `forum_topic` ADD CONSTRAINT `forum_topic_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `forum_message` CHANGE `idMessage` `id` INT(13) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `forum_message` CHANGE `idMembre` `idUser` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `forum_message` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
+ALTER TABLE `forum_message` CHANGE `dateModification` `updated_at` DATETIME NOT NULL;
+ALTER TABLE `forum_message` CHANGE `texte` `message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+ALTER TABLE forum_message DROP FOREIGN KEY forum_message_ibfk_2;
+UPDATE forum_message m, vgr_player p
+SET m.idUser = p.normandie_user_id
+WHERE m.idUser = p.id;
+ALTER TABLE `forum_message` ADD CONSTRAINT `forum_message_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+ALTER TABLE `forum_topic_user` CHANGE `idMembre` `idUser` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `forum_topic_user` CHANGE `estLu` `boolRead` TINYINT(4) NOT NULL DEFAULT '0';
+ALTER TABLE `forum_topic_user` CHANGE `estNotif` `boolNotif` TINYINT(4) NOT NULL DEFAULT '0';
+
+
+ALTER TABLE forum_topic_user DROP FOREIGN KEY forum_topic_user_ibfk_1;
+TRUNCATE table forum_topic_user;
+ALTER TABLE `forum_topic_user` ADD CONSTRAINT `forum_topic_user_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE forum_topic_user DROP PRIMARY KEY;
+ALTER TABLE `forum_topic_user` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
+ALTER TABLE `forum_topic_user` ADD UNIQUE( `idUser`, `idTopic`);
+
+
+CREATE TABLE `forum_forum_user` (
+  `id` int(11) NOT NULL,
+  `idForum` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `boolRead` tinyint(4)	NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER  TABLE `forum_forum_user` ADD PRIMARY KEY (`id`);
+ALTER  TABLE `forum_forum_user` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `forum_forum_user` ADD CONSTRAINT `forum_forum_user_ibfk_1` FOREIGN KEY (`idForum`) REFERENCES `forum_forum`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `forum_forum_user` ADD CONSTRAINT `forum_forum_user_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+-- MAJ nbMessage
+UPDATE forum_topic t
+SET t.nbMessage = (SELECT COUNT(id) FROM forum_message WHERE idTopic = t.id);
+
+
+ALTER TABLE `forum_forum` ADD `role` VARCHAR(50) NULL AFTER `status`;
+UPDATE `forum_forum` SET role = 'ROLE_FORUM_VGR_TEAM' WHERE id = 38;
+UPDATE `forum_forum` SET role = 'ROLE_FORUM_ADMINISTRATION' WHERE id = 16;
+
+
+ALTER TABLE `forum_topic_type` DROP `image1`;
+ALTER TABLE `forum_topic_type` DROP `image2`;
