@@ -1399,3 +1399,10 @@ ALTER TABLE `forum_topic_type` DROP `image2`;
 
 
 UPDATE `user` set locale='en';
+
+ALTER TABLE `vgr_chart` CHANGE `nbPost` `nbPost` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_chart` CHANGE `statusPlayer` `statusPlayer` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'NORMAL';
+ALTER TABLE `vgr_chart` CHANGE `statusTeam` `statusTeam` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'NORMAL';
+ALTER TABLE `vgr_group` CHANGE `nbPost` `nbPost` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_group` CHANGE `nbPlayer` `nbPlayer` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_group` CHANGE `nbChart` `nbChart` INT(11) NOT NULL DEFAULT '0';
