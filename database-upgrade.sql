@@ -1406,3 +1406,11 @@ ALTER TABLE `vgr_chart` CHANGE `statusTeam` `statusTeam` VARCHAR(255) CHARACTER 
 ALTER TABLE `vgr_group` CHANGE `nbPost` `nbPost` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_group` CHANGE `nbPlayer` `nbPlayer` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_group` CHANGE `nbChart` `nbChart` INT(11) NOT NULL DEFAULT '0';
+
+-- Email
+ALTER TABLE `email` CHANGE `emailId` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `email` CHANGE `idMembre` `idUser` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `email` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
+ALTER TABLE `email` ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+ALTER TABLE `email` CHANGE `email` `emailTo` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `email` ADD `emailFrom` VARCHAR(255) NULL AFTER `emailTo`;
