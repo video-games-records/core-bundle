@@ -7,12 +7,14 @@ use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
 
 /**
  * PlayerChart
  *
  * @ORM\Table(name="vgr_player_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
+ * @DoctrineAssert\UniqueEntity(fields={"chart", "player"}, message="A score already exists for the couple player / chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
  * @ORM\HasLifecycleCallbacks()
  */
