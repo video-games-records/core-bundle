@@ -92,6 +92,7 @@ class ProofAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('status')
             ->add('playerResponding', 'doctrine_orm_model_autocomplete', [], null, [
                 'property' => 'pseudo',

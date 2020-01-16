@@ -99,6 +99,7 @@ class ProofRequestAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('status')
             ->add('playerRequesting', 'doctrine_orm_model_autocomplete', [], null, [
                 'property' => 'pseudo',

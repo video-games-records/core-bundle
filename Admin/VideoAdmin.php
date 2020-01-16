@@ -79,6 +79,7 @@ class VideoAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('status')
             ->add('player', 'doctrine_orm_model_autocomplete', [], null, [
                 'property' => 'pseudo',

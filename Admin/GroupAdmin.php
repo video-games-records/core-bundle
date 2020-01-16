@@ -78,6 +78,7 @@ class GroupAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('translations.name')
             ->add('game', 'doctrine_orm_model_autocomplete', [], null, [
                 'property' => 'translations.name',
