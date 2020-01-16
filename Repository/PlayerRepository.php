@@ -9,7 +9,7 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 class PlayerRepository extends EntityRepository
 {
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
+     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
     public function getPlayerFromUser($user)
@@ -254,7 +254,7 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
+     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
     private function createPlayerFromUser($user)
@@ -372,7 +372,7 @@ class PlayerRepository extends EntityRepository
             ->setParameter('nbChartDisabled', 30)
             ->setParameter('nbChart', 300)
             ->setParameter('percentage', 3)
-            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\UserInterface u join u.groups g WHERE g.id = 2)');
+            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 2)');
         return $query->getQuery()->getResult();
     }
 
@@ -386,7 +386,7 @@ class PlayerRepository extends EntityRepository
             ->setParameter('nbChartDisabled', 30)
             ->setParameter('nbChart', 300)
             ->setParameter('percentage', 3)
-            ->andWhere('p.user NOT IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\UserInterface u join u.groups g WHERE g.id = 2)');
+            ->andWhere('p.user NOT IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 2)');
         return $query->getQuery()->getResult();
     }
 }

@@ -74,7 +74,8 @@ doctrine:
     orm:
         ...
         resolve_target_entities:
-            VideoGamesRecords\CoreBundle\Entity\UserInterface: AppBundle\Entity\User
+            VideoGamesRecords\CoreBundle\Entity\User\UserInterface: AppBundle\Entity\User
+            VideoGamesRecords\CoreBundle\Entity\User\GroupeInterface: AppBundle\Entity\Group
 ```
 
 After resolving the entity you can update your database schema.

@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Entity;
+namespace VideoGamesRecords\CoreBundle\Entity\User;
 
 interface UserInterface
 {

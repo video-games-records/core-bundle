@@ -18,9 +18,9 @@ class Player
     use Sluggable;
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\UserInterface
+     * @var \VideoGamesRecords\CoreBundle\Entity\User\UserInterface
      *
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\UserInterface")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User\UserInterface")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
      */
     private $user;
@@ -941,7 +941,7 @@ class Player
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\UserInterface
+     * @return \VideoGamesRecords\CoreBundle\Entity\User\UserInterface
      */
     public function getUser()
     {
@@ -949,7 +949,7 @@ class Player
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
+     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
      * @return $this
      */
     public function setUser($user)
