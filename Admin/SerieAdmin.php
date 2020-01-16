@@ -38,6 +38,7 @@ class SerieAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('translations.name');
     }
 

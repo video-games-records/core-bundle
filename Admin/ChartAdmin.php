@@ -123,6 +123,7 @@ class ChartAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('translations.name')
             ->add('group', 'doctrine_orm_model_autocomplete', array(), null, array(
                 'property' => 'translations.name',

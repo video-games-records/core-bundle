@@ -71,7 +71,8 @@ class PictureAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-
+        $datagridMapper
+            ->add('id');
     }
 
 
