@@ -60,11 +60,11 @@ class PlayerChartAdmin extends AbstractAdmin
             ])
             ->add('chart', 'sonata_type_model_list', [
                 'btn_add' => false,
-                'btn_list' => false,
+                'btn_list' => true,
                 'btn_edit' => false,
                 'btn_delete' => false,
-                'btn_catalogue' => false,
-                'label' => 'Player',
+                'btn_catalogue' => true,
+                'label' => 'Chart',
             ]);
 
         $formMapper
