@@ -11,6 +11,12 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     rankPointChart:
       groups:
         - 'player.pointChart'
+    nbChart:
+      groups:
+        - 'player.pointChart'
+    nbChartProven:
+      groups:
+        - 'player.pointChart'
     pointChart:
       groups:
         - 'player.pointChart'
@@ -18,6 +24,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.pointGame'
     pointGame:
+      groups:
+        - 'player.pointGame'
+    nbGame:
       groups:
         - 'player.pointGame'
     rankMedal:
