@@ -310,6 +310,24 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
+     * @param Player $player
+     * @return array
+     */
+    public function getRankingProof($player = null)
+    {
+        return $this->getRanking('rankProof', $player);
+    }
+
+    /**
+     * @param Player $player
+     * @return array
+     */
+    public function getRankingBadge($player = null)
+    {
+        return $this->getRanking('rankBadge', $player);
+    }
+
+    /**
      * @param Country $country
      * @param int $maxRank
      * @return array
