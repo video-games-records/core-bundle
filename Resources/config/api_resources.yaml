@@ -379,11 +379,11 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingCup'
         itemOperations:
             get:
-                normalization_context: {'groups': [team.show, team.profile, team.leader, player.show], 'enable_max_depth':true}
+                normalization_context: {'groups': [team.profile, team.leader, player.show], 'enable_max_depth':true}
             put:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUser() == user'
                 denormalization_context: {'groups': [team.put]}
-                normalization_context: {'groups': [team.show, team.leader, player.show]}
+                normalization_context: {'groups': [team.profile, team.leader, player.show]}
     VideoGamesRecords\CoreBundle\Entity\TeamBadge:
         collectionOperations:
               get: ~
