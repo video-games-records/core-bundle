@@ -310,6 +310,16 @@ resources:
                 normalization_context: {'groups': [player.show,player.cup]}
                 path: '/players/ranking-cup'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingCup'
+            player-ranking-badge:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.badge]}
+                path: '/players/ranking-badge'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingBadge'
+            player-ranking-proof:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.proof]}
+                path: '/players/ranking-proof'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingProof'
             profile:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'

@@ -14,9 +14,11 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     nbChart:
       groups:
         - 'player.pointChart'
+        - 'player.proof'
     nbChartProven:
       groups:
         - 'player.pointChart'
+        - 'player.proof'
     pointChart:
       groups:
         - 'player.pointChart'
@@ -59,6 +61,18 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     gameRank3:
       groups:
         - 'player.cup'
+    rankProof:
+      groups:
+        - 'player.proof'
+    rankBadge:
+      groups:
+        - 'player.badge'
+    pointBadge:
+      groups:
+        - 'player.badge'
+    nbMasterBadge:
+      groups:
+        - 'player.badge'
     avatar:
       groups:
         - 'ranking_point'

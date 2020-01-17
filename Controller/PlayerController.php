@@ -65,4 +65,20 @@ class PlayerController extends Controller
     {
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCup($this->getPlayer());
     }
+
+    /**
+     * @return mixed
+     */
+    public function rankingProof()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingProof($this->getPlayer());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function rankingBadge()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingBadge($this->getPlayer());
+    }
 }
