@@ -5,10 +5,24 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\Player;
 
 class GameRepository extends EntityRepository
 {
+
+    /**
+     * @return mixed
+     */
+    public function getStats()
+    {
+        $qb = $this->createQueryBuilder('game')
+            ->select('COUNT(game.id)');
+        $qb->where('game.status = :status')
+            ->setParameter('status', Game::STATUS_ACTIVE);
+
+        return $qb->getQuery()
+            ->getOneOrNullResult();
+    }
+
     /**
      * Finds games begining with a letter.
      *

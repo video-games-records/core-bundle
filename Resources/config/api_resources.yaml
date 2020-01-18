@@ -9,6 +9,10 @@ resources:
         collectionOperations:
             get:
                 filters: ['game.status_filter','platform_filter']
+            stats:
+                method: 'GET'
+                path: '/games/stats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::stats'
         itemOperations:
             get:
                 normalization_context: {'groups': [game.show, platform.show]}
@@ -290,6 +294,10 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
             get: ~
+            stats:
+                method: 'GET'
+                path: '/players/stats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::stats'
             player-ranking-point-chart:
                 method: 'GET'
                 normalization_context: {'groups': [player.show,player.pointChart]}

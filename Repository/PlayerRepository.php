@@ -48,20 +48,16 @@ class PlayerRepository extends EntityRepository
 
 
     /**
-     * @param array $params
-     * @return int
+     * @return mixed
      */
-    public function getNbPlayer($params = [])
+    public function getStats()
     {
         $qb = $this->createQueryBuilder('player')
-            ->select('COUNT(player.id)');
-
-        if (array_key_exists('nbChart>0', $params)) {
-            $qb->where('player.nbChart > 0');
-        }
+            ->select('COUNT(player.id), SUM(player.nbChart), SUM(player.nbChartProven)');
+        $qb->where('player.nbChart > 0');
 
         return $qb->getQuery()
-            ->getSingleScalarResult();
+            ->getOneOrNullResult();
     }
 
     /**

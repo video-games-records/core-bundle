@@ -53,6 +53,14 @@ class GameController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function stats()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->getStats();
+    }
+
+    /**
      * @param Request $request
      * @return mixed
      */
