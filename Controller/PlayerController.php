@@ -39,7 +39,15 @@ class PlayerController extends Controller
      */
     public function stats()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getStats();
+        $playerStats =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getStats();
+        $gameStats =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->getStats();
+
+        return array(
+            'nbPlayer' => $playerStats[1],
+            'nbChart' => $playerStats[2],
+            'nbChartProven' => $playerStats[3],
+            'nbGame' => $gameStats[1],
+        );
     }
 
     /**
