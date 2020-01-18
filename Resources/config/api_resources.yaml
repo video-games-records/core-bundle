@@ -9,10 +9,6 @@ resources:
         collectionOperations:
             get:
                 filters: ['game.status_filter','platform_filter']
-            stats:
-                method: 'GET'
-                path: '/games/stats'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::stats'
         itemOperations:
             get:
                 normalization_context: {'groups': [game.show, platform.show]}
