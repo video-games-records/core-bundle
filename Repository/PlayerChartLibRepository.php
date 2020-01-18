@@ -100,7 +100,7 @@ class PlayerChartLibRepository extends EntityRepository
      */
     private function getScoreQuery()
     {
-        $query = $this->createQueryBuilder('pcl')
+        return $this->createQueryBuilder('pcl')
             ->join('pcl.libChart', 'lib')
             ->addSelect('lib')
             ->join('lib.type', 'type')
@@ -112,7 +112,6 @@ class PlayerChartLibRepository extends EntityRepository
             ->addSelect('p.pseudo')
             ->orderBy('lib.idLibChart')
             ->where('pc.player = pcl.player');
-        return $query;
     }
 
 

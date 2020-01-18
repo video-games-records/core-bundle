@@ -3,9 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
 
@@ -16,8 +14,7 @@ use VideoGamesRecords\CoreBundle\Entity\Picture;
 class PictureController extends Controller
 {
     /**
-     * @Route("/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_core_picture_index")
-     * @Method({"GET"})
+     * @Route("/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_core_picture_index", methods={"GET"})
      * @Cache(smaxage="10")
      *
      * @param Picture $picture

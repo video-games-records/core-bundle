@@ -3,13 +3,11 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\DBAL\DBALException;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
@@ -42,9 +40,6 @@ class PlayerChartController extends Controller
         $this->em = $em;
     }
 
-    /**
-     *
-     */
     public function getPlayer()
     {
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
@@ -71,8 +66,7 @@ class PlayerChartController extends Controller
     }
 
     /**
-     * @Route("/top-score", name="playerChart_top_score")
-     * @Method("GET")
+     * @Route("/top-score", name="playerChart_top_score", methods={"GET"})
      * @Cache(smaxage="10")
      * @return \Symfony\Component\HttpFoundation\Response
      */

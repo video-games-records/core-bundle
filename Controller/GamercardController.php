@@ -3,12 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\File\Picture;
 
@@ -19,10 +16,8 @@ use VideoGamesRecords\CoreBundle\File\Picture;
  */
 class GamercardController extends Controller
 {
-
     /**
-     * @Route("/mini/{id}", name="gamercard_mini")
-     * @Method("GET")
+     * @Route("/mini/{id}", name="gamercard_mini", methods={"GET"})
      * @Cache(smaxage="900")
      * @param Player $player
      * @ParamConverter("player", class="VideoGamesRecordsCoreBundle:Player")
@@ -32,7 +27,7 @@ class GamercardController extends Controller
     {
         $directory = $this->getParameter('videogamesrecords_core.directory.picture');
 
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         $gamercard = Picture::loadFile('../Resources/img/gamercard/mini.png', true);
 
         // Ranking Points
@@ -85,8 +80,7 @@ class GamercardController extends Controller
     }
 
     /**
-     * @Route("/classic/{id}", name="gamercard_classic")
-     * @Method("GET")
+     * @Route("/classic/{id}", name="gamercard_classic", methods={"GET"})
      * @Cache(smaxage="900")
      * @param Player $player
      * @ParamConverter("player", class="VideoGamesRecordsCoreBundle:Player")
@@ -95,7 +89,7 @@ class GamercardController extends Controller
     public function classicAction(Player $player)
     {
         $directory = $this->getParameter('videogamesrecords_core.directory.picture');
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
 
         $gamercard = new Picture(210, 135);
         $gamercard->addColor('black', 13, 14, 15)
@@ -108,7 +102,7 @@ class GamercardController extends Controller
             ->addRectangle(78, 52, 203, 52);
 
         // Pseudo
-        if ($player->getTeam() != null) {
+        if ($player->getTeam() !== null) {
             $pseudo = sprintf('[%s] %s', $player->getTeam()->getTag(), $player->getPseudo());
         } else {
             $pseudo = $player->getPseudo();
