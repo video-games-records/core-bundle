@@ -1,0 +1,31 @@
+VideoGamesRecords\CoreBundle\Entity\TeamGroup:
+  attributes:
+    game:
+      groups:
+        - 'team.game'
+    team:
+      groups:
+        - 'team.show'
+    pointChart:
+      groups:
+        - 'teamGroup.pointChart'
+    rankPointChart:
+      groups:
+        - 'teamGroup.pointChart'
+    pointGame:
+      groups: []
+    rankMedal:
+      groups:
+        - 'teamGroup.medal'
+    chartRank0:
+      groups:
+        - 'teamGroup.medal'
+    chartRank1:
+      groups:
+        - 'teamGroup.medal'
+    chartRank2:
+      groups:
+        - 'teamGroup.medal'
+    chartRank3:
+      groups:
+        - 'teamGroup.medal'

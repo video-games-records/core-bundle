@@ -3,14 +3,14 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class SerieController
  * @Route("/serie")
  */
-class SerieController extends VgrBaseController
+class SerieController extends Controller
 {
     public function listAction()
     {
@@ -23,8 +23,7 @@ class SerieController extends VgrBaseController
     }
 
     /**
-     * @Route("/ranking-points/{id}", name="vgr_serie_ranking_points", requirements={"id": "[1-9]\d*"})
-     * @Method("GET")
+     * @Route("/ranking-points/{id}", name="vgr_serie_ranking_points", requirements={"id": "[1-9]\d*"}, methods={"GET"})
      * @Cache(smaxage="10")
      *
      * @param int $id
@@ -45,8 +44,7 @@ class SerieController extends VgrBaseController
     }
 
     /**
-     * @Route("/ranking-medals/{id}", name="vgr_serie_ranking_medals", requirements={"id": "[1-9]\d*"})
-     * @Method("GET")
+     * @Route("/ranking-medals/{id}", name="vgr_serie_ranking_medals", requirements={"id": "[1-9]\d*"}, methods={"GET"})
      * @Cache(smaxage="10")
      *
      * @param int $id

@@ -9,49 +9,20 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 class PlayerRepository extends EntityRepository
 {
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
+     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
     public function getPlayerFromUser($user)
     {
         $qb = $this->createQueryBuilder('player')
-            ->where('player.normandieUser = :userId')
+            ->where('player.user = :userId')
             ->setParameter('userId', $user->getId())
             ->addSelect('team')->leftJoin('player.team', 'team');
 
         $player = $qb->getQuery()->getOneOrNullResult();
 
-        return (null !== $player) ? $player : $this->createPlayerFromUser($user);
+        return $player ?? $this->createPlayerFromUser($user);
     }
-
-    /**
-     * @param int $idTeam
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player[]
-     */
-    public function getPlayersFromTeam($idTeam)
-    {
-        $qb = $this->createQueryBuilder('player')
-            ->where('player.idTeam = :idTeam')
-            ->setParameter('idTeam', $idTeam);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @param int $idPlayer
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
-     */
-    public function getPlayerWithGames($idPlayer)
-    {
-        $qb = $this->createQueryBuilder('player')
-            ->join('player.playerGame', 'playerGame')
-            ->addSelect('playerGame')
-            ->where('player.idPlayer = :idPlayer')
-            ->setParameter('idPlayer', $idPlayer);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
 
     /**
      * Get data to maj dwh.vgr_player
@@ -59,7 +30,7 @@ class PlayerRepository extends EntityRepository
     public function getDataForDwh()
     {
         $query = $this->_em->createQuery("
-            SELECT p.idPlayer,
+            SELECT p.id,
                    p.chartRank0,
                    p.chartRank1,
                    p.chartRank2,
@@ -71,26 +42,22 @@ class PlayerRepository extends EntityRepository
                    p.pointGame,
                    p.rankPointGame                   
             FROM VideoGamesRecords\CoreBundle\Entity\Player p
-            WHERE p.idPlayer <> 0");
+            WHERE p.id <> 0");
         return $query->getResult();
     }
 
 
     /**
-     * @param array $params
-     * @return int
+     * @return mixed
      */
-    public function getNbPlayer($params = [])
+    public function getStats()
     {
         $qb = $this->createQueryBuilder('player')
-            ->select('COUNT(player.idPlayer)');
-
-        if (array_key_exists('nbChart>0', $params)) {
-            $qb->where('player.nbChart > 0');
-        }
+            ->select('COUNT(player.id), SUM(player.nbChart), SUM(player.nbChartProven)');
+        $qb->where('player.nbChart > 0');
 
         return $qb->getQuery()
-            ->getSingleScalarResult();
+            ->getOneOrNullResult();
     }
 
     /**
@@ -98,9 +65,10 @@ class PlayerRepository extends EntityRepository
      */
     public function maj($idPlayer)
     {
+        // query 1
         $query = $this->_em->createQuery("
             SELECT
-                 pg.idPlayer,
+                 p.id,
                  SUM(pg.chartRank0) as chartRank0,
                  SUM(pg.chartRank1) as chartRank1,
                  SUM(pg.chartRank2) as chartRank2,
@@ -110,23 +78,40 @@ class PlayerRepository extends EntityRepository
                  SUM(pg.pointChart) as pointChart,
                  SUM(pg.pointGame) as pointGame
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
-            WHERE pg.idPlayer = :idPlayer
-            GROUP BY pg.idPlayer");
+            JOIN pg.player p
+            WHERE p.id = :idPlayer
+            GROUP BY p.id");
 
         $query->setParameter('idPlayer', $idPlayer);
         $result = $query->getResult();
-        $row = $result[0];
+        $row1 = $result[0];
+
+        // query 2
+        $query = $this->_em->createQuery("
+            SELECT
+                 p.id,
+                 SUM(pg.pointChart) as pointChart,
+                 SUM(pg.pointGame) as pointGame
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
+            JOIN pg.player p
+            JOIN pg.game g
+            WHERE p.id = :idPlayer
+            AND g.boolRanking = 1
+            GROUP BY p.id");
+        $query->setParameter('idPlayer', $idPlayer);
+        $result = $query->getResult();
+        $row2 = $result[0];
 
         $player = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer);
 
-        $player->setChartRank0($row['chartRank0']);
-        $player->setChartRank1($row['chartRank1']);
-        $player->setChartRank2($row['chartRank2']);
-        $player->setChartRank3($row['chartRank3']);
-        $player->setNbChart($row['nbChart']);
-        $player->setNbChartProven($row['nbChartProven']);
-        $player->setPointChart($row['pointChart']);
-        $player->setPointGame($row['pointGame']);
+        $player->setChartRank0($row1['chartRank0']);
+        $player->setChartRank1($row1['chartRank1']);
+        $player->setChartRank2($row1['chartRank2']);
+        $player->setChartRank3($row1['chartRank3']);
+        $player->setNbChart($row1['nbChart']);
+        $player->setNbChartProven($row1['nbChartProven']);
+        $player->setPointChart($row2['pointChart']);
+        $player->setPointGame($row2['pointGame']);
 
         $this->_em->persist($player);
         $this->_em->flush($player);
@@ -142,34 +127,36 @@ class PlayerRepository extends EntityRepository
         //----- data rank0
         $query = $this->_em->createQuery("
             SELECT
-                 pg.idPlayer,
-                 COUNT(pg.idGame) as nb
+                 p.id,
+                 COUNT(pg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.game g
+            JOIN pg.player p
             WHERE pg.rankPointChart = 1
             AND g.nbPlayer > 1
             AND pg.nbEqual = 1
-            GROUP BY pg.idPlayer");
+            GROUP BY p.id");
 
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['gameRank0'][$row['idPlayer']] = (int) $row['nb'];
+            $data['gameRank0'][$row['id']] = (int) $row['nb'];
         }
 
         //----- data rank1 to rank3
         $query = $this->_em->createQuery("
             SELECT
-                 pg.idPlayer,
-                 COUNT(pg.idGame) as nb
+                 p.id,
+                 COUNT(pg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
+            JOIN pg.player p
             WHERE pg.rankPointChart = :rank
-            GROUP BY pg.idPlayer");
+            GROUP BY p.id");
 
         for ($i = 1; $i <= 3; $i++) {
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["gameRank$i"][$row['idPlayer']] = (int) $row['nb'];
+                $data["gameRank$i"][$row['id']] = (int) $row['nb'];
             }
         }
 
@@ -177,7 +164,7 @@ class PlayerRepository extends EntityRepository
         $players = $this->findAll();
 
         foreach ($players as $player) {
-            $idPlayer = $player->getIdPlayer();
+            $idPlayer = $player->getId();
 
             $rank0 = isset($data['gameRank0'][$idPlayer]) ? $data['gameRank0'][$idPlayer] : 0;
             $rank1 = isset($data['gameRank1'][$idPlayer]) ? $data['gameRank1'][$idPlayer] : 0;
@@ -249,8 +236,21 @@ class PlayerRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $user
+     * Update column rankCountry
+     * @param $country
+     */
+    public function majRankCountry($country)
+    {
+        $players = $this->findBy(array('country' => $country), array('rankPointChart' => 'ASC'));
+
+        Ranking::addObjectRank($players, 'rankCountry', array('rankPointChart'));
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
     private function createPlayerFromUser($user)
@@ -267,87 +267,79 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingPointsChart($idPlayer = null)
+    public function getRankingPointChart($player = null)
     {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.rankPointChart');
-
-        if ($idPlayer !== null) {
-            $query->where('(p.rankPointChart <= :maxRank OR p.idPlayer = :idPlayer)')
-                ->setParameter('maxRank', 100)
-                ->setParameter('idPlayer', $idPlayer);
-        } else {
-            $query->where('p.rankPointChart <= :maxRank')
-                ->setParameter('maxRank', 100);
-        }
-
-        return $query->getQuery()->getResult();
+        return $this->getRanking('rankPointChart', $player);
     }
 
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingPointsGame($idPlayer = null)
+    public function getRankingPointGame($player = null)
     {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.rankPointGame');
-
-        if ($idPlayer !== null) {
-            $query->where('(p.rankPointGame <= :maxRank OR p.idPlayer = :idPlayer)')
-                ->setParameter('maxRank', 100)
-                ->setParameter('idPlayer', $idPlayer);
-        } else {
-            $query->where('p.rankPointGame <= :maxRank')
-                ->setParameter('maxRank', 100);
-        }
-
-        return $query->getQuery()->getResult();
+        return $this->getRanking('rankPointGame', $player);
     }
 
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingMedals($idPlayer = null)
+    public function getRankingMedal($player = null)
     {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.rankMedal');
-
-        if ($idPlayer !== null) {
-            $query->where('(p.rankMedal <= :maxRank OR p.idPlayer = :idPlayer)')
-                ->setParameter('maxRank', 100)
-                ->setParameter('idPlayer', $idPlayer);
-        } else {
-            $query->where('p.rankMedal <= :maxRank')
-                ->setParameter('maxRank', 100);
-        }
-
-        return $query->getQuery()->getResult();
+        return $this->getRanking('rankMedal', $player);
     }
 
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingCups($idPlayer = null)
+    public function getRankingCup($player = null)
+    {
+        return $this->getRanking('rankCup', $player);
+    }
+
+    /**
+     * @param Player $player
+     * @return array
+     */
+    public function getRankingProof($player = null)
+    {
+        return $this->getRanking('rankProof', $player);
+    }
+
+    /**
+     * @param Player $player
+     * @return array
+     */
+    public function getRankingBadge($player = null)
+    {
+        return $this->getRanking('rankBadge', $player);
+    }
+
+    /**
+     * @param \ProjetNormandie\CountryBundle\Entity\Country $country
+     * @param int $maxRank
+     * @return array
+     */
+    public function getRankingCountry($country, $maxRank = null)
     {
         $query = $this->createQueryBuilder('p')
-            ->orderBy('p.rankCup');
+            ->where('(p.country = :country)')
+            ->setParameter('country', $country)
+            ->orderBy('p.rankCountry');
 
-        if ($idPlayer !== null) {
-            $query->where('(p.rankCup <= :maxRank OR p.idPlayer = :idPlayer)')
-                ->setParameter('maxRank', 100)
-                ->setParameter('idPlayer', $idPlayer);
+        if ($maxRank !== null) {
+            $query->andWhere('p.rankCountry <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
         } else {
-            $query->where('p.rankCup <= :maxRank')
-                ->setParameter('maxRank', 100);
+            $query->setMaxResults(100);
         }
 
         return $query->getQuery()->getResult();
@@ -359,34 +351,56 @@ class PlayerRepository extends EntityRepository
     public function majNbGame()
     {
         //----- MAJ game.nbTeam
-        $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.idPlayer)';
+        $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.id)';
         $this->_em->getConnection()->executeUpdate($sql);
     }
 
     /**
-     * @param \DateTime $date1
-     * @param \DateTime $date2
+     * @param string $column
+     * @param Player $player
      * @return array
      */
-    public function getNbPostDay(\DateTime $date1, \DateTime $date2)
+    private function getRanking($column, $player = null)
     {
-        $query = $this->_em->createQuery("
-            SELECT
-                 pc.idPlayer,
-                 COUNT(pc.idChart) as nb
-            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
-            WHERE pc.dateModif BETWEEN :date1 AND :date2
-            GROUP BY pc.idPlayer");
+        $query = $this->createQueryBuilder('p')
+            ->orderBy("p.$column");
 
-
-        $query->setParameter('date1', $date1);
-        $query->setParameter('date2', $date2);
-        $result = $query->getResult();
-
-        $data = array();
-        foreach ($result as $row) {
-            $data[$row['idPlayer']] = $row['nb'];
+        if ($player !== null) {
+            $query->where("(p.$column <= :maxRank OR p = :player)")
+                ->setParameter('maxRank', 100)
+                ->setParameter('player', $player);
+        } else {
+            $query->where("p.$column <= :maxRank")
+                ->setParameter('maxRank', 100);
         }
-        return $data;
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Get list who cant send scores
+     */
+    public function getPlayerToDisabled()
+    {
+        $query = $this->createQueryBuilder('p')
+            ->where('(p.nbChartDisabled >= :nbChartDisabled OR (p.nbChart > :nbChart AND p.nbChart/p.nbChartProven * 300 < :percentage))')
+            ->setParameter('nbChartDisabled', 30)
+            ->setParameter('nbChart', 300)
+            ->setParameter('percentage', 3)
+            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 2)');
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Get list that can now send scores
+     */
+    public function getPlayerToEnabled()
+    {
+        $query = $this->createQueryBuilder('p')
+            ->where('(p.nbChartDisabled < :nbChartDisabled AND (p.nbChart > :nbChart AND p.nbChart/p.nbChartProven * 300 >= :percentage))')
+            ->setParameter('nbChartDisabled', 30)
+            ->setParameter('nbChart', 300)
+            ->setParameter('percentage', 3)
+            ->andWhere('p.user NOT IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 2)');
+        return $query->getQuery()->getResult();
     }
 }

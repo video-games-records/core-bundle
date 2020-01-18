@@ -1,10 +1,88 @@
 VideoGamesRecords\CoreBundle\Entity\Player:
   attributes:
+    id:
+      groups:
+        - 'player.show'
+        - 'user.profile'
+        - 'player.put'
     pseudo:
       groups:
-        - 'ranking_point'
-        - 'ranking_medal'
+        - 'player.show'
+    rankPointChart:
+      groups:
+        - 'player.pointChart'
+    nbChart:
+      groups:
+        - 'player.pointChart'
+        - 'player.proof'
+    nbChartProven:
+      groups:
+        - 'player.pointChart'
+        - 'player.proof'
+    pointChart:
+      groups:
+        - 'player.pointChart'
+    rankPointGame:
+      groups:
+        - 'player.pointGame'
+    pointGame:
+      groups:
+        - 'player.pointGame'
+    nbGame:
+      groups:
+        - 'player.pointGame'
+    rankMedal:
+      groups:
+        - 'player.medal'
+    chartRank0:
+      groups:
+        - 'player.medal'
+    chartRank1:
+      groups:
+        - 'player.medal'
+    chartRank2:
+      groups:
+        - 'player.medal'
+    chartRank3:
+      groups:
+        - 'player.medal'
+    rankCup:
+      groups:
+        - 'player.cup'
+    gameRank0:
+      groups:
+        - 'player.cup'
+    gameRank1:
+      groups:
+        - 'player.cup'
+    gameRank2:
+      groups:
+        - 'player.cup'
+    gameRank3:
+      groups:
+        - 'player.cup'
+    rankProof:
+      groups:
+        - 'player.proof'
+    rankBadge:
+      groups:
+        - 'player.badge'
+    pointBadge:
+      groups:
+        - 'player.badge'
+    nbMasterBadge:
+      groups:
+        - 'player.badge'
     avatar:
       groups:
         - 'ranking_point'
         - 'ranking_medal'
+        - 'player.profile'
+        - 'team.leader.show'
+    team:
+      groups:
+        - 'user.profile'
+        - 'team.show'
+        - 'player.put'
+    country:
+      groups: []

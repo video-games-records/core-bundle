@@ -79,11 +79,11 @@ class ScoreTest extends TestCase
     public function formToBddProvider()
     {
         return [
-            ['30~,|2~ kg', ['11', '0'], '1100'],
-            ['30~,|2~ kg', ['-11', '0'], '-1100'],
+            ['30~,|2~ kg', [['value' => '11'],['value' =>  '0']], '1100'],
+            ['30~,|2~ kg', [['value' => '-11'],['value' =>  '0']], '-1100'],
             ['30~,|2~ kg', [], null],
-            ['30~,|2~ kg', ['', ''], null],
-            ['30~ yd', ['10'], '10'],
+            ['30~,|2~ kg', [['value' => ''],['value' =>  '']], null],
+            ['30~ yd', [['value' => '10']], '10'],
         ];
     }
 

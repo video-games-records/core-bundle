@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use Symfony\Component\HttpFoundation\Response;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 
 /**
  * Class GameController
@@ -16,131 +19,161 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 class GameController extends Controller
 {
     /**
-     * @Route("/list", defaults={"letter": 0}, name="vgr_game_list")
-     * @Route("/list/letter/{letter}", requirements={"letter": "[0|A-Z]"}, name="vgr_game_list_letter")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param string $letter
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
      */
-    public function listAction(Request $request, $letter)
+    private function getPlayer()
     {
-        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
-            ->findWithLetter($letter, $request->getLocale());
-
-        $alphabet = array_merge(['0'], range('A', 'Z'));
-
-
-        /*$paginator = $this->get('knp_paginator');
-        /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $games */
-        /*$games = $paginator->paginate($query, $page, Game::NUM_ITEMS);
-        $games->setUsedRoute('vgr_game_list_paginated');*/
-
-        /*if (0 === count($games)) {
-            throw $this->createNotFoundException();
-        }*/
-
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addItem('game.list');
-
-        return $this->render('VideoGamesRecordsCoreBundle:Game:list.html.twig', ['games' => $games, 'alphabet' => $alphabet]);
+        if ($this->getUser() !== null) {
+            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                               ->getPlayerFromUser($this->getUser());
+        }
+        return null;
     }
 
     /**
-     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_game_index")
+     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     */
+    private function getTeam()
+    {
+        if ($this->getUser() !== null) {
+            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                ->getPlayerFromUser($this->getUser());
+            return $player->getTeam();
+        }
+        return null;
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function listByLetter(Request $request)
+    {
+        $letter = $request->query->get('letter', '0');
+        $locale = $request->query->get('locale', $request->getLocale());
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
+            ->findWithLetter($letter, $locale)
+            ->getResult();
+    }
+
+
+    /**
+     * @param Game    $game
+     * @param Request $request
+     * @return mixed
+     */
+    public function playerRankingPoints(Game $game, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, $maxRank, $this->getPlayer());
+    }
+
+
+    /**
+     * @param Game    $game
+     * @param Request $request
+     * @return mixed
+     */
+    public function playerRankingMedals(Game $game, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($game, $maxRank, $this->getPlayer());
+    }
+
+
+    /**
+     * @param Game    $game
+     * @param Request $request
+     * @return mixed
+     */
+    public function teamRankingPoints(Game $game, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($game, $maxRank, $this->getTeam());
+    }
+
+
+    /**
+     * @param Game    $game
+     * @param Request $request
+     * @return mixed
+     */
+    public function teamRankingMedals(Game $game, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($game, $maxRank, $this->getTeam());
+    }
+
+    /**
+     * Return charts with the one relation player-chart of the connected user
+     * If the user has not relation, a default relation is created
+     * @param Game    $game
+     * @param Request $request
+     * @return mixed
+     */
+    public function charts(Game $game, Request $request)
+    {
+        $page = (int) $request->query->get('page', 1);
+        $search = array(
+            'idChart' => $request->query->get('idChart', null),
+            'idGroup' => $request->query->get('idGroup', null),
+            'libChart' => $request->query->get('libChart', null),
+        );
+        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getList(
+            $page,
+            $game->getId(),
+            $this->getPlayer(),
+            $search
+        );
+        // IF NOT EXIST => Create a playerChart with id=-1 AND value = null
+        $platforms = $game->getPlatforms();
+        foreach ($charts as $chart) {
+            if (count($chart->getPlayerCharts()) == 0) {
+                $playerChart = new PlayerChart();
+                $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer());
+                $playerChart->setIdPlayerChart(-1);
+                $playerChart->setChart($chart);
+                $playerChart->setPlayer($player);
+                if (count($platforms) == 1) {
+                    $playerChart->setPlatform($platforms[0]);
+                }
+                foreach ($chart->getLibs() as $lib) {
+                    $playerChartLib = new PlayerChartLib();
+                    $playerChartLib->setId(-1);
+                    $playerChartLib->setLibChart($lib);
+                    $playerChart->addLib($playerChartLib);
+                }
+                $chart->setPlayerCharts(array($playerChart));
+            }
+        }
+        return $charts;
+    }
+
+    /**
+     * @Route("/rss", name="game_rss")
      * @Method("GET")
      * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
      */
-    public function indexAction($id, $slug)
+    public function rssAction()
     {
-        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-        if ($slug !== $game->getSlug()) {
-            return $this->redirectToRoute('vgr_game_index', ['id' => $game->getId(), 'slug' => $game->getSlug()], 301);
+        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(
+            array(
+                'status' => 'ACTIF'
+            ),
+            array('publishedAt' => 'DESC'),
+            20
+        );
+
+        $feed = $this->get('eko_feed.feed.manager')->get('game');
+
+        // Add prefixe link
+        foreach ($games as $game) {
+            $game->setLink($feed->get('link') . $game->getId() . '/' . $game->getSlug());
         }
 
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addItem($game->getLibGame());
+        $feed->addFromArray($games);
 
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Game:index.html.twig',
-            [
-                'game' => $game,
-                'playerRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($id, 5, null),
-                'playerRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($id, 5, null),
-                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGame')->getRankingPoints($id, 5, null),
-                'teamRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGame')->getRankingMedals($id, 5, null),
-            ]
-        );
-    }
-
-    /**
-     * @Route("/ranking-player-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_player_points")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function rankingPlayerPointsAction($id)
-    {
-        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-
-        $breadcrumbs = $this->getGameBreadcrumbs($game);
-        $breadcrumbs->addItem('game.pointchartranking.full');
-
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Ranking:player-points-chart.html.twig',
-            [
-                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($id, 100, null),
-            ]
-        );
-    }
-
-
-    /**
-     * @Route("/ranking-player-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_game_ranking_player_medals")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function rankingPlayerMedalsAction($id)
-    {
-        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($id);
-
-        $breadcrumbs = $this->getGameBreadcrumbs($game);
-        $breadcrumbs->addItem('game.medalranking.full');
-
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig',
-            [
-                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($id, 100, null),
-            ]
-        );
-    }
-
-
-
-    /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Game $game
-     * @return object|\WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs
-     */
-    private function getGameBreadcrumbs(Game $game)
-    {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem($game->getLibGame(), 'vgr_game_index', ['id' => $game->getId(), 'slug' => $game->getSlug()]);
-
-        return $breadcrumbs;
+        return new Response($feed->render('rss'));
     }
 }

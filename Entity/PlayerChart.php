@@ -3,17 +3,22 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\ProofBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use Eko\FeedBundle\Item\Writer\ItemInterface;
 
 /**
  * PlayerChart
  *
  * @ORM\Table(name="vgr_player_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
+ * @DoctrineAssert\UniqueEntity(fields={"chart", "player"}, message="A score already exists for the couple player / chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class PlayerChart
+class PlayerChart implements ItemInterface
 {
     use Timestampable;
     use \VideoGamesRecords\CoreBundle\Model\Player;
@@ -21,11 +26,11 @@ class PlayerChart
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPlayerChart", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idPlayerChart;
+    private $id;
 
     /**
      * @var integer
@@ -58,9 +63,9 @@ class PlayerChart
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateModif", type="datetime", nullable=false)
+     * @ORM\Column(name="lastUpdate", type="datetime", nullable=false)
      */
-    private $dateModif;
+    private $lastUpdate;
 
     /**
      * @var \DateTime
@@ -72,7 +77,7 @@ class PlayerChart
     /**
      * @var Chart
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
@@ -82,9 +87,9 @@ class PlayerChart
     /**
      * @var Proof
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\ProofBundle\Entity\Proof")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idProof", referencedColumnName="idProof")
+     *   @ORM\JoinColumn(name="idProof", referencedColumnName="id")
      * })
      */
     private $proof;
@@ -94,7 +99,7 @@ class PlayerChart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="idStatus", nullable=false)
+     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })
      */
     private $status;
@@ -104,31 +109,56 @@ class PlayerChart
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="idPlatform")
+     *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="id")
      * })
      */
     private $platform;
 
     /**
-     * Set idPlayerChart
+     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChartLib[]
      *
-     * @param integer $idPlayerChart
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartLib", mappedBy="playerChart", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $libs;
+
+    private $link;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->libs = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s # %s [%s]', $this->getChart()->getDefaultName(), $this->getPlayer()->getPseudo(), $this->id);
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
      * @return PlayerChart
      */
-    public function setIdPlayerChart($idPlayerChart)
+    public function setId($id)
     {
-        $this->idPlayerChart = $idPlayerChart;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idPlayerChart
+     * Get id
      *
      * @return integer
      */
-    public function getIdPlayerChart()
+    public function getId()
     {
-        return $this->idPlayerChart;
+        return $this->id;
     }
 
     /**
@@ -221,25 +251,26 @@ class PlayerChart
     }
 
     /**
-     * Set dateModif
+     * Set lastUpdate
      *
-     * @param \DateTime $dateModif
-     * @return PlayerChart
+     * @param \DateTime $lastUpdate
+     * @return $this
      */
-    public function setDateModif($dateModif)
+    public function setLastUpdate($lastUpdate)
     {
-        $this->dateModif = $dateModif;
+        $this->lastUpdate = $lastUpdate;
+
         return $this;
     }
 
     /**
-     * Get dateModif
+     * Get lastUpdate
      *
      * @return \DateTime
      */
-    public function getDateModif()
+    public function getLastUpdate()
     {
-        return $this->dateModif;
+        return $this->lastUpdate;
     }
 
     /**
@@ -358,6 +389,106 @@ class PlayerChart
     }
 
     /**
+     * @param PlayerChartLib $lib
+     * @return $this
+     */
+    public function addLib(PlayerChartLib $lib)
+    {
+        $lib->setPlayerChart($this);
+        $this->libs[] = $lib;
+        return $this;
+    }
+
+    /**
+     * @param PlayerChartLib $lib
+     */
+    public function removeLib(PlayerChartLib $lib)
+    {
+        $this->libs->removeElement($lib);
+    }
+
+    /**
+     * @return ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChartLib[]
+     */
+    public function getLibs()
+    {
+        return $this->libs;
+    }
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     * @return string
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemTitle()
+    {
+        return sprintf(
+            'New score on %s by %s rank#%d',
+            $this->getChart()->getGroup()->getGame()->getName(),
+            $this->getPlayer()->getPseudo(),
+            $this->getRank()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemDescription()
+    {
+        return null;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFeedItemPubDate()
+    {
+        return $this->getLastUpdate();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemLink()
+    {
+        return $this->getLink();
+    }
+
+
+    /**
+     * @ORM\PrePersist()
+     * @param LifecycleEventArgs $args
+     * @throws \Exception
+     */
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $entityManager = $args->getObjectManager();
+        $this->setStatus($entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
+        $this->setLastUpdate(new \DateTime());
+    }
+
+    /**
      * @ORM\PreUpdate()
      */
     public function preUpdate()
@@ -367,10 +498,10 @@ class PlayerChart
             $this->setTopScore(true);
         }
 
-        if (null === $this->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getStatus()->getIdStatus()) {
+        if (null === $this->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getStatus()->getId()) {
             $this->setDateInvestigation(new \DateTime());
         }
-        if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getIdStatus(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
+        if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
             $this->setDateInvestigation(null);
         }
     }

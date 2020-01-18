@@ -16,9 +16,9 @@ class PlayerGroup
      * @var Player
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerGroup")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer", nullable=false)
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
     private $player;
@@ -27,7 +27,7 @@ class PlayerGroup
      * @var Group
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id", nullable=false)
      * })
@@ -110,6 +110,13 @@ class PlayerGroup
      * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
     private $nbChartProven;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastUpdate", type="datetime", nullable=true)
+     */
+    private $lastUpdate;
 
     /**
      * Set rankPointChart
@@ -351,6 +358,29 @@ class PlayerGroup
     public function getNbChartProven()
     {
         return $this->nbChartProven;
+    }
+
+    /**
+     * Set lastUpdate
+     *
+     * @param \DateTime $lastUpdate
+     * @return $this
+     */
+    public function setLastUpdate($lastUpdate)
+    {
+        $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * Get lastUpdate
+     *
+     * @return \DateTime
+     */
+    public function getLastUpdate()
+    {
+        return $this->lastUpdate;
     }
 
 

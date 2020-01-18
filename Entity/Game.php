@@ -9,6 +9,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 use ProjetNormandie\BadgeBundle\Entity\Badge;
+use Eko\FeedBundle\Item\Writer\ItemInterface;
 
 /**
  * Game
@@ -18,7 +19,7 @@ use ProjetNormandie\BadgeBundle\Entity\Badge;
  * @method GameTranslation translate(string $locale, bool $fallbackToDefault)
  * @todo check etat / imagePlateforme / ordre
  */
-class Game
+class Game implements ItemInterface
 {
     use Timestampable;
     use Translatable;
@@ -69,9 +70,9 @@ class Game
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateActivation", type="datetime", nullable=true)
+     * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
-    private $dateActivation;
+    private $publishedAt;
 
     /**
      * @var boolean
@@ -79,6 +80,20 @@ class Game
      * @ORM\Column(name="boolDlc", type="boolean", nullable=false, options={"default":0})
      */
     private $boolDlc = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="boolRanking", type="boolean", nullable=true, options={"default":1})
+     */
+    private $boolRanking = true;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
+     */
+    private $boolMaj = false;
 
     /**
      * @var integer
@@ -131,7 +146,7 @@ class Game
      *
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\BadgeBundle\Entity\Badge")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="idBadge")
+     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })
      */
     private $badge;
@@ -145,11 +160,14 @@ class Game
      * @ORM\ManyToMany(targetEntity="Platform")
      * @ORM\JoinTable(name="vgr_game_platform",
      *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="idPlatform")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="id")}
      *      )
      * @ORM\OrderBy({"libPlatform" = "ASC"})
      */
     private $platforms;
+
+
+    private $link;
 
     /**
      * Constructor
@@ -165,7 +183,15 @@ class Game
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getName(), $this->id);
+        return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        return $this->translate('en', false)->getName();
     }
 
     /**
@@ -191,16 +217,6 @@ class Game
     }
 
     /**
-     * Get libGame
-     *
-     * @return string
-     */
-    public function getLibGame()
-    {
-        return $this->getName();
-    }
-
-    /**
      * @param string $name
      * @return $this
      */
@@ -218,6 +234,26 @@ class Game
     {
         return $this->translate(null, false)->getName();
     }
+
+    /**
+     * @param string $rules
+     * @return $this
+     */
+    public function setRules($rules)
+    {
+        $this->translate(null, false)->setRules($rules);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRules()
+    {
+        return $this->translate(null, false)->getRules();
+    }
+
 
     /**
      * Set picture
@@ -291,24 +327,24 @@ class Game
     /**
      * Set dateActivation
      *
-     * @param \DateTime $dateActivation
+     * @param \DateTime $pubishedAt
      * @return Game
      */
-    public function setDateActivation($dateActivation)
+    public function setPublishedAt($pubishedAt)
     {
-        $this->dateActivation = $dateActivation;
+        $this->publishedAt = $pubishedAt;
 
         return $this;
     }
 
     /**
-     * Get dateActivation
+     * Get publishedAt
      *
      * @return \DateTime
      */
-    public function getDateActivation()
+    public function getPublishedAt()
     {
-        return $this->dateActivation;
+        return $this->publishedAt;
     }
 
     /**
@@ -332,6 +368,52 @@ class Game
     public function getBoolDlc()
     {
         return $this->boolDlc;
+    }
+
+    /**
+     * Set boolRanking
+     *
+     * @param boolean $boolRanking
+     * @return Game
+     */
+    public function setBoolRanking($boolRanking)
+    {
+        $this->boolRanking = $boolRanking;
+
+        return $this;
+    }
+
+    /**
+     * Get boolRanking
+     *
+     * @return boolean
+     */
+    public function getBoolRanking()
+    {
+        return $this->boolRanking;
+    }
+
+    /**
+     * Set boolMaj
+     *
+     * @param boolean $boolMaj
+     * @return Game
+     */
+    public function setBoolMaj($boolMaj)
+    {
+        $this->boolMaj = $boolMaj;
+
+        return $this;
+    }
+
+    /**
+     * Get boolMaj
+     *
+     * @return boolean
+     */
+    public function getBoolMaj()
+    {
+        return $this->boolMaj;
     }
 
     /**
@@ -573,6 +655,63 @@ class Game
         ];
     }
 
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     * @return string
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemTitle()
+    {
+        return 'New Game: ' . $this->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemDescription()
+    {
+        return null;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFeedItemPubDate()
+    {
+        return $this->getPublishedAt();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemLink()
+    {
+        return $this->getLink();
+    }
+
+
     /**
      * Returns an array of the fields used to generate the slug.
      *
@@ -580,6 +719,6 @@ class Game
      */
     public function getSluggableFields()
     {
-        return ['name'];
+        return ['defaultName'];
     }
 }

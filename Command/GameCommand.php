@@ -41,6 +41,10 @@ class GameCommand extends DefaultCommand
                 $idGame = $input->getOption('idGame');
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj($idGame);
                 break;
+            case 'maj-team':
+                $idGame = $input->getOption('idGame');
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->maj($idGame);
+                break;
             case 'add-from-csv':
                 $service = $this->getContainer()->get('vgr.game');
                 $service->addFromCsv();
@@ -48,6 +52,10 @@ class GameCommand extends DefaultCommand
             case 'update-from-csv':
                 $service = $this->getContainer()->get('vgr.game');
                 $service->updateFromCsv();
+                break;
+            case 'maj-rank':
+                $service = $this->getContainer()->get('vgr.game');
+                $service->majRank();
                 break;
         }
         return true;

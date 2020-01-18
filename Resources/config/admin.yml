@@ -1,83 +1,146 @@
 services:
-    sonata.admin.serie:
+    sonata.admin.vgr.core.serie:
         class: VideoGamesRecords\CoreBundle\Admin\SerieAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "Serie" }
+            - { name: sonata.admin, manager_type: orm, group: "Games", label: "Serie" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Serie
             - ~
-    sonata.admin.game:
+    sonata.admin.vgr.core.game:
         class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "Game" }
+            - { name: sonata.admin, manager_type: orm, group: "Games", label: "Game" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Game
             - ~
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:game_show.html.twig']]
-    sonata.admin.group:
+    sonata.admin.vgr.core.group:
         class: VideoGamesRecords\CoreBundle\Admin\GroupAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "Group" }
+            - { name: sonata.admin, manager_type: orm, group: "Games", label: "Group" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Group
             - ~
-    sonata.admin.chart:
+    sonata.admin.vgr.core.chart:
         class: VideoGamesRecords\CoreBundle\Admin\ChartAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "Chart" }
+            - { name: sonata.admin, manager_type: orm, group: "Games", label: "Chart" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Chart
             - ~
-    sonata.admin.chart_type:
+    sonata.admin.vgr.core.chart_type:
         class: VideoGamesRecords\CoreBundle\Admin\ChartTypeAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "ChartType" }
+            - { name: sonata.admin, manager_type: orm, group: "Games", label: "ChartType" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ChartType
             - ~
-    sonata.admin.chart_lib:
+    sonata.admin.vgr.core.chart_lib:
         class: VideoGamesRecords\CoreBundle\Admin\ChartLibAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "ChartLib", show_in_dashboard: false }
+            - { name: sonata.admin, manager_type: orm, group: "Games", label: "ChartLib", show_in_dashboard: false }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ChartLib
             - ~
-    sonata.admin.platform:
+    sonata.admin.vgr.core.platform:
         class: VideoGamesRecords\CoreBundle\Admin\PlatformAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "Platform" }
+            - { name: sonata.admin, manager_type: orm, group: "Games", label: "Platform" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Platform
             - ~
-    sonata.admin.player:
+    sonata.admin.vgr.core.player:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "Player" }
+            - { name: sonata.admin, manager_type: orm, group: "Players", label: "Player" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Player
             - ~
-    sonata.admin.game_topic:
+    sonata.admin.vgr.core.game_topic:
         class: VideoGamesRecords\CoreBundle\Admin\GameTopicAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "GameTopic" }
+            - { name: sonata.admin, manager_type: orm, group: "Games Message", label: "Topic" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\GameTopic
             - ~
-    sonata.admin.game_messahe:
+    sonata.admin.vgr.core.game_message:
         class: VideoGamesRecords\CoreBundle\Admin\GameMessageAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "VgrCoreBundle", label: "GameMessage" }
+            - { name: sonata.admin, manager_type: orm, group: "Games Message", label: "Message" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\GameMessage
             - ~
+    sonata.admin.vgr.core.playerchart:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerChartAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Scores", label: "PlayerChart" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\PlayerChart
+            - ~
+    sonata.admin.vgr.core.playerchart_lib:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Scores", label: "PlayerChartLib", show_in_dashboard: false }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\PlayerChartLib
+            - ~
+    sonata.admin.team:
+        class: VideoGamesRecords\CoreBundle\Admin\TeamAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Players", label: "Team" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Team
+            - ~
+    sonata.admin.proof.request:
+        class: VideoGamesRecords\CoreBundle\Admin\ProofRequestAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Proof", label: "Request" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\ProofRequest
+            - ~
+    sonata.admin.proof.proof:
+        class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Proof", label: "Proof" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Proof
+            - ~
+        calls:
+            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:proof_show.html.twig']]
+    osnata.admin.proof.picture:
+        class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Proof", label: "Picture" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Picture
+            - ~
+        calls:
+            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:picture_show.html.twig']]
+    sonata.admin.proof.video:
+        class: VideoGamesRecords\CoreBundle\Admin\VideoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Proof", label: "Video" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Video
+            - ~
+        calls:
+            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:video_show.html.twig']]
+

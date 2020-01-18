@@ -8,6 +8,21 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 
 class GameRepository extends EntityRepository
 {
+
+    /**
+     * @return mixed
+     */
+    public function getStats()
+    {
+        $qb = $this->createQueryBuilder('game')
+            ->select('COUNT(game.id)');
+        $qb->where('game.status = :status')
+            ->setParameter('status', Game::STATUS_ACTIVE);
+
+        return $qb->getQuery()
+            ->getOneOrNullResult();
+    }
+
     /**
      * Finds games begining with a letter.
      *
@@ -99,7 +114,7 @@ class GameRepository extends EntityRepository
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.chart c
             JOIN c.group g
-            WHERE pc.dateModif BETWEEN :date1 AND :date2
+            WHERE pc.lastUpdate BETWEEN :date1 AND :date2
             GROUP BY g.idGame");
 
 

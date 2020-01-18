@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\TeamBundle\Entity\Team;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * Player
@@ -18,27 +18,27 @@ class Player
     use Sluggable;
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\UserInterface
+     * @var \VideoGamesRecords\CoreBundle\Entity\User\UserInterface
      *
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\UserInterface")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User\UserInterface")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
      */
-    private $normandieUser;
+    private $user;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPlayer", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idPlayer;
+    private $id;
 
     /**
      * @var string
      *
-     * @Assert\Length(max="50")
-     * @ORM\Column(name="pseudo", type="string", length=50, nullable=false)
+     * @Assert\Length(min="3",max="50")
+     * @ORM\Column(name="pseudo", type="string", length=50, nullable=false, unique=true)
      */
     private $pseudo;
 
@@ -55,20 +55,6 @@ class Player
      * @ORM\Column(name="gamerCard", type="string", length=50, nullable=true)
      */
     private $gamerCard;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="displayGamerCard", type="boolean", nullable=false)
-     */
-    private $displayGamerCard = true;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="displayGoalBar", type="boolean", nullable=false)
-     */
-    private $displayGoalBar = true;
 
     /**
      * @var integer
@@ -164,6 +150,13 @@ class Player
     /**
      * @var integer
      *
+     * @ORM\Column(name="rankCountry", type="integer", nullable=true)
+     */
+    private $rankCountry;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="gameRank0", type="integer", nullable=true)
      */
     private $gameRank0;
@@ -213,6 +206,13 @@ class Player
     /**
      * @var integer
      *
+     * @ORM\Column(name="nbChartDisabled", type="integer", nullable=false)
+     */
+    private $nbChartDisabled = 0;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
      */
     private $nbMasterBadge = 0;
@@ -237,6 +237,11 @@ class Player
     private $playerGame;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGroup", mappedBy="player")
+     */
+    private $playerGroup;
+
+    /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerBadge", mappedBy="player")
      */
     private $playerBadge;
@@ -244,41 +249,51 @@ class Player
     /**
      * @var Team
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\TeamBundle\Entity\Team", inversedBy="players")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="idTeam")
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id")
      * })
      */
     private $team;
+
+    /**
+     * @var Country
+     *
+     * @ORM\ManyToOne(targetEntity="ProjetNormandie\CountryBundle\Entity\Country")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idCountry", referencedColumnName="id")
+     * })
+     */
+    protected $country;
 
     /**
      * @return string
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getPseudo(), $this->idPlayer);
+        return sprintf('%s [%s]', $this->getPseudo(), $this->getId());
     }
 
     /**
-     * Set idPlayer
+     * Set id
      *
-     * @param integer $idPlayer
+     * @param integer $id
      * @return Player
      */
-    public function setIdPlayer($idPlayer)
+    public function setId($id)
     {
-        $this->idPlayer = $idPlayer;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idPlayer
+     * Get id
      *
      * @return integer
      */
-    public function getIdPlayer()
+    public function getId()
     {
-        return $this->idPlayer;
+        return $this->id;
     }
 
     /**
@@ -348,52 +363,6 @@ class Player
     public function getGamerCard()
     {
         return $this->gamerCard;
-    }
-
-    /**
-     * Set displayGamerCard
-     *
-     * @param boolean $displayGamerCard
-     * @return Player
-     */
-    public function setDisplayGamerCard($displayGamerCard)
-    {
-        $this->displayGamerCard = $displayGamerCard;
-
-        return $this;
-    }
-
-    /**
-     * Get displayGamerCard
-     *
-     * @return boolean
-     */
-    public function getDisplayGamerCard()
-    {
-        return $this->displayGamerCard;
-    }
-
-    /**
-     * Set displayGoalBar
-     *
-     * @param boolean $displayGoalBar
-     * @return Player
-     */
-    public function setDisplayGoalBar($displayGoalBar)
-    {
-        $this->displayGoalBar = $displayGoalBar;
-
-        return $this;
-    }
-
-    /**
-     * Get displayGoalBar
-     *
-     * @return boolean
-     */
-    public function getDisplayGoalBar()
-    {
-        return $this->displayGoalBar;
     }
 
     /**
@@ -696,6 +665,29 @@ class Player
     }
 
     /**
+     * Set rankCountry
+     *
+     * @param integer $rankCountry
+     * @return Player
+     */
+    public function setRankCountry($rankCountry)
+    {
+        $this->rankCountry = $rankCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get rankCountry
+     *
+     * @return integer
+     */
+    public function getRankCountry()
+    {
+        return $this->rankCountry;
+    }
+
+    /**
      * Set gameRank0
      *
      * @param integer $gameRank0
@@ -857,6 +849,29 @@ class Player
     }
 
     /**
+     * Set nbChartDisabled
+     *
+     * @param integer $nbChartDisabled
+     * @return Player
+     */
+    public function setNbChartDisabled($nbChartDisabled)
+    {
+        $this->nbChartDisabled = $nbChartDisabled;
+
+        return $this;
+    }
+
+    /**
+     * Get nbChartDisabled
+     *
+     * @return integer
+     */
+    public function getNbChartDisabled()
+    {
+        return $this->nbChartDisabled;
+    }
+
+    /**
      * Set nbMasterBadge
      *
      * @param integer $nbMasterBadge
@@ -926,20 +941,20 @@ class Player
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\UserInterface
+     * @return \VideoGamesRecords\CoreBundle\Entity\User\UserInterface
      */
-    public function getNormandieUser()
+    public function getUser()
     {
-        return $this->normandieUser;
+        return $this->user;
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\UserInterface $normandieUser
-     * @return Player
+     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
+     * @return $this
      */
-    public function setNormandieUser($normandieUser)
+    public function setUser($user)
     {
-        $this->normandieUser = $normandieUser;
+        $this->user = $user;
         return $this;
     }
 
@@ -989,6 +1004,24 @@ class Player
     }
 
     /**
+     * @return Country
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param Country $country
+     * @return Player
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
      * Returns an array of the fields used to generate the slug.
      *
      * @return array
@@ -1003,6 +1036,6 @@ class Player
      */
     public function isLeader()
     {
-        return ($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getIdPlayer());
+        return ($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getId());
     }
 }

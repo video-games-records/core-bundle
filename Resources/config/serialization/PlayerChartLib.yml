@@ -1,0 +1,22 @@
+VideoGamesRecords\CoreBundle\Entity\PlayerChartLib:
+  attributes:
+    id:
+      groups:
+        - 'playerChart.read'
+        - 'playerChart.write'
+    value:
+      groups:
+        - 'playerChart.read'
+        - 'playerChart.write'
+    libChart:
+      groups:
+        - 'playerChart.read'
+        - 'playerChart.write'
+    playerChart:
+    parseValue:
+      groups:
+        - 'playerChart.read'
+        - 'playerChart.write'
+    formatValue:
+      groups:
+        - 'playerChart.format'

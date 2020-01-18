@@ -5,30 +5,32 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerGameRepository extends EntityRepository
 {
     /**
-     * @param int $idGame
+     * @param Game $game
      * @param int $maxRank
-     * @param int $idPlayer
+     * @param Player $player
      * @return \VideoGamesRecords\CoreBundle\Entity\PlayerGame[]
      */
-    public function getRankingPoints($idGame, $maxRank = null, $idPlayer = null)
+    public function getRankingPoints($game, $maxRank = null, $player = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
-            ->addSelect('p')//----- for using ->getPlayer() on each result
+            ->addSelect('p')
             ->orderBy('pg.rankPointChart');
 
-        $query->where('pg.idGame= :idGame')
-            ->setParameter('idGame', $idGame);
+        $query->where('pg.game = :game')
+            ->setParameter('game', $game);
 
-        if (($maxRank !== null) && ($idPlayer !== null)) {
-            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.idPlayer = :idPlayer)')
+        if (($maxRank !== null) && ($player !== null)) {
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player = :player)')
                 ->setParameter('maxRank', $maxRank)
-                ->setParameter('idPlayer', $idPlayer);
+                ->setParameter('player', $player);
         } elseif ($maxRank !== null) {
             $query->andWhere('pg.rankPointChart <= :maxRank')
                 ->setParameter('maxRank', $maxRank);
@@ -39,25 +41,25 @@ class PlayerGameRepository extends EntityRepository
     }
 
     /**
-     * @param int $idGame
+     * @param Game $game
      * @param int $maxRank
-     * @param int $idPlayer
+     * @param Player $player
      * @return array
      */
-    public function getRankingMedals($idGame, $maxRank = null, $idPlayer = null)
+    public function getRankingMedals($game, $maxRank = null, $player = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
-            ->addSelect('p')//----- for using ->getPlayer() on each result
+            ->addSelect('p')
             ->orderBy('pg.rankMedal');
 
-        $query->where('pg.idGame = :idGame')
-            ->setParameter('idGame', $idGame);
+        $query->where('pg.game = :game')
+            ->setParameter('game', $game);
 
-        if (($maxRank !== null) && ($idPlayer !== null)) {
-            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.idPlayer = :idPlayer)')
+        if (($maxRank !== null) && ($player !== null)) {
+            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.player = :player)')
                 ->setParameter('maxRank', $maxRank)
-                ->setParameter('idPlayer', $idPlayer);
+                ->setParameter('player', $player);
         } elseif ($maxRank !== null) {
             $query->andWhere('pg.rankMedal <= :maxRank')
                 ->setParameter('maxRank', $maxRank);
@@ -69,41 +71,41 @@ class PlayerGameRepository extends EntityRepository
     }
 
     /**
-     * @param int $idGame
+     * @param Game $game
      */
-    public function maj($idGame)
+    public function maj($game)
     {
         //----- delete
-        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerGame pg WHERE pg.idGame = :idGame');
-        $query->setParameter('idGame', $idGame);
+        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerGame pg WHERE pg.game = :game');
+        $query->setParameter('game', $game);
         $query->execute();
 
         //----- data without DLC
         $query = $this->_em->createQuery("
             SELECT
-                 pg.idPlayer,
+                 p.id,
                  SUM(pg.pointChart) as pointChartWithoutDlc,
                  SUM(pg.nbChart) as nbChartWithoutDlc,
                  SUM(pg.nbChartProven) as nbChartProvenWithoutDlc
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGroup pg
+            JOIN pg.player p
             JOIN pg.group g
-            WHERE g.idGame = :idGame
+            WHERE g.game = :game
             AND g.boolDlc = 0
-            GROUP BY pg.idPlayer");
+            GROUP BY p.id");
 
         $dataWithoutDlc = [];
 
-        $query->setParameter('idGame', $idGame);
+        $query->setParameter('game', $game);
         $result = $query->getResult();
         foreach ($result as $row) {
-            $dataWithoutDlc[$row['idPlayer']] = $row;
+            $dataWithoutDlc[$row['id']] = $row;
         }
 
-        //----- select ans save result in array
+        //----- select and save result in array
         $query = $this->_em->createQuery("
             SELECT
-                pg.idPlayer,
-                (g.idGame) as idGame,
+                p.id,
                 '' as rankPointChart,
                 '' as rankMedal,
                 SUM(pg.chartRank0) as chartRank0,
@@ -114,20 +116,23 @@ class PlayerGameRepository extends EntityRepository
                 SUM(pg.chartRank5) as chartRank5,
                 SUM(pg.pointChart) as pointChart,
                 SUM(pg.nbChart) as nbChart,
-                SUM(pg.nbChartProven) as nbChartProven
+                SUM(pg.nbChartProven) as nbChartProven,
+                MAX(pg.lastUpdate) as lastUpdate
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGroup pg
+            JOIN pg.player p
             JOIN pg.group g
-            WHERE g.idGame = :idGame
-            GROUP BY pg.idPlayer
+            WHERE g.game = :game
+            GROUP BY p.id
             ORDER BY pointChart DESC");
 
 
-        $query->setParameter('idGame', $idGame);
+        $query->setParameter('game', $game);
         $result = $query->getResult();
 
         $list = [];
         foreach ($result as $row) {
-            $row = array_merge($row, $dataWithoutDlc[$row['idPlayer']]);
+            $row['lastUpdate'] = new \DateTime($row['lastUpdate']);
+            $row = array_merge($row, $dataWithoutDlc[$row['id']]);
             $list[] = $row;
         }
 
@@ -140,14 +145,12 @@ class PlayerGameRepository extends EntityRepository
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer([$normalizer]);
 
-        $game = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
-
         foreach ($list as $row) {
             $playerGame = $serializer->denormalize(
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\PlayerGame'
             );
-            $playerGame->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['idPlayer']));
+            $playerGame->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['id']));
             $playerGame->setGame($game);
 
             $this->_em->persist($playerGame);

@@ -18,7 +18,7 @@ class PlayerGame
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerGame")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="idPlayer", nullable=false)
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
     private $player;
@@ -145,6 +145,13 @@ class PlayerGame
      * @ORM\Column(name="nbEqual", type="integer", nullable=false)
      */
     private $nbEqual = 0;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastUpdate", type="datetime", nullable=true)
+     */
+    private $lastUpdate;
 
     /**
      * Set rankPointChart
@@ -489,6 +496,29 @@ class PlayerGame
         $this->game = $game;
 
         return $this;
+    }
+
+    /**
+     * Set lastUpdate
+     *
+     * @param \DateTime $lastUpdate
+     * @return $this
+     */
+    public function setLastUpdate($lastUpdate)
+    {
+        $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * Get lastUpdate
+     *
+     * @return \DateTime
+     */
+    public function getLastUpdate()
+    {
+        return $this->lastUpdate;
     }
 
     /**

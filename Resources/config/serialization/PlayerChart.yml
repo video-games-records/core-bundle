@@ -1,0 +1,55 @@
+VideoGamesRecords\CoreBundle\Entity\PlayerChart:
+  attributes:
+    id:
+      groups:
+        - 'playerChart.read'
+        - 'playerChart.write'
+        - 'ranking'
+    chart:
+      groups:
+        - 'playerChart.read'
+        - 'playerChart.write'
+    player:
+      groups:
+        - 'playerChart.read'
+        - 'playerChart.write'
+        - 'player.show'
+    rank:
+      groups:
+        - 'playerChart.read'
+        - 'ranking'
+        - 'chart.top-score'
+    nbEqual:
+      groups:
+        - 'ranking'
+    pointChart:
+      groups:
+        - 'ranking'
+    status:
+      groups:
+        - 'playerChartStatus.show'
+    proof:
+      groups:
+        - 'ranking'
+    isTopScore:
+    dateInvestigation:
+      groups:
+        - 'ranking'
+    platform:
+      groups:
+        - 'ranking'
+        - 'playerChart.read'
+        - 'playerChart.write'
+    lastUpdate:
+      groups:
+        - 'ranking'
+    createdAt:
+      groups: []
+    updatedAt:
+      groups: []
+    libs:
+      groups:
+        - 'playerChart.read'
+        - 'playerChart.write'
+        - 'playerchart.libs'
+

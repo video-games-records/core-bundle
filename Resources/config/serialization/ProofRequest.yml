@@ -1,0 +1,29 @@
+VideoGamesRecords\CoreBundle\Entity\ProofRequest:
+  attributes:
+    id:
+      groups:
+        - 'proof.request.read'
+    playerChart:
+      groups:
+        - 'proof.request.read'
+    status:
+      groups:
+        - 'proof.request.read'
+    playerRequesting:
+      groups:
+        - 'proof.request.read'
+    playerResponding:
+      groups:
+        - 'proof.request.read'
+    message:
+      groups:
+        - 'proof.request.read'
+    dateAcceptance:
+      groups:
+        - 'proof.request.read'
+    createdAt:
+      groups:
+        - 'chart.show'
+    updatedAt:
+      groups:
+        - 'chart.show'

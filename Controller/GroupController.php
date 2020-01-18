@@ -2,155 +2,105 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Group;
-use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
 
 /**
  * Class GroupController
- * @Route("/group")
  */
-class GroupController extends VgrBaseController
+class GroupController extends Controller
 {
     /**
-     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_group_index")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @param string $slug
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
      */
-    public function indexAction($id, $slug)
+    private function getPlayer()
     {
-        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
-        if ($slug !== $group->getSlug()) {
-            return $this->redirectToRoute('vgr_group_index', ['id' => $group->getId(), 'slug' => $group->getSlug()], 301);
+        if ($this->getUser() !== null) {
+            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                ->getPlayerFromUser($this->getUser());
         }
+        return null;
+    }
 
-        $breadcrumbs = $this->getGroupBreadcrumbs($group);
-        $breadcrumbs->addItem($group->getLibGroup());
+    /**
+     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     */
+    private function getTeam()
+    {
+        if ($this->getUser() !== null) {
+            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                ->getPlayerFromUser($this->getUser());
+            return $player->getTeam();
+        }
+        return null;
+    }
 
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Group:index.html.twig',
-            [
-                'group' => $group,
-                'playerRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($id, 5, null),
-                'playerRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingMedals($id, 5, null),
-                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGroup')->getRankingPoints($id, 5, null),
-                'teamRankingMedals' => $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamGroup')->getRankingMedals($id, 5, null),
-            ]
-        );
+    /**
+     * @param Group    $group
+     * @param Request $request
+     * @return mixed
+     */
+    public function playerRankingPoints(Group $group, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($group, $maxRank, $this->getPlayer());
     }
 
 
     /**
-     * @Route("/ranking-player-points/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_group_ranking_player_points")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Group    $group
+     * @param Request $request
+     * @return mixed
      */
-    public function rankingPlayerPointsAction($id)
+    public function playerRankingMedals(Group $group, Request $request)
     {
-        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
-
-        //----- breadcrumbs
-        $breadcrumbs = $this->getGroupBreadcrumbs($group);
-        $breadcrumbs->addItem('game.pointchartranking.full');
-
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Ranking:player-points-chart.html.twig',
-            [
-                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($id, 100, null),
-            ]
-        );
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingMedals($group, $maxRank, $this->getPlayer());
     }
 
 
     /**
-     * @Route("/ranking-player-medals/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_group_ranking_player_medals")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Group    $group
+     * @param Request $request
+     * @return mixed
      */
-    public function rankingPlayerMedalsAction($id)
+    public function teamRankingPoints(Group $group, Request $request)
     {
-        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
-
-        $breadcrumbs = $this->getGroupBreadcrumbs($group);
-        $breadcrumbs->addItem('game.medalranking.full');
-
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Ranking:player-medals.html.twig',
-            [
-                'ranking' => $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingMedals($id, 100, null),
-            ]
-        );
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingPoints($group, $maxRank, $this->getTeam());
     }
 
 
-
     /**
-     * @Route("/form/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_group_form")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
-     *
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Group    $group
+     * @param Request $request
+     * @return mixed
      */
-    public function formAction($id)
+    public function teamRankingMedals(Group $group, Request $request)
     {
-        $group = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Group')->getWithGame($id);
-        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getFromGroupWithChartType($id);
-
-        $data = [
-            'id' => $id,
-            'type' => 'group',
-        ];
-
-        $data = array_merge(
-            $data,
-            $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->getFormValues($this->getPlayer(), null, $group)
-        );
-
-        $form = SubmitFormFactory::createSubmitForm(
-            $this->get('form.factory')->create('Symfony\Component\Form\Extension\Core\Type\FormType', $data),
-            $charts
-        );
-
-        $breadcrumbs = $this->getGroupBreadcrumbs($group);
-        $breadcrumbs->addItem($group->getLibGroup());
-
-        return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', ['group' => $group, 'charts' => $charts, 'form' => $form->createView()]);
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingMedals($group, $maxRank, $this->getTeam());
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
-     * @return object|\WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs
+     * @param Group    $group
+     * @return mixed
      */
-    private function getGroupBreadcrumbs(Group $group)
+    public function topScore(Group $group)
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem(
-            $group->getGame()->getLibGame(),
-            'vgr_game_index',
-            ['id' => $group->getGame()->getId(), 'slug' => $group->getGame()->getSlug()]
-        );
-        $breadcrumbs->addRouteItem(
-            $group->getLibGroup(),
-            'vgr_group_index',
-            ['id' => $group->getId(), 'slug' => $group->getSlug()]
-        );
-
-        return $breadcrumbs;
+        $player = $this->getPlayer();
+        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getTopScore($group, $player);
+        foreach ($charts as $chart) {
+            foreach ($chart->getPlayerCharts() as $playerChart) {
+                if ($playerChart->getRank() == 1) {
+                    $chart->setPlayerChart1($playerChart);
+                }
+                if (($player !== null) && ($playerChart->getPlayer()->getId() == $player->getId())) {
+                    $chart->setPlayerChartP($playerChart);
+                }
+            }
+        }
+        return $charts;
     }
 }

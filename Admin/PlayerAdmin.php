@@ -11,7 +11,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 
 class PlayerAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'vgrcorebundle_player_group';
+    protected $baseRouteName = 'vgrcorebundle_player';
 
     /**
      * @inheritdoc
@@ -20,7 +20,8 @@ class PlayerAdmin extends AbstractAdmin
     {
         $collection
             ->remove('create')
-            ->remove('export');
+            ->remove('export')
+            ->remove('delete');
     }
 
     /**
@@ -29,8 +30,8 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idPlayer', 'text', [
-                'label' => 'idPlayer',
+            ->add('id', 'text', [
+                'label' => 'id',
                 'attr' => [
                     'readonly' => true,
                 ]
@@ -40,6 +41,15 @@ class PlayerAdmin extends AbstractAdmin
                 'attr' => [
                     'readonly' => true,
                 ]
+            ])
+            ->add('country', 'sonata_type_model_list', [
+                'data_class' => null,
+                'btn_add' => false,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => false,
+                'label' => 'Country',
             ]);
     }
 
@@ -49,6 +59,7 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('pseudo');
     }
 
@@ -58,8 +69,9 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idPlayer')
+            ->addIdentifier('id')
             ->add('pseudo')
+            ->add('country')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -74,8 +86,9 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idPlayer')
+            ->add('id')
             ->add('pseudo')
+            ->add('country')
             ->add('team');
     }
 }

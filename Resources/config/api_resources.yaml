@@ -1,0 +1,451 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Serie:
+        collectionOperations:
+            get: ~
+            post: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\Game:
+        collectionOperations:
+            get:
+                filters: ['game.status_filter','platform_filter']
+        itemOperations:
+            get:
+                normalization_context: {'groups': [game.show, platform.show]}
+            list-by-letter:
+                method: 'GET'
+                normalization_context: {'groups': [game.list.letter, platform.show]}
+                path: '/game/list-by-letter'
+                swagger_context:
+                    parameters:
+                        - name: letter
+                          in: query
+                          required: false
+                          type: string
+                        - name: locale
+                          in: query
+                          required: false
+                          type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::listByLetter'
+                defaults:
+                    _api_receive: false
+            player-ranking-points:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,playerGame.pointChart]}
+                path: '/game/{id}/player-ranking-points'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::playerRankingPoints'
+            player-ranking-medals:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,playerGame.medal]}
+                path: '/game/{id}/player-ranking-medals'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::playerRankingMedals'
+            team-ranking-points:
+                method: 'GET'
+                normalization_context: {'groups': [team.show,teamGame.pointChart]}
+                path: '/game/{id}/team-ranking-points'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingPoints'
+            team-ranking-medals:
+                method: 'GET'
+                normalization_context: {'groups': [team.show,teamGame.medal]}
+                path: '/game/{id}/team-ranking-medals'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingMedals'
+            charts:
+                method: 'GET'
+                normalization_context: {'groups': [chart.show, group.show, game.show, chartLib.show, chart.playerCharts, playerChart.read]}
+                path: '/game/{id}/charts'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: idGroup
+                          in: query
+                          required: false
+                          type: integer
+                        - name: idChart
+                          in: query
+                          required: false
+                          type: integer
+                        - name: libChart
+                          in: query
+                          required: false
+                          type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::charts'
+        properties:
+            groups:
+                subresource:
+                    resourceClass: 'VideoGamesRecords\CoreBundle\Entity\Group'
+                    collection: true
+    VideoGamesRecords\CoreBundle\Entity\Group:
+        collectionOperations:
+            get:
+              normalization_context: {'groups': [group.list]}
+            api_games_groups_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [game.groups]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [group.show, game.show, platform.show]}
+            player-ranking-points:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,playerGroup.pointChart]}
+                path: '/group/{id}/player-ranking-points'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingPoints'
+            player-ranking-medals:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,playerGroup.medal]}
+                path: '/group/{id}/player-ranking-medals'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingMedals'
+            team-ranking-points:
+                method: 'GET'
+                normalization_context: {'groups': [team.show,teamGroup.pointChart]}
+                path: '/group/{id}/team-ranking-points'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingPoints'
+            team-ranking-medals:
+                method: 'GET'
+                normalization_context: {'groups': [team.show,teamGroup.medal]}
+                path: '/group/{id}/team-ranking-medals'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingMedals'
+            top-score:
+                method: 'GET'
+                normalization_context: {'groups': [chart.show, chart.top-score, playerchart.libs, playerChart.format, player.show]}
+                path: '/group/{id}/top-score'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::topScore'
+        properties:
+            charts:
+                subresource:
+                    resourceClass: 'VideoGamesRecords\CoreBundle\Entity\Chart'
+                    collection: true
+    VideoGamesRecords\CoreBundle\Entity\Chart:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [chart.show, group.show, game.show], 'enable_max_depth':true}
+            api_groups_charts_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [group.charts], 'enable_max_depth':true}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [chart.show, group.show, game.show, platform.show, chartLib.show]}
+            team-ranking-points:
+                method: 'GET'
+                normalization_context: {'groups': [team.show,teamChart.pointChart]}
+                path: '/chart/{id}/team-ranking-points'
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - name: maxRank
+                          in: query
+                          required: false
+                          type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::teamRankingPoints'
+            player-ranking:
+                method: 'GET'
+                normalization_context: {'groups': [player.show, ranking, playerChartStatus.show]}
+                path: '/chart/{id}/player-ranking'
+                swagger_context:
+                    summary: 'Retrive ranking of a chart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::playerRanking'
+                defaults:
+                    _api_receive: false
+    VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\PlayerGame:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\PlayerGroup:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\PlayerChart:
+        attributes:
+            normalization_context: {'groups': [playerChart.read]}
+            denormalization_context: {'groups': [playerChart.write]}
+        collectionOperations:
+            get:
+                filters : ['player.filter','chart.filter']
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
+            maj-platform:
+                method: 'POST'
+                path: '/player-charts/maj-platform'
+                access_control: 'is_granted("ROLE_PLAYER")'
+                swagger_context:
+                    parameters:
+                        - in: body
+                          name: playerChart
+                          schema:
+                              type: object
+                              required:
+                                  - idGame
+                                  - idPlatform
+                              properties:
+                                  idGame:
+                                      type: integer
+                                  idPlatform:
+                                      type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::majPlatform'
+        itemOperations:
+            get:
+                normalization_context: {'groups': [playerChart.read, chart.label.read]}
+            put:
+                normalization_context: {'groups': [playerChart.write]}
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
+                _api_receive: true
+    VideoGamesRecords\CoreBundle\Entity\Player:
+        collectionOperations:
+            get: ~
+            stats:
+                method: 'GET'
+                path: '/players/stats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::stats'
+            player-ranking-point-chart:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.pointChart]}
+                path: '/players/ranking-point-chart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointChart'
+            player-ranking-point-game:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.pointGame]}
+                path: '/players/ranking-point-game'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointGame'
+            player-ranking-medal:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.medal]}
+                path: '/players/ranking-medal'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingMedal'
+            player-ranking-cup:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.cup]}
+                path: '/players/ranking-cup'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingCup'
+            player-ranking-badge:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.badge]}
+                path: '/players/ranking-badge'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingBadge'
+            player-ranking-proof:
+                method: 'GET'
+                normalization_context: {'groups': [player.show,player.proof]}
+                path: '/players/ranking-proof'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingProof'
+            profile:
+                method: 'GET'
+                access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
+                normalization_context: {'groups': [user.profile,player.show]}
+                path: '/players/profile'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profile'
+        itemOperations:
+            get: ~
+            put:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
+                denormalization_context: {'groups': [player.put]}
+                normalization_context: {'groups': [player.show, team.show]}
+    VideoGamesRecords\CoreBundle\Entity\Platform:
+        attributes:
+            pagination_enabled: false
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\ChartLib:
+        properties:
+            idLibChart:
+                identifier: true
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\PlayerChartLib:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\Team:
+        collectionOperations:
+            get:
+                method: 'GET'
+                normalization_context: {'groups': [team.list, team.leader, player.show]}
+            team-ranking-point-chart:
+                method: 'GET'
+                normalization_context: {'groups': [team.show, team.pointChart]}
+                path: '/teams/ranking-point-chart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointChart'
+            team-ranking-point-game:
+                method: 'GET'
+                normalization_context: {'groups': [team.show, team.pointGame]}
+                path: '/teams/ranking-point-game'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointGame'
+            team-ranking-medal:
+                method: 'GET'
+                normalization_context: {'groups': [team.show, team.medal]}
+                path: '/teams/ranking-medal'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingMedal'
+            team-ranking-cup:
+                method: 'GET'
+                normalization_context: {'groups': [team.show, team.cup]}
+                path: '/teams/ranking-cup'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingCup'
+        itemOperations:
+            get:
+                normalization_context: {'groups': [team.profile, team.leader, player.show], 'enable_max_depth':true}
+            put:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUser() == user'
+                denormalization_context: {'groups': [team.put]}
+                normalization_context: {'groups': [team.profile, team.leader, player.show]}
+    VideoGamesRecords\CoreBundle\Entity\TeamBadge:
+        collectionOperations:
+              get: ~
+        itemOperations:
+              get: ~
+    VideoGamesRecords\CoreBundle\Entity\TeamChart:
+        collectionOperations:
+              get: ~
+        itemOperations:
+              get: ~
+    VideoGamesRecords\CoreBundle\Entity\TeamGame:
+        collectionOperations:
+             get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\TeamGroup:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\TeamRequest:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\Proof:
+        collectionOperations:
+            get: ~
+            send-picture:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                method: 'POST'
+                path: '/player-chart/{id}/send-picture'
+                consumes:
+                    - application/json
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - in: body
+                          name: file
+                          description: Picture encoded in base64
+                          schema:
+                              type: object
+                              required:
+                                - base64
+                              properties:
+                                  base64:
+                                    type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::sendPicture'
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\ProofRequest:
+        shortName: 'ProofRequest'
+        collectionOperations:
+            get: ~
+            post:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayerChart().getStatus().getIdStatus() == 1'
+        itemOperations:
+            get: ~

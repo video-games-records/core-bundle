@@ -48,7 +48,7 @@ class PlayerChartUpdateListener
                 $this->lostPosition = new LostPosition();
                 $this->lostPosition->setNewRank($newRank);
                 $this->lostPosition->setOldRank(($newRank === 1) ? 0 : $oldRank); //----- zero for losing platinum medal
-                $this->lostPosition->setPlayer($em->getReference(Player::class, $entity->getPlayer()->getIdPlayer()));
+                $this->lostPosition->setPlayer($em->getReference(Player::class, $entity->getPlayer()->getId()));
                 $this->lostPosition->setChart($em->getReference(Chart::class, $entity->getChart()->getId()));
             }
         }
@@ -63,6 +63,7 @@ class PlayerChartUpdateListener
         if ($this->lostPosition !== null) {
             $em->persist($this->lostPosition);
             $em->flush($this->lostPosition);
+            $this->lostPosition = null;
         }
     }
 }

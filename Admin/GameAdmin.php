@@ -34,13 +34,15 @@ class GameAdmin extends AbstractAdmin
             ->add('serie', 'sonata_type_model_list', [
                 'btn_add' => false,
                 'btn_list' => true,
-                'btn_delete' => false,
+                'btn_edit' => false,
+                'btn_delete' => true,
                 'btn_catalogue' => true,
                 'label' => 'Serie',
             ])
             ->add('badge', 'sonata_type_model_list', [
                 'btn_add' => true,
                 'btn_list' => true,
+                'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
                 'label' => 'Badge',
@@ -57,6 +59,11 @@ class GameAdmin extends AbstractAdmin
                     'choices' => Game::getStatusChoices(),
                 ]
             )
+            ->add('publishedAt', 'date', [
+                'label' => 'Published At',
+                'required' => false,
+                'years' => range(2004, date('Y'))
+            ])
             ->add(
                 'etat',
                 ChoiceType::class,
@@ -65,8 +72,27 @@ class GameAdmin extends AbstractAdmin
                     'choices' => Game::getEtatsChoices(),
                 ]
             )
+            ->add('boolRanking', 'checkbox', [
+                'label' => 'Ranking ?',
+                'required' => false,
+            ])
+            ->add('boolMaj', 'checkbox', [
+                'label' => 'Maj ?',
+                'required' => false,
+            ])
             ->add('translations', TranslationsType::class, [
-                'required' => true,
+                'fields' => [
+                    'name' => [
+                        'field_type' => 'text',
+                        'label' => ' Name',
+                        'required' => true,
+                    ],
+                    'rules' => [
+                        'field_type' => 'textarea',
+                        'label' => ' Rules',
+                        'required' => false,
+                    ]
+                ]
             ])
             ->add('platforms', null, ['required' => false, 'expanded' => false]);
     }
@@ -77,9 +103,11 @@ class GameAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('translations.name')
             ->add('status')
-            ->add('etat');
+            ->add('etat')
+            ->add('boolRanking');
     }
 
     /**
@@ -89,7 +117,7 @@ class GameAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('getDefaultName', null, ['label' => 'Name'])
             ->add(
                 'picture',
                 'text',
@@ -137,9 +165,27 @@ class GameAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('status')
             ->add('etat')
             ->add('groups');
+    }
+
+    /**
+     * @param \VideoGamesRecords\CoreBundle\Entity\Game $object
+     * @throws \Exception
+     */
+    public function preUpdate($object)
+    {
+        /** @var \Doctrine\ORM\EntityManager $em */
+        $em = $this->getModelManager()->getEntityManager($this->getClass());
+        $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
+
+        // PUBLISHED
+        if ($originalObject['status'] === Game::STATUS_INACTIVE && $object->getStatus() === Game::STATUS_ACTIVE) {
+            if ($object->getPublishedAt() == null) {
+                $object->setPublishedAt(new \DateTime());
+            }
+        }
     }
 }

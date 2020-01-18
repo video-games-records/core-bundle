@@ -60,6 +60,7 @@ class ChartAdmin extends AbstractAdmin
                     'data_class' => null,
                     'btn_add' => false,
                     'btn_list' => true,
+                    'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => true,
                     'label' => 'Group',
@@ -122,9 +123,10 @@ class ChartAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('translations.name')
             ->add('group', 'doctrine_orm_model_autocomplete', array(), null, array(
-                'property' => 'libGroupEn',
+                'property' => 'translations.name',
             ))
             ->add('statusPlayer', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
             ->add('statusTeam', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()));
@@ -137,9 +139,9 @@ class ChartAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('defaultName', null, ['label' => 'Name'])
             ->add('group', null, array(
-                'associated_property' => 'libGroup',
+                'associated_property' => 'defaultName',
                 'label' => 'Group',
             ))
             ->add('_action', 'actions', array(
@@ -157,9 +159,9 @@ class ChartAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('defaultName', null, ['label' => 'Name'])
             ->add('group', null, array(
-                'associated_property' => 'libGroup',
+                'associated_property' => 'defaultName',
                 'label' => 'Group',
             ));
     }

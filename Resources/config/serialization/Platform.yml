@@ -1,17 +1,15 @@
 VideoGamesRecords\CoreBundle\Entity\Platform:
   attributes:
-    idPlatform:
+    id:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'platform.show'
     libPlatform:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'platform.show'
     picture:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
+        - 'game.list'
     status:
       groups: []
     class:

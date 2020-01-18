@@ -1,0 +1,18 @@
+VideoGamesRecords\CoreBundle\Entity\ChartType:
+  attributes:
+    idType:
+      groups:
+        - 'chart.show'
+        - 'playerChart.show'
+        - 'playerChart.write'
+    name:
+    mask:
+      groups:
+        - 'chart.show'
+        - 'playerChart.show'
+        - 'playerChart.write'
+    parseMask:
+      groups:
+        - 'chart.show'
+        - 'playerChart.show'
+        - 'playerChart.write'

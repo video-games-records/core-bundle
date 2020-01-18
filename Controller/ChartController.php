@@ -3,105 +3,89 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Form\Type\SubmitFormFactory;
+use VideoGamesRecords\CoreBundle\Tools\Score;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ChartController
- * @Route("/chart")
  */
-class ChartController extends VgrBaseController
+class ChartController extends Controller
 {
     /**
-     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index")
-     * @Method("GET")
+     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
+     */
+    private function getPlayer()
+    {
+        if ($this->getUser() !== null) {
+            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                ->getPlayerFromUser($this->getUser());
+        }
+        return null;
+    }
+
+    /**
+     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     */
+    private function getTeam()
+    {
+        if ($this->getUser() !== null) {
+            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+                ->getPlayerFromUser($this->getUser());
+            return $player->getTeam();
+        }
+        return null;
+    }
+
+    /**
+     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index", methods={"GET"})
      * @Cache(smaxage="10")
      *
      * @param int $id
      * @param string $slug
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction($id, $slug)
     {
-        $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithGame($id);
-        if ($slug !== $chart->getSlug()) {
-            return $this->redirectToRoute('vgr_chart_index', ['id' => $chart->getId(), 'slug' => $chart->getSlug()], 301);
-        }
+        //@todo redirect to front
+        exit;
+    }
 
+    /**
+     * @param Chart    $chart
+     * @param Request $request
+     * @return mixed
+     */
+    public function playerRanking(Chart $chart, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 20);
         $ranking = $this->getDoctrine()
             ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
-            ->getRanking($chart, $this->getPlayer(), 20);
+            ->getRanking($chart, $this->getPlayer(), $maxRank);
 
-        $breadcrumbs = $this->getChartBreadcrumbs($chart);
-        $breadcrumbs->addItem($chart->getLibChart());
 
-        return $this->render(
-            'VideoGamesRecordsCoreBundle:Chart:index.html.twig',
-            [
-                'chart' => $chart,
-                'ranking' => $ranking,
-                'teamRankingPoints' => $this->getDoctrine()->getRepository('VideoGamesRecordsTeamBundle:TeamChart')->getRankingPoints($id, 20, null),
-            ]
-        );
+        for ($i=0; $i<=count($ranking)-1; $i++) {
+            foreach ($chart->getLibs() as $lib) {
+                $key = $lib->getIdLibChart();
+                // format value
+                $ranking[$i]['values'][] = Score::formatScore(
+                    $ranking[$i]["value_$key"],
+                    $lib->getType()->getMask()
+                );
+            }
+        }
+        return $ranking;
     }
 
     /**
-     * @Route("/form/id/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_form")
-     * @Method("GET")
-     * @Cache(smaxage="10")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
-     *
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Chart    $chart
+     * @param Request $request
+     * @return mixed
      */
-    public function formAction($id)
+    public function teamRankingPoints(Chart $chart, Request $request)
     {
-        $chart = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($id);
-        $charts = [$chart];
-
-        $data = [
-            'id' => $id,
-            'type' => 'chart',
-        ];
-
-        $data = array_merge(
-            $data,
-            $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartLib')->getFormValues($this->getPlayer(), $chart)
-        );
-
-        $form = SubmitFormFactory::createSubmitForm(
-            $this->get('form.factory')->create('Symfony\Component\Form\Extension\Core\Type\FormType', $data),
-            $charts
-        );
-
-        $breadcrumbs = $this->getChartBreadcrumbs($chart);
-        $breadcrumbs->addItem($chart->getLibChart());
-
-        return $this->render('VideoGamesRecordsCoreBundle:Submit:form.html.twig', ['chart' => $chart, 'charts' => $charts, 'form' => $form->createView()]);
-    }
-
-    /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
-     * @return object|\WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs
-     */
-    private function getChartBreadcrumbs(Chart $chart)
-    {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
-        $breadcrumbs->addRouteItem('Home', 'homepage');
-        $breadcrumbs->addRouteItem(
-            $chart->getGroup()->getGame()->getLibGame(),
-            'vgr_game_index',
-            ['id' => $chart->getGroup()->getGame()->getId(), 'slug' => $chart->getGroup()->getGame()->getSlug()]
-        );
-        $breadcrumbs->addRouteItem(
-            $chart->getGroup()->getLibGroup(),
-            'vgr_group_index',
-            ['id' => $chart->getGroup()->getId(), 'slug' => $chart->getGroup()->getSlug()]
-        );
-
-        return $breadcrumbs;
+        $maxRank = $request->query->get('maxRank', 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->getRankingPoints($chart, $maxRank, $this->getTeam());
     }
 }

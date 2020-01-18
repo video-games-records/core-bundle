@@ -1,0 +1,10 @@
+VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
+  attributes:
+    idStatus:
+      groups:
+        - 'playerChartStatus.show'
+    libStatus:
+      groups:
+        - 'playerChartStatus.show'
+    boolRanking:
+    boolSendProof:

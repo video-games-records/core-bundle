@@ -1,0 +1,51 @@
+VideoGamesRecords\CoreBundle\Entity\Chart:
+  attributes:
+    id:
+      groups:
+        - 'chart.show'
+        - 'chart.list'
+        - 'chart.label.read'
+        - 'group.charts'
+    group:
+      groups:
+        - 'group.show'
+        - 'chart.list'
+        - 'chart.label.read'
+    libs:
+      groups:
+        - 'chartLib.show'
+    nbPost:
+      groups:
+        - 'chart.show'
+        - 'chart.list'
+        - 'group.charts'
+    nbPlayer:
+      groups:
+        - 'chart.show'
+        - 'chart.list'
+        - 'group.charts'
+    name:
+      groups:
+        - 'chart.show'
+        - 'chart.list'
+        - 'chart.label.read'
+        - 'group.charts'
+    slug:
+      groups:
+        - 'chart.show'
+        - 'chart.list'
+        - 'group.charts'
+    playerCharts:
+      groups:
+        - 'chart.playerCharts'
+      max_depth: 1
+    playerChart1:
+      groups:
+        - 'chart.top-score'
+    playerChartP:
+      groups:
+        - 'chart.top-score'
+    createdAt:
+      groups: []
+    updatedAt:
+      groups: []

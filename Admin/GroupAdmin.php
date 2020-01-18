@@ -57,6 +57,7 @@ class GroupAdmin extends AbstractAdmin
                     'data_class' => null,
                     'btn_add' => false,
                     'btn_list' => true,
+                    'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => true,
                     'label' => 'Game',
@@ -77,6 +78,7 @@ class GroupAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('translations.name')
             ->add('game', 'doctrine_orm_model_autocomplete', [], null, [
                 'property' => 'translations.name',
@@ -90,9 +92,9 @@ class GroupAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('game', null, [
-                'associated_property' => 'libGame',
+                'associated_property' => 'defaultName',
                 'label' => 'Game',
             ])
             ->add('boolDLC', 'boolean')
@@ -117,9 +119,9 @@ class GroupAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('getName', null, ['label' => 'Name'])
+            ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('game', null, [
-                'associated_property' => 'libGame',
+                'associated_property' => 'defaultName',
                 'label' => 'Game',
             ])
             ->add('charts');

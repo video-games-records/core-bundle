@@ -2,57 +2,70 @@ VideoGamesRecords\CoreBundle\Entity\Game:
   attributes:
     id:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
+        - 'game.show.mini'
+        - 'chart.label.read'
     picture:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
     status:
       groups: []
     etat:
       groups: []
-    dateActivation:
+    publishedAt:
       groups: []
     boolDlc:
       groups: []
+    boolRanking:
+      groups:
+        - 'game.list'
+        - 'game.show'
     nbChart:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
     nbPost:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
     nbPlayer:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
     nbTeam:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.show'
     ordre:
       groups: []
     serie:
       groups:
-        - 'game_show'
+        - 'game.show'
     badge:
-      groups:
-        - 'game_show'
+      groups: []
     platforms:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'platform.show'
     name:
       groups:
-        - 'game_show'
-        - 'game_list'
+        - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
+        - 'game.show.mini'
+        - 'chart.label.read'
+    rules:
+      groups:
+        - 'game.show'
     slug:
-        - 'game_show'
-        - 'game_list'
+        - 'game.list'
+        - 'game.list.letter'
+        - 'game.show'
     createdAt:
       groups:
-        - 'game_show'
+        - 'game.show'
     updatedAt:
-        - 'game_show'
+        - 'game.show'

@@ -84,6 +84,18 @@ class Chart
     private $playerCharts;
 
     /**
+     * Shortcut to playerChart.rank = 1
+     * @var PlayerChart
+     */
+    private $playerChart1;
+
+    /**
+     * Shortcut to playerChart.player = player
+     * @var PlayerChart
+     */
+    private $playerChartP;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -97,7 +109,15 @@ class Chart
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getName(), $this->id);
+        return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        return $this->translate('en', false)->getName();
     }
 
     /**
@@ -121,16 +141,6 @@ class Chart
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get libChart
-     *
-     * @return string
-     */
-    public function getLibChart()
-    {
-        return $this->getName();
     }
 
     /**
@@ -290,6 +300,38 @@ class Chart
 
 
     /**
+     * @param $playerChart1
+     */
+    public function setPlayerChart1($playerChart1)
+    {
+        $this->playerChart1 = $playerChart1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerChart1()
+    {
+        return $this->playerChart1;
+    }
+
+    /**
+     * @param $playerChartP
+     */
+    public function setPlayerChartP($playerChartP)
+    {
+        $this->playerChartP = $playerChartP;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerChartP()
+    {
+        return $this->playerChartP;
+    }
+
+    /**
      * @return array
      */
     public static function getStatusChoices()
@@ -310,6 +352,6 @@ class Chart
      */
     public function getSluggableFields()
     {
-        return ['name'];
+        return ['defaultName'];
     }
 }
