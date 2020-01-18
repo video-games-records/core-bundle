@@ -37,6 +37,14 @@ class PlayerController extends Controller
     /**
      * @return mixed
      */
+    public function stats()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getStats();
+    }
+
+    /**
+     * @return mixed
+     */
     public function rankingPointChart()
     {
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointChart($this->getPlayer());
