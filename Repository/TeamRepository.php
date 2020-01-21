@@ -38,13 +38,13 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     * @param $idTeam
+     * @param $team
      */
-    public function maj($idTeam)
+    public function maj($team)
     {
         $query = $this->_em->createQuery("
             SELECT
-                 tg.idTeam,
+                 t.id,
                  SUM(tg.chartRank0) as chartRank0,
                  SUM(tg.chartRank1) as chartRank1,
                  SUM(tg.chartRank2) as chartRank2,
@@ -52,15 +52,14 @@ class TeamRepository extends EntityRepository
                  SUM(tg.pointChart) as pointChart,
                  SUM(tg.pointGame) as pointGame
             FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
-            WHERE tg.idTeam = :idTeam
-            GROUP BY tg.idTeam");
+            JOIN tg.team t
+            WHERE tg.team = :team
+            GROUP BY t.id");
 
-        $query->setParameter('idTeam', $idTeam);
+        $query->setParameter('team', $team);
         $result = $query->getResult();
         if ($result) {
             $row = $result[0];
-
-            $team = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
 
             $team->setChartRank0($row['chartRank0']);
             $team->setChartRank1($row['chartRank1']);
@@ -88,34 +87,36 @@ class TeamRepository extends EntityRepository
         //----- data rank0
         $query = $this->_em->createQuery("
             SELECT
-                 tg.idTeam,
-                 COUNT(tg.idGame) as nb
+                 t.id,
+                 COUNT(tg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
             JOIN tg.game g
+            JOIN tg.team t
             WHERE g.nbTeam > 1
             AND tg.rankPointChart = 1
             AND tg.nbEqual = 1
-            GROUP BY tg.idTeam");
+            GROUP BY t.id");
 
         $result = $query->getResult();
         foreach ($result as $row) {
-            $data['gameRank0'][$row['idTeam']] = (int) $row['nb'];
+            $data['gameRank0'][$row['id']] = (int) $row['nb'];
         }
 
         //----- data rank1 to rank3
         $query = $this->_em->createQuery("
             SELECT
-                 tg.idTeam,
-                 COUNT(tg.idGame) as nb
+                 t.id,
+                 COUNT(tg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
+            JOIN tg.team t
             WHERE tg.rankPointChart = :rank
-            GROUP BY tg.idTeam");
+            GROUP BY t.id");
 
         for ($i = 1; $i <= 3; $i++) {
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["gameRank$i"][$row['idTeam']] = (int) $row['nb'];
+                $data["gameRank$i"][$row['id']] = (int) $row['nb'];
             }
         }
 
@@ -123,7 +124,7 @@ class TeamRepository extends EntityRepository
         $teams = $this->findAll();
 
         foreach ($teams as $team) {
-            $idTeam = $team->getIdTeam();
+            $idTeam = $team->getId();
 
             $rank0 = isset($data['gameRank0'][$idTeam]) ? $data['gameRank0'][$idTeam] : 0;
             $rank1 = isset($data['gameRank1'][$idTeam]) ? $data['gameRank1'][$idTeam] : 0;

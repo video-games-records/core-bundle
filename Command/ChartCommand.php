@@ -195,7 +195,7 @@ class ChartCommand extends DefaultCommand
                     $groupId = $chart->getGroup()->getId();
                     $gameId = $chart->getGroup()->getGame()->getId();
                     $teamList = array_unique(
-                        array_merge($teamList, $teamChartRepository->maj($chart->getId()))
+                        array_merge($teamList, $teamChartRepository->maj($chart))
                     );
 
                     //----- Group
@@ -219,9 +219,9 @@ class ChartCommand extends DefaultCommand
                     $teamBadgeRepository->majMasterBadge($game);
                 }
 
-                //----- Maj player
-                foreach ($teamList as $idTeam) {
-                    $teamRepository->maj($idTeam);
+                //----- Maj team
+                foreach ($teamList as $team) {
+                    $teamRepository->maj($team);
                 }
 
                 //----- Maj all teams

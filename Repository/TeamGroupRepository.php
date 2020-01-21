@@ -93,7 +93,6 @@ class TeamGroupRepository extends EntityRepository
         $query = $this->_em->createQuery("
             SELECT
                 t.id,
-                (c.idGroup) as idGame,
                 '' as rankPointChart,
                 '' as rankMedal,
                 SUM(tc.chartRank0) as chartRank0,
@@ -109,7 +108,7 @@ class TeamGroupRepository extends EntityRepository
             ORDER BY pointChart DESC");
 
 
-        $query->setParameter('idGroup', $group);
+        $query->setParameter('group', $group);
         $result = $query->getResult();
 
         $list = [];
@@ -130,7 +129,7 @@ class TeamGroupRepository extends EntityRepository
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\TeamGroup'
             );
-            $teamGroup->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['idTeam']));
+            $teamGroup->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['id']));
             $teamGroup->setGroup($group);
 
             $this->_em->persist($teamGroup);
