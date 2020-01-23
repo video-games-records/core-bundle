@@ -83,7 +83,7 @@ class ChartController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function teamRankingPoints(Chart $chart, Request $request)
+    public function teamRanking(Chart $chart, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->getRankingPoints($chart, $maxRank, $this->getTeam());
