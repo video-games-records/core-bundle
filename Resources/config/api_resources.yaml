@@ -213,10 +213,10 @@ resources:
         itemOperations:
             get:
                 normalization_context: {'groups': [chart.show, group.show, game.show, platform.show, chartLib.show]}
-            team-ranking-points:
+            team-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [team.show,teamChart.pointChart]}
-                path: '/chart/{id}/team-ranking-points'
+                path: '/chart/{id}/team-ranking'
                 swagger_context:
                     parameters:
                         - name: id
@@ -227,7 +227,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::teamRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::teamRanking'
             player-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [player.show, ranking, playerChartStatus.show]}
