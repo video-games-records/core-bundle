@@ -21,6 +21,11 @@ class Game
 
     /**
      * Add groups and charts from a csv file
+     * Exemple of file :
+     * NAME : game-add-2015-groupe1.csv
+     * game;label EN;label FR
+     * group;labelGroup EN;labelGroup FR;1
+     * chart;labelChart EN;labelChart FR;10
      */
     public function addFromCsv()
     {
@@ -30,12 +35,19 @@ class Game
                 continue;
             }
 
+            $fileName = substr($file, 0, -4);
+            $tmp = explode('-', $fileName);
+            $idGame  = (int) $tmp[2];
+
             $fileIn  = $this->directory . '/in/' . $file;
             $fileOut = $this->directory . '/out/' . $file;
             $handle  = fopen($fileIn, 'rb');
-            $idGame  = substr($file, 8, -4);
 
-            if (!is_numeric($idGame)) {
+            if (!is_int($idGame)) {
+                continue;
+            }
+
+            if ($idGame < 0) {
                 continue;
             }
 
@@ -93,6 +105,8 @@ class Game
 
     /**
      * Update groups and charts from a csv file
+     * Exemple of file :
+     * NAME : game-add-2015.csv
      */
     public function updateFromCsv()
     {
@@ -105,9 +119,13 @@ class Game
             $fileIn  = $this->directory . '/in/' . $file;
             $fileOut = $this->directory . '/out/' . $file;
             $handle  = fopen($fileIn, 'rb');
-            $idGame  = substr($file, 11, -4);
+            $idGame  = (int) substr($file, 12, -4);
 
-            if (!is_numeric($idGame)) {
+            if (!is_int($idGame)) {
+                continue;
+            }
+
+            if ($idGame < 0) {
                 continue;
             }
 
