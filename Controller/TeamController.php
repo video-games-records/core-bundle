@@ -64,8 +64,13 @@ class TeamController extends Controller
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingCup($this->getTeam());
     }
 
-
-
+    /**
+     * @return mixed
+     */
+    public function rankingBadge()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingBadge($this->getTeam());
+    }
 
 
 

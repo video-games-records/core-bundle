@@ -245,6 +245,15 @@ class TeamRepository extends EntityRepository
     }
 
 
+    /**
+     * @param Team $team
+     * @return array
+     */
+    public function getRankingBadge($team = null)
+    {
+        return $this->getRanking('rankBadge', $team);
+    }
+
 
     /**
      * @param \DateTime $date1
