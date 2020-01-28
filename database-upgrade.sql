@@ -1414,3 +1414,36 @@ ALTER TABLE `email` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
 ALTER TABLE `email` ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
 ALTER TABLE `email` CHANGE `email` `emailTo` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `email` ADD `emailFrom` VARCHAR(255) NULL AFTER `emailTo`;
+
+
+-- PageBundle
+CREATE TABLE `page` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  created_at datetime NOT NULL,
+  updated_at datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `page`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `page`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+CREATE TABLE `page_translation` (
+  `id` int(11) NOT NULL,
+  `translatable_id` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `locale` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `page_translation`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `page_translation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `page_translation` ADD INDEX(`translatable_id`);
+
+ALTER TABLE `page_translation` ADD FOREIGN KEY (`translatable_id`) REFERENCES `page`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
