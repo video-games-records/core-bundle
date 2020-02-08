@@ -91,7 +91,7 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingMedals'
             charts:
                 method: 'GET'
-                normalization_context: {'groups': [chart.show, group.show, game.show, chartLib.show, chart.playerCharts, playerChart.read]}
+                normalization_context: {'groups': [chart.show, group.show, chartLib.show, chart.playerCharts, playerChart.read]}
                 path: '/game/{id}/charts'
                 swagger_context:
                     parameters:
