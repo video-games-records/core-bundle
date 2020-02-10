@@ -4,12 +4,14 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Game
  *
  * @ORM\Table(name="vgr_platform", indexes={@ORM\Index(name="idxLibPlatform", columns={"libPlatform"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlatformRepository")
+ * @ApiResource(attributes={"order"={"libPlatform"}})
  *
  */
 class Platform
