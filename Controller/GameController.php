@@ -131,7 +131,7 @@ class GameController extends Controller
             if (count($chart->getPlayerCharts()) == 0) {
                 $playerChart = new PlayerChart();
                 $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer());
-                $playerChart->setIdPlayerChart(-1);
+                $playerChart->setId(-1);
                 $playerChart->setChart($chart);
                 $playerChart->setPlayer($player);
                 if (count($platforms) == 1) {
