@@ -59,10 +59,19 @@ class ChartController extends Controller
      */
     public function playerRanking(Chart $chart, Request $request)
     {
-        $maxRank = $request->query->get('maxRank', 20);
-        $ranking = $this->getDoctrine()
-            ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
-            ->getRanking($chart, $this->getPlayer(), $maxRank);
+        if ($chart->getStatusPlayer() == Chart::STATUS_NORMAL) {
+            $maxRank = $request->query->get('maxRank', 20);
+            $ranking = $this->getDoctrine()
+                ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+                ->getRanking($chart, $this->getPlayer(), $maxRank);
+        } else {
+            $ranking = $this->getDoctrine()
+                ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+                ->getRankingForUpdate($chart);
+        }
+
+
+
 
 
         for ($i=0; $i<=count($ranking)-1; $i++) {
