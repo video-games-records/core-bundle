@@ -8,6 +8,7 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Game:
         collectionOperations:
             get:
+                normalization_context: {'groups': [game.list]}
                 filters: ['game.status_filter','platform_filter']
         itemOperations:
             get:

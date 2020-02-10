@@ -35,6 +35,12 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
         - 'chart.show'
         - 'chart.list'
         - 'group.charts'
+    statusPlayer:
+      groups:
+        - 'chart.show'
+    statusTeam:
+      groups:
+        - 'chart.show'
     playerCharts:
       groups:
         - 'chart.playerCharts'

@@ -70,10 +70,6 @@ class ChartController extends Controller
                 ->getRankingForUpdate($chart);
         }
 
-
-
-
-
         for ($i=0; $i<=count($ranking)-1; $i++) {
             foreach ($chart->getLibs() as $lib) {
                 $key = $lib->getIdLibChart();

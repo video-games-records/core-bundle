@@ -10,6 +10,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 use ProjetNormandie\BadgeBundle\Entity\Badge;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Game
@@ -17,7 +18,7 @@ use Eko\FeedBundle\Item\Writer\ItemInterface;
  * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
  * @method GameTranslation translate(string $locale, bool $fallbackToDefault)
- * @todo check etat / imagePlateforme / ordre
+ * @ApiResource(attributes={"order"={"translations.name"}})
  */
 class Game implements ItemInterface
 {
