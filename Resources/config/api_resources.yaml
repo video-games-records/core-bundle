@@ -328,9 +328,15 @@ resources:
             profile:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
-                normalization_context: {'groups': [user.profile,player.show]}
+                normalization_context: {'groups': [user.profile,player.show,team.show]}
                 path: '/players/profile'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profile'
+            profile-team:
+                method: 'GET'
+                access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
+                normalization_context: {'groups': [team.show]}
+                path: '/players/profile-team'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profileTeam'
         itemOperations:
             get: ~
             put:
