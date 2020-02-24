@@ -77,10 +77,10 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'ranking_point'
         - 'ranking_medal'
-        - 'player.profile'
         - 'team.leader.show'
     team:
       groups:
+        - 'player.show'
         - 'user.profile'
         - 'team.show'
         - 'player.put'
