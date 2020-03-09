@@ -334,13 +334,13 @@ resources:
             profile-team:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
-                normalization_context: {'groups': [team.show]}
+                normalization_context: {'groups': [team.profile], 'enable_max_depth':true}
                 path: '/players/profile-team'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profileTeam'
             profile-player:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
-                normalization_context: {'groups': [player.show]}
+                normalization_context: {'groups': [player.profile]}
                 path: '/players/profile-player'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profilePlayer'
         itemOperations:
@@ -371,6 +371,10 @@ resources:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\Team:
         collectionOperations:
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                denormalization_context: {'groups': [team.put]}
+                normalization_context: {'groups': [team.profile, team.leader, player.show]}
             get:
                 method: 'GET'
                 normalization_context: {'groups': [team.list, team.leader, player.show]}

@@ -15,6 +15,7 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     tag:
       groups:
         - 'team.profile'
+        - 'team.show'
         - 'team.list'
         - 'team.put'
     status:
@@ -31,6 +32,9 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     leader:
       groups:
         - 'team.leader'
+        - 'team.profile'
+        - 'team.put'
+      max_depth: 1
     nbPlayer:
       groups:
         - 'team.profile'
