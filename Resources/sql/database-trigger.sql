@@ -27,6 +27,19 @@ END //
 delimiter ;
 
 
+-- Team
+delimiter //
+DROP TRIGGER IF EXISTS `teamAfterInsert`//
+CREATE TRIGGER `teamAfterInsert` AFTER INSERT ON `vgr_team`
+FOR EACH ROW
+BEGIN
+    -- Player
+    UPDATE vgr_player SET idTeam = NEW.id WHERE id = NEW.idLeader;
+END //
+delimiter ;
+
+
+
 -- PlayerChart
 delimiter //
 DROP TRIGGER IF EXISTS `vgrPlayerChartAfterInsert`//

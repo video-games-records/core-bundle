@@ -3,11 +3,13 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     id:
       groups:
         - 'player.show'
+        - 'player.profile'
         - 'user.profile'
         - 'player.put'
     pseudo:
       groups:
         - 'player.show'
+        - 'player.profile'
     rankPointChart:
       groups:
         - 'player.pointChart'
@@ -80,9 +82,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
         - 'team.leader.show'
     team:
       groups:
-        - 'player.show'
         - 'user.profile'
-        - 'team.show'
+        - 'player.team.show'
         - 'player.put'
+        - 'player.profile'
     country:
       groups: []
