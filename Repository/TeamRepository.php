@@ -264,13 +264,13 @@ class TeamRepository extends EntityRepository
     {
         $query = $this->_em->createQuery("
             SELECT
-                 t.idTeam,
-                 COUNT(pc.idPlayerChart) as nb
+                 t.id,
+                 COUNT(pc.id) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
             JOIN p.team t
-            WHERE pc.dateModif BETWEEN :date1 AND :date2
-            GROUP BY t.idTeam");
+            WHERE pc.lastUpdate BETWEEN :date1 AND :date2
+            GROUP BY t.id");
 
 
         $query->setParameter('date1', $date1);
@@ -290,7 +290,7 @@ class TeamRepository extends EntityRepository
     public function getDataForDwh()
     {
         $query = $this->_em->createQuery("
-            SELECT t.idTeam,
+            SELECT t.id,
                    t.pointChart,
                    t.pointBadge,
                    t.chartRank0,
