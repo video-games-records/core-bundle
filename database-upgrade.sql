@@ -1446,4 +1446,4 @@ ALTER TABLE `page_translation`
 ALTER TABLE `page_translation` ADD INDEX(`translatable_id`);
 
 ALTER TABLE `page_translation` ADD FOREIGN KEY (`translatable_id`) REFERENCES `page`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
+ALTER TABLE `dwh_team` CHANGE `idTeam` `id` INT(11) NOT NULL;

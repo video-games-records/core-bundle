@@ -110,7 +110,7 @@ class GameRepository extends EntityRepository
         $query = $this->_em->createQuery("
             SELECT
                  ga.id,
-                 COUNT(pc.idChart) as nb
+                 COUNT(pc.id) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.chart c
             JOIN c.group gr
