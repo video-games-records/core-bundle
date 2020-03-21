@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 class VideoAdmin extends AbstractAdmin
 {
@@ -81,7 +82,7 @@ class VideoAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('status')
-            ->add('player', 'doctrine_orm_model_autocomplete', [], null, [
+            ->add('player', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
     }

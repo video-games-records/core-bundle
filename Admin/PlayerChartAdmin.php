@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 class PlayerChartAdmin extends AbstractAdmin
 {
@@ -87,7 +88,7 @@ class PlayerChartAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('player', 'doctrine_orm_model_autocomplete', array(), null, array(
+            ->add('player', ModelAutocompleteFilter::class, array(), null, array(
                 'property' => 'pseudo',
             ))
             ->add('chart.id');

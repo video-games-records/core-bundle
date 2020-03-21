@@ -12,6 +12,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Response;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 class ProofRequestAdmin extends AbstractAdmin
 {
@@ -101,10 +102,10 @@ class ProofRequestAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('status')
-            ->add('playerRequesting', 'doctrine_orm_model_autocomplete', [], null, [
+            ->add('playerRequesting', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ])
-            ->add('playerResponding', 'doctrine_orm_model_autocomplete', [], null, [
+            ->add('playerResponding', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
     }
