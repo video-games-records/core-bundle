@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 class GroupAdmin extends AbstractAdmin
 {
@@ -80,7 +81,7 @@ class GroupAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('translations.name')
-            ->add('game', 'doctrine_orm_model_autocomplete', [], null, [
+            ->add('game', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'translations.name',
             ]);
     }

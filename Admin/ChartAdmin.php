@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 class ChartAdmin extends AbstractAdmin
 {
@@ -125,7 +126,7 @@ class ChartAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('translations.name')
-            ->add('group', 'doctrine_orm_model_autocomplete', array(), null, array(
+            ->add('group', ModelAutocompleteFilter::class, array(), null, array(
                 'property' => 'translations.name',
             ))
             ->add('statusPlayer', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
