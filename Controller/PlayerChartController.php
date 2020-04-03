@@ -100,7 +100,7 @@ class PlayerChartController extends Controller
         if ($playerChart->getPlayer() != $this->getPlayer()) {
             throw new AccessDeniedException('ACESS DENIED');
         }
-        if (!in_array($playerChart->getStatus()->getIdStatus(), PlayerChartStatus::getStatusForProving())) {
+        if (!in_array($playerChart->getStatus()->getId(), PlayerChartStatus::getStatusForProving())) {
             throw new AccessDeniedException('ACESS DENIED');
         }
 
@@ -148,7 +148,7 @@ class PlayerChartController extends Controller
 
         //-- PlayerChart
         $playerChart->setProof($proof);
-        if ($playerChart->getStatus()->getIdStatus() === PlayerChartStatus::ID_STATUS_NORMAL) {
+        if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
             // NORMAL TO NORMAL_SEND_PROOF
             $playerChart->setStatus(
                 $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)

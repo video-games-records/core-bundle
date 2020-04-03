@@ -62,7 +62,7 @@ class GameTopicAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idTopic')
+            ->addIdentifier('id')
             ->add('libTopic')
             ->add('player')
             ->add('game')
@@ -80,7 +80,7 @@ class GameTopicAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idTopic')
+            ->add('id')
             ->add('libTopic')
             ->add('player');
     }

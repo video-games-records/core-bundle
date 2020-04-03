@@ -118,6 +118,10 @@ resources:
                 subresource:
                     resourceClass: 'VideoGamesRecords\CoreBundle\Entity\Group'
                     collection: true
+            topics:
+                subresource:
+                    resourceClass: 'VideoGamesRecords\CoreBundle\Entity\GameTopic'
+                    collection: true
     VideoGamesRecords\CoreBundle\Entity\Group:
         collectionOperations:
             get:
@@ -471,3 +475,26 @@ resources:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getPlayerChart().getStatus().getIdStatus() == 1'
         itemOperations:
             get: ~
+    VideoGamesRecords\CoreBundle\Entity\GameTopic:
+        collectionOperations:
+            api_games_topics_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [game.topic.list, player.show]}
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                denormalization_context: {'groups': [game.topic.post]}
+                normalization_context: {'groups': [game.topic.read]}
+        itemOperations:
+            get: ~
+    VideoGamesRecords\CoreBundle\Entity\GameMessage:
+        collectionOperations:
+            get:
+                method: 'GET'
+                normalization_context: {'groups': [game.message.list, player.show, game.topic.show, game.show.mini]}
+            post: ~
+        itemOperations:
+            get: ~
+            put:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                denormalization_context: {'groups': [game.message.put]}
+                normalization_context: {'groups': [game.message.read]}
