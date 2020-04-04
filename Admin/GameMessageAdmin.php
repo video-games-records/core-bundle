@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 class GameMessageAdmin extends AbstractAdmin
 {
@@ -61,7 +62,7 @@ class GameMessageAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('topic', 'doctrine_orm_model_autocomplete', [], null, [
+            ->add('topic', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'libTopic',
             ]);
     }
@@ -96,6 +97,6 @@ class GameMessageAdmin extends AbstractAdmin
         $showMapper
             ->add('idMessage')
             ->add('player')
-            ->add('message');
+            ->add('text');
     }
 }

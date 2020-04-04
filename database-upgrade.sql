@@ -1447,3 +1447,8 @@ ALTER TABLE `page_translation` ADD INDEX(`translatable_id`);
 
 ALTER TABLE `page_translation` ADD FOREIGN KEY (`translatable_id`) REFERENCES `page`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
+ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+ALTER TABLE `vgr_game_topic` CHANGE `idTopic` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_game_message` CHANGE `idMessage` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_game_topic` DROP `oldIdTopic`;
