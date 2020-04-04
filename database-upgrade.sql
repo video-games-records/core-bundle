@@ -1452,3 +1452,6 @@ ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET 
 ALTER TABLE `vgr_game_topic` CHANGE `idTopic` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game_message` CHANGE `idMessage` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game_topic` DROP `oldIdTopic`;
+
+ALTER TABLE `vgr_picture` ADD `hash` VARCHAR(255) NOT NULL AFTER `path`;
+ALTER TABLE `vgr_picture` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `idGame`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;

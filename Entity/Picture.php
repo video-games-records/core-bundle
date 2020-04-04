@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 
 /**
@@ -15,6 +16,7 @@ class Picture
 {
     use \VideoGamesRecords\CoreBundle\Model\Player;
     use \VideoGamesRecords\CoreBundle\Model\Game;
+    use Timestampable;
 
     /**
      * @var integer
@@ -37,10 +39,15 @@ class Picture
      */
     private $metadata;
 
+    /**
+     * @var string
+     * @ORM\Column(name="hash", type="string", nullable=false)
+     */
+    private $hash;
+
 
     public function __construct()
     {
-
     }
 
 
@@ -118,5 +125,27 @@ class Picture
     public function getMetadata()
     {
         return $this->metadata;
+    }
+
+    /**
+     * Set hash
+     *
+     * @param string $hash
+     * @return $this
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
     }
 }
