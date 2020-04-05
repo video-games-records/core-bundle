@@ -1455,3 +1455,8 @@ ALTER TABLE `vgr_game_topic` DROP `oldIdTopic`;
 
 ALTER TABLE `vgr_picture` ADD `hash` VARCHAR(255) NOT NULL AFTER `path`;
 ALTER TABLE `vgr_picture` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `idGame`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+
+
+ALTER TABLE `vgr_video` DROP `nbView`;
+ALTER TABLE `vgr_video` DROP `nbComment`;
+ALTER TABLE `vgr_video` ADD `type` ENUM('Youtube','Twitch','Unknown') NULL DEFAULT NULL AFTER `status`;

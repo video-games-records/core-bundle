@@ -38,7 +38,7 @@ class VideoAdmin extends AbstractAdmin
                     'readonly' => true,
                 )
             ])
-            ->add('player', 'sonata_type_model_list',[
+            ->add('player', 'sonata_type_model_list', [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
@@ -47,7 +47,7 @@ class VideoAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'Player',
             ])
-            ->add('game', 'sonata_type_model_list',[
+            ->add('game', 'sonata_type_model_list', [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
@@ -60,8 +60,16 @@ class VideoAdmin extends AbstractAdmin
                 'label' => 'libVideo',
                 'required' => true,
             ])
+            ->add(
+                'type',
+                ChoiceType::class,
+                [
+                    'label' => 'Type',
+                    'choices' => Video::getTypeChoices(),
+                ]
+            )
             ->add('url', 'text', [
-                'label' => 'Youtube Embed Url',
+                'label' => 'Url',
                 'required' => true,
             ])
             ->add(
@@ -100,9 +108,12 @@ class VideoAdmin extends AbstractAdmin
                 'label' => 'Player',
             ])
             ->add('game', null, [
-                'associated_property' => 'name',
+                'associated_property' => 'defaultName',
                 'label' => 'Game',
             ])
+            ->add(
+                'libVideo'
+            )
             ->add(
                 'status',
                 'choice',

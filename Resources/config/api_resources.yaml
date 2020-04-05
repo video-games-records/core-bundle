@@ -122,6 +122,10 @@ resources:
                 subresource:
                     resourceClass: 'VideoGamesRecords\CoreBundle\Entity\GameTopic'
                     collection: true
+            videos:
+                subresource:
+                    resourceClass: 'VideoGamesRecords\CoreBundle\Entity\Video'
+                    collection: true
     VideoGamesRecords\CoreBundle\Entity\Group:
         collectionOperations:
             get:
@@ -498,3 +502,21 @@ resources:
                 access_control: 'is_granted("ROLE_PLAYER")'
                 denormalization_context: {'groups': [game.message.put]}
                 normalization_context: {'groups': [game.message.read]}
+    VideoGamesRecords\CoreBundle\Entity\Video:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [video.read, player.show, game.show.mini]}
+            api_games_videos_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [video.read, player.show]}
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                denormalization_context: {'groups': [video.post]}
+                normalization_context: {'groups': [video.read, player.show, game.show.mini]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [video.read, player.show, game.show.mini]}
+            put:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
+                denormalization_context: {'groups': [video.put]}
+                normalization_context: {'groups': [video.read, player.show, game.show.mini]}

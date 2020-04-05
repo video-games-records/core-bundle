@@ -163,6 +163,12 @@ class Game implements ItemInterface
      */
     private $topics;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $videos;
+
     /**
      * @ORM\ManyToMany(targetEntity="Platform")
      * @ORM\JoinTable(name="vgr_game_platform",
@@ -618,6 +624,14 @@ class Game implements ItemInterface
     public function getTopics()
     {
         return $this->topics;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVideos()
+    {
+        return $this->videos;
     }
 
     /**
