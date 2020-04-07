@@ -2,9 +2,11 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
   attributes:
     id:
       groups:
+        - 'platform.list'
         - 'platform.show'
     libPlatform:
       groups:
+        - 'platform.list'
         - 'platform.show'
     picture:
       groups:
@@ -12,5 +14,6 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
         - 'game.list'
     status:
       groups: []
-    class:
-      groups: []
+    slug:
+      groups:
+        - 'platform.list'
