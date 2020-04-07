@@ -94,6 +94,7 @@ class GroupAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('slug', null, ['label' => 'Slug'])
             ->add('game', null, [
                 'associated_property' => 'defaultName',
                 'label' => 'Game',

@@ -141,6 +141,7 @@ class ChartAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('defaultName', null, ['label' => 'Name'])
+            ->add('slug', null, ['label' => 'Slug'])
             ->add('group', null, array(
                 'associated_property' => 'defaultName',
                 'label' => 'Group',

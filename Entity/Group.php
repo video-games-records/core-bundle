@@ -275,4 +275,12 @@ class Group
     {
         return ['defaultName'];
     }
+
+    /**
+     * @return string
+     */
+    public function getCompletSlug()
+    {
+        return $this->getGame()->getSlug() . '-' . $this->getSlug();
+    }
 }

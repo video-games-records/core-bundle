@@ -118,6 +118,7 @@ class GameAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('slug', null, ['label' => 'Slug'])
             ->add(
                 'picture',
                 'text',

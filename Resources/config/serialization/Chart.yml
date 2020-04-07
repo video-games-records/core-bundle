@@ -30,7 +30,7 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
         - 'chart.list'
         - 'chart.label.read'
         - 'group.charts'
-    slug:
+    completSlug:
       groups:
         - 'chart.show'
         - 'chart.list'
