@@ -51,11 +51,7 @@ class PlatformAdmin extends AbstractAdmin
                         'INACTIF' => 'INACTIF',
                     ]
                 ]
-            )
-            ->add('class', 'text', [
-                'label' => 'Class',
-                'required' => true,
-            ]);
+            );
     }
 
     /**
@@ -75,6 +71,7 @@ class PlatformAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('libPlatform', null, ['editable' => false])
+            ->add('slug')
             ->add(
                 'picture',
                 'text',

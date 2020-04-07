@@ -15,15 +15,11 @@ resources:
                 normalization_context: {'groups': [game.show, platform.show]}
             list-by-letter:
                 method: 'GET'
-                normalization_context: {'groups': [game.list.letter, platform.show]}
+                normalization_context: {'groups': [game.list, platform.show]}
                 path: '/game/list-by-letter'
                 swagger_context:
                     parameters:
                         - name: letter
-                          in: query
-                          required: false
-                          type: string
-                        - name: locale
                           in: query
                           required: false
                           type: string
@@ -361,7 +357,8 @@ resources:
         attributes:
             pagination_enabled: false
         collectionOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [platform.list]}
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\ChartLib:

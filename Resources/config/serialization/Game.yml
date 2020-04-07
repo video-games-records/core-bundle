@@ -3,7 +3,6 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     id:
       groups:
         - 'game.list'
-        - 'game.list.letter'
         - 'game.show'
         - 'game.show.mini'
         - 'chart.label.read'
@@ -25,17 +24,14 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     nbChart:
       groups:
         - 'game.list'
-        - 'game.list.letter'
         - 'game.show'
     nbPost:
       groups:
         - 'game.list'
-        - 'game.list.letter'
         - 'game.show'
     nbPlayer:
       groups:
         - 'game.list'
-        - 'game.list.letter'
         - 'game.show'
     nbTeam:
       groups:
@@ -53,7 +49,6 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     name:
       groups:
         - 'game.list'
-        - 'game.list.letter'
         - 'game.show'
         - 'game.show.mini'
         - 'chart.label.read'
@@ -61,8 +56,8 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game.show'
     slug:
+      groups:
         - 'game.list'
-        - 'game.list.letter'
         - 'game.show'
     createdAt:
       groups:
