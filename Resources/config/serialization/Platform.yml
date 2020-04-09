@@ -17,3 +17,4 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
     slug:
       groups:
         - 'platform.list'
+        - 'platform.show'
