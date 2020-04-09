@@ -1128,7 +1128,7 @@ ALTER TABLE vgr_proof DROP COLUMN idChart;
 
 -- ROLE
 INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
-(1, 'Admin', 'a:1:{i:0;s:10:\"ROLE_ADMIN\";}'),
+(1, 'SuperAdmin', 'a:1:{i:0;s:10:\"ROLE_SUPER_ADMIN\";}'),
 (2, 'Player', 'a:1:{i:0;s:11:\"ROLE_PLAYER\";}'),
 (3, 'AdminUser', 'a:1:{i:0;s:15:\"ROLE_USER_ADMIN\";}'),
 (4, 'AdminGames', 'a:1:{i:0;s:15:\"ROLE_GAME_ADMIN\";}'),

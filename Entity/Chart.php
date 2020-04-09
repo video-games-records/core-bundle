@@ -354,12 +354,4 @@ class Chart
     {
         return ['defaultName'];
     }
-
-    /**
-     * @return string
-     */
-    public function getCompletSlug()
-    {
-        return $this->getGroup()->getGame()->getSlug() . '-' . $this->getGroup()->getSlug() . '-' . $this->getSlug();
-    }
 }

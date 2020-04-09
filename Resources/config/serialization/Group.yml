@@ -35,7 +35,7 @@ VideoGamesRecords\CoreBundle\Entity\Group:
         - 'group.show'
         - 'chart.show'
         - 'chart.label.read'
-    completSlug:
+    slug:
       groups:
         - 'group.list'
         - 'game.groups'
