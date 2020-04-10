@@ -12,11 +12,11 @@ resources:
                 filters: ['game.status_filter','platform_filter']
         itemOperations:
             get:
-                normalization_context: {'groups': [game.show, platform.show]}
+                normalization_context: {'groups': [game.read, platform.read]}
             list-by-letter:
                 method: 'GET'
-                normalization_context: {'groups': [game.list, platform.show]}
-                path: '/game/list-by-letter'
+                normalization_context: {'groups': [game.list, platform.read]}
+                path: '/games-list-by-letter'
                 swagger_context:
                     parameters:
                         - name: letter
@@ -28,8 +28,8 @@ resources:
                     _api_receive: false
             player-ranking-points:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,playerGame.pointChart]}
-                path: '/game/{id}/player-ranking-points'
+                normalization_context: {'groups': [player.read,playerGame.pointChart]}
+                path: '/games/{id}/player-ranking-points'
                 swagger_context:
                     parameters:
                         - name: id
@@ -43,8 +43,8 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::playerRankingPoints'
             player-ranking-medals:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,playerGame.medal]}
-                path: '/game/{id}/player-ranking-medals'
+                normalization_context: {'groups': [player.read,playerGame.medal]}
+                path: '/games/{id}/player-ranking-medals'
                 swagger_context:
                     parameters:
                         - name: id
@@ -59,7 +59,7 @@ resources:
             team-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [team.show,teamGame.pointChart]}
-                path: '/game/{id}/team-ranking-points'
+                path: '/games/{id}/team-ranking-points'
                 swagger_context:
                     parameters:
                         - name: id
@@ -74,7 +74,7 @@ resources:
             team-ranking-medals:
                 method: 'GET'
                 normalization_context: {'groups': [team.show,teamGame.medal]}
-                path: '/game/{id}/team-ranking-medals'
+                path: '/games/{id}/team-ranking-medals'
                 swagger_context:
                     parameters:
                         - name: id
@@ -88,7 +88,7 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::teamRankingMedals'
             charts:
                 method: 'GET'
-                normalization_context: {'groups': [chart.show, group.show, chartLib.show, chart.playerCharts, playerChart.read]}
+                normalization_context: {'groups': [chart.read, group.read, chartLib.read, chart.playerCharts, playerChart.read]}
                 path: '/game/{id}/charts'
                 swagger_context:
                     parameters:
@@ -125,17 +125,17 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Group:
         collectionOperations:
             get:
-              normalization_context: {'groups': [group.list]}
+                normalization_context: {'groups': [group.list]}
             api_games_groups_get_subresource:
                 method: 'GET'
-                normalization_context: {'groups': [game.groups]}
+                normalization_context: {'groups': [group.list]}
         itemOperations:
             get:
-                normalization_context: {'groups': [group.show, game.show, platform.show]}
+                normalization_context: {'groups': [group.read]}
             player-ranking-points:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,playerGroup.pointChart]}
-                path: '/group/{id}/player-ranking-points'
+                normalization_context: {'groups': [player.read,playerGroup.pointChart]}
+                path: '/groups/{id}/player-ranking-points'
                 swagger_context:
                     parameters:
                         - name: id
@@ -149,8 +149,8 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingPoints'
             player-ranking-medals:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,playerGroup.medal]}
-                path: '/group/{id}/player-ranking-medals'
+                normalization_context: {'groups': [player.read,playerGroup.medal]}
+                path: '/groups/{id}/player-ranking-medals'
                 swagger_context:
                     parameters:
                         - name: id
@@ -165,7 +165,7 @@ resources:
             team-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [team.show,teamGroup.pointChart]}
-                path: '/group/{id}/team-ranking-points'
+                path: '/groups/{id}/team-ranking-points'
                 swagger_context:
                     parameters:
                         - name: id
@@ -180,7 +180,7 @@ resources:
             team-ranking-medals:
                 method: 'GET'
                 normalization_context: {'groups': [team.show,teamGroup.medal]}
-                path: '/group/{id}/team-ranking-medals'
+                path: '/groups/{id}/team-ranking-medals'
                 swagger_context:
                     parameters:
                         - name: id
@@ -194,8 +194,8 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingMedals'
             top-score:
                 method: 'GET'
-                normalization_context: {'groups': [chart.show, chart.top-score, playerchart.libs, playerChart.format, player.show]}
-                path: '/group/{id}/top-score'
+                normalization_context: {'groups': [chart.read, chart.top-score, playerchart.libs, playerChart.format, player.read]}
+                path: '/groups/{id}/top-score'
                 swagger_context:
                     parameters:
                         - name: id
@@ -211,17 +211,17 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Chart:
         collectionOperations:
             get:
-                normalization_context: {'groups': [chart.show, group.show, game.show], 'enable_max_depth':true}
+                normalization_context: {'groups': [chart.list], 'enable_max_depth':true}
             api_groups_charts_get_subresource:
                 method: 'GET'
-                normalization_context: {'groups': [group.charts], 'enable_max_depth':true}
+                normalization_context: {'groups': [chart.list], 'enable_max_depth':true}
         itemOperations:
             get:
-                normalization_context: {'groups': [chart.show, group.show, game.show, platform.show, chartLib.show]}
+                normalization_context: {'groups': [chart.read, chartLib.read]}
             team-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [team.show,teamChart.pointChart]}
-                path: '/chart/{id}/team-ranking'
+                path: '/charts/{id}/team-ranking'
                 swagger_context:
                     parameters:
                         - name: id
@@ -235,8 +235,8 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::teamRanking'
             player-ranking:
                 method: 'GET'
-                normalization_context: {'groups': [player.show, ranking, playerChartStatus.show]}
-                path: '/chart/{id}/player-ranking'
+                normalization_context: {'groups': [player.read, ranking, playerChartStatus.show]}
+                path: '/charts/{id}/player-ranking'
                 swagger_context:
                     summary: 'Retrive ranking of a chart'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::playerRanking'
@@ -301,38 +301,38 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::stats'
             player-ranking-point-chart:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,player.pointChart]}
+                normalization_context: {'groups': [player.read,player.pointChart]}
                 path: '/players/ranking-point-chart'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointChart'
             player-ranking-point-game:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,player.pointGame]}
+                normalization_context: {'groups': [player.read,player.pointGame]}
                 path: '/players/ranking-point-game'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointGame'
             player-ranking-medal:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,player.medal]}
+                normalization_context: {'groups': [player.read,player.medal]}
                 path: '/players/ranking-medal'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingMedal'
             player-ranking-cup:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,player.cup]}
+                normalization_context: {'groups': [player.read,player.cup]}
                 path: '/players/ranking-cup'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingCup'
             player-ranking-badge:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,player.badge]}
+                normalization_context: {'groups': [player.read,player.badge]}
                 path: '/players/ranking-badge'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingBadge'
             player-ranking-proof:
                 method: 'GET'
-                normalization_context: {'groups': [player.show,player.proof]}
+                normalization_context: {'groups': [player.read,player.proof]}
                 path: '/players/ranking-proof'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingProof'
             profile:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
-                normalization_context: {'groups': [user.profile,player.show,team.show]}
+                normalization_context: {'groups': [user.profile,player.read,team.show]}
                 path: '/players/profile'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profile'
             profile-team:
@@ -352,7 +352,7 @@ resources:
             put:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
                 denormalization_context: {'groups': [player.put]}
-                normalization_context: {'groups': [player.show, team.show]}
+                normalization_context: {'groups': [player.read, team.show]}
     VideoGamesRecords\CoreBundle\Entity\Platform:
         attributes:
             pagination_enabled: false
@@ -369,6 +369,14 @@ resources:
             get: ~
         itemOperations:
             get: ~
+    VideoGamesRecords\CoreBundle\Entity\ChartType:
+        properties:
+            idType:
+                identifier: true
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerChartLib:
         collectionOperations:
             get: ~
@@ -379,10 +387,10 @@ resources:
             post:
                 access_control: 'is_granted("ROLE_PLAYER")'
                 denormalization_context: {'groups': [team.put]}
-                normalization_context: {'groups': [team.profile, team.leader, player.show]}
+                normalization_context: {'groups': [team.profile, team.leader, player.read]}
             get:
                 method: 'GET'
-                normalization_context: {'groups': [team.list, team.leader, player.show]}
+                normalization_context: {'groups': [team.list, team.leader, player.read]}
             team-ranking-point-chart:
                 method: 'GET'
                 normalization_context: {'groups': [team.show, team.rank.pointChart]}
@@ -410,11 +418,11 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingBadge'
         itemOperations:
             get:
-                normalization_context: {'groups': [team.profile, team.leader, player.show], 'enable_max_depth':true}
+                normalization_context: {'groups': [team.profile, team.leader, player.read], 'enable_max_depth':true}
             put:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUser() == user'
                 denormalization_context: {'groups': [team.put]}
-                normalization_context: {'groups': [team.profile, team.leader, player.show]}
+                normalization_context: {'groups': [team.profile, team.leader, player.read]}
     VideoGamesRecords\CoreBundle\Entity\TeamBadge:
         collectionOperations:
               get: ~
@@ -480,7 +488,7 @@ resources:
         collectionOperations:
             api_games_topics_get_subresource:
                 method: 'GET'
-                normalization_context: {'groups': [game.topic.list, player.show]}
+                normalization_context: {'groups': [game.topic.list, player.read]}
             post:
                 access_control: 'is_granted("ROLE_PLAYER")'
                 denormalization_context: {'groups': [game.topic.post]}
@@ -491,7 +499,7 @@ resources:
         collectionOperations:
             get:
                 method: 'GET'
-                normalization_context: {'groups': [game.message.list, player.show, game.topic.show, game.show.mini]}
+                normalization_context: {'groups': [game.message.list, player.read, game.topic.show, game.read.mini]}
             post: ~
         itemOperations:
             get: ~
@@ -502,18 +510,18 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Video:
         collectionOperations:
             get:
-                normalization_context: {'groups': [video.read, player.show, game.show.mini]}
+                normalization_context: {'groups': [video.read, player.read, game.read.mini]}
             api_games_videos_get_subresource:
                 method: 'GET'
-                normalization_context: {'groups': [video.read, player.show]}
+                normalization_context: {'groups': [video.read, player.read]}
             post:
                 access_control: 'is_granted("ROLE_PLAYER")'
                 denormalization_context: {'groups': [video.post]}
-                normalization_context: {'groups': [video.read, player.show, game.show.mini]}
+                normalization_context: {'groups': [video.read, player.read, game.read.mini]}
         itemOperations:
             get:
-                normalization_context: {'groups': [video.read, player.show, game.show.mini]}
+                normalization_context: {'groups': [video.read, player.read, game.read.mini]}
             put:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
                 denormalization_context: {'groups': [video.put]}
-                normalization_context: {'groups': [video.read, player.show, game.show.mini]}
+                normalization_context: {'groups': [video.read, player.read, game.read.mini]}

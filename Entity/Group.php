@@ -8,12 +8,14 @@ use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Group
  *
  * @ORM\Table(name="vgr_group", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxBoolDlc", columns={"boolDlc"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
+ * @ApiResource(attributes={"order"={"translations.name": "ASC"}})
  * @method GroupTranslation translate(string $locale, bool $fallbackToDefault)
  */
 class Group

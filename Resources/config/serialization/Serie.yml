@@ -2,10 +2,13 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
   attributes:
     id:
       groups:
-        - 'game.show'
+        - 'serie.list'
+        - 'serie.read'
     name:
       groups:
-        - 'game.show'
+        - 'serie.list'
+        - 'serie.read'
     slug:
       groups:
-        - 'game.show'
+        - 'serie.list'
+        - 'serie.read'

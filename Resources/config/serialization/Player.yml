@@ -2,13 +2,13 @@ VideoGamesRecords\CoreBundle\Entity\Player:
   attributes:
     id:
       groups:
-        - 'player.show'
+        - 'player.read'
         - 'player.profile'
         - 'user.profile'
         - 'player.put'
     pseudo:
       groups:
-        - 'player.show'
+        - 'player.read'
         - 'player.profile'
     rankPointChart:
       groups:
