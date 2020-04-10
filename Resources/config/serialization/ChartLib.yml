@@ -2,11 +2,12 @@ VideoGamesRecords\CoreBundle\Entity\ChartLib:
   attributes:
     idLibChart:
       groups:
-        - 'chartLib.show'
+        - 'chartLib.read'
     name:
       groups:
-        - 'chartLib.show'
+        - 'chartLib.read'
     chart:
+      groups: []
     type:
       groups:
-        - 'chartLib.show'
+        - 'chartLib.read'

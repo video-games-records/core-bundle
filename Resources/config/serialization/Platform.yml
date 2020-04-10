@@ -3,18 +3,18 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
     id:
       groups:
         - 'platform.list'
-        - 'platform.show'
+        - 'platform.read'
     libPlatform:
       groups:
         - 'platform.list'
-        - 'platform.show'
+        - 'platform.read'
     picture:
       groups:
-        - 'game.show'
         - 'game.list'
+        - 'game.read'
     status:
       groups: []
     slug:
       groups:
         - 'platform.list'
-        - 'platform.show'
+        - 'platform.read'

@@ -13,7 +13,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
       groups:
         - 'playerChart.read'
         - 'playerChart.write'
-        - 'player.show'
+        - 'player.read'
     rank:
       groups:
         - 'playerChart.read'

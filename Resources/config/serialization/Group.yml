@@ -3,46 +3,34 @@ VideoGamesRecords\CoreBundle\Entity\Group:
     id:
       groups:
         - 'group.list'
-        - 'game.groups'
         - 'group.show'
-        - 'chart.label.read'
     game:
       groups:
-        - 'game.show'
-        - 'chart.label.read'
+        - 'group.game'
     boolDlc:
       groups:
-        - 'game.groups'
+        - 'group.list'
     nbChart:
       groups:
         - 'group.list'
-        - 'game.groups'
-        - 'group.show'
+        - 'group.read'
     nbPost:
       groups:
         - 'group.list'
-        - 'game.groups'
-        - 'group.show'
+        - 'group.read'
     nbPlayer:
       groups:
         - 'group.list'
-        - 'game.groups'
-        - 'group.show'
+        - 'group.read'
     name:
       groups:
         - 'group.list'
-        - 'game.groups'
-        - 'group.show'
-        - 'chart.show'
-        - 'chart.label.read'
+        - 'group.read'
     slug:
       groups:
         - 'group.list'
-        - 'game.groups'
-        - 'group.show'
+        - 'group.read'
     createdAt:
-      groups:
-        - 'group.show'
+      groups: []
     updatedAt:
-      groups:
-        - 'group.show'
+      groups: []

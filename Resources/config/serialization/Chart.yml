@@ -2,45 +2,36 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
   attributes:
     id:
       groups:
-        - 'chart.show'
         - 'chart.list'
-        - 'chart.label.read'
-        - 'group.charts'
+        - 'chart.read'
     group:
       groups:
-        - 'group.show'
         - 'chart.list'
-        - 'chart.label.read'
+        - 'chart.read'
     libs:
       groups:
-        - 'chartLib.show'
+        - 'chart.list'
+        - 'chart.read'
     nbPost:
       groups:
-        - 'chart.show'
         - 'chart.list'
-        - 'group.charts'
+        - 'chart.read'
     nbPlayer:
       groups:
-        - 'chart.show'
         - 'chart.list'
-        - 'group.charts'
+        - 'chart.read'
     name:
       groups:
-        - 'chart.show'
         - 'chart.list'
-        - 'chart.label.read'
-        - 'group.charts'
+        - 'chart.read'
     slug:
       groups:
-        - 'chart.show'
         - 'chart.list'
-        - 'group.charts'
+        - 'chart.read'
     statusPlayer:
-      groups:
-        - 'chart.show'
+      groups: []
     statusTeam:
-      groups:
-        - 'chart.show'
+      groups: []
     playerCharts:
       groups:
         - 'chart.playerCharts'
