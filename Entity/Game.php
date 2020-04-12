@@ -154,7 +154,6 @@ class Game implements ItemInterface
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"id" = "ASC"})
      */
     private $groups;
 

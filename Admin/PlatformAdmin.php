@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PlatformAdmin extends AbstractAdmin
 {
@@ -27,17 +28,17 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id', 'text', [
+            ->add('id', TextType::class, [
                 'label' => 'id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
-            ->add('libPlatform', 'text', [
+            ->add('libPlatform', TextType::class, [
                 'label' => 'Name',
                 'required' => true,
             ])
-            ->add('picture', 'text', [
+            ->add('picture', TextType::class, [
                 'label' => 'Picture',
                 'required' => true,
             ])

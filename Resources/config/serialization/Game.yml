@@ -5,6 +5,11 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'game.list'
         - 'game.read'
         - 'game.read.mini'
+    name:
+      groups:
+        - 'game.list'
+        - 'game.read'
+        - 'game.read.mini'
     picture:
       groups:
         - 'game.read'
@@ -47,12 +52,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups: []
     platforms:
       groups:
-        - 'platform.read'
-    name:
-      groups:
-        - 'game.list'
-        - 'game.read'
-        - 'game.read.mini'
+        - 'game.platforms'
     rules:
       groups:
         - 'game.read'

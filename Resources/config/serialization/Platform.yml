@@ -10,8 +10,8 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
         - 'platform.read'
     picture:
       groups:
-        - 'game.list'
-        - 'game.read'
+        - 'platform.list'
+        - 'platform.read'
     status:
       groups: []
     slug:

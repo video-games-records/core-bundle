@@ -3,11 +3,11 @@ VideoGamesRecords\CoreBundle\Entity\GameTopic:
     id:
       groups:
         - 'game.topic.list'
-        - 'game.topic.show'
+        - 'game.topic.read'
     libTopic:
       groups:
         - 'game.topic.list'
-        - 'game.topic.show'
+        - 'game.topic.read'
         - 'game.topic.post'
     game:
       groups:

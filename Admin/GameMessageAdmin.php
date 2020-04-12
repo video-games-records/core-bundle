@@ -9,8 +9,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class GameMessageAdmin extends AbstractAdmin
 {
@@ -50,7 +50,7 @@ class GameMessageAdmin extends AbstractAdmin
                 'btn_catalogue' => false,
                 'label' => 'Player',
             ])
-            ->add('text', 'textarea', [
+            ->add('text', TextareaType::class, [
                 'label' => 'text',
                 'required' => true,
             ]);

@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class VideoAdmin extends AbstractAdmin
 {
@@ -31,14 +33,14 @@ class VideoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id', 'text', [
+            ->add('id', TextType::class, [
                 'label' => 'idVideo',
                 'required' => false,
                 'attr' => array(
                     'readonly' => true,
                 )
             ])
-            ->add('player', 'sonata_type_model_list', [
+            ->add('player', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
@@ -47,7 +49,7 @@ class VideoAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'Player',
             ])
-            ->add('game', 'sonata_type_model_list', [
+            ->add('game', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
@@ -56,7 +58,7 @@ class VideoAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'Game',
             ])
-            ->add('libVideo', 'text', [
+            ->add('libVideo', TextType::class, [
                 'label' => 'libVideo',
                 'required' => true,
             ])

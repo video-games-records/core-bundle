@@ -13,6 +13,7 @@ use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class ProofAdmin extends AbstractAdmin
 {
@@ -53,7 +54,7 @@ class ProofAdmin extends AbstractAdmin
         $formMapper
             ->add(
                 'picture',
-                'sonata_type_model_list',
+                ModelListType::class,
                 [
                     'data_class' => null,
                     'btn_add' => false,
@@ -66,7 +67,7 @@ class ProofAdmin extends AbstractAdmin
             )
             ->add(
                 'playerResponding',
-                'sonata_type_model_list',
+                ModelListType::class,
                 [
                     'data_class' => null,
                     'btn_add' => false,

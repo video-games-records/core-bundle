@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PlayerChartLibAdmin extends AbstractAdmin
 {
@@ -11,13 +12,13 @@ class PlayerChartLibAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id', 'text', [
+            ->add('id', TextType::class, [
                 'label' => 'id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
-            ->add('value', 'text', [
+            ->add('value', TextType::class, [
                 'label' => 'Value',
                 'required' => true,
             ]);
