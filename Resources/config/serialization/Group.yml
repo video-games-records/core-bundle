@@ -3,7 +3,13 @@ VideoGamesRecords\CoreBundle\Entity\Group:
     id:
       groups:
         - 'group.list'
-        - 'group.show'
+        - 'group.read'
+        - 'group.read.mini'
+    name:
+      groups:
+        - 'group.list'
+        - 'group.read'
+        - 'group.read.mini'
     game:
       groups:
         - 'group.game'
@@ -19,10 +25,6 @@ VideoGamesRecords\CoreBundle\Entity\Group:
         - 'group.list'
         - 'group.read'
     nbPlayer:
-      groups:
-        - 'group.list'
-        - 'group.read'
-    name:
       groups:
         - 'group.list'
         - 'group.read'

@@ -950,7 +950,7 @@ class Player
 
     /**
      * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
-     * @return $this
+     * @return Player
      */
     public function setUser($user)
     {
@@ -996,7 +996,7 @@ class Player
     }
 
     /**
-     * @return $this
+     * @return Player
      */
     public function getPlayer()
     {

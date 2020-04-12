@@ -33,6 +33,8 @@ class ChartRepository extends EntityRepository
 
     /**
      * @return bool
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function isMajPlayerRunning()
     {
@@ -115,23 +117,25 @@ class ChartRepository extends EntityRepository
 
     /**
      * @param int   $page
-     * @param null  $game
      * @param null  $player
      * @param array $search
      * @return Paginator
      */
-    public function getList(int $page = 1, $game = null, $player = null, $search = array()) : Paginator
+    public function getList(int $page = 1, $player = null, $search = array()) : Paginator
     {
         $firstResult = ($page -1) * self::ITEMS_PER_PAGE;
 
         $query = $this->createQueryBuilder('ch')
             ->join('ch.group', 'gr')
+            ->join('gr.game', 'ga')
             ->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.player = :player')
             ->addSelect('gr')
             ->addSelect('pc')
-            ->andWhere('gr.game = :game')
-            ->setParameter('game', $game)
             ->setParameter('player', $player);
+        if ($search['idGame'] != null) {
+            $query->andWhere('ga.id = :idGame')
+                ->setParameter('idGame', $search['idGame']);
+        }
         if ($search['idGroup'] != null) {
             $query->andWhere('gr.id = :idGroup')
                 ->setParameter('idGroup', $search['idGroup']);

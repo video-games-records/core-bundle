@@ -13,6 +13,8 @@ use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\AdminBundle\Form\Type\ModelListType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProofRequestAdmin extends AbstractAdmin
 {
@@ -53,7 +55,7 @@ class ProofRequestAdmin extends AbstractAdmin
         $formMapper
             ->add(
                 'playerRequesting',
-                'sonata_type_model_list',
+                ModelListType::class,
                 [
                     'data_class' => null,
                     'btn_add' => false,
@@ -66,7 +68,7 @@ class ProofRequestAdmin extends AbstractAdmin
             )
             ->add(
                 'playerResponding',
-                'sonata_type_model_list',
+                ModelListType::class,
                 [
                     'data_class' => null,
                     'btn_add' => false,
@@ -77,7 +79,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     'label' => 'playerResponding',
                 ]
             )
-            ->add('message', 'textarea', [
+            ->add('message', TextareaType::class, [
                 'label' => 'Message',
                 'required' => true,
                 'attr' => array(
@@ -138,9 +140,9 @@ class ProofRequestAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
-                    'view_chart' => [
+                    /*'view_chart' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:view_chart_link.html.twig'
-                    ],
+                    ],*/
                 ]
             ]);
     }

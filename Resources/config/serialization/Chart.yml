@@ -6,12 +6,10 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
         - 'chart.read'
     group:
       groups:
-        - 'chart.list'
-        - 'chart.read'
+        - 'chart.group'
     libs:
       groups:
-        - 'chart.list'
-        - 'chart.read'
+        - 'chart.libs'
     nbPost:
       groups:
         - 'chart.list'

@@ -9,6 +9,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\AdminBundle\Form\Type\ModelListType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\Form\Type\CollectionType;
 
 class PlayerChartAdmin extends AbstractAdmin
 {
@@ -45,13 +48,13 @@ class PlayerChartAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id', 'text', [
+            ->add('id', TextType::class, [
                 'label' => 'id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
-            ->add('player', 'sonata_type_model_list', [
+            ->add('player', ModelListType::class, [
                 'btn_add' => false,
                 'btn_list' => false,
                 'btn_edit' => false,
@@ -59,7 +62,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_catalogue' => false,
                 'label' => 'Player',
             ])
-            ->add('chart', 'sonata_type_model_list', [
+            ->add('chart', ModelListType::class, [
                 'btn_add' => false,
                 'btn_list' => true,
                 'btn_edit' => false,
@@ -69,7 +72,7 @@ class PlayerChartAdmin extends AbstractAdmin
             ]);
 
         $formMapper
-            ->add('libs', 'sonata_type_collection', array(
+            ->add('libs', CollectionType::class, array(
                 'btn_add' => false,
                 'by_reference' => false,
                 'type_options' => array(

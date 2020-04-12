@@ -10,6 +10,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\AdminBundle\Form\Type\ModelListType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class GroupAdmin extends AbstractAdmin
 {
@@ -31,13 +34,15 @@ class GroupAdmin extends AbstractAdmin
     {
         $gameOptions = [];
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
-            $idGame = $this->getRequest()->get('idGame', null);
+            $uniqid = $this->getRequest()->query->get('uniqid', null);
+            $data = $this->getRequest()->request->get($uniqid);
+            $idGame = $data['game'];
             if ($idGame !== null) {
                 $this->getRequest()->getSession()->set('vgrcorebundle_admin_group.idGame', $idGame);
             }
 
             if ($this->getRequest()->getSession()->has('vgrcorebundle_admin_group.idGame')) {
-                $idGame = $this->getRequest()->getSession()->get('vgrcorebundle_admin_group.idGame');
+                $idGame= $this->getRequest()->getSession()->get('vgrcorebundle_admin_group.idGame');
                 $entityManager = $this->getModelManager()
                     ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\Game');
                 $game = $entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
@@ -46,13 +51,13 @@ class GroupAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('id', 'text', [
+            ->add('id', TextType::class, [
                 'label' => 'idGroup',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
-            ->add('game', 'sonata_type_model_list', array_merge(
+            ->add('game', ModelListType::class, array_merge(
                 $gameOptions,
                 [
                     'data_class' => null,
@@ -64,7 +69,7 @@ class GroupAdmin extends AbstractAdmin
                     'label' => 'Game',
                 ]
             ))
-            ->add('boolDLC', 'checkbox', [
+            ->add('boolDLC', CheckboxType::class, [
                 'label' => 'DLC ?',
                 'required' => false,
             ])

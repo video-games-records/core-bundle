@@ -7,9 +7,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class PictureAdmin extends AbstractAdmin
 {
@@ -40,7 +39,7 @@ class PictureAdmin extends AbstractAdmin
             )
             ->add(
                 'player',
-                'sonata_type_model_list',
+                ModelListType::class,
                 [
                     'data_class' => null,
                     'btn_add' => false,
@@ -53,7 +52,7 @@ class PictureAdmin extends AbstractAdmin
             )
             ->add(
                 'game',
-                'sonata_type_model_list',
+                ModelListType::class,
                 [
                     'data_class' => null,
                     'btn_add' => false,

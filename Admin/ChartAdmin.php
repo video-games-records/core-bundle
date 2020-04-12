@@ -9,9 +9,15 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Sonata\Form\Type\CollectionType;
 
 class ChartAdmin extends AbstractAdmin
 {
@@ -49,15 +55,18 @@ class ChartAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('id', 'text', array(
+            ->add('id', TextType::class, array(
                 'label' => 'id',
                 'attr' => array(
                     'readonly' => true,
                 )
             ))
-            ->add('group', 'sonata_type_model_list', array_merge(
+            ->add('group', ModelAutocompleteType::class, [
+                'property' => 'translations.name',
+            ])
+            ->add('group', ModelListType::class, array_merge(
                 $groupOptions,
-                array(
+                [
                     'data_class' => null,
                     'btn_add' => false,
                     'btn_list' => true,
@@ -65,10 +74,7 @@ class ChartAdmin extends AbstractAdmin
                     'btn_delete' => false,
                     'btn_catalogue' => true,
                     'label' => 'Group',
-                    'required' => true,
-                )
-            ), array(
-                'placeholder' => 'No group selected'
+                ]
             ))
             ->add('translations', TranslationsType::class, [
                 'required' => true,
@@ -78,7 +84,7 @@ class ChartAdmin extends AbstractAdmin
             $formMapper
                 ->add(
                     'statusPlayer',
-                    'choice',
+                    CheckboxType::class,
                     array(
                         'label' => 'Status Player',
                         'choices' => Chart::getStatusChoices()
@@ -87,7 +93,7 @@ class ChartAdmin extends AbstractAdmin
             $formMapper
                 ->add(
                     'statusTeam',
-                    'choice',
+                    CheckboxType::class,
                     array(
                         'label' => 'Status Team',
                         'choices' => Chart::getStatusChoices()
@@ -96,7 +102,7 @@ class ChartAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('libs', 'sonata_type_collection', array(
+            ->add('libs', CollectionType::class, array(
                 'by_reference' => false,
                 'help' => (($this->isCurrentRoute('create')) ? 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
                 'type_options' => array(
@@ -104,7 +110,7 @@ class ChartAdmin extends AbstractAdmin
                     'delete' => true,
                     'delete_options' => array(
                         // You may otherwise choose to put the field but hide it
-                        'type' => 'checkbox',
+                        'type' => CheckboxType::class,
                         // In that case, you need to fill in the options as well
                         'type_options' => array(
                             'mapped' => false,
@@ -129,8 +135,8 @@ class ChartAdmin extends AbstractAdmin
             ->add('group', ModelAutocompleteFilter::class, array(), null, array(
                 'property' => 'translations.name',
             ))
-            ->add('statusPlayer', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()))
-            ->add('statusTeam', 'doctrine_orm_choice', array(), 'choice', array('choices' => Chart::getStatusChoices()));
+            ->add('statusPlayer', 'doctrine_orm_choice', array(), ChoiceType::class, array('choices' => Chart::getStatusChoices()))
+            ->add('statusTeam', 'doctrine_orm_choice', array(), ChoiceType::class, array('choices' => Chart::getStatusChoices()));
     }
 
     /**
