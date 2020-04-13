@@ -4,11 +4,12 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * PlayerChart
@@ -18,9 +19,9 @@ use Eko\FeedBundle\Item\Writer\ItemInterface;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class PlayerChart implements ItemInterface
+class PlayerChart implements ItemInterface, TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
     use \VideoGamesRecords\CoreBundle\Model\Player;
 
     /**

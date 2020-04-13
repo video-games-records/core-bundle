@@ -5,10 +5,14 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
-use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
 /**
  * Group
@@ -18,11 +22,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ApiResource(attributes={"order"={"translations.name": "ASC"}})
  * @method GroupTranslation translate(string $locale, bool $fallbackToDefault)
  */
-class Group
+class Group implements SluggableInterface, TimestampableInterface, TranslatableInterface
 {
-    use Timestampable;
-    use Translatable;
-    use Sluggable;
+    use TimestampableTrait;
+    use TranslatableTrait;
+    use SluggableTrait;
 
     /**
      * @var integer
@@ -271,9 +275,9 @@ class Group
     /**
      * Returns an array of the fields used to generate the slug.
      *
-     * @return array
+     * @return string[]
      */
-    public function getSluggableFields()
+    public function getSluggableFields(): array
     {
         return ['defaultName'];
     }

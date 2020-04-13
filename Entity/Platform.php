@@ -5,7 +5,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
 /**
  * Game
@@ -15,9 +16,9 @@ use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
  * @ApiResource(attributes={"order"={"libPlatform"}})
  *
  */
-class Platform
+class Platform implements SluggableInterface
 {
-    use Sluggable;
+    use SluggableTrait;
 
     const NUM_ITEMS = 20;
 
@@ -157,9 +158,9 @@ class Platform
     /**
      * Returns an array of the fields used to generate the slug.
      *
-     * @return array
+     * @return string[]
      */
-    public function getSluggableFields()
+    public function getSluggableFields(): array
     {
         return ['libPlatform'];
     }

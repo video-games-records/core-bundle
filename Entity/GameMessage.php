@@ -3,9 +3,10 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Player as PlayerModel;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * GameMessage
@@ -13,9 +14,9 @@ use VideoGamesRecords\CoreBundle\Model\Player as PlayerModel;
  * @ORM\Table(name="vgr_game_message", indexes={@ORM\Index(name="idxMessage", columns={"id"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameMessageRepository")
  */
-class GameMessage
+class GameMessage implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
     use PlayerModel;
 
     /**

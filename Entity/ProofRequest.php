@@ -3,7 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Request
@@ -11,9 +12,9 @@ use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
  * @ORM\Table(name="vgr_proof_request", indexes={@ORM\Index(name="idxIdRequest", columns={"idRequest"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository")
  */
-class ProofRequest
+class ProofRequest implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
 
     const STATUS_IN_PROGRESS = 'IN PROGRESS';
     const STATUS_REFUSED = 'REFUSED';
