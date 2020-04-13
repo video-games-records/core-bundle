@@ -1,0 +1,6 @@
+group:
+    games: 'Games'
+    games.messages: 'Games - messages'
+    proofs: 'Proofs'
+    scores: 'Scores'
+    players: 'Players'

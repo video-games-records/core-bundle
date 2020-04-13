@@ -50,7 +50,7 @@ class PlayerChartLib
     /**
      * @var playerChart
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", inversedBy="libs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id")
      * })
