@@ -3,8 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
-
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Proof
@@ -12,11 +12,11 @@ use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
  * @ORM\Table(name="vgr_picture", indexes={@ORM\Index(name="idxIdPicture", columns={"idPicture"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PictureRepository")
  */
-class Picture
+class Picture implements TimestampableInterface
 {
     use \VideoGamesRecords\CoreBundle\Model\Player;
     use \VideoGamesRecords\CoreBundle\Model\Game;
-    use Timestampable;
+    use TimestampableTrait;
 
     /**
      * @var integer

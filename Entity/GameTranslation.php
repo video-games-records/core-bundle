@@ -3,15 +3,23 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Translatable\Translation;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="vgr_game_translation")
  */
-class GameTranslation
+class GameTranslation implements TranslationInterface
 {
-    use Translation;
+    use TranslationTrait;
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
      * @var string
@@ -24,6 +32,14 @@ class GameTranslation
      * @ORM\Column(name="rules", type="text", nullable=true)
      */
     private $rules;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @param string $name

@@ -4,9 +4,10 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use VideoGamesRecords\CoreBundle\Model\Player;
 use VideoGamesRecords\CoreBundle\Model\Game;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Video
@@ -15,9 +16,9 @@ use VideoGamesRecords\CoreBundle\Model\Game;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Video
+class Video implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
     use Player;
     use Game;
 

@@ -120,7 +120,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * @param array $players ranking
-     * @param \ProjetNormandie\BadgeBundle\Entity\Badge $badge badge
+     * @param \VideoGamesRecords\CoreBundle\Entity\BadgeInterface $badge badge
      * @throws \Exception
      */
     private function updateBadge($players, $badge)

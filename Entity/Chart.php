@@ -4,10 +4,13 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
-use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
 /**
  * Chart
@@ -16,11 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
  * @method ChartTranslation translate(string $locale, bool $fallbackToDefault)
  */
-class Chart
+class Chart implements SluggableInterface, TimestampableInterface, TranslatableInterface
 {
-    use Timestampable;
-    use Translatable;
-    use Sluggable;
+    use TimestampableTrait;
+    use TranslatableTrait;
+    use SluggableTrait;
 
     const STATUS_NORMAL = 'NORMAL';
     const STATUS_MAJ = 'MAJ';
@@ -348,9 +351,9 @@ class Chart
     /**
      * Returns an array of the fields used to generate the slug.
      *
-     * @return array
+     * @return string[]
      */
-    public function getSluggableFields()
+    public function getSluggableFields(): array
     {
         return ['defaultName'];
     }
