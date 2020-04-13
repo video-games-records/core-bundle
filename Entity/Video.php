@@ -70,6 +70,17 @@ class Video
      */
     private $libVideo;
 
+    /**
+     * @var Game
+     *
+     * @Assert\NotNull
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="videos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
+     * })
+     */
+    private $game;
+
 
     /**
      * @return string
@@ -83,7 +94,7 @@ class Video
      * Set id
      *
      * @param integer $id
-     * @return $this
+     * @return Video
      */
     public function setId($id)
     {
@@ -105,7 +116,7 @@ class Video
      * Set status
      *
      * @param string $status
-     * @return $this
+     * @return Video
      */
     public function setStatus($status)
     {
@@ -127,7 +138,7 @@ class Video
      * Set type
      *
      * @param string $type
-     * @return $this
+     * @return Video
      */
     public function setType($type)
     {
@@ -149,7 +160,7 @@ class Video
      * Set libVideo
      *
      * @param string $libVideo
-     * @return $this
+     * @return Video
      */
     public function setLibVideo($libVideo)
     {
@@ -172,7 +183,7 @@ class Video
      * Set url
      *
      * @param string $url
-     * @return $this
+     * @return Video
      */
     public function setUrl($url)
     {
@@ -189,6 +200,27 @@ class Video
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * Set game
+     * @param Game $game
+     * @return Video
+     */
+    public function setGame(Game $game = null)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 
     /**

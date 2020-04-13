@@ -87,7 +87,7 @@ class PlayerChart implements ItemInterface
     /**
      * @var Proof
      *
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", inversedBy="playerChart")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idProof", referencedColumnName="id")
      * })
@@ -115,8 +115,6 @@ class PlayerChart implements ItemInterface
     private $platform;
 
     /**
-     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChartLib[]
-     *
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartLib", mappedBy="playerChart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $libs;

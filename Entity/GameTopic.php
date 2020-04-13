@@ -44,6 +44,17 @@ class GameTopic
      */
     private $messages;
 
+    /**
+     * @var Game
+     *
+     * @Assert\NotNull
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="topics")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
+     * })
+     */
+    private $game;
+
 
     /**
      * Constructor
@@ -108,7 +119,7 @@ class GameTopic
 
     /**
      * @param GameMessage $message
-     * @return $this
+     * @return GameTopic
      */
     public function addMessage(GameMessage $message)
     {
@@ -131,5 +142,26 @@ class GameTopic
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Set game
+     * @param Game $game
+     * @return GameTopic
+     */
+    public function setGame(Game $game = null)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }
