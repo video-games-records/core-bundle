@@ -259,7 +259,7 @@ class Player implements SluggableInterface
     /**
      * @var Country
      *
-     * @ORM\ManyToOne(targetEntity="ProjetNormandie\CountryBundle\Entity\Country")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\CountryInterface")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idCountry", referencedColumnName="id")
      * })

@@ -3,7 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use ProjetNormandie\BadgeBundle\Entity\Badge;
+use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
