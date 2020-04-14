@@ -70,7 +70,7 @@ class VideoAdmin extends AbstractAdmin
                     'choices' => Video::getTypeChoices(),
                 ]
             )
-            ->add('url', 'text', [
+            ->add('url', TextType::class, [
                 'label' => 'Url',
                 'required' => true,
             ])
