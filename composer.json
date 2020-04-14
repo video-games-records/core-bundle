@@ -22,7 +22,6 @@
     "symfony/framework-bundle": "~4.4",
     "knplabs/doctrine-behaviors": "~2.0",
     "knplabs/knp-paginator-bundle": "~2.4",
-    "projet-normandie/common-bundle": "~1",
     "sensio/framework-extra-bundle": "^5.0.19",
     "symfony/form": "~4.4",
     "symfony/security-bundle": "~3.0",

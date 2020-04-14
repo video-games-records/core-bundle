@@ -1,7 +1,6 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use ProjetNormandie\CommonBundle\Command\DefaultCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -73,7 +72,7 @@ class PlayerCommand extends DefaultCommand
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankGame();
                 break;
             case 'maj-rank-country':
-                $country = $this->getContainer()->get('doctrine')->getRepository('ProjetNormandieCountryBundle:Country')->find($input->getOption('idCountry'));
+                $country = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:CountryInterface')->find($input->getOption('idCountry'));
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCountry($country);
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majCountryBadge($country);
                 break;

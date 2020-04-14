@@ -98,7 +98,7 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param \ProjetNormandie\CountryBundle\Entity\Country $country
+     * @param \VideoGamesRecords\CoreyBundle\Entity\CountryInterface $country
      * @throws \Exception
      */
     public function majCountryBadge($country)

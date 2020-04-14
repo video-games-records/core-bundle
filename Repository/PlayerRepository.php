@@ -324,7 +324,7 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param \ProjetNormandie\CountryBundle\Entity\Country $country
+     * @param \VideoGamesRecords\CoreBundle\Entity\CountryInterface $country
      * @param int $maxRank
      * @return array
      */
