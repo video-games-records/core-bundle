@@ -132,10 +132,10 @@ class PlayerBadge implements TimestampableInterface
     /**
      * Set badge
      *
-     * @param Badge $badge
+     * @param $badge
      * @return $this
      */
-    public function setBadge(Badge $badge = null)
+    public function setBadge($badge = null)
     {
         $this->badge = $badge;
 

@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
@@ -133,10 +132,10 @@ class TeamBadge implements TimestampableInterface
     /**
      * Set badge
      *
-     * @param Badge $badge
+     * @param $badge
      * @return $this
      */
-    public function setBadge(Badge $badge = null)
+    public function setBadge($badge = null)
     {
         $this->badge = $badge;
         return $this;
