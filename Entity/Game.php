@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
-use ProjetNormandie\BadgeBundle\Entity\Badge;
+use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;

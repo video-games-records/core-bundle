@@ -1461,13 +1461,5 @@ ALTER TABLE `vgr_video` DROP `nbView`;
 ALTER TABLE `vgr_video` DROP `nbComment`;
 ALTER TABLE `vgr_video` ADD `type` ENUM('Youtube','Twitch','Unknown') NULL DEFAULT NULL AFTER `status`;
 
-UPDATE vgr_group, vgr_game
-SET vgr_group.slug = concat(vgr_game.slug, '-', vgr_group.slug)
-WHERE vgr_group.idGame = vgr_game.id;
-
-UPDATE vgr_chart, vgr_group
-SET vgr_chart.slug = concat(vgr_group.slug, '-', vgr_chart.slug)
-WHERE vgr_chart.idGroup = vgr_group.id;
-
 ALTER TABLE `vgr_platform` CHANGE `class` `slug` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
