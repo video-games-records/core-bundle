@@ -5,11 +5,17 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
-use ProjetNormandie\BadgeBundle\Entity\Badge;
+use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
 /**
  * Game
@@ -17,13 +23,13 @@ use Eko\FeedBundle\Item\Writer\ItemInterface;
  * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
  * @method GameTranslation translate(string $locale, bool $fallbackToDefault)
- * @todo check etat / imagePlateforme / ordre
+ * @ApiResource(attributes={"order"={"translations.name"}})
  */
-class Game implements ItemInterface
+class Game implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
 {
-    use Timestampable;
-    use Translatable;
-    use Sluggable;
+    use TimestampableTrait;
+    use TranslatableTrait;
+    use SluggableTrait;
 
     const NUM_ITEMS = 20;
 
@@ -144,7 +150,7 @@ class Game implements ItemInterface
     /**
      * @var Badge
      *
-     * @ORM\ManyToOne(targetEntity="ProjetNormandie\BadgeBundle\Entity\Badge")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\BadgeInterface")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })
@@ -155,6 +161,18 @@ class Game implements ItemInterface
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $groups;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameTopic", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $topics;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $videos;
 
     /**
      * @ORM\ManyToMany(targetEntity="Platform")
@@ -175,6 +193,7 @@ class Game implements ItemInterface
     public function __construct()
     {
         $this->groups = new ArrayCollection();
+        $this->topics = new ArrayCollection();
         $this->platforms = new ArrayCollection();
     }
 
@@ -604,6 +623,21 @@ class Game implements ItemInterface
         return $this->groups;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTopics()
+    {
+        return $this->topics;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVideos()
+    {
+        return $this->videos;
+    }
 
     /**
      * @param Platform $platform
@@ -715,9 +749,9 @@ class Game implements ItemInterface
     /**
      * Returns an array of the fields used to generate the slug.
      *
-     * @return array
+     * @return string[]
      */
-    public function getSluggableFields()
+    public function getSluggableFields(): array
     {
         return ['defaultName'];
     }

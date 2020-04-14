@@ -3,9 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Entity\Team;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
 /**
  * Player
@@ -13,9 +13,9 @@ use VideoGamesRecords\CoreBundle\Entity\Team;
  * @ORM\Table(name="vgr_player", indexes={@ORM\Index(name="pointGame", columns={"pointGame"}), @ORM\Index(name="rank_pointGame", columns={"rankPointGame"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
  */
-class Player
+class Player implements SluggableInterface
 {
-    use Sluggable;
+    use SluggableTrait;
 
     /**
      * @var \VideoGamesRecords\CoreBundle\Entity\User\UserInterface
@@ -259,7 +259,7 @@ class Player
     /**
      * @var Country
      *
-     * @ORM\ManyToOne(targetEntity="ProjetNormandie\CountryBundle\Entity\Country")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\CountryInterface")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idCountry", referencedColumnName="id")
      * })
@@ -950,7 +950,7 @@ class Player
 
     /**
      * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
-     * @return $this
+     * @return Player
      */
     public function setUser($user)
     {
@@ -996,7 +996,7 @@ class Player
     }
 
     /**
-     * @return $this
+     * @return Player
      */
     public function getPlayer()
     {
@@ -1024,9 +1024,9 @@ class Player
     /**
      * Returns an array of the fields used to generate the slug.
      *
-     * @return array
+     * @return string[]
      */
-    public function getSluggableFields()
+    public function getSluggableFields(): array
     {
         return ['pseudo'];
     }

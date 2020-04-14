@@ -6,10 +6,16 @@ use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 
 class GameAdmin extends AbstractAdmin
@@ -31,15 +37,10 @@ class GameAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('serie', 'sonata_type_model_list', [
-                'btn_add' => false,
-                'btn_list' => true,
-                'btn_edit' => false,
-                'btn_delete' => true,
-                'btn_catalogue' => true,
-                'label' => 'Serie',
+            ->add('serie', ModelAutocompleteType::class, [
+                'property' => 'translations.name'
             ])
-            ->add('badge', 'sonata_type_model_list', [
+            ->add('badge', ModelListType::class, [
                 'btn_add' => true,
                 'btn_list' => true,
                 'btn_edit' => false,
@@ -47,7 +48,7 @@ class GameAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'Badge',
             ])
-            ->add('picture', 'text', [
+            ->add('picture', TextType::class, [
                 'label' => 'Picture',
                 'required' => false,
             ])
@@ -59,7 +60,7 @@ class GameAdmin extends AbstractAdmin
                     'choices' => Game::getStatusChoices(),
                 ]
             )
-            ->add('publishedAt', 'date', [
+            ->add('publishedAt', DateType::class, [
                 'label' => 'Published At',
                 'required' => false,
                 'years' => range(2004, date('Y'))
@@ -72,23 +73,23 @@ class GameAdmin extends AbstractAdmin
                     'choices' => Game::getEtatsChoices(),
                 ]
             )
-            ->add('boolRanking', 'checkbox', [
+            ->add('boolRanking', CheckboxType::class, [
                 'label' => 'Ranking ?',
                 'required' => false,
             ])
-            ->add('boolMaj', 'checkbox', [
+            ->add('boolMaj', CheckboxType::class, [
                 'label' => 'Maj ?',
                 'required' => false,
             ])
             ->add('translations', TranslationsType::class, [
                 'fields' => [
                     'name' => [
-                        'field_type' => 'text',
+                        'field_type' => TextType::class,
                         'label' => ' Name',
                         'required' => true,
                     ],
                     'rules' => [
-                        'field_type' => 'textarea',
+                        'field_type' => TextareaType::class,
                         'label' => ' Rules',
                         'required' => false,
                     ]
@@ -118,6 +119,7 @@ class GameAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('slug', null, ['label' => 'Slug'])
             ->add(
                 'picture',
                 'text',

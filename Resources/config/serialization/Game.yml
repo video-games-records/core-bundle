@@ -3,13 +3,19 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     id:
       groups:
         - 'game.list'
-        - 'game.list.letter'
-        - 'game.show'
-        - 'game.show.mini'
-        - 'chart.label.read'
+        - 'game.read'
+        - 'game.read.mini'
+    name:
+      groups:
+        - 'game.list'
+        - 'game.read'
+        - 'game.read.mini'
     picture:
       groups:
-        - 'game.show'
+        - 'game.read'
+    groups:
+      groups:
+        - 'game.groups'
     status:
       groups: []
     etat:
@@ -21,51 +27,40 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     boolRanking:
       groups:
         - 'game.list'
-        - 'game.show'
+        - 'game.read'
     nbChart:
       groups:
         - 'game.list'
-        - 'game.list.letter'
-        - 'game.show'
+        - 'game.read'
     nbPost:
       groups:
         - 'game.list'
-        - 'game.list.letter'
-        - 'game.show'
+        - 'game.read'
     nbPlayer:
       groups:
         - 'game.list'
-        - 'game.list.letter'
-        - 'game.show'
+        - 'game.read'
     nbTeam:
       groups:
-        - 'game.show'
+        - 'game.read'
     ordre:
       groups: []
     serie:
       groups:
-        - 'game.show'
+        - 'game.read'
     badge:
       groups: []
     platforms:
       groups:
-        - 'platform.show'
-    name:
-      groups:
-        - 'game.list'
-        - 'game.list.letter'
-        - 'game.show'
-        - 'game.show.mini'
-        - 'chart.label.read'
+        - 'game.platforms'
     rules:
       groups:
-        - 'game.show'
+        - 'game.read'
     slug:
-        - 'game.list'
-        - 'game.list.letter'
-        - 'game.show'
-    createdAt:
       groups:
-        - 'game.show'
+        - 'game.list'
+        - 'game.read'
+    createdAt:
+      groups: []
     updatedAt:
-        - 'game.show'
+      groups: []

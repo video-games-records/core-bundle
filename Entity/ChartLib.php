@@ -3,8 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Chart
@@ -12,9 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="vgr_chartlib", indexes={@ORM\Index(name="idLibChart", columns={"idLibChart"}), @ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdType", columns={"idType"}) })
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartLibRepository")
  */
-class ChartLib
+class ChartLib implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
 
     /**
      * @var integer

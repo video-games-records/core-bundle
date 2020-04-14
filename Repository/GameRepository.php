@@ -109,13 +109,14 @@ class GameRepository extends EntityRepository
         //----- data nbPostDay
         $query = $this->_em->createQuery("
             SELECT
-                 g.idGame,
-                 COUNT(pc.idChart) as nb
+                 ga.id,
+                 COUNT(pc.id) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.chart c
-            JOIN c.group g
+            JOIN c.group gr
+            JOIN gr.game ga
             WHERE pc.lastUpdate BETWEEN :date1 AND :date2
-            GROUP BY g.idGame");
+            GROUP BY ga.id");
 
 
         $query->setParameter('date1', $date1);
@@ -124,7 +125,7 @@ class GameRepository extends EntityRepository
 
         $data = array();
         foreach ($result as $row) {
-            $data[$row['idGame']] = $row['nb'];
+            $data[$row['id']] = $row['nb'];
         }
 
         return $data;

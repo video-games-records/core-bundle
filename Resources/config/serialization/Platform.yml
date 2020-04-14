@@ -2,15 +2,19 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
   attributes:
     id:
       groups:
-        - 'platform.show'
+        - 'platform.list'
+        - 'platform.read'
     libPlatform:
       groups:
-        - 'platform.show'
+        - 'platform.list'
+        - 'platform.read'
     picture:
       groups:
-        - 'game.show'
-        - 'game.list'
+        - 'platform.list'
+        - 'platform.read'
     status:
       groups: []
-    class:
-      groups: []
+    slug:
+      groups:
+        - 'platform.list'
+        - 'platform.read'

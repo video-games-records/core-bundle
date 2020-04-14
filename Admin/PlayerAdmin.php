@@ -8,6 +8,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class PlayerAdmin extends AbstractAdmin
 {
@@ -30,19 +32,19 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id', 'text', [
+            ->add('id', TextType::class, [
                 'label' => 'id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
-            ->add('pseudo', 'text', [
+            ->add('pseudo', TextType::class, [
                 'label' => 'pseudo',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
-            ->add('country', 'sonata_type_model_list', [
+            ->add('country', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,

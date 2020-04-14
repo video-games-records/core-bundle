@@ -90,7 +90,6 @@ class TeamGameRepository extends EntityRepository
         $query = $this->_em->createQuery("
             SELECT
                 t.id,
-                (g.idGame) as idGame,
                 '' as rankPointChart,
                 '' as rankMedal,
                 SUM(tg.chartRank0) as chartRank0,
@@ -102,7 +101,7 @@ class TeamGameRepository extends EntityRepository
             JOIN tg.group g
             JOIN tg.team t
             WHERE g.game = :game
-            GROUP BY tg.idTeam
+            GROUP BY t.id
             ORDER BY pointChart DESC");
 
 
@@ -128,7 +127,7 @@ class TeamGameRepository extends EntityRepository
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\TeamGame'
             );
-            $teamGame->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['idTeam']));
+            $teamGame->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['id']));
             $teamGame->setGame($game);
 
             $this->_em->persist($teamGame);

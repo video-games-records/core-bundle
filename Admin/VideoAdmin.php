@@ -10,6 +10,9 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class VideoAdmin extends AbstractAdmin
 {
@@ -30,14 +33,14 @@ class VideoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id', 'text', [
+            ->add('id', TextType::class, [
                 'label' => 'idVideo',
                 'required' => false,
                 'attr' => array(
                     'readonly' => true,
                 )
             ])
-            ->add('player', 'sonata_type_model_list',[
+            ->add('player', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
@@ -46,7 +49,7 @@ class VideoAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'Player',
             ])
-            ->add('game', 'sonata_type_model_list',[
+            ->add('game', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
@@ -55,12 +58,20 @@ class VideoAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'Game',
             ])
-            ->add('libVideo', 'text', [
+            ->add('libVideo', TextType::class, [
                 'label' => 'libVideo',
                 'required' => true,
             ])
+            ->add(
+                'type',
+                ChoiceType::class,
+                [
+                    'label' => 'Type',
+                    'choices' => Video::getTypeChoices(),
+                ]
+            )
             ->add('url', 'text', [
-                'label' => 'Youtube Embed Url',
+                'label' => 'Url',
                 'required' => true,
             ])
             ->add(
@@ -81,7 +92,7 @@ class VideoAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('status')
-            ->add('player', 'doctrine_orm_model_autocomplete', [], null, [
+            ->add('player', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
     }
@@ -99,9 +110,12 @@ class VideoAdmin extends AbstractAdmin
                 'label' => 'Player',
             ])
             ->add('game', null, [
-                'associated_property' => 'name',
+                'associated_property' => 'defaultName',
                 'label' => 'Game',
             ])
+            ->add(
+                'libVideo'
+            )
             ->add(
                 'status',
                 'choice',

@@ -47,38 +47,38 @@ class TeamChartRepository extends EntityRepository
 
 
     /**
-     * @param $idChart
+     * @param $chart
      * @return array
      */
-    public function maj($idChart)
+    public function maj($chart)
     {
+        $teams = [];
+
         //----- delete
-        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\TeamChart tc WHERE tc.idChart = :idChart');
-        $query->setParameter('idChart', $idChart);
+        $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\TeamChart tc WHERE tc.chart = :chart');
+        $query->setParameter('chart', $chart);
         $query->execute();
 
         $query = $this->_em->createQuery("
-            SELECT
-                 p.idTeam,
-                 pc.idPlayer,
-                 pc.pointChart
+            SELECT pc
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
             JOIN pc.player p
-            WHERE pc.idChart = :idChart
-            AND p.idTeam IS NOT NULL
+            JOIN p.team t
+            WHERE pc.chart = :chart
             ORDER BY pc.pointChart DESC");
 
-        $query->setParameter('idChart', $idChart);
+        $query->setParameter('chart', $chart);
         $result = $query->getResult();
 
         $list = array();
-        foreach ($result as $row) {
-            $idTeam = $row['idTeam'];
+        foreach ($result as $playerChart) {
+            $teams[$playerChart->getPlayer()->getTeam()->getId()] = $playerChart->getPlayer()->getTeam();
+            $idTeam = $playerChart->getPlayer()->getTeam()->getId();
             if (!isset($list[$idTeam])) {
                 $list[$idTeam] = [
-                    'idTeam' => $idTeam,
+                    'idTeam' => $playerChart->getPlayer()->getTeam()->getId(),
                     'nbPlayer' => 1,
-                    'pointChart' => $row['pointChart'],
+                    'pointChart' => $playerChart->getPointChart(),
                     'chartRank0' => 0,
                     'chartRank1' => 0,
                     'chartRank2' => 0,
@@ -86,12 +86,9 @@ class TeamChartRepository extends EntityRepository
                 ];
             } elseif ($list[$idTeam]['nbPlayer'] < 5) {
                 $list[$idTeam]['nbPlayer']   += 1;
-                $list[$idTeam]['pointChart'] += $row['pointChart'];
+                $list[$idTeam]['pointChart'] += $playerChart->getPointChart();
             }
         }
-
-        //----- Return teams id
-        $teams = array_keys($list);
 
         //----- add some data
         $list = array_values($list);
@@ -123,7 +120,7 @@ class TeamChartRepository extends EntityRepository
                 'VideoGamesRecords\CoreBundle\Entity\TeamChart'
             );
             $teamChart->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['idTeam']));
-            $teamChart->setChart($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Chart', $idChart));
+            $teamChart->setChart($chart);
 
             $this->_em->persist($teamChart);
         }

@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ChartTypeAdmin extends AbstractAdmin
 {
@@ -27,17 +28,17 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('idType', 'text', [
+            ->add('idType', TextType::class, [
                 'label' => 'idType',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
-            ->add('name', 'text', [
+            ->add('name', TextType::class, [
                 'label' => 'Name',
                 'required' => true,
             ])
-            ->add('mask', 'text', [
+            ->add('mask', TextType::class, [
                 'label' => 'Mask',
                 'required' => true,
             ])

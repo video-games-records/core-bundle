@@ -3,11 +3,12 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Entity\Player;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
 /**
  * Team
@@ -15,10 +16,10 @@ use VideoGamesRecords\CoreBundle\Entity\Player;
  * @ORM\Table(name="vgr_team")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRepository")
  */
-class Team
+class Team implements SluggableInterface, TimestampableInterface
 {
-    use Sluggable;
-    use Timestampable;
+    use TimestampableTrait;
+    use SluggableTrait;
 
     const STATUS_OPENED = 'OPENED';
     const STATUS_CLOSED = 'CLOSED';
@@ -886,9 +887,9 @@ class Team
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getSluggableFields()
+    public function getSluggableFields(): array
     {
         return ['libTeam'];
     }

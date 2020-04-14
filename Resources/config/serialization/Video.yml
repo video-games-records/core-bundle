@@ -1,0 +1,32 @@
+VideoGamesRecords\CoreBundle\Entity\Video:
+  attributes:
+    id:
+      groups:
+        - 'video.read'
+    libVideo:
+      groups:
+        - 'video.read'
+        - 'video.post'
+        - 'video.put'
+    status:
+      groups:
+        - 'video.read'
+    type:
+      groups:
+        - 'video.read'
+    url:
+      groups:
+        - 'video.read'
+        - 'video.post'
+    tag:
+      groups:
+        - 'video.post'
+        - 'video.put'
+    game:
+      groups:
+        - 'video.read'
+        - 'video.post'
+    player:
+      groups:
+        - 'video.read'
+        - 'video.post'

@@ -5,6 +5,10 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
 /**
  * Serie
@@ -13,10 +17,10 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
  * @method SerieTranslation translate(string $locale, bool $fallbackToDefault)
  */
-class Serie
+class Serie implements TranslatableInterface, SluggableInterface
 {
-    use Translatable;
-    use Sluggable;
+    use TranslatableTrait;
+    use SluggableTrait;
 
     /**
      * @var integer
@@ -32,7 +36,7 @@ class Serie
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getName(), $this->id);
+        return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
     }
 
     /**
@@ -87,9 +91,9 @@ class Serie
     /**
      * Returns an array of the fields used to generate the slug.
      *
-     * @return array
+     * @return string[]
      */
-    public function getSluggableFields()
+    public function getSluggableFields(): array
     {
         return ['defaultName'];
     }

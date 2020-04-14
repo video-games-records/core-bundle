@@ -3,16 +3,17 @@ VideoGamesRecords\CoreBundle\Entity\ChartType:
     idType:
       groups:
         - 'chart.show'
-        - 'playerChart.show'
+        - 'playerChart.read'
         - 'playerChart.write'
     name:
+      groups: []
     mask:
       groups:
         - 'chart.show'
-        - 'playerChart.show'
+        - 'playerChart.read'
         - 'playerChart.write'
     parseMask:
       groups:
         - 'chart.show'
-        - 'playerChart.show'
+        - 'playerChart.read'
         - 'playerChart.write'

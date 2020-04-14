@@ -2,15 +2,13 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use VideoGamesRecords\CoreBundle\Entity\Game;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class GameTopicAdmin extends AbstractAdmin
 {
@@ -41,7 +39,7 @@ class GameTopicAdmin extends AbstractAdmin
                 'btn_catalogue' => false,
                 'label' => 'Player',
             ])
-            ->add('libTopic', 'text', [
+            ->add('libTopic', TextType::class, [
                 'label' => 'libTopic',
                 'required' => true,
             ]);
@@ -62,7 +60,7 @@ class GameTopicAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('idTopic')
+            ->addIdentifier('id')
             ->add('libTopic')
             ->add('player')
             ->add('game')
@@ -80,7 +78,7 @@ class GameTopicAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('idTopic')
+            ->add('id')
             ->add('libTopic')
             ->add('player');
     }

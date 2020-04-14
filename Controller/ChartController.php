@@ -59,11 +59,16 @@ class ChartController extends Controller
      */
     public function playerRanking(Chart $chart, Request $request)
     {
-        $maxRank = $request->query->get('maxRank', 20);
-        $ranking = $this->getDoctrine()
-            ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
-            ->getRanking($chart, $this->getPlayer(), $maxRank);
-
+        if ($chart->getStatusPlayer() == Chart::STATUS_NORMAL) {
+            $maxRank = $request->query->get('maxRank', 20);
+            $ranking = $this->getDoctrine()
+                ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+                ->getRanking($chart, $this->getPlayer(), $maxRank);
+        } else {
+            $ranking = $this->getDoctrine()
+                ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+                ->getRankingForUpdate($chart);
+        }
 
         for ($i=0; $i<=count($ranking)-1; $i++) {
             foreach ($chart->getLibs() as $lib) {
@@ -83,9 +88,54 @@ class ChartController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function teamRankingPoints(Chart $chart, Request $request)
+    public function teamRanking(Chart $chart, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->getRankingPoints($chart, $maxRank, $this->getTeam());
+    }
+
+    /**
+     * Return charts with the one relation player-chart of the connected user
+     * If the user has not relation, a default relation is created
+     * @param Request $request
+     * @return mixed
+     */
+    public function charts(Request $request)
+    {
+        $page = (int) $request->query->get('page', 1);
+        $search = array(
+            'idGame' => $request->query->get('idGame', null),
+            'idGroup' => $request->query->get('idGroup', null),
+            'idChart' => $request->query->get('idChart', null),
+            'libChart' => $request->query->get('libChart', null),
+        );
+        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getList(
+            $page,
+            $this->getPlayer(),
+            $search
+        );
+        // IF NOT EXIST => Create a playerChart with id=-1 AND value = null
+        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($search['idGame']);
+        $platforms = $game->getPlatforms();
+        foreach ($charts as $chart) {
+            if (count($chart->getPlayerCharts()) == 0) {
+                $playerChart = new PlayerChart();
+                $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer());
+                $playerChart->setId(-1);
+                $playerChart->setChart($chart);
+                $playerChart->setPlayer($player);
+                if (count($platforms) == 1) {
+                    $playerChart->setPlatform($platforms[0]);
+                }
+                foreach ($chart->getLibs() as $lib) {
+                    $playerChartLib = new PlayerChartLib();
+                    $playerChartLib->setId(-1);
+                    $playerChartLib->setLibChart($lib);
+                    $playerChart->addLib($playerChartLib);
+                }
+                $chart->setPlayerCharts(array($playerChart));
+            }
+        }
+        return $charts;
     }
 }

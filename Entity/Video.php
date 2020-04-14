@@ -4,24 +4,30 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use VideoGamesRecords\CoreBundle\Model\Player;
 use VideoGamesRecords\CoreBundle\Model\Game;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Video
  *
  * @ORM\Table(name="vgr_video", indexes={@ORM\Index(name="idxIdVideo", columns={"idVideo"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Video
+class Video implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
     use Player;
     use Game;
 
     const STATUS_OK = 'OK';
     const STATUS_ERROR = 'ERROR';
+
+    const TYPE_YOUTUBE = 'Youtube';
+    const TYPE_TWITCH = 'Twitch';
+    const TYPE_UNKNOWN = 'Unknown';
 
     /**
      * @var integer
@@ -43,6 +49,13 @@ class Video
     /**
      * @var string
      *
+     * @ORM\Column(name="type", type="string", nullable=false)
+     */
+    private $type = self::TYPE_YOUTUBE;
+
+    /**
+     * @var string
+     *
      * @Assert\NotBlank()
      * @Assert\Length(min="5", max="255")
      * @ORM\Column(name="url", type="string", length=255, nullable=false)
@@ -59,30 +72,16 @@ class Video
     private $libVideo;
 
     /**
-     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     * @var Game
      *
-     * @Assert\File(
-     *     maxSize = "500M",
-     *     mimeTypes = {"video/mpeg", "video/mp4", "video/quicktime", "video/x-ms-wmv", "video/x-msvideo", "video/x-flv"},
-     * )
+     * @Assert\NotNull
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="videos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
+     * })
      */
-    public $file;
+    private $game;
 
-    /**
-     * @var string
-     *
-     * @Assert\Length(min="5", max="100")
-     * @ORM\Column(name="fileIn", type="string", length=100, nullable=false)
-     */
-    private $fileIn;
-
-    /**
-     * @var string
-     *
-     * @Assert\Length(min="5", max="100")
-     * @ORM\Column(name="fileOut", type="string", length=100, nullable=false)
-     */
-    private $fileOut;
 
     /**
      * @return string
@@ -96,7 +95,7 @@ class Video
      * Set id
      *
      * @param integer $id
-     * @return $this
+     * @return Video
      */
     public function setId($id)
     {
@@ -118,7 +117,7 @@ class Video
      * Set status
      *
      * @param string $status
-     * @return $this
+     * @return Video
      */
     public function setStatus($status)
     {
@@ -137,10 +136,32 @@ class Video
     }
 
     /**
+     * Set type
+     *
+     * @param string $type
+     * @return Video
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Set libVideo
      *
      * @param string $libVideo
-     * @return $this
+     * @return Video
      */
     public function setLibVideo($libVideo)
     {
@@ -163,7 +184,7 @@ class Video
      * Set url
      *
      * @param string $url
-     * @return $this
+     * @return Video
      */
     public function setUrl($url)
     {
@@ -182,6 +203,26 @@ class Video
         return $this->url;
     }
 
+    /**
+     * Set game
+     * @param Game $game
+     * @return Video
+     */
+    public function setGame(Game $game = null)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
 
     /**
      * @return array
@@ -192,5 +233,30 @@ class Video
             self::STATUS_OK => self::STATUS_OK,
             self::STATUS_ERROR => self::STATUS_ERROR,
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypeChoices()
+    {
+        return [
+            self::TYPE_YOUTUBE => self::TYPE_YOUTUBE,
+            self::TYPE_TWITCH => self::TYPE_TWITCH,
+        ];
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function preInsert()
+    {
+        if (strpos($this->getUrl(), 'youtube')) {
+            $this->setType(self::TYPE_YOUTUBE);
+        } elseif (strpos($this->getUrl(), 'twitch')) {
+            $this->setType(self::TYPE_TWITCH);
+        } elseif (strpos($this->getUrl(), 'twitch')) {
+            $this->setType(self::TYPE_UNKNOWN);
+        }
     }
 }

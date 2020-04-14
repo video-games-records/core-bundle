@@ -15,6 +15,7 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     tag:
       groups:
         - 'team.profile'
+        - 'team.show'
         - 'team.list'
         - 'team.put'
     status:
@@ -31,55 +32,67 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     leader:
       groups:
         - 'team.leader'
+        - 'team.profile'
+        - 'team.put'
+      max_depth: 1
     nbPlayer:
       groups:
         - 'team.profile'
         - 'team.list'
     rankPointChart:
       groups:
-        - 'team.pointChart'
+        - 'team.rank.pointChart'
     pointChart:
       groups:
-        - 'team.pointChart'
+        - 'team.rank.pointChart'
     rankPointGame:
       groups:
-        - 'team.pointGame'
+        - 'team.rank.pointGame'
     pointGame:
       groups:
-        - 'team.pointGame'
+        - 'team.rank.pointGame'
     rankMedal:
       groups:
-        - 'team.medal'
+        - 'team.rank.medal'
     chartRank0:
       groups:
-        - 'team.medal'
+        - 'team.rank.medal'
     chartRank1:
       groups:
-        - 'team.medal'
+        - 'team.rank.medal'
     chartRank2:
       groups:
-        - 'team.medal'
+        - 'team.rank.medal'
     chartRank3:
       groups:
-        - 'team.medal'
+        - 'team.rank.medal'
     rankCup:
       groups:
-        - 'team.cup'
+        - 'team.rank.cup'
     gameRank0:
       groups:
-        - 'team.cup'
+        - 'team.rank.cup'
     gameRank1:
       groups:
-        - 'team.cup'
+        - 'team.rank.cup'
     gameRank2:
       groups:
-        - 'team.cup'
+        - 'team.rank.cup'
     gameRank3:
       groups:
-        - 'team.cup'
+        - 'team.rank.cup'
+    rankBadge:
+      groups:
+        - 'team.rank.badge'
+    pointBadge:
+      groups:
+        - 'team.rank.badge'
+    nbMasterBadge:
+      groups:
+        - 'team.rank.badge'
     teamBadge:
       groups:
-        - 'team.badge'
+        - 'team.badges'
     teamGame:
       groups:
         - 'team.game'

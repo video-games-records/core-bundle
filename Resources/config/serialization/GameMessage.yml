@@ -1,0 +1,26 @@
+VideoGamesRecords\CoreBundle\Entity\GameMessage:
+  attributes:
+    id:
+      groups:
+        - 'game.message.list'
+        - 'game.message.read'
+        - 'game.topic.put'
+    topic:
+      groups:
+        - 'game.message.list'
+        - 'game.message.read'
+    player:
+      groups:
+        - 'game.message.list'
+        - 'game.message.read'
+        - 'game.topic.post'
+    text:
+      groups:
+        - 'game.topic.post'
+        - 'game.topic.put'
+        - 'game.message.read'
+    createdAt:
+      groups:
+        - 'game.message.read'
+
+

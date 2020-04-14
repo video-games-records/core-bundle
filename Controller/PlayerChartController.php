@@ -100,46 +100,62 @@ class PlayerChartController extends Controller
         if ($playerChart->getPlayer() != $this->getPlayer()) {
             throw new AccessDeniedException('ACESS DENIED');
         }
-        if (!in_array($playerChart->getStatus()->getIdStatus(), PlayerChartStatus::getStatusForProving())) {
+        if (!in_array($playerChart->getStatus()->getId(), PlayerChartStatus::getStatusForProving())) {
             throw new AccessDeniedException('ACESS DENIED');
         }
 
         $id = $playerChart->getId();
-        $data = json_decode($request->getContent(), true);
-        $file = $data['file'];
-        $fp = fopen($file, 'r');
-        $meta = stream_get_meta_data($fp);
-
         $idPlayer = $playerChart->getPlayer()->getId();
         $idGame = $playerChart->getChart()->getGroup()->getGame()->getId();
-        $metadata = [
-            'idplayer' => $idPlayer,
-            'idgame' => $idGame,
-        ];
-        $key = $idPlayer . '/' . $idGame . '/'. uniqid() . $this->extensions[$meta['mediatype']];
 
-        $s3 = $this->get('aws.s3');
-        $s3->putObject([
-            'Bucket' => $_ENV['AWS_BUCKET_PROOF'],
-            'Key'    => $key,
-            'Body'   => $fp,
-            'ContentType' => $meta['mediatype'],
-            'Metadata' => [
-                'idplayer' => $idPlayer,
-                'idgame' => $idGame
-            ],
-            'StorageClass' => 'STANDARD',
-        ]);
+        $data = json_decode($request->getContent(), true);
+        $file = $data['file'];
+
+        $hash = hash_file('sha256', $file);
+        $picture = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Picture')->findOneBy(
+            array(
+                'hash' => $hash,
+                'player' => $playerChart->getPlayer(),
+                'game' => $playerChart->getChart()->getGroup()->getGame(),
+            )
+        );
 
         $em = $this->getDoctrine()->getManager();
 
-        //-- Picture
-        $picture = new Picture();
-        $picture->setPath($key);
-        $picture->setMetadata(serialize($metadata));
-        $picture->setPlayer($playerChart->getPlayer());
-        $picture->setGame($playerChart->getChart()->getGroup()->getGame());
-        $em->persist($picture);
+        if ($picture == null) {
+            $fp = fopen($file, 'r');
+            $meta = stream_get_meta_data($fp);
+
+            $metadata = [
+                'idplayer' => $idPlayer,
+                'idgame' => $idGame,
+            ];
+            $key = $idPlayer . '/' . $idGame . '/'. uniqid() . $this->extensions[$meta['mediatype']];
+
+            $s3 = $this->get('aws.s3');
+            $s3->putObject([
+                'Bucket' => $_ENV['AWS_BUCKET_PROOF'],
+                'Key'    => $key,
+                'Body'   => $fp,
+                'ACL'    => 'public-read',
+                'ContentType' => $meta['mediatype'],
+                'Metadata' => [
+                    'idplayer' => $idPlayer,
+                    'idgame' => $idGame
+                ],
+                'StorageClass' => 'STANDARD',
+            ]);
+
+            //-- Picture
+            $picture = new Picture();
+            $picture->setPath($key);
+            $picture->setMetadata(serialize($metadata));
+            $picture->setPlayer($playerChart->getPlayer());
+            $picture->setGame($playerChart->getChart()->getGroup()->getGame());
+            $picture->setHash($hash);
+            $em->persist($picture);
+        }
+
 
         //-- Proof
         $proof = new Proof();
@@ -148,7 +164,7 @@ class PlayerChartController extends Controller
 
         //-- PlayerChart
         $playerChart->setProof($proof);
-        if ($playerChart->getStatus()->getIdStatus() === PlayerChartStatus::ID_STATUS_NORMAL) {
+        if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
             // NORMAL TO NORMAL_SEND_PROOF
             $playerChart->setStatus(
                 $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
@@ -165,7 +181,6 @@ class PlayerChartController extends Controller
         $response->setContent(json_encode([
             'id' => $id,
             'file' => $file,
-            'meta' => $meta,
         ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

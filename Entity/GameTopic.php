@@ -4,31 +4,32 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Player as PlayerModel;
 use VideoGamesRecords\CoreBundle\Model\Game as GameModel;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * GameTopic
  *
- * @ORM\Table(name="vgr_game_topic", indexes={@ORM\Index(name="idxTopic", columns={"idTopic"}), @ORM\Index(name="idxPlayer", columns={"idPlayer"})})
+ * @ORM\Table(name="vgr_game_topic", indexes={@ORM\Index(name="idxTopic", columns={"id"}), @ORM\Index(name="idxPlayer", columns={"idPlayer"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameTopicRepository")
  */
-class GameTopic
+class GameTopic implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
     use PlayerModel;
     use GameModel;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idTopic", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idTopic;
+    private $id;
 
     /**
      * @var string
@@ -44,6 +45,17 @@ class GameTopic
      */
     private $messages;
 
+    /**
+     * @var Game
+     *
+     * @Assert\NotNull
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="topics")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
+     * })
+     */
+    private $game;
+
 
     /**
      * Constructor
@@ -58,29 +70,29 @@ class GameTopic
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getLibTopic(), $this->idTopic);
+        return sprintf('%s [%s]', $this->getLibTopic(), $this->id);
     }
 
     /**
-     * Set idTopic
+     * Set id
      *
-     * @param integer $idTopic
+     * @param integer $id
      * @return GameTopic
      */
-    public function setIdTopic($idTopic)
+    public function setId($id)
     {
-        $this->idTopic = $idTopic;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idTopic
+     * Get id
      *
      * @return integer
      */
-    public function getIdTopic()
+    public function getId()
     {
-        return $this->idTopic;
+        return $this->id;
     }
 
     /**
@@ -108,7 +120,7 @@ class GameTopic
 
     /**
      * @param GameMessage $message
-     * @return $this
+     * @return GameTopic
      */
     public function addMessage(GameMessage $message)
     {
@@ -131,5 +143,26 @@ class GameTopic
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Set game
+     * @param Game $game
+     * @return GameTopic
+     */
+    public function setGame(Game $game = null)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }

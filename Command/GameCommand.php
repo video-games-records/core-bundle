@@ -1,7 +1,6 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use ProjetNormandie\CommonBundle\Command\DefaultCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,11 +38,13 @@ class GameCommand extends DefaultCommand
         switch ($function) {
             case 'maj-player':
                 $idGame = $input->getOption('idGame');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj($idGame);
+                $game = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj($game);
                 break;
             case 'maj-team':
                 $idGame = $input->getOption('idGame');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->maj($idGame);
+                $game = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->maj($game);
                 break;
             case 'add-from-csv':
                 $service = $this->getContainer()->get('vgr.game');

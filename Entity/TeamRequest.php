@@ -2,9 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Entity\Player;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * TeamRequest
@@ -12,9 +12,9 @@ use VideoGamesRecords\CoreBundle\Entity\Player;
  * @ORM\Table(name="vgr_team_request")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRequestRepository")
  */
-class TeamRequest
+class TeamRequest implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
 
     const STATUS_ACTIVE = 'ACTIVE';
     const STATUS_ACCEPTED = 'ACCEPTED';
@@ -42,7 +42,7 @@ class TeamRequest
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="idTeam", nullable=false)
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false)
      * })
      */
     private $team;

@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\Team;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class TeamAdmin extends AbstractAdmin
 {
@@ -31,13 +33,13 @@ class TeamAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('libTeam', 'text', [
+            ->add('libTeam', TextType::class, [
                 'label' => 'libTeam',
                 'required' => true,
             ])
             ->add(
                 'leader',
-                'sonata_type_model_list',
+                ModelListType::class,
                 [
                     'data_class' => null,
                     'btn_add' => false,

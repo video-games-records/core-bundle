@@ -13,7 +13,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
       groups:
         - 'playerChart.read'
         - 'playerChart.write'
-        - 'player.show'
+        - 'player.read'
     rank:
       groups:
         - 'playerChart.read'
@@ -38,8 +38,8 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
     platform:
       groups:
         - 'ranking'
-        - 'playerChart.read'
         - 'playerChart.write'
+        - 'playerChart.platform'
     lastUpdate:
       groups:
         - 'ranking'

@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use ProjetNormandie\CommonBundle\Command\DefaultCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -195,7 +194,7 @@ class ChartCommand extends DefaultCommand
                     $groupId = $chart->getGroup()->getId();
                     $gameId = $chart->getGroup()->getGame()->getId();
                     $teamList = array_unique(
-                        array_merge($teamList, $teamChartRepository->maj($chart->getId()))
+                        array_merge($teamList, $teamChartRepository->maj($chart))
                     );
 
                     //----- Group
@@ -219,9 +218,9 @@ class ChartCommand extends DefaultCommand
                     $teamBadgeRepository->majMasterBadge($game);
                 }
 
-                //----- Maj player
-                foreach ($teamList as $idTeam) {
-                    $teamRepository->maj($idTeam);
+                //----- Maj team
+                foreach ($teamList as $team) {
+                    $teamRepository->maj($team);
                 }
 
                 //----- Maj all teams

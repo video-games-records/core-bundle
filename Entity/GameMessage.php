@@ -3,29 +3,30 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Player as PlayerModel;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * GameMessage
  *
- * @ORM\Table(name="vgr_game_message", indexes={@ORM\Index(name="idxMessage", columns={"idMessage"})})
+ * @ORM\Table(name="vgr_game_message", indexes={@ORM\Index(name="idxMessage", columns={"id"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameMessageRepository")
  */
-class GameMessage
+class GameMessage implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
     use PlayerModel;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="idMessage", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idMessage;
+    private $id;
 
     /**
      * @var string
@@ -41,7 +42,7 @@ class GameMessage
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameTopic", inversedBy="messages")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTopic", referencedColumnName="idTopic", nullable=false)
+     *   @ORM\JoinColumn(name="idTopic", referencedColumnName="id", nullable=false)
      * })
      */
     private $topic;
@@ -51,29 +52,29 @@ class GameMessage
      */
     public function __toString()
     {
-        return sprintf('Message [%d]', $this->idMessage);
+        return sprintf('Message [%d]', $this->id);
     }
 
     /**
-     * Set idMessage
+     * Set id
      *
-     * @param integer $idMessage
+     * @param integer $id
      * @return GameMessage
      */
-    public function setIdMessage($idMessage)
+    public function setId($id)
     {
-        $this->idMessage = $idMessage;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idMessage
+     * Get id
      *
      * @return integer
      */
-    public function getIdMessage()
+    public function getId()
     {
-        return $this->idMessage;
+        return $this->id;
     }
 
     /**

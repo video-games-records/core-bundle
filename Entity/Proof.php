@@ -4,8 +4,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
-use VideoGamesRecords\CoreBundle\Entity\Video;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Proof
@@ -13,9 +13,9 @@ use VideoGamesRecords\CoreBundle\Entity\Video;
  * @ORM\Table(name="vgr_proof", indexes={@ORM\Index(name="idxIdProof", columns={"idProof"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRepository")
  */
-class Proof
+class Proof implements TimestampableInterface
 {
-    use Timestampable;
+    use TimestampableTrait;
 
     const STATUS_IN_PROGRESS = 'IN PROGRESS';
     const STATUS_REFUSED = 'REFUSED';
