@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;

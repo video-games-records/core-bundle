@@ -4,8 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
-use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Eko\FeedBundle\Item\Writer\ItemInterface;

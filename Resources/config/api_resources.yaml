@@ -1,10 +1,11 @@
 resources:
     VideoGamesRecords\CoreBundle\Entity\Serie:
         collectionOperations:
-            get: ~
-            post: ~
+            get:
+                normalization_context: {'groups': [serie.list]}
         itemOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [serie.read]}
     VideoGamesRecords\CoreBundle\Entity\Game:
         collectionOperations:
             get:

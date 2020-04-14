@@ -84,7 +84,7 @@ class ChartAdmin extends AbstractAdmin
             $formMapper
                 ->add(
                     'statusPlayer',
-                    CheckboxType::class,
+                    ChoiceType::class,
                     array(
                         'label' => 'Status Player',
                         'choices' => Chart::getStatusChoices()
@@ -93,7 +93,7 @@ class ChartAdmin extends AbstractAdmin
             $formMapper
                 ->add(
                     'statusTeam',
-                    CheckboxType::class,
+                    ChoiceType::class,
                     array(
                         'label' => 'Status Team',
                         'choices' => Chart::getStatusChoices()

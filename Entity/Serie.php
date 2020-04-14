@@ -3,8 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
-use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
