@@ -5,7 +5,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Player;
-use VideoGamesRecords\CoreBundle\Model\Game;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -30,10 +29,6 @@ class Video implements TimestampableInterface, SluggableInterface
     use TimestampableTrait;
     use SluggableTrait;
     use Player;
-    use Game;
-
-    const STATUS_OK = 'OK';
-    const STATUS_ERROR = 'ERROR';
 
     const TYPE_YOUTUBE = 'Youtube';
     const TYPE_TWITCH = 'Twitch';
