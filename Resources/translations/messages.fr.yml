@@ -5,7 +5,7 @@ label:
     chart: 'Chart'
     chart.type: 'Chart type'
     player: 'Player'
-    request: Rrequest'
+    request: 'Request'
     proof: 'Proof'
     picture: 'Picture'
     platform: 'Platform'

@@ -12,6 +12,7 @@ use VideoGamesRecords\CoreBundle\Entity\Video;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class VideoAdmin extends AbstractAdmin
@@ -74,14 +75,10 @@ class VideoAdmin extends AbstractAdmin
                 'label' => 'Url',
                 'required' => true,
             ])
-            ->add(
-                'status',
-                ChoiceType::class,
-                [
-                    'label' => 'Status',
-                    'choices' => Video::getStatusChoices(),
-                ]
-            );
+            ->add('boolActive', CheckboxType::class, [
+                'label' => 'Active ?',
+                'required' => true,
+            ]);
     }
 
     /**
@@ -91,7 +88,7 @@ class VideoAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('status')
+            ->add('boolActive')
             ->add('player', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
@@ -117,12 +114,14 @@ class VideoAdmin extends AbstractAdmin
                 'libVideo'
             )
             ->add(
-                'status',
-                'choice',
+                'url'
+            )
+            ->add(
+                'boolActive',
+                'boolean',
                 [
-                    'label' => 'Status',
+                    'label' => 'Active ?',
                     'editable' => true,
-                    'choices' => Video::getStatusChoices(),
                 ]
             )
             ->add('_action', 'actions', [
@@ -140,7 +139,7 @@ class VideoAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('status')
+            ->add('boolActive')
             ->add('libVideo')
             ->add('player')
             ->add('game')
