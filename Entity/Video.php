@@ -8,6 +8,12 @@ use VideoGamesRecords\CoreBundle\Model\Player;
 use VideoGamesRecords\CoreBundle\Model\Game;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * Video
@@ -15,10 +21,14 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @ORM\Table(name="vgr_video", indexes={@ORM\Index(name="idxIdVideo", columns={"idVideo"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @ApiResource(attributes={"order"={"id": "ASC"}})
+ * @ApiFilter(OrderFilter::class, properties={"id": "ASC"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(BooleanFilter::class, properties={"boolActive"})
  */
-class Video implements TimestampableInterface
+class Video implements TimestampableInterface, SluggableInterface
 {
     use TimestampableTrait;
+    use SluggableTrait;
     use Player;
     use Game;
 
@@ -38,13 +48,13 @@ class Video implements TimestampableInterface
      */
     private $id;
 
-
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="status", type="string", nullable=false)
+     * @ORM\Column(name="boolActive", type="boolean", nullable=false, options={"default":1})
      */
-    private $status = self::STATUS_OK;
+    private $boolActive = true;
+
 
     /**
      * @var string
@@ -114,25 +124,26 @@ class Video implements TimestampableInterface
     }
 
     /**
-     * Set status
+     * Set boolActive
      *
-     * @param string $status
+     * @param boolean $boolActive
      * @return Video
      */
-    public function setStatus($status)
+    public function setBoolActive($boolActive)
     {
-        $this->status = $status;
+        $this->boolActive = $boolActive;
+
         return $this;
     }
 
     /**
-     * Get status
+     * Get boolActive
      *
-     * @return string
+     * @return boolean
      */
-    public function getStatus()
+    public function getBoolActive()
     {
-        return $this->status;
+        return $this->boolActive;
     }
 
     /**
@@ -227,17 +238,6 @@ class Video implements TimestampableInterface
     /**
      * @return array
      */
-    public static function getStatusChoices()
-    {
-        return [
-            self::STATUS_OK => self::STATUS_OK,
-            self::STATUS_ERROR => self::STATUS_ERROR,
-        ];
-    }
-
-    /**
-     * @return array
-     */
     public static function getTypeChoices()
     {
         return [
@@ -258,5 +258,15 @@ class Video implements TimestampableInterface
         } elseif (strpos($this->getUrl(), 'twitch')) {
             $this->setType(self::TYPE_UNKNOWN);
         }
+    }
+
+    /**
+     * Returns an array of the fields used to generate the slug.
+     *
+     * @return string[]
+     */
+    public function getSluggableFields(): array
+    {
+        return ['libVideo'];
     }
 }

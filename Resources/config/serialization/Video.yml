@@ -8,6 +8,9 @@ VideoGamesRecords\CoreBundle\Entity\Video:
         - 'video.read'
         - 'video.post'
         - 'video.put'
+    slug:
+      groups:
+        - 'video.read'
     status:
       groups:
         - 'video.read'

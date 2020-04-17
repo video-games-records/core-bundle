@@ -1463,3 +1463,92 @@ ALTER TABLE `vgr_video` ADD `type` ENUM('Youtube','Twitch','Unknown') NULL DEFAU
 
 ALTER TABLE `vgr_platform` CHANGE `class` `slug` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
+ALTER TABLE forum_forum ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `forum_forum` SET
+    slug = lower(libForum),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
+
+ALTER TABLE forum_topic ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `forum_topic` SET
+    slug = lower(libTopic),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
+
+ALTER TABLE vgr_video ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `vgr_video` SET
+    slug = lower(libVideo),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
+ALTER TABLE `vgr_video` ADD `boolActive` BOOLEAN NOT NULL DEFAULT TRUE AFTER `type`;
+UPDATE `vgr_video` SET boolActive = false;
+ALTER TABLE `vgr_video` DROP `status`;
