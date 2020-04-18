@@ -77,7 +77,7 @@ class VideoAdmin extends AbstractAdmin
             ])
             ->add('boolActive', CheckboxType::class, [
                 'label' => 'Active ?',
-                'required' => true,
+                'required' => false,
             ]);
     }
 
@@ -89,6 +89,7 @@ class VideoAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('boolActive')
+            ->add('type')
             ->add('player', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
@@ -112,6 +113,9 @@ class VideoAdmin extends AbstractAdmin
             ])
             ->add(
                 'libVideo'
+            )
+            ->add(
+                'type'
             )
             ->add(
                 'url'

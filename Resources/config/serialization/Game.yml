@@ -13,6 +13,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     picture:
       groups:
         - 'game.read'
+        - 'game.read.mini'
     groups:
       groups:
         - 'game.groups'

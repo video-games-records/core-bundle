@@ -256,6 +256,50 @@ class Video implements TimestampableInterface, SluggableInterface
     }
 
     /**
+     * @return string
+     */
+    public function getEmbeddedUrl()
+    {
+        if ($this->getType() == self::TYPE_YOUTUBE) {
+            return 'https://www.youtube.com/embed/' . $this->getYoutubeId();
+        } elseif ($this->getType() == self::TYPE_TWITCH) {
+            return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getTwitchId();
+        } else {
+            return $this->getUrl();
+        }
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getVideoId()
+    {
+        if ($this->getType() == self::TYPE_YOUTUBE) {
+            return $this->getYoutubeId();
+        } elseif ($this->getType() == self::TYPE_TWITCH) {
+            return $this->getTwitchId();
+        }
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getYoutubeId()
+    {
+        $explode = explode('=', $this->getUrl());
+        return isset($explode[1]) ? $explode[1] : null;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getTwitchId()
+    {
+        $explode = explode('/', $this->getUrl());
+        return $explode[count($explode) - 1];
+    }
+
+    /**
      * Returns an array of the fields used to generate the slug.
      *
      * @return string[]

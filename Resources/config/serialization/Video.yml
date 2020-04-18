@@ -17,7 +17,7 @@ VideoGamesRecords\CoreBundle\Entity\Video:
     type:
       groups:
         - 'video.read'
-    url:
+    videoId:
       groups:
         - 'video.read'
         - 'video.post'
@@ -33,3 +33,6 @@ VideoGamesRecords\CoreBundle\Entity\Video:
       groups:
         - 'video.read'
         - 'video.post'
+    createdAt:
+      groups:
+        - 'video.read'

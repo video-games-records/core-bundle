@@ -102,7 +102,9 @@
                                                 {% elseif field_name == 'video' %}
                                                     {% if object.getVideo() != null %}
                                                         <th>Video</th>
-                                                        <td>Put the video here</td>
+                                                        <td><iframe width="720" height="405"
+                                                                    src="{{ object.getVideo().getEmbeddedUrl() }}">
+                                                            </iframe></td>
                                                     {% endif %}
                                                 {% elseif field_name == 'playerChart' %}
                                                     <th>Chart</th>
