@@ -46,7 +46,7 @@ class Video implements TimestampableInterface, SluggableInterface
     /**
      * @var boolean
      *
-     * @ORM\Column(name="boolActive", type="boolean", nullable=false, options={"default":1})
+     * @ORM\Column(name="boolActive", type="boolean", nullable=false, options={"default":true})
      */
     private $boolActive = true;
 

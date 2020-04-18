@@ -20,6 +20,8 @@ VideoGamesRecords\CoreBundle\Entity\Video:
     videoId:
       groups:
         - 'video.read'
+    url:
+      groups:
         - 'video.post'
     tag:
       groups:
