@@ -85,7 +85,7 @@ class GroupAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('translations.name')
+            ->add('translations.name', null, ['label' => 'Name'])
             ->add('game', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'translations.name',
             ]);

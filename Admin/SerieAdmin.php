@@ -39,7 +39,7 @@ class SerieAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('translations.name');
+            ->add('translations.name', null, ['label' => 'Name']);
     }
 
     /**
@@ -54,6 +54,9 @@ class SerieAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'games' => [
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:serie_games_link.html.twig'
+                    ],
                 ]
             ]);
     }

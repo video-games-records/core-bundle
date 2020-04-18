@@ -105,7 +105,8 @@ class GameAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('translations.name')
+            ->add('serie')
+            ->add('translations.name', null, ['label' => 'Name'])
             ->add('status')
             ->add('etat')
             ->add('boolRanking');

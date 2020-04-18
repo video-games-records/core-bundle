@@ -131,7 +131,7 @@ class ChartAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('translations.name')
+            ->add('translations.name', null, ['label' => 'Name'])
             ->add('group', ModelAutocompleteFilter::class, array(), null, array(
                 'property' => 'translations.name',
             ))
