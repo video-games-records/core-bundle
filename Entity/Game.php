@@ -7,13 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 /**
  * Game
@@ -22,14 +25,14 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
  * @method GameTranslation translate(string $locale, bool $fallbackToDefault)
  * @ApiResource(attributes={"order"={"translations.name"}})
+ * @ApiFilter(SearchFilter::class, properties={"status": "exact", "platforms": "exact", "playerGame.player": "exact", "groups.charts.lostPositions.player": "exact"})
+ * @ApiFilter(GroupFilter::class, arguments={"parameterName": "groups", "overrideDefaultGroups": true, "whitelist": {"game.read.mini"}})
  */
 class Game implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
 {
     use TimestampableTrait;
     use TranslatableTrait;
     use SluggableTrait;
-
-    const NUM_ITEMS = 20;
 
     const STATUS_ACTIVE = 'ACTIF';
     const STATUS_INACTIVE = 'INACTIF';
@@ -181,6 +184,11 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @ORM\OrderBy({"libPlatform" = "ASC"})
      */
     private $platforms;
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="game")
+     */
+    private $playerGame;
 
 
     private $link;
@@ -661,6 +669,14 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     public function getPlatforms()
     {
         return $this->platforms;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerGame()
+    {
+        return $this->playerGame;
     }
 
     /**

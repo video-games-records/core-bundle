@@ -27,7 +27,7 @@ class PlayerGame
      * @var Game
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER", inversedBy="playerGame")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
      * })

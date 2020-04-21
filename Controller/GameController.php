@@ -9,8 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Response;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 
 /**
  * Class GameController

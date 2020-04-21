@@ -247,6 +247,11 @@ class Player implements SluggableInterface
     private $playerBadge;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="player")
+     */
+    private $lostPositions;
+
+    /**
      * @var Team
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
@@ -1019,6 +1024,14 @@ class Player implements SluggableInterface
     {
         $this->country = $country;
         return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\LostPosition[]
+     */
+    public function getLostPositions()
+    {
+        return $this->lostPositions;
     }
 
     /**

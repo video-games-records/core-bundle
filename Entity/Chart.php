@@ -87,6 +87,13 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     private $playerCharts;
 
     /**
+     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\LostPosition[]
+     *
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="chart")
+     */
+    private $lostPositions;
+
+    /**
      * Shortcut to playerChart.rank = 1
      * @var PlayerChart
      */
@@ -215,6 +222,14 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     public function getPlayerCharts()
     {
         return $this->playerCharts;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\LostPosition[]
+     */
+    public function getLostPositions()
+    {
+        return $this->lostPositions;
     }
 
     /**

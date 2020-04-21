@@ -1552,3 +1552,6 @@ UPDATE `vgr_video` SET
 ALTER TABLE `vgr_video` ADD `boolActive` BOOLEAN NOT NULL DEFAULT TRUE AFTER `type`;
 UPDATE `vgr_video` SET boolActive = false;
 ALTER TABLE `vgr_video` DROP `status`;
+
+ALTER TABLE `vgr_lostposition` CHANGE `dateCreation` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `vgr_lostposition` ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;

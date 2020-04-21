@@ -3,15 +3,24 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * LostPosition
  *
  * @ORM\Table(name="vgr_lostposition", indexes={@ORM\Index(name="idxIdPlayer", columns={"idPlayer"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\LostPositionRepository")
+ * @ApiResource(attributes={"order"={"id": "DESC"}})
+ * @ApiFilter(SearchFilter::class, properties={"player": "exact", "chart.group.game": "exact"})
  */
-class LostPosition
+class LostPosition implements TimestampableInterface
 {
+    use TimestampableTrait;
+
     /**
      * @var integer
      *
@@ -36,16 +45,9 @@ class LostPosition
     private $newRank;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
-     */
-    private $dateCreation;
-
-    /**
      * @var Player
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="lostPositions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
@@ -55,7 +57,7 @@ class LostPosition
     /**
      * @var Chart
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="lostPositions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
@@ -131,29 +133,6 @@ class LostPosition
     public function getOldRank()
     {
         return $this->oldRank;
-    }
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return LostPosition
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
     }
 
     /**
