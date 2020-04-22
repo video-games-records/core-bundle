@@ -14,7 +14,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  *
  * @ORM\Table(name="vgr_lostposition", indexes={@ORM\Index(name="idxIdPlayer", columns={"idPlayer"}), @ORM\Index(name="idxIdChart", columns={"idChart"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\LostPositionRepository")
- * @ApiResource(attributes={"order"={"id": "DESC"}})
+ * @ApiResource(attributes={"order"={"id": "DESC"}, "pagination_items_per_page"=20})
  * @ApiFilter(SearchFilter::class, properties={"player": "exact", "chart.group.game": "exact"})
  */
 class LostPosition implements TimestampableInterface

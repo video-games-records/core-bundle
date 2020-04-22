@@ -32,6 +32,7 @@ VideoGamesRecords\CoreBundle\Entity\Group:
       groups:
         - 'group.list'
         - 'group.read'
+        - 'group.read.mini'
     createdAt:
       groups: []
     updatedAt:

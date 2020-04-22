@@ -23,6 +23,7 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
       groups:
         - 'chart.list'
         - 'chart.read'
+        - 'chart.read.mini'
     slug:
       groups:
         - 'chart.list'
