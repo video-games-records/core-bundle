@@ -9,12 +9,29 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 /**
  * Team
  *
  * @ORM\Table(name="vgr_team")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRepository")
+ * @ApiFilter(
+ *     GroupFilter::class,
+ *     arguments={
+ *         "parameterName": "groups",
+ *         "overrideDefaultGroups": false,
+ *         "whitelist": {
+ *             "team.rank.pointChart",
+ *             "team.rank.pointGame",
+ *             "team.rank.medal",
+ *             "team.rank.cup",
+ *             "team.rank.badge",
+ *             "team.players"
+ *         }
+ *     }
+ * )
  */
 class Team implements SluggableInterface, TimestampableInterface
 {
@@ -216,6 +233,7 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", mappedBy="team")
+     * @ORM\OrderBy({"pseudo" = "ASC"})
      */
     private $players;
 

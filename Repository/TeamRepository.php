@@ -332,4 +332,19 @@ class TeamRepository extends EntityRepository
         }
         return $query->getQuery()->getResult();
     }
+
+
+    /**
+     * @return int|mixed|string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getStats()
+    {
+        $qb = $this->createQueryBuilder('team')
+            ->select('COUNT(team.id)');
+        $qb->where('team.pointChart > 0');
+
+        return $qb->getQuery()
+            ->getOneOrNullResult();
+    }
 }
