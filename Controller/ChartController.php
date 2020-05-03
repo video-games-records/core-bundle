@@ -97,6 +97,7 @@ class ChartController extends Controller
     }
 
     /**
+     * Call api form form submit scores
      * Return charts with the one relation player-chart of the connected user
      * If the user has not relation, a default relation is created
      * @param Request $request
@@ -126,6 +127,7 @@ class ChartController extends Controller
                 $playerChart->setId(-1);
                 $playerChart->setChart($chart);
                 $playerChart->setPlayer($player);
+                $playerChart->setLastUpdate(new \DateTime());
                 if (count($platforms) == 1) {
                     $playerChart->setPlatform($platforms[0]);
                 }
@@ -136,6 +138,10 @@ class ChartController extends Controller
                     $playerChart->addLib($playerChartLib);
                 }
                 $chart->setPlayerCharts(array($playerChart));
+            } else {
+                // Set lastUpdate now for return put call
+                $playerCharts = $chart->getPlayerCharts();
+                $playerCharts[0]->setLastUpdate(new \DateTime());
             }
         }
         return $charts;

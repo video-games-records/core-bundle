@@ -44,6 +44,8 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
     lastUpdate:
       groups:
         - 'playerChart.ranking'
+        - 'playerChart.read'
+        - 'playerChart.write'
     createdAt:
       groups: []
     updatedAt:
