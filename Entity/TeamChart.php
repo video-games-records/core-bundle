@@ -10,7 +10,6 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
  *
  * @ORM\Table(name="vgr_team_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdTeam", columns={"idTeam"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamChartRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class TeamChart
 {
