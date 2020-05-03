@@ -20,7 +20,7 @@ class Player implements SluggableInterface
     /**
      * @var \VideoGamesRecords\CoreBundle\Entity\User\UserInterface
      *
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User\UserInterface")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User\UserInterface", inversedBy="relation")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
      */
     private $user;

@@ -19,4 +19,4 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChartLib:
         - 'playerChart.write'
     formatValue:
       groups:
-        - 'playerChart.format'
+        - 'playerChartLib.format'

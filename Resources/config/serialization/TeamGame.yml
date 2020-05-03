@@ -1,11 +1,10 @@
 VideoGamesRecords\CoreBundle\Entity\TeamGame:
   attributes:
     game:
-      groups:
-        - 'team.game'
+      groups: []
     team:
       groups:
-        - 'team.show'
+        - 'teamGame.team'
     pointChart:
       groups:
         - 'teamGame.pointChart'

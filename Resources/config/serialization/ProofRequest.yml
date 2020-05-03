@@ -6,24 +6,25 @@ VideoGamesRecords\CoreBundle\Entity\ProofRequest:
     playerChart:
       groups:
         - 'proof.request.read'
+        - 'proof.request.post'
     status:
       groups:
         - 'proof.request.read'
     playerRequesting:
       groups:
         - 'proof.request.read'
+        - 'proof.request.post'
     playerResponding:
       groups:
         - 'proof.request.read'
     message:
       groups:
         - 'proof.request.read'
+        - 'proof.request.post'
     dateAcceptance:
       groups:
         - 'proof.request.read'
     createdAt:
-      groups:
-        - 'chart.show'
+      groups: []
     updatedAt:
-      groups:
-        - 'chart.show'
+      groups: []

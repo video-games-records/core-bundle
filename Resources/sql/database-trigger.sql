@@ -299,6 +299,7 @@ CREATE TRIGGER vgrGamePlatformAfterDelete AFTER DELETE ON vgr_game_platform
 delimiter ;
 
 
+-- ProofRequest
 delimiter //
 DROP TRIGGER IF EXISTS `vgrProofRequestAfterInsert`//
 CREATE TRIGGER vgrProofRequestAfterInsert AFTER INSERT ON vgr_proof_request

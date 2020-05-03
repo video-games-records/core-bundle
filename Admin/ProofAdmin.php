@@ -194,7 +194,7 @@ class ProofAdmin extends AbstractAdmin
         // REFUSED
         if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_REFUSED) {
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
-            $idStatus = ($playerChart->getStatus()->getIdStatus() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF) ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
+            $idStatus = ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF) ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
             $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, $idStatus));
             $setPlayerResponding = true;
         }

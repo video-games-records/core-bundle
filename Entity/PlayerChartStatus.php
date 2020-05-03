@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * PlayerChartStatus
  *
- * @ORM\Table(name="vgr_player_chart_status", indexes={@ORM\Index(name="idxIdStatus", columns={"idStatus"})})
+ * @ORM\Table(name="vgr_player_chart_status", indexes={@ORM\Index(name="idxIdStatus", columns={"id"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository")
  * @ORM\HasLifecycleCallbacks()
  */
