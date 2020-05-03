@@ -17,6 +17,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @ORM\Table(name="vgr_player_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
  * @DoctrineAssert\UniqueEntity(fields={"chart", "player"}, message="A score already exists for the couple player / chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener"})
  * @ORM\HasLifecycleCallbacks()
  */
 class PlayerChart implements ItemInterface, TimestampableInterface

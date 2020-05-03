@@ -8,19 +8,10 @@ services:
     VideoGamesRecords\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-#    VideoGamesRecords\CoreBundle\EventListener\Entity\DynamicRelationUser:
-#        arguments: []
-#        tags:
-#            - { name: doctrine.event_subscriber, connection: default }
     VideoGamesRecords\CoreBundle\Twig\VgrExtension:
         public: false
         tags:
             - { name: twig.extension }
-    entity.event_listener.playerchart_update:
-        class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartUpdateListener
-        tags:
-            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate}
-            - { name: doctrine.event_listener, event: postUpdate, method: postUpdate}
     vgr.game:
         public: true
         class:    VideoGamesRecords\CoreBundle\Service\Game

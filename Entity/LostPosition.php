@@ -66,7 +66,6 @@ class LostPosition implements TimestampableInterface
 
     public function __construct()
     {
-        $this->setDateCreation(new \DateTime());
     }
 
     /**

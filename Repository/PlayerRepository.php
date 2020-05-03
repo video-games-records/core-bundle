@@ -61,9 +61,9 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param int $idPlayer
+     * @param Player $player
      */
-    public function maj($idPlayer)
+    public function maj($player)
     {
         // query 1
         $query = $this->_em->createQuery("
@@ -79,10 +79,10 @@ class PlayerRepository extends EntityRepository
                  SUM(pg.pointGame) as pointGame
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
-            WHERE p.id = :idPlayer
+            WHERE pg.player = :player
             GROUP BY p.id");
 
-        $query->setParameter('idPlayer', $idPlayer);
+        $query->setParameter('player', $player);
         $result = $query->getResult();
         $row1 = $result[0];
 
@@ -95,14 +95,12 @@ class PlayerRepository extends EntityRepository
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
             JOIN pg.game g
-            WHERE p.id = :idPlayer
+            WHERE pg.player = :player
             AND g.boolRanking = 1
             GROUP BY p.id");
-        $query->setParameter('idPlayer', $idPlayer);
+        $query->setParameter('player', $player);
         $result = $query->getResult();
         $row2 = $result[0];
-
-        $player = $this->_em->find('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer);
 
         $player->setChartRank0($row1['chartRank0']);
         $player->setChartRank1($row1['chartRank1']);
