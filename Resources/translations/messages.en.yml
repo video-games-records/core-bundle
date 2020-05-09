@@ -14,3 +14,25 @@ label:
     topic: 'Topic'
     message: 'Message'
     playerChart: 'Player / Chart'
+proof:
+    request:
+        confirm:
+            object: 'Proof request'
+            message: |
+                Hello %s,
+                A VGR member asked you a proof on the following record: %s
+                If you do not prove your record in a 2 weeks delay, it will be deleted from the site.
+                Regards, VGR Team.
+        accept:
+            object: 'Proof request accepted'
+            message: |
+                Hello %s,
+                Your request for proof on the chart %s for player %s was accepted.
+                Regards, VGR Team.
+        refuse:
+            object: 'Proof request refused'
+            message: |
+                Hello %s,
+                Your request for proof on the chart %s for player %s was refused.
+                Regards, VGR Team.
+

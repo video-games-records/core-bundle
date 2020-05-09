@@ -15,10 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use VideoGamesRecords\CoreBundle\Entity\Message\Message;
 
 class ProofRequestAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
+
 
     /**
      * @inheritdoc
@@ -127,6 +129,15 @@ class ProofRequestAdmin extends AbstractAdmin
                 'associated_property' => 'pseudo',
                 'label' => 'PlayerResponding',
             ])
+            ->add('playerChart.player', null, [
+                'label' => 'Player'
+            ])
+            ->add('playerChart.chart', null, [
+                'label' => 'Chart'
+            ])
+            ->add('message', 'text', [
+                'header_style' => 'width: 30%'
+            ])
             ->add(
                 'status',
                 'choice',
@@ -140,10 +151,11 @@ class ProofRequestAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
-                    /*'view_chart' => [
+                    'view_chart' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:view_chart_link.html.twig'
-                    ],*/
-                ]
+                    ],
+                ],
+                'header_style' => 'width: 220px'
             ]);
     }
 
@@ -156,6 +168,7 @@ class ProofRequestAdmin extends AbstractAdmin
             ->add('id')
             ->add('playerRequesting')
             ->add('playerResponding')
+            ->add('playerChart')
             ->add('message')
             ->add('status');
     }
@@ -171,8 +184,7 @@ class ProofRequestAdmin extends AbstractAdmin
 
         /** @var \App\Entity\User */
         $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-        $player =  $em->getRepository('VideoGamesRecordsCoreBundle:Player')
-            ->getPlayerFromUser($user);
+        $player =  $user->getRelation();
 
         if ($player) {
             if (($object->getPlayerRequesting()->getId() === $player->getId())
@@ -196,6 +208,7 @@ class ProofRequestAdmin extends AbstractAdmin
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
+        $admin = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
         $setPlayerResponding = false;
 
@@ -210,6 +223,37 @@ class ProofRequestAdmin extends AbstractAdmin
                 $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_INVESTIGATION)
             );
             $setPlayerResponding = true;
+            // Send MP (1)
+            $recipient = $object->getPlayerChart()->getPlayer()->getUser();
+            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
+                array(
+                    'type' => 'VGR_PROOF_REQUEST_CONFIRMED',
+                    'object' => $this->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()),
+                    'message' => sprintf(
+                        $this->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                    ),
+                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                    'recipient' => $recipient,
+                )
+            );
+            // Send MP (2)
+            $recipient = $object->getPlayerRequesting()->getUser();
+            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
+                array(
+                    'type' => 'VGR_PROOF_REQUEST_ACCEPTED',
+                    'object' => $this->trans('proof.request.accept.object', array(), null, $recipient->getLocale()),
+                    'message' => sprintf(
+                        $this->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                        $object->getPlayerChart()->getPlayer()->getPseudo()
+                    ),
+                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                    'recipient' => $recipient,
+                )
+            );
         }
 
         // REFUSED
@@ -218,13 +262,25 @@ class ProofRequestAdmin extends AbstractAdmin
                 $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
             );
             $setPlayerResponding = true;
+            $recipient = $object->getPlayerRequesting()->getUser();
+            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
+                array(
+                    'type' => 'VGR_PROOF_REQUEST_REFUSED',
+                    'object' => $this->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()),
+                    'message' => sprintf(
+                        $this->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                        $object->getPlayerChart()->getPlayer()->getPseudo()
+                    ),
+                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                    'recipient' => $recipient,
+                )
+            );
         }
 
         if ($setPlayerResponding) {
-            $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-            $player =  $em->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($user);
-            $object->setPlayerResponding($player);
+            $object->setPlayerResponding($admin->getRelation());
             $object->setDateAcceptance(new \DateTime());
         }
     }

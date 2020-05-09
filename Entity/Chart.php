@@ -131,6 +131,17 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
+     * @param string $locale
+     * @return string
+     */
+    public function getCompleteName($locale = 'en')
+    {
+        return $this->getGroup()->getGame()->translate($locale, false)->getName() . ' - ' .
+            $this->getGroup()->translate($locale, false)->getName() . ' - ' .
+            $this->translate($locale, false)->getName();
+    }
+
+    /**
      * Set idChart
      *
      * @param integer $id
@@ -347,6 +358,22 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     public function getPlayerChartP()
     {
         return $this->playerChartP;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return sprintf(
+            '%s-game-%d/%s-group-%d/%s-chart-%d/index',
+            $this->getGroup()->getGame()->getSlug(),
+            $this->getGroup()->getGame()->getId(),
+            $this->getGroup()->getSlug(),
+            $this->getGroup()->getId(),
+            $this->getSlug(),
+            $this->getId()
+        );
     }
 
     /**
