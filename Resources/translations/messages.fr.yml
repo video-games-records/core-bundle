@@ -14,3 +14,24 @@ label:
     topic: 'Topic'
     message: 'Message'
     playerChart: 'Player / Chart'
+proof:
+    request:
+        confirm:
+            object: 'Demande de preuve'
+            message: |
+                Bonjour %s,
+                Un membre de VGR vous a demandé une preuve sur le record : %s
+                Si vous n'avez pas prouvé votre score dans un délai de deux semaines, comprenez bien qu'il sera effacé du site.
+                Cordialement, l'équipe VGR.
+        accept:
+            object: 'Demande de preuve acceptée'
+            message: |
+                Bonjour %s,
+                Votre demande de preuve sur le record %s pour le joueur %s a été acceptée.
+                Cordialement, l'équipe VGR.
+        refuse:
+            object: 'Demande de preuve refusée'
+            message: |
+                Bonjour %s,
+                Votre demande de preuve sur le record %s pour le joueur %s été refusée.
+                Cordialement, l'équipe VGR.
