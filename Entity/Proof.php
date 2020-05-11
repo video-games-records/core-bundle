@@ -20,6 +20,8 @@ class Proof implements TimestampableInterface
     const STATUS_IN_PROGRESS = 'IN PROGRESS';
     const STATUS_REFUSED = 'REFUSED';
     const STATUS_ACCEPTED = 'ACCEPTED';
+    const STATUS_CLOSED = 'CLOSED';
+
 
     /**
      * @var integer
@@ -219,6 +221,7 @@ class Proof implements TimestampableInterface
             self::STATUS_IN_PROGRESS => self::STATUS_IN_PROGRESS,
             self::STATUS_REFUSED => self::STATUS_REFUSED,
             self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
+            self::STATUS_CLOSED => self::STATUS_CLOSED
         ];
     }
 }

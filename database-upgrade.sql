@@ -1016,7 +1016,7 @@ ALTER TABLE `vgr_proof_request` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEF
 ALTER TABLE `vgr_proof_request` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
 ALTER TABLE `vgr_proof_request` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 UPDATE `vgr_proof_request` SET updated_at = NOW() WHERE CAST(updated_at AS CHAR(20)) LIKE '0%';
-ALTER TABLE `vgr_proof_request` CHANGE `statut` `status` ENUM('EN COURS','FINI','IN PROGRESS','REFUSED','ACCEPTED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
+ALTER TABLE `vgr_proof_request` CHANGE `statut` `status` ENUM('EN COURS','FINI','IN PROGRESS','REFUSED','ACCEPTED','CLOSED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
 ALTER TABLE `vgr_proof_request` CHANGE `idDemandeur` `idPlayerRequesting` INT(13) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_proof_request` CHANGE `texte` `message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_proof_request` CHANGE `dateAcceptation` `dateAcceptance` DATETIME NULL DEFAULT NULL;
@@ -1024,7 +1024,7 @@ ALTER TABLE `vgr_proof_request` CHANGE `idAdmin` `idPlayerResponding` INT(11) NU
 UPDATE `vgr_proof_request` SET status = 'REFUSED' WHERE status = 'FINI' AND dateAcceptance IS NULL;
 UPDATE `vgr_proof_request` SET status = 'ACCEPTED' WHERE status = 'FINI' AND dateAcceptance IS NOT NULL;
 UPDATE `vgr_proof_request` SET status = 'IN PROGRESS' WHERE status = 'EN COURS';
-ALTER TABLE `vgr_proof_request` CHANGE `status` `status` ENUM('IN PROGRESS','REFUSED','ACCEPTED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
+ALTER TABLE `vgr_proof_request` CHANGE `status` `status` ENUM('IN PROGRESS','REFUSED','ACCEPTED','CLOSED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
 ALTER TABLE `vgr_proof_request` ADD `idPlayerChart` INT NOT NULL AFTER `idRequest`;
 UPDATE `vgr_proof_request` r, `vgr_player_chart` c
 SET r.idPlayerChart = c.id
@@ -1122,8 +1122,8 @@ ALTER TABLE vgr_proof_request DROP FOREIGN KEY vgr_proof_request_ibfk_3;
 ALTER TABLE vgr_proof_request DROP INDEX idxUnique;
 ALTER TABLE vgr_proof_request DROP COLUMN idPlayer;
 ALTER TABLE vgr_proof_request DROP COLUMN idChart;
-ALTER TABLE vgr_proof DROP COLUMN idPlayer;
-ALTER TABLE vgr_proof DROP COLUMN idChart;
+-- ALTER TABLE vgr_proof DROP COLUMN idPlayer;
+-- ALTER TABLE vgr_proof DROP COLUMN idChart;
 
 
 -- ROLE
@@ -1555,3 +1555,9 @@ ALTER TABLE `vgr_video` DROP `status`;
 
 ALTER TABLE `vgr_lostposition` CHANGE `dateCreation` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE `vgr_lostposition` ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+
+
+UPDATE message SET type='VGR_PROOF' WHERE type IN ('VGR_PROOF_ACCEPTED', 'VGR_PROOF_REFUSED');
+UPDATE message SET type='VGR_PROOF_REQUEST' WHERE type IN ('VGR_REQUEST_ACCEPTED', 'VGR_REQUEST_REFUSED');
+
+

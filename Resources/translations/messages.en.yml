@@ -35,4 +35,17 @@ proof:
                 Hello %s,
                 Your request for proof on the chart %s for player %s was refused.
                 Regards, VGR Team.
+    proof:
+        accept:
+            object: 'Proof accepted'
+            message: |
+                Hello %s,
+                Your proof on the chart %s was accepted.
+                Regards, VGR Team.
+        refuse:
+            object: 'Proof refused'
+            message: |
+                Hello %s,
+                Your proof on the chart %s was refused.
+                Regards, VGR Team.
 

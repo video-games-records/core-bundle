@@ -200,8 +200,8 @@ class ProofRequestAdmin extends AbstractAdmin
 
 
     /**
-     * @param $object
-     * @throws \Exception
+     * @param object $object
+     * @throws \Doctrine\ORM\ORMException
      */
     public function preUpdate($object)
     {
@@ -227,7 +227,7 @@ class ProofRequestAdmin extends AbstractAdmin
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
                 array(
-                    'type' => 'VGR_PROOF_REQUEST_CONFIRMED',
+                    'type' => 'VGR_PROOF_REQUEST',
                     'object' => $this->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()),
                     'message' => sprintf(
                         $this->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
@@ -242,7 +242,7 @@ class ProofRequestAdmin extends AbstractAdmin
             $recipient = $object->getPlayerRequesting()->getUser();
             $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
                 array(
-                    'type' => 'VGR_PROOF_REQUEST_ACCEPTED',
+                    'type' => 'VGR_PROOF_REQUEST',
                     'object' => $this->trans('proof.request.accept.object', array(), null, $recipient->getLocale()),
                     'message' => sprintf(
                         $this->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
@@ -265,7 +265,7 @@ class ProofRequestAdmin extends AbstractAdmin
             $recipient = $object->getPlayerRequesting()->getUser();
             $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
                 array(
-                    'type' => 'VGR_PROOF_REQUEST_REFUSED',
+                    'type' => 'VGR_PROOF_REQUEST',
                     'object' => $this->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()),
                     'message' => sprintf(
                         $this->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),

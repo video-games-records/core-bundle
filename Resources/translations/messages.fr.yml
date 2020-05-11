@@ -35,3 +35,16 @@ proof:
                 Bonjour %s,
                 Votre demande de preuve sur le record %s pour le joueur %s été refusée.
                 Cordialement, l'équipe VGR.
+    proof:
+        accept:
+            object: 'Preuve acceptée'
+            message: |
+                Bonjour %s,
+                Votre preuve sur le record %s a été acceptée.
+                Cordialement, l'équipe VGR.
+        refuse:
+            object: 'Preuve refusée'
+            message: |
+                Bonjour %s,
+                Votre preuve sur le record %s a été refusée.
+                Cordialement, l'équipe VGR.

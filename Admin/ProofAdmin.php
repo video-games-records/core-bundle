@@ -146,6 +146,7 @@ class ProofAdmin extends AbstractAdmin
             ->add('payerResponding')
             ->add('status')
             ->add('player')
+            ->add('Chart')
             ->add('playerChart');
     }
 
@@ -157,25 +158,29 @@ class ProofAdmin extends AbstractAdmin
     {
         /** @var \App\Entity\User */
         $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-        $player = $user->getPlayer();
+        $player = $user->getRelation();
 
-        if ($object->getPlayerChart()->getPlayer()->getId() === $player->getId()) {
-            $this->getConfigurationPool()->getContainer()->get('session')->getFlashBag()->add(
-                'error',
-                "You can't update this proof"
-            );
-            return new Response();
+        if ($object->getPlayerChart() != null) {
+            if ($object->getPlayerChart()->getPlayer()->getId() === $player->getId()) {
+                $this->getConfigurationPool()->getContainer()->get('session')->getFlashBag()->add(
+                    'error',
+                    "You can't update this proof"
+                );
+                return new Response();
+            }
         }
     }
 
     /**
-     * @param \VideoGamesRecords\CorefBundle\Entity\Proof $object
+     * @param object $object
+     * @throws \Doctrine\ORM\ORMException
      */
     public function preUpdate($object)
     {
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
+        $admin = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
         // Cant change status final
         if (\in_array($originalObject['status'], array(Proof::STATUS_ACCEPTED, Proof::STATUS_REFUSED), true)) {
@@ -183,26 +188,59 @@ class ProofAdmin extends AbstractAdmin
         }
 
         $setPlayerResponding = false;
+        if ($object->getPlayerChart() == null) {
+            $setPlayerResponding = true;
+            $object->setStatus(Proof::STATUS_CLOSED);
+        }
 
         // ACCEPTED
         if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_ACCEPTED) {
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
             $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_PROOVED));
             $setPlayerResponding = true;
+            // Send MP (1)
+            $recipient = $object->getPlayerChart()->getPlayer()->getUser();
+            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
+                array(
+                    'type' => 'VGR_PROOF',
+                    'object' => $this->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
+                    'message' => sprintf(
+                        $this->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                    ),
+                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                    'recipient' => $recipient,
+                )
+            );
         }
 
         // REFUSED
         if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_REFUSED) {
             /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
-            $idStatus = ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF) ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
+            $idStatus = ($object->getPlayerChart()->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF) ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
             $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, $idStatus));
             $setPlayerResponding = true;
+            // Send MP (1)
+            $recipient = $object->getPlayerChart()->getPlayer()->getUser();
+            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
+                array(
+                    'type' => 'VGR_PROOF',
+                    'object' => $this->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
+                    'message' => sprintf(
+                        $this->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                    ),
+                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                    'recipient' => $recipient,
+                )
+            );
         }
 
         // Player Responding
         if ($setPlayerResponding) {
-            $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-            $player = $user->getPlayer();
+            $player = $admin->getRelation();
             $object->setPlayerResponding($player);
         }
     }
