@@ -4,14 +4,12 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.read'
         - 'player.read.mini'
-        - 'player.profile'
         - 'user.profile'
         - 'player.put'
     pseudo:
       groups:
         - 'player.read'
         - 'player.read.mini'
-        - 'player.profile'
     slug:
       groups:
         - 'player.read'

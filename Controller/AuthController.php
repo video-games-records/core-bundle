@@ -14,8 +14,7 @@ class AuthController extends AbstractController
         return array(
             $this->getUser()->getRoles(),
             $this->getUser(),
-            $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser())
+            $this->getUser()->getRelation()
         );
     }
 
@@ -25,8 +24,7 @@ class AuthController extends AbstractController
      */
     public function profilePlayer()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-            ->getPlayerFromUser($this->getUser());
+        return $this->getUser()->getRelation();
     }
 
     /**
@@ -34,8 +32,7 @@ class AuthController extends AbstractController
      */
     public function profileTeam()
     {
-        $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-            ->getPlayerFromUser($this->getUser());
+        $player = $this->getUser()->getRelation();
         return $player->getTeam();
     }
 }

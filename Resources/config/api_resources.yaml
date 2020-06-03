@@ -347,13 +347,13 @@ resources:
             profile-team:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
-                normalization_context: {'groups': [team.profile], 'enable_max_depth':true}
+                normalization_context: {'groups': [team.read.mini], 'enable_max_depth':true}
                 path: '/players/profile-team'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profileTeam'
             profile-player:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
-                normalization_context: {'groups': [player.profile]}
+                normalization_context: {'groups': [player.read.mini]}
                 path: '/players/profile-player'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profilePlayer'
         itemOperations:
