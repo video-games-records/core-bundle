@@ -18,6 +18,9 @@ DROP TRIGGER IF EXISTS `tForumTopicAfterInsert`;
 DROP TRIGGER IF EXISTS `tForumTopicAfterUpdate`;
 DROP TRIGGER IF EXISTS `tForumMessageAfterDelete`;
 DROP TRIGGER IF EXISTS `tForumMessageAfterInsert`;
+DROP TRIGGER IF EXISTS `tDonAfterDelete`;
+DROP TRIGGER IF EXISTS `tDonAfterInsert`;
+DROP TRIGGER IF EXISTS `tDonAfterUpdate`;
 
 --
 DROP TRIGGER IF EXISTS `vgrDemandepreuveAfterInsert`;
@@ -586,7 +589,7 @@ BEGIN
       -- Log for duplicate email
       SELECT CONCAT('Duplicate email for: ', v_email);
       SET duplicateIncrement = duplicateIncrement + 1;
-      SET v_email = duplicateIncrement;
+      SET v_email = CONCAT(v_email, '#', duplicateIncrement);
       SET locked = TRUE;
       -- Retry with new mail
       INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
@@ -768,7 +771,7 @@ ALTER TABLE `user_badge`
   ADD CONSTRAINT `FK_BADGEUSER_USER` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO user_badge (idUser,idBadge)
-SELECT vgr_player.normandie_user_id, badge.id
+SELECT DISTINCT vgr_player.normandie_user_id, badge.id
 FROM vgr_player
 INNER JOIN vgr_player_badge ON vgr_player.id = vgr_player_badge.idPlayer
 INNER JOIN badge ON vgr_player_badge.idBadge = badge.id
@@ -1561,3 +1564,52 @@ UPDATE message SET type='VGR_PROOF' WHERE type IN ('VGR_PROOF_ACCEPTED', 'VGR_PR
 UPDATE message SET type='VGR_PROOF_REQUEST' WHERE type IN ('VGR_REQUEST_ACCEPTED', 'VGR_REQUEST_REFUSED');
 
 
+RENAME TABLE `t_don` TO `cpt_donation`;
+ALTER TABLE `cpt_donation` CHANGE `idDon` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cpt_donation` CHANGE `dateCreation` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `cpt_donation` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `cpt_donation` CHANGE `dateDon` `dateDonation` DATE NOT NULL;
+ALTER TABLE `cpt_donation` CHANGE `somme` `value` DOUBLE NOT NULL;
+ALTER TABLE `cpt_donation` CHANGE `idMembre` `idPlayer` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `cpt_donation` ADD `idUser` INT NULL DEFAULT NULL AFTER `idPlayer`;
+RENAME TABLE `t_gain` TO `cpt_compta`;
+ALTER TABLE `cpt_compta` CHANGE `idGain` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cpt_compta` CHANGE `mois` `month` VARCHAR(7) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0000-00';
+ALTER TABLE `cpt_compta` CHANGE `type` `source` ENUM('DON','ADSENSE','AMAZON.FR','OVH') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `cpt_compta` ADD `type` ENUM('GAIN','BILL') NOT NULL DEFAULT 'GAIN' AFTER `month`;
+ALTER TABLE `cpt_compta` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `value`;
+ALTER TABLE `cpt_compta` ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+CREATE TABLE `cpt_compta_source` (
+    `id` int(11) NOT NULL,
+    `label` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `cpt_compta_source`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `cpt_compta_source`  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+CREATE TABLE `cpt_compta_type` (
+    `id` int(11) NOT NULL,
+    `label` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `cpt_compta_type`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `cpt_compta_type`  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO `cpt_compta_source` (`id`, `label`) VALUES (NULL, 'Don'), (NULL, 'Adsense');
+INSERT INTO `cpt_compta_type` (`id`, `label`) VALUES (NULL, 'Gain'), (NULL, 'Bill');
+ALTER TABLE `cpt_compta` DROP `type`;
+ALTER TABLE `cpt_compta` ADD `idType` INT NOT NULL DEFAULT '1' AFTER `month`;
+ALTER TABLE `cpt_compta` ADD INDEX idxType (`idType`);
+ALTER TABLE `cpt_compta` ADD CONSTRAINT `FK_COMPTA_TYPE` FOREIGN KEY (`idType`) REFERENCES `cpt_compta_type`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `cpt_compta` ADD `idSource` INT NOT NULL DEFAULT '1' AFTER `month`;
+ALTER TABLE `cpt_compta` ADD INDEX idxSource (`idSource`);
+ALTER TABLE `cpt_compta` ADD CONSTRAINT `FK_COMPTA_SOURCE` FOREIGN KEY (`idSource`) REFERENCES `cpt_compta_source`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+UPDATE `cpt_compta` SET idSource = 2 WHERE `source` = 'ADSENSE';
+ALTER TABLE `cpt_compta` DROP `source`;
+
+UPDATE cpt_donation d, vgr_player p
+SET d.idUser = p.normandie_user_id
+WHERE d.idPlayer = p.id;
+ALTER TABLE cpt_donation DROP FOREIGN KEY cpt_donation_ibfk_1;
+ALTER TABLE `cpt_donation` DROP `idPlayer`;
+ALTER TABLE `cpt_donation` ADD CONSTRAINT `FK_DONATION_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `vgr_player` CHANGE `pseudo` `pseudo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `user` CHANGE `username` `username` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `user` CHANGE `username_canonical` `username_canonical` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
