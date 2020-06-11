@@ -10,7 +10,7 @@ BEGIN
     SET seq = seq_begin;
 
     WHILE seq <= seq_end DO
-        SET seq_string = LPAD(seq, 2, '0');
+        SET seq_string = LPAD(seq, nbChar, '0');
         SET label_fr = CONCAT(prefixe_fr, " ", seq_string);
         SET label_en = CONCAT(prefixe_en, " " , seq_string);
 
