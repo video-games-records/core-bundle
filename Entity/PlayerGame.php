@@ -3,12 +3,31 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 /**
  * PlayerGame
  *
  * @ORM\Table(name="vgr_player_game", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository")
+ * @ApiFilter(SearchFilter::class, properties={"player": "exact"})
+ * @ApiFilter(
+ *     GroupFilter::class,
+ *     arguments={
+ *          "parameterName": "groups",
+ *          "overrideDefaultGroups": true,
+ *          "whitelist": {
+ *              "game.read.mini",
+ *              "playerGame.game",
+ *              "playerGame.pointChart",
+ *              "playerGame.medal"
+ *          }
+ *      }
+ * )
+ * @ApiFilter(OrderFilter::class, properties={"pointGame": "DESC"}, arguments={"orderParameterName"="order"})
  */
 class PlayerGame
 {

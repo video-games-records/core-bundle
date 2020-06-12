@@ -3,13 +3,31 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Entity\Game;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 /**
  * TeamGame
  *
  * @ORM\Table(name="vgr_team_game", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxIdTeam", columns={"idTeam"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamGameRepository")
+ * @ApiFilter(SearchFilter::class, properties={"team": "exact"})
+ * @ApiFilter(
+ *     GroupFilter::class,
+ *     arguments={
+ *          "parameterName": "groups",
+ *          "overrideDefaultGroups": true,
+ *          "whitelist": {
+ *              "game.read.mini",
+ *              "teamGame.game",
+ *              "teamGame.pointChart",
+ *              "teamGame.medal"
+ *          }
+ *      }
+ * )
+ * @ApiFilter(OrderFilter::class, properties={"pointGame": "DESC"}, arguments={"orderParameterName"="order"})
  */
 class TeamGame
 {

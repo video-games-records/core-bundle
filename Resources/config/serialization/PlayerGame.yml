@@ -4,7 +4,8 @@ VideoGamesRecords\CoreBundle\Entity\PlayerGame:
       groups:
         - 'playerGame.player'
     game:
-      groups: []
+      groups:
+        - 'playerGame.game'
     rankPointChart:
       groups:
         - 'playerGame.pointChart'
