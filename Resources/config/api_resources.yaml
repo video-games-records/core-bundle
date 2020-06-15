@@ -464,7 +464,7 @@ resources:
             send-picture:
                 access_control: 'is_granted("ROLE_PLAYER")'
                 method: 'POST'
-                path: '/player-chart/{id}/send-picture'
+                path: '/player-charts/{id}/send-picture'
                 consumes:
                     - application/json
                 swagger_context:

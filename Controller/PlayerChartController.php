@@ -17,6 +17,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
+use Aws\S3\S3Client;
 
 /**
  * Class PlayerChartController
@@ -27,6 +28,7 @@ class PlayerChartController extends Controller
 
     private $em;
     private $userManager;
+    private $s3client;
 
     private $extensions = array(
         'text/plain' => '.txt',
@@ -34,16 +36,16 @@ class PlayerChartController extends Controller
         'image/jpeg' => '.jpg',
     );
 
-    public function __construct(UserManagerInterface $userManager, EntityManagerInterface $em)
+    public function __construct(UserManagerInterface $userManager, EntityManagerInterface $em, S3Client $s3client)
     {
         $this->userManager = $userManager;
         $this->em = $em;
+        $this->s3client = $s3client;
     }
 
     public function getPlayer()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-            ->getPlayerFromUser($this->getUser());
+        return $this->getUser()->getRelation();
     }
 
 
@@ -132,8 +134,7 @@ class PlayerChartController extends Controller
             ];
             $key = $idPlayer . '/' . $idGame . '/'. uniqid() . $this->extensions[$meta['mediatype']];
 
-            $s3 = $this->get('aws.s3');
-            $s3->putObject([
+            $this->s3client->putObject([
                 'Bucket' => $_ENV['AWS_BUCKET_PROOF'],
                 'Key'    => $key,
                 'Body'   => $fp,

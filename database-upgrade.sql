@@ -1127,7 +1127,8 @@ ALTER TABLE vgr_proof_request DROP COLUMN idPlayer;
 ALTER TABLE vgr_proof_request DROP COLUMN idChart;
 -- ALTER TABLE vgr_proof DROP COLUMN idPlayer;
 -- ALTER TABLE vgr_proof DROP COLUMN idChart;
-
+ALTER TABLE `vgr_proof` CHANGE `idPlayer` `idPlayer` INT(11) NULL;
+ALTER TABLE `vgr_proof` CHANGE `idChart` `idChart` INT(11) NULL;
 
 -- ROLE
 INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
