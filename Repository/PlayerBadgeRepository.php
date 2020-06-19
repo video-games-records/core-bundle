@@ -159,12 +159,29 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * Maj badges
+     * Maj user badges (Connexion / Forum)
      */
-    public function majBadge()
+    public function majUserBadge()
     {
-        $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
-        SELECT vgr_player.id,badge.id, NOW(), NOW()
+        $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge)
+        SELECT vgr_player.id,badge.id
+        FROM vgr_player,user,badge
+        WHERE type = '%s'
+        AND value <= user.%s
+        AND vgr_player.normandie_user_id = user.id
+        AND badge.id NOT IN (SELECT idBadge FROM vgr_player_badge WHERE idPlayer = vgr_player.id)";
+
+        $this->_em->getConnection()->executeUpdate(sprintf($sql, 'Connexion', 'nbConnexion'));
+        $this->_em->getConnection()->executeUpdate(sprintf($sql, 'Forum', 'nbForumMessage'));
+    }
+
+    /**
+     * Maj player badges
+     */
+    public function majPlayerBadge()
+    {
+        $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge)
+        SELECT vgr_player.id,badge.id
         FROM vgr_player,badge
         WHERE type = '%s'
         AND value <= vgr_player.%s
@@ -172,13 +189,5 @@ class PlayerBadgeRepository extends EntityRepository
 
         $this->_em->getConnection()->executeUpdate(sprintf($sql, 'VgrChart', 'nbChart'));
         $this->_em->getConnection()->executeUpdate(sprintf($sql, 'VgrProof', 'nbChartProven'));
-
-        // Inscrition badge
-        $sql = " INSERT INTO user_badge (idUser, idBadge)
-        SELECT user.id,1
-        FROM user
-        WHERE id NOT IN (SELECT idUser FROM user_badge WHERE idBadge = 1)";
-
-        $this->_em->getConnection()->executeUpdate($sql);
     }
 }

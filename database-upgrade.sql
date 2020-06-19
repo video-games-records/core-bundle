@@ -623,11 +623,11 @@ BEGIN
     END IF;
 
     INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
-              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender, avatar,
+              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, nbForumMessage, personalWebsite, gender, avatar,
               created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
     VALUES
       (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
-       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, siteWeb, gender, userAvatar,
+       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, nb_forum_message, siteWeb, gender, userAvatar,
        userDateCreation, userDateModification, userDerniereConnexion, pays,
        MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
       );
@@ -757,30 +757,6 @@ UPDATE badge SET type='VgrSpecialPoints' WHERE type='SpecialPoints';
 DELETE FROM badge WHERE type='Special';
 
 ALTER TABLE `vgr_game` ADD UNIQUE(`idBadge`);
-
-CREATE TABLE `user_badge` (
-  `idBadge` int(11) NOT NULL,
-  `idUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE `user_badge`
-  ADD PRIMARY KEY (`idBadge`,`idUser`),
-  ADD KEY `idxBadge` (`idBadge`),
-  ADD KEY `idxUser` (`idUser`);
-ALTER TABLE `user_badge`
-  ADD CONSTRAINT `FK_BADGEUSER_BADGE` FOREIGN KEY (`idBadge`) REFERENCES `badge` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_BADGEUSER_USER` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-INSERT INTO user_badge (idUser,idBadge)
-SELECT DISTINCT vgr_player.normandie_user_id, badge.id
-FROM vgr_player
-INNER JOIN vgr_player_badge ON vgr_player.id = vgr_player_badge.idPlayer
-INNER JOIN badge ON vgr_player_badge.idBadge = badge.id
-WHERE badge.type IN ('Connexion', 'Don', 'Forum', 'Inscription')
-AND vgr_player.normandie_user_id IS NOT NULL;
-
-
-DELETE FROM vgr_player_badge
-WHERE idBadge IN (SELECT id FROM badge WHERE `type` IN ('Connexion', 'Don', 'Forum', 'Inscription'));
 
 UPDATE country SET idBadge = null;
 UPDATE country,badge
@@ -1614,3 +1590,7 @@ ALTER TABLE `cpt_donation` ADD CONSTRAINT `FK_DONATION_USER` FOREIGN KEY (`idUse
 ALTER TABLE `vgr_player` CHANGE `pseudo` `pseudo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
 ALTER TABLE `user` CHANGE `username` `username` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `user` CHANGE `username_canonical` `username_canonical` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+-- BADGES
+ALTER TABLE `vgr_player_badge` CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `vgr_player_badge` CHANGE `updated_at` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;

@@ -6,12 +6,20 @@ use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
  * PlayerGame
  *
  * @ORM\Table(name="vgr_player_badge", indexes={@ORM\Index(name="idxIdBadge", columns={"idBadge"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository")
+ * @ApiFilter(SearchFilter::class, properties={"player": "exact"})
+ * @ApiFilter(DateFilter::class, properties={"ended_at": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
+ * @ApiResource(attributes={"order"={"badge.type", "badge.value"}})
  */
 class PlayerBadge implements TimestampableInterface
 {

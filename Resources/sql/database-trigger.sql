@@ -258,6 +258,19 @@ END //
 delimiter ;
 
 
+-- Player
+delimiter //
+DROP TRIGGER IF EXISTS `vgrPlayerAfterInsert`//
+CREATE TRIGGER `vgrPlayerAfterInsert` AFTER INSERT ON `vgr_player`
+    FOR EACH ROW
+BEGIN
+    -- BADGE INSCRIPTION
+    INSERT INTO vgr_player_badge (idPlayer, idBadge) VALUES (NEW.id, 1);
+
+END //
+delimiter ;
+
+
 delimiter //
 DROP TRIGGER IF EXISTS `vgrPlayerAfterUpdate`//
 CREATE TRIGGER vgrPlayerAfterUpdate AFTER UPDATE ON vgr_player

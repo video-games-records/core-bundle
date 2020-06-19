@@ -251,6 +251,12 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::playerRanking'
                 defaults:
                     _api_receive: false
+    VideoGamesRecords\CoreBundle\Entity\PlayerBadge:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [playerBadge.read, playerBadge.badge, badge.read]}
+        itemOperations:
+            get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
         collectionOperations:
             get: ~
