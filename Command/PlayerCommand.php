@@ -76,6 +76,9 @@ class PlayerCommand extends DefaultCommand
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCountry($country);
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majCountryBadge($country);
                 break;
+            case 'maj-nb-master-badge':
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majNbMasterBadge();
+                break;
             case 'maj-role-player':
                 $this->majRolePlayer($output);
                 break;

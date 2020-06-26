@@ -441,9 +441,10 @@ resources:
                 normalization_context: {'groups': [team.read, team.leader, player.read.mini]}
     VideoGamesRecords\CoreBundle\Entity\TeamBadge:
         collectionOperations:
-              get: ~
+            get:
+                normalization_context: {'groups': [teamBadge.read, teamBadge.badge, badge.read]}
         itemOperations:
-              get: ~
+            get: ~
     VideoGamesRecords\CoreBundle\Entity\TeamChart:
         collectionOperations:
               get: ~

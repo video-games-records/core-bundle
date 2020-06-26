@@ -46,6 +46,12 @@ class GameCommand extends DefaultCommand
                 $game = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->maj($game);
                 break;
+            case 'maj-master-badge':
+                $idGame = $input->getOption('idGame');
+                $game = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majMasterBadge($game);
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamBadge')->majMasterBadge($game);
+                break;
             case 'add-from-csv':
                 $service = $this->getContainer()->get('vgr.game');
                 $service->addFromCsv();
@@ -54,9 +60,9 @@ class GameCommand extends DefaultCommand
                 $service = $this->getContainer()->get('vgr.game');
                 $service->updateFromCsv();
                 break;
-            case 'maj-rank':
+            case 'maj-chart-rank':
                 $service = $this->getContainer()->get('vgr.game');
-                $service->majRank();
+                $service->majChartRank();
                 break;
         }
         return true;

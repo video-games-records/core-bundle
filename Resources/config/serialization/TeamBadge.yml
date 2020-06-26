@@ -1,8 +1,11 @@
 VideoGamesRecords\CoreBundle\Entity\TeamBadge:
   attributes:
-    id:
-      groups:
-        - 'team.badge'
     badge:
       groups:
-        - 'team.badge'
+        - 'teamBadge.badge'
+    createdAt:
+      groups:
+        - 'teamBadge.read'
+    endedAt:
+      groups:
+        - 'teamBadge.read'

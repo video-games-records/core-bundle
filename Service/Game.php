@@ -161,7 +161,7 @@ class Game
     /**
      *
      */
-    public function majRank()
+    public function majChartRank()
     {
         $games = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(array('boolMaj' => true));
         foreach ($games as $game) {

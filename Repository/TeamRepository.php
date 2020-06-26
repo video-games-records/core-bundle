@@ -11,33 +11,6 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 class TeamRepository extends EntityRepository
 {
     /**
-     * @return \Doctrine\ORM\Query
-     */
-    public function getPaginatedQuery()
-    {
-        $query = $this->createQueryBuilder('t')
-            ->orderBy('t.libTeam', 'ASC');
-        //->orderBy('t.pointGame', 'DESC');
-
-        return $query->getQuery();
-    }
-
-    /**
-     * @param int $idTeam
-     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
-     */
-    public function getTeamWithGames($idTeam)
-    {
-        $qb = $this->createQueryBuilder('team')
-            ->join('team.teamGame', 'teamGame')
-            ->addSelect('teamGame')
-            ->where('team.idTeam = :idTeam')
-            ->setParameter('idTeam', $idTeam);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-    /**
      * @param $team
      */
     public function maj($team)
@@ -203,6 +176,19 @@ class TeamRepository extends EntityRepository
 
         Ranking::addObjectRank($list, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     *
+     */
+    public function majNbMasterBadge()
+    {
+        $sql = "UPDATE vgr_team
+        SET nbMasterBadge = (SELECT count(vgr_team_badge.id) 
+            FROM vgr_team_badge 
+            INNER JOIN badge ON vgr_team_badge.idBadge = badge.id
+            WHERE badge.type = 'Master' AND idTeam = vgr_team.id AND ended_at IS NULL)";
+        $this->_em->getConnection()->executeUpdate($sql);
     }
 
 

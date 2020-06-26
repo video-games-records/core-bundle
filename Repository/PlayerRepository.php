@@ -248,6 +248,19 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
+     *
+     */
+    public function majNbMasterBadge()
+    {
+        $sql = "UPDATE vgr_player
+        SET nbMasterBadge = (SELECT count(vgr_player_badge.id) 
+            FROM vgr_player_badge 
+            INNER JOIN badge ON vgr_player_badge.idBadge = badge.id
+            WHERE badge.type = 'Master' AND idPlayer = vgr_player.id AND ended_at IS NULL)";
+        $this->_em->getConnection()->executeUpdate($sql);
+    }
+
+    /**
      * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
      * @return \VideoGamesRecords\CoreBundle\Entity\Player
      */
