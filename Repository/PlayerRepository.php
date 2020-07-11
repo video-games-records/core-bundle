@@ -215,7 +215,6 @@ class PlayerRepository extends EntityRepository
      */
     public function majRankCup()
     {
-        $this->majGameRank();
         $players = $this->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
 
         Ranking::addObjectRank($players, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
@@ -411,7 +410,7 @@ class PlayerRepository extends EntityRepository
             ->setParameter('nbChartDisabled', 30)
             ->setParameter('nbChart', 300)
             ->setParameter('percentage', 3)
-            ->andWhere('p.user NOT IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 2)');
+            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 9)');
         return $query->getQuery()->getResult();
     }
 }

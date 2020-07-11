@@ -1108,14 +1108,16 @@ ALTER TABLE `vgr_proof` CHANGE `idChart` `idChart` INT(11) NULL;
 
 -- ROLE
 INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
-(1, 'SuperAdmin', 'a:1:{i:0;s:10:\"ROLE_SUPER_ADMIN\";}'),
+(1, 'SuperAdmin', 'a:1:{i:0;s:16:\"ROLE_SUPER_ADMIN\";}'),
 (2, 'Player', 'a:1:{i:0;s:11:\"ROLE_PLAYER\";}'),
 (3, 'AdminUser', 'a:1:{i:0;s:15:\"ROLE_USER_ADMIN\";}'),
 (4, 'AdminGames', 'a:1:{i:0;s:15:\"ROLE_GAME_ADMIN\";}'),
 (5, 'AdminProof', 'a:1:{i:0;s:16:\"ROLE_PROOF_ADMIN\";}'),
 (6, 'AdminForum', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
 (7, 'AdminMessage', 'a:1:{i:0;s:18:\"ROLE_MESSAGE_ADMIN\";}'),
-(8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}');
+(8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}'),
+(9, 'PlayerDisabledAuto', 'a:1:{i:0;s:20:\"ROLE_PLAYER_DISABLED\";}'),
+(10, 'PlayerDisabledManual', 'a:1:{i:0;s:20:\"ROLE_PLAYER_DISABLED\";}');
 
 -- all users have player role
 INSERT INTO user_group (userId, groupId) SELECT id,2 FROM user WHERE id != 0;
@@ -1594,3 +1596,5 @@ ALTER TABLE `user` CHANGE `username_canonical` `username_canonical` VARCHAR(50) 
 -- BADGES
 ALTER TABLE `vgr_player_badge` CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE `vgr_player_badge` CHANGE `updated_at` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

@@ -166,7 +166,6 @@ class TeamRepository extends EntityRepository
      */
     public function majRankCup()
     {
-        $this->majGameRank();
         $teams = $this->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
 
         $list = array();

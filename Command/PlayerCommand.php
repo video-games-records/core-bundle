@@ -43,6 +43,7 @@ class PlayerCommand extends DefaultCommand
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return bool
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -52,6 +53,9 @@ class PlayerCommand extends DefaultCommand
             case 'maj':
                 $idPlayer = $input->getOption('idPlayer');
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->maj($idPlayer);
+                break;
+            case 'maj-game-rank':
+                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majGameRank();
                 break;
             case 'maj-rank-point-chart':
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankPointChart();
@@ -68,9 +72,6 @@ class PlayerCommand extends DefaultCommand
             case 'maj-rank-proof':
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankProof();
                 break;
-            case 'maj-rank-game':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankGame();
-                break;
             case 'maj-rank-country':
                 $country = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:CountryInterface')->find($input->getOption('idCountry'));
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCountry($country);
@@ -79,8 +80,8 @@ class PlayerCommand extends DefaultCommand
             case 'maj-nb-master-badge':
                 $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player')->majNbMasterBadge();
                 break;
-            case 'maj-role-player':
-                $this->majRolePlayer($output);
+            case 'maj-rules-of-three':
+                $this->majRulesOfThree($output);
                 break;
         }
         $this->end($output);
@@ -91,19 +92,21 @@ class PlayerCommand extends DefaultCommand
      * @param OutputInterface $output
      * @throws \Exception
      */
-    private function majRolePlayer(OutputInterface $output)
+    private function majRulesOfThree(OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerRepository $playerRepository */
         $playerRepository = $em->getRepository('VideoGamesRecordsCoreBundle:Player');
 
-        $group = $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 2);
+        $group1 = $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 2);
+        $group2 = $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 9);
 
         $players = $playerRepository->getPlayerToDisabled();
         foreach ($players as $player) {
             $user = $player->getUser();
-            $user->removeGroup($group);
+            $user->removeGroup($group1);
+            $user->addGroup($group2);
         }
         $em->flush();
         $output->writeln(sprintf('%d players(s) disabled', count($players)));
@@ -112,7 +115,8 @@ class PlayerCommand extends DefaultCommand
         $players = $playerRepository->getPlayerToEnabled();
         foreach ($players as $player) {
             $user = $player->getUser();
-            $user->addGroup($group);
+            $user->addGroup($group1);
+            $user->removeGroup($group2);
         }
         $em->flush();
         $output->writeln(sprintf('%d players(s) enabled', count($players)));

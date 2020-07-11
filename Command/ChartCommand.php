@@ -52,14 +52,15 @@ class ChartCommand extends DefaultCommand
             case 'maj-player':
                 if ($idChart) {
                     $chart = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart')->find($idChart);
-                    $this->updateCharts([$chart]);
+                    $this->updatePlayerChart([$chart]);
                 } else {
                     $this->majPlayer($output);
                 }
                 break;
             case 'maj-team':
                 if ($idChart) {
-                    $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->maj($idChart);
+                    $chart = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart')->find($idChart);
+                    $this->updateTeamChart([$chart]);
                 } else {
                     $this->majTeam($output);
                 }
@@ -81,14 +82,12 @@ class ChartCommand extends DefaultCommand
 
         if ($chartRepository->isMajPlayerRunning()) {
             $output->writeln('vgr:chart maj-player is already running');
-
             return;
         }
         $chartRepository->goToMajPlayer(self::NB_CHART_TO_MAJ);
 
-
         $charts = $chartRepository->getChartToMajPlayer();
-        $this->updateCharts($charts);
+        $this->updatePlayerChart($charts);
 
         $output->writeln(sprintf('%d chart(s) updated', count($charts)));
     }
@@ -97,7 +96,7 @@ class ChartCommand extends DefaultCommand
      * @param array $charts
      * @throws \Exception
      */
-    public function updateCharts(array $charts)
+    public function updatePlayerChart(array $charts)
     {
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository $playerChartRepository */
         $playerChartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart');
@@ -109,6 +108,7 @@ class ChartCommand extends DefaultCommand
         $playerRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player');
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository $playerBadgeRepository */
         $playerBadgeRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge');
+
         $playerList = [];
         $groupList  = [];
         $gameList   = [];
@@ -153,6 +153,7 @@ class ChartCommand extends DefaultCommand
         }
 
         //----- Maj all players
+        $playerRepository->majGameRank();
         $playerRepository->majRankPointChart();
         $playerRepository->majRankPointGame();
         $playerRepository->majRankMedal();
@@ -165,7 +166,31 @@ class ChartCommand extends DefaultCommand
      * @param OutputInterface $output
      * @throws \Exception
      */
-    public function majTeam(OutputInterface $output)
+    private function majTeam(OutputInterface $output)
+    {
+        /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
+        $chartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart');
+
+        if ($chartRepository->isMajTeamRunning()) {
+            $output->writeln('vgr:chart maj-team is already running');
+            return;
+        }
+        $chartRepository->goToMajTeam(self::NB_CHART_TO_MAJ);
+
+        $charts = $chartRepository->getChartToMajTeam();
+        $this->updateTeamChart($charts);
+
+        $output->writeln(sprintf('%d chart(s) updated', count($charts)));
+    }
+
+
+    /**
+     * @param array $charts
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function updateTeamChart(array $charts)
     {
         /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
         $chartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart');
@@ -180,59 +205,48 @@ class ChartCommand extends DefaultCommand
         /** @var \VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository $teamBadgeRepository */
         $teamBadgeRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamBadge');
 
-        if (false === $chartRepository->isMajTeamRunning()) {
-            $chartRepository->goToMajTeam(self::NB_CHART_TO_MAJ);
+        $teamList = array();
+        $groupList = array();
+        $gameList = array();
 
-            $teamList = array();
-            $groupList = array();
-            $gameList = array();
+        foreach ($charts as $chart) {
+            $groupId = $chart->getGroup()->getId();
+            $gameId = $chart->getGroup()->getGame()->getId();
+            $teamList = array_unique(
+                array_merge($teamList, $teamChartRepository->maj($chart))
+            );
 
-            $charts = $chartRepository->getChartToMajTeam();
-
-            if (count($charts) > 0) {
-                foreach ($charts as $chart) {
-                    $groupId = $chart->getGroup()->getId();
-                    $gameId = $chart->getGroup()->getGame()->getId();
-                    $teamList = array_unique(
-                        array_merge($teamList, $teamChartRepository->maj($chart))
-                    );
-
-                    //----- Group
-                    if (!isset($groupList[$groupId])) {
-                        $groupList[$groupId] = $chart->getGroup();
-                    }
-                    //----- Game
-                    if (!isset($gameList[$gameId])) {
-                        $gameList[$gameId] = $chart->getGroup()->getGame();
-                    }
-                }
-
-                //----- Maj group
-                foreach ($groupList as $group) {
-                    $teamGroupRepository->maj($group);
-                }
-
-                //----- Maj game
-                foreach ($gameList as $game) {
-                    $teamGameRepository->maj($game);
-                    $teamBadgeRepository->majMasterBadge($game);
-                }
-
-                //----- Maj team
-                foreach ($teamList as $team) {
-                    $teamRepository->maj($team);
-                }
-
-                //----- Maj all teams
-                $teamRepository->majRankPointChart();
-                $teamRepository->majRankPointGame();
-                $teamRepository->majRankMedal();
-                $teamRepository->majRankCup();
-            } else {
-                $output->writeln('No record to maj');
+            //----- Group
+            if (!isset($groupList[$groupId])) {
+                $groupList[$groupId] = $chart->getGroup();
             }
-        } else {
-            $output->writeln('vgr:chart maj-team is allready running');
+            //----- Game
+            if (!isset($gameList[$gameId])) {
+                $gameList[$gameId] = $chart->getGroup()->getGame();
+            }
         }
+
+        //----- Maj group
+        foreach ($groupList as $group) {
+            $teamGroupRepository->maj($group);
+        }
+
+        //----- Maj game
+        foreach ($gameList as $game) {
+            $teamGameRepository->maj($game);
+            $teamBadgeRepository->majMasterBadge($game);
+        }
+
+        //----- Maj team
+        foreach ($teamList as $team) {
+            $teamRepository->maj($team);
+        }
+
+        //----- Maj all teams
+        $teamRepository->majGameRank();
+        $teamRepository->majRankPointChart();
+        $teamRepository->majRankPointGame();
+        $teamRepository->majRankMedal();
+        $teamRepository->majRankCup();
     }
 }

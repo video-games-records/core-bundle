@@ -11,8 +11,8 @@ class PlayerBadgeCommand extends DefaultCommand
     protected function configure()
     {
         $this
-            ->setName('vgr-core:player')
-            ->setDescription('Command to update players ranking')
+            ->setName('vgr-core:player-badge')
+            ->setDescription('Command to maj player badges')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
