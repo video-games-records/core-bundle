@@ -13,11 +13,14 @@ use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+//use Sonata\DoctrineORMAdminBundle\Filter\StringListFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ProofAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'vgrcorebundle_admin_proof';
+    //protected $baseRouteName = 'vgrcorebundle_admin_proof';
 
     /**
      * @inheritdoc
@@ -31,19 +34,14 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param array $filterValues
      */
-    public function getFilterParameters()
+    protected function configureDefaultFilterValues(array &$filterValues)
     {
-        $this->datagridValues = array_merge(
-            array(
-                'status' => array(
-                    'value' => Proof::STATUS_IN_PROGRESS,
-                )
-            ),
-            $this->datagridValues
-        );
-        return parent::getFilterParameters();
+        $filterValues['status'] = [
+             'type'  => EqualOperatorType::TYPE_EQUAL,
+             'value' => Proof::STATUS_IN_PROGRESS,
+        ];
     }
 
     /**
@@ -63,6 +61,19 @@ class ProofAdmin extends AbstractAdmin
                     'btn_delete' => false,
                     'btn_catalogue' => false,
                     'label' => 'picture',
+                ]
+            )
+            ->add(
+                'video',
+                ModelListType::class,
+                [
+                    'data_class' => null,
+                    'btn_add' => false,
+                    'btn_list' => false,
+                    'btn_edit' => false,
+                    'btn_delete' => false,
+                    'btn_catalogue' => false,
+                    'label' => 'video',
                 ]
             )
             ->add(
@@ -96,6 +107,10 @@ class ProofAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('status')
+            /*->add('status', StringListFilter::class, [], ChoiceType::class, [
+                'choices' => Proof::getStatusChoices(),
+                'multiple' => false,
+            ])*/
             ->add('playerResponding', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
@@ -166,7 +181,17 @@ class ProofAdmin extends AbstractAdmin
                     'error',
                     "You can't update this proof"
                 );
-                return new Response();
+
+                $response = new RedirectResponse(
+                    $this->generateUrl(
+                        'edit',
+                        array(
+                            'id' => $object->getId()
+                        )
+                    )
+                );
+                header('Location: ' . $response->getTargetUrl());
+                exit;
             }
         }
     }
@@ -177,6 +202,7 @@ class ProofAdmin extends AbstractAdmin
      */
     public function preUpdate($object)
     {
+        return false;
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);

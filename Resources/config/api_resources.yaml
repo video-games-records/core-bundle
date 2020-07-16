@@ -491,6 +491,24 @@ resources:
                                   base64:
                                     type: string
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::sendPicture'
+            send-video:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                method: 'POST'
+                path: '/player-charts/{id}/send-video'
+                consumes:
+                    - application/json
+                swagger_context:
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          type: integer
+                        - in: body
+                          name: url
+                          description: Video URL
+                          schema:
+                              type: text
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::sendVideo'
         itemOperations:
             get:
                 normalization_context: {'groups': [proof.read, picture.read]}

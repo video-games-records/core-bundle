@@ -16,6 +16,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
 use Aws\S3\S3Client;
 
@@ -182,6 +183,73 @@ class PlayerChartController extends Controller
         $response->setContent(json_encode([
             'id' => $id,
             'file' => $file,
+        ]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @param PlayerChart $playerChart
+     * @param Request     $request
+     * @return Response
+     * @throws AccessDeniedException
+     */
+    public function sendVideo(PlayerChart $playerChart, Request $request)
+    {
+        if ($playerChart->getPlayer() != $this->getPlayer()) {
+            throw new AccessDeniedException('ACESS DENIED');
+        }
+        if (!in_array($playerChart->getStatus()->getId(), PlayerChartStatus::getStatusForProving())) {
+            throw new AccessDeniedException('ACESS DENIED');
+        }
+
+        $id = $playerChart->getId();
+
+        $data = json_decode($request->getContent(), true);
+        $url = $data['url'];
+
+        $video = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Video')->findOneBy(
+            array(
+                'url' => $url,
+            )
+        );
+
+        $em = $this->getDoctrine()->getManager();
+
+        if ($video == null) {
+            //-- Video
+            $video = new Video();
+            $video->setUrl($url);
+            $video->setPlayer($this->getPlayer());
+            $video->setGame($playerChart->getChart()->getGroup()->getGame());
+            $video->setLibVideo($playerChart->getChart()->getCompleteName('en'));
+            $em->persist($video);
+        }
+
+        //-- Proof
+        $proof = new Proof();
+        $proof->setVideo($video);
+        $em->persist($proof);
+
+        //-- PlayerChart
+        $playerChart->setProof($proof);
+        if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
+            // NORMAL TO NORMAL_SEND_PROOF
+            $playerChart->setStatus(
+                $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
+            );
+        } else {
+            // INVESTIGATION TO DEMAND_SEND_PROOF
+            $playerChart->setStatus(
+                $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF)
+            );
+        }
+        $em->flush();
+
+        $response = new Response();
+        $response->setContent(json_encode([
+            'id' => $id,
+            'url' => $url,
         ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

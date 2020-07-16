@@ -1598,3 +1598,4 @@ ALTER TABLE `vgr_player_badge` CHANGE `created_at` `created_at` DATETIME NOT NUL
 ALTER TABLE `vgr_player_badge` CHANGE `updated_at` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `vgr_video` ADD UNIQUE(`url`);

@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,8 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use VideoGamesRecords\CoreBundle\Entity\Message\Message;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ProofRequestAdmin extends AbstractAdmin
 {
@@ -34,19 +37,14 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param array $filterValues
      */
-    public function getFilterParameters()
+    protected function configureDefaultFilterValues(array &$filterValues)
     {
-        $this->datagridValues = array_merge(
-            array(
-                'status' => array(
-                    'value' => ProofRequest::STATUS_IN_PROGRESS,
-                )
-            ),
-            $this->datagridValues
-        );
-        return parent::getFilterParameters();
+        $filterValues['status'] = [
+            'type'  => EqualOperatorType::TYPE_EQUAL,
+            'value' => ProofRequest::STATUS_IN_PROGRESS,
+        ];
     }
 
     /**
@@ -193,7 +191,17 @@ class ProofRequestAdmin extends AbstractAdmin
                     'error',
                     "You can't update this request"
                 );
-                return new Response();
+
+                $response = new RedirectResponse(
+                    $this->generateUrl(
+                        'edit',
+                        array(
+                            'id' => $object->getId()
+                        )
+                    )
+                );
+                header('Location: ' . $response->getTargetUrl());
+                exit;
             }
         }
     }
@@ -205,6 +213,7 @@ class ProofRequestAdmin extends AbstractAdmin
      */
     public function preUpdate($object)
     {
+        return;
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
