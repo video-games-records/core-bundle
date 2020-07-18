@@ -184,7 +184,7 @@ class ProofRequestAdmin extends AbstractAdmin
         $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
         $player =  $user->getRelation();
 
-        if ($player) {
+        /*if ($player) {
             if (($object->getPlayerRequesting()->getId() === $player->getId())
             || ($object->getPlayerChart()->getPlayer()->getId() === $player->getId())) {
                 $this->getConfigurationPool()->getContainer()->get('session')->getFlashBag()->add(
@@ -203,7 +203,7 @@ class ProofRequestAdmin extends AbstractAdmin
                 header('Location: ' . $response->getTargetUrl());
                 exit;
             }
-        }
+        }*/
     }
 
 
@@ -213,7 +213,6 @@ class ProofRequestAdmin extends AbstractAdmin
      */
     public function preUpdate($object)
     {
-        return;
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
@@ -234,6 +233,7 @@ class ProofRequestAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
+            $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
                 array(
                     'type' => 'VGR_PROOF_REQUEST',
@@ -241,6 +241,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     'message' => sprintf(
                         $this->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
                         $recipient->getUsername(),
+                        $url,
                         $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
                     ),
                     'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
@@ -256,6 +257,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     'message' => sprintf(
                         $this->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
                         $recipient->getUsername(),
+                        $url,
                         $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
                         $object->getPlayerChart()->getPlayer()->getPseudo()
                     ),
@@ -272,6 +274,7 @@ class ProofRequestAdmin extends AbstractAdmin
             );
             $setPlayerResponding = true;
             $recipient = $object->getPlayerRequesting()->getUser();
+            $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
                 array(
                     'type' => 'VGR_PROOF_REQUEST',
@@ -279,6 +282,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     'message' => sprintf(
                         $this->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
                         $recipient->getUsername(),
+                        $url,
                         $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
                         $object->getPlayerChart()->getPlayer()->getPseudo()
                     ),

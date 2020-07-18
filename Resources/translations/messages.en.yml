@@ -20,32 +20,32 @@ proof:
             object: 'Proof request'
             message: |
                 Hello %s,
-                A VGR member asked you a proof on the following record: %s
+                A VGR member asked you a proof on the following score: <a href="%s">%s</a>
                 If you do not prove your record in a 2 weeks delay, it will be deleted from the site.
                 Regards, VGR Team.
         accept:
             object: 'Proof request accepted'
             message: |
                 Hello %s,
-                Your request for proof on the chart %s for player %s was accepted.
+                Your request for proof on the score <a href="%s">%s</a> for player %s was accepted.
                 Regards, VGR Team.
         refuse:
             object: 'Proof request refused'
             message: |
                 Hello %s,
-                Your request for proof on the chart %s for player %s was refused.
+                Your request for proof on the score <a href="%s">%s</a> for player %s was refused.
                 Regards, VGR Team.
     proof:
         accept:
             object: 'Proof accepted'
             message: |
                 Hello %s,
-                Your proof on the chart %s was accepted.
+                Your proof on the score <a href="%s">%s</a> was accepted.
                 Regards, VGR Team.
         refuse:
             object: 'Proof refused'
             message: |
                 Hello %s,
-                Your proof on the chart %s was refused.
+                Your proof on the score <a href="%s">%s</a> was refused.
                 Regards, VGR Team.
 

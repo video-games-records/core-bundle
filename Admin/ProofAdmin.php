@@ -226,6 +226,7 @@ class ProofAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
+            $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
                 array(
                     'type' => 'VGR_PROOF',
@@ -233,6 +234,7 @@ class ProofAdmin extends AbstractAdmin
                     'message' => sprintf(
                         $this->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
                         $recipient->getUsername(),
+                        $url,
                         $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
                     ),
                     'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
@@ -249,6 +251,7 @@ class ProofAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
+            $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
                 array(
                     'type' => 'VGR_PROOF',
@@ -256,6 +259,7 @@ class ProofAdmin extends AbstractAdmin
                     'message' => sprintf(
                         $this->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
                         $recipient->getUsername(),
+                        $url,
                         $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
                     ),
                     'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),

@@ -505,4 +505,21 @@ class PlayerChart implements ItemInterface, TimestampableInterface
             $this->setDateInvestigation(null);
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return sprintf(
+            '%s-game-g%d/%s-group-g%d/%s-chart-c%d/pc-%d/index',
+            $this->getChart()->getGroup()->getGame()->getSlug(),
+            $this->getChart()->getGroup()->getGame()->getId(),
+            $this->getChart()->getGroup()->getSlug(),
+            $this->getChart()->getGroup()->getId(),
+            $this->getChart()->getSlug(),
+            $this->getChart()->getId(),
+            $this->getId()
+        );
+    }
 }

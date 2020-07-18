@@ -366,7 +366,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     public function getUrl()
     {
         return sprintf(
-            '%s-game-%d/%s-group-%d/%s-chart-%d/index',
+            '%s-game-g%d/%s-group-g%d/%s-chart-c%d/index',
             $this->getGroup()->getGame()->getSlug(),
             $this->getGroup()->getGame()->getId(),
             $this->getGroup()->getSlug(),
