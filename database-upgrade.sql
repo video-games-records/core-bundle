@@ -1599,3 +1599,9 @@ ALTER TABLE `vgr_player_badge` CHANGE `updated_at` `updated_at` DATETIME NOT NUL
 
 ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `vgr_video` ADD UNIQUE(`url`);
+
+-- ARTICLE
+ALTER TABLE article DROP FOREIGN KEY article_ibfk_1;
+UPDATE article a, vgr_player p
+SET a.idAuthor = p.normandie_user_id
+WHERE a.idAuthor = p.id;
