@@ -769,4 +769,16 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     {
         return ['defaultName'];
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return sprintf(
+            '%s-game-g%d/index',
+            $this->getSlug(),
+            $this->getId()
+        );
+    }
 }

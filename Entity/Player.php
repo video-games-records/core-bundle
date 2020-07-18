@@ -1051,4 +1051,16 @@ class Player implements SluggableInterface
     {
         return ($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getId());
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return sprintf(
+            '%s-player-p%d',
+            $this->getSlug(),
+            $this->getId()
+        );
+    }
 }
