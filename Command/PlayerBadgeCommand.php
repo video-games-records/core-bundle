@@ -5,9 +5,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerBadgeCommand extends DefaultCommand
 {
+    protected static $defaultName = 'vgr-core:player-badge';
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -38,8 +49,8 @@ class PlayerBadgeCommand extends DefaultCommand
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majUserBadge();
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majPlayerBadge();
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majUserBadge();
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majPlayerBadge();
                 break;
         }
         $this->end($output);

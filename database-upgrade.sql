@@ -1605,3 +1605,33 @@ ALTER TABLE article DROP FOREIGN KEY article_ibfk_1;
 UPDATE article a, vgr_player p
 SET a.idAuthor = p.normandie_user_id
 WHERE a.idAuthor = p.id;
+
+UPDATE `vgr_player` SET `chartRank0` = 0 WHERE `chartRank0` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `chartRank0` `chartRank0` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `chartRank1` = 0 WHERE `chartRank1` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `chartRank1` `chartRank1` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `chartRank2` = 0 WHERE `chartRank2` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `chartRank2` `chartRank2` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `chartRank3` = 0 WHERE `chartRank3` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `chartRank3` `chartRank3` INT(11) NOT NULL DEFAULT '0';
+
+UPDATE `vgr_player` SET `gameRank0` = 0 WHERE `gameRank0` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `gameRank0` `gameRank0` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `gameRank1` = 0 WHERE `gameRank1` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `gameRank1` `gameRank1` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `gameRank2` = 0 WHERE `gameRank2` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `gameRank2` `gameRank2` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `gameRank3` = 0 WHERE `gameRank3` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `gameRank3` `gameRank3` INT(11) NOT NULL DEFAULT '0';
+
+UPDATE `vgr_player` SET `nbChart` = 0 WHERE `nbChart` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `nbChart` `nbChart` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `nbChartProven` = 0 WHERE `nbChartProven` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `nbChartProven` `nbChartProven` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `nbChartDisabled` = 0 WHERE `nbChartDisabled` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `nbChartDisabled` `nbChartDisabled` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `nbMasterBadge` = 0 WHERE `nbMasterBadge` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `nbMasterBadge` `nbMasterBadge` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `pointGame` = 0 WHERE `pointGame` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `pointGame` `pointGame` INT(11) NOT NULL DEFAULT '0';
+

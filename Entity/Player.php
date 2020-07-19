@@ -61,28 +61,28 @@ class Player implements SluggableInterface
      *
      * @ORM\Column(name="chartRank0", type="integer", nullable=true)
      */
-    private $chartRank0;
+    private $chartRank0 = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="chartRank1", type="integer", nullable=true)
      */
-    private $chartRank1;
+    private $chartRank1 = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="chartRank2", type="integer", nullable=true)
      */
-    private $chartRank2;
+    private $chartRank2 = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="chartRank3", type="integer", nullable=true)
      */
-    private $chartRank3;
+    private $chartRank3 = 0;
 
     /**
      * @var integer
@@ -159,28 +159,28 @@ class Player implements SluggableInterface
      *
      * @ORM\Column(name="gameRank0", type="integer", nullable=true)
      */
-    private $gameRank0;
+    private $gameRank0 = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="gameRank1", type="integer", nullable=true)
      */
-    private $gameRank1;
+    private $gameRank1 = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="gameRank2", type="integer", nullable=true)
      */
-    private $gameRank2;
+    private $gameRank2 = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="gameRank3", type="integer", nullable=true)
      */
-    private $gameRank3;
+    private $gameRank3 = 0;
 
     /**
      * @var integer

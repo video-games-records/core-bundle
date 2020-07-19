@@ -2,15 +2,25 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ChartCommand extends DefaultCommand
 {
+    protected static $defaultName = 'vgr-core:chart';
+
+    private $em;
+
     const NB_CHART_TO_MAJ = 1000;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -51,7 +61,7 @@ class ChartCommand extends DefaultCommand
         switch ($function) {
             case 'maj-player':
                 if ($idChart) {
-                    $chart = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart')->find($idChart);
+                    $chart = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart')->find($idChart);
                     $this->updatePlayerChart([$chart]);
                 } else {
                     $this->majPlayer($output);
@@ -59,7 +69,7 @@ class ChartCommand extends DefaultCommand
                 break;
             case 'maj-team':
                 if ($idChart) {
-                    $chart = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart')->find($idChart);
+                    $chart = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart')->find($idChart);
                     $this->updateTeamChart([$chart]);
                 } else {
                     $this->majTeam($output);
@@ -78,7 +88,7 @@ class ChartCommand extends DefaultCommand
     private function majPlayer(OutputInterface $output)
     {
         /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
-        $chartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart');
+        $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
 
         if ($chartRepository->isMajPlayerRunning()) {
             $output->writeln('vgr:chart maj-player is already running');
@@ -99,15 +109,15 @@ class ChartCommand extends DefaultCommand
     public function updatePlayerChart(array $charts)
     {
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository $playerChartRepository */
-        $playerChartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart');
+        $playerChartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart');
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository $playerGroupRepository */
-        $playerGroupRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup');
+        $playerGroupRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup');
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository $playerGameRepository */
-        $playerGameRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGame');
+        $playerGameRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame');
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerRepository $playerRepository */
-        $playerRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Player');
+        $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
         /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository $playerBadgeRepository */
-        $playerBadgeRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge');
+        $playerBadgeRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge');
 
         $playerList = [];
         $groupList  = [];
@@ -169,7 +179,7 @@ class ChartCommand extends DefaultCommand
     private function majTeam(OutputInterface $output)
     {
         /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
-        $chartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart');
+        $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
 
         if ($chartRepository->isMajTeamRunning()) {
             $output->writeln('vgr:chart maj-team is already running');
@@ -192,18 +202,16 @@ class ChartCommand extends DefaultCommand
      */
     public function updateTeamChart(array $charts)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
-        $chartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Chart');
         /** @var \VideoGamesRecords\CoreBundle\Repository\TeamChartRepository $teamChartRepository */
-        $teamChartRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamChart');
+        $teamChartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamChart');
         /** @var \VideoGamesRecords\CoreBundle\Repository\TeamGroupRepository $teamGroupRepository */
-        $teamGroupRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGroup');
+        $teamGroupRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamGroup');
         /** @var \VideoGamesRecords\CoreBundle\Repository\TeamGameRepository $teamGameRepository */
-        $teamGameRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGame');
+        $teamGameRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamGame');
         /** @var \VideoGamesRecords\CoreBundle\Repository\TeamRepository $teamRepository */
-        $teamRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:Team');
+        $teamRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Team');
         /** @var \VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository $teamBadgeRepository */
-        $teamBadgeRepository = $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamBadge');
+        $teamBadgeRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamBadge');
 
         $teamList = array();
         $groupList = array();

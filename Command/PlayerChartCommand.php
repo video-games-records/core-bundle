@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -9,6 +10,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PlayerChartCommand extends DefaultCommand
 {
+    protected static $defaultName = 'vgr-core:player-chart';
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -39,7 +50,7 @@ class PlayerChartCommand extends DefaultCommand
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj-investigation':
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majInvestigation();
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majInvestigation();
                 break;
         }
         $this->end($output);

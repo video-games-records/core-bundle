@@ -1,6 +1,7 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -8,6 +9,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SerieCommand extends DefaultCommand
 {
+    protected static $defaultName = 'vgr-core:serie';
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -33,7 +44,7 @@ class SerieCommand extends DefaultCommand
         switch ($function) {
             case 'maj':
                 $idSerie = $input->getOption('idSerie');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')->maj($idSerie);
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerSerie')->maj($idSerie);
                 break;
         }
     }

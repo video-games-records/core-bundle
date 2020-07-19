@@ -5,9 +5,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class GroupCommand extends DefaultCommand
 {
+    protected static $defaultName = 'vgr-core:group';
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -38,11 +49,11 @@ class GroupCommand extends DefaultCommand
         switch ($function) {
             case 'maj-player':
                 $idGroup = $input->getOption('idGroup');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj($idGroup);
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->maj($idGroup);
                 break;
             case 'maj-team':
                 $idGroup = $input->getOption('idGroup');
-                $this->getContainer()->get('doctrine')->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->maj($idGroup);
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->maj($idGroup);
                 break;
         }
 
