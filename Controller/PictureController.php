@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
@@ -14,7 +14,7 @@ use VideoGamesRecords\CoreBundle\File\Picture as PictureFile;
  * Class PictureController
  * @Route("/proof/picture")
  */
-class PictureController extends Controller
+class PictureController extends AbstractController
 {
     private $s3client;
 

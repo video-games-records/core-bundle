@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class TeamController
  * @Route("/team")
  */
-class TeamController extends Controller
+class TeamController extends AbstractController
 {
     /**
      * @return Team|null

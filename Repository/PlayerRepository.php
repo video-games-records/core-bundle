@@ -86,7 +86,7 @@ class PlayerRepository extends EntityRepository
         $result = $query->getResult();
         $row1 = $result[0];
 
-        // query 2
+        // query 2 (boolRanking = true)
         $query = $this->_em->createQuery("
             SELECT
                  p.id,

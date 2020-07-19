@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class GameController
  * @Route("/game")
  */
-class GameController extends Controller
+class GameController extends AbstractController
 {
     /**
      * @return \VideoGamesRecords\CoreBundle\Entity\Player|null

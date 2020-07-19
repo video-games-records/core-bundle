@@ -2,14 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 
 /**
  * Class GroupController
  */
-class GroupController extends Controller
+class GroupController extends AbstractController
 {
     /**
      * @return \VideoGamesRecords\CoreBundle\Entity\Player|null

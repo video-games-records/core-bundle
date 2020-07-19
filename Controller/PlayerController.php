@@ -3,13 +3,13 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class PlayerController
  * @Route("/player")
  */
-class PlayerController extends Controller
+class PlayerController extends AbstractController
 {
     /**
      * @return \VideoGamesRecords\CoreBundle\Entity\Player|null

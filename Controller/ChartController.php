@@ -3,8 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +13,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 /**
  * Class ChartController
  */
-class ChartController extends Controller
+class ChartController extends AbstractController
 {
     /**
      * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
@@ -39,19 +38,6 @@ class ChartController extends Controller
             return $player->getTeam();
         }
         return null;
-    }
-
-    /**
-     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index", methods={"GET"})
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @param string $slug
-     */
-    public function indexAction($id, $slug)
-    {
-        //@todo redirect to front
-        exit;
     }
 
     /**

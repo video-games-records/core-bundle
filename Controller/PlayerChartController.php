@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,7 @@ use Aws\S3\S3Client;
  * Class PlayerChartController
  * @Route("/player-chart")
  */
-class PlayerChartController extends Controller
+class PlayerChartController extends AbstractController
 {
 
     private $em;

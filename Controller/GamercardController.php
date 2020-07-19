@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\File\Picture;
 
@@ -14,7 +14,7 @@ use VideoGamesRecords\CoreBundle\File\Picture;
  * @Route("/gamercard")
  * @Cache(expires="tomorrow", public=true)
  */
-class GamercardController extends Controller
+class GamercardController extends AbstractController
 {
     /**
      * @Route("/mini/{id}", name="gamercard_mini", methods={"GET"})
