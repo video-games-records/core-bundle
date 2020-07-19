@@ -7,16 +7,17 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Game as GameEntity;
 use VideoGamesRecords\CoreBundle\Entity\ChartType;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Game
 {
     private $em;
     private $directory;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em, $rootDir)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em        = $em;
-        $this->directory = $rootDir . '/../var/data/game';
+        $this->directory = '.';
     }
 
     /**

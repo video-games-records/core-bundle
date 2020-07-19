@@ -12,13 +12,6 @@ services:
         public: false
         tags:
             - { name: twig.extension }
-    vgr.game:
-        public: true
-        class:    VideoGamesRecords\CoreBundle\Service\Game
-        arguments: [
-            "@=service('doctrine.orm.default_entity_manager')",
-            "%kernel.root_dir%"
-            ]
     player.filter:
         parent: 'api_platform.doctrine.orm.search_filter'
         arguments: [ { player: ~ } ]

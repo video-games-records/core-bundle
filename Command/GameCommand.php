@@ -67,15 +67,12 @@ class GameCommand extends DefaultCommand
                 $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamBadge')->majMasterBadge($game);
                 break;
             case 'add-from-csv':
-                $service = $this->getContainer()->get('vgr.game');
                 $this->service->addFromCsv();
                 break;
             case 'update-from-csv':
-                $service = $this->getContainer()->get('vgr.game');
                 $this->service->updateFromCsv();
                 break;
             case 'maj-chart-rank':
-                $service = $this->getContainer()->get('vgr.game');
                 $this->service->majChartRank();
                 break;
         }
