@@ -13,7 +13,7 @@ delimiter ;
 
 delimiter //
 DROP TRIGGER IF EXISTS `userAfterUpdate`//
-CREATE TRIGGER `userAfterUpdate` AFTER INSERT ON `user`
+CREATE TRIGGER `userAfterUpdate` AFTER UPDATE ON `user`
 FOR EACH ROW
 BEGIN
     -- Player
@@ -21,7 +21,7 @@ BEGIN
     SET
         pseudo = NEW.username,
         avatar = NEW.avatar,
-        idCountry = NEW .idCountry
+        idCountry = NEW.idCountry
     WHERE normandie_user_id = NEW.id;
 END //
 delimiter ;
