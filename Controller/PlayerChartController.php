@@ -19,6 +19,7 @@ use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
 use Aws\S3\S3Client;
+use Eko\FeedBundle\Feed\FeedManager;
 
 /**
  * Class PlayerChartController
@@ -26,10 +27,9 @@ use Aws\S3\S3Client;
  */
 class PlayerChartController extends AbstractController
 {
-
-    private $em;
     private $userManager;
     private $s3client;
+    protected $feedManager;
 
     private $extensions = array(
         'text/plain' => '.txt',
@@ -37,11 +37,14 @@ class PlayerChartController extends AbstractController
         'image/jpeg' => '.jpg',
     );
 
-    public function __construct(UserManagerInterface $userManager, EntityManagerInterface $em, S3Client $s3client)
-    {
+    public function __construct(
+        UserManagerInterface $userManager,
+        S3Client $s3client,
+        FeedManager $feedManager
+    ) {
         $this->userManager = $userManager;
-        $this->em = $em;
         $this->s3client = $s3client;
+        $this->feedManager = $feedManager;
     }
 
     public function getPlayer()
@@ -59,11 +62,12 @@ class PlayerChartController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $idGame = $data['idGame'];
         $idPlatform = $data['idPlatform'];
+        $em = $this->getDoctrine()->getManager();
 
         $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majPlatform(
             $this->getPlayer(),
-            $this->em->getReference(Game::class, $idGame),
-            $this->em->getReference(Platform::class, $idPlatform)
+            $em->getReference(Game::class, $idGame),
+            $em->getReference(Platform::class, $idPlatform)
         );
         return new JsonResponse(['data' => true]);
     }
@@ -80,7 +84,7 @@ class PlayerChartController extends AbstractController
 
         $playerCharts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->rssTopScore($idGame, $idGroup);
 
-        $feed = $this->get('eko_feed.feed.manager')->get('player.chart.high.scores');
+        $feed = $this->feedManager->get('player.chart.high.scores');
 
         // Add prefixe link
         foreach ($playerCharts as $playerChart) {
