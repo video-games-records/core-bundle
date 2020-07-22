@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,6 +30,18 @@ class GameAdmin extends AbstractAdmin
     {
         $collection
             ->remove('export');
+    }
+
+    /**
+     * @param ProxyQueryInterface $query
+     * @return ProxyQueryInterface
+     */
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+            ->addSelect('t');
+        return $query;
     }
 
     /**

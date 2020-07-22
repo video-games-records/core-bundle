@@ -23,9 +23,15 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *
  * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
- * @method GameTranslation translate(string $locale, bool $fallbackToDefault)
- * @ApiResource(attributes={"order"={"translations.name"}})
- * @ApiFilter(SearchFilter::class, properties={"status": "exact", "platforms": "exact", "playerGame.player": "exact", "groups.charts.lostPositions.player": "exact"})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "status": "exact",
+ *          "platforms": "exact",
+ *          "playerGame.player": "exact",
+ *          "groups.charts.lostPositions.player": "exact"
+ *      }
+ * )
  * @ApiFilter(GroupFilter::class, arguments={"parameterName": "groups", "overrideDefaultGroups": true, "whitelist": {"game.read.mini"}})
  */
 class Game implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface

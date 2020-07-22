@@ -10,6 +10,7 @@ resources:
         collectionOperations:
             get:
                 normalization_context: {'groups': [game.list]}
+                pagination_use_output_walkers: true
         itemOperations:
             get:
                 normalization_context: {'groups': [game.read, game.platforms, platform.read]}
