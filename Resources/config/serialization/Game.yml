@@ -22,7 +22,9 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     etat:
       groups: []
     publishedAt:
-      groups: []
+      groups:
+        - 'game.list'
+        - 'game.read'
     boolDlc:
       groups: []
     boolRanking:

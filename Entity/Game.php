@@ -17,12 +17,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
  * Game
  *
  * @ORM\Table(name="vgr_game", indexes={@ORM\Index(name="idxStatus", columns={"status"}), @ORM\Index(name="idxEtat", columns={"etat"}), @ORM\Index(name="idxSerie", columns={"idSerie"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
+ * @ApiResource(attributes={"order"={"translations.name"}})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
@@ -32,7 +34,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "groups.charts.lostPositions.player": "exact"
  *      }
  * )
- * @ApiFilter(GroupFilter::class, arguments={"parameterName": "groups", "overrideDefaultGroups": true, "whitelist": {"game.read.mini"}})
+ * @ApiFilter(GroupFilter::class, arguments={"parameterName": "groups", "overrideDefaultGroups": true, "whitelist": {"game.read.mini","game.list","game.platforms","platform.read"}})
+ * @ApiFilter(OrderFilter::class, properties={"publishedAt": "DESC"}, arguments={"orderParameterName"="order"})
  */
 class Game implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
 {

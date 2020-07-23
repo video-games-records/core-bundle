@@ -1635,3 +1635,4 @@ ALTER TABLE `vgr_player` CHANGE `nbMasterBadge` `nbMasterBadge` INT(11) NOT NULL
 UPDATE `vgr_player` SET `pointGame` = 0 WHERE `pointGame` IS NULL;
 ALTER TABLE `vgr_player` CHANGE `pointGame` `pointGame` INT(11) NOT NULL DEFAULT '0';
 
+UPDATE vgr_game SET published_at = updated_at WHERE status='ACTIF' AND published_at IS NULL;
