@@ -177,14 +177,9 @@ class ProofRequestAdmin extends AbstractAdmin
      */
     public function preValidate($object)
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
-        $em = $this->getModelManager()->getEntityManager($this->getClass());
+        $player =  $this->getPlayer();
 
-        /** @var \App\Entity\User */
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-        $player =  $user->getRelation();
-
-        /*if ($player) {
+        if ($player) {
             if (($object->getPlayerRequesting()->getId() === $player->getId())
             || ($object->getPlayerChart()->getPlayer()->getId() === $player->getId())) {
                 $this->getConfigurationPool()->getContainer()->get('session')->getFlashBag()->add(
@@ -203,7 +198,7 @@ class ProofRequestAdmin extends AbstractAdmin
                 header('Location: ' . $response->getTargetUrl());
                 exit;
             }
-        }*/
+        }
     }
 
 
@@ -216,7 +211,7 @@ class ProofRequestAdmin extends AbstractAdmin
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
-        $admin = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $player = $this->getPlayer();
 
         $setPlayerResponding = false;
 
@@ -293,8 +288,19 @@ class ProofRequestAdmin extends AbstractAdmin
         }
 
         if ($setPlayerResponding) {
-            $object->setPlayerResponding($admin->getRelation());
+            $object->setPlayerResponding($player);
             $object->setDateAcceptance(new \DateTime());
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getPlayer()
+    {
+        /** @var \Doctrine\ORM\EntityManager $em */
+        $em = $this->getModelManager()->getEntityManager($this->getClass());
+        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        return $em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser($user);
     }
 }

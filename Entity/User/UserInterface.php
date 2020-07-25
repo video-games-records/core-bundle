@@ -10,6 +10,4 @@ interface UserInterface
     public function getUsername();
     /** @return string */
     public function getLocale();
-    /** @return object */
-    public function getRelation();
 }

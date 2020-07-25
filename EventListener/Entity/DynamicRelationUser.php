@@ -30,10 +30,10 @@ class DynamicRelationUser implements EventSubscriber
             return;
         }
 
-        $metadata->mapOneToOne(array(
+        /*$metadata->mapOneToOne(array(
             'targetEntity' => Player::class,
             'fieldName' => 'relation',
             'mappedBy' => 'user',
-        ));
+        ));*/
     }
 }

@@ -171,9 +171,7 @@ class ProofAdmin extends AbstractAdmin
      */
     public function preValidate($object)
     {
-        /** @var \App\Entity\User */
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-        $player = $user->getRelation();
+        $player = $this->getPlayer();
 
         if ($object->getPlayerChart() != null) {
             if ($object->getPlayerChart()->getPlayer()->getId() === $player->getId()) {
@@ -206,7 +204,7 @@ class ProofAdmin extends AbstractAdmin
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
-        $admin = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $player = $this->getPlayer();
 
         // Cant change status final
         if (\in_array($originalObject['status'], array(Proof::STATUS_ACCEPTED, Proof::STATUS_REFUSED), true)) {
@@ -270,8 +268,18 @@ class ProofAdmin extends AbstractAdmin
 
         // Player Responding
         if ($setPlayerResponding) {
-            $player = $admin->getRelation();
             $object->setPlayerResponding($player);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getPlayer()
+    {
+        /** @var \Doctrine\ORM\EntityManager $em */
+        $em = $this->getModelManager()->getEntityManager($this->getClass());
+        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        return $em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser($user);
     }
 }

@@ -47,9 +47,13 @@ class PlayerChartController extends AbstractController
         $this->feedManager = $feedManager;
     }
 
-    public function getPlayer()
+    /**
+     * @return mixed
+     */
+    private function getPlayer()
     {
-        return $this->getUser()->getRelation();
+        return  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+            ->getPlayerFromUser($this->getUser());
     }
 
 

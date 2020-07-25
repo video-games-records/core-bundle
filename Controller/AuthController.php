@@ -7,6 +7,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AuthController extends AbstractController
 {
     /**
+     * @return mixed
+     */
+    private function getPlayer()
+    {
+        return  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+            ->getPlayerFromUser($this->getUser());
+    }
+
+    /**
      * @return array
      */
     public function profile()
@@ -14,7 +23,7 @@ class AuthController extends AbstractController
         return array(
             $this->getUser()->getRoles(),
             $this->getUser(),
-            $this->getUser()->getRelation()
+            $this->getPlayer()
         );
     }
 
@@ -24,7 +33,7 @@ class AuthController extends AbstractController
      */
     public function profilePlayer()
     {
-        return $this->getUser()->getRelation();
+        return $this->getPlayer();
     }
 
     /**
@@ -32,7 +41,6 @@ class AuthController extends AbstractController
      */
     public function profileTeam()
     {
-        $player = $this->getUser()->getRelation();
-        return $player->getTeam();
+        return $this->getPlayer()->getTeam();
     }
 }

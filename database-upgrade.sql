@@ -554,9 +554,8 @@ ALTER TABLE `vgr_team_request` CHANGE `status` `status` ENUM('ACTIVE','ACCEPTED'
 CREATE TABLE user_group (userId INT NOT NULL, groupId INT NOT NULL, INDEX IDX_FE1D13664B64DCC (userId), INDEX IDX_FE1D136ED8188B0 (groupId), PRIMARY KEY(userId, groupId)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 CREATE TABLE groupRole (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', UNIQUE INDEX UNIQ_39A2D4D75E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
-CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL,comment TEXT, avatar VARCHAR(100) NOT NULL DEFAULT 'default.png', last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL DEFAULT 0, nbForumMessage INT NOT NULL DEFAULT 0,locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idCountry INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idCountry), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
+CREATE TABLE user (id INT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL,comment TEXT, avatar VARCHAR(100) NOT NULL DEFAULT 'default.png', last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL DEFAULT 0, nbForumMessage INT NOT NULL DEFAULT 0,locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idCountry INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idCountry), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
 ALTER TABLE user ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idCountry) REFERENCES country (id);
-ALTER TABLE user_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES user (id);
 ALTER TABLE user_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
 
 -- New id for link between normandie & vgr
@@ -571,70 +570,69 @@ UPDATE vgr_player SET dateCreation = '2004-10-30 00:00:00', dateModification = '
 DELIMITER &&
 CREATE PROCEDURE user_migrate()
 BEGIN
-  DECLARE done, locked INT DEFAULT FALSE;
-  DECLARE duplicateIncrement INT DEFAULT 100;
-  DECLARE user_id, vgr_user_id, pays, nb_connection, nb_forum_message INT;
-  DECLARE userName varchar(180) CHARSET utf8;
-  DECLARE userAvatar varchar(100) CHARSET utf8;
-  DECLARE gender varchar(1);
-  DECLARE birthdate date;
-  DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
-  DECLARE v_email, nom, prenom, siteWeb, statutCompte, sexe varchar(255);
-  DECLARE cur1 CURSOR FOR SELECT id, pseudo, email, nom, prenom, dateNaissance, nbConnexion, nbForumMessage, siteWeb, statutCompte,
-                            dateCreation, dateModification, derniereConnexion, sexe, idPays, avatar
-                          FROM vgr_player WHERE id != 0;
-  -- Handler for duplicate email
-  DECLARE CONTINUE HANDLER FOR 1062
-    BEGIN
-      -- Log for duplicate email
-      SELECT CONCAT('Duplicate email for: ', v_email);
-      SET duplicateIncrement = duplicateIncrement + 1;
-      SET v_email = CONCAT(v_email, '#', duplicateIncrement);
-      SET locked = TRUE;
-      -- Retry with new mail
-      INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+    DECLARE done, locked INT DEFAULT FALSE;
+    DECLARE duplicateIncrement INT DEFAULT 100;
+    DECLARE user_id, vgr_user_id, pays, nb_connection, nb_forum_message INT;
+    DECLARE userName varchar(180) CHARSET utf8;
+    DECLARE userAvatar varchar(100) CHARSET utf8;
+    DECLARE gender varchar(1);
+    DECLARE birthdate date;
+    DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
+    DECLARE v_email, nom, prenom, siteWeb, statutCompte, sexe varchar(255);
+    DECLARE cur1 CURSOR FOR SELECT id, pseudo, email, nom, prenom, dateNaissance, nbConnexion, nbForumMessage, siteWeb, statutCompte,
+                                dateCreation, dateModification, derniereConnexion, sexe, idPays, avatar
+                            FROM vgr_player WHERE id != 0;
+    -- Handler for duplicate email
+    DECLARE CONTINUE HANDLER FOR 1062
+        BEGIN
+            -- Log for duplicate email
+            SELECT CONCAT('Duplicate email for: ', v_email);
+            SET duplicateIncrement = duplicateIncrement + 1;
+            SET v_email = CONCAT(v_email, '#', duplicateIncrement);
+            SET locked = TRUE;
+            -- Retry with new mail
+            INSERT INTO user (id, username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+                              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, nbForumMessage, personalWebsite, gender, avatar,
+                              created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
+            VALUES
+            (vgr_user_id, userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
+             MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, nb_forum_message, siteWeb, gender, userAvatar,
+             userDateCreation, userDateModification, userDerniereConnexion, pays,
+             MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
+            );
+        END;
+
+    -- Handler for finishing the loop
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur1;
+    read_loop: LOOP
+        FETCH cur1 INTO vgr_user_id, userName, v_email, nom, prenom, birthdate, nb_connection, nb_forum_message, siteWeb, statutCompte,
+            userDateCreation, userDateModification, userDerniereConnexion, sexe, pays, userAvatar;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        IF statutCompte IN ('SUPPRIME', 'BANNI') THEN SET locked = TRUE; ELSE SET locked = FALSE; END IF;
+        IF sexe = 'homme' THEN
+            SET gender = 'H';
+        ELSEIF sexe = 'femme' THEN
+            SET gender = 'F';
+        ELSE
+            SET gender = 'I';
+        END IF;
+
+        INSERT INTO user (id, username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
                           enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, nbForumMessage, personalWebsite, gender, avatar,
                           created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
-      VALUES
-        (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
+        VALUES
+        (vgr_user_id, userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
          MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, nb_forum_message, siteWeb, gender, userAvatar,
          userDateCreation, userDateModification, userDerniereConnexion, pays,
          MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
         );
-    END;
-
-  -- Handler for finishing the loop
-  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-  OPEN cur1;
-  read_loop: LOOP
-    FETCH cur1 INTO vgr_user_id, userName, v_email, nom, prenom, birthdate, nb_connection, nb_forum_message, siteWeb, statutCompte,
-      userDateCreation, userDateModification, userDerniereConnexion, sexe, pays, userAvatar;
-    IF done THEN
-      LEAVE read_loop;
-    END IF;
-    IF statutCompte IN ('SUPPRIME', 'BANNI') THEN SET locked = TRUE; ELSE SET locked = FALSE; END IF;
-    IF sexe = 'homme' THEN
-      SET gender = 'H';
-    ELSEIF sexe = 'femme' THEN
-      SET gender = 'F';
-    ELSE
-      SET gender = 'I';
-    END IF;
-
-    INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
-              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, nbForumMessage, personalWebsite, gender, avatar,
-              created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
-    VALUES
-      (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
-       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, nb_forum_message, siteWeb, gender, userAvatar,
-       userDateCreation, userDateModification, userDerniereConnexion, pays,
-       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
-      );
-    SET user_id = LAST_INSERT_ID();
-    UPDATE vgr_player SET normandie_user_id = user_id WHERE id = vgr_user_id;
-  END LOOP;
-  CLOSE cur1;
+        UPDATE vgr_player SET normandie_user_id = id WHERE id = vgr_user_id;
+    END LOOP;
+    CLOSE cur1;
 END&&
 
 DELIMITER ;
@@ -642,10 +640,14 @@ DELIMITER ;
 CALL user_migrate();
 DROP PROCEDURE user_migrate;
 
+ALTER TABLE `user` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
 -- INSERT VGR USER
 INSERT INTO user (id, username, username_canonical, email, email_canonical, enabled, idCountry, created_at, updated_at,salt,password, locked, expired, roles, credentials_expired, nbConnexion)
 VALUES (0, 'VGR', 'VGR', 'videogamesrecords@gmail.com', 'videogamesrecords@gmail.com', 0, 1, NOW(), NOW(), '', '', 1, 1, 'a:0:{}',1,0);
 UPDATE user SET id=0 WHERE email = 'videogamesrecords@gmail.com';
+
+ALTER TABLE user_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES user (id);
 
 
 ALTER TABLE vgr_player DROP FOREIGN KEY vgr_player_ibfk_3;
@@ -765,6 +767,9 @@ WHERE country.id = badge.value
 AND type = 'VgrSpecialCountry';
 -- ALTER TABLE `country` ADD CONSTRAINT `FK_COUNTRY_BADGE` FOREIGN KEY (`idBadge`) REFERENCES `badge`(`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
+DELETE FROM `vgr_player_badge` WHERE idPlayer = 0;
+ALTER TABLE `vgr_player_badge` CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+UPDATE vgr_player_badge SET created_at = updated_at  WHERE CAST(created_at AS CHAR(20)) = '0000-00-00 00:00:00';
 ALTER TABLE `vgr_player_badge` DROP PRIMARY KEY;
 ALTER TABLE `vgr_player_badge` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 
@@ -968,15 +973,15 @@ ALTER TABLE message DROP FOREIGN KEY message_ibfk_2;
 
 UPDATE message SET idSender = null WHERE idSender = 0;
 
-UPDATE message m, vgr_player p
+/*UPDATE message m, vgr_player p
 SET m.idSender = p.normandie_user_id
-WHERE m.idSender = p.id;
+WHERE m.idSender = p.id;*/
 
 DELETE FROM message WHERE idRecipient = 0;
 
-UPDATE message m, vgr_player p
+/*UPDATE message m, vgr_player p
 SET m.idRecipient = p.normandie_user_id
-WHERE m.idRecipient = p.id;
+WHERE m.idRecipient = p.id;*/
 
 
 ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
@@ -1233,10 +1238,10 @@ ALTER TABLE `user_ip` DROP `dateDernierLogin`;
 ALTER TABLE `user_ip` DROP PRIMARY KEY;
 ALTER TABLE `user_ip` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 
-UPDATE user_ip up, vgr_player p
+/*UPDATE user_ip up, vgr_player p
 SET up.idUser = p.normandie_user_id
 WHERE up.idUser = p.id
-AND p.normandie_user_id IS NOT NULL;
+AND p.normandie_user_id IS NOT NULL;*/
 
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_IP` FOREIGN KEY (`idIp`) REFERENCES `ip`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
@@ -1323,9 +1328,9 @@ ALTER TABLE `forum_topic` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIM
 ALTER TABLE `forum_topic` DROP `idLangue`;
 
 ALTER TABLE forum_topic DROP FOREIGN KEY forum_topic_ibfk_1;
-UPDATE forum_topic t, vgr_player p
+/*UPDATE forum_topic t, vgr_player p
 SET t.idUser = p.normandie_user_id
-WHERE t.idUser = p.id;
+WHERE t.idUser = p.id;*/
 ALTER TABLE `forum_topic` ADD CONSTRAINT `forum_topic_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `forum_message` CHANGE `idMessage` `id` INT(13) NOT NULL AUTO_INCREMENT;
@@ -1335,9 +1340,9 @@ ALTER TABLE `forum_message` CHANGE `dateModification` `updated_at` DATETIME NOT 
 ALTER TABLE `forum_message` CHANGE `texte` `message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
 ALTER TABLE forum_message DROP FOREIGN KEY forum_message_ibfk_2;
-UPDATE forum_message m, vgr_player p
+/*UPDATE forum_message m, vgr_player p
 SET m.idUser = p.normandie_user_id
-WHERE m.idUser = p.id;
+WHERE m.idUser = p.id;*/
 ALTER TABLE `forum_message` ADD CONSTRAINT `forum_message_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
@@ -1582,9 +1587,9 @@ ALTER TABLE `cpt_compta` ADD CONSTRAINT `FK_COMPTA_SOURCE` FOREIGN KEY (`idSourc
 UPDATE `cpt_compta` SET idSource = 2 WHERE `source` = 'ADSENSE';
 ALTER TABLE `cpt_compta` DROP `source`;
 
-UPDATE cpt_donation d, vgr_player p
+/*UPDATE cpt_donation d, vgr_player p
 SET d.idUser = p.normandie_user_id
-WHERE d.idPlayer = p.id;
+WHERE d.idPlayer = p.id;*/
 ALTER TABLE cpt_donation DROP FOREIGN KEY cpt_donation_ibfk_1;
 ALTER TABLE `cpt_donation` DROP `idPlayer`;
 ALTER TABLE `cpt_donation` ADD CONSTRAINT `FK_DONATION_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -1602,9 +1607,9 @@ ALTER TABLE `vgr_video` ADD UNIQUE(`url`);
 
 -- ARTICLE
 ALTER TABLE article DROP FOREIGN KEY article_ibfk_1;
-UPDATE article a, vgr_player p
+/*UPDATE article a, vgr_player p
 SET a.idAuthor = p.normandie_user_id
-WHERE a.idAuthor = p.id;
+WHERE a.idAuthor = p.id;*/
 
 UPDATE `vgr_player` SET `chartRank0` = 0 WHERE `chartRank0` IS NULL;
 ALTER TABLE `vgr_player` CHANGE `chartRank0` `chartRank0` INT(11) NOT NULL DEFAULT '0';
@@ -1636,3 +1641,5 @@ UPDATE `vgr_player` SET `pointGame` = 0 WHERE `pointGame` IS NULL;
 ALTER TABLE `vgr_player` CHANGE `pointGame` `pointGame` INT(11) NOT NULL DEFAULT '0';
 
 UPDATE vgr_game SET published_at = updated_at WHERE status='ACTIF' AND published_at IS NULL;
+
+ALTER TABLE `vgr_player` ADD FOREIGN KEY (`normandie_user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;

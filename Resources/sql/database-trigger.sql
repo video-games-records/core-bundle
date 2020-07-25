@@ -7,7 +7,7 @@ BEGIN
     -- ROLE PLAYER
     INSERT INTO user_group (userId, groupId) VALUE (NEW.id, 2);
     -- Player
-    INSERT INTO vgr_player (pseudo, normandie_user_id, slug) values (NEW.username, NEW.id, get_slug(NEW.username));
+    INSERT INTO vgr_player (id, pseudo, normandie_user_id, slug) values (NEW.id, NEW.username, NEW.id, get_slug(NEW.username));
 END //
 delimiter ;
 
