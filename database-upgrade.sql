@@ -973,16 +973,7 @@ ALTER TABLE message DROP FOREIGN KEY message_ibfk_2;
 
 UPDATE message SET idSender = null WHERE idSender = 0;
 
-/*UPDATE message m, vgr_player p
-SET m.idSender = p.normandie_user_id
-WHERE m.idSender = p.id;*/
-
 DELETE FROM message WHERE idRecipient = 0;
-
-/*UPDATE message m, vgr_player p
-SET m.idRecipient = p.normandie_user_id
-WHERE m.idRecipient = p.id;*/
-
 
 ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `message` ADD CONSTRAINT `fk_recipient` FOREIGN KEY (`idRecipient`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
@@ -1238,11 +1229,6 @@ ALTER TABLE `user_ip` DROP `dateDernierLogin`;
 ALTER TABLE `user_ip` DROP PRIMARY KEY;
 ALTER TABLE `user_ip` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 
-/*UPDATE user_ip up, vgr_player p
-SET up.idUser = p.normandie_user_id
-WHERE up.idUser = p.id
-AND p.normandie_user_id IS NOT NULL;*/
-
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_IP` FOREIGN KEY (`idIp`) REFERENCES `ip`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
@@ -1328,9 +1314,6 @@ ALTER TABLE `forum_topic` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIM
 ALTER TABLE `forum_topic` DROP `idLangue`;
 
 ALTER TABLE forum_topic DROP FOREIGN KEY forum_topic_ibfk_1;
-/*UPDATE forum_topic t, vgr_player p
-SET t.idUser = p.normandie_user_id
-WHERE t.idUser = p.id;*/
 ALTER TABLE `forum_topic` ADD CONSTRAINT `forum_topic_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `forum_message` CHANGE `idMessage` `id` INT(13) NOT NULL AUTO_INCREMENT;
@@ -1340,9 +1323,6 @@ ALTER TABLE `forum_message` CHANGE `dateModification` `updated_at` DATETIME NOT 
 ALTER TABLE `forum_message` CHANGE `texte` `message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
 ALTER TABLE forum_message DROP FOREIGN KEY forum_message_ibfk_2;
-/*UPDATE forum_message m, vgr_player p
-SET m.idUser = p.normandie_user_id
-WHERE m.idUser = p.id;*/
 ALTER TABLE `forum_message` ADD CONSTRAINT `forum_message_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
@@ -1554,8 +1534,7 @@ ALTER TABLE `cpt_donation` CHANGE `dateCreation` `created_at` DATETIME NOT NULL 
 ALTER TABLE `cpt_donation` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE `cpt_donation` CHANGE `dateDon` `dateDonation` DATE NOT NULL;
 ALTER TABLE `cpt_donation` CHANGE `somme` `value` DOUBLE NOT NULL;
-ALTER TABLE `cpt_donation` CHANGE `idMembre` `idPlayer` INT(11) NULL DEFAULT NULL;
-ALTER TABLE `cpt_donation` ADD `idUser` INT NULL DEFAULT NULL AFTER `idPlayer`;
+ALTER TABLE `cpt_donation` CHANGE `idMembre` `idUser` INT(11) NULL DEFAULT NULL;
 RENAME TABLE `t_gain` TO `cpt_compta`;
 ALTER TABLE `cpt_compta` CHANGE `idGain` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `cpt_compta` CHANGE `mois` `month` VARCHAR(7) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0000-00';
@@ -1587,11 +1566,7 @@ ALTER TABLE `cpt_compta` ADD CONSTRAINT `FK_COMPTA_SOURCE` FOREIGN KEY (`idSourc
 UPDATE `cpt_compta` SET idSource = 2 WHERE `source` = 'ADSENSE';
 ALTER TABLE `cpt_compta` DROP `source`;
 
-/*UPDATE cpt_donation d, vgr_player p
-SET d.idUser = p.normandie_user_id
-WHERE d.idPlayer = p.id;*/
 ALTER TABLE cpt_donation DROP FOREIGN KEY cpt_donation_ibfk_1;
-ALTER TABLE `cpt_donation` DROP `idPlayer`;
 ALTER TABLE `cpt_donation` ADD CONSTRAINT `FK_DONATION_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `vgr_player` CHANGE `pseudo` `pseudo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
