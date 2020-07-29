@@ -18,6 +18,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
  * Game
@@ -34,8 +35,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *          "groups.charts.lostPositions.player": "exact"
  *      }
  * )
+ * @ApiFilter(DateFilter::class, properties={"publishedAt": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
  * @ApiFilter(GroupFilter::class, arguments={"parameterName": "groups", "overrideDefaultGroups": true, "whitelist": {"game.read.mini","game.list","game.platforms","platform.read"}})
- * @ApiFilter(OrderFilter::class, properties={"publishedAt": "DESC"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(OrderFilter::class, properties={"id","ASC","publishedAt": "DESC"}, arguments={"orderParameterName"="order"})
  */
 class Game implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
 {
