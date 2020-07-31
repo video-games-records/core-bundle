@@ -25,6 +25,21 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
+     * @param $q
+     * @return mixed
+     */
+    public function autocomplete($q)
+    {
+        $query = $this->createQueryBuilder('p');
+        $query
+            ->where('p.pseudo LIKE :q')
+            ->setParameter('q', '%' . $q . '%')
+            ->orderBy('p.pseudo', 'ASC');
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
      * Get data to maj dwh.vgr_player
      */
     public function getDataForDwh()

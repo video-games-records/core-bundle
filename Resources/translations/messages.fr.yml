@@ -48,3 +48,8 @@ proof:
                 Bonjour %s,
                 Votre preuve sur le score <a href="%s">%s</a> a été refusée.
                 Cordialement, l'équipe VGR.
+team:
+    request:
+        exists: 'Vous avez déjà envoyé une demande pour ce joueur'
+        has_team: 'Ce joueur a déjà une équipe'
+

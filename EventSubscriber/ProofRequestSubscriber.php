@@ -5,11 +5,11 @@ use ApiPlatform\Core\EventListener\EventPriorities;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Request as ProofRequest;
-use VideoGamesRecords\CoreBundle\Exception\RequestLimitException;
+use VideoGamesRecords\CoreBundle\Exception\PostException;
 
 final class ProofRequestSubscriber implements EventSubscriberInterface
 {
@@ -31,10 +31,11 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param GetResponseForControllerResultEvent $event
+     * @param ViewEvent $event
      * @throws RequestLimitException
+     * @throws PostException
      */
-    public function setPlayerRequesting(GetResponseForControllerResultEvent $event)
+    public function setPlayerRequesting(ViewEvent $event)
     {
         $request = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
@@ -46,7 +47,7 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
 
             $nbRequest = $this->em->getRepository('VideoGamesRecordsCoreBundle:ProofRequest')->getNbRequestFromToDay($player);
             if ($nbRequest >= 5) {
-                throw new RequestLimitException('You raise limit request for today');
+                throw new PostException('You raise limit request for today');
             }
             $request->setPlayerRequesting($player);
         }

@@ -48,4 +48,7 @@ proof:
                 Hello %s,
                 Your proof on the score <a href="%s">%s</a> was refused.
                 Regards, VGR Team.
-
+team:
+    request:
+        exists: 'You already requested this player'
+        has_team: 'This player has already a team'

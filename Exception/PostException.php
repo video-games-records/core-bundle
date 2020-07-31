@@ -2,7 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Exception;
 
-class ProofRequestLimitException extends \Exception
+class PostException extends \Exception
 {
 
 }

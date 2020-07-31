@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class PlayerController
@@ -87,5 +88,15 @@ class PlayerController extends AbstractController
     public function rankingBadge()
     {
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingBadge($this->getPlayer());
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function autocomplete(Request $request)
+    {
+        $q = $request->query->get('query', null);
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:player')->autocomplete($q);
     }
 }
