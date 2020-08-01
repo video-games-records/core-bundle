@@ -5,12 +5,22 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * TeamRequest
  *
  * @ORM\Table(name="vgr_team_request")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRequestRepository")
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "status": "exact",
+ *          "player": "exact",
+ *          "team": "exact"
+ *      }
+ * )
  */
 class TeamRequest implements TimestampableInterface
 {
