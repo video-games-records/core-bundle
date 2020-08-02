@@ -8,6 +8,12 @@ services:
     VideoGamesRecords\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+    VideoGamesRecords\CoreBundle\EventListener\Entity\TeamRequestListener:
+        tags:
+            - # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: 'postUpdate'
+                entity: 'VideoGamesRecords\CoreBundle\Entity\TeamRequest'
     VideoGamesRecords\CoreBundle\Twig\VgrExtension:
         public: false
         tags:

@@ -34,11 +34,11 @@ class TeamRequest implements TimestampableInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="idRequest", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idRequest;
+    private $id;
 
     /**
      * @var string
@@ -68,25 +68,33 @@ class TeamRequest implements TimestampableInterface
     private $player;
 
     /**
-     * Set idRequest
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s # %s [%s]', $this->getTeam()->getLibTeam(),$this->getPlayer()->getPseudo(), $this->id);
+    }
+
+    /**
+     * Set id
      *
-     * @param integer $idRequest
+     * @param integer $id
      * @return $this
      */
-    public function setIdRequest($idRequest)
+    public function setId($id)
     {
-        $this->idRequest = $idRequest;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idRequest
+     * Get id
      *
      * @return integer
      */
-    public function getIdRequest()
+    public function getId()
     {
-        return $this->idRequest;
+        return $this->id;
     }
 
     /**
@@ -154,5 +162,18 @@ class TeamRequest implements TimestampableInterface
     public function getTeam()
     {
         return $this->team;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusChoices()
+    {
+        return [
+            self::STATUS_ACTIVE => self::STATUS_ACTIVE,
+            self::STATUS_REFUSED => self::STATUS_REFUSED,
+            self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
+            self::STATUS_CANCELED => self::STATUS_CANCELED,
+        ];
     }
 }

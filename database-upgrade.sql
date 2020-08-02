@@ -1618,3 +1618,4 @@ ALTER TABLE `vgr_player` CHANGE `pointGame` `pointGame` INT(11) NOT NULL DEFAULT
 UPDATE vgr_game SET published_at = updated_at WHERE status='ACTIF' AND published_at IS NULL;
 
 ALTER TABLE `vgr_player` ADD FOREIGN KEY (`normandie_user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `vgr_team_request` CHANGE `idRequest` `id` INT(11) NOT NULL AUTO_INCREMENT;

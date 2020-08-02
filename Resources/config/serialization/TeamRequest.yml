@@ -16,7 +16,7 @@ VideoGamesRecords\CoreBundle\Entity\TeamRequest:
       groups:
         - 'teamRequest.read'
         - 'teamRequest.put'
-    created_at:
+    createdAt:
       groups:
         - 'teamRequest.read'
 

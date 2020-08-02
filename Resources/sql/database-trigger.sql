@@ -322,3 +322,4 @@ SET idStatus = 2
 WHERE id = NEW.idPlayerChart //
 delimiter ;
 
+

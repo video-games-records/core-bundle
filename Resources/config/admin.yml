@@ -105,6 +105,14 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Team
             - ~
+    sonata.admin.vgr.team.request:
+        class: VideoGamesRecords\CoreBundle\Admin\TeamRequestAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.request" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\TeamRequest
+            - ~
     sonata.admin.vgr.proof.request:
         class: VideoGamesRecords\CoreBundle\Admin\ProofRequestAdmin
         tags:
