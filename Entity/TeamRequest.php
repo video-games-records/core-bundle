@@ -13,6 +13,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *
  * @ORM\Table(name="vgr_team_request")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRequestRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\TeamRequestListener"})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={

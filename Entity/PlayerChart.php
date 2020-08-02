@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * PlayerChart
@@ -18,6 +20,13 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @DoctrineAssert\UniqueEntity(fields={"chart", "player"}, message="A score already exists for the couple player / chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener"})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "player": "exact",
+ *          "chart": "exact"
+ *      }
+ * )
  * @ORM\HasLifecycleCallbacks()
  */
 class PlayerChart implements ItemInterface, TimestampableInterface
