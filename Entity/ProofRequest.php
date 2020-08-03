@@ -11,6 +11,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  *
  * @ORM\Table(name="vgr_proof_request", indexes={@ORM\Index(name="idxIdRequest", columns={"idRequest"})})
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener"})
  */
 class ProofRequest implements TimestampableInterface
 {
