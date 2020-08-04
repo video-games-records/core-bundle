@@ -17,6 +17,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *
  * @ORM\Table(name="vgr_team")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener"})
  * @ApiFilter(
  *     GroupFilter::class,
  *     arguments={
