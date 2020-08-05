@@ -9,6 +9,7 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 
 class PlayerChartListener
 {
@@ -22,6 +23,13 @@ class PlayerChartListener
     {
         $em = $event->getEntityManager();
         $changeSet = $event->getEntityChangeSet();
+
+        //-- status
+        if ($playerChart->getStatus()->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
+            $playerChart->setPointChart(0);
+            $playerChart->setRank(0);
+            $playerChart->setTopScore(0);
+        }
 
         //----- LostPosition
         $oldRank = $playerChart->getRank();

@@ -305,14 +305,15 @@ class TeamRepository extends EntityRepository
     private function getRanking($column, $team = null)
     {
         $query = $this->createQueryBuilder('t')
+            ->where("(t.$column != 0)")
             ->orderBy("t.$column");
 
         if ($team !== null) {
-            $query->where("(t.$column <= :maxRank OR t = :team)")
+            $query->andWhere("(t.$column <= :maxRank OR t = :team)")
                 ->setParameter('maxRank', 100)
                 ->setParameter('team', $team);
         } else {
-            $query->where("t.$column <= :maxRank")
+            $query->andWhere("t.$column <= :maxRank")
                 ->setParameter('maxRank', 100);
         }
         return $query->getQuery()->getResult();

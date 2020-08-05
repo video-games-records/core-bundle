@@ -46,20 +46,6 @@ delimiter ;
 
 
 delimiter //
-DROP TRIGGER IF EXISTS `vgrChartPlayerBeforeUpdate`//
-CREATE TRIGGER vgrChartPlayerBeforeUpdate BEFORE UPDATE ON vgr_player_chart
-FOR EACH ROW
-BEGIN
-	IF NEW.idStatus = 7 THEN
-		SET NEW.pointChart = 0;
-		SET NEW.rank = 0;
-		SET NEW.isTopScore = 0;
-	END IF;
-END //
-delimiter ;
-
-
-delimiter //
 DROP TRIGGER IF EXISTS `vgrChartPlayerAfterUpdate`//
 CREATE TRIGGER vgrChartPlayerAfterUpdate AFTER UPDATE ON vgr_player_chart
 FOR EACH ROW
