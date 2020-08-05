@@ -1619,3 +1619,89 @@ UPDATE vgr_game SET published_at = updated_at WHERE status='ACTIF' AND published
 
 ALTER TABLE `vgr_player` ADD FOREIGN KEY (`normandie_user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `vgr_team_request` CHANGE `idRequest` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
+DROP TABLE t_log;
+DROP TABLE t_role_membre;
+DROP TABLE t_role;
+DROP TABLE t_membre_statut;
+DROP TABLE vgr_point;
+DROP TABLE vgr_typevgrpoint;
+DROP TABLE vgr_membre_plateforme;
+DROP TABLE vgr_membre_objectif;
+DROP TABLE vgr_objectif;
+DROP TABLE vgr_jeu_partenaire;
+ALTER TABLE vgr_player DROP FOREIGN KEY vgr_player_ibfk_1;
+ALTER TABLE `vgr_player` DROP `idLanguage`;
+DROP TABLE language;
+DROP TABLE mv_commentaire;
+
+ALTER TABLE `vgr_team_topic` CHANGE `idTopic` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_team_message` CHANGE `idMessage` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
+-- article_comment
+CREATE TABLE `article_comment` (
+    `id` int(13) NOT NULL,
+    `idArticle` int(13) NOT NULL DEFAULT '0',
+    `idUser` int(13) NOT NULL DEFAULT '0',
+    `text` text NOT NULL,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `article_comment`
+    ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `article_comment`
+    MODIFY `id` int(13) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `article_comment` ADD CONSTRAINT `FK_COMMENT_ARTICLE` FOREIGN KEY (`idArticle`) REFERENCES `article`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `article_comment` ADD CONSTRAINT `FK_COMMENT_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+-- video_comment
+CREATE TABLE `vgr_video_comment` (
+    `id` int(13) NOT NULL,
+    `idVideo` int(13) NOT NULL DEFAULT '0',
+    `idPlayer` int(13) NOT NULL DEFAULT '0',
+    `text` text NOT NULL,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `vgr_video_comment`
+    ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `vgr_video_comment`
+    MODIFY `id` int(13) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `vgr_video_comment` ADD CONSTRAINT `FK_COMMENT_VIDEO` FOREIGN KEY (`idVideo`) REFERENCES `vgr_video`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `vgr_video_comment` ADD CONSTRAINT `FK_COMMENT_PLAYER` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+
+DELETE FROM t_commentaire
+WHERE typeModule = 'article'
+AND idModule NOT IN (SELECT id FROM article);
+
+DELETE FROM t_commentaire
+WHERE typeModule = 'video'
+        AND idModule NOT IN (SELECT id FROM vgr_video);
+
+DELETE FROM t_commentaire
+WHERE idMembre NOT IN (SELECT id FROM user);
+
+
+INSERT INTO article_comment (idArticle, idUser, text, created_at, updated_at)
+SELECT idModule, idMembre, texte, dateCreation, dateModification
+FROM t_commentaire WHERE typeModule = 'article';
+
+INSERT INTO vgr_video_comment (idVideo, idPlayer, text, created_at, updated_at)
+SELECT idModule, idMembre, texte, dateCreation, dateModification
+FROM t_commentaire WHERE typeModule = 'video';
+
+DROP TABLE t_commentaire;
+
+RENAME TABLE `t_ami` TO `vgr`.`vgr_friend`;
+ALTER TABLE `vgr_friend` CHANGE `idMembre` `idPlayer` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_friend` CHANGE `idAmi` `idFriend` INT(13) NOT NULL DEFAULT '0';
+
+
+
