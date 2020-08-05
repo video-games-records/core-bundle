@@ -56,6 +56,18 @@ class GameController extends AbstractController
 
 
     /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function listFromPlayerLostPosition(Request $request)
+    {
+        $locale = $request->getLocale();
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
+            ->findFromlostPosition($this->getPlayer(), $locale);
+    }
+
+
+    /**
      * @param Game    $game
      * @param Request $request
      * @return mixed

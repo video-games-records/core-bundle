@@ -77,6 +77,28 @@ class GameRepository extends EntityRepository
     }
 
     /**
+     * @param        $player
+     * @param string $locale
+     * @return int|mixed|string
+     */
+    public function findFromlostPosition($player, $locale = 'en')
+    {
+        $query = $this->createQueryBuilder('game');
+        $query
+            ->addSelect('translation')
+            ->innerJoin('game.translations', 'translation')
+            ->innerJoin('game.groups', 'group')
+            ->innerJoin('group.charts', 'chart')
+            ->innerJoin('chart.lostPositions', 'lostPosition')
+            ->where('lostPosition.player = :player')
+            ->setParameter('player', $player)
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('locale', $locale)
+            ->orderBy('translation.name', 'ASC');
+        return $query->getQuery()->getResult();
+    }
+
+    /**
      * Requires only active games.
      *
      * @param \Doctrine\ORM\QueryBuilder $query

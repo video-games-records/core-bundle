@@ -27,6 +27,14 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::listByLetter'
                 defaults:
                     _api_receive: false
+            lost-position:
+                method: 'GET'
+                normalization_context: {'groups': [game.read.mini]}
+                access_control: 'is_granted("ROLE_PLAYER")'
+                path: '/games-player-lost-position'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::listFromPlayerLostPosition'
+                defaults:
+                    _api_receive: false
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [playerGame.pointChart, playerGame.player, player.read.mini]}
