@@ -116,6 +116,13 @@ class Team implements SluggableInterface, TimestampableInterface
     /**
      * @var integer
      *
+     * @ORM\Column(name="nbGame", type="integer", nullable=false)
+     */
+    private $nbGame = 0;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
     private $pointChart = 0;
@@ -479,6 +486,29 @@ class Team implements SluggableInterface, TimestampableInterface
     public function getNbPlayer()
     {
         return $this->nbPlayer;
+    }
+
+    /**
+     * Set nbGame
+     *
+     * @param integer $nbGame
+     * @return Team
+     */
+    public function setNbGame($nbGame)
+    {
+        $this->nbGame = $nbGame;
+
+        return $this;
+    }
+
+    /**
+     * Get nbGame
+     *
+     * @return integer
+     */
+    public function getNbGame()
+    {
+        return $this->nbGame;
     }
 
     /**

@@ -56,7 +56,8 @@ class TeamCommand extends DefaultCommand
         switch ($function) {
             case 'maj':
                 $idTeam = $input->getOption('idTeam');
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:Team')->maj($idTeam);
+                $team = $this->em->getRepository('VideoGamesRecordsCoreBundle:Team')->find($idTeam);
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:Team')->maj($team);
                 break;
             case 'maj-rank-point-chart':
                 $this->em->getRepository('VideoGamesRecordsCoreBundle:Team')->majRankPointChart();

@@ -1631,7 +1631,7 @@ DROP TABLE vgr_membre_objectif;
 DROP TABLE vgr_objectif;
 DROP TABLE vgr_jeu_partenaire;
 ALTER TABLE vgr_player DROP FOREIGN KEY vgr_player_ibfk_1;
-ALTER TABLE `vgr_player` DROP `idLanguage`;
+ALTER TABLE vgr_player DROP `idLanguage`;
 DROP TABLE language;
 DROP TABLE mv_commentaire;
 
@@ -1699,9 +1699,11 @@ FROM t_commentaire WHERE typeModule = 'video';
 
 DROP TABLE t_commentaire;
 
-RENAME TABLE `t_ami` TO `vgr`.`vgr_friend`;
+RENAME TABLE `t_ami` TO `vgr_friend`;
 ALTER TABLE `vgr_friend` CHANGE `idMembre` `idPlayer` INT(13) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_friend` CHANGE `idAmi` `idFriend` INT(13) NOT NULL DEFAULT '0';
+
+ALTER TABLE `vgr_team` ADD `nbGame` INT NOT NULL DEFAULT '0' AFTER `nbPlayer`;
 
 
 

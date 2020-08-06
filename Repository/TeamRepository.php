@@ -23,7 +23,8 @@ class TeamRepository extends EntityRepository
                  SUM(tg.chartRank2) as chartRank2,
                  SUM(tg.chartRank3) as chartRank3,
                  SUM(tg.pointChart) as pointChart,
-                 SUM(tg.pointGame) as pointGame
+                 SUM(tg.pointGame) as pointGame,
+                 COUNT(DISTINCT tg.game) as nbGame
             FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
             JOIN tg.team t
             WHERE tg.team = :team
@@ -40,6 +41,7 @@ class TeamRepository extends EntityRepository
             $team->setChartRank3($row['chartRank3']);
             $team->setPointChart($row['pointChart']);
             $team->setPointGame($row['pointGame']);
+            $team->setNbGame($row['nbGame']);
 
             $this->_em->persist($team);
             $this->_em->flush($team);

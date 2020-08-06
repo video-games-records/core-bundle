@@ -91,7 +91,8 @@ class PlayerRepository extends EntityRepository
                  SUM(pg.nbChart) as nbChart,
                  SUM(pg.nbChartProven) as nbChartProven,
                  SUM(pg.pointChart) as pointChart,
-                 SUM(pg.pointGame) as pointGame
+                 SUM(pg.pointGame) as pointGame,
+                 COUNT(DISTINCT pg.game) as nbGame
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
             WHERE pg.player = :player
@@ -123,6 +124,7 @@ class PlayerRepository extends EntityRepository
         $player->setChartRank3($row1['chartRank3']);
         $player->setNbChart($row1['nbChart']);
         $player->setNbChartProven($row1['nbChartProven']);
+        $player->setNbGame($row1['nbGame']);
         $player->setPointChart($row2['pointChart']);
         $player->setPointGame($row2['pointGame']);
 
@@ -368,16 +370,6 @@ class PlayerRepository extends EntityRepository
         }
 
         return $query->getQuery()->getResult();
-    }
-
-    /**
-     * @throws \Doctrine\DBAL\DBALException
-     */
-    public function majNbGame()
-    {
-        //----- MAJ game.nbTeam
-        $sql = 'UPDATE vgr_player p SET nbGame = (SELECT COUNT(idGame) FROM vgr_player_game pg WHERE pg.idPlayer = p.id)';
-        $this->_em->getConnection()->executeUpdate($sql);
     }
 
     /**
