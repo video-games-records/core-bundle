@@ -56,6 +56,9 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     pointGame:
       groups:
         - 'team.rank.pointGame'
+    nbGame:
+      groups:
+        - 'team.rank.pointGame'
     rankMedal:
       groups:
         - 'team.rank.medal'
