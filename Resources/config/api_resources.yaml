@@ -403,9 +403,10 @@ resources:
             pagination_enabled: false
         collectionOperations:
             get:
-                normalization_context: {'groups': [platform.list]}
+                normalization_context: {'groups': [platform.read]}
         itemOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [platform.read]}
     VideoGamesRecords\CoreBundle\Entity\ChartLib:
         properties:
             idLibChart:
