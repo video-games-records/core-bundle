@@ -68,4 +68,20 @@ class TeamController extends AbstractController
     {
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingBadge($this->getTeam());
     }
+
+    /**
+     * @return mixed
+     */
+    public function rankingPointGameTop5()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingPointGame(null, 5);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function rankingCupTop5()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingCup(null, 5);
+    }
 }

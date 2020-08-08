@@ -332,6 +332,11 @@ resources:
                 normalization_context: {'groups': [player.read.mini,player.pointGame]}
                 path: '/players/ranking-point-game'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointGame'
+            player-ranking-point-game-home:
+                method: 'GET'
+                normalization_context: {'groups': [player.read.mini,player.pointGame]}
+                path: '/players/ranking-point-game-top-5'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointGameTop5'
             player-ranking-medal:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.medal]}
@@ -342,6 +347,11 @@ resources:
                 normalization_context: {'groups': [player.read.mini,player.cup]}
                 path: '/players/ranking-cup'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingCup'
+            player-ranking-cup-home:
+                method: 'GET'
+                normalization_context: {'groups': [player.read.mini,player.cup]}
+                path: '/players/ranking-cup-top-5'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingCupTop5'
             player-ranking-badge:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.badge]}
@@ -436,6 +446,11 @@ resources:
                 normalization_context: {'groups': [team.read.mini, team.rank.pointGame]}
                 path: '/teams/ranking-point-game'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointGame'
+            eam-ranking-point-game-top-5:
+                method: 'GET'
+                normalization_context: {'groups': [team.read.mini, team.rank.pointGame]}
+                path: '/teams/ranking-point-game-top-5'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointGameTop5'
             team-ranking-medal:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.medal]}
@@ -446,6 +461,11 @@ resources:
                 normalization_context: {'groups': [team.read.mini, team.rank.cup]}
                 path: '/teams/ranking-cup'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingCup'
+            team-ranking-cup-top-5:
+                method: 'GET'
+                normalization_context: {'groups': [team.read.mini, team.rank.cup]}
+                path: '/teams/ranking-cup-top-5'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingCupTop5'
             team-ranking-badge:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.badge]}

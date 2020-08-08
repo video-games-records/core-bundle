@@ -91,6 +91,22 @@ class PlayerController extends AbstractController
     }
 
     /**
+     * @return mixed
+     */
+    public function rankingPointGameTop5()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointGame(null, 5);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function rankingCupTop5()
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCup(null, 5);
+    }
+
+    /**
      * @param Request $request
      * @return mixed
      */

@@ -305,11 +305,12 @@ class PlayerRepository extends EntityRepository
 
     /**
      * @param Player $player
-     * @return array
+     * @param int  $maxRank
+     * @return int|mixed|string
      */
-    public function getRankingPointGame($player = null)
+    public function getRankingPointGame($player = null, $maxRank = 100)
     {
-        return $this->getRanking('rankPointGame', $player);
+        return $this->getRanking('rankPointGame', $player, $maxRank);
     }
 
 
@@ -325,11 +326,12 @@ class PlayerRepository extends EntityRepository
 
     /**
      * @param Player $player
-     * @return array
+     * @param int  $maxRank
+     * @return int|mixed|string
      */
-    public function getRankingCup($player = null)
+    public function getRankingCup($player = null, $maxRank = 100)
     {
-        return $this->getRanking('rankCup', $player);
+        return $this->getRanking('rankCup', $player, $maxRank);
     }
 
     /**
@@ -366,18 +368,19 @@ class PlayerRepository extends EntityRepository
             $query->andWhere('p.rankCountry <= :maxRank')
                 ->setParameter('maxRank', $maxRank);
         } else {
-            $query->setMaxResults(100);
+            $query->setMaxResults($maxRank);
         }
 
         return $query->getQuery()->getResult();
     }
 
     /**
-     * @param string $column
-     * @param Player $player
-     * @return array
+     * @param      $column
+     * @param null $player
+     * @param int  $maxRank
+     * @return int|mixed|string
      */
-    private function getRanking($column, $player = null)
+    private function getRanking($column, $player = null, $maxRank = 100)
     {
         $query = $this->createQueryBuilder('p')
             ->orderBy("p.$column");
@@ -388,7 +391,7 @@ class PlayerRepository extends EntityRepository
                 ->setParameter('player', $player);
         } else {
             $query->where("p.$column <= :maxRank")
-                ->setParameter('maxRank', 100);
+                ->setParameter('maxRank', $maxRank);
         }
         return $query->getQuery()->getResult();
     }

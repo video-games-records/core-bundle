@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * TeamRepository
@@ -204,11 +205,12 @@ class TeamRepository extends EntityRepository
 
     /**
      * @param Team $team
+     * @param int  $maxRank
      * @return array
      */
-    public function getRankingPointGame($team = null)
+    public function getRankingPointGame($team = null, $maxRank = 100)
     {
-        return $this->getRanking('rankPointGame', $team);
+        return $this->getRanking('rankPointGame', $team, $maxRank);
     }
 
 
@@ -224,11 +226,12 @@ class TeamRepository extends EntityRepository
 
     /**
      * @param Team $team
+     * @param int  $maxRank
      * @return array
      */
-    public function getRankingCup($team = null)
+    public function getRankingCup($team = null, $maxRank = 100)
     {
-        return $this->getRanking('rankCup', $team);
+        return $this->getRanking('rankCup', $team, $maxRank);
     }
 
 
@@ -300,11 +303,12 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     * @param string $column
+     * @param      $column
      * @param Team $team
-     * @return array
+     * @param int  $maxRank
+     * @return int|mixed|string
      */
-    private function getRanking($column, $team = null)
+    private function getRanking($column, $team = null, $maxRank = 100)
     {
         $query = $this->createQueryBuilder('t')
             ->where("(t.$column != 0)")
@@ -312,11 +316,11 @@ class TeamRepository extends EntityRepository
 
         if ($team !== null) {
             $query->andWhere("(t.$column <= :maxRank OR t = :team)")
-                ->setParameter('maxRank', 100)
+                ->setParameter('maxRank', $maxRank)
                 ->setParameter('team', $team);
         } else {
             $query->andWhere("t.$column <= :maxRank")
-                ->setParameter('maxRank', 100);
+                ->setParameter('maxRank', $maxRank);
         }
         return $query->getQuery()->getResult();
     }
