@@ -34,7 +34,6 @@ VideoGamesRecords\CoreBundle\Entity\Video:
     player:
       groups:
         - 'video.read'
-        - 'video.post'
     createdAt:
       groups:
         - 'video.read'

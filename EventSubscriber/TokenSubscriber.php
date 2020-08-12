@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Entity\VideoComment;
 
 final class TokenSubscriber implements EventSubscriberInterface
@@ -36,7 +37,9 @@ final class TokenSubscriber implements EventSubscriberInterface
         $object = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if (($object instanceof VideoComment) && in_array($method, array(Request::METHOD_POST))) {
+        if (
+            (($object instanceof VideoComment) || ($object instanceof Video))
+            && in_array($method, array(Request::METHOD_POST))) {
             $player = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser(
                 $this->tokenStorage->getToken()->getUser()
             );
