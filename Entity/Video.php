@@ -87,6 +87,12 @@ class Video implements TimestampableInterface, SluggableInterface
      */
     private $game;
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\VideoComment", mappedBy="video")
+     */
+    private $comments;
+
+
 
     /**
      * @return string
@@ -228,6 +234,14 @@ class Video implements TimestampableInterface, SluggableInterface
     public function getGame()
     {
         return $this->game;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 
     /**
