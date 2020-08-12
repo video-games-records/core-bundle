@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -102,7 +103,7 @@ class GameAdmin extends AbstractAdmin
                         'required' => true,
                     ],
                     'rules' => [
-                        'field_type' => TextareaType::class,
+                        'field_type' => CKEditorType::class,
                         'label' => ' Rules',
                         'required' => false,
                     ]
