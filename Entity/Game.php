@@ -32,7 +32,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *          "status": "exact",
  *          "platforms": "exact",
  *          "playerGame.player": "exact",
- *          "groups.charts.lostPositions.player": "exact"
+ *          "groups.charts.lostPositions.player": "exact",
+ *          "translations.name" : "partial"
  *      }
  * )
  * @ApiFilter(DateFilter::class, properties={"publishedAt": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
