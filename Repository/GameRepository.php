@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class GameRepository extends EntityRepository
 {
@@ -151,5 +152,15 @@ class GameRepository extends EntityRepository
         }
 
         return $data;
+    }
+
+    /**
+     * @param $id
+     */
+    public function copy($id)
+    {
+
+        $sql = sprintf("call copy_game (%d);", $id);
+        $this->_em->getConnection()->executeUpdate($sql);
     }
 }

@@ -14,7 +14,7 @@ services:
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Game
-            - ~
+            - VideoGamesRecords\CoreBundle\Controller\GameAdminController
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:game_show.html.twig']]
     sonata.admin.vgr.group:
