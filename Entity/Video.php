@@ -77,6 +77,13 @@ class Video implements TimestampableInterface, SluggableInterface
     private $libVideo;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbComment", type="integer", nullable=false, options={"default":0})
+     */
+    private $nbComment = 0;
+
+    /**
      * @var Game
      *
      * @Assert\NotNull
@@ -225,6 +232,29 @@ class Video implements TimestampableInterface, SluggableInterface
         $this->game = $game;
 
         return $this;
+    }
+
+    /**
+     * Set nbComment
+     *
+     * @param integer $nbComment
+     * @return $this
+     */
+    public function setNbComment($nbComment)
+    {
+        $this->nbComment = $nbComment;
+
+        return $this;
+    }
+
+    /**
+     * Get nbComment
+     *
+     * @return integer
+     */
+    public function getNbComment()
+    {
+        return $this->nbComment;
     }
 
     /**

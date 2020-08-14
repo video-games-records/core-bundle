@@ -284,3 +284,28 @@ CREATE TRIGGER vgrGamePlatformAfterDelete AFTER DELETE ON vgr_game_platform
 	WHERE id = OLD.idGame //
 delimiter ;
 
+
+-- VideoComment
+delimiter //
+DROP TRIGGER IF EXISTS `vgrVideoCommentAfterInsert`//
+CREATE TRIGGER vgrVideoCommentAfterInsert AFTER INSERT ON vgr_video_comment
+    FOR EACH ROW
+BEGIN
+    UPDATE vgr_video
+    SET nbComment = (SELECT COUNT(id) FROM vgr_video_comment WHERE idVideo = NEW.idVideo)
+    WHERE id = NEW.idVideo;
+END //
+delimiter ;
+
+delimiter //
+DROP TRIGGER IF EXISTS `vgrVideoCommentAfterDelete`//
+CREATE TRIGGER vgrVideoCommentAfterDelete AFTER DELETE ON vgr_video_comment
+    FOR EACH ROW
+BEGIN
+    UPDATE vgr_video
+    SET nbComment = (SELECT COUNT(id) FROM vgr_video_comment WHERE idVideo = OLD.idVideo)
+    WHERE id = OLD.idVideo;
+END //
+delimiter ;
+
+

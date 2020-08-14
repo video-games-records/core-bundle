@@ -27,6 +27,9 @@ VideoGamesRecords\CoreBundle\Entity\Video:
       groups:
         - 'video.post'
         - 'video.put'
+    nbComment:
+      groups:
+        - 'video.read'
     game:
       groups:
         - 'video.read'

@@ -1705,5 +1705,12 @@ ALTER TABLE `vgr_friend` CHANGE `idAmi` `idFriend` INT(13) NOT NULL DEFAULT '0';
 
 ALTER TABLE `vgr_team` ADD `nbGame` INT NOT NULL DEFAULT '0' AFTER `nbPlayer`;
 
+ALTER TABLE `article` ADD `nbComment` INT NOT NULL DEFAULT '0' AFTER `link`;
+ALTER TABLE `vgr_video` ADD `nbComment` INT NOT NULL DEFAULT '0' AFTER `tag`;
 
 
+UPDATE article a
+SET a.nbComment = (SELECt COUNT(id) FROM article_comment WHERE idArticle = a.id);
+
+UPDATE vgr_video v
+SET v.nbComment = (SELECt COUNT(id) FROM vgr_video_comment WHERE idVideo = v.id);
