@@ -1714,3 +1714,34 @@ SET a.nbComment = (SELECt COUNT(id) FROM article_comment WHERE idArticle = a.id)
 
 UPDATE vgr_video v
 SET v.nbComment = (SELECt COUNT(id) FROM vgr_video_comment WHERE idVideo = v.id);
+
+
+ALTER TABLE user ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `user` SET
+    slug = lower(username),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
+ALTER TABLE `user_group` DROP FOREIGN KEY `FK_FE1D13664B64DCC`; ALTER TABLE `user_group` ADD CONSTRAINT `FK_FE1D13664B64DCC` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
