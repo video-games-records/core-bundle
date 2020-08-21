@@ -2,8 +2,8 @@ ProjetNormandie\CountryBundle\Entity\Country:
   attributes:
     id:
       groups:
-        - 'vgr.country.read'
+        - 'player.country.read'
     name:
       groups:
-        - 'vgr.country.read'
+        - 'player.country.read'
 
