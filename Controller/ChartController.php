@@ -71,6 +71,24 @@ class ChartController extends AbstractController
         return $ranking;
     }
 
+
+    /**
+     * @param Chart    $chart
+     * @param Request $request
+     * @return mixed
+     */
+    public function playerRankingPoints(Chart $chart, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 5);
+        $idTeam = $request->query->get('idTeam', null);
+        if ($idTeam) {
+            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
+        } else {
+            $team = null;
+        }
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getRankingPoints($chart, $maxRank, $this->getPlayer(), $team);
+    }
+
     /**
      * @param Chart    $chart
      * @param Request $request

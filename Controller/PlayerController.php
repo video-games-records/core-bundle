@@ -43,19 +43,35 @@ class PlayerController extends AbstractController
     }
 
     /**
+     * @param Request $request
      * @return mixed
      */
-    public function rankingPointChart()
+    public function rankingPointChart(Request $request)
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointChart($this->getPlayer());
+        $maxRank = $request->query->get('maxRank', 100);
+        $idTeam = $request->query->get('idTeam', null);
+        if ($idTeam) {
+            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
+        } else {
+            $team = null;
+        }
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointChart($this->getPlayer(), $maxRank, $team);
     }
 
     /**
+     * @param Request $request
      * @return mixed
      */
-    public function rankingPointGame()
+    public function rankingPointGame(Request $request)
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointGame($this->getPlayer());
+        $maxRank = $request->query->get('maxRank', 100);
+        $idTeam = $request->query->get('idTeam', null);
+        if ($idTeam) {
+            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
+        } else {
+            $team = null;
+        }
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointGame($this->getPlayer(), $maxRank, $team);
     }
 
     /**

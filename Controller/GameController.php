@@ -75,7 +75,13 @@ class GameController extends AbstractController
     public function playerRankingPoints(Game $game, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, $maxRank, $this->getPlayer());
+        $idTeam = $request->query->get('idTeam', null);
+        if ($idTeam) {
+            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
+        } else {
+            $team = null;
+        }
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, $maxRank, $this->getPlayer(), $team);
     }
 
 

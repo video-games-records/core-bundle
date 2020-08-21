@@ -15,9 +15,10 @@ class PlayerGameRepository extends EntityRepository
      * @param Game $game
      * @param int $maxRank
      * @param Player $player
+     * @param Team $team
      * @return \VideoGamesRecords\CoreBundle\Entity\PlayerGame[]
      */
-    public function getRankingPoints($game, $maxRank = null, $player = null)
+    public function getRankingPoints($game, $maxRank = null, $player = null, $team = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -27,7 +28,10 @@ class PlayerGameRepository extends EntityRepository
         $query->where('pg.game = :game')
             ->setParameter('game', $game);
 
-        if (($maxRank !== null) && ($player !== null)) {
+        if ($team != null) {
+            $query->andWhere('(p.team = :team)')
+                ->setParameter('team', $team);
+        } elseif (($maxRank !== null) && ($player !== null)) {
             $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player = :player)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);

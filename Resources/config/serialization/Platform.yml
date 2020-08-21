@@ -3,9 +3,11 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
     id:
       groups:
         - 'platform.read'
+        - 'platform.read.mini'
     libPlatform:
       groups:
         - 'platform.read'
+        - 'platform.read.mini'
     picture:
       groups:
         - 'platform.read'
@@ -14,3 +16,4 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
     slug:
       groups:
         - 'platform.read'
+        - 'platform.read.mini'

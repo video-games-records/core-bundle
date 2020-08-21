@@ -253,13 +253,28 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::teamRanking'
             player-ranking:
                 method: 'GET'
-                normalization_context: {'groups': [playerChart.ranking, playerChart.player, player.read.mini, playerChart.status, playerChartStatus.read]}
+                normalization_context: {'groups': [playerChart.ranking,playerChart.player,playerChart.platform,platform.read.mini,player.read.mini,playerChart.status,playerChartStatus.read,player.team,team.read.mini,player.country,player.country.read]}
                 path: '/charts/{id}/player-ranking'
                 swagger_context:
                     summary: 'Retrive ranking of a chart'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::playerRanking'
                 defaults:
                     _api_receive: false
+            player-ranking-points:
+                method: 'GET'
+                normalization_context: {'groups': [playerChart.pointChart,playerChart.player,player.read.mini,player.team,team.read.mini,player.country,player.country.read]}
+                path: '/charts/{id}/player-ranking-points'
+                swagger_context:
+                    parameters:
+                        -   name: id
+                            in: path
+                            required: true
+                            type: integer
+                        -   name: maxRank
+                            in: query
+                            required: false
+                            type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::playerRankingPoints'
     VideoGamesRecords\CoreBundle\Entity\PlayerBadge:
         collectionOperations:
             get:

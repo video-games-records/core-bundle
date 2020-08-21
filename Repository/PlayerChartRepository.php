@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -28,6 +29,41 @@ class PlayerChartRepository extends EntityRepository
 
         return $query->getQuery()
             ->getOneOrNullResult();
+    }
+
+
+    /**
+     * @param Chart $chart
+     * @param int $maxRank
+     * @param Player $player
+     * @param Team $team
+     * @return array
+     */
+    public function getRankingPoints($chart, $maxRank = null, $player = null, $team = null)
+    {
+        $query = $this->createQueryBuilder('pc')
+            ->join('pc.player', 'p')
+            ->addSelect('p')
+            ->orderBy('pc.rank');
+
+        $query->where('pc.chart = :chart')
+            ->setParameter('chart', $chart);
+
+        if ($team != null) {
+            $query->andWhere('(p.team = :team)')
+                ->setParameter('team', $team);
+        } elseif (($maxRank !== null) && ($player !== null)) {
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR pc.player= :player)')
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('player', $player);
+        } elseif ($maxRank !== null) {
+            $query->andWhere('pc.rank <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        } else {
+            $query->setMaxResults(100);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     /**

@@ -295,11 +295,13 @@ class PlayerRepository extends EntityRepository
 
     /**
      * @param Player $player
+     * @param int  $maxRank
+     * @param Team  $team
      * @return array
      */
-    public function getRankingPointChart($player = null)
+    public function getRankingPointChart($player = null, $maxRank = 100, $team = null)
     {
-        return $this->getRanking('rankPointChart', $player);
+        return $this->getRanking('rankPointChart', $player, $maxRank, $team);
     }
 
 
@@ -308,9 +310,9 @@ class PlayerRepository extends EntityRepository
      * @param int  $maxRank
      * @return int|mixed|string
      */
-    public function getRankingPointGame($player = null, $maxRank = 100)
+    public function getRankingPointGame($player = null, $maxRank = 100, $team = null)
     {
-        return $this->getRanking('rankPointGame', $player, $maxRank);
+        return $this->getRanking('rankPointGame', $player, $maxRank, $team);
     }
 
 
@@ -378,14 +380,18 @@ class PlayerRepository extends EntityRepository
      * @param      $column
      * @param null $player
      * @param int  $maxRank
+     * @param null $team
      * @return int|mixed|string
      */
-    private function getRanking($column, $player = null, $maxRank = 100)
+    private function getRanking($column, $player = null, $maxRank = 100, $team = null)
     {
         $query = $this->createQueryBuilder('p')
             ->orderBy("p.$column");
 
-        if ($player !== null) {
+        if ($team !== null) {
+            $query->andWhere('(p.team = :team)')
+                ->setParameter('team', $team);
+        } elseif ($player !== null) {
             $query->where("(p.$column <= :maxRank OR p = :player)")
                 ->setParameter('maxRank', 100)
                 ->setParameter('player', $player);

@@ -44,7 +44,13 @@ class GroupController extends AbstractController
     public function playerRankingPoints(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($group, $maxRank, $this->getPlayer());
+        $idTeam = $request->query->get('idTeam', null);
+        if ($idTeam) {
+            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
+        } else {
+            $team = null;
+        }
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($group, $maxRank, $this->getPlayer(), $team);
     }
 
 

@@ -16,9 +16,10 @@ class PlayerGroupRepository extends EntityRepository
      * @param Group $group
      * @param int $maxRank
      * @param Player $player
+     * @param Team $team
      * @return array
      */
-    public function getRankingPoints($group, $maxRank = null, $player = null)
+    public function getRankingPoints($group, $maxRank = null, $player = null, $team = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -28,7 +29,10 @@ class PlayerGroupRepository extends EntityRepository
         $query->where('pg.group = :group')
             ->setParameter('group', $group);
 
-        if (($maxRank !== null) && ($player !== null)) {
+        if ($team != null) {
+            $query->andWhere('(p.team = :team)')
+                ->setParameter('team', $team);
+        } elseif (($maxRank !== null) && ($player !== null)) {
             $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player= :player)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
