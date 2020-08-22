@@ -139,7 +139,6 @@ class PlayerChartRepository extends EntityRepository
         }
 
         $chart->setStatusPlayer(Chart::STATUS_NORMAL);
-        //$this->getEntityManager()->persist($chart);
         $this->getEntityManager()->flush();
 
         return $players;

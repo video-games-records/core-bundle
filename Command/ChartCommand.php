@@ -13,13 +13,12 @@ class ChartCommand extends DefaultCommand
     protected static $defaultName = 'vgr-core:chart';
 
     private $em;
-
-    const NB_CHART_TO_MAJ = 1000;
+    private $nbChartToMaj = 1000;
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        parent::__construct();
+        parent::__construct($em);
     }
 
     protected function configure()
@@ -39,6 +38,12 @@ class ChartCommand extends DefaultCommand
                 'Chart identifier'
             )
             ->addOption(
+                'nbChartToMaj',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Nb Chart to MAJ'
+            )
+            ->addOption(
                 'debug',
                 'd',
                 InputOption::VALUE_NONE,
@@ -49,7 +54,7 @@ class ChartCommand extends DefaultCommand
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @return bool
+     * @return int
      * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -57,6 +62,9 @@ class ChartCommand extends DefaultCommand
         $this->init($input);
         $function = $input->getArgument('function');
         $idChart  = $input->getOption('idChart');
+        if ($input->getOption('nbChartToMaj')) {
+            $this->nbChartToMaj = $input->getOption('nbChartToMaj');
+        }
 
         switch ($function) {
             case 'maj-player':
@@ -78,7 +86,7 @@ class ChartCommand extends DefaultCommand
         }
         $this->end($output);
 
-        return true;
+        return 0;
     }
 
     /**
@@ -94,7 +102,7 @@ class ChartCommand extends DefaultCommand
             $output->writeln('vgr:chart maj-player is already running');
             return;
         }
-        $chartRepository->goToMajPlayer(self::NB_CHART_TO_MAJ);
+        $chartRepository->goToMajPlayer($this->nbChartToMaj);
 
         $charts = $chartRepository->getChartToMajPlayer();
         $this->updatePlayerChart($charts);
@@ -185,7 +193,7 @@ class ChartCommand extends DefaultCommand
             $output->writeln('vgr:chart maj-team is already running');
             return;
         }
-        $chartRepository->goToMajTeam(self::NB_CHART_TO_MAJ);
+        $chartRepository->goToMajTeam($this->nbChartToMaj);
 
         $charts = $chartRepository->getChartToMajTeam();
         $this->updateTeamChart($charts);

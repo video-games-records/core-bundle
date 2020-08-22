@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\DBAL\Logging\DebugStack;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,14 +14,20 @@ abstract class DefaultCommand extends Command
 
     private $sglLoggerEnabled = false;
     private $stack;
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        parent::__construct();
+    }
 
     protected function init(InputInterface $input)
     {
         if ($input->getOption('debug')) {
             $this->sglLoggerEnabled = true;
             // Start setup logger
-            $doctrine = $this->getContainer()->get('doctrine');
-            $doctrineConnection = $doctrine->getConnection();
+            $doctrineConnection = $this->em->getConnection();
             $this->stack = new DebugStack();
             $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
             // End setup logger

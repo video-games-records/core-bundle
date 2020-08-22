@@ -52,6 +52,8 @@ class TeamChartRepository extends EntityRepository
      */
     public function maj($chart)
     {
+        /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
+
         $teams = [];
 
         //----- delete
@@ -124,6 +126,8 @@ class TeamChartRepository extends EntityRepository
 
             $this->_em->persist($teamChart);
         }
+
+        $chart->setStatusTeam(Chart::STATUS_NORMAL);
         $this->_em->flush();
 
         return $teams;
