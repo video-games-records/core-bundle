@@ -38,7 +38,18 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  * )
  * @ApiFilter(DateFilter::class, properties={"publishedAt": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
  * @ApiFilter(GroupFilter::class, arguments={"parameterName": "groups", "overrideDefaultGroups": true, "whitelist": {"game.read.mini","game.list","game.platforms","platform.read"}})
- * @ApiFilter(OrderFilter::class, properties={"id","ASC","publishedAt": "DESC"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "id":"ASC",
+ *          "translations.name" : "ASC",
+ *          "publishedAt": "DESC",
+ *          "nbChart": "DESC",
+ *          "nbPost": "DESC",
+ *          "nbPlayer": "DESC"
+ *     },
+ *     arguments={"orderParameterName"="order"}
+ * )
  */
 class Game implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
 {
