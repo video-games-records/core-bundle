@@ -19,7 +19,7 @@ class GameCommand extends DefaultCommand
     {
         $this->em = $em;
         $this->service = $service;
-        parent::__construct();
+        parent::__construct($em);
     }
 
     protected function configure()

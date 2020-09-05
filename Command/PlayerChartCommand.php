@@ -17,7 +17,7 @@ class PlayerChartCommand extends DefaultCommand
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        parent::__construct();
+        parent::__construct($em);
     }
 
     protected function configure()
