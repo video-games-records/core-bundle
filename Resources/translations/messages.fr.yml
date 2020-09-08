@@ -53,3 +53,6 @@ team:
         exists: 'Vous avez déjà envoyé une demande pour ce joueur'
         has_team: 'Ce joueur a déjà une équipe'
 
+avatar:
+    extension_not_allowed: 'Les format autorisés sont png et jpg'
+    success: "L'avatar a bien été chargé"

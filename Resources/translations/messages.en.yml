@@ -52,3 +52,6 @@ team:
     request:
         exists: 'You already requested this player'
         has_team: 'This player has already a team'
+avatar:
+    extension_not_allowed: 'Format allowed are png and jpg'
+    success: "Avatar has been successfull uploaded"
