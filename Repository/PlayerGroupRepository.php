@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Exception;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Entity\Group;
@@ -17,12 +19,12 @@ class PlayerGroupRepository extends EntityRepository
 {
     /**
      * @param Group $group
-     * @param int $maxRank
-     * @param Player $player
-     * @param Team $team
+     * @param null  $maxRank
+     * @param null  $player
+     * @param null  $team
      * @return array
      */
-    public function getRankingPoints($group, $maxRank = null, $player = null, $team = null)
+    public function getRankingPoints(Group $group, $maxRank = null, $player = null, $team = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -52,11 +54,11 @@ class PlayerGroupRepository extends EntityRepository
 
     /**
      * @param Group $group
-     * @param int $maxRank
-     * @param Player $player
+     * @param null  $maxRank
+     * @param null  $player
      * @return array
      */
-    public function getRankingMedals($group, $maxRank = null, $player = null)
+    public function getRankingMedals(Group $group, $maxRank = null, $player = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -84,6 +86,7 @@ class PlayerGroupRepository extends EntityRepository
      * @param $group
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws Exception|ExceptionInterface
      */
     public function maj($group)
     {

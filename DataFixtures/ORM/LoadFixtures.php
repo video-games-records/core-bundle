@@ -261,7 +261,6 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         ];
 
         foreach ($list as $row) {
-            /** @var ChartType $chartType */
             $chartType = new ChartType();
             $chartType
                 ->setIdType($row['idType'])
@@ -529,7 +528,6 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         ];
 
         foreach ($list as $row) {
-            /** @var PlayerChart $playerChart */
             $playerChart = new PlayerChart();
             $playerChart->setPlayer($this->getReference('player' . $row['idPlayer']));
             $playerChart->setChart($chart);
@@ -538,7 +536,6 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             $manager->persist($playerChart);
 
             foreach ($chart->getLibs() as $lib) {
-                /** @var PlayerChartLib $playerChartLib */
                 $playerChartLib = new PlayerChartLib();
                 $playerChartLib->setPlayer($this->getReference('player' . $row['idPlayer']));
                 $playerChartLib->setLibChart($lib);

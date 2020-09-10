@@ -75,7 +75,7 @@ class PlayerChartLib
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -107,16 +107,15 @@ class PlayerChartLib
      * @param integer $value
      * @return $this
      */
-    public function setValue($value)
+    public function setValue(int $value)
     {
         $this->value = $value;
         return $this;
     }
 
     /**
-     * Set lib
-     *
-     * @param ChartLib $libChart
+     * Set libChart
+     * @param ChartLib|null $libChart
      * @return $this
      */
     public function setLibChart(ChartLib $libChart = null)
@@ -138,8 +137,7 @@ class PlayerChartLib
 
     /**
      * Set player
-     *
-     * @param PlayerChart $playerChart
+     * @param PlayerChart|null $playerChart
      * @return $this
      */
     public function setPlayerChart(PlayerChart $playerChart = null)

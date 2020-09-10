@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\VideoGamesRecords\CoreBundle\Tests\Tools;
+namespace VideoGamesRecords\CoreBundle\Tests\Tools;
 
 use PHPUnit\Framework\TestCase;
 use VideoGamesRecords\CoreBundle\Tools\Score;
@@ -14,19 +14,18 @@ class ScoreTest extends TestCase
      * @param string $scoreFormat
      * @param array $expected
      */
-    public function testParseLibRecord($scoreFormat, array $expected)
+    public function testParseLibRecord(string $scoreFormat, array $expected)
     {
         $this->assertSame($expected, Score::parseChartMask($scoreFormat));
     }
 
     /**
      * @dataProvider getValuesProvider
-     *
      * @param string $scoreFormat
-     * @param int $value
-     * @param array $expected
+     * @param int    $value
+     * @param array  $expected
      */
-    public function testGetValues($scoreFormat, $value, array $expected)
+    public function testGetValues(string $scoreFormat, int $value, array $expected)
     {
         $this->assertSame($expected, Score::getValues($scoreFormat, $value));
     }
@@ -38,7 +37,7 @@ class ScoreTest extends TestCase
      * @param array $values
      * @param string $expected
      */
-    public function testFormToBdd($scoreFormat, array $values, $expected)
+    public function testFormToBdd(string $scoreFormat, array $values, string $expected)
     {
         $this->assertSame($expected, Score::formToBdd($scoreFormat, $values));
     }
@@ -49,7 +48,7 @@ class ScoreTest extends TestCase
      * @param string $value
      * @param string $expected
      */
-    public function testFormatScore($scoreFormat, $value, $expected)
+    public function testFormatScore(string $scoreFormat, string $value, string $expected)
     {
         $this->assertSame($expected, Score::formatScore($value, $scoreFormat));
     }

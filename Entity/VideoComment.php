@@ -64,11 +64,10 @@ class VideoComment implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -96,11 +95,10 @@ class VideoComment implements TimestampableInterface
 
     /**
      * Set video
-     *
      * @param Video $video
      * @return $this
      */
-    public function setVideo($video)
+    public function setVideo(Video $video)
     {
         $this->video = $video;
         return $this;
@@ -117,11 +115,10 @@ class VideoComment implements TimestampableInterface
 
     /**
      * Set player
-     *
      * @param Player $player
      * @return $this
      */
-    public function setPlayer($player)
+    public function setPlayer(Player $player)
     {
         $this->player = $player;
         return $this;
@@ -131,7 +128,7 @@ class VideoComment implements TimestampableInterface
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
         $this->text = $text;
 

@@ -113,11 +113,10 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return Video
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -135,11 +134,10 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set boolActive
-     *
      * @param boolean $boolActive
      * @return Video
      */
-    public function setBoolActive($boolActive)
+    public function setBoolActive(bool $boolActive)
     {
         $this->boolActive = $boolActive;
 
@@ -158,11 +156,10 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set type
-     *
      * @param string $type
      * @return Video
      */
-    public function setType($type)
+    public function setType(string $type)
     {
         $this->type = $type;
         return $this;
@@ -180,11 +177,10 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set libVideo
-     *
      * @param string $libVideo
      * @return Video
      */
-    public function setLibVideo($libVideo)
+    public function setLibVideo(string $libVideo)
     {
         $this->libVideo = $libVideo;
 
@@ -203,11 +199,10 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set url
-     *
      * @param string $url
      * @return Video
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->url = $url;
 
@@ -226,7 +221,7 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set game
-     * @param Game $game
+     * @param Game|null $game
      * @return Video
      */
     public function setGame(Game $game = null)
@@ -238,11 +233,10 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set nbComment
-     *
      * @param integer $nbComment
      * @return $this
      */
-    public function setNbComment($nbComment)
+    public function setNbComment(int $nbComment)
     {
         $this->nbComment = $nbComment;
 

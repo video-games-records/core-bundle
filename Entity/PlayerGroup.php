@@ -121,11 +121,10 @@ class PlayerGroup
 
     /**
      * Set rankPointChart
-     *
      * @param integer $rankPointChart
      * @return $this
      */
-    public function setRankPointChart($rankPointChart)
+    public function setRankPointChart(int $rankPointChart)
     {
         $this->rankPointChart = $rankPointChart;
         return $this;
@@ -143,11 +142,10 @@ class PlayerGroup
 
     /**
      * Set rankMedal
-     *
      * @param integer $rankMedal
      * @return $this
      */
-    public function setRankMedal($rankMedal)
+    public function setRankMedal(int $rankMedal)
     {
         $this->rankMedal = $rankMedal;
         return $this;
@@ -165,11 +163,10 @@ class PlayerGroup
 
     /**
      * Set chartRank0
-     *
      * @param integer $chartRank0
      * @return $this
      */
-    public function setChartRank0($chartRank0)
+    public function setChartRank0(int $chartRank0)
     {
         $this->chartRank0 = $chartRank0;
         return $this;
@@ -187,11 +184,10 @@ class PlayerGroup
 
     /**
      * Set chartRank1
-     *
      * @param integer $chartRank1
      * @return $this
      */
-    public function setChartRank1($chartRank1)
+    public function setChartRank1(int $chartRank1)
     {
         $this->chartRank1 = $chartRank1;
         return $this;
@@ -209,11 +205,10 @@ class PlayerGroup
 
     /**
      * Set chartRank2
-     *
      * @param integer $chartRank2
      * @return $this
      */
-    public function setChartRank2($chartRank2)
+    public function setChartRank2(int $chartRank2)
     {
         $this->chartRank2 = $chartRank2;
         return $this;
@@ -231,11 +226,10 @@ class PlayerGroup
 
     /**
      * Set chartRank3
-     *
      * @param integer $chartRank3
      * @return $this
      */
-    public function setChartRank3($chartRank3)
+    public function setChartRank3(int $chartRank3)
     {
         $this->chartRank3 = $chartRank3;
         return $this;
@@ -253,11 +247,10 @@ class PlayerGroup
 
     /**
      * Set chartRank4
-     *
      * @param integer $chartRank4
      * @return $this
      */
-    public function setChartRank4($chartRank4)
+    public function setChartRank4(int $chartRank4)
     {
         $this->chartRank4 = $chartRank4;
         return $this;
@@ -275,11 +268,10 @@ class PlayerGroup
 
     /**
      * Set chartRank5
-     *
      * @param integer $chartRank5
      * @return $this
      */
-    public function setChartRank5($chartRank5)
+    public function setChartRank5(int $chartRank5)
     {
         $this->chartRank5 = $chartRank5;
         return $this;
@@ -297,11 +289,10 @@ class PlayerGroup
 
     /**
      * Set pointChart
-     *
      * @param integer $pointChart
      * @return $this
      */
-    public function setPointChart($pointChart)
+    public function setPointChart(int $pointChart)
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -319,11 +310,10 @@ class PlayerGroup
 
     /**
      * Set nbChart
-     *
      * @param integer $nbChart
      * @return $this
      */
-    public function setNbChart($nbChart)
+    public function setNbChart(int $nbChart)
     {
         $this->nbChart = $nbChart;
         return $this;
@@ -341,11 +331,10 @@ class PlayerGroup
 
     /**
      * Set nbChartProven
-     *
      * @param integer $nbChartProven
      * @return $this
      */
-    public function setNbChartProven($nbChartProven)
+    public function setNbChartProven(int $nbChartProven)
     {
         $this->nbChartProven = $nbChartProven;
         return $this;
@@ -363,11 +352,10 @@ class PlayerGroup
 
     /**
      * Set lastUpdate
-     *
      * @param DateTime $lastUpdate
      * @return $this
      */
-    public function setLastUpdate($lastUpdate)
+    public function setLastUpdate(DateTime $lastUpdate)
     {
         $this->lastUpdate = $lastUpdate;
 
@@ -387,8 +375,7 @@ class PlayerGroup
 
     /**
      * Set group
-     *
-     * @param Group $group
+     * @param Group|null $group
      * @return $this
      */
     public function setGroup(Group $group = null)
@@ -411,8 +398,7 @@ class PlayerGroup
 
     /**
      * Set player
-     *
-     * @param Player $player
+     * @param Player|null $player
      * @return $this
      */
     public function setPlayer(Player $player = null)

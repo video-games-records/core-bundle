@@ -2,12 +2,16 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
+use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
@@ -124,7 +128,9 @@ class ChartCommand extends DefaultCommand
 
     /**
      * @param array $charts
-     * @throws Exception
+     * @throws ExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function updatePlayerChart(array $charts)
     {
@@ -216,7 +222,10 @@ class ChartCommand extends DefaultCommand
 
     /**
      * @param array $charts
-     * @throws Exception
+     * @throws ExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws DBALException
      */
     public function updateTeamChart(array $charts)
     {

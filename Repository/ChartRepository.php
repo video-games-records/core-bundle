@@ -72,7 +72,7 @@ class ChartRepository extends EntityRepository
      *
      * @throws DBALException
      */
-    public function goToMajPlayer($limit)
+    public function goToMajPlayer(int $limit)
     {
         $sql = sprintf("UPDATE vgr_chart SET statusPlayer = '%s' WHERE statusPlayer='%s' LIMIT %d", Chart::STATUS_GO_TO_MAJ, Chart::STATUS_MAJ, $limit);
         $this->_em->getConnection()->executeUpdate($sql);
@@ -83,7 +83,7 @@ class ChartRepository extends EntityRepository
      *
      * @throws DBALException
      */
-    public function goToMajTeam($limit)
+    public function goToMajTeam(int $limit)
     {
         $sql = sprintf("UPDATE vgr_chart SET statusTeam = '%s' WHERE statusPlayer='%s' AND statusTeam='%s' LIMIT %d", Chart::STATUS_GO_TO_MAJ, Chart::STATUS_NORMAL, Chart::STATUS_MAJ, $limit);
         $this->_em->getConnection()->executeUpdate($sql);

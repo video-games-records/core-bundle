@@ -25,7 +25,7 @@ class ChartAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_chart';
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -46,7 +46,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -138,7 +138,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -153,7 +153,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -174,7 +174,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -188,7 +188,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param Chart $object
+     * @param $object
      */
     public function prePersist($object)
     {

@@ -89,11 +89,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setIdProof($id)
+    public function setIdProof(int $id)
     {
         $this->id = $id;
         return $this;
@@ -156,11 +155,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set status
-     *
      * @param string $status
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
         return $this;

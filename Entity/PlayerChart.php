@@ -156,7 +156,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param integer $id
      * @return PlayerChart
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -178,7 +178,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param integer $rank
      * @return PlayerChart
      */
-    public function setRank($rank)
+    public function setRank(int $rank)
     {
         $this->rank = $rank;
         return $this;
@@ -200,7 +200,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param integer $nbEqual
      * @return PlayerChart
      */
-    public function setNbEqual($nbEqual)
+    public function setNbEqual(int $nbEqual)
     {
         $this->nbEqual = $nbEqual;
         return $this;
@@ -218,11 +218,10 @@ class PlayerChart implements ItemInterface, TimestampableInterface
 
     /**
      * Set pointChart
-     *
      * @param float $pointChart
      * @return PlayerChart
      */
-    public function setPointChart($pointChart)
+    public function setPointChart(float $pointChart)
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -245,7 +244,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return PlayerChart
      */
-    public function setTopScore($topScore)
+    public function setTopScore(bool $topScore)
     {
         $this->topScore = $topScore;
         return $this;
@@ -267,7 +266,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param DateTime $lastUpdate
      * @return $this
      */
-    public function setLastUpdate($lastUpdate)
+    public function setLastUpdate(DateTime $lastUpdate)
     {
         $this->lastUpdate = $lastUpdate;
 
@@ -290,7 +289,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param DateTime $dateInvestigation
      * @return PlayerChart
      */
-    public function setDateInvestigation($dateInvestigation)
+    public function setDateInvestigation(DateTime $dateInvestigation)
     {
         $this->dateInvestigation = $dateInvestigation;
         return $this;
@@ -307,10 +306,9 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     }
 
     /**
-     * Set chart
-     *
-     * @param Chart $chart
-     * @return PlayerChart
+     * Set Chart
+     * @param Chart|null $chart
+     * @return $this
      */
     public function setChart(Chart $chart = null)
     {
@@ -331,9 +329,8 @@ class PlayerChart implements ItemInterface, TimestampableInterface
 
     /**
      * Set proof
-     *
-     * @param Proof $proof
-     * @return PlayerChart
+     * @param Proof|null $proof
+     * @return $this
      */
     public function setProof(Proof $proof = null)
     {
@@ -355,9 +352,8 @@ class PlayerChart implements ItemInterface, TimestampableInterface
 
     /**
      * Set platform
-     *
-     * @param Platform $platform
-     * @return PlayerChart
+     * @param Platform|null $platform
+     * @return $this
      */
     public function setPlatform(Platform $platform = null)
     {
@@ -378,9 +374,8 @@ class PlayerChart implements ItemInterface, TimestampableInterface
 
     /**
      * Set status
-     *
-     * @param PlayerChartStatus $status
-     * @return PlayerChart
+     * @param PlayerChartStatus|object|null $status
+     * @return $this
      */
     public function setStatus(PlayerChartStatus $status = null)
     {
@@ -432,7 +427,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param string $link
      * @return string
      */
-    public function setLink($link)
+    public function setLink(string $link)
     {
         $this->link = $link;
 

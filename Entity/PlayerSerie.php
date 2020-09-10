@@ -148,11 +148,10 @@ class PlayerSerie
 
     /**
      * Set rankPoint
-     *
      * @param integer $rankPoint
      * @return PlayerSerie
      */
-    public function setRankPoint($rankPoint)
+    public function setRankPoint(int $rankPoint)
     {
         $this->rankPoint = $rankPoint;
         return $this;
@@ -170,11 +169,10 @@ class PlayerSerie
 
     /**
      * Set rankMedal
-     *
      * @param integer $rankMedal
      * @return PlayerSerie
      */
-    public function setRankMedal($rankMedal)
+    public function setRankMedal(int $rankMedal)
     {
         $this->rankMedal = $rankMedal;
         return $this;
@@ -192,11 +190,10 @@ class PlayerSerie
 
     /**
      * Set rank0
-     *
      * @param integer $rank0
      * @return PlayerSerie
      */
-    public function setRank0($rank0)
+    public function setRank0(int $rank0)
     {
         $this->rank0 = $rank0;
         return $this;
@@ -214,11 +211,10 @@ class PlayerSerie
 
     /**
      * Set rank1
-     *
      * @param integer $rank1
      * @return PlayerSerie
      */
-    public function setRank1($rank1)
+    public function setRank1(int $rank1)
     {
         $this->rank1 = $rank1;
         return $this;
@@ -236,11 +232,10 @@ class PlayerSerie
 
     /**
      * Set rank2
-     *
      * @param integer $rank2
      * @return PlayerSerie
      */
-    public function setRank2($rank2)
+    public function setRank2(int $rank2)
     {
         $this->rank2 = $rank2;
         return $this;
@@ -258,11 +253,10 @@ class PlayerSerie
 
     /**
      * Set rank3
-     *
      * @param integer $rank3
      * @return PlayerSerie
      */
-    public function setRank3($rank3)
+    public function setRank3(int $rank3)
     {
         $this->rank3 = $rank3;
         return $this;
@@ -280,11 +274,10 @@ class PlayerSerie
 
     /**
      * Set rank4
-     *
      * @param integer $rank4
      * @return PlayerSerie
      */
-    public function setRank4($rank4)
+    public function setRank4(int $rank4)
     {
         $this->rank4 = $rank4;
         return $this;
@@ -302,11 +295,10 @@ class PlayerSerie
 
     /**
      * Set rank5
-     *
      * @param integer $rank5
      * @return PlayerSerie
      */
-    public function setRank5($rank5)
+    public function setRank5(int $rank5)
     {
         $this->rank5 = $rank5;
         return $this;
@@ -324,11 +316,10 @@ class PlayerSerie
 
     /**
      * Set pointChart
-     *
      * @param integer $pointChart
      * @return PlayerSerie
      */
-    public function setPointChart($pointChart)
+    public function setPointChart(int $pointChart)
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -346,11 +337,10 @@ class PlayerSerie
 
     /**
      * Set pointChartWithoutDlc
-     *
      * @param integer $pointChartWithoutDlc
      * @return PlayerSerie
      */
-    public function setPointChartWithoutDlc($pointChartWithoutDlc)
+    public function setPointChartWithoutDlc(int $pointChartWithoutDlc)
     {
         $this->pointChartWithoutDlc = $pointChartWithoutDlc;
         return $this;
@@ -369,11 +359,10 @@ class PlayerSerie
 
     /**
      * Set nbChart
-     *
      * @param integer $nbChart
      * @return PlayerSerie
      */
-    public function setNbChart($nbChart)
+    public function setNbChart(int $nbChart)
     {
         $this->nbChart = $nbChart;
         return $this;
@@ -392,11 +381,10 @@ class PlayerSerie
 
     /**
      * Set nbChartProven
-     *
      * @param integer $nbChartProven
      * @return PlayerSerie
      */
-    public function setNbChartProven($nbChartProven)
+    public function setNbChartProven(int $nbChartProven)
     {
         $this->nbChartProven = $nbChartProven;
         return $this;
@@ -414,11 +402,10 @@ class PlayerSerie
 
     /**
      * Set nbChartWithoutDlc
-     *
      * @param integer $nbChartWithoutDlc
      * @return PlayerSerie
      */
-    public function setNbChartWithoutDlc($nbChartWithoutDlc)
+    public function setNbChartWithoutDlc(int $nbChartWithoutDlc)
     {
         $this->nbChartWithoutDlc = $nbChartWithoutDlc;
         return $this;
@@ -437,11 +424,10 @@ class PlayerSerie
 
     /**
      * Set nbChartProvenWithoutDlc
-     *
      * @param integer $nbChartProvenWithoutDlc
      * @return PlayerSerie
      */
-    public function setNbChartProvenWithoutDlc($nbChartProvenWithoutDlc)
+    public function setNbChartProvenWithoutDlc(int $nbChartProvenWithoutDlc)
     {
         $this->nbChartProvenWithoutDlc = $nbChartProvenWithoutDlc;
         return $this;
@@ -459,11 +445,10 @@ class PlayerSerie
 
     /**
      * Set pointGame
-     *
      * @param integer $pointGame
      * @return PlayerSerie
      */
-    public function setPointGame($pointGame)
+    public function setPointGame(int $pointGame)
     {
         $this->pointGame = $pointGame;
         return $this;
@@ -482,11 +467,10 @@ class PlayerSerie
 
     /**
      * Set nbGame
-     *
      * @param integer $nbGame
      * @return PlayerSerie
      */
-    public function setNbGame($nbGame)
+    public function setNbGame(int $nbGame)
     {
         $this->nbGame = $nbGame;
         return $this;
@@ -505,8 +489,7 @@ class PlayerSerie
 
     /**
      * Set serie
-     *
-     * @param Serie $serie
+     * @param Serie|null $serie
      * @return PlayerSerie
      */
     public function setSerie(Serie $serie = null)
@@ -529,8 +512,7 @@ class PlayerSerie
 
     /**
      * Set player
-     *
-     * @param Player $player
+     * @param Player|null $player
      * @return PlayerSerie
      */
     public function setPlayer(Player $player = null)

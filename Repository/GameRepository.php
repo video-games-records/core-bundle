@@ -36,7 +36,7 @@ class GameRepository extends EntityRepository
      *
      * @return Query
      */
-    public function findWithLetter($letter, $locale = 'en')
+    public function findWithLetter(string $letter,string $locale = 'en')
     {
         $query = $this->createQueryBuilder('g')
             ->addSelect('translation');
@@ -68,7 +68,7 @@ class GameRepository extends EntityRepository
      * @param int $idSerie
      * @return array
      */
-    public function findSerieGames($idSerie)
+    public function findSerieGames(int $idSerie)
     {
         $query = $this->createQueryBuilder('g');
         $query

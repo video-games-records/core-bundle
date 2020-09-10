@@ -20,11 +20,10 @@ class PlayerChartRepository extends EntityRepository
     /**
      * @param int $idPlayer
      * @param int $idChart
-     *
      * @return PlayerChart
      * @throws NonUniqueResultException
      */
-    public function getFromUnique($idPlayer, $idChart)
+    public function getFromUnique(int $idPlayer, int $idChart)
     {
         $query = $this->createQueryBuilder('pc')
             ->join('pc.player', 'p')
@@ -41,12 +40,12 @@ class PlayerChartRepository extends EntityRepository
 
     /**
      * @param Chart $chart
-     * @param int $maxRank
-     * @param Player $player
-     * @param Team $team
+     * @param null  $maxRank
+     * @param null  $player
+     * @param null  $team
      * @return array
      */
-    public function getRankingPoints($chart, $maxRank = null, $player = null, $team = null)
+    public function getRankingPoints(Chart $chart, $maxRank = null, $player = null, $team = null)
     {
         $query = $this->createQueryBuilder('pc')
             ->join('pc.player', 'p')
@@ -83,7 +82,6 @@ class PlayerChartRepository extends EntityRepository
     {
         /** @var Chart $chart */
         $chart       = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($chart);
-        $nbLib       = $chart->getLibs()->count();
         $ranking     = $this->getRankingForUpdate($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
         $players     = [];
@@ -387,8 +385,8 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * @param integer $idGame
-     * @param integer $idGroup
+     * @param null    $idGame
+     * @param null    $idGroup
      * @param integer $limit
      * @return mixed
      */

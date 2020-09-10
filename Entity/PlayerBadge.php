@@ -75,7 +75,7 @@ class PlayerBadge implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -98,7 +98,7 @@ class PlayerBadge implements TimestampableInterface
      * @param DateTime $ended_at
      * @return $this
      */
-    public function setEndedAt($ended_at)
+    public function setEndedAt(DateTime $ended_at)
     {
         $this->ended_at = $ended_at;
 
@@ -121,7 +121,7 @@ class PlayerBadge implements TimestampableInterface
      * @param integer $mbOrder
      * @return $this
      */
-    public function setMbOrder($mbOrder)
+    public function setMbOrder(int $mbOrder)
     {
         $this->mbOrder = $mbOrder;
 
@@ -164,8 +164,7 @@ class PlayerBadge implements TimestampableInterface
 
     /**
      * Set player
-     *
-     * @param Player $player
+     * @param Player|object|null $player
      * @return $this
      */
     public function setPlayer(Player $player = null)

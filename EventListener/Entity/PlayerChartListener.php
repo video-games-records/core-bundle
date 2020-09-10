@@ -52,10 +52,10 @@ class PlayerChartListener
         ) {
             try {
                 $this->lostPosition = new LostPosition();
-                $this->lostPosition ->setNewRank($newRank);
-                $this->lostPosition ->setOldRank(($newRank === 1) ? 0 : $oldRank); //----- zero for losing platinum medal
-                $this->lostPosition ->setPlayer($em->getReference(Player::class, $playerChart->getPlayer()->getId()));
-                $this->lostPosition ->setChart($em->getReference(Chart::class, $playerChart->getChart()->getId()));
+                $this->lostPosition->setNewRank($newRank);
+                $this->lostPosition->setOldRank(($newRank === 1) ? 0 : $oldRank); //----- zero for losing platinum medal
+                $this->lostPosition->setPlayer($em->getReference(Player::class, $playerChart->getPlayer()->getId()));
+                $this->lostPosition->setChart($em->getReference(Chart::class, $playerChart->getChart()->getId()));
             } catch (ORMException $e) {
             }
         }

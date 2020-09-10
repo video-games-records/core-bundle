@@ -118,11 +118,10 @@ class TeamGame
 
     /**
      * Set pointGame
-     *
      * @param float $pointGame
      * @return $this
      */
-    public function setPointGame($pointGame)
+    public function setPointGame(float $pointGame)
     {
         $this->pointGame = $pointGame;
         return $this;
@@ -140,11 +139,10 @@ class TeamGame
 
     /**
      * Set pointChart
-     *
      * @param float $pointChart
      * @return $this
      */
-    public function setPointChart($pointChart)
+    public function setPointChart(float $pointChart)
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -162,11 +160,10 @@ class TeamGame
 
     /**
      * Set rankPointChart
-     *
      * @param integer $rankPointChart
      * @return $this
      */
-    public function setRankPointChart($rankPointChart)
+    public function setRankPointChart(int $rankPointChart)
     {
         $this->rankPointChart = $rankPointChart;
         return $this;
@@ -184,11 +181,10 @@ class TeamGame
 
     /**
      * Set rankMedal
-     *
      * @param integer $rankMedal
      * @return $this
      */
-    public function setRankMedal($rankMedal)
+    public function setRankMedal(int $rankMedal)
     {
         $this->rankMedal = $rankMedal;
         return $this;
@@ -206,11 +202,10 @@ class TeamGame
 
     /**
      * Set chartRank0
-     *
      * @param integer $chartRank0
      * @return $this
      */
-    public function setChartRank0($chartRank0)
+    public function setChartRank0(int $chartRank0)
     {
         $this->chartRank0 = $chartRank0;
         return $this;
@@ -228,11 +223,10 @@ class TeamGame
 
     /**
      * Set chartRank1
-     *
      * @param integer $chartRank1
      * @return $this
      */
-    public function setChartRank1($chartRank1)
+    public function setChartRank1(int $chartRank1)
     {
         $this->chartRank1 = $chartRank1;
         return $this;
@@ -250,11 +244,10 @@ class TeamGame
 
     /**
      * Set chartRank2
-     *
      * @param integer $chartRank2
      * @return $this
      */
-    public function setChartRank2($chartRank2)
+    public function setChartRank2(int $chartRank2)
     {
         $this->chartRank2 = $chartRank2;
         return $this;
@@ -272,11 +265,10 @@ class TeamGame
 
     /**
      * Set chartRank3
-     *
      * @param integer $chartRank3
      * @return $this
      */
-    public function setChartRank3($chartRank3)
+    public function setChartRank3(int $chartRank3)
     {
         $this->chartRank3 = $chartRank3;
         return $this;
@@ -294,11 +286,10 @@ class TeamGame
 
     /**
      * Set nbEqual
-     *
      * @param integer $nbEqual
      * @return $this
      */
-    public function setNbEqual($nbEqual)
+    public function setNbEqual(int $nbEqual)
     {
         $this->nbEqual = $nbEqual;
         return $this;
@@ -316,8 +307,7 @@ class TeamGame
 
     /**
      * Set game
-     *
-     * @param Game $game
+     * @param Game|null $game
      * @return $this
      */
     public function setGame(Game $game = null)
@@ -340,8 +330,7 @@ class TeamGame
 
     /**
      * Set team
-     *
-     * @param Team $team
+     * @param Team|null $team
      * @return $this
      */
     public function setTeam(Team $team = null)

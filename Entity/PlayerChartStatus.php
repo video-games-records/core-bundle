@@ -52,11 +52,10 @@ class PlayerChartStatus
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -75,11 +74,10 @@ class PlayerChartStatus
 
     /**
      * Set label
-     *
      * @param string $label
      * @return $this
      */
-    public function setLabel($label)
+    public function setLabel(string $label)
     {
         $this->label = $label;
 
@@ -99,11 +97,10 @@ class PlayerChartStatus
 
     /**
      * Set boolRanking
-     *
      * @param integer $boolRanking
      * @return $this
      */
-    public function setBoolRanking($boolRanking)
+    public function setBoolRanking(int $boolRanking)
     {
         $this->boolRanking = $boolRanking;
         return $this;
@@ -122,11 +119,10 @@ class PlayerChartStatus
 
     /**
      * Set boolSendProof
-     *
      * @param integer $boolSendProof
      * @return $this
      */
-    public function setBoolSendProof($boolSendProof)
+    public function setBoolSendProof(int $boolSendProof)
     {
         $this->boolSendProof = $boolSendProof;
         return $this;

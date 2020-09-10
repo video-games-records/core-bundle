@@ -19,7 +19,6 @@ class PlayerRepository extends EntityRepository
      * @return mixed|Player
      * @throws NonUniqueResultException
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function getPlayerFromUser($user)
     {
@@ -28,9 +27,7 @@ class PlayerRepository extends EntityRepository
             ->setParameter('userId', $user->getId())
             ->addSelect('team')->leftJoin('player.team', 'team');
 
-        $player = $qb->getQuery()->getOneOrNullResult();
-
-        return $player ?? $this->createPlayerFromUser($user);
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -300,28 +297,9 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param $user
-     * @return Player
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    private function createPlayerFromUser($user)
-    {
-        $player = new Player();
-        $player
-            ->setNormandieUser($user)
-            ->setPseudo($user->getUsername());
-
-        $this->getEntityManager()->persist($player);
-        $this->getEntityManager()->flush();
-
-        return $player;
-    }
-
-    /**
-     * @param Player $player
+     * @param null $player
      * @param int  $maxRank
-     * @param Team  $team
+     * @param null $team
      * @return array
      */
     public function getRankingPointChart($player = null, $maxRank = 100, $team = null)
@@ -343,7 +321,7 @@ class PlayerRepository extends EntityRepository
 
 
     /**
-     * @param Player $player
+     * @param null $player
      * @return array
      */
     public function getRankingMedal($player = null)
@@ -353,7 +331,7 @@ class PlayerRepository extends EntityRepository
 
 
     /**
-     * @param Player $player
+     * @param null $player
      * @param int  $maxRank
      * @return int|mixed|string
      */
@@ -363,7 +341,7 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param Player $player
+     * @param null $player
      * @return array
      */
     public function getRankingProof($player = null)
@@ -372,7 +350,7 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param Player $player
+     * @param null $player
      * @return array
      */
     public function getRankingBadge($player = null)
@@ -381,8 +359,8 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param CountryInterface $country
-     * @param int $maxRank
+     * @param      $country
+     * @param null $maxRank
      * @return array
      */
     public function getRankingCountry($country, $maxRank = null)

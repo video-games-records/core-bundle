@@ -7,10 +7,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
-use VideoGamesRecords\CoreBundle\Entity\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
-use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreyBundle\Entity\CountryInterface;
 
 class PlayerBadgeRepository extends EntityRepository
 {
@@ -103,7 +100,7 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param CountryInterface $country
+     * @param $country
      * @throws Exception
      */
     public function majCountryBadge($country)
@@ -124,11 +121,11 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param array $players ranking
-     * @param BadgeInterface $badge badge
+     * @param array $players
+     * @param $badge
      * @throws Exception
      */
-    private function updateBadge($players, $badge)
+    private function updateBadge(array $players, $badge)
     {
         //----- get players with country badge
         $list = $this->getFromBadge($badge);

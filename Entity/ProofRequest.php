@@ -91,11 +91,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -113,11 +112,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set status
-     *
      * @param string $status
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
         return $this;
@@ -135,11 +133,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set dateAcceptance
-     *
      * @param DateTime $dateAcceptance
      * @return $this
      */
-    public function setDateAcceptance($dateAcceptance)
+    public function setDateAcceptance(DateTime $dateAcceptance)
     {
         $this->dateAcceptance = $dateAcceptance;
         return $this;
@@ -157,11 +154,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set message
-     *
      * @param string $message
      * @return $this
      */
-    public function setMessage($message)
+    public function setMessage(string $message)
     {
         $this->message = $message;
         return $this;

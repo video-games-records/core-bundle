@@ -12,14 +12,11 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
-use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Symfony\Component\HttpFoundation\Response;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use VideoGamesRecords\CoreBundle\Entity\Message\Message;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -27,9 +24,8 @@ class ProofRequestAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
-
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -51,7 +47,7 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -100,7 +96,7 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -116,7 +112,7 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -161,7 +157,7 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -175,7 +171,7 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @param object $object
+     * @param $object
      */
     public function preValidate($object)
     {
@@ -205,7 +201,7 @@ class ProofRequestAdmin extends AbstractAdmin
 
 
     /**
-     * @param object $object
+     * @param $object
      * @throws ORMException
      */
     public function preUpdate($object)

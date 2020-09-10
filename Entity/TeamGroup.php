@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Entity\Group;
 
 /**
  * TeamGroup
@@ -86,11 +85,10 @@ class TeamGroup
 
     /**
      * Set pointChart
-     *
      * @param float $pointChart
      * @return $this
      */
-    public function setPointChart($pointChart)
+    public function setPointChart(float $pointChart)
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -108,11 +106,10 @@ class TeamGroup
 
     /**
      * Set rankPointChart
-     *
      * @param integer $rankPointChart
      * @return $this
      */
-    public function setRankPointChart($rankPointChart)
+    public function setRankPointChart(int $rankPointChart)
     {
         $this->rankPointChart = $rankPointChart;
         return $this;
@@ -130,11 +127,10 @@ class TeamGroup
 
     /**
      * Set rankMedal
-     *
      * @param integer $rankMedal
      * @return $this
      */
-    public function setRankMedal($rankMedal)
+    public function setRankMedal(int $rankMedal)
     {
         $this->rankMedal = $rankMedal;
         return $this;
@@ -152,11 +148,10 @@ class TeamGroup
 
     /**
      * Set chartRank0
-     *
      * @param integer $chartRank0
      * @return $this
      */
-    public function setChartRank0($chartRank0)
+    public function setChartRank0(int $chartRank0)
     {
         $this->chartRank0 = $chartRank0;
         return $this;
@@ -174,11 +169,10 @@ class TeamGroup
 
     /**
      * Set chartRank1
-     *
      * @param integer $chartRank1
      * @return $this
      */
-    public function setChartRank1($chartRank1)
+    public function setChartRank1(int $chartRank1)
     {
         $this->chartRank1 = $chartRank1;
         return $this;
@@ -196,11 +190,10 @@ class TeamGroup
 
     /**
      * Set chartRank2
-     *
      * @param integer $chartRank2
      * @return $this
      */
-    public function setChartRank2($chartRank2)
+    public function setChartRank2(int $chartRank2)
     {
         $this->chartRank2 = $chartRank2;
         return $this;
@@ -218,11 +211,10 @@ class TeamGroup
 
     /**
      * Set chartRank3
-     *
      * @param integer $chartRank3
      * @return $this
      */
-    public function setChartRank3($chartRank3)
+    public function setChartRank3(int $chartRank3)
     {
         $this->chartRank3 = $chartRank3;
         return $this;
@@ -240,8 +232,7 @@ class TeamGroup
 
     /**
      * Set group
-     *
-     * @param Group $group
+     * @param Group|null $group
      * @return $this
      */
     public function setGroup(Group $group = null)
@@ -264,8 +255,7 @@ class TeamGroup
 
     /**
      * Set team
-     *
-     * @param Team $team
+     * @param Team|null $team
      * @return $this
      */
     public function setTeam(Team $team = null)

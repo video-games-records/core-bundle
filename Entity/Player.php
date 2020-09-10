@@ -264,7 +264,7 @@ class Player implements SluggableInterface
     private $team;
 
     /**
-     * @var Country
+     * @var CountryInterface
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\CountryInterface")
      * @ORM\JoinColumns({
@@ -287,7 +287,7 @@ class Player implements SluggableInterface
      * @param integer $id
      * @return Player
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -309,7 +309,7 @@ class Player implements SluggableInterface
      * @param string $pseudo
      * @return Player
      */
-    public function setPseudo($pseudo)
+    public function setPseudo(string $pseudo)
     {
         $this->pseudo = $pseudo;
 
@@ -332,7 +332,7 @@ class Player implements SluggableInterface
      * @param string $avatar
      * @return Player
      */
-    public function setAvatar($avatar)
+    public function setAvatar(string $avatar)
     {
         $this->avatar = $avatar;
 
@@ -355,7 +355,7 @@ class Player implements SluggableInterface
      * @param string $gamerCard
      * @return Player
      */
-    public function setGamerCard($gamerCard)
+    public function setGamerCard(string $gamerCard)
     {
         $this->gamerCard = $gamerCard;
 
@@ -378,7 +378,7 @@ class Player implements SluggableInterface
      * @param integer $chartRank0
      * @return Player
      */
-    public function setChartRank0($chartRank0)
+    public function setChartRank0(int $chartRank0)
     {
         $this->chartRank0 = $chartRank0;
 
@@ -401,7 +401,7 @@ class Player implements SluggableInterface
      * @param integer $chartRank1
      * @return Player
      */
-    public function setChartRank1($chartRank1)
+    public function setChartRank1(int $chartRank1)
     {
         $this->chartRank1 = $chartRank1;
 
@@ -424,7 +424,7 @@ class Player implements SluggableInterface
      * @param integer $chartRank2
      * @return Player
      */
-    public function setChartRank2($chartRank2)
+    public function setChartRank2(int $chartRank2)
     {
         $this->chartRank2 = $chartRank2;
 
@@ -447,7 +447,7 @@ class Player implements SluggableInterface
      * @param integer $chartRank3
      * @return Player
      */
-    public function setChartRank3($chartRank3)
+    public function setChartRank3(int $chartRank3)
     {
         $this->chartRank3 = $chartRank3;
 
@@ -470,7 +470,7 @@ class Player implements SluggableInterface
      * @param integer $pointChart
      * @return Player
      */
-    public function setPointChart($pointChart)
+    public function setPointChart(int $pointChart)
     {
         $this->pointChart = $pointChart;
 
@@ -493,7 +493,7 @@ class Player implements SluggableInterface
      * @param integer $pointVGR
      * @return Player
      */
-    public function setPointVGR($pointVGR)
+    public function setPointVGR(int $pointVGR)
     {
         $this->pointVGR = $pointVGR;
 
@@ -516,7 +516,7 @@ class Player implements SluggableInterface
      * @param integer $pointBadge
      * @return Player
      */
-    public function setPointBadge($pointBadge)
+    public function setPointBadge(int $pointBadge)
     {
         $this->pointBadge = $pointBadge;
 
@@ -539,7 +539,7 @@ class Player implements SluggableInterface
      * @param string $collection
      * @return Player
      */
-    public function setCollection($collection)
+    public function setCollection(string $collection)
     {
         $this->collection = $collection;
 
@@ -562,7 +562,7 @@ class Player implements SluggableInterface
      * @param integer $rankPointChart
      * @return Player
      */
-    public function setRankPointChart($rankPointChart)
+    public function setRankPointChart(int $rankPointChart)
     {
         $this->rankPointChart = $rankPointChart;
 
@@ -585,7 +585,7 @@ class Player implements SluggableInterface
      * @param integer $rankMedal
      * @return Player
      */
-    public function setRankMedal($rankMedal)
+    public function setRankMedal(int $rankMedal)
     {
         $this->rankMedal = $rankMedal;
 
@@ -608,7 +608,7 @@ class Player implements SluggableInterface
      * @param integer $rankProof
      * @return Player
      */
-    public function setRankProof($rankProof)
+    public function setRankProof(int $rankProof)
     {
         $this->rankProof = $rankProof;
 
@@ -631,7 +631,7 @@ class Player implements SluggableInterface
      * @param integer $rankBadge
      * @return Player
      */
-    public function setRankBadge($rankBadge)
+    public function setRankBadge(int $rankBadge)
     {
         $this->rankBadge = $rankBadge;
 
@@ -654,7 +654,7 @@ class Player implements SluggableInterface
      * @param integer $rankCup
      * @return Player
      */
-    public function setRankCup($rankCup)
+    public function setRankCup(int $rankCup)
     {
         $this->rankCup = $rankCup;
 
@@ -677,7 +677,7 @@ class Player implements SluggableInterface
      * @param integer $rankCountry
      * @return Player
      */
-    public function setRankCountry($rankCountry)
+    public function setRankCountry(int $rankCountry)
     {
         $this->rankCountry = $rankCountry;
 
@@ -700,7 +700,7 @@ class Player implements SluggableInterface
      * @param integer $gameRank0
      * @return Player
      */
-    public function setGameRank0($gameRank0)
+    public function setGameRank0(int $gameRank0)
     {
         $this->gameRank0 = $gameRank0;
 
@@ -723,7 +723,7 @@ class Player implements SluggableInterface
      * @param integer $gameRank1
      * @return Player
      */
-    public function setGameRank1($gameRank1)
+    public function setGameRank1(int $gameRank1)
     {
         $this->gameRank1 = $gameRank1;
 
@@ -746,7 +746,7 @@ class Player implements SluggableInterface
      * @param integer $gameRank2
      * @return Player
      */
-    public function setGameRank2($gameRank2)
+    public function setGameRank2(int $gameRank2)
     {
         $this->gameRank2 = $gameRank2;
 
@@ -769,7 +769,7 @@ class Player implements SluggableInterface
      * @param integer $gameRank3
      * @return Player
      */
-    public function setGameRank3($gameRank3)
+    public function setGameRank3(int $gameRank3)
     {
         $this->gameRank3 = $gameRank3;
 
@@ -792,7 +792,7 @@ class Player implements SluggableInterface
      * @param integer $nbGame
      * @return Player
      */
-    public function setNbGame($nbGame)
+    public function setNbGame(int $nbGame)
     {
         $this->nbGame = $nbGame;
 
@@ -815,7 +815,7 @@ class Player implements SluggableInterface
      * @param integer $nbChart
      * @return Player
      */
-    public function setNbChart($nbChart)
+    public function setNbChart(int $nbChart)
     {
         $this->nbChart = $nbChart;
 
@@ -838,7 +838,7 @@ class Player implements SluggableInterface
      * @param integer $nbChartProven
      * @return Player
      */
-    public function setNbChartProven($nbChartProven)
+    public function setNbChartProven(int $nbChartProven)
     {
         $this->nbChartProven = $nbChartProven;
 
@@ -861,7 +861,7 @@ class Player implements SluggableInterface
      * @param integer $nbChartDisabled
      * @return Player
      */
-    public function setNbChartDisabled($nbChartDisabled)
+    public function setNbChartDisabled(int $nbChartDisabled)
     {
         $this->nbChartDisabled = $nbChartDisabled;
 
@@ -884,7 +884,7 @@ class Player implements SluggableInterface
      * @param integer $nbMasterBadge
      * @return Player
      */
-    public function setNbMasterBadge($nbMasterBadge)
+    public function setNbMasterBadge(int $nbMasterBadge)
     {
         $this->nbMasterBadge = $nbMasterBadge;
 
@@ -907,7 +907,7 @@ class Player implements SluggableInterface
      * @param integer $pointGame
      * @return Player
      */
-    public function setPointGame($pointGame)
+    public function setPointGame(int $pointGame)
     {
         $this->pointGame = $pointGame;
 
@@ -930,7 +930,7 @@ class Player implements SluggableInterface
      * @param integer $rankPointGame
      * @return Player
      */
-    public function setRankPointGame($rankPointGame)
+    public function setRankPointGame(int $rankPointGame)
     {
         $this->rankPointGame = $rankPointGame;
 
@@ -956,7 +956,7 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @param $user
      * @return Player
      */
     public function setUser($user)
@@ -982,9 +982,9 @@ class Player implements SluggableInterface
     }
 
     /**
-     * Set team
-     * @param Team $team
-     * @return Player
+     * Set Team
+     * @param Team|null $team
+     * @return $this
      */
     public function setTeam(Team $team = null)
     {
@@ -1051,7 +1051,7 @@ class Player implements SluggableInterface
      */
     public function isLeader()
     {
-        return ($this->getTeam() !== null) && ($this->getTeam()->getIdLeader() === $this->getId());
+        return ($this->getTeam() !== null) && ($this->getTeam()->getLeader()->getId() === $this->getId());
     }
 
     /**

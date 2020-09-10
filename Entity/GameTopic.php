@@ -79,7 +79,7 @@ class GameTopic implements TimestampableInterface
      * @param integer $id
      * @return GameTopic
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -101,7 +101,7 @@ class GameTopic implements TimestampableInterface
      * @param string $libTopic
      * @return GameTopic
      */
-    public function setLibTopic($libTopic)
+    public function setLibTopic(string $libTopic)
     {
         $this->libTopic = $libTopic;
 
@@ -147,7 +147,7 @@ class GameTopic implements TimestampableInterface
 
     /**
      * Set game
-     * @param Game $game
+     * @param Game|null $game
      * @return GameTopic
      */
     public function setGame(Game $game = null)

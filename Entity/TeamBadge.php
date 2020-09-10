@@ -59,7 +59,7 @@ class TeamBadge implements TimestampableInterface
     private $team;
 
     /**
-     * @var Badge
+     * @var BadgeInterface
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\BadgeInterface", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -70,11 +70,10 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -93,11 +92,10 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set ended_at
-     *
      * @param DateTime $ended_at
      * @return $this
      */
-    public function setEndedAt($ended_at)
+    public function setEndedAt(DateTime $ended_at)
     {
         $this->ended_at = $ended_at;
 
@@ -116,11 +114,10 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set mbOrder
-     *
      * @param integer $mbOrder
      * @return $this
      */
-    public function setMbOrder($mbOrder)
+    public function setMbOrder(int $mbOrder)
     {
         $this->mbOrder = $mbOrder;
 
@@ -153,7 +150,7 @@ class TeamBadge implements TimestampableInterface
     /**
      * Get badge
      *
-     * @return Badge
+     * @return BadgeInterface
      */
     public function getBadge()
     {
@@ -163,8 +160,7 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set team
-     *
-     * @param Team $team
+     * @param Team|object|null $team
      * @return $this
      */
     public function setTeam(Team $team = null)

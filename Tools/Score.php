@@ -6,12 +6,10 @@ class Score
 {
     /**
      * Parse a type of a libRecord
-     *
      * @param string $mask
-     *
      * @return array
      */
-    public static function parseChartMask($mask)
+    public static function parseChartMask(string $mask)
     {
         $result     = [];
         $arrayParts = explode('|', $mask);
@@ -25,13 +23,11 @@ class Score
 
     /**
      * Transform a value for the form
-     *
-     * @param string $mask
+     * @param string     $mask
      * @param string|int $value
-     *
      * @return array
      */
-    public static function getValues($mask, $value)
+    public static function getValues(string $mask, $value)
     {
         $parse   = self::parseChartMask($mask);
         $negative = 0 === strpos($value, '-');
@@ -69,13 +65,11 @@ class Score
 
     /**
      * Transform values to insert database
-     *
      * @param string $mask
-     * @param array $values
-     *
+     * @param array  $values
      * @return string
      */
-    public static function formToBdd($mask, $values)
+    public static function formToBdd(string $mask, array $values)
     {
         $parse   = self::parseChartMask($mask);
         $nbInput = count($parse);
@@ -113,12 +107,11 @@ class Score
     }
 
     /**
-     * @param $value
-     * @param $mask
-     *
+     * @param        $value
+     * @param string $mask
      * @return string
      */
-    public static function formatScore($value, $mask)
+    public static function formatScore($value, string $mask)
     {
         $parse = self::parseChartMask($mask);
 

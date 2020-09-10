@@ -144,7 +144,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param integer $id
      * @return Chart
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -165,7 +165,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param string $name
      * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->translate(null, false)->setName($name);
 
@@ -186,7 +186,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param string $statusPlayer
      * @return Chart
      */
-    public function setStatusPlayer($statusPlayer)
+    public function setStatusPlayer(string $statusPlayer)
     {
         $this->statusPlayer = $statusPlayer;
         return $this;
@@ -208,7 +208,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param string $statusTeam
      * @return Chart
      */
-    public function setStatusTeam($statusTeam)
+    public function setStatusTeam(string $statusTeam)
     {
         $this->statusTeam = $statusTeam;
         return $this;
@@ -257,7 +257,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param integer $nbPost
      * @return Chart
      */
-    public function setNbPost($nbPost)
+    public function setNbPost(int $nbPost)
     {
         $this->nbPost = $nbPost;
         return $this;
@@ -275,8 +275,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
 
     /**
      * Set group
-     *
-     * @param Group $group
+     * @param Group|null $group
      * @return Chart
      */
     public function setGroup(Group $group = null)

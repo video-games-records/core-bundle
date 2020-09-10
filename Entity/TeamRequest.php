@@ -78,11 +78,10 @@ class TeamRequest implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -100,11 +99,10 @@ class TeamRequest implements TimestampableInterface
 
     /**
      * Set status
-     *
      * @param string $status
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
 
@@ -123,8 +121,7 @@ class TeamRequest implements TimestampableInterface
 
     /**
      * Set player
-     *
-     * @param Player $player
+     * @param Player|null $player
      * @return $this
      */
     public function setPlayer(Player $player = null)
@@ -146,7 +143,7 @@ class TeamRequest implements TimestampableInterface
 
     /**
      * Set team
-     * @param Team $team
+     * @param Team|null $team
      * @return $this
      */
     public function setTeam(Team $team = null)

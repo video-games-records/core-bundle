@@ -74,7 +74,7 @@ class LostPosition implements TimestampableInterface
      * @param integer $id
      * @return LostPosition
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -96,7 +96,7 @@ class LostPosition implements TimestampableInterface
      * @param integer $newRank
      * @return LostPosition
      */
-    public function setNewRank($newRank)
+    public function setNewRank(int $newRank)
     {
         $this->newRank = $newRank;
         return $this;
@@ -118,7 +118,7 @@ class LostPosition implements TimestampableInterface
      * @param integer $oldRank
      * @return LostPosition
      */
-    public function setOldRank($oldRank)
+    public function setOldRank(int $oldRank)
     {
         $this->oldRank = $oldRank;
         return $this;
@@ -136,8 +136,7 @@ class LostPosition implements TimestampableInterface
 
     /**
      * Set chart
-     *
-     * @param Chart $chart
+     * @param Chart|object|null $chart
      * @return LostPosition
      */
     public function setChart(Chart $chart = null)
@@ -160,8 +159,7 @@ class LostPosition implements TimestampableInterface
 
     /**
      * Set player
-     *
-     * @param Player $player
+     * @param Player|object|null $player
      * @return LostPosition
      */
     public function setPlayer(Player $player = null)

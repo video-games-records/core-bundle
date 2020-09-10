@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\TransactionRequiredException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
@@ -13,13 +14,13 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 class PlayerSerieRepository extends EntityRepository
 {
     /**
-     * @param int $idSerie
-     * @param int $idPlayer
-     * @param int $maxRank
-     * @param int $limit
+     * @param int  $idSerie
+     * @param null $idPlayer
+     * @param null $maxRank
+     * @param null $limit
      * @return array
      */
-    public function getRankingPoints($idSerie, $idPlayer = null, $maxRank = null, $limit = null)
+    public function getRankingPoints(int $idSerie, $idPlayer = null, $maxRank = null, $limit = null)
     {
         $query = $this->createQueryBuilder('ps')
             ->join('ps.player', 'p')
@@ -59,13 +60,13 @@ class PlayerSerieRepository extends EntityRepository
 
 
     /**
-     * @param int $idSerie
-     * @param int $idPlayer
-     * @param int $maxRank
-     * @param int $limit
+     * @param int  $idSerie
+     * @param null $idPlayer
+     * @param null $maxRank
+     * @param null $limit
      * @return array
      */
-    public function getRankingMedals($idSerie, $idPlayer = null, $maxRank = null, $limit = null)
+    public function getRankingMedals(int $idSerie, $idPlayer = null, $maxRank = null, $limit = null)
     {
         $query = $this->createQueryBuilder('ps')
             ->join('ps.player', 'p')
@@ -108,6 +109,7 @@ class PlayerSerieRepository extends EntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
+     * @throws ExceptionInterface
      */
     public function maj($idSerie)
     {

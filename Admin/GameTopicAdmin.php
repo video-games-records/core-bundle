@@ -15,7 +15,7 @@ class GameTopicAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_game_topic';
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -25,7 +25,7 @@ class GameTopicAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -46,7 +46,7 @@ class GameTopicAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -54,8 +54,8 @@ class GameTopicAdmin extends AbstractAdmin
             ->add('libTopic');
     }
 
-    /**
-     * @inheritdoc
+    /***
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -73,7 +73,7 @@ class GameTopicAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {

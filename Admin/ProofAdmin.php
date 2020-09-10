@@ -169,7 +169,7 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @param object $object
+     * @param $object
      */
     public function preValidate($object)
     {
@@ -197,7 +197,7 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @param object $object
+     * @param $object
      * @return bool|void
      * @throws ORMException
      */

@@ -248,7 +248,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param integer $id
      * @return Game
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -268,7 +268,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param string $name
      * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->translate(null, false)->setName($name);
 
@@ -287,7 +287,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param string $rules
      * @return $this
      */
-    public function setRules($rules)
+    public function setRules(string $rules)
     {
         $this->translate(null, false)->setRules($rules);
 
@@ -309,7 +309,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param string $picture
      * @return Game
      */
-    public function setPicture($picture)
+    public function setPicture(string $picture)
     {
         $this->picture = $picture;
 
@@ -332,7 +332,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param string $status
      * @return Game
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
 
@@ -355,7 +355,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param string $etat
      * @return Game
      */
-    public function setEtat($etat)
+    public function setEtat(string $etat)
     {
         $this->etat = $etat;
 
@@ -378,7 +378,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param DateTime $pubishedAt
      * @return Game
      */
-    public function setPublishedAt($pubishedAt)
+    public function setPublishedAt(DateTime $pubishedAt)
     {
         $this->publishedAt = $pubishedAt;
 
@@ -401,7 +401,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param boolean $boolDlc
      * @return Game
      */
-    public function setBoolDlc($boolDlc)
+    public function setBoolDlc(bool $boolDlc)
     {
         $this->boolDlc = $boolDlc;
 
@@ -424,7 +424,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param boolean $boolRanking
      * @return Game
      */
-    public function setBoolRanking($boolRanking)
+    public function setBoolRanking(bool $boolRanking)
     {
         $this->boolRanking = $boolRanking;
 
@@ -447,7 +447,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param boolean $boolMaj
      * @return Game
      */
-    public function setBoolMaj($boolMaj)
+    public function setBoolMaj(bool $boolMaj)
     {
         $this->boolMaj = $boolMaj;
 
@@ -470,7 +470,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param integer $nbChart
      * @return Game
      */
-    public function setNbChart($nbChart)
+    public function setNbChart(int $nbChart)
     {
         $this->nbChart = $nbChart;
 
@@ -493,7 +493,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param integer $nbPost
      * @return Game
      */
-    public function setNbPost($nbPost)
+    public function setNbPost(int $nbPost)
     {
         $this->nbPost = $nbPost;
 
@@ -516,7 +516,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param integer $nbPlayer
      * @return Game
      */
-    public function setNbPlayer($nbPlayer)
+    public function setNbPlayer(int $nbPlayer)
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -539,7 +539,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param integer $nbTeam
      * @return Game
      */
-    public function setNbTeam($nbTeam)
+    public function setNbTeam(int $nbTeam)
     {
         $this->nbTeam = $nbTeam;
 
@@ -562,7 +562,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param integer $ordre
      * @return Game
      */
-    public function setOrdre($ordre)
+    public function setOrdre(int $ordre)
     {
         $this->ordre = $ordre;
 
@@ -580,10 +580,9 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     }
 
     /**
-     * Set serie
-     *
-     * @param Serie $serie
-     * @return Game
+     * Set Serie
+     * @param Serie|null $serie
+     * @return $this
      */
     public function setSerie(Serie $serie = null)
     {
@@ -733,7 +732,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @param string $link
      * @return string
      */
-    public function setLink($link)
+    public function setLink(string $link)
     {
         $this->link = $link;
 

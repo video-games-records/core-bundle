@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Entity\Request as ProofRequest;
+use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use VideoGamesRecords\CoreBundle\Exception\PostException;
 
 final class ProofRequestSubscriber implements EventSubscriberInterface
@@ -32,7 +32,6 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
 
     /**
      * @param ViewEvent $event
-     * @throws RequestLimitException
      * @throws PostException
      */
     public function setPlayerRequesting(ViewEvent $event)

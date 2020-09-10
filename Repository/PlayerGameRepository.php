@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Exception;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Entity\Game;
@@ -17,12 +19,12 @@ class PlayerGameRepository extends EntityRepository
 {
     /**
      * @param Game $game
-     * @param int $maxRank
-     * @param Player $player
-     * @param Team $team
+     * @param null $maxRank
+     * @param null $player
+     * @param null $team
      * @return PlayerGame[]
      */
-    public function getRankingPoints($game, $maxRank = null, $player = null, $team = null)
+    public function getRankingPoints(Game $game, $maxRank = null, $player = null, $team = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -50,11 +52,11 @@ class PlayerGameRepository extends EntityRepository
 
     /**
      * @param Game $game
-     * @param int $maxRank
-     * @param Player $player
+     * @param null $maxRank
+     * @param null $player
      * @return array
      */
-    public function getRankingMedals($game, $maxRank = null, $player = null)
+    public function getRankingMedals(Game $game, $maxRank = null, $player = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -82,6 +84,8 @@ class PlayerGameRepository extends EntityRepository
      * @param $game
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws ExceptionInterface
+     * @throws Exception
      */
     public function maj($game)
     {

@@ -30,15 +30,13 @@ class Ranking
 
     /**
      * Add a rank column checking one or more columns to a sorted array
-     *
-     * @param array $array
+     * @param array  $array
      * @param string $key
-     * @param array $columns
-     * @param bool $boolEqual
-     *
+     * @param array  $columns
+     * @param bool   $boolEqual
      * @return array
      */
-    public static function addRank($array, $key = 'rank', $columns = ['pointChart'], $boolEqual = false)
+    public static function addRank(array $array, $key = 'rank', $columns = ['pointChart'], $boolEqual = false)
     {
         $rank     = 1;
         $compteur = 0;
@@ -81,12 +79,11 @@ class Ranking
 
     /**
      * @param PlayerChart[] $array
-     * @param string $ranking
-     * @param array $columns
-     *
+     * @param string        $ranking
+     * @param array         $columns
      * @return array
      */
-    public static function addObjectRank($array, $ranking = 'rankPointChart', array $columns = ['pointChart'])
+    public static function addObjectRank(array $array, $ranking = 'rankPointChart', array $columns = ['pointChart'])
     {
         $setter  = 'set' . ucfirst($ranking);
         $getters = [];
@@ -165,14 +162,13 @@ class Ranking
     }
 
     /**
-     * @param array $aArray
-     * @param array $aBaseCol
+     * @param array  $aArray
+     * @param array  $aBaseCol
      * @param string $sNameNewCol
      * @param string $sColNameToForceZero
-     *
      * @return array
      */
-    public static function calculateGamePoints($aArray, $aBaseCol, $sNameNewCol, $sColNameToForceZero = '')
+    public static function calculateGamePoints(array $aArray, array $aBaseCol, string $sNameNewCol, $sColNameToForceZero = '')
     {
         if (empty($aArray)) {
             return $aArray;
@@ -235,7 +231,6 @@ class Ranking
             }
             $i--;
         }
-
         return $aArray;
     }
 }

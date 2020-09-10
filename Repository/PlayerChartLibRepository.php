@@ -13,9 +13,9 @@ use VideoGamesRecords\CoreBundle\Tools\Score;
 class PlayerChartLibRepository extends EntityRepository
 {
     /**
-     * @param Player $player
-     * @param Chart  $chart
-     * @param Group  $group
+     * @param Player     $player
+     * @param Chart|null $chart
+     * @param Group|null $group
      * @return array
      */
     public function getFormValues(Player $player, Chart $chart = null, Group $group = null)
@@ -61,7 +61,7 @@ class PlayerChartLibRepository extends EntityRepository
      * @param Group $group
      * @return array
      */
-    public function getTopValues($group)
+    public function getTopValues(Group $group)
     {
         $query = $this->getScoreQuery();
 
@@ -80,7 +80,7 @@ class PlayerChartLibRepository extends EntityRepository
      * @param Player $player
      * @return array
      */
-    public function getPlayerScore($group, $player)
+    public function getPlayerScore(Group $group, Player $player)
     {
         $query = $this->getScoreQuery();
 

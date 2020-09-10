@@ -278,7 +278,6 @@ class Picture
                 break;
             default:
                 throw new Exception('Unknown extension of file when converting to PHP resource.');
-                break;
         }
 
         if ($keepTrueColor) {
@@ -370,7 +369,6 @@ class Picture
                 break;
             default:
                 throw new Exception('Unknown picture type.');
-                break;
         }
         return $method;
     }

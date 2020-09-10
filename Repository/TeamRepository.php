@@ -212,7 +212,7 @@ class TeamRepository extends EntityRepository
 
 
     /**
-     * @param Team $team
+     * @param null $team
      * @return array
      */
     public function getRankingPointChart($team = null)
@@ -221,7 +221,7 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     * @param Team $team
+     * @param null $team
      * @param int  $maxRank
      * @return array
      */
@@ -232,7 +232,7 @@ class TeamRepository extends EntityRepository
 
 
     /**
-     * @param Team $team
+     * @param null $team
      * @return array
      */
     public function getRankingMedal($team = null)
@@ -242,7 +242,7 @@ class TeamRepository extends EntityRepository
 
 
     /**
-     * @param Team $team
+     * @param null $team
      * @param int  $maxRank
      * @return array
      */
@@ -253,7 +253,7 @@ class TeamRepository extends EntityRepository
 
 
     /**
-     * @param Team $team
+     * @param null $team
      * @return array
      */
     public function getRankingBadge($team = null)
@@ -321,7 +321,7 @@ class TeamRepository extends EntityRepository
 
     /**
      * @param      $column
-     * @param Team $team
+     * @param null $team
      * @param int  $maxRank
      * @return int|mixed|string
      */

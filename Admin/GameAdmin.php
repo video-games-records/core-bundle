@@ -28,7 +28,7 @@ class GameAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_game';
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -50,7 +50,7 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -117,7 +117,7 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -131,7 +131,7 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -183,7 +183,7 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -196,7 +196,7 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @param Game $object
+     * @param $object
      * @throws Exception
      */
     public function preUpdate($object)
