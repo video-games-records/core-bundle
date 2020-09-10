@@ -73,7 +73,7 @@ class TeamRequest implements TimestampableInterface
      */
     public function __toString()
     {
-        return sprintf('%s # %s [%s]', $this->getTeam()->getLibTeam(),$this->getPlayer()->getPseudo(), $this->id);
+        return sprintf('%s # %s [%s]', $this->getTeam()->getLibTeam(), $this->getPlayer()->getPseudo(), $this->id);
     }
 
     /**

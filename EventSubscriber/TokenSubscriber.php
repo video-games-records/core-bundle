@@ -37,8 +37,7 @@ final class TokenSubscriber implements EventSubscriberInterface
         $object = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if (
-            (($object instanceof VideoComment) || ($object instanceof Video))
+        if ((($object instanceof VideoComment) || ($object instanceof Video))
             && in_array($method, array(Request::METHOD_POST))) {
             $player = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser(
                 $this->tokenStorage->getToken()->getUser()

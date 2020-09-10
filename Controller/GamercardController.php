@@ -38,7 +38,7 @@ class GamercardController extends AbstractController
             ->write($this->numberFormat($player->getPointGame()) . ' Pts', $fontSize, 40, 20)
             ->write('/', $fontSize, 124, 20)
             ->addColor('darkYellow', 255, 191, 1)
-            ->write($player->getRankPointGame() . ' ' . $this->getOrdinalSuffix($player->getRankPointGame()) , $fontSize, 130, 20);
+            ->write($player->getRankPointGame() . ' ' . $this->getOrdinalSuffix($player->getRankPointGame()), $fontSize, 130, 20);
 
 
         // Ranking Medals

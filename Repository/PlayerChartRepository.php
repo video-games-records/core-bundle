@@ -221,7 +221,6 @@ class PlayerChartRepository extends EntityRepository
                     ->setParameter('maxRank', $limit)
                     ->setParameter('player', $player);
             }
-
         } elseif (null !== $limit) {
             $queryBuilder
                 ->andWhere('pc.rank <= :maxRank')
