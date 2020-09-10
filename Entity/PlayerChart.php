@@ -2,7 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
@@ -72,14 +74,14 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     private $topScore = false;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="lastUpdate", type="datetime", nullable=false)
      */
     private $lastUpdate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="dateInvestigation", type="date", nullable=true)
      */
@@ -262,7 +264,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * Set lastUpdate
      *
-     * @param \DateTime $lastUpdate
+     * @param DateTime $lastUpdate
      * @return $this
      */
     public function setLastUpdate($lastUpdate)
@@ -275,7 +277,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * Get lastUpdate
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getLastUpdate()
     {
@@ -285,7 +287,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * Set dateInvestigation
      *
-     * @param \DateTime $dateInvestigation
+     * @param DateTime $dateInvestigation
      * @return PlayerChart
      */
     public function setDateInvestigation($dateInvestigation)
@@ -297,7 +299,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * Get dateInvestigation
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDateInvestigation()
     {
@@ -417,7 +419,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     }
 
     /**
-     * @return ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChartLib[]
+     * @return ArrayCollection|PlayerChartLib[]
      */
     public function getLibs()
     {
@@ -469,7 +471,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getFeedItemPubDate()
     {
@@ -488,13 +490,13 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * @ORM\PrePersist()
      * @param LifecycleEventArgs $args
-     * @throws \Exception
+     * @throws Exception
      */
     public function prePersist(LifecycleEventArgs $args)
     {
         $entityManager = $args->getObjectManager();
         $this->setStatus($entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
-        $this->setLastUpdate(new \DateTime());
+        $this->setLastUpdate(new DateTime());
     }
 
     /**
@@ -508,7 +510,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
         }
 
         if (null === $this->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getStatus()->getId()) {
-            $this->setDateInvestigation(new \DateTime());
+            $this->setDateInvestigation(new DateTime());
         }
         if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
             $this->setDateInvestigation(null);

@@ -2,11 +2,18 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use DateInterval;
 use Doctrine\ORM\EntityRepository;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\NonUniqueResultException;
+use DateTime;
 
 class PlayerChartRepository extends EntityRepository
 {
@@ -14,8 +21,8 @@ class PlayerChartRepository extends EntityRepository
      * @param int $idPlayer
      * @param int $idChart
      *
-     * @return \VideoGamesRecords\CoreBundle\Entity\PlayerChart
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @return PlayerChart
+     * @throws NonUniqueResultException
      */
     public function getFromUnique($idPlayer, $idChart)
     {
@@ -67,15 +74,14 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * @param $chart
-     *
+     * @param Chart $chart
      * @return array
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function maj(Chart $chart)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
+        /** @var Chart $chart */
         $chart       = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($chart);
         $nbLib       = $chart->getLibs()->count();
         $ranking     = $this->getRankingForUpdate($chart);
@@ -90,7 +96,7 @@ class PlayerChartRepository extends EntityRepository
 
         foreach ($ranking as $k => $item) {
             $libValue = '';
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+            /** @var PlayerChart $playerChart */
             $playerChart = $item[0];
             $players[$playerChart->getPlayer()->getId()]   = $playerChart->getPlayer();
             $playerChart
@@ -147,7 +153,7 @@ class PlayerChartRepository extends EntityRepository
     /**
      * Provides every playerChart for update purpose.
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
+     * @param Chart $chart
      *
      * @return array
      */
@@ -182,13 +188,11 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * Provides valid ranking.
-     *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
-     * @param \VideoGamesRecords\CoreBundle\Entity\Player $player
-     * @param int|null $limit
-     *
-     * @return array
+     * @param Chart $chart
+     * @param null  $player
+     * @param null  $limit
+     * @return mixed
+     * @throws NonUniqueResultException
      */
     public function getRanking(Chart $chart, $player = null, $limit = null)
     {
@@ -231,9 +235,9 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
+     * @param Chart $chart
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     private function getRankingBaseQuery(Chart $chart)
     {
@@ -269,7 +273,7 @@ class PlayerChartRepository extends EntityRepository
     /**
      * Provides disabled list.
      *
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
+     * @param Chart $chart
      *
      * @return array
      */
@@ -282,10 +286,14 @@ class PlayerChartRepository extends EntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function majInvestigation()
     {
-        $date = new \DateTime();
-        $date->sub(new \DateInterval('P14D'));
+        $date = new DateTime();
+        $date->sub(new DateInterval('P14D'));
 
         $query = $this->createQueryBuilder('pc')
             ->where('pc.idStatus = :idStatus')
@@ -296,7 +304,7 @@ class PlayerChartRepository extends EntityRepository
         $list = $query->getQuery()->getResult();
 
         $statusReference = $this->_em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NOT_PROOVED);
-        /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+        /** @var PlayerChart $playerChart */
         foreach ($list as $playerChart) {
             $playerChart->setStatus($statusReference);
         }
@@ -328,11 +336,11 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * @param \DateTime $date1
-     * @param \DateTime $date2
+     * @param DateTime $date1
+     * @param DateTime $date2
      * @return array
      */
-    public function getNbPostDay(\DateTime $date1, \DateTime $date2)
+    public function getNbPostDay(DateTime $date1, DateTime $date2)
     {
         $query = $this->_em->createQuery("
             SELECT

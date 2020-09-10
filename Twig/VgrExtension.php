@@ -1,18 +1,21 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Twig;
 
+use Twig\TwigFunction;
+use Twig_Extension;
+use Twig_SimpleFunction;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 
-class VgrExtension extends \Twig_Extension
+class VgrExtension extends Twig_Extension
 {
     /**
-     * {@inheritdoc}
+     * @return array|TwigFunction[]
      */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('vgrFormatScore', [$this, 'formatScoreFunction']),
-            new \Twig_SimpleFunction('vgrRankBgColor', [$this, 'rankBackgroundColor']),
+            new Twig_SimpleFunction('vgrFormatScore', [$this, 'formatScoreFunction']),
+            new Twig_SimpleFunction('vgrRankBgColor', [$this, 'rankBackgroundColor']),
         ];
     }
 
@@ -47,7 +50,7 @@ class VgrExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getName()
     {

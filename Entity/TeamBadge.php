@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -34,7 +35,7 @@ class TeamBadge implements TimestampableInterface
     private $id;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="ended_at", type="datetime", nullable=true)
      */
@@ -93,7 +94,7 @@ class TeamBadge implements TimestampableInterface
     /**
      * Set ended_at
      *
-     * @param \DateTime $ended_at
+     * @param DateTime $ended_at
      * @return $this
      */
     public function setEndedAt($ended_at)
@@ -106,7 +107,7 @@ class TeamBadge implements TimestampableInterface
     /**
      * Get ended_at
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEndedAt()
     {

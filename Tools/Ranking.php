@@ -2,6 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Tools;
 
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+
 class Ranking
 {
     /**
@@ -77,7 +80,7 @@ class Ranking
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $array
+     * @param PlayerChart[] $array
      * @param string $ranking
      * @param array $columns
      *
@@ -117,7 +120,7 @@ class Ranking
                 }
             }
 
-            /** @var \VideoGamesRecords\CoreBundle\Entity\Player $player */
+            /** @var Player $player */
             $object = $array[$i];
             $object->$setter($rank);
             $array[$i] = $object;

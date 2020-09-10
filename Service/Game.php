@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
+use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
@@ -27,6 +28,7 @@ class Game
      * game;label EN;label FR
      * group;labelGroup EN;labelGroup FR;1
      * chart;labelChart EN;labelChart FR;10
+     * @throws ORMException
      */
     public function addFromCsv()
     {
@@ -52,7 +54,7 @@ class Game
                 continue;
             }
 
-            /** @var \VideoGamesRecords\CoreBundle\Entity\Game $game */
+            /** @var GameEntity $game */
             $game = $this->em->getReference(GameEntity::class, $idGame);
 
             if ($game === null) {

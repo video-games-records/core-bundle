@@ -3,6 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use DateTime;
+use Doctrine\ORM\EntityManager;
+use Exception;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -193,19 +196,19 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Game $object
-     * @throws \Exception
+     * @param Game $object
+     * @throws Exception
      */
     public function preUpdate($object)
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
+        /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
 
         // PUBLISHED
         if ($originalObject['status'] === Game::STATUS_INACTIVE && $object->getStatus() === Game::STATUS_ACTIVE) {
             if ($object->getPublishedAt() == null) {
-                $object->setPublishedAt(new \DateTime());
+                $object->setPublishedAt(new DateTime());
             }
         }
     }

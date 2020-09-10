@@ -2,15 +2,24 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use VideoGamesRecords\CoreBundle\Entity\CountryInterface;
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerRepository extends EntityRepository
 {
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player
+     * @param $user
+     * @return mixed|Player
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function getPlayerFromUser($user)
     {
@@ -64,6 +73,7 @@ class PlayerRepository extends EntityRepository
 
     /**
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function getStats()
     {
@@ -76,7 +86,9 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param Player $player
+     * @param $player
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function maj($player)
     {
@@ -133,7 +145,8 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majGameRank()
     {
@@ -175,7 +188,7 @@ class PlayerRepository extends EntityRepository
             }
         }
 
-        /** @var \VideoGamesRecords\CoreBundle\Entity\Player[] $players */
+        /** @var Player[] $players */
         $players = $this->findAll();
 
         foreach ($players as $player) {
@@ -196,6 +209,8 @@ class PlayerRepository extends EntityRepository
 
     /**
      * Update column rankPointChart
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankPointChart()
     {
@@ -207,6 +222,8 @@ class PlayerRepository extends EntityRepository
 
     /**
      * Update column rankPointGame
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankPointGame()
     {
@@ -218,6 +235,8 @@ class PlayerRepository extends EntityRepository
 
     /**
      * Update column rankMedal
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankMedal()
     {
@@ -229,6 +248,8 @@ class PlayerRepository extends EntityRepository
 
     /**
      * Update column rankCup
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankCup()
     {
@@ -238,9 +259,10 @@ class PlayerRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-
     /**
      * Update column rankProof
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankProof()
     {
@@ -252,8 +274,9 @@ class PlayerRepository extends EntityRepository
 
 
     /**
-     * Update column rankCountry
      * @param $country
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankCountry($country)
     {
@@ -264,7 +287,7 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     *
+     * @throws DBALException
      */
     public function majNbMasterBadge()
     {
@@ -277,8 +300,10 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player
+     * @param $user
+     * @return Player
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     private function createPlayerFromUser($user)
     {
@@ -306,11 +331,12 @@ class PlayerRepository extends EntityRepository
 
 
     /**
-     * @param Player $player
-     * @param int  $maxRank
+     * @param Player|null $player
+     * @param int         $maxRank
+     * @param Team|null   $team
      * @return int|mixed|string
      */
-    public function getRankingPointGame($player = null, $maxRank = 100, $team = null)
+    public function getRankingPointGame(Player $player = null, int $maxRank = 100, Team $team = null)
     {
         return $this->getRanking('rankPointGame', $player, $maxRank, $team);
     }
@@ -355,7 +381,7 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\CountryInterface $country
+     * @param CountryInterface $country
      * @param int $maxRank
      * @return array
      */

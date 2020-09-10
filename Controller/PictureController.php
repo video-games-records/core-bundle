@@ -9,6 +9,7 @@ use VideoGamesRecords\CoreBundle\Entity\Picture;
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 use VideoGamesRecords\CoreBundle\File\Picture as PictureFile;
+use Exception;
 
 /**
  * Class PictureController
@@ -26,8 +27,8 @@ class PictureController extends AbstractController
     /**
      * @Route("/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_core_picture_index", methods={"GET"})
      * @Cache(smaxage="10")
-     *
      * @param Picture $picture
+     * @throws Exception
      */
     public function indexAction(Picture $picture)
     {

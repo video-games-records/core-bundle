@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\DataFixtures\ORM;
 
+use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -19,6 +20,7 @@ use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
+use Exception;
 
 /**
  * Defines the sample data to load in the database when running the unit and
@@ -35,7 +37,8 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
     use ContainerAwareTrait;
 
     /**
-     * {@inheritdoc}
+     * @param ObjectManager $manager
+     * @throws Exception
      */
     public function load(ObjectManager $manager)
     {
@@ -229,7 +232,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
     }
 
     /**
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     * @param ObjectManager $manager
      */
     private function loadChartType(ObjectManager $manager)
     {
@@ -258,7 +261,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         ];
 
         foreach ($list as $row) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\ChartType $chartType */
+            /** @var ChartType $chartType */
             $chartType = new ChartType();
             $chartType
                 ->setIdType($row['idType'])
@@ -406,7 +409,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
     }
 
     /**
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     * @param ObjectManager $manager
      */
     private function loadPlayers(ObjectManager $manager)
     {
@@ -440,6 +443,9 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $manager->flush();
     }
 
+    /**
+     * @param $manager
+     */
     public function loadPlayerChartStatus($manager)
     {
         $list = [
@@ -496,11 +502,12 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
 
 
     /**
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     * @param ObjectManager $manager
+     * @throws Exception
      */
     private function loadPlayerChart(ObjectManager $manager)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
+        /** @var Chart $chart */
         $chart = $this->getReference('chart1');
 
         $list = [
@@ -522,16 +529,16 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         ];
 
         foreach ($list as $row) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+            /** @var PlayerChart $playerChart */
             $playerChart = new PlayerChart();
             $playerChart->setPlayer($this->getReference('player' . $row['idPlayer']));
             $playerChart->setChart($chart);
             $playerChart->setStatus($this->getReference(sprintf('playerchartstatus%d', $row['status'])));
-            $playerChart->setLastUpdate(new \DateTime());
+            $playerChart->setLastUpdate(new DateTime());
             $manager->persist($playerChart);
 
             foreach ($chart->getLibs() as $lib) {
-                /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChartLib $playerChartLib */
+                /** @var PlayerChartLib $playerChartLib */
                 $playerChartLib = new PlayerChartLib();
                 $playerChartLib->setPlayer($this->getReference('player' . $row['idPlayer']));
                 $playerChartLib->setLibChart($lib);

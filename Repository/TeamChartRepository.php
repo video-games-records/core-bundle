@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -45,14 +47,15 @@ class TeamChartRepository extends EntityRepository
     }
 
 
-
     /**
      * @param $chart
      * @return array
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function maj($chart)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Entity\Chart $chart */
+        /** @var Chart $chart */
 
         $teams = [];
 

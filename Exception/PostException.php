@@ -2,7 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Exception;
 
-class PostException extends \Exception
+use Exception;
+
+class PostException extends Exception
 {
 
 }

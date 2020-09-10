@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 
 /**
  * Class PlayerController
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 class PlayerController extends AbstractController
 {
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
+     * @return Player|null
      */
     private function getPlayer()
     {

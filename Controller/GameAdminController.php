@@ -12,6 +12,7 @@ class GameAdminController extends CRUDController
 {
     /**
      * @param $id
+     * @return RedirectResponse
      */
     public function copyAction($id)
     {

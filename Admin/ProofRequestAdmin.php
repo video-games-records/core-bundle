@@ -2,6 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use DateTime;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMException;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -172,8 +175,7 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @param $object
-     * @return Response
+     * @param object $object
      */
     public function preValidate($object)
     {
@@ -204,11 +206,11 @@ class ProofRequestAdmin extends AbstractAdmin
 
     /**
      * @param object $object
-     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
      */
     public function preUpdate($object)
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
+        /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
@@ -216,7 +218,7 @@ class ProofRequestAdmin extends AbstractAdmin
         $setPlayerResponding = false;
 
         // Cant change status final
-        if (\in_array($originalObject['status'], array(ProofRequest::STATUS_ACCEPTED, ProofRequest::STATUS_REFUSED), true)) {
+        if (in_array($originalObject['status'], array(ProofRequest::STATUS_ACCEPTED, ProofRequest::STATUS_REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
 
@@ -289,7 +291,7 @@ class ProofRequestAdmin extends AbstractAdmin
 
         if ($setPlayerResponding) {
             $object->setPlayerResponding($player);
-            $object->setDateAcceptance(new \DateTime());
+            $object->setDateAcceptance(new DateTime());
         }
     }
 
@@ -298,7 +300,7 @@ class ProofRequestAdmin extends AbstractAdmin
      */
     private function getPlayer()
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
+        /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
         return $em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser($user);

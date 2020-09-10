@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -102,7 +103,7 @@ class TeamController extends AbstractController
     /**
      * @param Request     $request
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function uploadAvatar(Request $request)
     {

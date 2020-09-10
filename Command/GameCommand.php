@@ -1,6 +1,7 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
+use Doctrine\ORM\ORMException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -44,7 +45,8 @@ class GameCommand extends DefaultCommand
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @return bool
+     * @return bool|int|null
+     * @throws ORMException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

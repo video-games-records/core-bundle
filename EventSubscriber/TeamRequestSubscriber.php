@@ -2,6 +2,7 @@
 namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -32,7 +33,7 @@ final class TeamRequestSubscriber implements EventSubscriberInterface
     /**
      * @param ViewEvent $event
      * @throws PostException
-     * @throws \Exception
+     * @throws Exception
      */
     public function validate(ViewEvent $event)
     {

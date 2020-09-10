@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -44,7 +45,7 @@ class ProofRequest implements TimestampableInterface
     private $message;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(name="dateAcceptance", type="datetime", nullable=true)
      */
     private $dateAcceptance;
@@ -135,7 +136,7 @@ class ProofRequest implements TimestampableInterface
     /**
      * Set dateAcceptance
      *
-     * @param \DateTime $dateAcceptance
+     * @param DateTime $dateAcceptance
      * @return $this
      */
     public function setDateAcceptance($dateAcceptance)
@@ -147,7 +148,7 @@ class ProofRequest implements TimestampableInterface
     /**
      * Get dateAcceptance
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDateAcceptance()
     {

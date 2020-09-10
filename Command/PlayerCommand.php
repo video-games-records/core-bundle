@@ -1,11 +1,13 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
+use Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class PlayerCommand extends DefaultCommand
 {
@@ -54,7 +56,7 @@ class PlayerCommand extends DefaultCommand
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -102,11 +104,11 @@ class PlayerCommand extends DefaultCommand
 
     /**
      * @param OutputInterface $output
-     * @throws \Exception
+     * @throws Exception
      */
     private function majRulesOfThree(OutputInterface $output)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerRepository $playerRepository */
+        /** @var PlayerRepository $playerRepository */
         $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
 
         $group1 = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 2);

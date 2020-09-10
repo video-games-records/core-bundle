@@ -9,6 +9,9 @@ use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use DateTime;
 
 class PlayerGroupRepository extends EntityRepository
 {
@@ -78,7 +81,9 @@ class PlayerGroupRepository extends EntityRepository
     }
 
     /**
-     * @param Group $group
+     * @param $group
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function maj($group)
     {
@@ -188,7 +193,7 @@ class PlayerGroupRepository extends EntityRepository
             $row['chartRank4'] = (isset($data['chartRank4'][$row['id']])) ? $data['chartRank4'][$row['id']] : 0;
             $row['chartRank5'] = (isset($data['chartRank5'][$row['id']])) ? $data['chartRank5'][$row['id']] : 0;
             $row['nbChartProven'] = (isset($data['nbChartProven'][$row['id']])) ? $data['nbChartProven'][$row['id']] : 0;
-            $row['lastUpdate'] = new \DateTime($row['lastUpdate']);
+            $row['lastUpdate'] = new DateTime($row['lastUpdate']);
             $list[] = $row;
         }
 

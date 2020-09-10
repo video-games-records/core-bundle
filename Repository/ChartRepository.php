@@ -3,7 +3,10 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 
@@ -14,9 +17,8 @@ class ChartRepository extends EntityRepository
 
     /**
      * @param $id
-     *
-     * @return \VideoGamesRecords\CoreBundle\Entity\Chart
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @return Chart
+     * @throws NonUniqueResultException
      */
     public function getWithChartType($id)
     {
@@ -33,8 +35,8 @@ class ChartRepository extends EntityRepository
 
     /**
      * @return bool
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function isMajPlayerRunning()
     {
@@ -50,8 +52,8 @@ class ChartRepository extends EntityRepository
 
     /**
      * @return bool
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function isMajTeamRunning()
     {
@@ -68,7 +70,7 @@ class ChartRepository extends EntityRepository
     /**
      * @param int $limit
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function goToMajPlayer($limit)
     {
@@ -79,7 +81,7 @@ class ChartRepository extends EntityRepository
     /**
      * @param int $limit
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function goToMajTeam($limit)
     {
@@ -88,7 +90,7 @@ class ChartRepository extends EntityRepository
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Chart[]
+     * @return Chart[]
      */
     public function getChartToMajPlayer()
     {
@@ -102,7 +104,7 @@ class ChartRepository extends EntityRepository
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Chart[]
+     * @return Chart[]
      */
     public function getChartToMajTeam()
     {

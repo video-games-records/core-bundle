@@ -2,7 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use DateTime;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 
@@ -13,6 +18,8 @@ class TeamRepository extends EntityRepository
 {
     /**
      * @param $team
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function maj($team)
     {
@@ -50,7 +57,9 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws DBALException
      */
     public function majGameRank()
     {
@@ -96,7 +105,7 @@ class TeamRepository extends EntityRepository
             }
         }
 
-        /** @var \VideoGamesRecords\CoreBundle\Entity\Team[] $teams */
+        /** @var Team[] $teams */
         $teams = $this->findAll();
 
         foreach ($teams as $team) {
@@ -118,6 +127,8 @@ class TeamRepository extends EntityRepository
 
     /**
      * Update column rankPointChart
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankPointChart()
     {
@@ -134,6 +145,8 @@ class TeamRepository extends EntityRepository
 
     /**
      * Update column rankPointGame
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankPointGame()
     {
@@ -150,6 +163,8 @@ class TeamRepository extends EntityRepository
 
     /**
      * Update column rankMedal
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankMedal()
     {
@@ -166,6 +181,8 @@ class TeamRepository extends EntityRepository
 
     /**
      * Update column rankCup
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankCup()
     {
@@ -181,7 +198,7 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     *
+     * @throws DBALException
      */
     public function majNbMasterBadge()
     {
@@ -246,11 +263,11 @@ class TeamRepository extends EntityRepository
 
 
     /**
-     * @param \DateTime $date1
-     * @param \DateTime $date2
+     * @param DateTime $date1
+     * @param DateTime $date2
      * @return array
      */
-    public function getNbPostDay(\DateTime $date1, \DateTime $date2)
+    public function getNbPostDay(DateTime $date1, DateTime $date2)
     {
         $query = $this->_em->createQuery("
             SELECT
@@ -328,7 +345,7 @@ class TeamRepository extends EntityRepository
 
     /**
      * @return int|mixed|string|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function getStats()
     {

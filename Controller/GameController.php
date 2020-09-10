@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Response;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * Class GameController
@@ -17,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class GameController extends AbstractController
 {
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
+     * @return Player|null
      */
     private function getPlayer()
     {
@@ -29,7 +31,7 @@ class GameController extends AbstractController
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     * @return Team|null
      */
     private function getTeam()
     {
@@ -126,7 +128,7 @@ class GameController extends AbstractController
      * @Route("/rss", name="game_rss")
      * @Method("GET")
      * @Cache(smaxage="10")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function rssAction()
     {

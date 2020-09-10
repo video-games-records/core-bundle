@@ -73,22 +73,19 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     private $group;
 
     /**
-     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\ChartLib[]
-     *
+     * @var ArrayCollection|ChartLib[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $libs;
 
     /**
-     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[]
-     *
+     * @var ArrayCollection|PlayerChart[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart")
      */
     private $playerCharts;
 
     /**
-     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\LostPosition[]
-     *
+     * @var ArrayCollection|LostPosition[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="chart")
      */
     private $lostPositions;
@@ -228,7 +225,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[]
+     * @return ArrayCollection|PlayerChart[]
      */
     public function getPlayerCharts()
     {
@@ -236,7 +233,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\LostPosition[]
+     * @return ArrayCollection|LostPosition[]
      */
     public function getLostPositions()
     {
@@ -244,8 +241,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $playerCharts
-     *
+     * @param ArrayCollection|PlayerChart[] $playerCharts
      * @return Chart
      */
     public function setPlayerCharts($playerCharts)
@@ -320,7 +316,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @return ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\ChartLib[]
+     * @return ArrayCollection|ChartLib[]
      */
     public function getLibs()
     {

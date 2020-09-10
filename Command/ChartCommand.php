@@ -7,6 +7,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
+use VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository;
+use VideoGamesRecords\CoreBundle\Repository\TeamChartRepository;
+use VideoGamesRecords\CoreBundle\Repository\TeamGameRepository;
+use VideoGamesRecords\CoreBundle\Repository\TeamGroupRepository;
+use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
 class ChartCommand extends DefaultCommand
 {
@@ -55,7 +67,7 @@ class ChartCommand extends DefaultCommand
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -91,11 +103,11 @@ class ChartCommand extends DefaultCommand
 
     /**
      * @param OutputInterface $output
-     * @throws \Exception
+     * @throws Exception
      */
     private function majPlayer(OutputInterface $output)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
+        /** @var ChartRepository $chartRepository */
         $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
 
         if ($chartRepository->isMajPlayerRunning()) {
@@ -112,19 +124,19 @@ class ChartCommand extends DefaultCommand
 
     /**
      * @param array $charts
-     * @throws \Exception
+     * @throws Exception
      */
     public function updatePlayerChart(array $charts)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository $playerChartRepository */
+        /** @var PlayerChartRepository $playerChartRepository */
         $playerChartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository $playerGroupRepository */
+        /** @var PlayerGroupRepository $playerGroupRepository */
         $playerGroupRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository $playerGameRepository */
+        /** @var PlayerGameRepository $playerGameRepository */
         $playerGameRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerRepository $playerRepository */
+        /** @var PlayerRepository $playerRepository */
         $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository $playerBadgeRepository */
+        /** @var PlayerBadgeRepository $playerBadgeRepository */
         $playerBadgeRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge');
 
         $playerList = [];
@@ -182,11 +194,11 @@ class ChartCommand extends DefaultCommand
 
     /**
      * @param OutputInterface $output
-     * @throws \Exception
+     * @throws Exception
      */
     private function majTeam(OutputInterface $output)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Repository\ChartRepository $chartRepository */
+        /** @var ChartRepository $chartRepository */
         $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
 
         if ($chartRepository->isMajTeamRunning()) {
@@ -204,21 +216,19 @@ class ChartCommand extends DefaultCommand
 
     /**
      * @param array $charts
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws Exception
      */
     public function updateTeamChart(array $charts)
     {
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamChartRepository $teamChartRepository */
+        /** @var TeamChartRepository $teamChartRepository */
         $teamChartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamChart');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamGroupRepository $teamGroupRepository */
+        /** @var TeamGroupRepository $teamGroupRepository */
         $teamGroupRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamGroup');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamGameRepository $teamGameRepository */
+        /** @var TeamGameRepository $teamGameRepository */
         $teamGameRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamGame');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamRepository $teamRepository */
+        /** @var TeamRepository $teamRepository */
         $teamRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Team');
-        /** @var \VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository $teamBadgeRepository */
+        /** @var TeamBadgeRepository $teamBadgeRepository */
         $teamBadgeRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamBadge');
 
         $teamList = array();

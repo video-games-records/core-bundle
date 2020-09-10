@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -21,7 +22,7 @@ class GamercardController extends AbstractController
      * @Cache(smaxage="900")
      * @param Player $player
      * @ParamConverter("player", class="VideoGamesRecordsCoreBundle:Player")
-     * @throws \Exception
+     * @throws Exception
      */
     public function miniAction(Player $player)
     {
@@ -66,7 +67,7 @@ class GamercardController extends AbstractController
         // Add avatar
         try {
             $avatar = Picture::loadFile($directory . 'avatar/' . $player->getAvatar(), true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $avatar = Picture::loadFile($directory . 'avatar/default.png', true);
         }
         $gamercard->copyResized($avatar, 4, 2, 0, 0, 26, 26);
@@ -84,7 +85,7 @@ class GamercardController extends AbstractController
      * @Cache(smaxage="900")
      * @param Player $player
      * @ParamConverter("player", class="VideoGamesRecordsCoreBundle:Player")
-     * @throws \Exception
+     * @throws Exception
      */
     public function classicAction(Player $player)
     {
@@ -140,7 +141,7 @@ class GamercardController extends AbstractController
         // Add avatar
         try {
             $avatar = Picture::loadFile($directory . 'avatar/' . $player->getAvatar(), true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $avatar = Picture::loadFile($directory . 'avatar/default.png', true);
         }
         $gamercard->copyResized($avatar, 9, 30, 0, 0, 64, 64);

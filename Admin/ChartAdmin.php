@@ -188,7 +188,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $object
+     * @param Chart $object
      */
     public function prePersist($object)
     {

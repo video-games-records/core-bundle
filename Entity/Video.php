@@ -316,7 +316,7 @@ class Video implements TimestampableInterface, SluggableInterface
     }
 
     /**
-     * @return mixed|string
+     * @return mixed|string|null
      */
     public function getVideoId()
     {
@@ -325,6 +325,7 @@ class Video implements TimestampableInterface, SluggableInterface
         } elseif ($this->getType() == self::TYPE_TWITCH) {
             return $this->getTwitchId();
         }
+        return null;
     }
 
     /**

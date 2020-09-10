@@ -2,10 +2,15 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use DateTime;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
+use VideoGamesRecords\CoreBundle\Entity\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreyBundle\Entity\CountryInterface;
 
 class PlayerBadgeRepository extends EntityRepository
 {
@@ -44,7 +49,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * @param $badge
-     * @return \VideoGamesRecords\CoreBundle\Entity\PlayerBadge[]|array
+     * @return PlayerBadge[]|array
      */
     public function getFromBadge($badge)
     {
@@ -61,7 +66,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * @param $game
-     * @throws \Exception
+     * @throws Exception
      */
     public function majMasterBadge($game)
     {
@@ -80,7 +85,7 @@ class PlayerBadgeRepository extends EntityRepository
             $idPlayer = $playerBadge->getPlayer()->getId();
             //----- Remove badge
             if (!array_key_exists($idPlayer, $players)) {
-                $playerBadge->setEndedAt(new \DateTime());
+                $playerBadge->setEndedAt(new DateTime());
                 $this->_em->persist($playerBadge);
             }
             $players[$idPlayer] = 1;
@@ -98,8 +103,8 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param \VideoGamesRecords\CoreyBundle\Entity\CountryInterface $country
-     * @throws \Exception
+     * @param CountryInterface $country
+     * @throws Exception
      */
     public function majCountryBadge($country)
     {
@@ -120,8 +125,8 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * @param array $players ranking
-     * @param \VideoGamesRecords\CoreBundle\Entity\BadgeInterface $badge badge
-     * @throws \Exception
+     * @param BadgeInterface $badge badge
+     * @throws Exception
      */
     private function updateBadge($players, $badge)
     {
@@ -133,7 +138,7 @@ class PlayerBadgeRepository extends EntityRepository
             $idPlayer = $playerBadge->getPlayer()->getId();
             //----- Remove badge
             if (!array_key_exists($idPlayer, $players)) {
-                $playerBadge->setEndedAt(new \DateTime());
+                $playerBadge->setEndedAt(new DateTime());
                 $this->_em->persist($playerBadge);
             }
             $players[$idPlayer] = 1;
@@ -151,7 +156,7 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder $query
+     * @param QueryBuilder $query
      */
     private function onlyActive(QueryBuilder $query)
     {
@@ -160,6 +165,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * Maj user badges (Connexion / Forum)
+     * @throws DBALException
      */
     public function majUserBadge()
     {
@@ -177,6 +183,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * Maj player badges
+     * @throws DBALException
      */
     public function majPlayerBadge()
     {

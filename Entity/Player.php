@@ -2,10 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use VideoGamesRecords\CoreBundle\Entity\User\UserInterface;
 
 /**
  * Player
@@ -18,7 +20,7 @@ class Player implements SluggableInterface
     use SluggableTrait;
 
     /**
-     * @var \VideoGamesRecords\CoreBundle\Entity\User\UserInterface
+     * @var UserInterface
      *
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User\UserInterface")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
@@ -946,7 +948,7 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\User\UserInterface
+     * @return UserInterface
      */
     public function getUser()
     {
@@ -954,7 +956,7 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\User\UserInterface $user
+     * @param UserInterface $user
      * @return Player
      */
     public function setUser($user)
@@ -1027,7 +1029,7 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\LostPosition[]
+     * @return ArrayCollection|LostPosition[]
      */
     public function getLostPositions()
     {

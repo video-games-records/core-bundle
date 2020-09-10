@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
@@ -64,7 +65,7 @@ class PlayerChartListener
      * @param PlayerChart        $playerChart
      * @param LifecycleEventArgs $event
      * @throws ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
      */
     public function postUpdate(PlayerChart $playerChart, LifecycleEventArgs $event)
     {

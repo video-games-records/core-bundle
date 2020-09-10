@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -112,7 +113,7 @@ class PlayerGroup
     private $nbChartProven;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="lastUpdate", type="datetime", nullable=true)
      */
@@ -363,7 +364,7 @@ class PlayerGroup
     /**
      * Set lastUpdate
      *
-     * @param \DateTime $lastUpdate
+     * @param DateTime $lastUpdate
      * @return $this
      */
     public function setLastUpdate($lastUpdate)
@@ -376,7 +377,7 @@ class PlayerGroup
     /**
      * Get lastUpdate
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getLastUpdate()
     {

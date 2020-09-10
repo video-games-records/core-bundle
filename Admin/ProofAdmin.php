@@ -2,12 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use Doctrine\ORM\EntityManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Sonata\AdminBundle\Route\RouteCollection;
@@ -17,13 +19,14 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Doctrine\ORM\ORMException;
 
 class ProofAdmin extends AbstractAdmin
 {
     //protected $baseRouteName = 'vgrcorebundle_admin_proof';
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -45,7 +48,7 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -100,7 +103,7 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -118,7 +121,7 @@ class ProofAdmin extends AbstractAdmin
 
 
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -150,7 +153,7 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -166,8 +169,7 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @param $object
-     * @return Response
+     * @param object $object
      */
     public function preValidate($object)
     {
@@ -196,18 +198,18 @@ class ProofAdmin extends AbstractAdmin
 
     /**
      * @param object $object
-     * @throws \Doctrine\ORM\ORMException
+     * @return bool|void
+     * @throws ORMException
      */
     public function preUpdate($object)
     {
-        return false;
-        /** @var \Doctrine\ORM\EntityManager $em */
+        /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
 
         // Cant change status final
-        if (\in_array($originalObject['status'], array(Proof::STATUS_ACCEPTED, Proof::STATUS_REFUSED), true)) {
+        if (in_array($originalObject['status'], array(Proof::STATUS_ACCEPTED, Proof::STATUS_REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
 
@@ -219,7 +221,7 @@ class ProofAdmin extends AbstractAdmin
 
         // ACCEPTED
         if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_ACCEPTED) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+            /** @var PlayerChart $playerChart */
             $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_PROOVED));
             $setPlayerResponding = true;
             // Send MP (1)
@@ -243,7 +245,7 @@ class ProofAdmin extends AbstractAdmin
 
         // REFUSED
         if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_REFUSED) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+            /** @var PlayerChart $playerChart */
             $idStatus = ($object->getPlayerChart()->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF) ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
             $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, $idStatus));
             $setPlayerResponding = true;
@@ -277,7 +279,7 @@ class ProofAdmin extends AbstractAdmin
      */
     private function getPlayer()
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
+        /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
         return $em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser($user);

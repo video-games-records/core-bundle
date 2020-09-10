@@ -5,6 +5,8 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Group;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * Class GroupController
@@ -12,7 +14,7 @@ use VideoGamesRecords\CoreBundle\Entity\Group;
 class GroupController extends AbstractController
 {
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
+     * @return Player|null
      */
     private function getPlayer()
     {
@@ -24,7 +26,7 @@ class GroupController extends AbstractController
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     * @return Team|null
      */
     private function getTeam()
     {

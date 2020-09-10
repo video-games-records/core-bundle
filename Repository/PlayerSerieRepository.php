@@ -3,6 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\TransactionRequiredException;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
@@ -101,7 +104,10 @@ class PlayerSerieRepository extends EntityRepository
     }
 
     /**
-     * @param int $idSerie
+     * @param $idSerie
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
      */
     public function maj($idSerie)
     {

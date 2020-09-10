@@ -7,7 +7,11 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use DateTime;
 
 class PlayerGameRepository extends EntityRepository
 {
@@ -16,7 +20,7 @@ class PlayerGameRepository extends EntityRepository
      * @param int $maxRank
      * @param Player $player
      * @param Team $team
-     * @return \VideoGamesRecords\CoreBundle\Entity\PlayerGame[]
+     * @return PlayerGame[]
      */
     public function getRankingPoints($game, $maxRank = null, $player = null, $team = null)
     {
@@ -75,7 +79,9 @@ class PlayerGameRepository extends EntityRepository
     }
 
     /**
-     * @param Game $game
+     * @param $game
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function maj($game)
     {
@@ -135,7 +141,7 @@ class PlayerGameRepository extends EntityRepository
 
         $list = [];
         foreach ($result as $row) {
-            $row['lastUpdate'] = new \DateTime($row['lastUpdate']);
+            $row['lastUpdate'] = new DateTime($row['lastUpdate']);
             $row = array_merge($row, $dataWithoutDlc[$row['id']]);
             $list[] = $row;
         }

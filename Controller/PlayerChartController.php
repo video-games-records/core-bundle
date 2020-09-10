@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -79,7 +80,8 @@ class PlayerChartController extends AbstractController
     /**
      * @Route("/top-score", name="playerChart_top_score", methods={"GET"})
      * @Cache(smaxage="10")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @return Response
      */
     public function rssAction(Request $request)
     {
@@ -104,7 +106,7 @@ class PlayerChartController extends AbstractController
      * @param PlayerChart $playerChart
      * @param Request     $request
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function sendPicture(PlayerChart $playerChart, Request $request)
     {

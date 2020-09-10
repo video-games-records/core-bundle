@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
@@ -75,7 +77,9 @@ class TeamGameRepository extends EntityRepository
     }
 
     /**
-     * @param game
+     * @param $game
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function maj($game)
     {

@@ -7,14 +7,15 @@ use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 
 class PlayerChartLibRepository extends EntityRepository
 {
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Player $player
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $chart
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
+     * @param Player $player
+     * @param Chart  $chart
+     * @param Group  $group
      * @return array
      */
     public function getFormValues(Player $player, Chart $chart = null, Group $group = null)
@@ -44,7 +45,7 @@ class PlayerChartLibRepository extends EntityRepository
         $data = [];
 
         foreach ($result as $row) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChartLib $row */
+            /** @var PlayerChartLib $row */
             $data['player_' . $row->getLibChart()->getChart()->getId() . '_' . $row->getLibChart()->getIdLibChart()] = $row->getValue();
             $values = Score::getValues($row->getLibChart()->getType()->getMask(), $row->getValue());
             $i = 1;
@@ -57,7 +58,7 @@ class PlayerChartLibRepository extends EntityRepository
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
+     * @param Group $group
      * @return array
      */
     public function getTopValues($group)
@@ -75,8 +76,8 @@ class PlayerChartLibRepository extends EntityRepository
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Group $group
-     * @param \VideoGamesRecords\CoreBundle\Entity\Player $player
+     * @param Group  $group
+     * @param Player $player
      * @return array
      */
     public function getPlayerScore($group, $player)

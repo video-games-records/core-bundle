@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
@@ -166,7 +167,7 @@ class PlayerGame
     private $nbEqual = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="lastUpdate", type="datetime", nullable=true)
      */
@@ -520,7 +521,7 @@ class PlayerGame
     /**
      * Set lastUpdate
      *
-     * @param \DateTime $lastUpdate
+     * @param DateTime $lastUpdate
      * @return $this
      */
     public function setLastUpdate($lastUpdate)
@@ -533,7 +534,7 @@ class PlayerGame
     /**
      * Get lastUpdate
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getLastUpdate()
     {

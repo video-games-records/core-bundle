@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
@@ -13,7 +14,7 @@ class ProofRequestListener
      * @param ProofRequest       $proofRequest
      * @param LifecycleEventArgs $event
      * @throws ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
      */
     public function postPersist(ProofRequest $proofRequest, LifecycleEventArgs $event)
     {

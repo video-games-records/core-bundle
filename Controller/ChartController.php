@@ -2,11 +2,15 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Tools\Score;
 use Symfony\Component\HttpFoundation\Request;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\Team;
+use VideoGamesRecords\CoreBundle\Tools\Score;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 
@@ -16,7 +20,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 class ChartController extends AbstractController
 {
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
+     * @return Player|null
      */
     private function getPlayer()
     {
@@ -28,7 +32,7 @@ class ChartController extends AbstractController
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     * @return Team|null
      */
     private function getTeam()
     {
@@ -106,6 +110,7 @@ class ChartController extends AbstractController
      * If the user has not relation, a default relation is created
      * @param Request $request
      * @return mixed
+     * @throws Exception
      */
     public function charts(Request $request)
     {
@@ -131,7 +136,7 @@ class ChartController extends AbstractController
                 $playerChart->setId(-1);
                 $playerChart->setChart($chart);
                 $playerChart->setPlayer($player);
-                $playerChart->setLastUpdate(new \DateTime());
+                $playerChart->setLastUpdate(new DateTime());
                 if (count($platforms) == 1) {
                     $playerChart->setPlatform($platforms[0]);
                 }
@@ -145,7 +150,7 @@ class ChartController extends AbstractController
             } else {
                 // Set lastUpdate now for return put call
                 $playerCharts = $chart->getPlayerCharts();
-                $playerCharts[0]->setLastUpdate(new \DateTime());
+                $playerCharts[0]->setLastUpdate(new DateTime());
             }
         }
         return $charts;

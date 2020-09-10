@@ -5,13 +5,17 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\DBAL\DBALException;
 
 class GameRepository extends EntityRepository
 {
 
     /**
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function getStats()
     {
@@ -30,7 +34,7 @@ class GameRepository extends EntityRepository
      * @param string $letter
      * @param string $locale
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function findWithLetter($letter, $locale = 'en')
     {
@@ -101,8 +105,7 @@ class GameRepository extends EntityRepository
 
     /**
      * Requires only active games.
-     *
-     * @param \Doctrine\ORM\QueryBuilder $query
+     * @param QueryBuilder $query
      */
     private function onlyActive(QueryBuilder $query)
     {
@@ -113,8 +116,7 @@ class GameRepository extends EntityRepository
 
     /**
      * Adds platforms in the output to fasten display.
-     *
-     * @param \Doctrine\ORM\QueryBuilder $query
+     * @param QueryBuilder $query
      */
     private function withPlatforms(QueryBuilder $query)
     {
@@ -156,10 +158,10 @@ class GameRepository extends EntityRepository
 
     /**
      * @param $id
+     * @throws DBALException
      */
     public function copy($id)
     {
-
         $sql = sprintf("call copy_game (%d);", $id);
         $this->_em->getConnection()->executeUpdate($sql);
     }

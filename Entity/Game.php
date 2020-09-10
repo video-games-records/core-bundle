@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -98,7 +99,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     private $etat = self::ETAT_INIT;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
@@ -375,7 +376,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * Set dateActivation
      *
-     * @param \DateTime $pubishedAt
+     * @param DateTime $pubishedAt
      * @return Game
      */
     public function setPublishedAt($pubishedAt)
@@ -388,7 +389,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * Get publishedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getPublishedAt()
     {
@@ -767,7 +768,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getFeedItemPubDate()
     {
