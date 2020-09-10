@@ -9,7 +9,7 @@ interface ArticleInterface
     /** @return string */
     public function getTitle();
     /** @return string */
-    public function gettext();
+    public function getText();
     /** @return string */
     public function getStatus();
     /** @return UserInterface */

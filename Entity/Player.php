@@ -1011,7 +1011,7 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @return Country
+     * @return CountryInterface
      */
     public function getCountry()
     {
@@ -1019,7 +1019,7 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @param Country $country
+     * @param $country
      * @return Player
      */
     public function setCountry($country)

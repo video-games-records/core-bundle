@@ -6,7 +6,6 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -173,7 +172,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     private $serie;
 
     /**
-     * @var Badge
+     * @var BadgeInterface
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\BadgeInterface")
      * @ORM\JoinColumns({
@@ -606,10 +605,10 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * Set badge
      *
-     * @param Badge $badge
+     * @param $badge
      * @return Game
      */
-    public function setBadge(Badge $badge = null)
+    public function setBadge($badge = null)
     {
         $this->badge = $badge;
 
@@ -619,7 +618,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * Get idBadge
      *
-     * @return Badge
+     * @return BadgeInterface
      */
     public function getBadge()
     {
