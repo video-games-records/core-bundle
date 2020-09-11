@@ -32,12 +32,11 @@ class ScoreTest extends TestCase
 
     /**
      * @dataProvider formToBddProvider
-     *
-     * @param string $scoreFormat
-     * @param array $values
-     * @param string $expected
+     * @param string      $scoreFormat
+     * @param array       $values
+     * @param string|null $expected
      */
-    public function testFormToBdd(string $scoreFormat, array $values, string $expected)
+    public function testFormToBdd(string $scoreFormat, array $values, string $expected = null)
     {
         $this->assertSame($expected, Score::formToBdd($scoreFormat, $values));
     }
@@ -45,10 +44,10 @@ class ScoreTest extends TestCase
     /**
      * @dataProvider formatScoreProvider
      * @param string $scoreFormat
-     * @param string $value
+     * @param $value
      * @param string $expected
      */
-    public function testFormatScore(string $scoreFormat, string $value, string $expected)
+    public function testFormatScore(string $scoreFormat, $value, string $expected)
     {
         $this->assertSame($expected, Score::formatScore($value, $scoreFormat));
     }
