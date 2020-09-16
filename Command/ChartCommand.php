@@ -131,6 +131,7 @@ class ChartCommand extends DefaultCommand
      * @throws ExceptionInterface
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws Exception
      */
     public function updatePlayerChart(array $charts)
     {
