@@ -18,6 +18,18 @@ class PlayerChartListener
 
     /**
      * @param PlayerChart        $playerChart
+     * @param LifecycleEventArgs $event
+     * @throws ORMException
+     */
+    public function prePersist(PlayerChart $playerChart, LifecycleEventArgs $event)
+    {
+        $em = $event->getEntityManager();
+        $playerChart->setStatus($em->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
+        $playerChart->setLastUpdate(new DateTime());
+    }
+
+    /**
+     * @param PlayerChart        $playerChart
      * @param PreUpdateEventArgs $event
      */
     public function preUpdate(PlayerChart $playerChart, PreUpdateEventArgs $event)
@@ -25,11 +37,24 @@ class PlayerChartListener
         $em = $event->getEntityManager();
         $changeSet = $event->getEntityChangeSet();
 
+
+        $playerChart->setTopScore(false);
+        if ($playerChart->getRank() === 1) {
+            $playerChart->setTopScore(true);
+        }
+
+        if (null === $playerChart->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $playerChart->getStatus()->getId()) {
+            $playerChart->setDateInvestigation(new DateTime());
+        }
+        if (null !== $playerChart->getDateInvestigation() && in_array($playerChart->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
+            $playerChart->setDateInvestigation(null);
+        }
+
         //-- status
         if ($playerChart->getStatus()->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
             $playerChart->setPointChart(0);
             $playerChart->setRank(0);
-            $playerChart->setTopScore(0);
+            $playerChart->setTopScore(false);
         }
 
         //----- LostPosition

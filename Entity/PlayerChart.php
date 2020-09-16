@@ -5,9 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
-use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -481,36 +479,6 @@ class PlayerChart implements ItemInterface, TimestampableInterface
         return $this->getLink();
     }
 
-
-    /**
-     * @ORM\PrePersist()
-     * @param LifecycleEventArgs $args
-     * @throws Exception
-     */
-    public function prePersist(LifecycleEventArgs $args)
-    {
-        $entityManager = $args->getObjectManager();
-        $this->setStatus($entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 1));
-        $this->setLastUpdate(new DateTime());
-    }
-
-    /**
-     * @ORM\PreUpdate()
-     */
-    public function preUpdate()
-    {
-        $this->setTopScore(false);
-        if ($this->getRank() === 1) {
-            $this->setTopScore(true);
-        }
-
-        if (null === $this->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $this->getStatus()->getId()) {
-            $this->setDateInvestigation(new DateTime());
-        }
-        if (null !== $this->getDateInvestigation() && in_array($this->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
-            $this->setDateInvestigation(null);
-        }
-    }
 
     /**
      * @return string
