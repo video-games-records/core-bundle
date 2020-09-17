@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
+use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;

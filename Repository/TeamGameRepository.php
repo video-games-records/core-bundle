@@ -50,11 +50,11 @@ class TeamGameRepository extends EntityRepository
 
     /**
      * @param Game      $game
-     * @param int|null  $maxRank
-     * @param Team|null $team
+     * @param null  $maxRank
+     * @param null $team
      * @return int|mixed|string
      */
-    public function getRankingMedals(Game $game,int $maxRank = null,Team $team = null)
+    public function getRankingMedals(Game $game, $maxRank = null, $team = null)
     {
         $query = $this->createQueryBuilder('tg')
             ->join('tg.team', 't')
