@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use ProjetNormandie\MessageBundle\Service\Messager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -23,6 +24,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class ProofRequestAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
+
+    /** @var Messager */
+    private $messager;
+
+    public function setMessager(Messager $messager)
+    {
+        $this->messager = $messager;
+    }
 
     /**
      * @param RouteCollection $collection
@@ -227,36 +236,32 @@ class ProofRequestAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
-                array(
-                    'type' => 'VGR_PROOF_REQUEST',
-                    'object' => $this->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()),
-                    'message' => sprintf(
-                        $this->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
-                    ),
-                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                    'recipient' => $recipient,
-                )
+            $this->messager->send(
+                $this->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()),
+                sprintf(
+                    $this->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
+                    $recipient->getUsername(),
+                    $url,
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                ),
+                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                $recipient,
+                'VGR_PROOF_REQUEST'
             );
             // Send MP (2)
             $recipient = $object->getPlayerRequesting()->getUser();
-            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
-                array(
-                    'type' => 'VGR_PROOF_REQUEST',
-                    'object' => $this->trans('proof.request.accept.object', array(), null, $recipient->getLocale()),
-                    'message' => sprintf(
-                        $this->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                        $object->getPlayerChart()->getPlayer()->getPseudo()
-                    ),
-                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                    'recipient' => $recipient,
-                )
+            $this->messager->send(
+                $this->trans('proof.request.accept.object', array(), null, $recipient->getLocale()),
+                sprintf(
+                    $this->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
+                    $recipient->getUsername(),
+                    $url,
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                    $object->getPlayerChart()->getPlayer()->getPseudo()
+                ),
+                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                $recipient,
+                'VGR_PROOF_REQUEST'
             );
         }
 
@@ -268,20 +273,18 @@ class ProofRequestAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             $recipient = $object->getPlayerRequesting()->getUser();
             $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
-                array(
-                    'type' => 'VGR_PROOF_REQUEST',
-                    'object' => $this->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()),
-                    'message' => sprintf(
-                        $this->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                        $object->getPlayerChart()->getPlayer()->getPseudo()
-                    ),
-                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                    'recipient' => $recipient,
-                )
+            $this->messager->send(
+                $this->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()),
+                sprintf(
+                    $this->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
+                    $recipient->getUsername(),
+                    $url,
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                    $object->getPlayerChart()->getPlayer()->getPseudo()
+                ),
+                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                $recipient,
+                'VGR_PROOF_REQUEST'
             );
         }
 

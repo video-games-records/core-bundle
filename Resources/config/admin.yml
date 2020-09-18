@@ -121,6 +121,8 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ProofRequest
             - ~
+        calls:
+            - [ setMessager, ['@ProjetNormandie\MessageBundle\Service\Messager']]
     sonata.admin.vgr.proof.proof:
         class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
         tags:
@@ -131,6 +133,7 @@ services:
             - ~
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:proof_show.html.twig']]
+            - [ setMessager, ['@ProjetNormandie\MessageBundle\Service\Messager']]
     sonata.admin.vgr.proof.picture:
         class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
         tags:

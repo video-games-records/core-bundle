@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Doctrine\ORM\EntityManager;
+use ProjetNormandie\MessageBundle\Service\Messager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -24,6 +25,14 @@ use Doctrine\ORM\ORMException;
 class ProofAdmin extends AbstractAdmin
 {
     //protected $baseRouteName = 'vgrcorebundle_admin_proof';
+
+    /** @var Messager */
+    private $messager;
+
+    public function setMessager(Messager $messager)
+    {
+        $this->messager = $messager;
+    }
 
     /**
      * @param RouteCollection $collection
@@ -227,19 +236,17 @@ class ProofAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
-                array(
-                    'type' => 'VGR_PROOF',
-                    'object' => $this->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
-                    'message' => sprintf(
-                        $this->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
-                    ),
-                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                    'recipient' => $recipient,
-                )
+            $this->messager->send(
+                $this->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
+                sprintf(
+                    $this->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
+                    $recipient->getUsername(),
+                    $url,
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                ),
+                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                $recipient,
+                'VGR_PROOF'
             );
         }
 
@@ -252,19 +259,17 @@ class ProofAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $em->getRepository('VideoGamesRecordsCoreBundle:MessageInterface')->create(
-                array(
-                    'type' => 'VGR_PROOF',
-                    'object' => $this->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
-                    'message' => sprintf(
-                        $this->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
-                    ),
-                    'sender' => $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                    'recipient' => $recipient,
-                )
+            $this->messager->send(
+                $this->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
+                sprintf(
+                    $this->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
+                    $recipient->getUsername(),
+                    $url,
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                ),
+                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                $recipient,
+                'VGR_PROOF'
             );
         }
 
