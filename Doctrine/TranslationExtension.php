@@ -5,6 +5,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInter
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use Doctrine\ORM\QueryBuilder;
+use Locale;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
@@ -55,7 +56,11 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
         if (!in_array($resourceClass, array(Serie::class, Game::class, Group::class, Chart::class))) {
             return;
         }
-        $queryBuilder->leftJoin('o.translations', 't')
+        $locale = Locale::getDefault();
+        if (!in_array($locale, array('en', 'fr'))) {
+            $locale = 'en';
+        }
+        $queryBuilder->leftJoin('o.translations', 't', 'WITH', "t.locale='$locale'")
             ->addSelect('t');
     }
 }
