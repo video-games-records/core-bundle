@@ -36,7 +36,7 @@ class GameRepository extends EntityRepository
      *
      * @return Query
      */
-    public function findWithLetter(string $letter,string $locale = 'en')
+    public function findWithLetter(string $letter, string $locale = 'en')
     {
         $query = $this->createQueryBuilder('g')
             ->addSelect('translation');

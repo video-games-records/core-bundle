@@ -117,7 +117,8 @@ class ChartAdmin extends AbstractAdmin
         $formMapper
             ->add('libs', CollectionType::class, array(
                 'by_reference' => false,
-                'help' => (($this->isCurrentRoute('create')) ? 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
+                'help' => (($this->isCurrentRoute('create')) ?
+                    'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
                 'type_options' => array(
                     // Prevents the "Delete" option from being displayed
                     'delete' => true,

@@ -12,7 +12,7 @@ use VideoGamesRecords\CoreBundle\Entity\User\UserInterface;
 /**
  * Player
  *
- * @ORM\Table(name="vgr_player", indexes={@ORM\Index(name="pointGame", columns={"pointGame"}), @ORM\Index(name="rank_pointGame", columns={"rankPointGame"})})
+ * @ORM\Table(name="vgr_player")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
  */
 class Player implements SluggableInterface

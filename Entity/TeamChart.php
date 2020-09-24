@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TeamChart
  *
- * @ORM\Table(name="vgr_team_chart", indexes={@ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdTeam", columns={"idTeam"})})
+ * @ORM\Table(name="vgr_team_chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamChartRepository")
  */
 class TeamChart

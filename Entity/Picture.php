@@ -9,7 +9,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * Proof
  *
- * @ORM\Table(name="vgr_picture", indexes={@ORM\Index(name="idxIdPicture", columns={"idPicture"})})
+ * @ORM\Table(name="vgr_picture")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PictureRepository")
  */
 class Picture implements TimestampableInterface

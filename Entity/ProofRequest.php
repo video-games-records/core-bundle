@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * Request
  *
- * @ORM\Table(name="vgr_proof_request", indexes={@ORM\Index(name="idxIdRequest", columns={"idRequest"})})
+ * @ORM\Table(name="vgr_proof_request")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener"})
  */

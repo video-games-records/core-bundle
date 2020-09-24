@@ -58,7 +58,10 @@ class ScoreTest extends TestCase
             ['30~,|2~ kg', [['size' => 30, 'suffixe' => ','], ['size' => 2, 'suffixe' => ' kg']]],
             ['30~,|2~', [['size' => 30, 'suffixe' => ','], ['size' => 2, 'suffixe' => '']]],
             ['30~ yd', [['size' => 30, 'suffixe' => ' yd']]],
-            ['30~ km |3~ m |2~ cm |1~ mm', [['size' => 30, 'suffixe' => ' km '], ['size' => 3, 'suffixe' => ' m '], ['size' => 2, 'suffixe' => ' cm '], ['size' => 1, 'suffixe' => ' mm'],]],
+            [
+                '30~ km |3~ m |2~ cm |1~ mm',
+                [['size' => 30, 'suffixe' => ' km '], ['size' => 3, 'suffixe' => ' m '], ['size' => 2, 'suffixe' => ' cm '], ['size' => 1, 'suffixe' => ' mm'],]
+            ],
         ];
     }
 

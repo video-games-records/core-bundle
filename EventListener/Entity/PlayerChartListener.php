@@ -47,7 +47,8 @@ class PlayerChartListener
         if (null === $playerChart->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $playerChart->getStatus()->getId()) {
             $playerChart->setDateInvestigation(new DateTime());
         }
-        if (null !== $playerChart->getDateInvestigation() && in_array($playerChart->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
+        if (null !== $playerChart->getDateInvestigation()
+            && in_array($playerChart->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
             $playerChart->setDateInvestigation(null);
         }
 

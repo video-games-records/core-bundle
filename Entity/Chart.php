@@ -15,7 +15,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatusPlayer", columns={"statusPlayer"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"})})
+ * @ORM\Table(name="vgr_chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
  * @method ChartTranslation translate(string $locale, bool $fallbackToDefault)
  */

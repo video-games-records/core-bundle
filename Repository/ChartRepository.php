@@ -85,7 +85,13 @@ class ChartRepository extends EntityRepository
      */
     public function goToMajTeam(int $limit)
     {
-        $sql = sprintf("UPDATE vgr_chart SET statusTeam = '%s' WHERE statusPlayer='%s' AND statusTeam='%s' LIMIT %d", Chart::STATUS_GO_TO_MAJ, Chart::STATUS_NORMAL, Chart::STATUS_MAJ, $limit);
+        $sql = sprintf(
+            "UPDATE vgr_chart SET statusTeam = '%s' WHERE statusPlayer='%s' AND statusTeam='%s' LIMIT %d",
+            Chart::STATUS_GO_TO_MAJ,
+            Chart::STATUS_NORMAL,
+            Chart::STATUS_MAJ,
+            $limit
+        );
         $this->_em->getConnection()->executeUpdate($sql);
     }
 

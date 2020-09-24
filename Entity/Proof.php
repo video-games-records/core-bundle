@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * Proof
  *
- * @ORM\Table(name="vgr_proof", indexes={@ORM\Index(name="idxIdProof", columns={"idProof"})})
+ * @ORM\Table(name="vgr_proof")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRepository")
  */
 class Proof implements TimestampableInterface

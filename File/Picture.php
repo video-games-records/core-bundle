@@ -176,8 +176,7 @@ class Picture
         $dstH = null,
         $srcW = null,
         $srcH = null
-    )
-    {
+    ) {
         $dstW = is_null($dstW) ? $pic->getWidth() : $dstW;
         $dstH = is_null($dstH) ? $pic->getHeight() : $dstH;
         $srcW = is_null($srcW) ? $pic->getWidth() : $srcW;

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * PlayerChartLib
  *
- * @ORM\Table(name="vgr_player_chartlib", indexes={@ORM\Index(name="idxIdLibChart", columns={"idLibChart"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
+ * @ORM\Table(name="vgr_player_chartlib")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartLibRepository")
  */
 class PlayerChartLib

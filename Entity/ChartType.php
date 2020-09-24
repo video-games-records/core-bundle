@@ -9,7 +9,7 @@ use VideoGamesRecords\CoreBundle\Tools\Score;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_charttype", indexes={@ORM\Index(name="idxIdType", columns={"idType"}) })
+ * @ORM\Table(name="vgr_charttype")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartTypeRepository")
  */
 class ChartType

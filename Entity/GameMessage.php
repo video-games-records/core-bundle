@@ -11,7 +11,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * GameMessage
  *
- * @ORM\Table(name="vgr_game_message", indexes={@ORM\Index(name="idxMessage", columns={"id"})})
+ * @ORM\Table(name="vgr_game_message")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameMessageRepository")
  */
 class GameMessage implements TimestampableInterface

@@ -12,7 +12,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 /**
  * PlayerGame
  *
- * @ORM\Table(name="vgr_player_game", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxIdPlayer", columns={"idPlayer"})})
+ * @ORM\Table(name="vgr_player_game")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository")
  * @ApiFilter(SearchFilter::class, properties={"player": "exact"})
  * @ApiFilter(

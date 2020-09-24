@@ -11,7 +11,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 /**
  * Game
  *
- * @ORM\Table(name="vgr_platform", indexes={@ORM\Index(name="idxLibPlatform", columns={"libPlatform"})})
+ * @ORM\Table(name="vgr_platform")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlatformRepository")
  * @ApiResource(attributes={"order"={"libPlatform"}})
  *

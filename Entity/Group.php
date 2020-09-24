@@ -16,7 +16,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 /**
  * Group
  *
- * @ORM\Table(name="vgr_group", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxBoolDlc", columns={"boolDlc"})})
+ * @ORM\Table(name="vgr_group")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
  * @ApiResource(attributes={"order"={"translations.name": "ASC"}})
  * @method GroupTranslation translate(string $locale, bool $fallbackToDefault)

@@ -13,7 +13,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * GameTopic
  *
- * @ORM\Table(name="vgr_game_topic", indexes={@ORM\Index(name="idxTopic", columns={"id"}), @ORM\Index(name="idxPlayer", columns={"idPlayer"})})
+ * @ORM\Table(name="vgr_game_topic")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameTopicRepository")
  */
 class GameTopic implements TimestampableInterface

@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_chartlib", indexes={@ORM\Index(name="idLibChart", columns={"idLibChart"}), @ORM\Index(name="idxIdChart", columns={"idChart"}), @ORM\Index(name="idxIdType", columns={"idType"}) })
+ * @ORM\Table(name="vgr_chartlib")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartLibRepository")
  */
 class ChartLib implements TimestampableInterface
