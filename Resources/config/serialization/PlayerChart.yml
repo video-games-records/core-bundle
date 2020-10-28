@@ -7,11 +7,10 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         - 'playerChart.ranking'
     chart:
       groups:
-        - 'playerChart.read'
+        - 'playerChart.chart'
         - 'playerChart.write'
     player:
       groups:
-        - 'playerChart.read'
         - 'playerChart.write'
         - 'playerChart.player'
     rank:
@@ -54,7 +53,6 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
       groups: []
     libs:
       groups:
-        - 'playerChart.read'
         - 'playerChart.write'
-        - 'playerchart.libs'
+        - 'playerChart.libs'
 
