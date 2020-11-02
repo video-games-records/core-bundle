@@ -51,6 +51,15 @@ class PlayerChartStatus
     private $boolSendProof = 0;
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s [%s]', $this->getLabel(), $this->id);
+    }
+
+
+    /**
      * Set id
      * @param integer $id
      * @return $this

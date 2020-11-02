@@ -207,7 +207,7 @@ resources:
                 normalization_context: {'groups': [chart.list], 'enable_max_depth':true}
             with-player-chart:
                 method: 'GET'
-                normalization_context: {'groups': [chart.read, chart.group, group.read.mini, chart.libs, chartLib.read, chart.playerCharts, playerChart.read, playerChart.platform], 'enable_max_depth':true}
+                normalization_context: {'groups': [chart.read, chart.group, group.read.mini, chart.libs, chartLib.read, chart.playerCharts, playerChart.read, playerChart.status, playerChartStatus.read, playerChart.platform], 'enable_max_depth':true}
                 access_control: 'is_granted("ROLE_PLAYER")'
                 path: '/charts/with-player-chart'
                 swagger_context:
