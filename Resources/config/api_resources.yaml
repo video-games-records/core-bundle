@@ -183,7 +183,7 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingMedals'
             top-score:
                 method: 'GET'
-                normalization_context: {'groups': [chart.read, chart.top-score, playerchart.libs, playerChartLib.format, playerChart.player, player.read.mini]}
+                normalization_context: {'groups': [chart.read, chart.top-score, playerChart.libs, playerChartLib.format, playerChart.player, player.read.mini]}
                 path: '/groups/{id}/top-score'
                 swagger_context:
                     parameters:
@@ -298,7 +298,7 @@ resources:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         attributes:
-            normalization_context: {'groups': [playerChart.read]}
+            normalization_context: {'groups': [playerChart.read, playerChart.libs]}
             denormalization_context: {'groups': [playerChart.write]}
         collectionOperations:
             get: ~
@@ -323,9 +323,14 @@ resources:
                                   idPlatform:
                                       type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::majPlatform'
+            last:
+                method: 'GET'
+                normalization_context: { 'groups': [ playerChart.read, playerChart.chart, chart.read.mini] }
+                path: '/player_charts-last'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::last'
         itemOperations:
             get:
-                normalization_context: {'groups': [playerChart.read, playerChart.player, player.read.mini, playerChart.status, playerChartStatus.read, chart.label.read, playerChartLib.format, playerChart.proof, proof.read, picture.read]}
+                normalization_context: {'groups': [playerChart.read, playerChart.libs, playerChart.player, player.read.mini, playerChart.status, playerChartStatus.read, chart.label.read, playerChartLib.format, playerChart.proof, proof.read, picture.read]}
             put:
                 normalization_context: {'groups': [playerChart.write]}
                 access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
