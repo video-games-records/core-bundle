@@ -26,6 +26,7 @@ class PlayerChartRepository extends EntityRepository
             ->join('pc.chart', 'c')
             ->addSelect('c')
             ->innerJoin('c.translations', 'translation')
+            ->addSelect('translation')
             ->where('translation.locale = :locale')
             ->setParameter('locale', $locale)
             ->orderBy('pc.lastUpdate', 'DESC');
