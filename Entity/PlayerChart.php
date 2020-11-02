@@ -64,7 +64,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="rank", type="integer", nullable=true)
+     * @ORM\Column(name="`rank`", type="integer", nullable=true)
      */
     private $rank;
 
