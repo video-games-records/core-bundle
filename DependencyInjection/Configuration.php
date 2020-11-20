@@ -13,12 +13,12 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritdoc}
+     * @return TreeBuilder
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('video_games_records_core');
+        $treeBuilder = new TreeBuilder('video_games_records_core');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()

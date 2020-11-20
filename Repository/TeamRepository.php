@@ -2,8 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use DateTime;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * TeamRepository
@@ -11,34 +17,9 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 class TeamRepository extends EntityRepository
 {
     /**
-     * @return \Doctrine\ORM\Query
-     */
-    public function getPaginatedQuery()
-    {
-        $query = $this->createQueryBuilder('t')
-            ->orderBy('t.libTeam', 'ASC');
-        //->orderBy('t.pointGame', 'DESC');
-
-        return $query->getQuery();
-    }
-
-    /**
-     * @param int $idTeam
-     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
-     */
-    public function getTeamWithGames($idTeam)
-    {
-        $qb = $this->createQueryBuilder('team')
-            ->join('team.teamGame', 'teamGame')
-            ->addSelect('teamGame')
-            ->where('team.idTeam = :idTeam')
-            ->setParameter('idTeam', $idTeam);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-    /**
      * @param $team
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function maj($team)
     {
@@ -50,7 +31,8 @@ class TeamRepository extends EntityRepository
                  SUM(tg.chartRank2) as chartRank2,
                  SUM(tg.chartRank3) as chartRank3,
                  SUM(tg.pointChart) as pointChart,
-                 SUM(tg.pointGame) as pointGame
+                 SUM(tg.pointGame) as pointGame,
+                 COUNT(DISTINCT tg.game) as nbGame
             FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
             JOIN tg.team t
             WHERE tg.team = :team
@@ -67,6 +49,7 @@ class TeamRepository extends EntityRepository
             $team->setChartRank3($row['chartRank3']);
             $team->setPointChart($row['pointChart']);
             $team->setPointGame($row['pointGame']);
+            $team->setNbGame($row['nbGame']);
 
             $this->_em->persist($team);
             $this->_em->flush($team);
@@ -74,7 +57,9 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws DBALException
      */
     public function majGameRank()
     {
@@ -120,7 +105,7 @@ class TeamRepository extends EntityRepository
             }
         }
 
-        /** @var \VideoGamesRecords\CoreBundle\Entity\Team[] $teams */
+        /** @var Team[] $teams */
         $teams = $this->findAll();
 
         foreach ($teams as $team) {
@@ -142,6 +127,8 @@ class TeamRepository extends EntityRepository
 
     /**
      * Update column rankPointChart
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankPointChart()
     {
@@ -158,6 +145,8 @@ class TeamRepository extends EntityRepository
 
     /**
      * Update column rankPointGame
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankPointGame()
     {
@@ -174,6 +163,8 @@ class TeamRepository extends EntityRepository
 
     /**
      * Update column rankMedal
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankMedal()
     {
@@ -190,10 +181,11 @@ class TeamRepository extends EntityRepository
 
     /**
      * Update column rankCup
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function majRankCup()
     {
-        $this->majGameRank();
         $teams = $this->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
 
         $list = array();
@@ -205,9 +197,22 @@ class TeamRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @throws DBALException
+     */
+    public function majNbMasterBadge()
+    {
+        $sql = "UPDATE vgr_team
+        SET nbMasterBadge = (SELECT count(vgr_team_badge.id) 
+            FROM vgr_team_badge 
+            INNER JOIN badge ON vgr_team_badge.idBadge = badge.id
+            WHERE badge.type = 'Master' AND idTeam = vgr_team.id AND ended_at IS NULL)";
+        $this->_em->getConnection()->executeUpdate($sql);
+    }
+
 
     /**
-     * @param Team $team
+     * @param null $team
      * @return array
      */
     public function getRankingPointChart($team = null)
@@ -216,17 +221,18 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     * @param Team $team
+     * @param null $team
+     * @param int  $maxRank
      * @return array
      */
-    public function getRankingPointGame($team = null)
+    public function getRankingPointGame($team = null, $maxRank = 100)
     {
-        return $this->getRanking('rankPointGame', $team);
+        return $this->getRanking('rankPointGame', $team, $maxRank);
     }
 
 
     /**
-     * @param Team $team
+     * @param null $team
      * @return array
      */
     public function getRankingMedal($team = null)
@@ -236,17 +242,18 @@ class TeamRepository extends EntityRepository
 
 
     /**
-     * @param Team $team
+     * @param null $team
+     * @param int  $maxRank
      * @return array
      */
-    public function getRankingCup($team = null)
+    public function getRankingCup($team = null, $maxRank = 100)
     {
-        return $this->getRanking('rankCup', $team);
+        return $this->getRanking('rankCup', $team, $maxRank);
     }
 
 
     /**
-     * @param Team $team
+     * @param null $team
      * @return array
      */
     public function getRankingBadge($team = null)
@@ -256,11 +263,11 @@ class TeamRepository extends EntityRepository
 
 
     /**
-     * @param \DateTime $date1
-     * @param \DateTime $date2
+     * @param DateTime $date1
+     * @param DateTime $date2
      * @return array
      */
-    public function getNbPostDay(\DateTime $date1, \DateTime $date2)
+    public function getNbPostDay(DateTime $date1, DateTime $date2)
     {
         $query = $this->_em->createQuery("
             SELECT
@@ -313,23 +320,40 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     * @param string $column
-     * @param Team $team
-     * @return array
+     * @param      $column
+     * @param null $team
+     * @param int  $maxRank
+     * @return int|mixed|string
      */
-    private function getRanking($column, $team = null)
+    private function getRanking($column, $team = null, $maxRank = 100)
     {
         $query = $this->createQueryBuilder('t')
+            ->where("(t.$column != 0)")
             ->orderBy("t.$column");
 
         if ($team !== null) {
-            $query->where("(t.$column <= :maxRank OR t = :team)")
-                ->setParameter('maxRank', 100)
+            $query->andWhere("(t.$column <= :maxRank OR t = :team)")
+                ->setParameter('maxRank', $maxRank)
                 ->setParameter('team', $team);
         } else {
-            $query->where("t.$column <= :maxRank")
-                ->setParameter('maxRank', 100);
+            $query->andWhere("t.$column <= :maxRank")
+                ->setParameter('maxRank', $maxRank);
         }
         return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @return int|mixed|string|null
+     * @throws NonUniqueResultException
+     */
+    public function getStats()
+    {
+        $qb = $this->createQueryBuilder('team')
+            ->select('COUNT(team.id)');
+        $qb->where('team.pointChart > 0');
+
+        return $qb->getQuery()
+            ->getOneOrNullResult();
     }
 }

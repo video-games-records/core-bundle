@@ -2,6 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\File;
 
+use Exception;
+
 class Picture
 {
 
@@ -86,12 +88,12 @@ class Picture
     /**
      * @param $name
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getColor($name)
     {
         if (!isset($this->colors[$name])) {
-            throw new \Exception('Unknown color ' . $name . '.');
+            throw new Exception('Unknown color ' . $name . '.');
         }
         $this->activeColor = $this->colors[$name];
         return $this->colors[$name];
@@ -100,12 +102,12 @@ class Picture
     /**
      * @param $name
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getFont($name)
     {
         if (!isset($this->fonts[$name])) {
-            throw new \Exception('Unknown font ' . $name . '.');
+            throw new Exception('Unknown font ' . $name . '.');
         }
         $this->activeFont = $this->fonts[$name];
         return $this->fonts[$name];
@@ -115,13 +117,13 @@ class Picture
      * @param $name
      * @param $filePath
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     public function addFont($name, $filePath)
     {
         $fontPath = realpath($filePath);
         if ($fontPath === false) {
-            throw new \Exception('Unable to load font file. The file does not exists.');
+            throw new Exception('Unable to load font file. The file does not exists.');
         }
         $this->fonts[$name] = $fontPath;
         $this->activeFont = $fontPath;
@@ -174,8 +176,7 @@ class Picture
         $dstH = null,
         $srcW = null,
         $srcH = null
-    )
-    {
+    ) {
         $dstW = is_null($dstW) ? $pic->getWidth() : $dstW;
         $dstH = is_null($dstH) ? $pic->getHeight() : $dstH;
         $srcW = is_null($srcW) ? $pic->getWidth() : $srcW;
@@ -192,14 +193,14 @@ class Picture
      * @param      $yB
      * @param null $color
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     public function addRectangle($xA, $yA, $xB, $yB, $color = null)
     {
         if ($color === null) {
             $color = $this->activeColor;
             if ($color === null) {
-                throw new \Exception('No active color defined.');
+                throw new Exception('No active color defined.');
             }
         }
         imagefilledrectangle($this->picture, $xA, $yA, $xB, $yB, $color);
@@ -215,20 +216,20 @@ class Picture
      * @param null $color
      * @param null $font
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     public function write($message, $size, $x, $y, $angle = 0, $color = null, $font = null)
     {
         if ($color === null) {
             $color = $this->activeColor;
             if ($color === null) {
-                throw new \Exception('No active color defined.');
+                throw new Exception('No active color defined.');
             }
         }
         if ($font === null) {
             $font = $this->activeFont;
             if ($font === null) {
-                throw new \Exception('No active font defined.');
+                throw new Exception('No active font defined.');
             }
         }
         imagettftext($this->picture, $size, $angle, $x, $y, $color, $font, $message);
@@ -239,13 +240,13 @@ class Picture
      * @param      $file
      * @param bool $keepTrueColor
      * @return Picture
-     * @throws \Exception
+     * @throws Exception
      */
     public static function loadFile($file, $keepTrueColor = false)
     {
         $file = realpath($file);
         if ($file === false) {
-            throw new \Exception('Unable to load picture file. The file does not exists.');
+            throw new Exception('Unable to load picture file. The file does not exists.');
         }
 
         $sExtension = mb_strtolower(pathinfo($file, PATHINFO_EXTENSION));
@@ -275,8 +276,7 @@ class Picture
                 $picture = imagecreatefromxbm($file);
                 break;
             default:
-                throw new \Exception('Unknown extension of file when converting to PHP resource.');
-                break;
+                throw new Exception('Unknown extension of file when converting to PHP resource.');
         }
 
         if ($keepTrueColor) {
@@ -295,7 +295,7 @@ class Picture
     /**
      * @param      $type
      * @param null $filename
-     * @throws \Exception
+     * @throws Exception
      */
     public function downloadPicture($type, $filename = null)
     {
@@ -309,7 +309,7 @@ class Picture
 
     /**
      * @param $type
-     * @throws \Exception
+     * @throws Exception
      */
     public function showPicture($type)
     {
@@ -324,7 +324,7 @@ class Picture
     /**
      * @param $filename
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     public function savePicture($filename)
     {
@@ -338,7 +338,7 @@ class Picture
     /**
      * @param $type
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getMethod($type)
     {
@@ -367,8 +367,7 @@ class Picture
                 $method = 'imagexbm';
                 break;
             default:
-                throw new \Exception('Unknown picture type.');
-                break;
+                throw new Exception('Unknown picture type.');
         }
         return $method;
     }

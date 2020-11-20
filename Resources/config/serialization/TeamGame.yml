@@ -2,10 +2,10 @@ VideoGamesRecords\CoreBundle\Entity\TeamGame:
   attributes:
     game:
       groups:
-        - 'team.game'
+        - 'teamGame.game'
     team:
       groups:
-        - 'team.show'
+        - 'teamGame.team'
     pointChart:
       groups:
         - 'teamGame.pointChart'
@@ -13,7 +13,8 @@ VideoGamesRecords\CoreBundle\Entity\TeamGame:
       groups:
         - 'teamGame.pointChart'
     pointGame:
-      groups: []
+      groups:
+        - 'teamGame.pointChart'
     rankMedal:
       groups:
         - 'teamGame.medal'

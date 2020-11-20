@@ -8,9 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * PlayerChartStatus
  *
- * @ORM\Table(name="vgr_player_chart_status", indexes={@ORM\Index(name="idxIdStatus", columns={"idStatus"})})
+ * @ORM\Table(name="vgr_player_chart_status")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class PlayerChartStatus
 {
@@ -52,12 +51,20 @@ class PlayerChartStatus
     private $boolSendProof = 0;
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s [%s]', $this->getLabel(), $this->id);
+    }
+
+
+    /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -76,11 +83,10 @@ class PlayerChartStatus
 
     /**
      * Set label
-     *
      * @param string $label
      * @return $this
      */
-    public function setLabel($label)
+    public function setLabel(string $label)
     {
         $this->label = $label;
 
@@ -100,11 +106,10 @@ class PlayerChartStatus
 
     /**
      * Set boolRanking
-     *
      * @param integer $boolRanking
      * @return $this
      */
-    public function setBoolRanking($boolRanking)
+    public function setBoolRanking(int $boolRanking)
     {
         $this->boolRanking = $boolRanking;
         return $this;
@@ -123,11 +128,10 @@ class PlayerChartStatus
 
     /**
      * Set boolSendProof
-     *
      * @param integer $boolSendProof
      * @return $this
      */
-    public function setBoolSendProof($boolSendProof)
+    public function setBoolSendProof(int $boolSendProof)
     {
         $this->boolSendProof = $boolSendProof;
         return $this;

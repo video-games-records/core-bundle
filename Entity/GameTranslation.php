@@ -45,7 +45,7 @@ class GameTranslation implements TranslationInterface
      * @param string $name
      * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -64,7 +64,7 @@ class GameTranslation implements TranslationInterface
      * @param string $rules
      * @return $this
      */
-    public function setRules($rules)
+    public function setRules(string $rules)
     {
         $this->rules = $rules;
 

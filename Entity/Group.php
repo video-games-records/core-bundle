@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -17,7 +16,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 /**
  * Group
  *
- * @ORM\Table(name="vgr_group", indexes={@ORM\Index(name="idxIdGame", columns={"idGame"}), @ORM\Index(name="idxBoolDlc", columns={"boolDlc"})})
+ * @ORM\Table(name="vgr_group")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
  * @ApiResource(attributes={"order"={"translations.name": "ASC"}})
  * @method GroupTranslation translate(string $locale, bool $fallbackToDefault)
@@ -107,7 +106,7 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param integer $id
      * @return Group
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -126,7 +125,7 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param string $name
      * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->translate(null, false)->setName($name);
 
@@ -146,7 +145,7 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param boolean $boolDlc
      * @return Group
      */
-    public function setBoolDlc($boolDlc)
+    public function setBoolDlc(bool $boolDlc)
     {
         $this->boolDlc = $boolDlc;
 
@@ -167,7 +166,7 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param integer $nbChart
      * @return Group
      */
-    public function setNbChart($nbChart)
+    public function setNbChart(int $nbChart)
     {
         $this->nbChart = $nbChart;
 
@@ -188,7 +187,7 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param integer $nbPost
      * @return Group
      */
-    public function setNbPost($nbPost)
+    public function setNbPost(int $nbPost)
     {
         $this->nbPost = $nbPost;
 
@@ -209,7 +208,7 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param integer $nbPlayer
      * @return Group
      */
-    public function setNbPlayer($nbPlayer)
+    public function setNbPlayer(int $nbPlayer)
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -226,9 +225,9 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * Set game
-     * @param Game $game
-     * @return Group
+     * Set Game
+     * @param Game|null $game
+     * @return $this
      */
     public function setGame(Game $game = null)
     {

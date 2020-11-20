@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\DependencyInjection;
 
+use Exception;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -15,7 +16,9 @@ use Symfony\Component\DependencyInjection\Loader;
 class VideoGamesRecordsCoreExtension extends Extension
 {
     /**
-     * {@inheritdoc}
+     * @param array            $configs
+     * @param ContainerBuilder $container
+     * @throws Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {

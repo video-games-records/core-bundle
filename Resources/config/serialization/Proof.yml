@@ -1,0 +1,14 @@
+VideoGamesRecords\CoreBundle\Entity\Proof:
+  attributes:
+    id:
+      groups:
+        - 'proof.read'
+    picture:
+      groups:
+        - 'proof.read'
+    video:
+      groups:
+        - 'proof.read'
+    status:
+      groups:
+        - 'proof.read'

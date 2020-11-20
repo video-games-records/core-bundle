@@ -9,12 +9,30 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 /**
  * Team
  *
  * @ORM\Table(name="vgr_team")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener"})
+ * @ApiFilter(
+ *     GroupFilter::class,
+ *     arguments={
+ *         "parameterName": "groups",
+ *         "overrideDefaultGroups": false,
+ *         "whitelist": {
+ *             "team.rank.pointChart",
+ *             "team.rank.pointGame",
+ *             "team.rank.medal",
+ *             "team.rank.cup",
+ *             "team.rank.badge",
+ *             "team.players"
+ *         }
+ *     }
+ * )
  */
 class Team implements SluggableInterface, TimestampableInterface
 {
@@ -94,6 +112,13 @@ class Team implements SluggableInterface, TimestampableInterface
      * @ORM\Column(name="nbPlayer", type="integer", nullable=false)
      */
     private $nbPlayer = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbGame", type="integer", nullable=false)
+     */
+    private $nbGame = 0;
 
     /**
      * @var integer
@@ -216,6 +241,7 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", mappedBy="team")
+     * @ORM\OrderBy({"pseudo" = "ASC"})
      */
     private $players;
 
@@ -260,11 +286,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return Team
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -282,11 +307,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set libTeam
-     *
      * @param string $libTeam
      * @return Team
      */
-    public function setLibTeam($libTeam)
+    public function setLibTeam(string $libTeam)
     {
         $this->libTeam = $libTeam;
 
@@ -305,11 +329,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set tag
-     *
      * @param string $tag
      * @return Team
      */
-    public function setTag($tag)
+    public function setTag(string $tag)
     {
         $this->tag = $tag;
 
@@ -328,7 +351,7 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set leader
-     * @param Player $leader
+     * @param Player|null $leader
      * @return Team
      */
     public function setLeader(Player $leader = null)
@@ -349,11 +372,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set siteWeb
-     *
      * @param string $siteWeb
      * @return Team
      */
-    public function setSiteWeb($siteWeb)
+    public function setSiteWeb(string $siteWeb)
     {
         $this->siteWeb = $siteWeb;
 
@@ -372,11 +394,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set logo
-     *
      * @param string $logo
      * @return Team
      */
-    public function setLogo($logo)
+    public function setLogo(string $logo)
     {
         $this->logo = $logo;
 
@@ -395,11 +416,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set commentaire
-     *
      * @param string $commentaire
      * @return Team
      */
-    public function setCommentaire($commentaire)
+    public function setCommentaire(string $commentaire)
     {
         $this->commentaire = $commentaire;
 
@@ -418,11 +438,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set status
-     *
      * @param string $status
      * @return Team
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
 
@@ -441,11 +460,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set nbPlayer
-     *
      * @param integer $nbPlayer
      * @return Team
      */
-    public function setNbPlayer($nbPlayer)
+    public function setNbPlayer(int $nbPlayer)
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -463,12 +481,33 @@ class Team implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * Set chartRank0
+     * Set nbGame
+     * @param integer $nbGame
+     * @return Team
+     */
+    public function setNbGame(int $nbGame)
+    {
+        $this->nbGame = $nbGame;
+
+        return $this;
+    }
+
+    /**
+     * Get nbGame
      *
+     * @return integer
+     */
+    public function getNbGame()
+    {
+        return $this->nbGame;
+    }
+
+    /**
+     * Set chartRank0
      * @param integer $chartRank0
      * @return Team
      */
-    public function setChartRank0($chartRank0)
+    public function setChartRank0(int $chartRank0)
     {
         $this->chartRank0 = $chartRank0;
 
@@ -487,11 +526,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set chartRank1
-     *
      * @param integer $chartRank1
      * @return Team
      */
-    public function setChartRank1($chartRank1)
+    public function setChartRank1(int $chartRank1)
     {
         $this->chartRank1 = $chartRank1;
 
@@ -510,11 +548,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set chartRank2
-     *
      * @param integer $chartRank2
      * @return Team
      */
-    public function setChartRank2($chartRank2)
+    public function setChartRank2(int $chartRank2)
     {
         $this->chartRank2 = $chartRank2;
 
@@ -533,11 +570,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set chartRank3
-     *
      * @param integer $chartRank3
      * @return Team
      */
-    public function setChartRank3($chartRank3)
+    public function setChartRank3(int $chartRank3)
     {
         $this->chartRank3 = $chartRank3;
 
@@ -556,11 +592,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set pointChart
-     *
      * @param integer $pointChart
      * @return Team
      */
-    public function setPointChart($pointChart)
+    public function setPointChart(int $pointChart)
     {
         $this->pointChart = $pointChart;
 
@@ -579,11 +614,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set pointBadge
-     *
      * @param integer $pointBadge
      * @return Team
      */
-    public function setPointBadge($pointBadge)
+    public function setPointBadge(int $pointBadge)
     {
         $this->pointBadge = $pointBadge;
 
@@ -602,11 +636,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set rankPointChart
-     *
      * @param integer $rankPointChart
      * @return Team
      */
-    public function setRankPointChart($rankPointChart)
+    public function setRankPointChart(int $rankPointChart)
     {
         $this->rankPointChart = $rankPointChart;
 
@@ -625,11 +658,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set rankMedal
-     *
      * @param integer $rankMedal
      * @return Team
      */
-    public function setRankMedal($rankMedal)
+    public function setRankMedal(int $rankMedal)
     {
         $this->rankMedal = $rankMedal;
 
@@ -648,11 +680,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set rankBadge
-     *
      * @param integer $rankBadge
      * @return Team
      */
-    public function setRankBadge($rankBadge)
+    public function setRankBadge(int $rankBadge)
     {
         $this->rankBadge = $rankBadge;
 
@@ -671,11 +702,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set rankCup
-     *
      * @param integer $rankCup
      * @return Team
      */
-    public function setRankCup($rankCup)
+    public function setRankCup(int $rankCup)
     {
         $this->rankCup = $rankCup;
 
@@ -694,11 +724,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set gameRank0
-     *
      * @param integer $gameRank0
      * @return Team
      */
-    public function setGameRank0($gameRank0)
+    public function setGameRank0(int $gameRank0)
     {
         $this->gameRank0 = $gameRank0;
 
@@ -717,11 +746,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set gameRank1
-     *
      * @param integer $gameRank1
      * @return Team
      */
-    public function setGameRank1($gameRank1)
+    public function setGameRank1(int $gameRank1)
     {
         $this->gameRank1 = $gameRank1;
 
@@ -740,11 +768,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set gameRank2
-     *
      * @param integer $gameRank2
      * @return Team
      */
-    public function setGameRank2($gameRank2)
+    public function setGameRank2(int $gameRank2)
     {
         $this->gameRank2 = $gameRank2;
 
@@ -763,11 +790,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set gameRank3
-     *
      * @param integer $gameRank3
      * @return Team
      */
-    public function setGameRank3($gameRank3)
+    public function setGameRank3(int $gameRank3)
     {
         $this->gameRank3 = $gameRank3;
 
@@ -787,11 +813,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set nbMasterBadge
-     *
      * @param integer $nbMasterBadge
      * @return Team
      */
-    public function setNbMasterBadge($nbMasterBadge)
+    public function setNbMasterBadge(int $nbMasterBadge)
     {
         $this->nbMasterBadge = $nbMasterBadge;
 
@@ -810,11 +835,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set pointGame
-     *
      * @param integer $pointGame
      * @return Team
      */
-    public function setPointGame($pointGame)
+    public function setPointGame(int $pointGame)
     {
         $this->pointGame = $pointGame;
 
@@ -833,11 +857,10 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * Set rankPointGame
-     *
      * @param integer $rankPointGame
      * @return Team
      */
-    public function setRankPointGame($rankPointGame)
+    public function setRankPointGame(int $rankPointGame)
     {
         $this->rankPointGame = $rankPointGame;
 
@@ -883,7 +906,7 @@ class Team implements SluggableInterface, TimestampableInterface
      */
     public function isOpened()
     {
-        return ($this->getStatus()== self::STATUS_OPENED) ? true : false;
+        return ($this->getStatus() == self::STATUS_OPENED);
     }
 
     /**

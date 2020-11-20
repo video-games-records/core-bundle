@@ -15,7 +15,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_chart", indexes={@ORM\Index(name="idxIdGroup", columns={"idGroup"}), @ORM\Index(name="idxStatusPlayer", columns={"statusPlayer"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"}), @ORM\Index(name="idxStatusTeam", columns={"statusTeam"})})
+ * @ORM\Table(name="vgr_chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
  * @method ChartTranslation translate(string $locale, bool $fallbackToDefault)
  */
@@ -73,18 +73,22 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     private $group;
 
     /**
-     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\ChartLib[]
-     *
+     * @var ArrayCollection|ChartLib[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $libs;
 
     /**
-     * @var ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[]
-     *
+     * @var ArrayCollection|PlayerChart[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart")
      */
     private $playerCharts;
+
+    /**
+     * @var ArrayCollection|LostPosition[]
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="chart")
+     */
+    private $lostPositions;
 
     /**
      * Shortcut to playerChart.rank = 1
@@ -124,12 +128,23 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
+     * @param string $locale
+     * @return string
+     */
+    public function getCompleteName($locale = 'en')
+    {
+        return $this->getGroup()->getGame()->translate($locale, false)->getName() . ' - ' .
+            $this->getGroup()->translate($locale, false)->getName() . ' - ' .
+            $this->translate($locale, false)->getName();
+    }
+
+    /**
      * Set idChart
      *
      * @param integer $id
      * @return Chart
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -150,7 +165,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param string $name
      * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->translate(null, false)->setName($name);
 
@@ -171,7 +186,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param string $statusPlayer
      * @return Chart
      */
-    public function setStatusPlayer($statusPlayer)
+    public function setStatusPlayer(string $statusPlayer)
     {
         $this->statusPlayer = $statusPlayer;
         return $this;
@@ -193,7 +208,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param string $statusTeam
      * @return Chart
      */
-    public function setStatusTeam($statusTeam)
+    public function setStatusTeam(string $statusTeam)
     {
         $this->statusTeam = $statusTeam;
         return $this;
@@ -210,7 +225,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[]
+     * @return ArrayCollection|PlayerChart[]
      */
     public function getPlayerCharts()
     {
@@ -218,8 +233,15 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\PlayerChart[] $playerCharts
-     *
+     * @return ArrayCollection|LostPosition[]
+     */
+    public function getLostPositions()
+    {
+        return $this->lostPositions;
+    }
+
+    /**
+     * @param ArrayCollection|PlayerChart[] $playerCharts
      * @return Chart
      */
     public function setPlayerCharts($playerCharts)
@@ -235,7 +257,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @param integer $nbPost
      * @return Chart
      */
-    public function setNbPost($nbPost)
+    public function setNbPost(int $nbPost)
     {
         $this->nbPost = $nbPost;
         return $this;
@@ -253,8 +275,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
 
     /**
      * Set group
-     *
-     * @param Group $group
+     * @param Group|null $group
      * @return Chart
      */
     public function setGroup(Group $group = null)
@@ -294,7 +315,7 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @return ArrayCollection|\VideoGamesRecords\CoreBundle\Entity\ChartLib[]
+     * @return ArrayCollection|ChartLib[]
      */
     public function getLibs()
     {
@@ -332,6 +353,22 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     public function getPlayerChartP()
     {
         return $this->playerChartP;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return sprintf(
+            '%s-game-g%d/%s-group-g%d/%s-chart-c%d/index',
+            $this->getGroup()->getGame()->getSlug(),
+            $this->getGroup()->getGame()->getId(),
+            $this->getGroup()->getSlug(),
+            $this->getGroup()->getId(),
+            $this->getSlug(),
+            $this->getId()
+        );
     }
 
     /**

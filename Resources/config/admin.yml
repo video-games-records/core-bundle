@@ -1,5 +1,5 @@
 services:
-    sonata.admin.vgr.core.serie:
+    sonata.admin.vgr.serie:
         class: VideoGamesRecords\CoreBundle\Admin\SerieAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.serie" }
@@ -7,17 +7,17 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Serie
             - ~
-    sonata.admin.vgr.core.game:
+    sonata.admin.vgr.game:
         class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.game" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Game
-            - ~
+            - VideoGamesRecords\CoreBundle\Controller\GameAdminController
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:game_show.html.twig']]
-    sonata.admin.vgr.core.group:
+    sonata.admin.vgr.group:
         class: VideoGamesRecords\CoreBundle\Admin\GroupAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.group" }
@@ -25,7 +25,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Group
             - ~
-    sonata.admin.vgr.core.chart:
+    sonata.admin.vgr.chart:
         class: VideoGamesRecords\CoreBundle\Admin\ChartAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.chart" }
@@ -33,7 +33,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Chart
             - ~
-    sonata.admin.vgr.core.chart_type:
+    sonata.admin.vgr.chart_type:
         class: VideoGamesRecords\CoreBundle\Admin\ChartTypeAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.chart.type" }
@@ -41,7 +41,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ChartType
             - ~
-    sonata.admin.vgr.core.chart_lib:
+    sonata.admin.vgr.chart_lib:
         class: VideoGamesRecords\CoreBundle\Admin\ChartLibAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.chart.lib", show_in_dashboard: false }
@@ -49,7 +49,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ChartLib
             - ~
-    sonata.admin.vgr.core.platform:
+    sonata.admin.vgr.platform:
         class: VideoGamesRecords\CoreBundle\Admin\PlatformAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.platform" }
@@ -57,7 +57,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Platform
             - ~
-    sonata.admin.vgr.core.player:
+    sonata.admin.vgr.player:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.player" }
@@ -65,7 +65,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Player
             - ~
-    sonata.admin.vgr.core.game_topic:
+    sonata.admin.vgr.game_topic:
         class: VideoGamesRecords\CoreBundle\Admin\GameTopicAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games.messages", label: "label.topic" }
@@ -73,7 +73,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\GameTopic
             - ~
-    sonata.admin.vgr.core.game_message:
+    sonata.admin.vgr.game_message:
         class: VideoGamesRecords\CoreBundle\Admin\GameMessageAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.games.messages", label: "label.message" }
@@ -81,7 +81,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\GameMessage
             - ~
-    sonata.admin.vgr.core.playerchart:
+    sonata.admin.vgr.playerchart:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerChartAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.scores", label: "label.playerChart" }
@@ -89,7 +89,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\PlayerChart
             - ~
-    sonata.admin.vgr.core.playerchart_lib:
+    sonata.admin.vgr.playerchart_lib:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.scores", label: "label.playerChartLib", show_in_dashboard: false }
@@ -97,7 +97,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\PlayerChartLib
             - ~
-    sonata.admin.team:
+    sonata.admin.vgr.team:
         class: VideoGamesRecords\CoreBundle\Admin\TeamAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.team" }
@@ -105,7 +105,15 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Team
             - ~
-    sonata.admin.proof.request:
+    sonata.admin.vgr.team.request:
+        class: VideoGamesRecords\CoreBundle\Admin\TeamRequestAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.request" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\TeamRequest
+            - ~
+    sonata.admin.vgr.proof.request:
         class: VideoGamesRecords\CoreBundle\Admin\ProofRequestAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.proofs", label: "label.request" }
@@ -113,7 +121,9 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ProofRequest
             - ~
-    sonata.admin.proof.proof:
+        calls:
+            - [ setMessager, ['@ProjetNormandie\MessageBundle\Service\Messager']]
+    sonata.admin.vgr.proof.proof:
         class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.proofs", label: "label.proof" }
@@ -123,7 +133,8 @@ services:
             - ~
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:proof_show.html.twig']]
-    osnata.admin.proof.picture:
+            - [ setMessager, ['@ProjetNormandie\MessageBundle\Service\Messager']]
+    sonata.admin.vgr.proof.picture:
         class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.proofs", label: "label.picture" }
@@ -133,7 +144,7 @@ services:
             - ~
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:picture_show.html.twig']]
-    sonata.admin.proof.video:
+    sonata.admin.vgr.proof.video:
         class: VideoGamesRecords\CoreBundle\Admin\VideoAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.proofs", label: "label.video" }

@@ -1,0 +1,16 @@
+ProjetNormandie\UserBundle\Entity\User:
+  attributes:
+    id:
+      groups:
+        - 'vgr.user.read'
+    username:
+      groups:
+        - 'vgr.user.read'
+    lastLogin:
+      groups:
+        - 'vgr.user.read'
+    createdAt:
+      groups:
+        - 'vgr.user.read'
+
+

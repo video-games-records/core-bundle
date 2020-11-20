@@ -1,11 +1,11 @@
 {% extends base_template %}
 
 {% block title %}
-    {{ 'title_show'|trans({'%name%': admin.toString(object)|truncate(15) }, 'SonataAdminBundle') }}
+    {{ 'title_show'|trans({'%name%': admin.toString(object)|sonata_truncate(15) }, 'SonataAdminBundle') }}
 {% endblock %}
 
 {% block navbar_title %}
-    {{ 'title_show'|trans({'%name%': admin.toString(object)|truncate(100) }, 'SonataAdminBundle') }}
+    {{ 'title_show'|trans({'%name%': admin.toString(object)|sonata_truncate(100) }, 'SonataAdminBundle') }}
 {% endblock %}
 
 {%- block actions -%}
@@ -96,7 +96,7 @@
                                             {% if elements[field_name] is defined %}
                                                 {% if field_name == 'id' %}
                                                     <th>id({{ object.getId() }})</th>
-                                                    <td><img src="{{ path('vgr_core_picture_index',{'id': object.getId()}) }}" /></td>
+                                                    <td><img src="{{ path('vgr_core_picture_index',{'id': object.getId()}) }}" alt="" /></td>
                                                 {%  else %}
                                                     {{ elements[field_name]|render_view_element(object) }}
                                                 {% endif %}

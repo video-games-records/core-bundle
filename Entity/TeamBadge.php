@@ -2,16 +2,24 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Entity\BadgeInterface as Badge;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
- * TeamGame
+ * TeamBadge
  *
- * @ORM\Table(name="vgr_team_badge", indexes={@ORM\Index(name="idxIdBadge", columns={"idBadge"}), @ORM\Index(name="idxIdTeam", columns={"idTeam"})})
+ * @ORM\Table(name="vgr_team_badge")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository")
+ * @ApiFilter(SearchFilter::class, properties={"team": "exact"})
+ * @ApiFilter(DateFilter::class, properties={"ended_at": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
+ * @ApiResource(attributes={"order"={"badge.type", "badge.value"}})
  */
 class TeamBadge implements TimestampableInterface
 {
@@ -27,7 +35,7 @@ class TeamBadge implements TimestampableInterface
     private $id;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="ended_at", type="datetime", nullable=true)
      */
@@ -51,7 +59,7 @@ class TeamBadge implements TimestampableInterface
     private $team;
 
     /**
-     * @var Badge
+     * @var BadgeInterface
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\BadgeInterface", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -62,11 +70,10 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -85,11 +92,10 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set ended_at
-     *
-     * @param \DateTime $ended_at
+     * @param DateTime $ended_at
      * @return $this
      */
-    public function setEndedAt($ended_at)
+    public function setEndedAt(DateTime $ended_at)
     {
         $this->ended_at = $ended_at;
 
@@ -99,7 +105,7 @@ class TeamBadge implements TimestampableInterface
     /**
      * Get ended_at
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEndedAt()
     {
@@ -108,11 +114,10 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set mbOrder
-     *
      * @param integer $mbOrder
      * @return $this
      */
-    public function setMbOrder($mbOrder)
+    public function setMbOrder(int $mbOrder)
     {
         $this->mbOrder = $mbOrder;
 
@@ -133,10 +138,10 @@ class TeamBadge implements TimestampableInterface
     /**
      * Set badge
      *
-     * @param Badge $badge
+     * @param $badge
      * @return $this
      */
-    public function setBadge(Badge $badge = null)
+    public function setBadge($badge = null)
     {
         $this->badge = $badge;
         return $this;
@@ -145,7 +150,7 @@ class TeamBadge implements TimestampableInterface
     /**
      * Get badge
      *
-     * @return Badge
+     * @return BadgeInterface
      */
     public function getBadge()
     {
@@ -155,8 +160,7 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set team
-     *
-     * @param Team $team
+     * @param Team|object|null $team
      * @return $this
      */
     public function setTeam(Team $team = null)

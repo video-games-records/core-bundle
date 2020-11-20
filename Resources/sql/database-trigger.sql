@@ -7,13 +7,13 @@ BEGIN
     -- ROLE PLAYER
     INSERT INTO user_group (userId, groupId) VALUE (NEW.id, 2);
     -- Player
-    INSERT INTO vgr_player (pseudo, normandie_user_id) values (NEW.username, NEW.id);
+    INSERT INTO vgr_player (id, pseudo, normandie_user_id, slug) values (NEW.id, NEW.username, NEW.id, NEW.slug);
 END //
 delimiter ;
 
 delimiter //
 DROP TRIGGER IF EXISTS `userAfterUpdate`//
-CREATE TRIGGER `userAfterUpdate` AFTER INSERT ON `user`
+CREATE TRIGGER `userAfterUpdate` AFTER UPDATE ON `user`
 FOR EACH ROW
 BEGIN
     -- Player
@@ -21,23 +21,10 @@ BEGIN
     SET
         pseudo = NEW.username,
         avatar = NEW.avatar,
-        idCountry = NEW .idCountry
+        idCountry = NEW.idCountry
     WHERE normandie_user_id = NEW.id;
 END //
 delimiter ;
-
-
--- Team
-delimiter //
-DROP TRIGGER IF EXISTS `teamAfterInsert`//
-CREATE TRIGGER `teamAfterInsert` AFTER INSERT ON `vgr_team`
-FOR EACH ROW
-BEGIN
-    -- Player
-    UPDATE vgr_player SET idTeam = NEW.id WHERE id = NEW.idLeader;
-END //
-delimiter ;
-
 
 
 -- PlayerChart
@@ -54,20 +41,6 @@ BEGIN
 	UPDATE vgr_player
 	SET nbChart = (SELECT COUNT(idChart) FROM vgr_player_chart WHERE idPlayer = NEW.idPlayer)
 	WHERE id = NEW.idPlayer;
-END //
-delimiter ;
-
-
-delimiter //
-DROP TRIGGER IF EXISTS `vgrChartPlayerBeforeUpdate`//
-CREATE TRIGGER vgrChartPlayerBeforeUpdate BEFORE UPDATE ON vgr_player_chart
-FOR EACH ROW
-BEGIN
-	IF NEW.idStatus = 7 THEN
-		SET NEW.pointChart = 0;
-		SET NEW.rank = 0;
-		SET NEW.isTopScore = 0;
-	END IF;
 END //
 delimiter ;
 
@@ -258,6 +231,19 @@ END //
 delimiter ;
 
 
+-- Player
+delimiter //
+DROP TRIGGER IF EXISTS `vgrPlayerAfterInsert`//
+CREATE TRIGGER `vgrPlayerAfterInsert` AFTER INSERT ON `vgr_player`
+    FOR EACH ROW
+BEGIN
+    -- BADGE INSCRIPTION
+    INSERT INTO vgr_player_badge (idPlayer, idBadge) VALUES (NEW.id, 1);
+
+END //
+delimiter ;
+
+
 delimiter //
 DROP TRIGGER IF EXISTS `vgrPlayerAfterUpdate`//
 CREATE TRIGGER vgrPlayerAfterUpdate AFTER UPDATE ON vgr_player
@@ -299,12 +285,27 @@ CREATE TRIGGER vgrGamePlatformAfterDelete AFTER DELETE ON vgr_game_platform
 delimiter ;
 
 
+-- VideoComment
 delimiter //
-DROP TRIGGER IF EXISTS `vgrProofRequestAfterInsert`//
-CREATE TRIGGER vgrProofRequestAfterInsert AFTER INSERT ON vgr_proof_request
-FOR EACH ROW
-UPDATE vgr_player_chart
-SET idStatus = 2
-WHERE id = NEW.idPlayerChart //
+DROP TRIGGER IF EXISTS `vgrVideoCommentAfterInsert`//
+CREATE TRIGGER vgrVideoCommentAfterInsert AFTER INSERT ON vgr_video_comment
+    FOR EACH ROW
+BEGIN
+    UPDATE vgr_video
+    SET nbComment = (SELECT COUNT(id) FROM vgr_video_comment WHERE idVideo = NEW.idVideo)
+    WHERE id = NEW.idVideo;
+END //
 delimiter ;
+
+delimiter //
+DROP TRIGGER IF EXISTS `vgrVideoCommentAfterDelete`//
+CREATE TRIGGER vgrVideoCommentAfterDelete AFTER DELETE ON vgr_video_comment
+    FOR EACH ROW
+BEGIN
+    UPDATE vgr_video
+    SET nbComment = (SELECT COUNT(id) FROM vgr_video_comment WHERE idVideo = OLD.idVideo)
+    WHERE id = OLD.idVideo;
+END //
+delimiter ;
+
 

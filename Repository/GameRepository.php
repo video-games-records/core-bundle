@@ -5,12 +5,17 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\DBAL\DBALException;
 
 class GameRepository extends EntityRepository
 {
 
     /**
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function getStats()
     {
@@ -29,9 +34,9 @@ class GameRepository extends EntityRepository
      * @param string $letter
      * @param string $locale
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
-    public function findWithLetter($letter, $locale)
+    public function findWithLetter(string $letter, string $locale = 'en')
     {
         $query = $this->createQueryBuilder('g')
             ->addSelect('translation');
@@ -63,7 +68,7 @@ class GameRepository extends EntityRepository
      * @param int $idSerie
      * @return array
      */
-    public function findSerieGames($idSerie)
+    public function findSerieGames(int $idSerie)
     {
         $query = $this->createQueryBuilder('g');
         $query
@@ -77,9 +82,30 @@ class GameRepository extends EntityRepository
     }
 
     /**
+     * @param        $player
+     * @param string $locale
+     * @return int|mixed|string
+     */
+    public function findFromlostPosition($player, $locale = 'en')
+    {
+        $query = $this->createQueryBuilder('game');
+        $query
+            ->addSelect('translation')
+            ->innerJoin('game.translations', 'translation')
+            ->innerJoin('game.groups', 'group')
+            ->innerJoin('group.charts', 'chart')
+            ->innerJoin('chart.lostPositions', 'lostPosition')
+            ->where('lostPosition.player = :player')
+            ->setParameter('player', $player)
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('locale', $locale)
+            ->orderBy('translation.name', 'ASC');
+        return $query->getQuery()->getResult();
+    }
+
+    /**
      * Requires only active games.
-     *
-     * @param \Doctrine\ORM\QueryBuilder $query
+     * @param QueryBuilder $query
      */
     private function onlyActive(QueryBuilder $query)
     {
@@ -90,8 +116,7 @@ class GameRepository extends EntityRepository
 
     /**
      * Adds platforms in the output to fasten display.
-     *
-     * @param \Doctrine\ORM\QueryBuilder $query
+     * @param QueryBuilder $query
      */
     private function withPlatforms(QueryBuilder $query)
     {
@@ -129,5 +154,15 @@ class GameRepository extends EntityRepository
         }
 
         return $data;
+    }
+
+    /**
+     * @param $id
+     * @throws DBALException
+     */
+    public function copy($id)
+    {
+        $sql = sprintf("call copy_game (%d);", $id);
+        $this->_em->getConnection()->executeUpdate($sql);
     }
 }

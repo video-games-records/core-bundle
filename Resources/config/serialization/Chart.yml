@@ -4,6 +4,7 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
       groups:
         - 'chart.list'
         - 'chart.read'
+        - 'chart.read.mini'
     group:
       groups:
         - 'chart.group'
@@ -22,10 +23,12 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
       groups:
         - 'chart.list'
         - 'chart.read'
+        - 'chart.read.mini'
     slug:
       groups:
         - 'chart.list'
         - 'chart.read'
+        - 'chart.read.mini'
     statusPlayer:
       groups: []
     statusTeam:

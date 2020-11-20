@@ -2,9 +2,10 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,17 +17,20 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
+use Aws\S3\S3Client;
+use Eko\FeedBundle\Feed\FeedManager;
 
 /**
  * Class PlayerChartController
  * @Route("/player-chart")
  */
-class PlayerChartController extends Controller
+class PlayerChartController extends AbstractController
 {
-
-    private $em;
     private $userManager;
+    private $s3client;
+    protected $feedManager;
 
     private $extensions = array(
         'text/plain' => '.txt',
@@ -34,15 +38,22 @@ class PlayerChartController extends Controller
         'image/jpeg' => '.jpg',
     );
 
-    public function __construct(UserManagerInterface $userManager, EntityManagerInterface $em)
-    {
+    public function __construct(
+        UserManagerInterface $userManager,
+        S3Client $s3client,
+        FeedManager $feedManager
+    ) {
         $this->userManager = $userManager;
-        $this->em = $em;
+        $this->s3client = $s3client;
+        $this->feedManager = $feedManager;
     }
 
-    public function getPlayer()
+    /**
+     * @return mixed
+     */
+    private function getPlayer()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
+        return  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
             ->getPlayerFromUser($this->getUser());
     }
 
@@ -56,11 +67,12 @@ class PlayerChartController extends Controller
         $data = json_decode($request->getContent(), true);
         $idGame = $data['idGame'];
         $idPlatform = $data['idPlatform'];
+        $em = $this->getDoctrine()->getManager();
 
         $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majPlatform(
             $this->getPlayer(),
-            $this->em->getReference(Game::class, $idGame),
-            $this->em->getReference(Platform::class, $idPlatform)
+            $em->getReference(Game::class, $idGame),
+            $em->getReference(Platform::class, $idPlatform)
         );
         return new JsonResponse(['data' => true]);
     }
@@ -68,7 +80,8 @@ class PlayerChartController extends Controller
     /**
      * @Route("/top-score", name="playerChart_top_score", methods={"GET"})
      * @Cache(smaxage="10")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @return Response
      */
     public function rssAction(Request $request)
     {
@@ -77,7 +90,7 @@ class PlayerChartController extends Controller
 
         $playerCharts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->rssTopScore($idGame, $idGroup);
 
-        $feed = $this->get('eko_feed.feed.manager')->get('player.chart.high.scores');
+        $feed = $this->feedManager->get('player.chart.high.scores');
 
         // Add prefixe link
         foreach ($playerCharts as $playerChart) {
@@ -93,7 +106,7 @@ class PlayerChartController extends Controller
      * @param PlayerChart $playerChart
      * @param Request     $request
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function sendPicture(PlayerChart $playerChart, Request $request)
     {
@@ -132,8 +145,7 @@ class PlayerChartController extends Controller
             ];
             $key = $idPlayer . '/' . $idGame . '/'. uniqid() . $this->extensions[$meta['mediatype']];
 
-            $s3 = $this->get('aws.s3');
-            $s3->putObject([
+            $this->s3client->putObject([
                 'Bucket' => $_ENV['AWS_BUCKET_PROOF'],
                 'Key'    => $key,
                 'Body'   => $fp,
@@ -184,5 +196,83 @@ class PlayerChartController extends Controller
         ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    /**
+     * @param PlayerChart $playerChart
+     * @param Request     $request
+     * @return Response
+     * @throws AccessDeniedException
+     */
+    public function sendVideo(PlayerChart $playerChart, Request $request)
+    {
+        if ($playerChart->getPlayer() != $this->getPlayer()) {
+            throw new AccessDeniedException('ACESS DENIED');
+        }
+        if (!in_array($playerChart->getStatus()->getId(), PlayerChartStatus::getStatusForProving())) {
+            throw new AccessDeniedException('ACESS DENIED');
+        }
+
+        $id = $playerChart->getId();
+
+        $data = json_decode($request->getContent(), true);
+        $url = $data['url'];
+
+        $video = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Video')->findOneBy(
+            array(
+                'url' => $url,
+            )
+        );
+
+        $em = $this->getDoctrine()->getManager();
+
+        if ($video == null) {
+            //-- Video
+            $video = new Video();
+            $video->setUrl($url);
+            $video->setPlayer($this->getPlayer());
+            $video->setGame($playerChart->getChart()->getGroup()->getGame());
+            $video->setLibVideo($playerChart->getChart()->getCompleteName('en'));
+            $em->persist($video);
+        }
+
+        //-- Proof
+        $proof = new Proof();
+        $proof->setVideo($video);
+        $em->persist($proof);
+
+        //-- PlayerChart
+        $playerChart->setProof($proof);
+        if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
+            // NORMAL TO NORMAL_SEND_PROOF
+            $playerChart->setStatus(
+                $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
+            );
+        } else {
+            // INVESTIGATION TO DEMAND_SEND_PROOF
+            $playerChart->setStatus(
+                $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF)
+            );
+        }
+        $em->flush();
+
+        $response = new Response();
+        $response->setContent(json_encode([
+            'id' => $id,
+            'url' => $url,
+        ]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function last(Request $request)
+    {
+        $locale = $request->getLocale();
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getLast($locale);
     }
 }

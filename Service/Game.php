@@ -2,21 +2,23 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
+use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Game as GameEntity;
 use VideoGamesRecords\CoreBundle\Entity\ChartType;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Game
 {
     private $em;
     private $directory;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em, $rootDir)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em        = $em;
-        $this->directory = $rootDir . '/../var/data/game';
+        $this->directory = '.';
     }
 
     /**
@@ -26,6 +28,7 @@ class Game
      * game;label EN;label FR
      * group;labelGroup EN;labelGroup FR;1
      * chart;labelChart EN;labelChart FR;10
+     * @throws ORMException
      */
     public function addFromCsv()
     {
@@ -51,7 +54,7 @@ class Game
                 continue;
             }
 
-            /** @var \VideoGamesRecords\CoreBundle\Entity\Game $game */
+            /** @var GameEntity $game */
             $game = $this->em->getReference(GameEntity::class, $idGame);
 
             if ($game === null) {
@@ -161,7 +164,7 @@ class Game
     /**
      *
      */
-    public function majRank()
+    public function majChartRank()
     {
         $games = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(array('boolMaj' => true));
         foreach ($games as $game) {

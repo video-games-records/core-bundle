@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -24,7 +25,7 @@ class ChartAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_chart';
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -33,7 +34,19 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ProxyQueryInterface $query
+     * @return ProxyQueryInterface
+     */
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+            ->addSelect('t');
+        return $query;
+    }
+
+    /**
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -84,7 +97,7 @@ class ChartAdmin extends AbstractAdmin
             $formMapper
                 ->add(
                     'statusPlayer',
-                    CheckboxType::class,
+                    ChoiceType::class,
                     array(
                         'label' => 'Status Player',
                         'choices' => Chart::getStatusChoices()
@@ -93,7 +106,7 @@ class ChartAdmin extends AbstractAdmin
             $formMapper
                 ->add(
                     'statusTeam',
-                    CheckboxType::class,
+                    ChoiceType::class,
                     array(
                         'label' => 'Status Team',
                         'choices' => Chart::getStatusChoices()
@@ -104,7 +117,8 @@ class ChartAdmin extends AbstractAdmin
         $formMapper
             ->add('libs', CollectionType::class, array(
                 'by_reference' => false,
-                'help' => (($this->isCurrentRoute('create')) ? 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
+                'help' => (($this->isCurrentRoute('create')) ?
+                    'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
                 'type_options' => array(
                     // Prevents the "Delete" option from being displayed
                     'delete' => true,
@@ -125,13 +139,13 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
-            ->add('translations.name')
+            ->add('translations.name', null, ['label' => 'Name'])
             ->add('group', ModelAutocompleteFilter::class, array(), null, array(
                 'property' => 'translations.name',
             ))
@@ -140,7 +154,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -161,7 +175,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -175,7 +189,7 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Chart $object
+     * @param $object
      */
     public function prePersist($object)
     {

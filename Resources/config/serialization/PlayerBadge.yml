@@ -1,0 +1,11 @@
+VideoGamesRecords\CoreBundle\Entity\PlayerBadge:
+  attributes:
+    badge:
+      groups:
+        - 'playerBadge.badge'
+    createdAt:
+      groups:
+        - 'playerBadge.read'
+    endedAt:
+      groups:
+        - 'playerBadge.read'

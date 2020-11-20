@@ -8,20 +8,28 @@ VideoGamesRecords\CoreBundle\Entity\Video:
         - 'video.read'
         - 'video.post'
         - 'video.put'
+    slug:
+      groups:
+        - 'video.read'
     status:
       groups:
         - 'video.read'
     type:
       groups:
         - 'video.read'
-    url:
+    videoId:
       groups:
         - 'video.read'
+    url:
+      groups:
         - 'video.post'
     tag:
       groups:
         - 'video.post'
         - 'video.put'
+    nbComment:
+      groups:
+        - 'video.read'
     game:
       groups:
         - 'video.read'
@@ -29,4 +37,6 @@ VideoGamesRecords\CoreBundle\Entity\Video:
     player:
       groups:
         - 'video.read'
-        - 'video.post'
+    createdAt:
+      groups:
+        - 'video.read'

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\VideoGamesRecords\CoreBundle\Tests\Tools;
+namespace VideoGamesRecords\CoreBundle\Tests\Tools;
 
 use PHPUnit\Framework\TestCase;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -13,7 +13,7 @@ class RankingTest extends TestCase
      *
      * @param int $nbParticipant
      */
-    public function testChartPointProvider($nbParticipant)
+    public function testChartPointProvider(int $nbParticipant)
     {
         $pointsRanking = Ranking::chartPointProvider($nbParticipant);
         $this->assertCount($nbParticipant, $pointsRanking);

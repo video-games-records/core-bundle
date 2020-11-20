@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\VideoGamesRecords\CoreBundle\Tests\Tools;
+namespace VideoGamesRecords\CoreBundle\Tests\Tools;
 
 use PHPUnit\Framework\TestCase;
 use VideoGamesRecords\CoreBundle\Tools\Score;
@@ -14,31 +14,29 @@ class ScoreTest extends TestCase
      * @param string $scoreFormat
      * @param array $expected
      */
-    public function testParseLibRecord($scoreFormat, array $expected)
+    public function testParseLibRecord(string $scoreFormat, array $expected)
     {
         $this->assertSame($expected, Score::parseChartMask($scoreFormat));
     }
 
     /**
      * @dataProvider getValuesProvider
-     *
      * @param string $scoreFormat
-     * @param int $value
-     * @param array $expected
+     * @param int    $value
+     * @param array  $expected
      */
-    public function testGetValues($scoreFormat, $value, array $expected)
+    public function testGetValues(string $scoreFormat, int $value, array $expected)
     {
         $this->assertSame($expected, Score::getValues($scoreFormat, $value));
     }
 
     /**
      * @dataProvider formToBddProvider
-     *
-     * @param string $scoreFormat
-     * @param array $values
-     * @param string $expected
+     * @param string      $scoreFormat
+     * @param array       $values
+     * @param string|null $expected
      */
-    public function testFormToBdd($scoreFormat, array $values, $expected)
+    public function testFormToBdd(string $scoreFormat, array $values, string $expected = null)
     {
         $this->assertSame($expected, Score::formToBdd($scoreFormat, $values));
     }
@@ -46,10 +44,10 @@ class ScoreTest extends TestCase
     /**
      * @dataProvider formatScoreProvider
      * @param string $scoreFormat
-     * @param string $value
+     * @param $value
      * @param string $expected
      */
-    public function testFormatScore($scoreFormat, $value, $expected)
+    public function testFormatScore(string $scoreFormat, $value, string $expected)
     {
         $this->assertSame($expected, Score::formatScore($value, $scoreFormat));
     }
@@ -60,7 +58,10 @@ class ScoreTest extends TestCase
             ['30~,|2~ kg', [['size' => 30, 'suffixe' => ','], ['size' => 2, 'suffixe' => ' kg']]],
             ['30~,|2~', [['size' => 30, 'suffixe' => ','], ['size' => 2, 'suffixe' => '']]],
             ['30~ yd', [['size' => 30, 'suffixe' => ' yd']]],
-            ['30~ km |3~ m |2~ cm |1~ mm', [['size' => 30, 'suffixe' => ' km '], ['size' => 3, 'suffixe' => ' m '], ['size' => 2, 'suffixe' => ' cm '], ['size' => 1, 'suffixe' => ' mm'],]],
+            [
+                '30~ km |3~ m |2~ cm |1~ mm',
+                [['size' => 30, 'suffixe' => ' km '], ['size' => 3, 'suffixe' => ' m '], ['size' => 2, 'suffixe' => ' cm '], ['size' => 1, 'suffixe' => ' mm'],]
+            ],
         ];
     }
 

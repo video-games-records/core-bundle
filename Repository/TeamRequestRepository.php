@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\TeamRequest;
 
@@ -45,7 +46,7 @@ class TeamRequestRepository extends EntityRepository
      * @param $idPlayer
      * @param $idTeam
      * @return mixed
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
 
     public function getFromPlayerAndTeam($idPlayer, $idTeam)
@@ -66,7 +67,7 @@ class TeamRequestRepository extends EntityRepository
     /**
      * Requires only active requests.
      *
-     * @param \Doctrine\ORM\QueryBuilder $query
+     * @param QueryBuilder $query
      */
     private function onlyActive(QueryBuilder $query)
     {

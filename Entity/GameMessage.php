@@ -11,7 +11,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * GameMessage
  *
- * @ORM\Table(name="vgr_game_message", indexes={@ORM\Index(name="idxMessage", columns={"id"})})
+ * @ORM\Table(name="vgr_game_message")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameMessageRepository")
  */
 class GameMessage implements TimestampableInterface
@@ -61,7 +61,7 @@ class GameMessage implements TimestampableInterface
      * @param integer $id
      * @return GameMessage
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -83,7 +83,7 @@ class GameMessage implements TimestampableInterface
      * @param string $text
      * @return GameMessage
      */
-    public function setText($text)
+    public function setText(string $text)
     {
         $this->text = $text;
 
@@ -102,7 +102,7 @@ class GameMessage implements TimestampableInterface
 
     /**
      * Set topic
-     * @param GameTopic $topic
+     * @param GameTopic|null $topic
      * @return GameMessage
      */
     public function setTopic(GameTopic $topic = null)

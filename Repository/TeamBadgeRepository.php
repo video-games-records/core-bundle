@@ -2,9 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use VideoGamesRecords\CoreBundle\Entity\TeamBadge;
+use VideoGamesRecords\CoreBundle\Entity\TeamGame;
 
 class TeamBadgeRepository extends EntityRepository
 {
@@ -61,14 +64,14 @@ class TeamBadgeRepository extends EntityRepository
 
     /**
      * @param $game
-     * @throws \Exception
+     * @throws Exception
      */
     public function majMasterBadge($game)
     {
         //----- get ranking with maxRank = 1
         $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($game->getId(), 1);
         $teams = array();
-        /** @var \VideoGamesRecords\CoreBundle\Entity\TeamGame $teamGame */
+        /** @var TeamGame $teamGame */
         foreach ($ranking as $teamGame) {
             $teams[$teamGame->getTeam()->getId()] = 0;
         }
@@ -81,7 +84,7 @@ class TeamBadgeRepository extends EntityRepository
             $idTeam = $teamBadge->getTeam()->getId();
             //----- Remove badge
             if (!array_key_exists($idTeam, $teams)) {
-                $teamBadge->setEndedAt(new \DateTime());
+                $teamBadge->setEndedAt(new DateTime());
                 $this->_em->persist($teamBadge);
             }
             $teams[$idTeam] = 1;
@@ -99,7 +102,7 @@ class TeamBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder $query
+     * @param QueryBuilder $query
      */
     private function onlyActive(QueryBuilder $query)
     {

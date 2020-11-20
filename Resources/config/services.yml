@@ -8,54 +8,10 @@ services:
     VideoGamesRecords\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-#    VideoGamesRecords\CoreBundle\EventListener\Entity\DynamicRelationUser:
-#        arguments: []
-#        tags:
-#            - { name: doctrine.event_subscriber, connection: default }
     VideoGamesRecords\CoreBundle\Twig\VgrExtension:
         public: false
         tags:
             - { name: twig.extension }
-    entity.event_listener.playerchart_update:
-        class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartUpdateListener
-        tags:
-            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate}
-            - { name: doctrine.event_listener, event: postUpdate, method: postUpdate}
-    vgr.game:
-        public: true
-        class:    VideoGamesRecords\CoreBundle\Service\Game
-        arguments: [
-            "@=service('doctrine.orm.default_entity_manager')",
-            "%kernel.root_dir%"
-            ]
-    player.filter:
-        parent: 'api_platform.doctrine.orm.search_filter'
-        arguments: [ { player: ~ } ]
-        tags:  [ 'api_platform.filter' ]
-        public: true
-        autowire: true
-        autoconfigure: false
-    chart.filter:
-        parent: 'api_platform.doctrine.orm.search_filter'
-        arguments: [ { chart: ~ } ]
-        tags:  [ 'api_platform.filter' ]
-        public: true
-        autowire: true
-        autoconfigure: false
-    game.status_filter:
-        parent: 'api_platform.doctrine.orm.search_filter'
-        arguments: [ { status: ~ } ]
-        tags:  [ 'api_platform.filter' ]
-        public: true
-        autowire: true
-        autoconfigure: false
-    platform_filter:
-        parent: 'api_platform.doctrine.orm.search_filter'
-        arguments: [ { platforms: ~ } ]
-        tags:  [ 'api_platform.filter' ]
-        public: true
-        autowire: true
-        autoconfigure: false
     vgr.playerChartValueSubscriber:
         class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]

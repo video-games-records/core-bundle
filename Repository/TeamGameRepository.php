@@ -3,9 +3,13 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 
 /**
  * TeamGameRepository
@@ -15,11 +19,11 @@ class TeamGameRepository extends EntityRepository
 
     /**
      * @param Game $game
-     * @param int $maxRank
-     * @param Team $team
+     * @param null $maxRank
+     * @param null $team
      * @return array
      */
-    public function getRankingPoints($game, $maxRank = null, $team = null)
+    public function getRankingPoints(Game $game, $maxRank = null, $team = null)
     {
         $query = $this->createQueryBuilder('tg')
             ->join('tg.team', 't')
@@ -45,12 +49,12 @@ class TeamGameRepository extends EntityRepository
 
 
     /**
-     * @param Game $game
-     * @param int $maxRank
-     * @param Team $team
-     * @return array
+     * @param Game      $game
+     * @param null  $maxRank
+     * @param null $team
+     * @return int|mixed|string
      */
-    public function getRankingMedals($game, $maxRank = null, $team = null)
+    public function getRankingMedals(Game $game, $maxRank = null, $team = null)
     {
         $query = $this->createQueryBuilder('tg')
             ->join('tg.team', 't')
@@ -75,7 +79,10 @@ class TeamGameRepository extends EntityRepository
     }
 
     /**
-     * @param game
+     * @param $game
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws ExceptionInterface
      */
     public function maj($game)
     {

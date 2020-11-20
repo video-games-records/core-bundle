@@ -13,6 +13,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     picture:
       groups:
         - 'game.read'
+        - 'game.read.mini'
     groups:
       groups:
         - 'game.groups'
@@ -21,7 +22,9 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     etat:
       groups: []
     publishedAt:
-      groups: []
+      groups:
+        - 'game.list'
+        - 'game.read'
     boolDlc:
       groups: []
     boolRanking:
@@ -60,6 +63,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game.list'
         - 'game.read'
+        - 'game.read.mini'
     createdAt:
       groups: []
     updatedAt:

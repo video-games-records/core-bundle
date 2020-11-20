@@ -5,7 +5,7 @@ VideoGamesRecords\CoreBundle\Entity\TeamChart:
         - 'team.chart'
     team:
       groups:
-        - 'team.show'
+        - 'teamChart.team'
     pointChart:
       groups:
         - 'teamChart.pointChart'

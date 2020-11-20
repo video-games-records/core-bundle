@@ -18,6 +18,9 @@ DROP TRIGGER IF EXISTS `tForumTopicAfterInsert`;
 DROP TRIGGER IF EXISTS `tForumTopicAfterUpdate`;
 DROP TRIGGER IF EXISTS `tForumMessageAfterDelete`;
 DROP TRIGGER IF EXISTS `tForumMessageAfterInsert`;
+DROP TRIGGER IF EXISTS `tDonAfterDelete`;
+DROP TRIGGER IF EXISTS `tDonAfterInsert`;
+DROP TRIGGER IF EXISTS `tDonAfterUpdate`;
 
 --
 DROP TRIGGER IF EXISTS `vgrDemandepreuveAfterInsert`;
@@ -250,7 +253,7 @@ ALTER TABLE vgr_game DROP libJeu_fr, DROP libJeu_en;
 
 
 -- Groups
-CREATE TABLE vgr_group_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX game_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+CREATE TABLE vgr_group_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX group_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 ALTER TABLE `vgr_group` CHANGE `idGroupe` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_group` CHANGE `idJeu` `idGame` INT(11) NOT NULL;
 ALTER TABLE `vgr_group` CHANGE `boolDLC` `boolDlc` TINYINT(1) NOT NULL;
@@ -291,7 +294,7 @@ INSERT INTO vgr_group_translation (translatable_id, name, locale) SELECT id, lib
 ALTER TABLE vgr_group DROP libGroupe_fr, DROP libGroupe_en;
 
 -- Charts
-CREATE TABLE vgr_chart_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX game_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+CREATE TABLE vgr_chart_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_6A3C076D2C2AC5D3 (translatable_id), UNIQUE INDEX chart_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 ALTER TABLE `vgr_chart` CHANGE `idRecord` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_chart` CHANGE `idGroupe` `idGroup` INT(11) NOT NULL;
 ALTER TABLE `vgr_chart` CHANGE `statut` `statusPlayer` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
@@ -551,9 +554,8 @@ ALTER TABLE `vgr_team_request` CHANGE `status` `status` ENUM('ACTIVE','ACCEPTED'
 CREATE TABLE user_group (userId INT NOT NULL, groupId INT NOT NULL, INDEX IDX_FE1D13664B64DCC (userId), INDEX IDX_FE1D136ED8188B0 (groupId), PRIMARY KEY(userId, groupId)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 CREATE TABLE groupRole (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', UNIQUE INDEX UNIQ_39A2D4D75E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
-CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL,comment TEXT, avatar VARCHAR(100) NOT NULL DEFAULT 'default.png', last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL DEFAULT 0, nbForumMessage INT NOT NULL DEFAULT 0,locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idCountry INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idCountry), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
+CREATE TABLE user (id INT NOT NULL, username VARCHAR(180) NOT NULL, username_canonical VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, email_canonical VARCHAR(180) NOT NULL, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) NULL, password VARCHAR(255) NOT NULL,comment TEXT, avatar VARCHAR(100) NOT NULL DEFAULT 'default.png', last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(180) DEFAULT NULL, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT NOT NULL COMMENT '(DC2Type:array)', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, nbConnexion INT NOT NULL DEFAULT 0, nbForumMessage INT NOT NULL DEFAULT 0,locale VARCHAR(2) DEFAULT NULL, firstName VARCHAR(255) DEFAULT NULL, lastName VARCHAR(255) DEFAULT NULL, address LONGTEXT DEFAULT NULL, birthDate DATE DEFAULT NULL, gender VARCHAR(1) DEFAULT NULL, timeZone INT DEFAULT NULL, personalWebsite VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitter VARCHAR(255) DEFAULT NULL, googleplus VARCHAR(255) DEFAULT NULL, youtube VARCHAR(255) DEFAULT NULL, dailymotion VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, skype VARCHAR(255) DEFAULT NULL, snapchat VARCHAR(255) DEFAULT NULL, pinterest VARCHAR(255) DEFAULT NULL, trumblr VARCHAR(255) DEFAULT NULL, blogger VARCHAR(255) DEFAULT NULL, reddit VARCHAR(255) DEFAULT NULL, deviantart VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, idCountry INT DEFAULT NULL, UNIQUE INDEX UNIQ_70E4FA7892FC23A8 (username_canonical), UNIQUE INDEX UNIQ_70E4FA78A0D96FBF (email_canonical), UNIQUE INDEX UNIQ_70E4FA78C05FB297 (confirmation_token), INDEX IDX_70E4FA7847626230 (idCountry), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB;
 ALTER TABLE user ADD CONSTRAINT FK_70E4FA7847626230 FOREIGN KEY (idCountry) REFERENCES country (id);
-ALTER TABLE user_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES user (id);
 ALTER TABLE user_group ADD CONSTRAINT FK_FE1D136ED8188B0 FOREIGN KEY (groupId) REFERENCES groupRole (id);
 
 -- New id for link between normandie & vgr
@@ -568,70 +570,69 @@ UPDATE vgr_player SET dateCreation = '2004-10-30 00:00:00', dateModification = '
 DELIMITER &&
 CREATE PROCEDURE user_migrate()
 BEGIN
-  DECLARE done, locked INT DEFAULT FALSE;
-  DECLARE duplicateIncrement INT DEFAULT 100;
-  DECLARE user_id, vgr_user_id, pays, nb_connection, nb_forum_message INT;
-  DECLARE userName varchar(180) CHARSET utf8;
-  DECLARE userAvatar varchar(100) CHARSET utf8;
-  DECLARE gender varchar(1);
-  DECLARE birthdate date;
-  DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
-  DECLARE v_email, nom, prenom, siteWeb, statutCompte, sexe varchar(255);
-  DECLARE cur1 CURSOR FOR SELECT id, pseudo, email, nom, prenom, dateNaissance, nbConnexion, nbForumMessage, siteWeb, statutCompte,
-                            dateCreation, dateModification, derniereConnexion, sexe, idPays, avatar
-                          FROM vgr_player WHERE id != 0;
-  -- Handler for duplicate email
-  DECLARE CONTINUE HANDLER FOR 1062
-    BEGIN
-      -- Log for duplicate email
-      SELECT CONCAT('Duplicate email for: ', v_email);
-      SET duplicateIncrement = duplicateIncrement + 1;
-      SET v_email = duplicateIncrement;
-      SET locked = TRUE;
-      -- Retry with new mail
-      INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+    DECLARE done, locked INT DEFAULT FALSE;
+    DECLARE duplicateIncrement INT DEFAULT 100;
+    DECLARE user_id, vgr_user_id, pays, nb_connection, nb_forum_message INT;
+    DECLARE userName varchar(180) CHARSET utf8;
+    DECLARE userAvatar varchar(100) CHARSET utf8;
+    DECLARE gender varchar(1);
+    DECLARE birthdate date;
+    DECLARE userDateCreation, userDateModification, userDerniereConnexion datetime;
+    DECLARE v_email, nom, prenom, siteWeb, statutCompte, sexe varchar(255);
+    DECLARE cur1 CURSOR FOR SELECT id, pseudo, email, nom, prenom, dateNaissance, nbConnexion, nbForumMessage, siteWeb, statutCompte,
+                                dateCreation, dateModification, derniereConnexion, sexe, idPays, avatar
+                            FROM vgr_player WHERE id != 0;
+    -- Handler for duplicate email
+    DECLARE CONTINUE HANDLER FOR 1062
+        BEGIN
+            -- Log for duplicate email
+            SELECT CONCAT('Duplicate email for: ', v_email);
+            SET duplicateIncrement = duplicateIncrement + 1;
+            SET v_email = CONCAT(v_email, '#', duplicateIncrement);
+            SET locked = TRUE;
+            -- Retry with new mail
+            INSERT INTO user (id, username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
+                              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, nbForumMessage, personalWebsite, gender, avatar,
+                              created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
+            VALUES
+            (vgr_user_id, userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
+             MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, nb_forum_message, siteWeb, gender, userAvatar,
+             userDateCreation, userDateModification, userDerniereConnexion, pays,
+             MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
+            );
+        END;
+
+    -- Handler for finishing the loop
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur1;
+    read_loop: LOOP
+        FETCH cur1 INTO vgr_user_id, userName, v_email, nom, prenom, birthdate, nb_connection, nb_forum_message, siteWeb, statutCompte,
+            userDateCreation, userDateModification, userDerniereConnexion, sexe, pays, userAvatar;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        IF statutCompte IN ('SUPPRIME', 'BANNI') THEN SET locked = TRUE; ELSE SET locked = FALSE; END IF;
+        IF sexe = 'homme' THEN
+            SET gender = 'H';
+        ELSEIF sexe = 'femme' THEN
+            SET gender = 'F';
+        ELSE
+            SET gender = 'I';
+        END IF;
+
+        INSERT INTO user (id, username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
                           enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, nbForumMessage, personalWebsite, gender, avatar,
                           created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
-      VALUES
-        (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
+        VALUES
+        (vgr_user_id, userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
          MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, nb_forum_message, siteWeb, gender, userAvatar,
          userDateCreation, userDateModification, userDerniereConnexion, pays,
          MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
         );
-    END;
-
-  -- Handler for finishing the loop
-  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-  OPEN cur1;
-  read_loop: LOOP
-    FETCH cur1 INTO vgr_user_id, userName, v_email, nom, prenom, birthdate, nb_connection, nb_forum_message, siteWeb, statutCompte,
-      userDateCreation, userDateModification, userDerniereConnexion, sexe, pays, userAvatar;
-    IF done THEN
-      LEAVE read_loop;
-    END IF;
-    IF statutCompte IN ('SUPPRIME', 'BANNI') THEN SET locked = TRUE; ELSE SET locked = FALSE; END IF;
-    IF sexe = 'homme' THEN
-      SET gender = 'H';
-    ELSEIF sexe = 'femme' THEN
-      SET gender = 'F';
-    ELSE
-      SET gender = 'I';
-    END IF;
-
-    INSERT INTO user (username, username_canonical, password, email, email_canonical, firstName, lastName, birthDate,
-              enabled, locked, expired, credentials_expired, salt, roles, nbConnexion, personalWebsite, gender, avatar,
-              created_at, updated_at, last_login, idCountry, confirmation_token, password_requested_at)
-    VALUES
-      (userName, userName, "", v_email, v_email, prenom, nom, birthdate, false, locked, false, true,
-       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), 'a:0:{}', nb_connection, siteWeb, gender, userAvatar,
-       userDateCreation, userDateModification, userDerniereConnexion, pays,
-       MD5(CONCAT(LEFT(UUID(),8), LEFT(UUID(),8), LEFT(UUID(),8))), NOW()
-      );
-    SET user_id = LAST_INSERT_ID();
-    UPDATE vgr_player SET normandie_user_id = user_id WHERE id = vgr_user_id;
-  END LOOP;
-  CLOSE cur1;
+        UPDATE vgr_player SET normandie_user_id = id WHERE id = vgr_user_id;
+    END LOOP;
+    CLOSE cur1;
 END&&
 
 DELIMITER ;
@@ -639,10 +640,14 @@ DELIMITER ;
 CALL user_migrate();
 DROP PROCEDURE user_migrate;
 
+ALTER TABLE `user` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
 -- INSERT VGR USER
 INSERT INTO user (id, username, username_canonical, email, email_canonical, enabled, idCountry, created_at, updated_at,salt,password, locked, expired, roles, credentials_expired, nbConnexion)
 VALUES (0, 'VGR', 'VGR', 'videogamesrecords@gmail.com', 'videogamesrecords@gmail.com', 0, 1, NOW(), NOW(), '', '', 1, 1, 'a:0:{}',1,0);
 UPDATE user SET id=0 WHERE email = 'videogamesrecords@gmail.com';
+
+ALTER TABLE user_group ADD CONSTRAINT FK_FE1D13664B64DCC FOREIGN KEY (userId) REFERENCES user (id);
 
 
 ALTER TABLE vgr_player DROP FOREIGN KEY vgr_player_ibfk_3;
@@ -755,30 +760,6 @@ DELETE FROM badge WHERE type='Special';
 
 ALTER TABLE `vgr_game` ADD UNIQUE(`idBadge`);
 
-CREATE TABLE `user_badge` (
-  `idBadge` int(11) NOT NULL,
-  `idUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE `user_badge`
-  ADD PRIMARY KEY (`idBadge`,`idUser`),
-  ADD KEY `idxBadge` (`idBadge`),
-  ADD KEY `idxUser` (`idUser`);
-ALTER TABLE `user_badge`
-  ADD CONSTRAINT `FK_BADGEUSER_BADGE` FOREIGN KEY (`idBadge`) REFERENCES `badge` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_BADGEUSER_USER` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-INSERT INTO user_badge (idUser,idBadge)
-SELECT vgr_player.normandie_user_id, badge.id
-FROM vgr_player
-INNER JOIN vgr_player_badge ON vgr_player.id = vgr_player_badge.idPlayer
-INNER JOIN badge ON vgr_player_badge.idBadge = badge.id
-WHERE badge.type IN ('Connexion', 'Don', 'Forum', 'Inscription')
-AND vgr_player.normandie_user_id IS NOT NULL;
-
-
-DELETE FROM vgr_player_badge
-WHERE idBadge IN (SELECT id FROM badge WHERE `type` IN ('Connexion', 'Don', 'Forum', 'Inscription'));
-
 UPDATE country SET idBadge = null;
 UPDATE country,badge
 SET idBadge = badge.id
@@ -786,6 +767,9 @@ WHERE country.id = badge.value
 AND type = 'VgrSpecialCountry';
 -- ALTER TABLE `country` ADD CONSTRAINT `FK_COUNTRY_BADGE` FOREIGN KEY (`idBadge`) REFERENCES `badge`(`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
+DELETE FROM `vgr_player_badge` WHERE idPlayer = 0;
+ALTER TABLE `vgr_player_badge` CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+UPDATE vgr_player_badge SET created_at = updated_at  WHERE CAST(created_at AS CHAR(20)) = '0000-00-00 00:00:00';
 ALTER TABLE `vgr_player_badge` DROP PRIMARY KEY;
 ALTER TABLE `vgr_player_badge` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 
@@ -948,7 +932,7 @@ ALTER TABLE `partner` CHANGE `status` `status` ENUM('ACTIVE','INACTIVE','CANCELE
 ALTER TABLE `partner` DROP `image`;
 ALTER TABLE `partner` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `order`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
 ALTER TABLE `partner` ADD `contact` VARCHAR(255) NULL AFTER `url`;
-
+ALTER TABLE `partner` CHANGE `idPartner` `id` INT(11) NOT NULL AUTO_INCREMENT;
 
 
 --
@@ -989,16 +973,7 @@ ALTER TABLE message DROP FOREIGN KEY message_ibfk_2;
 
 UPDATE message SET idSender = null WHERE idSender = 0;
 
-UPDATE message m, vgr_player p
-SET m.idSender = p.normandie_user_id
-WHERE m.idSender = p.id;
-
 DELETE FROM message WHERE idRecipient = 0;
-
-UPDATE message m, vgr_player p
-SET m.idRecipient = p.normandie_user_id
-WHERE m.idRecipient = p.id;
-
 
 ALTER TABLE `message` ADD CONSTRAINT `fk_sender` FOREIGN KEY (`idSender`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `message` ADD CONSTRAINT `fk_recipient` FOREIGN KEY (`idRecipient`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
@@ -1016,7 +991,7 @@ ALTER TABLE `vgr_proof_request` CHANGE `idRecord` `idChart` INT(13) NOT NULL DEF
 ALTER TABLE `vgr_proof_request` CHANGE `dateCreation` `created_at` DATETIME NOT NULL;
 ALTER TABLE `vgr_proof_request` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 UPDATE `vgr_proof_request` SET updated_at = NOW() WHERE CAST(updated_at AS CHAR(20)) LIKE '0%';
-ALTER TABLE `vgr_proof_request` CHANGE `statut` `status` ENUM('EN COURS','FINI','IN PROGRESS','REFUSED','ACCEPTED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
+ALTER TABLE `vgr_proof_request` CHANGE `statut` `status` ENUM('EN COURS','FINI','IN PROGRESS','REFUSED','ACCEPTED','CLOSED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
 ALTER TABLE `vgr_proof_request` CHANGE `idDemandeur` `idPlayerRequesting` INT(13) NOT NULL DEFAULT '0';
 ALTER TABLE `vgr_proof_request` CHANGE `texte` `message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 ALTER TABLE `vgr_proof_request` CHANGE `dateAcceptation` `dateAcceptance` DATETIME NULL DEFAULT NULL;
@@ -1024,7 +999,7 @@ ALTER TABLE `vgr_proof_request` CHANGE `idAdmin` `idPlayerResponding` INT(11) NU
 UPDATE `vgr_proof_request` SET status = 'REFUSED' WHERE status = 'FINI' AND dateAcceptance IS NULL;
 UPDATE `vgr_proof_request` SET status = 'ACCEPTED' WHERE status = 'FINI' AND dateAcceptance IS NOT NULL;
 UPDATE `vgr_proof_request` SET status = 'IN PROGRESS' WHERE status = 'EN COURS';
-ALTER TABLE `vgr_proof_request` CHANGE `status` `status` ENUM('IN PROGRESS','REFUSED','ACCEPTED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
+ALTER TABLE `vgr_proof_request` CHANGE `status` `status` ENUM('IN PROGRESS','REFUSED','ACCEPTED','CLOSED') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'IN PROGRESS';
 ALTER TABLE `vgr_proof_request` ADD `idPlayerChart` INT NOT NULL AFTER `idRequest`;
 UPDATE `vgr_proof_request` r, `vgr_player_chart` c
 SET r.idPlayerChart = c.id
@@ -1122,20 +1097,23 @@ ALTER TABLE vgr_proof_request DROP FOREIGN KEY vgr_proof_request_ibfk_3;
 ALTER TABLE vgr_proof_request DROP INDEX idxUnique;
 ALTER TABLE vgr_proof_request DROP COLUMN idPlayer;
 ALTER TABLE vgr_proof_request DROP COLUMN idChart;
-ALTER TABLE vgr_proof DROP COLUMN idPlayer;
-ALTER TABLE vgr_proof DROP COLUMN idChart;
-
+-- ALTER TABLE vgr_proof DROP COLUMN idPlayer;
+-- ALTER TABLE vgr_proof DROP COLUMN idChart;
+ALTER TABLE `vgr_proof` CHANGE `idPlayer` `idPlayer` INT(11) NULL;
+ALTER TABLE `vgr_proof` CHANGE `idChart` `idChart` INT(11) NULL;
 
 -- ROLE
 INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
-(1, 'SuperAdmin', 'a:1:{i:0;s:10:\"ROLE_SUPER_ADMIN\";}'),
+(1, 'SuperAdmin', 'a:1:{i:0;s:16:\"ROLE_SUPER_ADMIN\";}'),
 (2, 'Player', 'a:1:{i:0;s:11:\"ROLE_PLAYER\";}'),
 (3, 'AdminUser', 'a:1:{i:0;s:15:\"ROLE_USER_ADMIN\";}'),
 (4, 'AdminGames', 'a:1:{i:0;s:15:\"ROLE_GAME_ADMIN\";}'),
 (5, 'AdminProof', 'a:1:{i:0;s:16:\"ROLE_PROOF_ADMIN\";}'),
 (6, 'AdminForum', 'a:1:{i:0;s:16:\"ROLE_FORUM_ADMIN\";}'),
 (7, 'AdminMessage', 'a:1:{i:0;s:18:\"ROLE_MESSAGE_ADMIN\";}'),
-(8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}');
+(8, 'AdminArticle', 'a:1:{i:0;s:18:\"ROLE_ARTICLE_ADMIN\";}'),
+(9, 'PlayerDisabledAuto', 'a:1:{i:0;s:20:\"ROLE_PLAYER_DISABLED\";}'),
+(10, 'PlayerDisabledManual', 'a:1:{i:0;s:20:\"ROLE_PLAYER_DISABLED\";}');
 
 -- all users have player role
 INSERT INTO user_group (userId, groupId) SELECT id,2 FROM user WHERE id != 0;
@@ -1251,11 +1229,6 @@ ALTER TABLE `user_ip` DROP `dateDernierLogin`;
 ALTER TABLE `user_ip` DROP PRIMARY KEY;
 ALTER TABLE `user_ip` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 
-UPDATE user_ip up, vgr_player p
-SET up.idUser = p.normandie_user_id
-WHERE up.idUser = p.id
-AND p.normandie_user_id IS NOT NULL;
-
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `user_ip` ADD CONSTRAINT `FK_USERIP_IP` FOREIGN KEY (`idIp`) REFERENCES `ip`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
@@ -1341,9 +1314,6 @@ ALTER TABLE `forum_topic` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIM
 ALTER TABLE `forum_topic` DROP `idLangue`;
 
 ALTER TABLE forum_topic DROP FOREIGN KEY forum_topic_ibfk_1;
-UPDATE forum_topic t, vgr_player p
-SET t.idUser = p.normandie_user_id
-WHERE t.idUser = p.id;
 ALTER TABLE `forum_topic` ADD CONSTRAINT `forum_topic_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `forum_message` CHANGE `idMessage` `id` INT(13) NOT NULL AUTO_INCREMENT;
@@ -1353,9 +1323,6 @@ ALTER TABLE `forum_message` CHANGE `dateModification` `updated_at` DATETIME NOT 
 ALTER TABLE `forum_message` CHANGE `texte` `message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
 ALTER TABLE forum_message DROP FOREIGN KEY forum_message_ibfk_2;
-UPDATE forum_message m, vgr_player p
-SET m.idUser = p.normandie_user_id
-WHERE m.idUser = p.id;
 ALTER TABLE `forum_message` ADD CONSTRAINT `forum_message_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
@@ -1463,3 +1430,323 @@ ALTER TABLE `vgr_video` ADD `type` ENUM('Youtube','Twitch','Unknown') NULL DEFAU
 
 ALTER TABLE `vgr_platform` CHANGE `class` `slug` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
+ALTER TABLE forum_forum ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `forum_forum` SET
+    slug = lower(libForum),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
+
+ALTER TABLE forum_topic ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `forum_topic` SET
+    slug = lower(libTopic),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
+
+ALTER TABLE vgr_video ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `vgr_video` SET
+    slug = lower(libVideo),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
+ALTER TABLE `vgr_video` ADD `boolActive` BOOLEAN NOT NULL DEFAULT TRUE AFTER `type`;
+UPDATE `vgr_video` SET boolActive = false;
+ALTER TABLE `vgr_video` DROP `status`;
+
+ALTER TABLE `vgr_lostposition` CHANGE `dateCreation` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `vgr_lostposition` ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+
+
+UPDATE message SET type='VGR_PROOF' WHERE type IN ('VGR_PROOF_ACCEPTED', 'VGR_PROOF_REFUSED');
+UPDATE message SET type='VGR_PROOF_REQUEST' WHERE type IN ('VGR_REQUEST_ACCEPTED', 'VGR_REQUEST_REFUSED');
+
+
+RENAME TABLE `t_don` TO `cpt_donation`;
+ALTER TABLE `cpt_donation` CHANGE `idDon` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cpt_donation` CHANGE `dateCreation` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `cpt_donation` CHANGE `dateModification` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `cpt_donation` CHANGE `dateDon` `dateDonation` DATE NOT NULL;
+ALTER TABLE `cpt_donation` CHANGE `somme` `value` DOUBLE NOT NULL;
+ALTER TABLE `cpt_donation` CHANGE `idMembre` `idUser` INT(11) NULL DEFAULT NULL;
+RENAME TABLE `t_gain` TO `cpt_compta`;
+ALTER TABLE `cpt_compta` CHANGE `idGain` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cpt_compta` CHANGE `mois` `month` VARCHAR(7) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0000-00';
+ALTER TABLE `cpt_compta` CHANGE `type` `source` ENUM('DON','ADSENSE','AMAZON.FR','OVH') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `cpt_compta` ADD `type` ENUM('GAIN','BILL') NOT NULL DEFAULT 'GAIN' AFTER `month`;
+ALTER TABLE `cpt_compta` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `value`;
+ALTER TABLE `cpt_compta` ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+CREATE TABLE `cpt_compta_source` (
+    `id` int(11) NOT NULL,
+    `label` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `cpt_compta_source`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `cpt_compta_source`  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+CREATE TABLE `cpt_compta_type` (
+    `id` int(11) NOT NULL,
+    `label` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `cpt_compta_type`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `cpt_compta_type`  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO `cpt_compta_source` (`id`, `label`) VALUES (NULL, 'Don'), (NULL, 'Adsense');
+INSERT INTO `cpt_compta_type` (`id`, `label`) VALUES (NULL, 'Gain'), (NULL, 'Bill');
+ALTER TABLE `cpt_compta` DROP `type`;
+ALTER TABLE `cpt_compta` ADD `idType` INT NOT NULL DEFAULT '1' AFTER `month`;
+ALTER TABLE `cpt_compta` ADD INDEX idxType (`idType`);
+ALTER TABLE `cpt_compta` ADD CONSTRAINT `FK_COMPTA_TYPE` FOREIGN KEY (`idType`) REFERENCES `cpt_compta_type`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `cpt_compta` ADD `idSource` INT NOT NULL DEFAULT '1' AFTER `month`;
+ALTER TABLE `cpt_compta` ADD INDEX idxSource (`idSource`);
+ALTER TABLE `cpt_compta` ADD CONSTRAINT `FK_COMPTA_SOURCE` FOREIGN KEY (`idSource`) REFERENCES `cpt_compta_source`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+UPDATE `cpt_compta` SET idSource = 2 WHERE `source` = 'ADSENSE';
+ALTER TABLE `cpt_compta` DROP `source`;
+
+ALTER TABLE cpt_donation DROP FOREIGN KEY cpt_donation_ibfk_1;
+ALTER TABLE `cpt_donation` ADD CONSTRAINT `FK_DONATION_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `vgr_player` CHANGE `pseudo` `pseudo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `user` CHANGE `username` `username` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `user` CHANGE `username_canonical` `username_canonical` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+-- BADGES
+ALTER TABLE `vgr_player_badge` CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `vgr_player_badge` CHANGE `updated_at` `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `vgr_video` ADD UNIQUE(`url`);
+
+-- ARTICLE
+ALTER TABLE article DROP FOREIGN KEY article_ibfk_1;
+/*UPDATE article a, vgr_player p
+SET a.idAuthor = p.normandie_user_id
+WHERE a.idAuthor = p.id;*/
+
+UPDATE `vgr_player` SET `chartRank0` = 0 WHERE `chartRank0` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `chartRank0` `chartRank0` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `chartRank1` = 0 WHERE `chartRank1` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `chartRank1` `chartRank1` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `chartRank2` = 0 WHERE `chartRank2` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `chartRank2` `chartRank2` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `chartRank3` = 0 WHERE `chartRank3` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `chartRank3` `chartRank3` INT(11) NOT NULL DEFAULT '0';
+
+UPDATE `vgr_player` SET `gameRank0` = 0 WHERE `gameRank0` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `gameRank0` `gameRank0` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `gameRank1` = 0 WHERE `gameRank1` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `gameRank1` `gameRank1` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `gameRank2` = 0 WHERE `gameRank2` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `gameRank2` `gameRank2` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `gameRank3` = 0 WHERE `gameRank3` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `gameRank3` `gameRank3` INT(11) NOT NULL DEFAULT '0';
+
+UPDATE `vgr_player` SET `nbChart` = 0 WHERE `nbChart` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `nbChart` `nbChart` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `nbChartProven` = 0 WHERE `nbChartProven` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `nbChartProven` `nbChartProven` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `nbChartDisabled` = 0 WHERE `nbChartDisabled` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `nbChartDisabled` `nbChartDisabled` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `nbMasterBadge` = 0 WHERE `nbMasterBadge` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `nbMasterBadge` `nbMasterBadge` INT(11) NOT NULL DEFAULT '0';
+UPDATE `vgr_player` SET `pointGame` = 0 WHERE `pointGame` IS NULL;
+ALTER TABLE `vgr_player` CHANGE `pointGame` `pointGame` INT(11) NOT NULL DEFAULT '0';
+
+UPDATE vgr_game SET published_at = updated_at WHERE status='ACTIF' AND published_at IS NULL;
+
+ALTER TABLE `vgr_player` ADD FOREIGN KEY (`normandie_user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `vgr_team_request` CHANGE `idRequest` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
+DROP TABLE t_log;
+DROP TABLE t_role_membre;
+DROP TABLE t_role;
+DROP TABLE t_membre_statut;
+DROP TABLE vgr_point;
+DROP TABLE vgr_typevgrpoint;
+DROP TABLE vgr_membre_plateforme;
+DROP TABLE vgr_membre_objectif;
+DROP TABLE vgr_objectif;
+DROP TABLE vgr_jeu_partenaire;
+ALTER TABLE vgr_player DROP FOREIGN KEY vgr_player_ibfk_1;
+ALTER TABLE vgr_player DROP `idLanguage`;
+DROP TABLE language;
+DROP TABLE mv_commentaire;
+
+ALTER TABLE `vgr_team_topic` CHANGE `idTopic` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vgr_team_message` CHANGE `idMessage` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
+-- article_comment
+CREATE TABLE `article_comment` (
+    `id` int(13) NOT NULL,
+    `idArticle` int(13) NOT NULL DEFAULT '0',
+    `idUser` int(13) NOT NULL DEFAULT '0',
+    `text` text NOT NULL,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `article_comment`
+    ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `article_comment`
+    MODIFY `id` int(13) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `article_comment` ADD CONSTRAINT `FK_COMMENT_ARTICLE` FOREIGN KEY (`idArticle`) REFERENCES `article`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `article_comment` ADD CONSTRAINT `FK_COMMENT_USER` FOREIGN KEY (`idUser`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+-- video_comment
+CREATE TABLE `vgr_video_comment` (
+    `id` int(13) NOT NULL,
+    `idVideo` int(13) NOT NULL DEFAULT '0',
+    `idPlayer` int(13) NOT NULL DEFAULT '0',
+    `text` text NOT NULL,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `vgr_video_comment`
+    ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `vgr_video_comment`
+    MODIFY `id` int(13) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `vgr_video_comment` ADD CONSTRAINT `FK_COMMENT_VIDEO` FOREIGN KEY (`idVideo`) REFERENCES `vgr_video`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `vgr_video_comment` ADD CONSTRAINT `FK_COMMENT_PLAYER` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+
+DELETE FROM t_commentaire
+WHERE typeModule = 'article'
+AND idModule NOT IN (SELECT id FROM article);
+
+DELETE FROM t_commentaire
+WHERE typeModule = 'video'
+        AND idModule NOT IN (SELECT id FROM vgr_video);
+
+DELETE FROM t_commentaire
+WHERE idMembre NOT IN (SELECT id FROM user);
+
+
+INSERT INTO article_comment (idArticle, idUser, text, created_at, updated_at)
+SELECT idModule, idMembre, texte, dateCreation, dateModification
+FROM t_commentaire WHERE typeModule = 'article';
+
+INSERT INTO vgr_video_comment (idVideo, idPlayer, text, created_at, updated_at)
+SELECT idModule, idMembre, texte, dateCreation, dateModification
+FROM t_commentaire WHERE typeModule = 'video';
+
+DROP TABLE t_commentaire;
+
+RENAME TABLE `t_ami` TO `vgr_friend`;
+ALTER TABLE `vgr_friend` CHANGE `idMembre` `idPlayer` INT(13) NOT NULL DEFAULT '0';
+ALTER TABLE `vgr_friend` CHANGE `idAmi` `idFriend` INT(13) NOT NULL DEFAULT '0';
+
+ALTER TABLE `vgr_team` ADD `nbGame` INT NOT NULL DEFAULT '0' AFTER `nbPlayer`;
+
+ALTER TABLE `article` ADD `nbComment` INT NOT NULL DEFAULT '0' AFTER `link`;
+ALTER TABLE `vgr_video` ADD `nbComment` INT NOT NULL DEFAULT '0' AFTER `tag`;
+
+
+UPDATE article a
+SET a.nbComment = (SELECt COUNT(id) FROM article_comment WHERE idArticle = a.id);
+
+UPDATE vgr_video v
+SET v.nbComment = (SELECt COUNT(id) FROM vgr_video_comment WHERE idVideo = v.id);
+
+
+ALTER TABLE user ADD slug VARCHAR(255) DEFAULT NULL;
+UPDATE `user` SET
+    slug = lower(username),
+    slug = replace(slug, '.', ' '),
+    slug = replace(slug, ',', ' '),
+    slug = replace(slug, ';', ' '),
+    slug = replace(slug, ':', ' '),
+    slug = replace(slug, '?', ' '),
+    slug = replace(slug, '%', ' '),
+    slug = replace(slug, '&', ' '),
+    slug = replace(slug, '#', ' '),
+    slug = replace(slug, '*', ' '),
+    slug = replace(slug, '!', ' '),
+    slug = replace(slug, '_', ' '),
+    slug = replace(slug, '@', ' '),
+    slug = replace(slug, '+', ' '),
+    slug = replace(slug, '(', ' '),
+    slug = replace(slug, ')', ' '),
+    slug = replace(slug, '[', ' '),
+    slug = replace(slug, ']', ' '),
+    slug = replace(slug, '/', ' '),
+    slug = replace(slug, '-', ' '),
+    slug = replace(slug, '\'', ''),
+    slug = trim(slug),
+    slug = replace(slug, ' ', '-'),
+    slug = replace(slug, '--', '-'),
+    slug = replace(slug, '--', '-');
+
+ALTER TABLE `user_group` DROP FOREIGN KEY `FK_FE1D13664B64DCC`; ALTER TABLE `user_group` ADD CONSTRAINT `FK_FE1D13664B64DCC` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE `forum_topic_type` CHANGE `idType` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `badge` CHANGE `nbUser` `nbUser` INT(11) NOT NULL DEFAULT '0';
+
+ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

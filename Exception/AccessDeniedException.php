@@ -2,7 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Exception;
 
-class AccessDeniedException extends \Exception
+use Exception;
+
+class AccessDeniedException extends Exception
 {
 
 }

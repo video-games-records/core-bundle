@@ -2,25 +2,40 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use Doctrine\ORM\EntityManager;
+use ProjetNormandie\MessageBundle\Service\Messager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+//use Sonata\DoctrineORMAdminBundle\Filter\StringListFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Doctrine\ORM\ORMException;
 
 class ProofAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'vgrcorebundle_admin_proof';
+    //protected $baseRouteName = 'vgrcorebundle_admin_proof';
+
+    /** @var Messager */
+    private $messager;
+
+    public function setMessager(Messager $messager)
+    {
+        $this->messager = $messager;
+    }
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -31,23 +46,18 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param array $filterValues
      */
-    public function getFilterParameters()
+    protected function configureDefaultFilterValues(array &$filterValues)
     {
-        $this->datagridValues = array_merge(
-            array(
-                'status' => array(
-                    'value' => Proof::STATUS_IN_PROGRESS,
-                )
-            ),
-            $this->datagridValues
-        );
-        return parent::getFilterParameters();
+        $filterValues['status'] = [
+             'type'  => EqualOperatorType::TYPE_EQUAL,
+             'value' => Proof::STATUS_IN_PROGRESS,
+        ];
     }
 
     /**
-     * @inheritdoc
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -63,6 +73,19 @@ class ProofAdmin extends AbstractAdmin
                     'btn_delete' => false,
                     'btn_catalogue' => false,
                     'label' => 'picture',
+                ]
+            )
+            ->add(
+                'video',
+                ModelListType::class,
+                [
+                    'data_class' => null,
+                    'btn_add' => false,
+                    'btn_list' => false,
+                    'btn_edit' => false,
+                    'btn_delete' => false,
+                    'btn_catalogue' => false,
+                    'label' => 'video',
                 ]
             )
             ->add(
@@ -89,13 +112,17 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
             ->add('status')
+            /*->add('status', StringListFilter::class, [], ChoiceType::class, [
+                'choices' => Proof::getStatusChoices(),
+                'multiple' => false,
+            ])*/
             ->add('playerResponding', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
@@ -103,7 +130,7 @@ class ProofAdmin extends AbstractAdmin
 
 
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -135,7 +162,7 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -146,64 +173,121 @@ class ProofAdmin extends AbstractAdmin
             ->add('payerResponding')
             ->add('status')
             ->add('player')
+            ->add('Chart')
             ->add('playerChart');
     }
 
     /**
      * @param $object
-     * @return Response
      */
     public function preValidate($object)
     {
-        /** @var \App\Entity\User */
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-        $player = $user->getPlayer();
+        $player = $this->getPlayer();
 
-        if ($object->getPlayerChart()->getPlayer()->getId() === $player->getId()) {
-            $this->getConfigurationPool()->getContainer()->get('session')->getFlashBag()->add(
-                'error',
-                "You can't update this proof"
-            );
-            return new Response();
+        if ($object->getPlayerChart() != null) {
+            if ($object->getPlayerChart()->getPlayer()->getId() === $player->getId()) {
+                $this->getConfigurationPool()->getContainer()->get('session')->getFlashBag()->add(
+                    'error',
+                    "You can't update this proof"
+                );
+
+                $response = new RedirectResponse(
+                    $this->generateUrl(
+                        'edit',
+                        array(
+                            'id' => $object->getId()
+                        )
+                    )
+                );
+                header('Location: ' . $response->getTargetUrl());
+                exit;
+            }
         }
     }
 
     /**
-     * @param \VideoGamesRecords\CorefBundle\Entity\Proof $object
+     * @param $object
+     * @return bool|void
+     * @throws ORMException
      */
     public function preUpdate($object)
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
+        /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
+        $player = $this->getPlayer();
 
         // Cant change status final
-        if (\in_array($originalObject['status'], array(Proof::STATUS_ACCEPTED, Proof::STATUS_REFUSED), true)) {
+        if (in_array($originalObject['status'], array(Proof::STATUS_ACCEPTED, Proof::STATUS_REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
 
         $setPlayerResponding = false;
+        if ($object->getPlayerChart() == null) {
+            $setPlayerResponding = true;
+            $object->setStatus(Proof::STATUS_CLOSED);
+        }
 
         // ACCEPTED
         if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_ACCEPTED) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+            /** @var PlayerChart $playerChart */
             $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_PROOVED));
             $setPlayerResponding = true;
+            // Send MP (1)
+            $recipient = $object->getPlayerChart()->getPlayer()->getUser();
+            $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
+            $this->messager->send(
+                $this->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
+                sprintf(
+                    $this->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
+                    $recipient->getUsername(),
+                    $url,
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                ),
+                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                $recipient,
+                'VGR_PROOF'
+            );
         }
 
         // REFUSED
         if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_REFUSED) {
-            /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
-            $idStatus = ($playerChart->getStatus()->getIdStatus() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF) ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
+            /** @var PlayerChart $playerChart */
+            $idStatus = ($object->getPlayerChart()->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
+                ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
             $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, $idStatus));
             $setPlayerResponding = true;
+            // Send MP (1)
+            $recipient = $object->getPlayerChart()->getPlayer()->getUser();
+            $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
+            $this->messager->send(
+                $this->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
+                sprintf(
+                    $this->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
+                    $recipient->getUsername(),
+                    $url,
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                ),
+                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
+                $recipient,
+                'VGR_PROOF'
+            );
         }
 
         // Player Responding
         if ($setPlayerResponding) {
-            $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-            $player = $user->getPlayer();
             $object->setPlayerResponding($player);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getPlayer()
+    {
+        /** @var EntityManager $em */
+        $em = $this->getModelManager()->getEntityManager($this->getClass());
+        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        return $em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser($user);
     }
 }

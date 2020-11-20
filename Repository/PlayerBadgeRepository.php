@@ -2,10 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use DateTime;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
-use VideoGamesRecords\CoreBundle\Entity\Game;
 
 class PlayerBadgeRepository extends EntityRepository
 {
@@ -44,7 +46,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * @param $badge
-     * @return \VideoGamesRecords\CoreBundle\Entity\PlayerBadge[]|array
+     * @return PlayerBadge[]|array
      */
     public function getFromBadge($badge)
     {
@@ -61,7 +63,7 @@ class PlayerBadgeRepository extends EntityRepository
 
     /**
      * @param $game
-     * @throws \Exception
+     * @throws Exception
      */
     public function majMasterBadge($game)
     {
@@ -80,7 +82,7 @@ class PlayerBadgeRepository extends EntityRepository
             $idPlayer = $playerBadge->getPlayer()->getId();
             //----- Remove badge
             if (!array_key_exists($idPlayer, $players)) {
-                $playerBadge->setEndedAt(new \DateTime());
+                $playerBadge->setEndedAt(new DateTime());
                 $this->_em->persist($playerBadge);
             }
             $players[$idPlayer] = 1;
@@ -98,8 +100,8 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param \VideoGamesRecords\CoreyBundle\Entity\CountryInterface $country
-     * @throws \Exception
+     * @param $country
+     * @throws Exception
      */
     public function majCountryBadge($country)
     {
@@ -119,11 +121,11 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param array $players ranking
-     * @param \VideoGamesRecords\CoreBundle\Entity\BadgeInterface $badge badge
-     * @throws \Exception
+     * @param array $players
+     * @param $badge
+     * @throws Exception
      */
-    private function updateBadge($players, $badge)
+    private function updateBadge(array $players, $badge)
     {
         //----- get players with country badge
         $list = $this->getFromBadge($badge);
@@ -133,7 +135,7 @@ class PlayerBadgeRepository extends EntityRepository
             $idPlayer = $playerBadge->getPlayer()->getId();
             //----- Remove badge
             if (!array_key_exists($idPlayer, $players)) {
-                $playerBadge->setEndedAt(new \DateTime());
+                $playerBadge->setEndedAt(new DateTime());
                 $this->_em->persist($playerBadge);
             }
             $players[$idPlayer] = 1;
@@ -151,7 +153,7 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder $query
+     * @param QueryBuilder $query
      */
     private function onlyActive(QueryBuilder $query)
     {
@@ -159,12 +161,31 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * Maj badges
+     * Maj user badges (Connexion / Forum)
+     * @throws DBALException
      */
-    public function majBadge()
+    public function majUserBadge()
     {
-        $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
-        SELECT vgr_player.id,badge.id, NOW(), NOW()
+        $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge)
+        SELECT vgr_player.id,badge.id
+        FROM vgr_player,user,badge
+        WHERE type = '%s'
+        AND value <= user.%s
+        AND vgr_player.normandie_user_id = user.id
+        AND badge.id NOT IN (SELECT idBadge FROM vgr_player_badge WHERE idPlayer = vgr_player.id)";
+
+        $this->_em->getConnection()->executeUpdate(sprintf($sql, 'Connexion', 'nbConnexion'));
+        $this->_em->getConnection()->executeUpdate(sprintf($sql, 'Forum', 'nbForumMessage'));
+    }
+
+    /**
+     * Maj player badges
+     * @throws DBALException
+     */
+    public function majPlayerBadge()
+    {
+        $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge)
+        SELECT vgr_player.id,badge.id
         FROM vgr_player,badge
         WHERE type = '%s'
         AND value <= vgr_player.%s
@@ -172,13 +193,5 @@ class PlayerBadgeRepository extends EntityRepository
 
         $this->_em->getConnection()->executeUpdate(sprintf($sql, 'VgrChart', 'nbChart'));
         $this->_em->getConnection()->executeUpdate(sprintf($sql, 'VgrProof', 'nbChartProven'));
-
-        // Inscrition badge
-        $sql = " INSERT INTO user_badge (idUser, idBadge)
-        SELECT user.id,1
-        FROM user
-        WHERE id NOT IN (SELECT idUser FROM user_badge WHERE idBadge = 1)";
-
-        $this->_em->getConnection()->executeUpdate($sql);
     }
 }

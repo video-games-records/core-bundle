@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -9,8 +10,9 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * Request
  *
- * @ORM\Table(name="vgr_proof_request", indexes={@ORM\Index(name="idxIdRequest", columns={"idRequest"})})
+ * @ORM\Table(name="vgr_proof_request")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener"})
  */
 class ProofRequest implements TimestampableInterface
 {
@@ -43,7 +45,7 @@ class ProofRequest implements TimestampableInterface
     private $message;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(name="dateAcceptance", type="datetime", nullable=true)
      */
     private $dateAcceptance;
@@ -89,11 +91,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -111,11 +112,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set status
-     *
      * @param string $status
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
         return $this;
@@ -133,11 +133,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set dateAcceptance
-     *
-     * @param \DateTime $dateAcceptance
+     * @param DateTime $dateAcceptance
      * @return $this
      */
-    public function setDateAcceptance($dateAcceptance)
+    public function setDateAcceptance(DateTime $dateAcceptance)
     {
         $this->dateAcceptance = $dateAcceptance;
         return $this;
@@ -146,7 +145,7 @@ class ProofRequest implements TimestampableInterface
     /**
      * Get dateAcceptance
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDateAcceptance()
     {
@@ -155,11 +154,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set message
-     *
      * @param string $message
      * @return $this
      */
-    public function setMessage($message)
+    public function setMessage(string $message)
     {
         $this->message = $message;
         return $this;

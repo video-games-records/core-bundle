@@ -3,22 +3,28 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Exception;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use DateTime;
 
 class PlayerGroupRepository extends EntityRepository
 {
     /**
      * @param Group $group
-     * @param int $maxRank
-     * @param Player $player
+     * @param null  $maxRank
+     * @param null  $player
+     * @param null  $team
      * @return array
      */
-    public function getRankingPoints($group, $maxRank = null, $player = null)
+    public function getRankingPoints(Group $group, $maxRank = null, $player = null, $team = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -28,7 +34,10 @@ class PlayerGroupRepository extends EntityRepository
         $query->where('pg.group = :group')
             ->setParameter('group', $group);
 
-        if (($maxRank !== null) && ($player !== null)) {
+        if ($team != null) {
+            $query->andWhere('(p.team = :team)')
+                ->setParameter('team', $team);
+        } elseif (($maxRank !== null) && ($player !== null)) {
             $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player= :player)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
@@ -45,11 +54,11 @@ class PlayerGroupRepository extends EntityRepository
 
     /**
      * @param Group $group
-     * @param int $maxRank
-     * @param Player $player
+     * @param null  $maxRank
+     * @param null  $player
      * @return array
      */
-    public function getRankingMedals($group, $maxRank = null, $player = null)
+    public function getRankingMedals(Group $group, $maxRank = null, $player = null)
     {
         $query = $this->createQueryBuilder('pg')
             ->join('pg.player', 'p')
@@ -74,7 +83,10 @@ class PlayerGroupRepository extends EntityRepository
     }
 
     /**
-     * @param Group $group
+     * @param $group
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws Exception|ExceptionInterface
      */
     public function maj($group)
     {
@@ -184,7 +196,7 @@ class PlayerGroupRepository extends EntityRepository
             $row['chartRank4'] = (isset($data['chartRank4'][$row['id']])) ? $data['chartRank4'][$row['id']] : 0;
             $row['chartRank5'] = (isset($data['chartRank5'][$row['id']])) ? $data['chartRank5'][$row['id']] : 0;
             $row['nbChartProven'] = (isset($data['nbChartProven'][$row['id']])) ? $data['nbChartProven'][$row['id']] : 0;
-            $row['lastUpdate'] = new \DateTime($row['lastUpdate']);
+            $row['lastUpdate'] = new DateTime($row['lastUpdate']);
             $list[] = $row;
         }
 

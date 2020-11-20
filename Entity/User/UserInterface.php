@@ -8,4 +8,6 @@ interface UserInterface
     public function getId();
     /** @return string */
     public function getUsername();
+    /** @return string */
+    public function getLocale();
 }

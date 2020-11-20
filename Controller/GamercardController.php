@@ -2,10 +2,11 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\File\Picture;
 
@@ -14,14 +15,14 @@ use VideoGamesRecords\CoreBundle\File\Picture;
  * @Route("/gamercard")
  * @Cache(expires="tomorrow", public=true)
  */
-class GamercardController extends Controller
+class GamercardController extends AbstractController
 {
     /**
      * @Route("/mini/{id}", name="gamercard_mini", methods={"GET"})
      * @Cache(smaxage="900")
      * @param Player $player
      * @ParamConverter("player", class="VideoGamesRecordsCoreBundle:Player")
-     * @throws \Exception
+     * @throws Exception
      */
     public function miniAction(Player $player)
     {
@@ -38,7 +39,7 @@ class GamercardController extends Controller
             ->write($this->numberFormat($player->getPointGame()) . ' Pts', $fontSize, 40, 20)
             ->write('/', $fontSize, 124, 20)
             ->addColor('darkYellow', 255, 191, 1)
-            ->write($player->getRankPointGame() . ' ' . $this->getOrdinalSuffix($player->getRankPointGame()) , $fontSize, 130, 20);
+            ->write($player->getRankPointGame() . ' ' . $this->getOrdinalSuffix($player->getRankPointGame()), $fontSize, 130, 20);
 
 
         // Ranking Medals
@@ -66,7 +67,7 @@ class GamercardController extends Controller
         // Add avatar
         try {
             $avatar = Picture::loadFile($directory . 'avatar/' . $player->getAvatar(), true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $avatar = Picture::loadFile($directory . 'avatar/default.png', true);
         }
         $gamercard->copyResized($avatar, 4, 2, 0, 0, 26, 26);
@@ -84,7 +85,7 @@ class GamercardController extends Controller
      * @Cache(smaxage="900")
      * @param Player $player
      * @ParamConverter("player", class="VideoGamesRecordsCoreBundle:Player")
-     * @throws \Exception
+     * @throws Exception
      */
     public function classicAction(Player $player)
     {
@@ -140,7 +141,7 @@ class GamercardController extends Controller
         // Add avatar
         try {
             $avatar = Picture::loadFile($directory . 'avatar/' . $player->getAvatar(), true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $avatar = Picture::loadFile($directory . 'avatar/default.png', true);
         }
         $gamercard->copyResized($avatar, 9, 30, 0, 0, 64, 64);

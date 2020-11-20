@@ -13,7 +13,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * GameTopic
  *
- * @ORM\Table(name="vgr_game_topic", indexes={@ORM\Index(name="idxTopic", columns={"id"}), @ORM\Index(name="idxPlayer", columns={"idPlayer"})})
+ * @ORM\Table(name="vgr_game_topic")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameTopicRepository")
  */
 class GameTopic implements TimestampableInterface
@@ -79,7 +79,7 @@ class GameTopic implements TimestampableInterface
      * @param integer $id
      * @return GameTopic
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -101,7 +101,7 @@ class GameTopic implements TimestampableInterface
      * @param string $libTopic
      * @return GameTopic
      */
-    public function setLibTopic($libTopic)
+    public function setLibTopic(string $libTopic)
     {
         $this->libTopic = $libTopic;
 
@@ -147,7 +147,7 @@ class GameTopic implements TimestampableInterface
 
     /**
      * Set game
-     * @param Game $game
+     * @param Game|null $game
      * @return GameTopic
      */
     public function setGame(Game $game = null)

@@ -5,12 +5,23 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * TeamRequest
  *
  * @ORM\Table(name="vgr_team_request")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRequestRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\TeamRequestListener"})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "status": "exact",
+ *          "player": "exact",
+ *          "team": "exact"
+ *      }
+ * )
  */
 class TeamRequest implements TimestampableInterface
 {
@@ -24,11 +35,11 @@ class TeamRequest implements TimestampableInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="idRequest", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idRequest;
+    private $id;
 
     /**
      * @var string
@@ -58,34 +69,40 @@ class TeamRequest implements TimestampableInterface
     private $player;
 
     /**
-     * Set idRequest
-     *
-     * @param integer $idRequest
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s # %s [%s]', $this->getTeam()->getLibTeam(), $this->getPlayer()->getPseudo(), $this->id);
+    }
+
+    /**
+     * Set id
+     * @param integer $id
      * @return $this
      */
-    public function setIdRequest($idRequest)
+    public function setId(int $id)
     {
-        $this->idRequest = $idRequest;
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idRequest
+     * Get id
      *
      * @return integer
      */
-    public function getIdRequest()
+    public function getId()
     {
-        return $this->idRequest;
+        return $this->id;
     }
 
     /**
      * Set status
-     *
      * @param string $status
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
 
@@ -104,8 +121,7 @@ class TeamRequest implements TimestampableInterface
 
     /**
      * Set player
-     *
-     * @param Player $player
+     * @param Player|null $player
      * @return $this
      */
     public function setPlayer(Player $player = null)
@@ -127,7 +143,7 @@ class TeamRequest implements TimestampableInterface
 
     /**
      * Set team
-     * @param Team $team
+     * @param Team|null $team
      * @return $this
      */
     public function setTeam(Team $team = null)
@@ -144,5 +160,18 @@ class TeamRequest implements TimestampableInterface
     public function getTeam()
     {
         return $this->team;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusChoices()
+    {
+        return [
+            self::STATUS_ACTIVE => self::STATUS_ACTIVE,
+            self::STATUS_REFUSED => self::STATUS_REFUSED,
+            self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
+            self::STATUS_CANCELED => self::STATUS_CANCELED,
+        ];
     }
 }

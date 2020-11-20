@@ -2,20 +2,25 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Tools\Score;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\Team;
+use VideoGamesRecords\CoreBundle\Tools\Score;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 
 /**
  * Class ChartController
  */
-class ChartController extends Controller
+class ChartController extends AbstractController
 {
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
+     * @return Player|null
      */
     private function getPlayer()
     {
@@ -27,7 +32,7 @@ class ChartController extends Controller
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     * @return Team|null
      */
     private function getTeam()
     {
@@ -37,19 +42,6 @@ class ChartController extends Controller
             return $player->getTeam();
         }
         return null;
-    }
-
-    /**
-     * @Route("/{id}/{slug}", requirements={"id": "[1-9]\d*"}, name="vgr_chart_index", methods={"GET"})
-     * @Cache(smaxage="10")
-     *
-     * @param int $id
-     * @param string $slug
-     */
-    public function indexAction($id, $slug)
-    {
-        //@todo redirect to front
-        exit;
     }
 
     /**
@@ -83,6 +75,24 @@ class ChartController extends Controller
         return $ranking;
     }
 
+
+    /**
+     * @param Chart    $chart
+     * @param Request $request
+     * @return mixed
+     */
+    public function playerRankingPoints(Chart $chart, Request $request)
+    {
+        $maxRank = $request->query->get('maxRank', 5);
+        $idTeam = $request->query->get('idTeam', null);
+        if ($idTeam) {
+            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
+        } else {
+            $team = null;
+        }
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getRankingPoints($chart, $maxRank, $this->getPlayer(), $team);
+    }
+
     /**
      * @param Chart    $chart
      * @param Request $request
@@ -95,10 +105,12 @@ class ChartController extends Controller
     }
 
     /**
+     * Call api form form submit scores
      * Return charts with the one relation player-chart of the connected user
      * If the user has not relation, a default relation is created
      * @param Request $request
      * @return mixed
+     * @throws Exception
      */
     public function charts(Request $request)
     {
@@ -124,6 +136,7 @@ class ChartController extends Controller
                 $playerChart->setId(-1);
                 $playerChart->setChart($chart);
                 $playerChart->setPlayer($player);
+                $playerChart->setLastUpdate(new DateTime());
                 if (count($platforms) == 1) {
                     $playerChart->setPlatform($platforms[0]);
                 }
@@ -134,6 +147,10 @@ class ChartController extends Controller
                     $playerChart->addLib($playerChartLib);
                 }
                 $chart->setPlayerCharts(array($playerChart));
+            } else {
+                // Set lastUpdate now for return put call
+                $playerCharts = $chart->getPlayerCharts();
+                $playerCharts[0]->setLastUpdate(new DateTime());
             }
         }
         return $charts;

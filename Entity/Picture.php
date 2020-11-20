@@ -9,7 +9,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * Proof
  *
- * @ORM\Table(name="vgr_picture", indexes={@ORM\Index(name="idxIdPicture", columns={"idPicture"})})
+ * @ORM\Table(name="vgr_picture")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PictureRepository")
  */
 class Picture implements TimestampableInterface
@@ -66,7 +66,7 @@ class Picture implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -89,7 +89,7 @@ class Picture implements TimestampableInterface
      * @param string $path
      * @return $this
      */
-    public function setPath($path)
+    public function setPath(string $path)
     {
         $this->path = $path;
         return $this;
@@ -111,7 +111,7 @@ class Picture implements TimestampableInterface
      * @param string $metadata
      * @return $this
      */
-    public function setMetadata($metadata)
+    public function setMetadata(string $metadata)
     {
         $this->metadata = $metadata;
         return $this;
@@ -133,7 +133,7 @@ class Picture implements TimestampableInterface
      * @param string $hash
      * @return $this
      */
-    public function setHash($hash)
+    public function setHash(string $hash)
     {
         $this->hash = $hash;
         return $this;

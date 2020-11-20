@@ -2,7 +2,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerGroup:
   attributes:
     player:
       groups:
-        - 'player.read'
+        - 'playerGroup.player'
     group:
     rankPointChart:
       groups:

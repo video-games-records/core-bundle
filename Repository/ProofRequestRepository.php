@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 class ProofRequestRepository extends EntityRepository
 {
@@ -10,6 +12,8 @@ class ProofRequestRepository extends EntityRepository
     /**
      * @param $player
      * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function getNbRequestFromToDay($player)
     {

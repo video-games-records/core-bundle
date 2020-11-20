@@ -12,6 +12,7 @@ use VideoGamesRecords\CoreBundle\Entity\Video;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class VideoAdmin extends AbstractAdmin
@@ -19,7 +20,7 @@ class VideoAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_video';
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -28,7 +29,7 @@ class VideoAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -70,36 +71,32 @@ class VideoAdmin extends AbstractAdmin
                     'choices' => Video::getTypeChoices(),
                 ]
             )
-            ->add('url', 'text', [
+            ->add('url', TextType::class, [
                 'label' => 'Url',
                 'required' => true,
             ])
-            ->add(
-                'status',
-                ChoiceType::class,
-                [
-                    'label' => 'Status',
-                    'choices' => Video::getStatusChoices(),
-                ]
-            );
+            ->add('boolActive', CheckboxType::class, [
+                'label' => 'Active ?',
+                'required' => false,
+            ]);
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
-            ->add('status')
+            ->add('boolActive')
+            ->add('type')
             ->add('player', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
     }
 
-
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -117,12 +114,17 @@ class VideoAdmin extends AbstractAdmin
                 'libVideo'
             )
             ->add(
-                'status',
-                'choice',
+                'type'
+            )
+            ->add(
+                'url'
+            )
+            ->add(
+                'boolActive',
+                'boolean',
                 [
-                    'label' => 'Status',
+                    'label' => 'Active ?',
                     'editable' => true,
-                    'choices' => Video::getStatusChoices(),
                 ]
             )
             ->add('_action', 'actions', [
@@ -134,13 +136,13 @@ class VideoAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->add('id')
-            ->add('status')
+            ->add('boolActive')
             ->add('libVideo')
             ->add('player')
             ->add('game')

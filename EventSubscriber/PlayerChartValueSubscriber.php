@@ -6,7 +6,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 final class PlayerChartValueSubscriber implements EventSubscriberInterface
 {
@@ -23,9 +23,9 @@ final class PlayerChartValueSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param GetResponseForControllerResultEvent $event
+     * @param ViewEvent $event
      */
-    public function setValue(GetResponseForControllerResultEvent $event)
+    public function setValue(ViewEvent $event)
     {
         $playerChart = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();

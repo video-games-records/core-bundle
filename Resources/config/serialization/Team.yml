@@ -2,42 +2,47 @@ VideoGamesRecords\CoreBundle\Entity\Team:
   attributes:
     id:
       groups:
-        - 'team.show'
-        - 'team.profile'
+        - 'team.read'
+        - 'team.read.mini'
         - 'team.list'
         - 'team.put'
     libTeam:
       groups:
-        - 'team.show'
-        - 'team.profile'
+        - 'team.read'
+        - 'team.read.mini'
         - 'team.list'
         - 'team.put'
+    slug:
+      groups:
+        - 'team.read'
+        - 'team.read.mini'
+        - 'team.list'
     tag:
       groups:
-        - 'team.profile'
-        - 'team.show'
+        - 'team.read'
+        - 'team.read.mini'
         - 'team.list'
         - 'team.put'
     status:
       groups:
-        - 'team.profile'
+        - 'team.read'
         - 'team.put'
     siteWeb:
       groups:
-        - 'team.profile'
+        - 'team.read'
         - 'team.put'
     logo:
       groups:
+        - 'team.read'
         - 'team.profile'
     leader:
       groups:
         - 'team.leader'
-        - 'team.profile'
         - 'team.put'
       max_depth: 1
     nbPlayer:
       groups:
-        - 'team.profile'
+        - 'team.read'
         - 'team.list'
     rankPointChart:
       groups:
@@ -49,6 +54,9 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       groups:
         - 'team.rank.pointGame'
     pointGame:
+      groups:
+        - 'team.rank.pointGame'
+    nbGame:
       groups:
         - 'team.rank.pointGame'
     rankMedal:
@@ -100,3 +108,8 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     createdAt:
       groups:
         - 'team.list'
+        - 'team.read'
+    players:
+      groups:
+        - 'team.players'
+

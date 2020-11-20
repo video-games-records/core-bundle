@@ -18,8 +18,7 @@ trait Game
 
     /**
      * Set game
-     *
-     * @param GameEntity $game
+     * @param GameEntity|null $game
      * @return $this
      */
     public function setGame(GameEntity $game = null)

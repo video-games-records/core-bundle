@@ -1,13 +1,27 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Aws\S3\S3Client;
 
 class PictureCommand extends DefaultCommand
 {
+    protected static $defaultName = 'vgr-core:picture';
+
+    private $em;
+    private $s3client;
+
+    public function __construct(EntityManagerInterface $em, S3Client $s3client)
+    {
+        $this->em = $em;
+        $this->s3client = $s3client;
+        parent::__construct($em);
+    }
+
     protected function configure()
     {
         $this
@@ -57,7 +71,6 @@ class PictureCommand extends DefaultCommand
                     $sth->execute();
                     $list = $sth->fetchAll();
 
-                    $s3 = $this->getContainer()->get('aws.s3');
                     foreach ($list as $row) {
                         $fileInfo = pathinfo($row['name']);
                         $metadata = [
@@ -74,7 +87,7 @@ class PictureCommand extends DefaultCommand
                         fclose($file);
                         $hash = hash_file('sha256', $fileName);
 
-                        $s3->putObject(
+                        $this->s3client->putObject(
                             [
                                 'Bucket' => $_ENV['AWS_BUCKET_PROOF'],
                                 'Key' => $key,

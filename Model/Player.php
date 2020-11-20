@@ -18,8 +18,7 @@ trait Player
 
     /**
      * Set player
-     *
-     * @param PlayerEntity $player
+     * @param PlayerEntity|object|null $player
      * @return $this
      */
     public function setPlayer(PlayerEntity $player = null)

@@ -3,6 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -17,11 +20,11 @@ class TeamChartRepository extends EntityRepository
 
     /**
      * @param Chart $chart
-     * @param int $maxRank
-     * @param Team $team
+     * @param null  $maxRank
+     * @param null  $team
      * @return array
      */
-    public function getRankingPoints($chart, $maxRank = null, $team = null)
+    public function getRankingPoints(Chart $chart, $maxRank = null, $team = null)
     {
         $query = $this->createQueryBuilder('tc')
             ->join('tc.team', 't')
@@ -45,13 +48,17 @@ class TeamChartRepository extends EntityRepository
     }
 
 
-
     /**
      * @param $chart
      * @return array
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws ExceptionInterface
      */
     public function maj($chart)
     {
+        /** @var Chart $chart */
+
         $teams = [];
 
         //----- delete
@@ -124,6 +131,8 @@ class TeamChartRepository extends EntityRepository
 
             $this->_em->persist($teamChart);
         }
+
+        $chart->setStatusTeam(Chart::STATUS_NORMAL);
         $this->_em->flush();
 
         return $teams;

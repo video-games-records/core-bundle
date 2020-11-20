@@ -3,12 +3,17 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use DateTime;
+use Doctrine\ORM\EntityManager;
+use Exception;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,16 +28,29 @@ class GameAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_game';
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
-            ->remove('export');
+            ->remove('export')
+            ->add('copy', $this->getRouterIdParameter().'/copy');
     }
 
     /**
-     * @inheritdoc
+     * @param ProxyQueryInterface $query
+     * @return ProxyQueryInterface
+     */
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+            ->addSelect('t');
+        return $query;
+    }
+
+    /**
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -89,7 +107,7 @@ class GameAdmin extends AbstractAdmin
                         'required' => true,
                     ],
                     'rules' => [
-                        'field_type' => TextareaType::class,
+                        'field_type' => CKEditorType::class,
                         'label' => ' Rules',
                         'required' => false,
                     ]
@@ -99,20 +117,21 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
-            ->add('translations.name')
+            ->add('serie')
+            ->add('translations.name', null, ['label' => 'Name'])
             ->add('status')
             ->add('etat')
             ->add('boolRanking');
     }
 
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -150,6 +169,9 @@ class GameAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'copy' => [
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_copy_link.html.twig'
+                    ],
                     'groups' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
                     ],
@@ -161,7 +183,7 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -174,19 +196,19 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @param \VideoGamesRecords\CoreBundle\Entity\Game $object
-     * @throws \Exception
+     * @param $object
+     * @throws Exception
      */
     public function preUpdate($object)
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
+        /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
 
         // PUBLISHED
         if ($originalObject['status'] === Game::STATUS_INACTIVE && $object->getStatus() === Game::STATUS_ACTIVE) {
             if ($object->getPublishedAt() == null) {
-                $object->setPublishedAt(new \DateTime());
+                $object->setPublishedAt(new DateTime());
             }
         }
     }

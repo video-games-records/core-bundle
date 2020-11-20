@@ -3,13 +3,27 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     id:
       groups:
         - 'player.read'
-        - 'player.profile'
+        - 'player.read.mini'
         - 'user.profile'
         - 'player.put'
     pseudo:
       groups:
         - 'player.read'
-        - 'player.profile'
+        - 'player.read.mini'
+    slug:
+      groups:
+        - 'player.read'
+        - 'player.read.mini'
+    user:
+      groups:
+        - 'player.user'
+    avatar:
+      groups:
+        - 'player.read'
+        - 'player.read.mini'
+    country:
+      groups:
+        - 'player.country'
     rankPointChart:
       groups:
         - 'player.pointChart'
@@ -75,16 +89,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     nbMasterBadge:
       groups:
         - 'player.badge'
-    avatar:
-      groups:
-        - 'ranking_point'
-        - 'ranking_medal'
-        - 'team.leader.show'
     team:
       groups:
         - 'user.profile'
-        - 'player.team.show'
+        - 'player.team'
         - 'player.put'
         - 'player.profile'
-    country:
-      groups: []

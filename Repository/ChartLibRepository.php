@@ -21,8 +21,8 @@ class ChartLibRepository extends EntityRepository
                 ->setParameter('idChart', $params['idChart']);
         }
 
-        if (array_key_exists('idGroup', $params)) {
-        }
+        /*if (array_key_exists('idGroup', $params)) {
+        }*/
 
         return $query->getQuery()
             ->getResult();

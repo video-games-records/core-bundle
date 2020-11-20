@@ -2,9 +2,10 @@ VideoGamesRecords\CoreBundle\Entity\PlayerGame:
   attributes:
     player:
       groups:
-        - 'player.read'
+        - 'playerGame.player'
     game:
-      groups: []
+      groups:
+        - 'playerGame.game'
     rankPointChart:
       groups:
         - 'playerGame.pointChart'

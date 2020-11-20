@@ -1,0 +1,5 @@
+VideoGamesRecords\CoreBundle\Entity\Picture:
+  attributes:
+    id:
+      groups:
+        - 'picture.read'

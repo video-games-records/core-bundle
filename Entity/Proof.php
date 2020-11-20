@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 /**
  * Proof
  *
- * @ORM\Table(name="vgr_proof", indexes={@ORM\Index(name="idxIdProof", columns={"idProof"})})
+ * @ORM\Table(name="vgr_proof")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRepository")
  */
 class Proof implements TimestampableInterface
@@ -20,6 +20,8 @@ class Proof implements TimestampableInterface
     const STATUS_IN_PROGRESS = 'IN PROGRESS';
     const STATUS_REFUSED = 'REFUSED';
     const STATUS_ACCEPTED = 'ACCEPTED';
+    const STATUS_CLOSED = 'CLOSED';
+
 
     /**
      * @var integer
@@ -87,11 +89,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return $this
      */
-    public function setIdProof($id)
+    public function setIdProof(int $id)
     {
         $this->id = $id;
         return $this;
@@ -154,11 +155,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set status
-     *
      * @param string $status
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
         return $this;
@@ -219,6 +219,7 @@ class Proof implements TimestampableInterface
             self::STATUS_IN_PROGRESS => self::STATUS_IN_PROGRESS,
             self::STATUS_REFUSED => self::STATUS_REFUSED,
             self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
+            self::STATUS_CLOSED => self::STATUS_CLOSED
         ];
     }
 }

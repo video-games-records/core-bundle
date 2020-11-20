@@ -11,7 +11,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 /**
  * Game
  *
- * @ORM\Table(name="vgr_platform", indexes={@ORM\Index(name="idxLibPlatform", columns={"libPlatform"})})
+ * @ORM\Table(name="vgr_platform")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlatformRepository")
  * @ApiResource(attributes={"order"={"libPlatform"}})
  *
@@ -69,7 +69,7 @@ class Platform implements SluggableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -102,7 +102,7 @@ class Platform implements SluggableInterface
      * @param string $libPlatform
      * @return $this
      */
-    public function setLibPlatform($libPlatform)
+    public function setLibPlatform(string $libPlatform)
     {
         $this->libPlatform = $libPlatform;
 
@@ -115,7 +115,7 @@ class Platform implements SluggableInterface
      * @param string $picture
      * @return $this
      */
-    public function setPicture($picture)
+    public function setPicture(string $picture)
     {
         $this->picture = $picture;
 
@@ -138,7 +138,7 @@ class Platform implements SluggableInterface
      * @param string $status
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
 

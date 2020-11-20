@@ -9,7 +9,7 @@ use VideoGamesRecords\CoreBundle\Tools\Score;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_charttype", indexes={@ORM\Index(name="idxIdType", columns={"idType"}) })
+ * @ORM\Table(name="vgr_charttype")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartTypeRepository")
  */
 class ChartType
@@ -62,7 +62,7 @@ class ChartType
      * @param string $mask
      * @return ChartType
      */
-    public function setMask($mask)
+    public function setMask(string $mask)
     {
         $this->mask = $mask;
         return $this;
@@ -85,7 +85,7 @@ class ChartType
      * @param string $orderBy
      * @return ChartType
      */
-    public function setOrderBy($orderBy)
+    public function setOrderBy(string $orderBy)
     {
         $this->orderBy = $orderBy;
         return $this;
@@ -123,7 +123,7 @@ class ChartType
      * @param int $idType
      * @return ChartType
      */
-    public function setIdType($idType)
+    public function setIdType(int $idType)
     {
         $this->idType = $idType;
         return $this;
@@ -141,7 +141,7 @@ class ChartType
      * @param string $name
      * @return ChartType
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
         return $this;

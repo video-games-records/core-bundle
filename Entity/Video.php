@@ -5,25 +5,32 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Player;
-use VideoGamesRecords\CoreBundle\Model\Game;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
  * Video
  *
- * @ORM\Table(name="vgr_video", indexes={@ORM\Index(name="idxIdVideo", columns={"idVideo"})})
+ * @ORM\Table(name="vgr_video")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @ApiResource(attributes={"order"={"id": "ASC"}})
+ * @ApiFilter(OrderFilter::class, properties={"id": "ASC"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(BooleanFilter::class, properties={"boolActive"})
+ * @DoctrineAssert\UniqueEntity(fields={"url"})
  */
-class Video implements TimestampableInterface
+class Video implements TimestampableInterface, SluggableInterface
 {
     use TimestampableTrait;
+    use SluggableTrait;
     use Player;
-    use Game;
-
-    const STATUS_OK = 'OK';
-    const STATUS_ERROR = 'ERROR';
 
     const TYPE_YOUTUBE = 'Youtube';
     const TYPE_TWITCH = 'Twitch';
@@ -38,13 +45,13 @@ class Video implements TimestampableInterface
      */
     private $id;
 
-
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="status", type="string", nullable=false)
+     * @ORM\Column(name="boolActive", type="boolean", nullable=false, options={"default":true})
      */
-    private $status = self::STATUS_OK;
+    private $boolActive = true;
+
 
     /**
      * @var string
@@ -72,6 +79,13 @@ class Video implements TimestampableInterface
     private $libVideo;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbComment", type="integer", nullable=false, options={"default":0})
+     */
+    private $nbComment = 0;
+
+    /**
      * @var Game
      *
      * @Assert\NotNull
@@ -81,6 +95,12 @@ class Video implements TimestampableInterface
      * })
      */
     private $game;
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\VideoComment", mappedBy="video")
+     */
+    private $comments;
+
 
 
     /**
@@ -93,11 +113,10 @@ class Video implements TimestampableInterface
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return Video
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
         return $this;
@@ -114,34 +133,33 @@ class Video implements TimestampableInterface
     }
 
     /**
-     * Set status
-     *
-     * @param string $status
+     * Set boolActive
+     * @param boolean $boolActive
      * @return Video
      */
-    public function setStatus($status)
+    public function setBoolActive(bool $boolActive)
     {
-        $this->status = $status;
+        $this->boolActive = $boolActive;
+
         return $this;
     }
 
     /**
-     * Get status
+     * Get boolActive
      *
-     * @return string
+     * @return boolean
      */
-    public function getStatus()
+    public function getBoolActive()
     {
-        return $this->status;
+        return $this->boolActive;
     }
 
     /**
      * Set type
-     *
      * @param string $type
      * @return Video
      */
-    public function setType($type)
+    public function setType(string $type)
     {
         $this->type = $type;
         return $this;
@@ -159,11 +177,10 @@ class Video implements TimestampableInterface
 
     /**
      * Set libVideo
-     *
      * @param string $libVideo
      * @return Video
      */
-    public function setLibVideo($libVideo)
+    public function setLibVideo(string $libVideo)
     {
         $this->libVideo = $libVideo;
 
@@ -182,11 +199,10 @@ class Video implements TimestampableInterface
 
     /**
      * Set url
-     *
      * @param string $url
      * @return Video
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->url = $url;
 
@@ -205,7 +221,7 @@ class Video implements TimestampableInterface
 
     /**
      * Set game
-     * @param Game $game
+     * @param Game|null $game
      * @return Video
      */
     public function setGame(Game $game = null)
@@ -213,6 +229,28 @@ class Video implements TimestampableInterface
         $this->game = $game;
 
         return $this;
+    }
+
+    /**
+     * Set nbComment
+     * @param integer $nbComment
+     * @return $this
+     */
+    public function setNbComment(int $nbComment)
+    {
+        $this->nbComment = $nbComment;
+
+        return $this;
+    }
+
+    /**
+     * Get nbComment
+     *
+     * @return integer
+     */
+    public function getNbComment()
+    {
+        return $this->nbComment;
     }
 
     /**
@@ -225,14 +263,11 @@ class Video implements TimestampableInterface
     }
 
     /**
-     * @return array
+     * @return mixed
      */
-    public static function getStatusChoices()
+    public function getComments()
     {
-        return [
-            self::STATUS_OK => self::STATUS_OK,
-            self::STATUS_ERROR => self::STATUS_ERROR,
-        ];
+        return $this->comments;
     }
 
     /**
@@ -258,5 +293,60 @@ class Video implements TimestampableInterface
         } elseif (strpos($this->getUrl(), 'twitch')) {
             $this->setType(self::TYPE_UNKNOWN);
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmbeddedUrl()
+    {
+        if ($this->getType() == self::TYPE_YOUTUBE) {
+            return 'https://www.youtube.com/embed/' . $this->getYoutubeId();
+        } elseif ($this->getType() == self::TYPE_TWITCH) {
+            return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getTwitchId();
+        } else {
+            return $this->getUrl();
+        }
+    }
+
+    /**
+     * @return mixed|string|null
+     */
+    public function getVideoId()
+    {
+        if ($this->getType() == self::TYPE_YOUTUBE) {
+            return $this->getYoutubeId();
+        } elseif ($this->getType() == self::TYPE_TWITCH) {
+            return $this->getTwitchId();
+        }
+        return null;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getYoutubeId()
+    {
+        $explode = explode('=', $this->getUrl());
+        return isset($explode[1]) ? $explode[1] : null;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getTwitchId()
+    {
+        $explode = explode('/', $this->getUrl());
+        return $explode[count($explode) - 1];
+    }
+
+    /**
+     * Returns an array of the fields used to generate the slug.
+     *
+     * @return string[]
+     */
+    public function getSluggableFields(): array
+    {
+        return ['libVideo'];
     }
 }

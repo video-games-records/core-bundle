@@ -16,7 +16,7 @@ class PlayerChart
      * @param integer $idPlayer
      * @return $this
      */
-    public function setIdPlayer($idPlayer)
+    public function setIdPlayer(int $idPlayer)
     {
         $this->idPlayer = $idPlayer;
         return $this;
@@ -39,7 +39,7 @@ class PlayerChart
      * @param integer $idChart
      * @return $this
      */
-    public function setIdChart($idChart)
+    public function setIdChart(int $idChart)
     {
         $this->idChart = $idChart;
         return $this;
@@ -62,7 +62,7 @@ class PlayerChart
      * @param integer $idPlatform
      * @return $this
      */
-    public function setIdPlatform($idPlatform)
+    public function setIdPlatform(int $idPlatform)
     {
         $this->idPlatform = $idPlatform;
         return $this;
@@ -85,7 +85,7 @@ class PlayerChart
      * @param array $values
      * @return $this
      */
-    public function setValues($values)
+    public function setValues(array $values)
     {
         $this->values = $values;
         return $this;

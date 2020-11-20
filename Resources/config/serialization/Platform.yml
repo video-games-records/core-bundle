@@ -2,19 +2,18 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
   attributes:
     id:
       groups:
-        - 'platform.list'
         - 'platform.read'
+        - 'platform.read.mini'
     libPlatform:
       groups:
-        - 'platform.list'
         - 'platform.read'
+        - 'platform.read.mini'
     picture:
       groups:
-        - 'platform.list'
         - 'platform.read'
     status:
       groups: []
     slug:
       groups:
-        - 'platform.list'
         - 'platform.read'
+        - 'platform.read.mini'

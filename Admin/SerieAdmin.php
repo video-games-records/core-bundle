@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -13,7 +14,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 class SerieAdmin extends AbstractAdmin
 {
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -22,7 +23,19 @@ class SerieAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param ProxyQueryInterface $query
+     * @return ProxyQueryInterface
+     */
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+            ->addSelect('t');
+        return $query;
+    }
+
+    /**
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -33,17 +46,17 @@ class SerieAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
-            ->add('translations.name');
+            ->add('translations.name', null, ['label' => 'Name']);
     }
 
     /**
-     * @inheritdoc
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -54,12 +67,15 @@ class SerieAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'games' => [
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:serie_games_link.html.twig'
+                    ],
                 ]
             ]);
     }
 
     /**
-     * @inheritdoc
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {

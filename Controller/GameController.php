@@ -5,21 +5,21 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Response;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * Class GameController
  * @Route("/game")
  */
-class GameController extends Controller
+class GameController extends AbstractController
 {
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Player|null
+     * @return Player|null
      */
     private function getPlayer()
     {
@@ -31,7 +31,7 @@ class GameController extends Controller
     }
 
     /**
-     * @return \VideoGamesRecords\CoreBundle\Entity\Team|null
+     * @return Team|null
      */
     private function getTeam()
     {
@@ -58,6 +58,18 @@ class GameController extends Controller
 
 
     /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function listFromPlayerLostPosition(Request $request)
+    {
+        $locale = $request->getLocale();
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
+            ->findFromlostPosition($this->getPlayer(), $locale);
+    }
+
+
+    /**
      * @param Game    $game
      * @param Request $request
      * @return mixed
@@ -65,7 +77,13 @@ class GameController extends Controller
     public function playerRankingPoints(Game $game, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, $maxRank, $this->getPlayer());
+        $idTeam = $request->query->get('idTeam', null);
+        if ($idTeam) {
+            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
+        } else {
+            $team = null;
+        }
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, $maxRank, $this->getPlayer(), $team);
     }
 
 
@@ -110,7 +128,7 @@ class GameController extends Controller
      * @Route("/rss", name="game_rss")
      * @Method("GET")
      * @Cache(smaxage="10")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function rssAction()
     {
