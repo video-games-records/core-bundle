@@ -21,14 +21,7 @@
     "eko/feedbundle": "^2.0",
     "symfony/validator": "~4.4",
     "symfony/framework-bundle": "~4.4",
-    "knplabs/doctrine-behaviors": "~2.0",
-    "knplabs/knp-paginator-bundle": "~2.4",
-    "sensio/framework-extra-bundle": "^5.0.19",
-    "symfony/form": "~4.4",
-    "symfony/security-bundle": "~4.4",
-    "symfony/serializer": "~4.4",
-    "symfony/twig-bundle": "~4.4",
-    "twig/extensions": "^1.3"
+    "knplabs/doctrine-behaviors": "~2.0"
   },
   "suggest": {
     "doctrine/doctrine-fixtures-bundle": "To be able to load fixtures",
