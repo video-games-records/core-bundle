@@ -8,10 +8,6 @@ services:
     VideoGamesRecords\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-    VideoGamesRecords\CoreBundle\Twig\VgrExtension:
-        public: false
-        tags:
-            - { name: twig.extension }
     vgr.playerChartValueSubscriber:
         class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]
