@@ -13,6 +13,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
@@ -24,6 +25,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @ApiResource(attributes={"order"={"id": "ASC"}})
  * @ApiFilter(OrderFilter::class, properties={"id": "ASC"}, arguments={"orderParameterName"="order"})
  * @ApiFilter(BooleanFilter::class, properties={"boolActive"})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "libVideo": "partial"
+ *      }
+ * )
  * @DoctrineAssert\UniqueEntity(fields={"url"})
  */
 class Video implements TimestampableInterface, SluggableInterface
