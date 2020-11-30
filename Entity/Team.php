@@ -9,8 +9,10 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * Team
@@ -18,6 +20,13 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  * @ORM\Table(name="vgr_team")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener"})
+ * @ApiResource(attributes={"order"={"libTeam"}})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "libTeam": "partial"
+ *      }
+ * )
  * @ApiFilter(
  *     GroupFilter::class,
  *     arguments={

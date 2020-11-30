@@ -8,12 +8,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use VideoGamesRecords\CoreBundle\Entity\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 /**
  * Player
  *
  * @ORM\Table(name="vgr_player")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
+ * @ApiResource(attributes={"order"={"pseudo"}})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "pseudo": "partial"
+ *      }
+ * )
+ * @ApiFilter(
+ *     GroupFilter::class,
+ *     arguments={
+ *          "parameterName": "groups",
+ *          "overrideDefaultGroups": true,
+ *          "whitelist": {"player.read", "player.team", "player.country", "player.pointChart", "player.medal", "team.read.mini"}
+ *     }
+ * )
  */
 class Player implements SluggableInterface
 {
