@@ -1119,24 +1119,6 @@ INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
 INSERT INTO user_group (userId, groupId) SELECT id,2 FROM user WHERE id != 0;
 
 
--- VGR PICTURE
-CREATE TABLE `vgr_picture` (
-  `id` int(11) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  `metadata` text,
-  `idPlayer` int(11) NOT NULL,
-  `idGame` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `vgr_picture`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idxPath` (`path`) USING BTREE,
-  ADD KEY `idxPlayer` (`idPlayer`) USING BTREE,
-  ADD KEY `idxGame` (`idGame`) USING BTREE;
-
-
-
-
 ALTER TABLE `vgr_picture` ADD CONSTRAINT `FK_PICTURE_PLAYER` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `vgr_picture` ADD CONSTRAINT `FK_PICTURE_GAME` FOREIGN KEY (`idGame`) REFERENCES `vgr_game`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
@@ -1419,10 +1401,6 @@ ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET 
 ALTER TABLE `vgr_game_topic` CHANGE `idTopic` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game_message` CHANGE `idMessage` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game_topic` DROP `oldIdTopic`;
-
-ALTER TABLE `vgr_picture` ADD `hash` VARCHAR(255) NOT NULL AFTER `path`;
-ALTER TABLE `vgr_picture` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `idGame`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
-
 
 ALTER TABLE `vgr_video` DROP `nbView`;
 ALTER TABLE `vgr_video` DROP `nbComment`;
