@@ -54,6 +54,11 @@ class Platform implements SluggableInterface
      */
     private $status = 'INACTIF';
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="platform")
+     */
+    private $playerPlaform;
+
 
     /**
      * @return string
@@ -153,6 +158,14 @@ class Platform implements SluggableInterface
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerPlatform()
+    {
+        return $this->playerPlaform;
     }
 
     /**

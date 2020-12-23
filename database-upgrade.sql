@@ -1728,3 +1728,42 @@ ALTER TABLE `forum_topic_type` CHANGE `idType` `id` INT(11) NOT NULL AUTO_INCREM
 ALTER TABLE `badge` CHANGE `nbUser` `nbUser` INT(11) NOT NULL DEFAULT '0';
 
 ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+-- vgr_player_platform
+CREATE TABLE `vgr_player_platform` (
+    `idPlayer` int NOT NULL,
+    `idPlatform` int NOT NULL,
+    `rankPointChart` int NOT NULL,
+    `rankPointGame` int NOT NULL,
+    `rankMedal` int NOT NULL,
+    `chartRank0` int NOT NULL,
+    `chartRank1` int NOT NULL,
+    `chartRank2` int NOT NULL,
+    `chartRank3` int NOT NULL,
+    `chartRank4` int NOT NULL,
+    `chartRank5` int NOT NULL,
+    `pointGame` int NOT NULL,
+    `pointChart` int NOT NULL,
+    `nbChart` int NOT NULL,
+    `nbGame` int NOT NULL
+) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+
+
+ALTER TABLE `vgr_player_platform`
+    ADD PRIMARY KEY (`idPlayer`,`idPlatform`),
+    ADD KEY `idxPlatform` (`idPlatform`),
+    ADD KEY `idxPlayer` (`idPlayer`);
+
+
+ALTER TABLE `vgr_player_platform`
+    ADD CONSTRAINT `vgr_player_platform_ibfk_1` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+    ADD CONSTRAINT `vgr_player_platform_ibfk_2` FOREIGN KEY (`idPlatform`) REFERENCES `vgr_platform` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE `vgr_player_platform` ADD INDEX `idxRankPointChart` (`rankPointChart`);
+ALTER TABLE `vgr_player_platform` ADD INDEX `idxRankPointGame` (`rankPointGame`);
+ALTER TABLE `vgr_player_platform` ADD INDEX `idxRankMedal` (`rankMedal`);
+
+
+
+
+

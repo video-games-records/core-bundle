@@ -253,6 +253,11 @@ class Player implements SluggableInterface
     private $rankPointGame;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="player")
+     */
+    private $playerPlatform;
+
+    /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="player")
      */
     private $playerGame;
@@ -982,6 +987,14 @@ class Player implements SluggableInterface
     {
         $this->user = $user;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerPlatform()
+    {
+        return $this->playerPlatform;
     }
 
     /**
