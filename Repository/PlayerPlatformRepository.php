@@ -6,12 +6,67 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use VideoGamesRecords\CoreBundle\Entity\Platform;
+use VideoGamesRecords\CoreBundle\Entity\PlayerPlatform;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 
 class PlayerPlatformRepository extends EntityRepository
 {
+    /**
+     * @param Platform $platform
+     * @param null $maxRank
+     * @param null $player
+     * @return PlayerPlatform[]
+     */
+    public function getRankingPointChart(Platform $platform, $maxRank = null, $player = null): array
+    {
+        $query = $this->createQueryBuilder('pp')
+            ->join('pp.player', 'p')
+            ->addSelect('p')
+            ->orderBy('pp.rankPointChart');
+
+        $query->where('pp.platform = :platform')
+            ->setParameter('platform', $platform);
+
+        if (($maxRank !== null) && ($player !== null)) {
+            $query->andWhere('(pp.rankPointChart <= :maxRank OR pp.player = :player)')
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('player', $player);
+        } elseif ($maxRank !== null) {
+            $query->andWhere('pp.rankPointChart <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        }
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * @param Platform $platform
+     * @param null $maxRank
+     * @param null $player
+     * @return PlayerPlatform[]
+     */
+    public function getRankingPointGame(Platform $platform, $maxRank = null, $player = null): array
+    {
+        $query = $this->createQueryBuilder('pp')
+            ->join('pp.player', 'p')
+            ->addSelect('p')
+            ->orderBy('pp.rankPointGame');
+
+        $query->where('pp.platform = :platform')
+            ->setParameter('platform', $platform);
+
+        if (($maxRank !== null) && ($player !== null)) {
+            $query->andWhere('(pp.rankPointGame <= :maxRank OR pp.player = :player)')
+                ->setParameter('maxRank', $maxRank)
+                ->setParameter('player', $player);
+        } elseif ($maxRank !== null) {
+            $query->andWhere('pp.rankPointGame <= :maxRank')
+                ->setParameter('maxRank', $maxRank);
+        }
+        return $query->getQuery()->getResult();
+    }
 
     /**
      * @param $platform
@@ -21,7 +76,6 @@ class PlayerPlatformRepository extends EntityRepository
      */
     public function maj($platform)
     {
-
         // Delete old data
         $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerPlatform pp WHERE pp.platform = :platform');
         $query->setParameter('platform', $platform);

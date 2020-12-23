@@ -1,0 +1,48 @@
+VideoGamesRecords\CoreBundle\Entity\PlayerPlatform:
+  attributes:
+    player:
+      groups:
+        - 'playerPlatform.player'
+    platform:
+      groups:
+        - 'playerPlatform.platform'
+    rankPointChart:
+      groups:
+        - 'playerPlatform.pointChart'
+    rankPointGame:
+      groups:
+        - 'playerPlatform.pointGame'
+    rankMedal:
+      groups:
+        - 'playerPlatform.medal'
+    chartRank0:
+      groups:
+        - 'playerPlatform.medal'
+    chartRank1:
+      groups:
+        - 'playerPlatform.medal'
+    chartRank2:
+      groups:
+        - 'playerPlatform.medal'
+    chartRank3:
+      groups:
+        - 'playerPlatform.medal'
+    chartRank4:
+    chartRank5:
+    pointChart:
+      groups:
+        - 'playerPlatform.pointChart'
+    pointGame:
+      groups:
+        - 'playerPlatform.pointGame'
+    nbChart:
+      groups:
+        - 'playerPlatform.pointChart'
+        - 'playerPlatform.pointGame'
+        - 'playerPlatform.medal'
+    nbGame:
+      groups:
+        - 'playerPlatform.pointChart'
+        - 'playerPlatform.pointGame'
+        - 'playerPlatform.medal'
+
