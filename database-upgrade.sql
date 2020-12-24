@@ -1734,7 +1734,6 @@ CREATE TABLE `vgr_player_platform` (
     `idPlayer` int NOT NULL,
     `idPlatform` int NOT NULL,
     `rankPointChart` int NOT NULL,
-    `rankPointGame` int NOT NULL,
     `rankMedal` int NOT NULL,
     `chartRank0` int NOT NULL,
     `chartRank1` int NOT NULL,
@@ -1742,9 +1741,9 @@ CREATE TABLE `vgr_player_platform` (
     `chartRank3` int NOT NULL,
     `chartRank4` int NOT NULL,
     `chartRank5` int NOT NULL,
-    `pointGame` int NOT NULL,
     `pointChart` int NOT NULL,
     `nbChart` int NOT NULL,
+    `nbChartProven` int NOT NULL,
     `nbGame` int NOT NULL
 ) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
@@ -1760,7 +1759,6 @@ ALTER TABLE `vgr_player_platform`
     ADD CONSTRAINT `vgr_player_platform_ibfk_2` FOREIGN KEY (`idPlatform`) REFERENCES `vgr_platform` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 ALTER TABLE `vgr_player_platform` ADD INDEX `idxRankPointChart` (`rankPointChart`);
-ALTER TABLE `vgr_player_platform` ADD INDEX `idxRankPointGame` (`rankPointGame`);
 ALTER TABLE `vgr_player_platform` ADD INDEX `idxRankMedal` (`rankMedal`);
 
 

@@ -42,33 +42,6 @@ class PlayerPlatformRepository extends EntityRepository
     }
 
     /**
-     * @param Platform $platform
-     * @param null $maxRank
-     * @param null $player
-     * @return PlayerPlatform[]
-     */
-    public function getRankingPointGame(Platform $platform, $maxRank = null, $player = null): array
-    {
-        $query = $this->createQueryBuilder('pp')
-            ->join('pp.player', 'p')
-            ->addSelect('p')
-            ->orderBy('pp.rankPointGame');
-
-        $query->where('pp.platform = :platform')
-            ->setParameter('platform', $platform);
-
-        if (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pp.rankPointGame <= :maxRank OR pp.player = :player)')
-                ->setParameter('maxRank', $maxRank)
-                ->setParameter('player', $player);
-        } elseif ($maxRank !== null) {
-            $query->andWhere('pp.rankPointGame <= :maxRank')
-                ->setParameter('maxRank', $maxRank);
-        }
-        return $query->getQuery()->getResult();
-    }
-
-    /**
      * @param $platform
      * @throws ORMException
      * @throws OptimisticLockException
@@ -86,7 +59,6 @@ class PlayerPlatformRepository extends EntityRepository
             SELECT
                 p.id,
                 '' as rankPointChart,
-                '' as rankPointGame,
                 '' as rankMedal,
                 SUM(pg.chartRank0) as chartRank0,
                 SUM(pg.chartRank1) as chartRank1,
@@ -94,9 +66,9 @@ class PlayerPlatformRepository extends EntityRepository
                 SUM(pg.chartRank3) as chartRank3,
                 SUM(pg.chartRank4) as chartRank4,
                 SUM(pg.chartRank5) as chartRank5,
-                SUM(pg.pointGame) as pointGame,
                 SUM(pg.pointChart) as pointChart,
                 SUM(pg.nbChart) as nbChart,
+                SUM(pg.nbChartProven) as nbChartProven,
                 COUNT(DISTINCT g.id) as nbGame
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
@@ -115,8 +87,6 @@ class PlayerPlatformRepository extends EntityRepository
         }
 
         $list = Ranking::addRank($list, 'rankPointChart', ['pointChart']);
-        $list = Ranking::order($list, ['pointGame' => SORT_DESC]);
-        $list = Ranking::addRank($list, 'rankPointGame', ['pointGame']);
         $list = Ranking::order($list, ['chartRank0' => SORT_DESC, 'chartRank1' => SORT_DESC, 'chartRank2' => SORT_DESC, 'chartRank3' => SORT_DESC]);
         $list = Ranking::addRank($list, 'rankMedal', ['chartRank0', 'chartRank1', 'chartRank2', 'chartRank3', 'chartRank4', 'chartRank5']);
 

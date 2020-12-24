@@ -44,13 +44,6 @@ class PlayerPlatform
     /**
      * @var integer
      *
-     * @ORM\Column(name="rankPointGame", type="integer", nullable=false)
-     */
-    private $rankPointGame;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="rankMedal", type="integer", nullable=false)
      */
     private $rankMedal;
@@ -114,9 +107,9 @@ class PlayerPlatform
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointGame", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
-    private $pointGame = 0;
+    private $nbChartProven = 0;
 
     /**
      * @var integer
@@ -145,28 +138,6 @@ class PlayerPlatform
     {
         return $this->rankPointChart;
     }
-
-    /**
-     * Set rankPointGame
-     * @param integer $rankPointGame
-     * @return $this
-     */
-    public function setRankPointGame(int $rankPointGame)
-    {
-        $this->rankPointGame = $rankPointGame;
-        return $this;
-    }
-
-    /**
-     * Get rankPointGame
-     *
-     * @return integer
-     */
-    public function getRankPointGame()
-    {
-        return $this->rankPointGame;
-    }
-
 
     /**
      * Set rankMedal
@@ -357,26 +328,28 @@ class PlayerPlatform
         return $this->nbChart;
     }
 
+
     /**
-     * Set pointGame
-     * @param integer $pointGame
+     * Set nbChartProven
+     * @param integer $nbChartProven
      * @return $this
      */
-    public function setPointGame(int $pointGame)
+    public function setNbChartProven(int $nbChartProven)
     {
-        $this->pointGame = $pointGame;
+        $this->nbChartProven = $nbChartProven;
         return $this;
     }
 
     /**
-     * Get pointGame
+     * Get nbChartProven
      *
      * @return integer
      */
-    public function getPointGame()
+    public function getNbChartProven()
     {
-        return $this->pointGame;
+        return $this->nbChartProven;
     }
+
 
     /**
      * @param int $nbGame

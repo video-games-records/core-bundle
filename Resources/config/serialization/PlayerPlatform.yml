@@ -9,9 +9,6 @@ VideoGamesRecords\CoreBundle\Entity\PlayerPlatform:
     rankPointChart:
       groups:
         - 'playerPlatform.pointChart'
-    rankPointGame:
-      groups:
-        - 'playerPlatform.pointGame'
     rankMedal:
       groups:
         - 'playerPlatform.medal'
@@ -32,17 +29,16 @@ VideoGamesRecords\CoreBundle\Entity\PlayerPlatform:
     pointChart:
       groups:
         - 'playerPlatform.pointChart'
-    pointGame:
-      groups:
-        - 'playerPlatform.pointGame'
     nbChart:
       groups:
         - 'playerPlatform.pointChart'
-        - 'playerPlatform.pointGame'
+        - 'playerPlatform.medal'
+    nbChartProven:
+      groups:
+        - 'playerPlatform.pointChart'
         - 'playerPlatform.medal'
     nbGame:
       groups:
         - 'playerPlatform.pointChart'
-        - 'playerPlatform.pointGame'
         - 'playerPlatform.medal'
 

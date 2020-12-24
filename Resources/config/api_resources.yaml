@@ -443,21 +443,6 @@ resources:
                             required: false
                             type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlatformController::playerRankingPointChart'
-            player-ranking-point-game:
-                method: 'GET'
-                normalization_context: { 'groups': [ playerPlatform.pointGame,playerPlatform.player,player.read.mini,player.team,team.read.mini,player.country,player.country.read ] }
-                path: '/platforms/{id}/player-ranking-point-game'
-                swagger_context:
-                    parameters:
-                        -   name: id
-                            in: path
-                            required: true
-                            type: integer
-                        -   name: maxRank
-                            in: query
-                            required: false
-                            type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlatformController::playerRankingPointGame'
     VideoGamesRecords\CoreBundle\Entity\ChartLib:
         properties:
             idLibChart:
