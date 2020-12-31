@@ -337,7 +337,8 @@ resources:
                 _api_receive: true
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [player.read]}
             stats:
                 method: 'GET'
                 path: '/players/stats'
@@ -427,6 +428,21 @@ resources:
         itemOperations:
             get:
                 normalization_context: {'groups': [platform.read]}
+            player-ranking-point-chart:
+                method: 'GET'
+                normalization_context: { 'groups': [ playerPlatform.pointChart,playerPlatform.player,player.read.mini,player.team,team.read.mini,player.country,player.country.read ] }
+                path: '/platforms/{id}/player-ranking-point-chart'
+                swagger_context:
+                    parameters:
+                        -   name: id
+                            in: path
+                            required: true
+                            type: integer
+                        -   name: maxRank
+                            in: query
+                            required: false
+                            type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlatformController::playerRankingPointChart'
     VideoGamesRecords\CoreBundle\Entity\ChartLib:
         properties:
             idLibChart:
@@ -456,7 +472,7 @@ resources:
                 normalization_context: {'groups': [team.profile, team.leader, player.read.mini]}
             get:
                 method: 'GET'
-                normalization_context: {'groups': [team.list, team.leader, player.read.mini]}
+                normalization_context: {'groups': [team.read, team.leader, player.read.mini]}
             team-ranking-point-chart:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.pointChart]}

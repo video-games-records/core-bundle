@@ -4,24 +4,20 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       groups:
         - 'team.read'
         - 'team.read.mini'
-        - 'team.list'
         - 'team.put'
     libTeam:
       groups:
         - 'team.read'
         - 'team.read.mini'
-        - 'team.list'
         - 'team.put'
     slug:
       groups:
         - 'team.read'
         - 'team.read.mini'
-        - 'team.list'
     tag:
       groups:
         - 'team.read'
         - 'team.read.mini'
-        - 'team.list'
         - 'team.put'
     status:
       groups:
@@ -43,7 +39,6 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     nbPlayer:
       groups:
         - 'team.read'
-        - 'team.list'
     rankPointChart:
       groups:
         - 'team.rank.pointChart'
@@ -107,7 +102,6 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       max_depth: 1
     createdAt:
       groups:
-        - 'team.list'
         - 'team.read'
     players:
       groups:

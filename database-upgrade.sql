@@ -1119,24 +1119,6 @@ INSERT INTO `groupRole` (`id`, `name`, `roles`) VALUES
 INSERT INTO user_group (userId, groupId) SELECT id,2 FROM user WHERE id != 0;
 
 
--- VGR PICTURE
-CREATE TABLE `vgr_picture` (
-  `id` int(11) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  `metadata` text,
-  `idPlayer` int(11) NOT NULL,
-  `idGame` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `vgr_picture`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idxPath` (`path`) USING BTREE,
-  ADD KEY `idxPlayer` (`idPlayer`) USING BTREE,
-  ADD KEY `idxGame` (`idGame`) USING BTREE;
-
-
-
-
 ALTER TABLE `vgr_picture` ADD CONSTRAINT `FK_PICTURE_PLAYER` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `vgr_picture` ADD CONSTRAINT `FK_PICTURE_GAME` FOREIGN KEY (`idGame`) REFERENCES `vgr_game`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
@@ -1419,10 +1401,6 @@ ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET 
 ALTER TABLE `vgr_game_topic` CHANGE `idTopic` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game_message` CHANGE `idMessage` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vgr_game_topic` DROP `oldIdTopic`;
-
-ALTER TABLE `vgr_picture` ADD `hash` VARCHAR(255) NOT NULL AFTER `path`;
-ALTER TABLE `vgr_picture` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `idGame`, ADD `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
-
 
 ALTER TABLE `vgr_video` DROP `nbView`;
 ALTER TABLE `vgr_video` DROP `nbComment`;
@@ -1750,3 +1728,40 @@ ALTER TABLE `forum_topic_type` CHANGE `idType` `id` INT(11) NOT NULL AUTO_INCREM
 ALTER TABLE `badge` CHANGE `nbUser` `nbUser` INT(11) NOT NULL DEFAULT '0';
 
 ALTER TABLE `forum_message` CHANGE `message` `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+-- vgr_player_platform
+CREATE TABLE `vgr_player_platform` (
+    `idPlayer` int NOT NULL,
+    `idPlatform` int NOT NULL,
+    `rankPointChart` int NOT NULL,
+    `rankMedal` int NOT NULL,
+    `chartRank0` int NOT NULL,
+    `chartRank1` int NOT NULL,
+    `chartRank2` int NOT NULL,
+    `chartRank3` int NOT NULL,
+    `chartRank4` int NOT NULL,
+    `chartRank5` int NOT NULL,
+    `pointChart` int NOT NULL,
+    `nbChart` int NOT NULL,
+    `nbChartProven` int NOT NULL,
+    `nbGame` int NOT NULL
+) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+
+
+ALTER TABLE `vgr_player_platform`
+    ADD PRIMARY KEY (`idPlayer`,`idPlatform`),
+    ADD KEY `idxPlatform` (`idPlatform`),
+    ADD KEY `idxPlayer` (`idPlayer`);
+
+
+ALTER TABLE `vgr_player_platform`
+    ADD CONSTRAINT `vgr_player_platform_ibfk_1` FOREIGN KEY (`idPlayer`) REFERENCES `vgr_player` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+    ADD CONSTRAINT `vgr_player_platform_ibfk_2` FOREIGN KEY (`idPlatform`) REFERENCES `vgr_platform` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE `vgr_player_platform` ADD INDEX `idxRankPointChart` (`rankPointChart`);
+ALTER TABLE `vgr_player_platform` ADD INDEX `idxRankMedal` (`rankMedal`);
+
+
+
+
+
