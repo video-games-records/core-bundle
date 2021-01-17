@@ -64,12 +64,12 @@ BEGIN
 	        statusTeam = 'MAJ'
 	    WHERE id = OLD.idChart;
 	END IF;
-	IF (OLD.idStatus != NEW.idStatus && (NEW.idStatus != 2 || NEW.idStatus != 5)) THEN
+	IF (OLD.idStatus != NEW.idStatus AND (NEW.idStatus != 2 OR NEW.idStatus != 5)) THEN
 		UPDATE vgr_chart
 	    SET statusPlayer = 'MAJ'
 	    WHERE id = OLD.idChart;
 	END IF;
-	IF (OLD.idStatus != NEW.idStatus && (OLD.idStatus = 7 || NEW.idStatus = 7) ) THEN
+	IF (OLD.idStatus != NEW.idStatus AND (OLD.idStatus = 7 OR NEW.idStatus = 7) ) THEN
 		UPDATE vgr_chart
 		SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = OLD.idChart AND idStatus != 7)
 		WHERE id = OLD.idChart;
@@ -249,13 +249,13 @@ DROP TRIGGER IF EXISTS `vgrPlayerAfterUpdate`//
 CREATE TRIGGER vgrPlayerAfterUpdate AFTER UPDATE ON vgr_player
 FOR EACH ROW
 BEGIN
-  IF OLD.idTeam IS NULL && NEW.idTeam IS NOT NULL THEN
+  IF OLD.idTeam IS NULL AND NEW.idTeam IS NOT NULL THEN
     UPDATE vgr_chart
     SET statusTeam = 'MAJ'
     WHERE id IN (SELECT idChart FROM vgr_player_chart WHERE idPlayer = OLD.id);
   END IF;
 
-  IF NEW.idTeam IS NULL && OLD.idTeam	IS NOT NULL THEN
+  IF NEW.idTeam IS NULL AND OLD.idTeam	IS NOT NULL THEN
     UPDATE vgr_chart
     SET statusTeam = 'MAJ'
     WHERE id IN (SELECT idChart FROM vgr_player_chart WHERE idPlayer = OLD.id);

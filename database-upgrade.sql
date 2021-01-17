@@ -352,7 +352,7 @@ ALTER TABLE `vgr_player_chart` CHANGE `pointRecord` `pointChart` DOUBLE NOT NULL
 ALTER TABLE `vgr_player_chart` CHANGE `idEtat` `idStatus` INT(11) NOT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE dateCreation created_at DATETIME DEFAULT NULL;
 ALTER TABLE `vgr_player_chart` CHANGE dateModification updated_at DATETIME DEFAULT NULL;
-ALTER TABLE `vgr_player_chart` CHANGE rank rank INT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
+ALTER TABLE `vgr_player_chart` CHANGE `rank` `rank` INT NULL, CHANGE nbEqual nbEqual INT NOT NULL, CHANGE isTopScore isTopScore TINYINT(1) NOT NULL;
 ALTER TABLE `vgr_player_chart` DROP PRIMARY KEY;
 ALTER TABLE `vgr_player_chart` ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 ALTER TABLE `vgr_player_chart` ADD UNIQUE( `idChart`, `idPlayer`);
@@ -841,8 +841,7 @@ FROM t_forum
 
 INSERT INTO vgr_game_message (idTopic, idPlayer, text, created_at, updated_at)
 SELECT vgr_game_topic.idTopic, t_forum_message.idMembre, t_forum_message.texte, t_forum_message.dateCreation, t_forum_message.dateModification
-FROM t_forum_message INNER JOIN vgr_game_topic ON vgr_game_topic.oldIdTopic = t_forum_message.idTopic
-ORDER BY t_forum_message.idMessage ASC;
+FROM t_forum_message INNER JOIN vgr_game_topic ON vgr_game_topic.oldIdTopic = t_forum_message.idTopic;
 
 UPDATE vgr_game_topic a, vgr_game_message b
 SET a.created_at = b.created_at
