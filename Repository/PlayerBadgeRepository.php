@@ -68,7 +68,7 @@ class PlayerBadgeRepository extends EntityRepository
     public function majMasterBadge($game)
     {
         //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game->getId(), 1);
+        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, 1);
         $players = array();
         foreach ($ranking as $playerGame) {
             $players[$playerGame->getPlayer()->getId()] = 0;

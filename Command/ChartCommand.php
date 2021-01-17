@@ -180,7 +180,9 @@ class ChartCommand extends DefaultCommand
         //----- Maj player
         foreach ($playerList as $player) {
             $playerRepository->maj($player);
-            $countryList[$player->getCountry()->getId()] = $player->getCountry();
+            if ($player->getCountry()) {
+                $countryList[$player->getCountry()->getId()] = $player->getCountry();
+            }
         }
 
         //----- Maj rank country
