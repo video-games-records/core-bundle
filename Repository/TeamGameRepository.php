@@ -130,14 +130,15 @@ class TeamGameRepository extends EntityRepository
         $serializer = new Serializer([$normalizer]);
 
         foreach ($list as $row) {
-            $teamGame = $serializer->denormalize(
-                $row,
-                'VideoGamesRecords\CoreBundle\Entity\TeamGame'
-            );
-            $teamGame->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['id']));
-            $teamGame->setGame($game);
+            if (isset($row['id'])) {
+                $teamGame = $serializer->denormalize(
+                    $row, 'VideoGamesRecords\CoreBundle\Entity\TeamGame'
+                );
+                $teamGame->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['id']));
+                $teamGame->setGame($game);
 
-            $this->_em->persist($teamGame);
+                $this->_em->persist($teamGame);
+            }
         }
         $this->_em->flush();
     }
