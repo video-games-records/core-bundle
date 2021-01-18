@@ -69,7 +69,7 @@ class TeamBadgeRepository extends EntityRepository
     public function majMasterBadge($game)
     {
         //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($game->getId(), 1);
+        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($game, 1);
         $teams = array();
         /** @var TeamGame $teamGame */
         foreach ($ranking as $teamGame) {
