@@ -7,9 +7,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PlatformCommand extends DefaultCommand
+class PlayerPlatformCommand extends DefaultCommand
 {
-    protected static $defaultName = 'vgr-core:platform';
+    protected static $defaultName = 'vgr-core:player-platform';
 
     private $em;
 
@@ -22,7 +22,7 @@ class PlatformCommand extends DefaultCommand
     protected function configure()
     {
         $this
-            ->setName('vgr-core:platform')
+            ->setName('vgr-core:player-platform')
             ->setDescription('Command to update platform rankings for players')
             ->addArgument(
                 'function',
@@ -41,7 +41,7 @@ class PlatformCommand extends DefaultCommand
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @return bool|int|nul
+     * @return bool|int|null
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -49,11 +49,11 @@ class PlatformCommand extends DefaultCommand
         switch ($function) {
             case 'maj-all':
                 $platforms = $this->em->getRepository('VideoGamesRecordsCoreBundle:Platform')->findAll();
-                foreach($platforms as $platform) {
+                foreach ($platforms as $platform) {
                     $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerPlatform')->maj($platform);
                 }
                 break;
-            case 'maj-player':
+            case 'maj':
                 $idPlatform = $input->getOption('idPlatform');
                 $platform = $this->em->getRepository('VideoGamesRecordsCoreBundle:Platform')->find($idPlatform);
                 $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerPlatform')->maj($platform);
