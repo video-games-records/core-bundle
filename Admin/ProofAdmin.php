@@ -136,6 +136,10 @@ class ProofAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
+            ->add('playerChart.player', null, [
+                'associated_property' => 'pseudo',
+                'label' => 'Player',
+            ])
             ->add('picture', null, [
                 'associated_property' => 'path',
                 'label' => 'Picture',
@@ -172,7 +176,7 @@ class ProofAdmin extends AbstractAdmin
             ->add('video')
             ->add('payerResponding')
             ->add('status')
-            ->add('player')
+            ->add('playerChart.player', null, ['label' => 'Player'])
             ->add('Chart')
             ->add('playerChart');
     }
