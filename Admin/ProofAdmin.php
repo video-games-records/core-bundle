@@ -119,6 +119,9 @@ class ProofAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('status')
+            ->add('playerChart.player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
+                'property' => 'pseudo',
+            ])
             /*->add('status', StringListFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
