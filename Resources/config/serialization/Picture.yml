@@ -3,3 +3,6 @@ VideoGamesRecords\CoreBundle\Entity\Picture:
     id:
       groups:
         - 'picture.read'
+    path:
+      groups:
+        - 'picture.read'
