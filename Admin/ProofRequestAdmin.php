@@ -127,6 +127,7 @@ class ProofRequestAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
+            ->add('createdAt')
             ->add('playerRequesting', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'PlayerRequesting',
@@ -172,6 +173,7 @@ class ProofRequestAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
+            ->add('createdAt')
             ->add('playerRequesting')
             ->add('playerResponding')
             ->add('playerChart')
