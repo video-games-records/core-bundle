@@ -122,6 +122,9 @@ class ProofAdmin extends AbstractAdmin
             ->add('playerChart.player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
                 'property' => 'pseudo',
             ])
+            ->add('playerChart.chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
+                'property' => 'translations.name',
+            ])
             /*->add('status', StringListFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
@@ -142,6 +145,14 @@ class ProofAdmin extends AbstractAdmin
             ->add('playerChart.player', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'Player',
+            ])
+            ->add('playerChart.chart.group.game', null, [
+                'associated_property' => 'name',
+                'label' => 'Game',
+            ])
+            ->add('playerChart.chart', null, [
+                'associated_property' => 'name',
+                'label' => 'Chart',
             ])
             ->add('picture', null, [
                 'associated_property' => 'path',
@@ -175,13 +186,14 @@ class ProofAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
+            ->add('playerChart.player', null, ['label' => 'Player'])
+            ->add('playerChart.chart.group.game', null, ['label' => 'Game'])
+            ->add('playerChart.chart', null, ['label' => 'Chart'])
+            ->add('playerChart')
             ->add('picture')
             ->add('video')
             ->add('payerResponding')
-            ->add('status')
-            ->add('playerChart.player', null, ['label' => 'Player'])
-            ->add('Chart')
-            ->add('playerChart');
+            ->add('status');
     }
 
     /**
