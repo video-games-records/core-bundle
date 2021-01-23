@@ -44,6 +44,10 @@ class PlayerChartListener
             $playerChart->setTopScore(true);
         }
 
+        if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
+            $playerChart->setProof(null);
+        }
+
         if (null === $playerChart->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $playerChart->getStatus()->getId()) {
             $playerChart->setDateInvestigation(new DateTime());
         }

@@ -96,7 +96,7 @@
                                             {% if elements[field_name] is defined %}
                                                 {% if field_name == 'id' %}
                                                     <th>id({{ object.getId() }})</th>
-                                                    <td><img src="{{ path('vgr_core_picture_index',{'id': object.getId()}) }}" alt="" /></td>
+                                                    <td><img src="{{ path('vgr_core_picture_index',{'id': object.getId()}) }}" width="100%" alt="" /></td>
                                                 {%  else %}
                                                     {{ elements[field_name]|render_view_element(object) }}
                                                 {% endif %}
