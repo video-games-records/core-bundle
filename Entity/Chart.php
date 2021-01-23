@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
@@ -17,6 +18,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
  *
  * @ORM\Table(name="vgr_chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
+ * @ApiResource(attributes={"order"={"translations.name": "ASC"}})
  * @method ChartTranslation translate(string $locale, bool $fallbackToDefault)
  */
 class Chart implements SluggableInterface, TimestampableInterface, TranslatableInterface
