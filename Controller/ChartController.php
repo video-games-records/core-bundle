@@ -52,7 +52,7 @@ class ChartController extends AbstractController
     public function playerRanking(Chart $chart, Request $request)
     {
         if ($chart->getStatusPlayer() == Chart::STATUS_NORMAL) {
-            $maxRank = $request->query->get('maxRank', 20);
+            $maxRank = $request->query->get('maxRank', 100);
             $ranking = $this->getDoctrine()
                 ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
                 ->getRanking($chart, $this->getPlayer(), $maxRank);
