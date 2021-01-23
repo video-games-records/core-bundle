@@ -4,14 +4,17 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
       groups:
         - 'playerChart.read'
         - 'playerChart.write'
+        - 'playerChart.put'
         - 'playerChart.ranking'
     chart:
       groups:
         - 'playerChart.chart'
         - 'playerChart.write'
+        - 'playerChart.put'
     player:
       groups:
         - 'playerChart.write'
+        - 'playerChart.put'
         - 'playerChart.player'
     rank:
       groups:
@@ -29,6 +32,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
     status:
       groups:
         - 'playerChart.status'
+        - 'playerChart.put'
     proof:
       groups:
         - 'playerChart.ranking'
@@ -41,12 +45,14 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
       groups:
         - 'playerChart.ranking'
         - 'playerChart.write'
+        - 'playerChart.put'
         - 'playerChart.platform'
     lastUpdate:
       groups:
         - 'playerChart.ranking'
         - 'playerChart.read'
         - 'playerChart.write'
+        - 'playerChart.put'
     createdAt:
       groups: []
     updatedAt:
@@ -54,5 +60,6 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
     libs:
       groups:
         - 'playerChart.write'
+        - 'playerChart.put'
         - 'playerChart.libs'
 
