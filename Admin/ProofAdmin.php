@@ -125,6 +125,9 @@ class ProofAdmin extends AbstractAdmin
             ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
                 'property' => 'translations.name',
             ])
+            /*->add('chart.group', ModelAutocompleteFilter::class, ['label' => 'Group'], null, [
+                'property' => 'translations.name',
+            ])*/
             /*->add('status', StringListFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
@@ -149,6 +152,10 @@ class ProofAdmin extends AbstractAdmin
             ->add('chart.group.game', null, [
                 'associated_property' => 'name',
                 'label' => 'Game',
+            ])
+            ->add('chart.group', null, [
+                'associated_property' => 'name',
+                'label' => 'Group',
             ])
             ->add('chart', null, [
                 'associated_property' => 'name',
@@ -188,6 +195,7 @@ class ProofAdmin extends AbstractAdmin
             ->add('id')
             ->add('Player', null, ['label' => 'Player'])
             ->add('chart.group.game', null, ['label' => 'Game'])
+            ->add('chart.group', null, ['label' => 'Group'])
             ->add('chart', null, ['label' => 'Chart'])
             ->add('playerChart')
             ->add('picture')
