@@ -172,6 +172,8 @@ class PlayerChartController extends AbstractController
         //-- Proof
         $proof = new Proof();
         $proof->setPicture($picture);
+        $proof->setPlayer($playerChart->getPlayer());
+        $proof->setChart($playerChart->getChart());
         $em->persist($proof);
 
         //-- PlayerChart
@@ -239,6 +241,8 @@ class PlayerChartController extends AbstractController
         //-- Proof
         $proof = new Proof();
         $proof->setVideo($video);
+        $proof->setPlayer($playerChart->getPlayer());
+        $proof->setChart($playerChart->getChart());
         $em->persist($proof);
 
         //-- PlayerChart

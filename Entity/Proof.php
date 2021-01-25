@@ -70,6 +70,26 @@ class Proof implements TimestampableInterface
     private $playerResponding;
 
     /**
+     * @var Player
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
+     * })
+     */
+    private $player;
+
+    /**
+     * @var Chart
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
+     * })
+     */
+    private $chart;
+
+    /**
      * @ORM\OneToOne(targetEntity="\VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="proof")
      */
     private $playerChart;
@@ -195,6 +215,53 @@ class Proof implements TimestampableInterface
     public function getPlayerResponding()
     {
         return $this->playerResponding;
+    }
+
+
+    /**
+     * Set player
+     *
+     * @param Player $player
+     * @return $this
+     */
+    public function setPlayer(Player $player)
+    {
+        $this->player = $player;
+
+        return $this;
+    }
+
+    /**
+     * Get player
+     *
+     * @return Player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
+
+    /**
+     * Set chart
+     *
+     * @param Chart $chart
+     * @return $this
+     */
+    public function setChart(Chart $chart)
+    {
+        $this->chart = $chart;
+
+        return $this;
+    }
+
+    /**
+     * Get chart
+     *
+     * @return Chart
+     */
+    public function getChart()
+    {
+        return $this->chart;
     }
 
 
