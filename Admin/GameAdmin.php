@@ -197,6 +197,8 @@ class GameAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('picture')
+            ->add('badge')
             ->add('status')
             ->add('etat')
             ->add('groups');
