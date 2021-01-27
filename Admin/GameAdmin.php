@@ -37,6 +37,13 @@ class GameAdmin extends AbstractAdmin
             ->add('copy', $this->getRouterIdParameter().'/copy');
     }
 
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues['_page'] = 1;
+        $sortValues['_sort_order'] = 'DESC';
+        $sortValues['_sort_by'] = 'id';
+    }
+
     /**
      * @param ProxyQueryInterface $query
      * @return ProxyQueryInterface
