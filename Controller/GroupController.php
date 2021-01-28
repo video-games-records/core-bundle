@@ -92,13 +92,15 @@ class GroupController extends AbstractController
     }
 
     /**
-     * @param Group    $group
+     * @param Group   $group
+     * @param Request $request
      * @return mixed
      */
-    public function topScore(Group $group)
+    public function topScore(Group $group, Request $request)
     {
         $player = $this->getPlayer();
-        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getTopScore($group, $player);
+        $locale = $request->getLocale();
+        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getTopScore($group, $player, $locale);
         foreach ($charts as $chart) {
             foreach ($chart->getPlayerCharts() as $playerChart) {
                 if ($playerChart->getRank() == 1) {
