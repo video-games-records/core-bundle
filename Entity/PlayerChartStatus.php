@@ -4,6 +4,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 
 /**
  * PlayerChartStatus
@@ -11,8 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="vgr_player_chart_status")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository")
  */
-class PlayerChartStatus
+class PlayerChartStatus implements TranslatableInterface
 {
+    use TranslatableTrait;
+
     const ID_STATUS_NORMAL = 1;
     const ID_STATUS_DEMAND = 2;
     const ID_STATUS_INVESTIGATION = 3;
@@ -31,10 +35,10 @@ class PlayerChartStatus
     /**
      * @var string
      *
-     * @Assert\Length(max="50")
-     * @ORM\Column(name="label", type="string", length=50, nullable=false)
+     * @Assert\Length(max="30")
+     * @ORM\Column(name="class", type="string", length=30, nullable=false)
      */
-    private $label;
+    private $class;
 
     /**
      * @var integer
@@ -55,9 +59,16 @@ class PlayerChartStatus
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getLabel(), $this->id);
+        return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
     }
 
+    /**
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        return $this->translate('en', false)->getName();
+    }
 
     /**
      * Set id
@@ -82,25 +93,25 @@ class PlayerChartStatus
 
 
     /**
-     * Set label
-     * @param string $label
+     * Set class
+     * @param string $class
      * @return $this
      */
-    public function setLabel(string $label)
+    public function setLabel(string $class)
     {
-        $this->label = $label;
+        $this->class = $class;
 
         return $this;
     }
 
     /**
-     * Get label
+     * Get class
      *
      * @return string
      */
-    public function getLabel()
+    public function getClass()
     {
-        return $this->label;
+        return $this->class;
     }
 
 
@@ -145,6 +156,25 @@ class PlayerChartStatus
     public function getBoolSendProof()
     {
         return $this->boolSendProof;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName(string $name)
+    {
+        $this->translate(null, false)->setName($name);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->translate(null, false)->getName();
     }
 
     /**

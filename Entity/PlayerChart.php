@@ -13,6 +13,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 /**
@@ -22,12 +23,13 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  * @DoctrineAssert\UniqueEntity(fields={"chart", "player"}, message="A score already exists for the couple player / chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener"})
- * @ORM\HasLifecycleCallbacks()
+ * @ApiFilter(DateFilter::class, properties={"lastUpdate": DateFilter::EXCLUDE_NULL})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
  *          "player": "exact",
- *          "chart": "exact"
+ *          "chart": "exact",
+ *          "chart.group.game": "exact",
  *      }
  * )
  * @ApiFilter(
@@ -35,7 +37,17 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *     arguments={
  *          "parameterName": "groups",
  *          "overrideDefaultGroups": true,
- *          "whitelist": {"playerChart.read","playerChart.chart","playerChart.player","chart.read.mini"}
+ *          "whitelist": {
+ *              "playerChart.read",
+ *              "playerChart.player",
+ *              "player.read.mini",
+ *              "chart.read.mini",
+ *              "playerChart.chart",
+ *              "chart.group",
+ *              "group.read.mini",
+ *              "group.game",
+ *              "game.read.mini"
+ *          }
  *     }
  * )
  * @ApiFilter(

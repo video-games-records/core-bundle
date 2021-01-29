@@ -37,6 +37,13 @@ class GameAdmin extends AbstractAdmin
             ->add('copy', $this->getRouterIdParameter().'/copy');
     }
 
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues['_page'] = 1;
+        $sortValues['_sort_order'] = 'DESC';
+        $sortValues['_sort_by'] = 'id';
+    }
+
     /**
      * @param ProxyQueryInterface $query
      * @return ProxyQueryInterface
@@ -190,6 +197,8 @@ class GameAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('picture')
+            ->add('badge')
             ->add('status')
             ->add('etat')
             ->add('groups');

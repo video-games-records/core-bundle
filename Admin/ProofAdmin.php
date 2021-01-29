@@ -119,12 +119,15 @@ class ProofAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('status')
-            ->add('playerChart.player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
+            ->add('player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
                 'property' => 'pseudo',
             ])
-            ->add('playerChart.chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
+            ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
                 'property' => 'translations.name',
             ])
+            /*->add('chart.group', ModelAutocompleteFilter::class, ['label' => 'Group'], null, [
+                'property' => 'translations.name',
+            ])*/
             /*->add('status', StringListFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
@@ -142,15 +145,19 @@ class ProofAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('playerChart.player', null, [
+            ->add('player', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'Player',
             ])
-            ->add('playerChart.chart.group.game', null, [
+            ->add('chart.group.game', null, [
                 'associated_property' => 'name',
                 'label' => 'Game',
             ])
-            ->add('playerChart.chart', null, [
+            ->add('chart.group', null, [
+                'associated_property' => 'name',
+                'label' => 'Group',
+            ])
+            ->add('chart', null, [
                 'associated_property' => 'name',
                 'label' => 'Chart',
             ])
@@ -186,9 +193,10 @@ class ProofAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('playerChart.player', null, ['label' => 'Player'])
-            ->add('playerChart.chart.group.game', null, ['label' => 'Game'])
-            ->add('playerChart.chart', null, ['label' => 'Chart'])
+            ->add('Player', null, ['label' => 'Player'])
+            ->add('chart.group.game', null, ['label' => 'Game'])
+            ->add('chart.group', null, ['label' => 'Group'])
+            ->add('chart', null, ['label' => 'Chart'])
             ->add('playerChart')
             ->add('picture')
             ->add('video')

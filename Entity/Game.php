@@ -380,12 +380,10 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     }
 
     /**
-     * Set dateActivation
-     *
-     * @param DateTime $pubishedAt
-     * @return Game
+     * @param DateTime|null $pubishedAt
+     * @return $this
      */
-    public function setPublishedAt(DateTime $pubishedAt)
+    public function setPublishedAt(DateTime $pubishedAt = null)
     {
         $this->publishedAt = $pubishedAt;
 

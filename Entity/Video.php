@@ -22,13 +22,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @ORM\Table(name="vgr_video")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource(attributes={"order"={"id": "ASC"}})
+ * @ApiResource(attributes={"order"={"id": "DESC"}})
  * @ApiFilter(OrderFilter::class, properties={"id": "ASC"}, arguments={"orderParameterName"="order"})
  * @ApiFilter(BooleanFilter::class, properties={"boolActive"})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
- *          "libVideo": "partial"
+ *          "libVideo": "partial",
+ *          "game": "exacte",
  *      }
  * )
  * @DoctrineAssert\UniqueEntity(fields={"url"})

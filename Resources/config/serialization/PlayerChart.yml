@@ -59,6 +59,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
       groups: []
     libs:
       groups:
+        - 'playerChart.read'
         - 'playerChart.write'
         - 'playerChart.put'
         - 'playerChart.libs'
