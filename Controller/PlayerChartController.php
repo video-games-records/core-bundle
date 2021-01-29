@@ -264,15 +264,4 @@ class PlayerChartController extends AbstractController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function last(Request $request)
-    {
-        $locale = $request->getLocale();
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getLast($locale);
-    }
 }
