@@ -51,14 +51,6 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *     }
  * )
  * @ApiFilter(
- *     GroupFilter::class,
- *     arguments={
- *          "parameterName": "groups",
- *          "overrideDefaultGroups": true,
- *          "whitelist": {"playerChart.read","playerChart.chart","playerChart.player","chart.read.mini"}
- *     }
- * )
- * @ApiFilter(
  *     OrderFilter::class,
  *     properties={
  *          "id":"ASC",
