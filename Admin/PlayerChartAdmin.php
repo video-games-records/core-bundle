@@ -69,7 +69,8 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_delete' => false,
                 'btn_catalogue' => true,
                 'label' => 'Chart',
-            ]);
+            ])
+            ->add('status', null);
 
         $formMapper
             ->add('libs', CollectionType::class, array(
