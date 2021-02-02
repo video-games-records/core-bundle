@@ -150,15 +150,15 @@ class ProofAdmin extends AbstractAdmin
                 'label' => 'Player',
             ])
             ->add('chart.group.game', null, [
-                'associated_property' => 'name',
+                'associated_property' => 'getDefaultName',
                 'label' => 'Game',
             ])
             ->add('chart.group', null, [
-                'associated_property' => 'name',
+                'associated_property' => 'getDefaultName',
                 'label' => 'Group',
             ])
             ->add('chart', null, [
-                'associated_property' => 'name',
+                'associated_property' => 'getDefaultName',
                 'label' => 'Chart',
             ])
             ->add('picture', null, [
