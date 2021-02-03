@@ -107,7 +107,7 @@ class PlayerGroupRepository extends EntityRepository
             JOIN pc.chart c
             WHERE c.group = :group
             AND pc.rank = 1
-            AND c.nbPost > 0
+            AND c.nbPost > 1
             AND pc.nbEqual = 1
             GROUP BY p.id");
 
