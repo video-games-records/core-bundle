@@ -18,7 +18,7 @@ class ProofRequestRepository extends EntityRepository
     public function getNbRequestFromToDay($player)
     {
         $qb = $this->createQueryBuilder('request')
-            ->select('COUNT(request.idRequest)')
+            ->select('COUNT(request)')
             ->where('request.playerRequesting = :player')
             ->setParameter('player', $player)
             ->andWhere('request.createdAt LIKE :now')

@@ -92,6 +92,7 @@ class PlayerChartAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
+            ->add('status')
             ->add('player', ModelAutocompleteFilter::class, array(), null, array(
                 'property' => 'pseudo',
             ))
@@ -113,6 +114,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 'associated_property' => 'defaultName',
                 'label' => 'Chart',
             ])
+            ->add('status')
             ->add('libs')
             ->add('_action', 'actions', [
                 'actions' => [

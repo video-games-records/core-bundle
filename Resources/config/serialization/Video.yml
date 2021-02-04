@@ -22,6 +22,7 @@ VideoGamesRecords\CoreBundle\Entity\Video:
         - 'video.read'
     url:
       groups:
+        - 'video.read'
         - 'video.post'
     tag:
       groups:
@@ -32,11 +33,11 @@ VideoGamesRecords\CoreBundle\Entity\Video:
         - 'video.read'
     game:
       groups:
-        - 'video.read'
+        - 'video.game'
         - 'video.post'
     player:
       groups:
-        - 'video.read'
+        - 'video.player'
     createdAt:
       groups:
         - 'video.read'
