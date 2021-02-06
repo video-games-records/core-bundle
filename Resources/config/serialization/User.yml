@@ -6,11 +6,27 @@ ProjetNormandie\UserBundle\Entity\User:
     username:
       groups:
         - 'vgr.user.read'
+    status:
+      groups:
+        - 'vgr.user.read'
     lastLogin:
+      groups:
+        - 'vgr.user.read'
+    nbConnexion:
       groups:
         - 'vgr.user.read'
     createdAt:
       groups:
         - 'vgr.user.read'
+    personalWebSite:
+      groups:
+        - 'vgr.user.read'
+    youtube:
+      groups:
+        - 'vgr.user.read'
+    twitch:
+      groups:
+        - 'vgr.user.read'
+
 
 
