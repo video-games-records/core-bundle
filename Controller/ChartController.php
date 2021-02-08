@@ -115,6 +115,8 @@ class ChartController extends AbstractController
     public function charts(Request $request)
     {
         $page = (int) $request->query->get('page', 1);
+        $itemsPerPage = (int) $request->query->get('itemsPerPage', 20);
+        $locale = $request->getLocale();
         $search = array(
             'idGame' => $request->query->get('idGame', null),
             'idGroup' => $request->query->get('idGroup', null),
@@ -124,7 +126,9 @@ class ChartController extends AbstractController
         $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getList(
             $page,
             $this->getPlayer(),
-            $search
+            $search,
+            $locale,
+            $itemsPerPage
         );
         // IF NOT EXIST => Create a playerChart with id=-1 AND value = null
         $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($search['idGame']);
