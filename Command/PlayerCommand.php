@@ -91,8 +91,9 @@ class PlayerCommand extends DefaultCommand
                 $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCountry($country);
                 $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majCountryBadge($country);
                 break;
-            case 'maj-nb-master-badge':
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->majNbMasterBadge();
+            case 'maj-rank-badge':
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->majPointBadge();
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankBadge();
                 break;
             case 'maj-rules-of-three':
                 $this->majRulesOfThree($output);

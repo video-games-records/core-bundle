@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateTime;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
@@ -124,6 +125,47 @@ class TeamRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws Exception
+     */
+    public function majPointBadge()
+    {
+        //----- data
+        $data = [];
+        $query = $this->_em->createQuery("
+            SELECT
+                 t.id,
+                 COUNT(tb.badge) as nbMasterBadge,
+                 SUM(b.value) as pointBadge
+            FROM VideoGamesRecords\CoreBundle\Entity\TeamBadge tb
+            JOIN tb.badge b
+            JOIN tb.team t
+            WHERE b.type = :type
+            AND tb.ended_at IS NULL
+            GROUP BY t.id");
+        $query->setParameter('type', 'Master');
+        $result = $query->getResult();
+        foreach ($result as $row) {
+            $data['nbMasterBadge'][$row['id']] = (int) $row['nbMasterBadge'];
+            $data['pointBadge'][$row['id']] = (int) $row['pointBadge'];
+        }
+
+        /** @var Team[] $teams */
+        $teams = $this->findAll();
+
+        foreach ($teams as $team) {
+            $idTeam = $team->getId();
+            $nbMasterBadge = isset($data['nbMasterBadge'][$idTeam]) ? $data['nbMasterBadge'][$idTeam] : 0;
+            $pointBadge = isset($data['pointBadge'][$idTeam]) ? $data['pointBadge'][$idTeam] : 0;
+
+            $team->setNbMasterBadge($nbMasterBadge);
+            $team->setPointBadge($pointBadge);
+        }
+        $this->getEntityManager()->flush();
+    }
+
 
     /**
      * Update column rankPointChart
@@ -198,18 +240,16 @@ class TeamRepository extends EntityRepository
     }
 
     /**
-     * @throws DBALException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function majNbMasterBadge()
+    public function majRankBadge()
     {
-        $sql = "UPDATE vgr_team
-        SET nbMasterBadge = (SELECT count(vgr_team_badge.id) 
-            FROM vgr_team_badge 
-            INNER JOIN badge ON vgr_team_badge.idBadge = badge.id
-            WHERE badge.type = 'Master' AND idTeam = vgr_team.id AND ended_at IS NULL)";
-        $this->_em->getConnection()->executeUpdate($sql);
-    }
+        $teams = $this->findBy(array(), array('pointBadge' => 'DESC', 'nbMasterBadge' => 'DESC'));
 
+        Ranking::addObjectRank($teams, 'rankBadge', array('pointBadge', 'nbMasterBadge'));
+        $this->getEntityManager()->flush();
+    }
 
     /**
      * @param null $team

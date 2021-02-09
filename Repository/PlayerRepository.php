@@ -2,7 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
@@ -283,17 +283,71 @@ class PlayerRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+
     /**
-     * @throws DBALException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function majNbMasterBadge()
+    public function majRankBadge()
     {
-        $sql = "UPDATE vgr_player
-        SET nbMasterBadge = (SELECT count(vgr_player_badge.id) 
-            FROM vgr_player_badge 
-            INNER JOIN badge ON vgr_player_badge.idBadge = badge.id
-            WHERE badge.type = 'Master' AND idPlayer = vgr_player.id AND ended_at IS NULL)";
-        $this->_em->getConnection()->executeUpdate($sql);
+        $players = $this->findBy(array(), array('pointBadge' => 'DESC', 'nbMasterBadge' => 'DESC'));
+
+        Ranking::addObjectRank($players, 'rankBadge', array('pointBadge', 'nbMasterBadge'));
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws Exception
+     */
+    public function majPointBadge()
+    {
+        // MAJ value badge
+        $sql = "UPDATE badge, vgr_game
+        SET badge.value = FLOOR(
+            100 * (
+                6250 * ( -1 / ( 100 + vgr_game.nbPlayer - vgr_game.nbPlayer) + 0.0102) / ( POW( vgr_game.nbPlayer, 1 /3 ) )
+            )
+        )
+        WHERE badge.id = vgr_game.idBadge
+        AND vgr_game.nbPlayer > 0";
+        $this->_em->getConnection()->executeStatement($sql);
+
+
+        //----- data
+        $data = [];
+        $query = $this->_em->createQuery("
+            SELECT
+                 p.id,
+                 COUNT(pb.badge) as nbMasterBadge,
+                 SUM(b.value) as pointBadge
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerBadge pb
+            JOIN pb.badge b
+            JOIN pb.player p
+            WHERE b.type = :type
+            AND pb.ended_at IS NULL
+            GROUP BY p.id");
+        $query->setParameter('type', 'Master');
+        $result = $query->getResult();
+        foreach ($result as $row) {
+            $data['nbMasterBadge'][$row['id']] = (int) $row['nbMasterBadge'];
+            $data['pointBadge'][$row['id']] = (int) $row['pointBadge'];
+        }
+
+        /** @var Player[] $players */
+        $players = $this->findAll();
+
+        foreach ($players as $player) {
+            $idPlayer = $player->getId();
+
+            $nbMasterBadge = isset($data['nbMasterBadge'][$idPlayer]) ? $data['nbMasterBadge'][$idPlayer] : 0;
+            $pointBadge = isset($data['pointBadge'][$idPlayer]) ? $data['pointBadge'][$idPlayer] : 0;
+
+            $player->setNbMasterBadge($nbMasterBadge);
+            $player->setPointBadge($pointBadge);
+        }
+        $this->getEntityManager()->flush();
     }
 
     /**
