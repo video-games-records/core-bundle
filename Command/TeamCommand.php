@@ -74,8 +74,9 @@ class TeamCommand extends DefaultCommand
             case 'maj-game-rank':
                 $this->em->getRepository('VideoGamesRecordsCoreBundle:Team')->majGameRank();
                 break;
-            case 'maj-nb-master-badge':
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:Team')->majNbMasterBadge();
+            case 'maj-rank-badge':
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:Team')->majPointBadge();
+                $this->em->getRepository('VideoGamesRecordsCoreBundle:Team')->majRankBadge();
                 break;
         }
         $this->end($output);

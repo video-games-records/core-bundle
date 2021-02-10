@@ -96,6 +96,9 @@ class PlayerChartAdmin extends AbstractAdmin
             ->add('player', ModelAutocompleteFilter::class, array(), null, array(
                 'property' => 'pseudo',
             ))
+            ->add('chart.group.game', ModelAutocompleteFilter::class, array('label' => 'Game'), null, array(
+                'property' => 'translations.name',
+            ))
             ->add('chart.id');
     }
 
@@ -109,6 +112,14 @@ class PlayerChartAdmin extends AbstractAdmin
             ->add('player', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'Player',
+            ])
+            ->add('chart.group.game', null, [
+                'associated_property' => 'defaultName',
+                'label' => 'Game',
+            ])
+            ->add('chart.group', null, [
+                'associated_property' => 'defaultName',
+                'label' => 'Group',
             ])
             ->add('chart', null, [
                 'associated_property' => 'defaultName',
