@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use VideoGamesRecords\CoreBundle\Filter\Bbcode as BbcodeFilter;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class PlayerCommand extends DefaultCommand
@@ -98,6 +99,9 @@ class PlayerCommand extends DefaultCommand
             case 'maj-rules-of-three':
                 $this->majRulesOfThree($output);
                 break;
+            case 'migrate':
+                $this->migrate();
+                break;
         }
         $this->end($output);
         return true;
@@ -133,5 +137,22 @@ class PlayerCommand extends DefaultCommand
         }
         $this->em->flush();
         $output->writeln(sprintf('%d players(s) enabled', count($players)));
+    }
+
+    /**
+     *
+     */
+    private function migrate()
+    {
+        /** @var PlayerRepository $playerRepository */
+        $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
+
+        $bbcodeFiler = new BbcodeFilter();
+        $players = $playerRepository->findAll();
+        foreach ($players as $player) {
+            $player->setPresentation($bbcodeFiler->filter($player->getPresentation()));
+            $player->setCollection($bbcodeFiler->filter($player->getCollection()));
+        }
+        $this->em->flush();
     }
 }
