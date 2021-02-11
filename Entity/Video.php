@@ -71,6 +71,13 @@ class Video implements TimestampableInterface, SluggableInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="videoId", type="string", nullable=false)
+     */
+    private $videoId = null;
+
+    /**
+     * @var string
+     *
      * @Assert\NotBlank()
      * @Assert\Length(min="5", max="255")
      * @ORM\Column(name="url", type="string", length=255, nullable=false)
@@ -181,6 +188,28 @@ class Video implements TimestampableInterface, SluggableInterface
     public function getType()
     {
         return $this->type;
+    }
+
+
+    /**
+     * Set videoId
+     * @param string $videoId
+     * @return $this
+     */
+    public function setVideoId(string $videoId)
+    {
+        $this->videoId = $videoId;
+        return $this;
+    }
+
+    /**
+     * Get videoId
+     *
+     * @return string
+     */
+    public function getVideoId()
+    {
+        return $this->videoId;
     }
 
     /**
@@ -294,14 +323,31 @@ class Video implements TimestampableInterface, SluggableInterface
      */
     public function preInsert()
     {
+        $this->majTypeAndVideoId();
+    }
+
+    /**
+     * @return mixed|string|null
+     */
+    public function majTypeAndVideoId()
+    {
         if (strpos($this->getUrl(), 'youtube')) {
             $this->setType(self::TYPE_YOUTUBE);
+            $explode = explode('=', $this->getUrl());
+            $this->setVideoId($explode[1]);
+            return isset($explode[1]) ? $explode[1] : null;
+        } elseif (strpos($this->getUrl(), 'youtu.be')) {
+            $this->setType(self::TYPE_YOUTUBE);
+            $this->setVideoId(substr($this->getUrl(), strripos($this->getUrl(), '/') + 1, strlen($this->getUrl()) - 1));
         } elseif (strpos($this->getUrl(), 'twitch')) {
             $this->setType(self::TYPE_TWITCH);
-        } elseif (strpos($this->getUrl(), 'twitch')) {
+            $explode = explode('/', $this->getUrl());
+            $this->setVideoId($explode[count($explode) - 1]);
+        } else {
             $this->setType(self::TYPE_UNKNOWN);
         }
     }
+
 
     /**
      * @return string
@@ -309,31 +355,18 @@ class Video implements TimestampableInterface, SluggableInterface
     public function getEmbeddedUrl()
     {
         if ($this->getType() == self::TYPE_YOUTUBE) {
-            return 'https://www.youtube.com/embed/' . $this->getYoutubeId();
+            return 'https://www.youtube.com/embed/' . $this->getVideoId();
         } elseif ($this->getType() == self::TYPE_TWITCH) {
-            return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getTwitchId();
+            return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getVideoId();
         } else {
             return $this->getUrl();
         }
     }
 
     /**
-     * @return mixed|string|null
-     */
-    public function getVideoId()
-    {
-        if ($this->getType() == self::TYPE_YOUTUBE) {
-            return $this->getYoutubeId();
-        } elseif ($this->getType() == self::TYPE_TWITCH) {
-            return $this->getTwitchId();
-        }
-        return null;
-    }
-
-    /**
      * @return mixed|string
      */
-    public function getYoutubeId()
+    private function setYoutubeId()
     {
         $explode = explode('=', $this->getUrl());
         return isset($explode[1]) ? $explode[1] : null;
@@ -342,7 +375,7 @@ class Video implements TimestampableInterface, SluggableInterface
     /**
      * @return mixed|string
      */
-    public function getTwitchId()
+    private function setTwitchId()
     {
         $explode = explode('/', $this->getUrl());
         return $explode[count($explode) - 1];

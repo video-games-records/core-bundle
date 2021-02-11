@@ -129,6 +129,13 @@ class Player implements SluggableInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="presentation", type="text", length=65535, nullable=true)
+     */
+    private $presentation;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="collection", type="text", length=65535, nullable=true)
      */
     private $collection;
@@ -309,7 +316,7 @@ class Player implements SluggableInterface
      * Set id
      *
      * @param integer $id
-     * @return Player
+     * @return $this
      */
     public function setId(int $id)
     {
@@ -331,7 +338,7 @@ class Player implements SluggableInterface
      * Set pseudo
      *
      * @param string $pseudo
-     * @return Player
+     * @return $this
      */
     public function setPseudo(string $pseudo)
     {
@@ -354,7 +361,7 @@ class Player implements SluggableInterface
      * Set avatar
      *
      * @param string $avatar
-     * @return Player
+     * @return $this
      */
     public function setAvatar(string $avatar)
     {
@@ -377,7 +384,7 @@ class Player implements SluggableInterface
      * Set gamerCard
      *
      * @param string $gamerCard
-     * @return Player
+     * @return $this
      */
     public function setGamerCard(string $gamerCard)
     {
@@ -400,7 +407,7 @@ class Player implements SluggableInterface
      * Set chartRank0
      *
      * @param integer $chartRank0
-     * @return Player
+     * @return $this
      */
     public function setChartRank0(int $chartRank0)
     {
@@ -423,7 +430,7 @@ class Player implements SluggableInterface
      * Set chartRank1
      *
      * @param integer $chartRank1
-     * @return Player
+     * @return $this
      */
     public function setChartRank1(int $chartRank1)
     {
@@ -446,7 +453,7 @@ class Player implements SluggableInterface
      * Set chartRank2
      *
      * @param integer $chartRank2
-     * @return Player
+     * @return $this
      */
     public function setChartRank2(int $chartRank2)
     {
@@ -469,7 +476,7 @@ class Player implements SluggableInterface
      * Set chartRank3
      *
      * @param integer $chartRank3
-     * @return Player
+     * @return $this
      */
     public function setChartRank3(int $chartRank3)
     {
@@ -492,7 +499,7 @@ class Player implements SluggableInterface
      * Set pointChart
      *
      * @param integer $pointChart
-     * @return Player
+     * @return $this
      */
     public function setPointChart(int $pointChart)
     {
@@ -515,7 +522,7 @@ class Player implements SluggableInterface
      * Set pointVGR
      *
      * @param integer $pointVGR
-     * @return Player
+     * @return $this
      */
     public function setPointVGR(int $pointVGR)
     {
@@ -538,7 +545,7 @@ class Player implements SluggableInterface
      * Set pointBadge
      *
      * @param integer $pointBadge
-     * @return Player
+     * @return $this
      */
     public function setPointBadge(int $pointBadge)
     {
@@ -555,6 +562,29 @@ class Player implements SluggableInterface
     public function getPointBadge()
     {
         return $this->pointBadge;
+    }
+
+    /**
+     * Set presentation
+     *
+     * @param string $presentation
+     * @return $this
+     */
+    public function setPresentation(string $presentation)
+    {
+        $this->presentation = $presentation;
+
+        return $this;
+    }
+
+    /**
+     * Get presentation
+     *
+     * @return string
+     */
+    public function getPresentation()
+    {
+        return $this->presentation;
     }
 
     /**

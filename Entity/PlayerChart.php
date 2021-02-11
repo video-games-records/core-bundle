@@ -46,7 +46,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *              "chart.group",
  *              "group.read.mini",
  *              "group.game",
- *              "game.read.mini"
+ *              "game.read.mini",
+ *              "playerChartLib.format",
  *          }
  *     }
  * )

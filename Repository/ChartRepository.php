@@ -12,9 +12,6 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 class ChartRepository extends EntityRepository
 {
-
-    const ITEMS_PER_PAGE = 10;
-
     /**
      * @param $id
      * @return Chart
@@ -127,11 +124,13 @@ class ChartRepository extends EntityRepository
      * @param int   $page
      * @param null  $player
      * @param array $search
+     * @param string $locale
+     * @param int $itemsPerPage
      * @return Paginator
      */
-    public function getList(int $page = 1, $player = null, $search = array()) : Paginator
+    public function getList(int $page = 1, $player = null, $search = array(), $locale = 'en', $itemsPerPage = 20) : Paginator
     {
-        $firstResult = ($page -1) * self::ITEMS_PER_PAGE;
+        $firstResult = ($page - 1) * $itemsPerPage;
 
         $query = $this->createQueryBuilder('ch')
             ->join('ch.group', 'gr')
@@ -139,7 +138,10 @@ class ChartRepository extends EntityRepository
             ->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.player = :player')
             ->addSelect('gr')
             ->addSelect('pc')
-            ->setParameter('player', $player);
+            ->setParameter('player', $player)
+            ->innerJoin('ch.translations', 'translation')
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('locale', $locale);
         if ($search['idGame'] != null) {
             $query->andWhere('ga.id = :idGame')
                 ->setParameter('idGame', $search['idGame']);
@@ -154,7 +156,7 @@ class ChartRepository extends EntityRepository
         }
         $query = $query->getQuery()
             ->setFirstResult($firstResult)
-            ->setMaxResults(self::ITEMS_PER_PAGE);
+            ->setMaxResults($itemsPerPage);
         $doctrinePaginator = new DoctrinePaginator($query);
         return new Paginator($doctrinePaginator);
     }
