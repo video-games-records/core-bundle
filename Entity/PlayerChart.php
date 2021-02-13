@@ -27,8 +27,10 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
+ *          "status": "exact",
  *          "player": "exact",
  *          "chart": "exact",
+ *          "chart.group": "exact",
  *          "chart.group.game": "exact",
  *      }
  * )
@@ -39,6 +41,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "overrideDefaultGroups": true,
  *          "whitelist": {
  *              "playerChart.read",
+ *              "playerChart.status",
+ *              "playerChartStatus.read",
  *              "playerChart.player",
  *              "player.read.mini",
  *              "chart.read.mini",
@@ -56,6 +60,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *     properties={
  *          "id":"ASC",
  *          "lastUpdate" : "DESC",
+ *          "rank" : "ASC",
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
