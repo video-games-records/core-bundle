@@ -283,7 +283,8 @@ resources:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
         collectionOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [playerChartStatus.read]}
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerGame:
