@@ -266,7 +266,8 @@ resources:
                         player.country,
                         player.country.read,
                         proof.read,
-                        picture.read
+                        picture.read,
+                        video.read
                 ]}
                 path: '/charts/{id}/player-ranking'
                 swagger_context:
