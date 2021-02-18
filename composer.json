@@ -6,11 +6,9 @@
   "authors": [
     {
       "name": "Benard David",
-      "email": "magicbart@gmail.com"
-    },
-    {
-      "name": "Verlhac Gaëtan",
-      "email": "viviengaetan69@gmail.com"
+      "email": "magicbart@gmail.com",
+      "homepage": "https://www.vgr-magicbart.com/",
+      "role": "Developper"
     }
   ],
   "require": {

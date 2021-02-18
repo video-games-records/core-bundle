@@ -253,7 +253,22 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::teamRanking'
             player-ranking:
                 method: 'GET'
-                normalization_context: {'groups': [playerChart.ranking,playerChart.player,playerChart.platform,platform.read.mini,player.read.mini,playerChart.status,playerChartStatus.read,player.team,team.read.mini,player.country,player.country.read]}
+                normalization_context: {'groups': [
+                        playerChart.ranking,
+                        playerChart.player,
+                        playerChart.platform,
+                        platform.read.mini,
+                        player.read.mini,
+                        playerChart.status,
+                        playerChartStatus.read,
+                        player.team,
+                        team.read.mini,
+                        player.country,
+                        player.country.read,
+                        proof.read,
+                        picture.read,
+                        video.read
+                ]}
                 path: '/charts/{id}/player-ranking'
                 swagger_context:
                     summary: 'Retrive ranking of a chart'
@@ -283,7 +298,8 @@ resources:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
         collectionOperations:
-            get: ~
+            get:
+                normalization_context: {'groups': [playerChartStatus.read]}
         itemOperations:
             get: ~
     VideoGamesRecords\CoreBundle\Entity\PlayerGame:

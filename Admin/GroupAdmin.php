@@ -47,9 +47,7 @@ class GroupAdmin extends AbstractAdmin
     {
         $gameOptions = [];
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
-            $uniqid = $this->getRequest()->query->get('uniqid', null);
-            $data = $this->getRequest()->request->get($uniqid);
-            $idGame = $data['game'];
+            $idGame = $this->getRequest()->get('idGame', null);
             if ($idGame !== null) {
                 $this->getRequest()->getSession()->set('vgrcorebundle_admin_group.idGame', $idGame);
             }
