@@ -46,4 +46,5 @@ VideoGamesRecords\CoreBundle\Entity\PlayerGame:
       groups:
         - 'playerGame.pointChart'
     nbEqual:
-      groups: []
+      groups:
+        - 'playerGame.pointChart'
