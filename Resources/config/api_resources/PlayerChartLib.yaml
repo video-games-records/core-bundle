@@ -1,0 +1,6 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\PlayerChartLib:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~

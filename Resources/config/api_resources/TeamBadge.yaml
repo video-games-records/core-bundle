@@ -1,0 +1,7 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\TeamBadge:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [teamBadge.read, teamBadge.badge, badge.read]}
+        itemOperations:
+            get: ~

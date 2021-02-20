@@ -1,0 +1,9 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\ChartLib:
+        properties:
+            idLibChart:
+                identifier: true
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~

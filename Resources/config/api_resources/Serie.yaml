@@ -1,0 +1,8 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Serie:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [serie.list]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [serie.read]}

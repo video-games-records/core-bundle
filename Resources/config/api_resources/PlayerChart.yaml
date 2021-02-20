@@ -1,0 +1,41 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\PlayerChart:
+        attributes:
+            normalization_context: {'groups': [playerChart.read, playerChart.libs]}
+            denormalization_context: {'groups': [playerChart.write]}
+        collectionOperations:
+            get: ~
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
+            maj-platform:
+                method: 'POST'
+                path: '/player-charts/maj-platform'
+                access_control: 'is_granted("ROLE_PLAYER")'
+                swagger_context:
+                    parameters:
+                        - in: body
+                          name: playerChart
+                          schema:
+                              type: object
+                              required:
+                                  - idGame
+                                  - idPlatform
+                              properties:
+                                  idGame:
+                                      type: integer
+                                  idPlatform:
+                                      type: integer
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::majPlatform'
+            last:
+                method: 'GET'
+                normalization_context: { 'groups': [ playerChart.read, playerChart.chart, chart.read.mini] }
+                path: '/player_charts-last'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::last'
+        itemOperations:
+            get:
+                normalization_context: {'groups': [playerChart.read, playerChart.libs, playerChart.player, player.read.mini, playerChart.status, playerChartStatus.read, chart.label.read, playerChartLib.format, playerChart.proof, proof.read, picture.read, video.read]}
+            put:
+                denormalization_context: {'groups': [playerChart.write,playerChart.put]}
+                normalization_context: {'groups': [playerChart.write]}
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
+                _api_receive: true

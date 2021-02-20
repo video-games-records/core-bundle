@@ -1,0 +1,17 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\VideoComment:
+        shortName: 'VideoComment'
+        subresourceOperations:
+            api_videos_comments_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [video.comment.read, video.comment.player, player.read.mini]}
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [video.comment.read, video.comment.player, player.read.mini]}
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                denormalization_context: {'groups': [video.comment.post]}
+                normalization_context: {'groups': [video.comment.read, video.comment.player, player.read.mini]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [video.comment.read]}

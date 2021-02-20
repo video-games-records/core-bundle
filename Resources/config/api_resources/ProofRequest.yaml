@@ -1,0 +1,11 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\ProofRequest:
+        shortName: 'ProofRequest'
+        collectionOperations:
+            get: ~
+            post:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayerChart().getStatus().getId() == 1'
+                denormalization_context: {'groups': [proof.request.post]}
+                normalization_context: {'groups': [proof.request.read]}
+        itemOperations:
+            get: ~

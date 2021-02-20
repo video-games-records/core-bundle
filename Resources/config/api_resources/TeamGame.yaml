@@ -1,0 +1,6 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\TeamGame:
+        collectionOperations:
+            get: ~
+        itemOperations:
+            get: ~
