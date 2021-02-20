@@ -307,11 +307,11 @@ class PlayerRepository extends EntityRepository
         $sql = "UPDATE badge, vgr_game
         SET badge.value = FLOOR(
             100 * (
-                6250 * ( -1 / ( 100 + vgr_game.nbPlayer - vgr_game.nbPlayer) + 0.0102) / ( POW( vgr_game.nbPlayer, 1 /3 ) )
+                6250 * ( -1 / ( 100 + vgr_game.nbPlayer - badge.nbUser) + 0.0102) / ( POW( badge.nbUser, 1 /3 ) )
             )
         )
         WHERE badge.id = vgr_game.idBadge
-        AND vgr_game.nbPlayer > 0";
+        AND badge.nbUser > 0";
         $this->_em->getConnection()->executeStatement($sql);
 
 
