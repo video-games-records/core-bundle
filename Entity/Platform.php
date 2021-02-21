@@ -7,6 +7,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * Game
@@ -14,6 +16,12 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
  * @ORM\Table(name="vgr_platform")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlatformRepository")
  * @ApiResource(attributes={"order"={"libPlatform"}})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "status": "exact",
+ *      }
+ * )
  *
  */
 class Platform implements SluggableInterface
