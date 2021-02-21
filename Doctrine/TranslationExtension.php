@@ -10,6 +10,8 @@ use VideoGamesRecords\CoreBundle\Entity\Serie;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
+use VideoGamesRecords\CoreBundle\Entity\TeamGame;
 
 final class TranslationExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
@@ -53,14 +55,21 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
      */
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
-        if (!in_array($resourceClass, array(Serie::class, Game::class, Group::class, Chart::class))) {
+        if (!in_array($resourceClass, array(Serie::class, Game::class, Group::class, Chart::class, PlayerGame::class, TeamGame::class))) {
             return;
         }
         $locale = Locale::getDefault();
         if (!in_array($locale, array('en', 'fr'))) {
             $locale = 'en';
         }
-        $queryBuilder->leftJoin('o.translations', 't', 'WITH', "t.locale='$locale'")
-            ->addSelect('t');
+        if (in_array($resourceClass, array(PlayerGame::class, TeamGame::class))) {
+            $queryBuilder->join('o.game', 'g')
+                ->addSelect('g')
+                ->leftJoin('g.translations', 't', 'WITH', "t.locale='$locale'")
+                ->addSelect('t');
+        } else {
+            $queryBuilder->leftJoin('o.translations', 't', 'WITH', "t.locale='$locale'")
+                ->addSelect('t');
+        }
     }
 }
