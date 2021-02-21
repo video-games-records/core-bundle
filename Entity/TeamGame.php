@@ -27,7 +27,19 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          }
  *      }
  * )
- * @ApiFilter(OrderFilter::class, properties={"pointGame": "DESC"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "rankPointChart": "ASC",
+ *          "chartRank0": "DESC",
+ *          "chartRank1": "DESC",
+ *          "chartRank2": "DESC",
+ *          "chartRank3": "DESC",
+ *          "pointGame": "DESC",
+ *          "game.translations.name" : "ASC",
+ *     },
+ *     arguments={"orderParameterName"="order"}
+ * )
  */
 class TeamGame
 {
