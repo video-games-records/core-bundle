@@ -44,16 +44,6 @@ class ProofRequestAdmin extends AbstractAdmin
             ->remove('export');
     }
 
-    /**
-     * @param array $filterValues
-     */
-    protected function configureDefaultFilterValues(array &$filterValues)
-    {
-        $filterValues['status'] = [
-            'type'  => EqualOperatorType::TYPE_EQUAL,
-            'value' => ProofRequest::STATUS_IN_PROGRESS,
-        ];
-    }
 
     /**
      * @param FormMapper $formMapper

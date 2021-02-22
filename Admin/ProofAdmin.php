@@ -16,7 +16,7 @@ use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
-//use Sonata\DoctrineORMAdminBundle\Filter\StringListFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -45,16 +45,6 @@ class ProofAdmin extends AbstractAdmin
             ->remove('export');
     }
 
-    /**
-     * @param array $filterValues
-     */
-    protected function configureDefaultFilterValues(array &$filterValues)
-    {
-        $filterValues['status'] = [
-             'type'  => EqualOperatorType::TYPE_EQUAL,
-             'value' => Proof::STATUS_IN_PROGRESS,
-        ];
-    }
 
     /**
      * @param FormMapper $formMapper
@@ -118,7 +108,7 @@ class ProofAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('status')
+            //->add('status')
             ->add('player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
                 'property' => 'pseudo',
             ])
@@ -128,10 +118,10 @@ class ProofAdmin extends AbstractAdmin
             /*->add('chart.group', ModelAutocompleteFilter::class, ['label' => 'Group'], null, [
                 'property' => 'translations.name',
             ])*/
-            /*->add('status', StringListFilter::class, [], ChoiceType::class, [
+            ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
-            ])*/
+            ])
             ->add('playerResponding', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ]);
