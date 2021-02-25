@@ -8,6 +8,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
@@ -17,9 +18,31 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *
  * @ORM\Table(name="vgr_team_badge")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository")
- * @ApiFilter(SearchFilter::class, properties={"team": "exact"})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "team": "exact",
+ *          "badge": "exact"
+ *      }
+ *)
  * @ApiFilter(DateFilter::class, properties={"ended_at": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
  * @ApiResource(attributes={"order"={"badge.type", "badge.value"}})
+ * @ApiFilter(
+ *     GroupFilter::class,
+ *     arguments={
+ *          "parameterName": "groups",
+ *          "overrideDefaultGroups": true,
+ *          "whitelist": {"teamBadge.read","teamBadge.badge","teamBadge.team","team.read.mini"}
+ *     }
+ * )
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "id":"ASC",
+ *          "createdAt":"ASC",
+ *     },
+ *     arguments={"orderParameterName"="order"}
+ * )
  */
 class TeamBadge implements TimestampableInterface
 {

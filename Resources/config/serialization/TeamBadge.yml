@@ -3,6 +3,9 @@ VideoGamesRecords\CoreBundle\Entity\TeamBadge:
     badge:
       groups:
         - 'teamBadge.badge'
+    team:
+      groups:
+        - 'teamBadge.team'
     createdAt:
       groups:
         - 'teamBadge.read'
