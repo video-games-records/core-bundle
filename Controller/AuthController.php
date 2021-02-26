@@ -3,9 +3,21 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use ProjetNormandie\UserBundle\Service\IpManager;
 
 class AuthController extends AbstractController
 {
+    private IpManager $ipManager;
+
+    /**
+     * @param IpManager    $ipManager
+     */
+    public function __construct(IpManager $ipManager)
+    {
+        $this->ipManager = $ipManager;
+    }
+
+
     /**
      * @return mixed
      */
@@ -18,8 +30,9 @@ class AuthController extends AbstractController
     /**
      * @return array
      */
-    public function profile()
+    public function profile(): array
     {
+        $this->ipManager->majUserIp($this->getUser());
         return array(
             $this->getUser()->getRoles(),
             $this->getUser(),

@@ -30,3 +30,6 @@ VideoGamesRecords\CoreBundle\Entity\TeamGame:
     chartRank3:
       groups:
         - 'teamGame.medal'
+    nbEqual:
+      groups:
+        - 'teamGame.pointChart'

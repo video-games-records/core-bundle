@@ -1,0 +1,16 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\TeamRequest:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [teamRequest.read, player.read.mini, team.read.mini]}
+            post:
+                access_control: 'is_granted("ROLE_PLAYER") and (object.getTeam().getLeader().getUser() == user)'
+                denormalization_context: {'groups': [teamRequest.post]}
+                normalization_context: {'groups': [teamRequest.read, player.read.mini, team.read.mini]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [teamRequest.read, player.read.mini, team.read.mini]}
+            put:
+                access_control: 'is_granted("ROLE_PLAYER") and ((object.getTeam().getLeader().getUser() == user) or (object.getPlayer().getUser() == user))'
+                denormalization_context: {'groups': [teamRequest.put]}
+                normalization_context: {'groups': [teamRequest.read, player.read.mini, team.read.mini]}

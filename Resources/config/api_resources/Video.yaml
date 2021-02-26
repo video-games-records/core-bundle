@@ -1,0 +1,25 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Video:
+        subresourceOperations:
+            api_games_videos_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [video.read, video.player, player.read.mini]}
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [video.read, video.player, player.read.mini, video.game, game.read.mini]}
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                denormalization_context: {'groups': [video.post]}
+                normalization_context: {'groups': [video.read, video.player, player.read.mini, video.game, game.read.mini]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [video.read, video.player, player.read.mini, video.game, game.read.mini, game.platforms, platform.read]}
+            put:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
+                denormalization_context: {'groups': [video.put]}
+                normalization_context: {'groups': [video.read, video.player, player.read.mini, video.game, game.read.mini]}
+        properties:
+            comments:
+                subresource:
+                    maxDepth: 1
+                    collection: true
