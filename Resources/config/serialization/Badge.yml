@@ -1,0 +1,18 @@
+VideoGamesRecords\CoreBundle\Entity\Badge:
+  attributes:
+    id:
+      groups:
+        - 'badge.read'
+    type:
+      groups:
+        - 'badge.read'
+    picture:
+      groups:
+        - 'badge.read'
+    value:
+      groups:
+        - 'badge.read'
+    game:
+      groups:
+        - 'badge.game'
+

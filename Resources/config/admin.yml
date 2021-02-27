@@ -154,4 +154,11 @@ services:
             - ~
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:video_show.html.twig']]
-
+    sonata.admin.badge:
+        class: VideoGamesRecords\CoreBundle\Admin\BadgeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.badges", label: "label.badge" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Badge
+            - ~

@@ -14,6 +14,7 @@ label:
     topic: 'Topic'
     message: 'Message'
     playerChart: 'Player / Chart'
+    badge: 'Badge'
 proof:
     request:
         confirm:
