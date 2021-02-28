@@ -55,7 +55,7 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
      */
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
-        if (!in_array($resourceClass, array(Serie::class, Game::class, Group::class, Chart::class, PlayerGame::class, TeamGame::class))) {
+        if (!in_array($resourceClass, array(Country::class, Serie::class, Game::class, Group::class, Chart::class, PlayerGame::class, TeamGame::class))) {
             return;
         }
         $locale = Locale::getDefault();

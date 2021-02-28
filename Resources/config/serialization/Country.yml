@@ -1,12 +1,12 @@
-ProjetNormandie\CountryBundle\Entity\Country:
+VideoGamesRecords\CoreBundle\Entity\Country:
   attributes:
     id:
       groups:
-        - 'player.country.read'
+        - 'country.read'
     name:
       groups:
-        - 'player.country.read'
+        - 'country.read'
     codeIso2:
       groups:
-        - 'player.country.read'
+        - 'country.read'
 
