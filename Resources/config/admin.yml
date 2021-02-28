@@ -24,7 +24,7 @@ services:
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Group
-            - ~
+            - VideoGamesRecords\CoreBundle\Controller\GroupAdminController
     sonata.admin.vgr.chart:
         class: VideoGamesRecords\CoreBundle\Admin\ChartAdmin
         tags:
