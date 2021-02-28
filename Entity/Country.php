@@ -54,7 +54,7 @@ class Country implements TranslatableInterface
     /**
      * @var Badge
      *
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="country")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })

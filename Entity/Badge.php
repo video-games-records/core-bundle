@@ -48,9 +48,14 @@ class Badge
     private $value = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="\VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="badge")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="badge")
      */
     private $game;
+
+    /**
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country", mappedBy="badge")
+     */
+    private $country;
 
     /**
      * @return string
@@ -161,5 +166,15 @@ class Badge
     public function getGame()
     {
         return $this->game;
+    }
+
+    /**
+     * Get country
+     *
+     * @return Country
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }
