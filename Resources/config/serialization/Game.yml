@@ -50,6 +50,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     nbTeam:
       groups:
         - 'game.read'
+        - 'game.stats'
     ordre:
       groups: []
     serie:
