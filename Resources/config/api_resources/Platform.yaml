@@ -10,7 +10,7 @@ resources:
                 normalization_context: {'groups': [platform.read]}
             player-ranking-point-chart:
                 method: 'GET'
-                normalization_context: { 'groups': [ playerPlatform.pointChart,playerPlatform.player,player.read.mini,player.team,team.read.mini,player.country,player.country.read ] }
+                normalization_context: { 'groups': [ playerPlatform.pointChart,playerPlatform.player,player.read.mini,player.team,team.read.mini,player.country,country.read ] }
                 path: '/platforms/{id}/player-ranking-point-chart'
                 swagger_context:
                     parameters:
