@@ -36,10 +36,12 @@ VideoGamesRecords\CoreBundle\Entity\PlayerGame:
       groups:
         - 'playerGame.pointChart'
         - 'playerGame.medal'
+        - 'playerGame.proof'
     nbChartProven:
       groups:
         - 'playerGame.pointChart'
         - 'playerGame.medal'
+        - 'playerGame.proof'
     nbChartWithoutDlc:
     nbChartProvenWithoutDlc:
     pointGame:

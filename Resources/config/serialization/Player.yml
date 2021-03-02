@@ -44,6 +44,10 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.pointChart'
         - 'player.proof'
+    nbChartDisabled:
+      groups:
+        - 'player.pointChart'
+        - 'player.proof'
     pointChart:
       groups:
         - 'player.pointChart'
