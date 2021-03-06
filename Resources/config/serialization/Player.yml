@@ -32,6 +32,7 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     country:
       groups:
         - 'player.country'
+        - 'player.put'
     rankPointChart:
       groups:
         - 'player.pointChart'
@@ -40,6 +41,10 @@ VideoGamesRecords\CoreBundle\Entity\Player:
         - 'player.pointChart'
         - 'player.proof'
     nbChartProven:
+      groups:
+        - 'player.pointChart'
+        - 'player.proof'
+    nbChartDisabled:
       groups:
         - 'player.pointChart'
         - 'player.proof'

@@ -180,9 +180,9 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     private $serie;
 
     /**
-     * @var BadgeInterface
+     * @var Badge
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\BadgeInterface")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })
@@ -623,7 +623,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * Get idBadge
      *
-     * @return BadgeInterface
+     * @return Badge
      */
     public function getBadge()
     {

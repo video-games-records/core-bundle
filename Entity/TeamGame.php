@@ -23,7 +23,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *              "game.read.mini",
  *              "teamGame.game",
  *              "teamGame.pointChart",
- *              "teamGame.medal"
+ *              "teamGame.medal",
+ *              "game.stats",
  *          }
  *      }
  * )

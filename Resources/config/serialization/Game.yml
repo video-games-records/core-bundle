@@ -36,17 +36,21 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game.list'
         - 'game.read'
+        - 'game.stats'
     nbPost:
       groups:
         - 'game.list'
         - 'game.read'
+        - 'game.stats'
     nbPlayer:
       groups:
         - 'game.list'
         - 'game.read'
+        - 'game.stats'
     nbTeam:
       groups:
         - 'game.read'
+        - 'game.stats'
     ordre:
       groups: []
     serie:

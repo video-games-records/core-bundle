@@ -22,9 +22,13 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "overrideDefaultGroups": true,
  *          "whitelist": {
  *              "game.read.mini",
+ *              "game.platforms",
+ *              "platform.read",
  *              "playerGame.game",
  *              "playerGame.pointChart",
- *              "playerGame.medal"
+ *              "playerGame.medal",
+ *              "playerGame.proof",
+ *              "game.stats",
  *          }
  *      }
  * )

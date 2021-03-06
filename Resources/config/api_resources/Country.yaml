@@ -1,0 +1,8 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Country:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [country.read]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [country.read]}

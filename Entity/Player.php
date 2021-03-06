@@ -295,9 +295,9 @@ class Player implements SluggableInterface
     private $team;
 
     /**
-     * @var CountryInterface
+     * @var Country
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\CountryInterface")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idCountry", referencedColumnName="id")
      * })
@@ -1073,7 +1073,7 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @return CountryInterface
+     * @return Country
      */
     public function getCountry()
     {

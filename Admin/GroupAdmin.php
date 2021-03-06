@@ -25,7 +25,8 @@ class GroupAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
-            ->remove('export');
+            ->remove('export')
+            ->add('copy', $this->getRouterIdParameter().'/copy');
     }
 
     /**
@@ -120,6 +121,9 @@ class GroupAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'copy' => [
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy_link.html.twig'
+                    ],
                     'groups' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:group_charts_link.html.twig'
                     ],

@@ -1,0 +1,17 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Badge:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [badge.list]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [badge.read]}
+
+
+
+
+
+
+
+
+

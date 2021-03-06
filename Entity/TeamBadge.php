@@ -82,9 +82,9 @@ class TeamBadge implements TimestampableInterface
     private $team;
 
     /**
-     * @var BadgeInterface
+     * @var Badge
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\BadgeInterface", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=false)
      * })
@@ -173,7 +173,7 @@ class TeamBadge implements TimestampableInterface
     /**
      * Get badge
      *
-     * @return BadgeInterface
+     * @return Badge
      */
     public function getBadge()
     {
