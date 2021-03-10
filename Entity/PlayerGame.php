@@ -14,7 +14,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *
  * @ORM\Table(name="vgr_player_game")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository")
- * @ApiFilter(SearchFilter::class, properties={"player": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"player": "exact","game": "exact"})
  * @ApiFilter(
  *     GroupFilter::class,
  *     arguments={
