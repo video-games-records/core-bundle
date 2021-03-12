@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS copy_group;
 DELIMITER &&
-CREATE PROCEDURE copy_group(IN group_id_src int)
+CREATE PROCEDURE copy_group(IN group_id_src int, IN copy_libchart boolean)
 BEGIN
  	DECLARE group_id_dest INT;
 
@@ -48,7 +48,9 @@ BEGIN
 		INSERT INTO vgr_chart_translation (translatable_id, name, locale) SELECT chart_id_dest, name, locale FROM vgr_chart_translation WHERE translatable_id = chart_id_src;
 
         -- LIBRECORD
-        INSERT INTO vgr_chartlib (idChart, idType, name, created_at, updated_at) SELECT chart_id_dest, idType, name, NOW(), NOW() FROM vgr_chartlib WHERE idChart = chart_id_src;
+        IF (copy_libchart = 1) THEN
+            INSERT INTO vgr_chartlib (idChart, idType, name, created_at, updated_at) SELECT chart_id_dest, idType, name, NOW(), NOW() FROM vgr_chartlib WHERE idChart = chart_id_src;
+        END IF;
 
     END LOOP;
 	CLOSE cur1;
