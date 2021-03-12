@@ -167,7 +167,7 @@ class PlayerBadgeRepository extends EntityRepository
     public function majUserBadge()
     {
         $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge)
-        SELECT vgr_player.id,badge.id
+        SELECT vgr_player.id,vgr_badge.id
         FROM vgr_player,user,vgr_badge
         WHERE type = '%s'
         AND value <= user.%s
