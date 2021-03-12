@@ -26,7 +26,8 @@ class GroupAdmin extends AbstractAdmin
     {
         $collection
             ->remove('export')
-            ->add('copy', $this->getRouterIdParameter().'/copy');
+            ->add('copy', $this->getRouterIdParameter().'/copy')
+            ->add('copy-with-lib-chart', $this->getRouterIdParameter().'/copy-with-lib-chart');
     }
 
     /**
@@ -123,6 +124,9 @@ class GroupAdmin extends AbstractAdmin
                     'edit' => [],
                     'copy' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy_link.html.twig'
+                    ],
+                    'copy2' => [
+                        'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy2_link.html.twig'
                     ],
                     'groups' => [
                         'template' => 'VideoGamesRecordsCoreBundle:Admin:group_charts_link.html.twig'

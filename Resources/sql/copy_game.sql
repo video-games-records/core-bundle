@@ -26,7 +26,7 @@ BEGIN
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 	-- Master Badge
-	INSERT INTO badge (type, picture, value, nbUser) SELECT b.type, b.picture, 0, 0 FROM badge b INNER JOIN vgr_game g ON b.id = g.idBadge WHERE g.id = game_id_src;
+	INSERT INTO vgr_badge (type, picture, value, nbUser) SELECT b.type, b.picture, 0, 0 FROM vgr_badge b INNER JOIN vgr_game g ON b.id = g.idBadge WHERE g.id = game_id_src;
     SET badge_id = LAST_INSERT_ID();
 
     -- GAME

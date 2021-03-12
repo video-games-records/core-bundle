@@ -52,6 +52,10 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *              "group.game",
  *              "game.read.mini",
  *              "playerChartLib.format",
+ *              "playerChart.proof",
+ *              "proof.read",
+ *              "picture.read",
+ *              "video.read",
  *          }
  *     }
  * )
