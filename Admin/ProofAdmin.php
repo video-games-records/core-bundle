@@ -108,7 +108,6 @@ class ProofAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            //->add('status')
             ->add('player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
                 'property' => 'pseudo',
             ])
