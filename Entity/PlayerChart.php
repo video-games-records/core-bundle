@@ -328,11 +328,10 @@ class PlayerChart implements ItemInterface, TimestampableInterface
 
     /**
      * Set dateInvestigation
-     *
-     * @param DateTime $dateInvestigation
-     * @return PlayerChart
+     * @param DateTime|null $dateInvestigation
+     * @return $this
      */
-    public function setDateInvestigation(DateTime $dateInvestigation)
+    public function setDateInvestigation(DateTime $dateInvestigation = null)
     {
         $this->dateInvestigation = $dateInvestigation;
         return $this;
