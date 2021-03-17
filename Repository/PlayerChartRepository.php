@@ -4,6 +4,8 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateInterval;
 use Doctrine\ORM\EntityRepository;
+use VideoGamesRecords\CoreBundle\Entity\LostPosition;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -115,9 +117,13 @@ class PlayerChartRepository extends EntityRepository
             $libValue = '';
             /** @var PlayerChart $playerChart */
             $playerChart = $item[0];
-            $players[$playerChart->getPlayer()->getId()]   = $playerChart->getPlayer();
-            $playerChart
-                ->setTopScore(false);
+
+            // Lost position ?
+            $oldRank = $playerChart->getRank();
+            $oldNbEqual = $playerChart->getNbEqual();
+
+            $players[$playerChart->getPlayer()->getId()]  = $playerChart->getPlayer();
+            $playerChart->setTopScore(false);
 
             foreach ($chart->getLibs() as $lib) {
                 $libValue .= $item['value_' . $lib->getIdLibChart()] . '/';
@@ -156,6 +162,21 @@ class PlayerChartRepository extends EntityRepository
                         ->setNbEqual($nbEqual)
                         ->setPointChart($playerChart->getPointChart());
                 }
+            }
+
+            // Lost position ?
+            $newRank = $playerChart->getRank();
+            $newNbEqual = $playerChart->getNbEqual();
+
+            if ((($oldRank >= 1) && ($oldRank <= 3) && ($newRank > $oldRank)) ||
+                (($oldRank === 1) && ($oldNbEqual === 1) && ($newRank === 1) && ($newNbEqual > 1))
+            ) {
+                $lostPosition = new LostPosition();
+                $lostPosition->setNewRank($newRank);
+                $lostPosition->setOldRank(($oldNbEqual == 1 && $oldRank == 1) ? 0 : $oldRank); //----- zero for losing platinum medal
+                $lostPosition->setPlayer($this->_em->getReference(Player::class, $playerChart->getPlayer()->getId()));
+                $lostPosition->setChart($this->_em->getReference(Chart::class, $playerChart->getChart()->getId()));
+                $this->_em->persist($lostPosition);
             }
 
             $previousLibValue = $libValue;
