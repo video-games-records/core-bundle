@@ -16,6 +16,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
@@ -101,7 +102,10 @@ class ProofRequestAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('status')
+            ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
+                'choices' => ProofRequest::getStatusChoices(),
+                'multiple' => false,
+            ])
             ->add('playerRequesting', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ])
