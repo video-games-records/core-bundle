@@ -106,6 +106,7 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'Maj ?',
                 'required' => false,
             ])
+            ->add('platforms', null, ['required' => false, 'expanded' => false])
             ->add('translations', TranslationsType::class, [
                 'fields' => [
                     'name' => [
@@ -119,8 +120,7 @@ class GameAdmin extends AbstractAdmin
                         'required' => false,
                     ]
                 ]
-            ])
-            ->add('platforms', null, ['required' => false, 'expanded' => false]);
+            ]);
     }
 
     /**
@@ -155,6 +155,14 @@ class GameAdmin extends AbstractAdmin
                 ]
             )
             ->add(
+                'badge',
+                null,
+                [
+                    'label' => 'Badge',
+                    'editable' => true
+                ]
+            )
+            ->add(
                 'status',
                 'choice',
                 [
@@ -168,7 +176,7 @@ class GameAdmin extends AbstractAdmin
                 'choice',
                 [
                     'label' => 'Etat',
-                    'editable' => false,
+                    'editable' => true,
                     'choices' => Game::getEtatsChoices(),
                 ]
             )
