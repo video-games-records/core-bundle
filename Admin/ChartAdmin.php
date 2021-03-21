@@ -40,7 +40,7 @@ class ChartAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+        $query->innerJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
             ->addSelect('t');
         return $query;
     }
@@ -160,7 +160,14 @@ class ChartAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('defaultName', null, ['label' => 'Name'])
+            ->add(
+                'translations',
+                null,
+                [
+                    'associated_property' => 'name',
+                    'label' => 'Name'
+                ]
+            )
             ->add('slug', null, ['label' => 'Slug'])
             ->add('group', null, array(
                 'associated_property' => 'defaultName',

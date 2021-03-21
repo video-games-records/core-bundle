@@ -39,8 +39,6 @@ class GroupAdmin extends AbstractAdmin
         $query = parent::configureQuery($query);
         $query->innerJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
             ->addSelect('t');
-
-
         return $query;
     }
 
