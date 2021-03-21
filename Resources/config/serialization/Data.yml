@@ -1,0 +1,12 @@
+VideoGamesRecords\CoreBundle\Entity\Data:
+  attributes:
+    id:
+      groups:
+        - 'data.read'
+    label:
+      groups:
+        - 'data.read'
+    value:
+      groups:
+        - 'data.read'
+
