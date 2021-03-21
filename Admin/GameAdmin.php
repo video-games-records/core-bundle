@@ -51,7 +51,7 @@ class GameAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
             ->addSelect('t');
         return $query;
     }
@@ -144,7 +144,14 @@ class GameAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add(
+                'translations',
+                null,
+                [
+                    'associated_property' => 'name',
+                    'label' => 'Name'
+                ]
+            )
             ->add('slug', null, ['label' => 'Slug'])
             ->add(
                 'picture',
@@ -204,7 +211,7 @@ class GameAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('translations.name', null, ['label' => 'Name'])
             ->add('picture')
             ->add('badge')
             ->add('status')
