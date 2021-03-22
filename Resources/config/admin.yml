@@ -1,4 +1,12 @@
 services:
+    sonata.admin.vgr.platform:
+        class: VideoGamesRecords\CoreBundle\Admin\PlatformAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.platform" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Platform
+            - ~
     sonata.admin.vgr.serie:
         class: VideoGamesRecords\CoreBundle\Admin\SerieAdmin
         tags:
@@ -49,70 +57,6 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ChartLib
             - ~
-    sonata.admin.vgr.platform:
-        class: VideoGamesRecords\CoreBundle\Admin\PlatformAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.platform" }
-        arguments:
-            - ~
-            - VideoGamesRecords\CoreBundle\Entity\Platform
-            - ~
-    sonata.admin.vgr.player:
-        class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.player" }
-        arguments:
-            - ~
-            - VideoGamesRecords\CoreBundle\Entity\Player
-            - ~
-    sonata.admin.vgr.game_topic:
-        class: VideoGamesRecords\CoreBundle\Admin\GameTopicAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.games.messages", label: "label.topic" }
-        arguments:
-            - ~
-            - VideoGamesRecords\CoreBundle\Entity\GameTopic
-            - ~
-    sonata.admin.vgr.game_message:
-        class: VideoGamesRecords\CoreBundle\Admin\GameMessageAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.games.messages", label: "label.message" }
-        arguments:
-            - ~
-            - VideoGamesRecords\CoreBundle\Entity\GameMessage
-            - ~
-    sonata.admin.vgr.playerchart:
-        class: VideoGamesRecords\CoreBundle\Admin\PlayerChartAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.scores", label: "label.playerChart" }
-        arguments:
-            - ~
-            - VideoGamesRecords\CoreBundle\Entity\PlayerChart
-            - ~
-    sonata.admin.vgr.playerchart_lib:
-        class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.scores", label: "label.playerChartLib", show_in_dashboard: false }
-        arguments:
-            - ~
-            - VideoGamesRecords\CoreBundle\Entity\PlayerChartLib
-            - ~
-    sonata.admin.vgr.team:
-        class: VideoGamesRecords\CoreBundle\Admin\TeamAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.team" }
-        arguments:
-            - ~
-            - VideoGamesRecords\CoreBundle\Entity\Team
-            - ~
-    sonata.admin.vgr.team.request:
-        class: VideoGamesRecords\CoreBundle\Admin\TeamRequestAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.request" }
-        arguments:
-            - ~
-            - VideoGamesRecords\CoreBundle\Entity\TeamRequest
-            - ~
     sonata.admin.vgr.proof.request:
         class: VideoGamesRecords\CoreBundle\Admin\ProofRequestAdmin
         tags:
@@ -154,10 +98,50 @@ services:
             - ~
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:video_show.html.twig']]
+    sonata.admin.vgr.player:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.player" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Player
+            - ~
+    sonata.admin.vgr.team:
+        class: VideoGamesRecords\CoreBundle\Admin\TeamAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.team" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Team
+            - ~
+    sonata.admin.vgr.team.request:
+        class: VideoGamesRecords\CoreBundle\Admin\TeamRequestAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.request" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\TeamRequest
+            - ~
+    sonata.admin.vgr.playerchart:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerChartAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.scores", label: "label.playerChart" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\PlayerChart
+            - ~
+    sonata.admin.vgr.playerchart_lib:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.playerChartLib", show_in_dashboard: false }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\PlayerChartLib
+            - ~
     sonata.admin.badge:
         class: VideoGamesRecords\CoreBundle\Admin\BadgeAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.badges", label: "label.badge" }
+            - { name: sonata.admin, manager_type: orm, group: "group.others", label: "label.badge" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Badge
@@ -165,8 +149,16 @@ services:
     sonata.admin.country:
         class: VideoGamesRecords\CoreBundle\Admin\CountryAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.countries", label: "label.country" }
+            - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.country" }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Country
+            - ~
+    sonata.admin.vgr.game.day:
+        class: VideoGamesRecords\CoreBundle\Admin\GameDayAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.others", label: "label.game.day" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\GameDay
             - ~

@@ -194,6 +194,10 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      */
     private $groups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameDay", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $days;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameTopic", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -655,6 +659,14 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     public function getGroups()
     {
         return $this->groups;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDays()
+    {
+        return $this->days;
     }
 
     /**

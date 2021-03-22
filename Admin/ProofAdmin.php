@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
@@ -32,6 +33,23 @@ class ProofAdmin extends AbstractAdmin
     public function setMessager(Messager $messager)
     {
         $this->messager = $messager;
+    }
+
+    /**
+     * @param ProxyQueryInterface $query
+     * @return ProxyQueryInterface
+     */
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query
+            ->innerJoin($query->getRootAliases()[0]  . '.chart', 'chr')
+            ->addSelect('chr')
+            ->innerJoin('chr.group', 'grp')
+            ->addSelect('grp')
+            ->innerJoin('grp.game', 'gam')
+            ->addSelect('gam');
+        return $query;
     }
 
     /**
@@ -114,9 +132,6 @@ class ProofAdmin extends AbstractAdmin
             ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
                 'property' => 'translations.name',
             ])
-            /*->add('chart.group', ModelAutocompleteFilter::class, ['label' => 'Group'], null, [
-                'property' => 'translations.name',
-            ])*/
             ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
