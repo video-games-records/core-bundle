@@ -1,0 +1,11 @@
+VideoGamesRecords\CoreBundle\Entity\GameDay:
+  attributes:
+    id:
+      groups:
+        - 'gameDay.read'
+    day:
+      groups:
+        - 'gameDay.read'
+    game:
+      groups:
+        - 'gameDay.game'

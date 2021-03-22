@@ -5,6 +5,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTime;
 
 /**
@@ -13,6 +15,12 @@ use DateTime;
  * @ORM\Table(name="vgr_game_day")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameDayRepository")
  * @UniqueEntity("day")
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "day": "exact",
+ *      }
+ * )
  */
 
 class GameDay
