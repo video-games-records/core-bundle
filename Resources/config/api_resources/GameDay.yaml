@@ -1,6 +1,5 @@
 resources:
     VideoGamesRecords\CoreBundle\Entity\GameDay:
-        shortName: 'GameDay'
         collectionOperations:
             get:
                 normalization_context: {'groups': [gameDay.read,gameDay.game,game.read.mini]}
