@@ -85,7 +85,6 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @Assert\Length(max="255")
      * @Assert\Url(
-     *    checkDNS = true,
      *    protocols = {"http", "https"}
      * )
      * @ORM\Column(name="siteWeb", type="string", length=255, nullable=true)

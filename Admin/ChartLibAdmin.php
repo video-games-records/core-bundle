@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class ChartLibAdmin extends AbstractAdmin
 {
     // Fields to be shown on create/edit forms
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('idLibChart', TextType::class, [
@@ -26,7 +26,7 @@ class ChartLibAdmin extends AbstractAdmin
     }
 
     // Fields to be shown on lists
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('idLibChart')
