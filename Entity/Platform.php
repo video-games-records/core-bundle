@@ -65,7 +65,7 @@ class Platform implements SluggableInterface
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="platform")
      */
-    private $playerPlaform;
+    private $playerPlatform;
 
 
     /**
@@ -173,7 +173,7 @@ class Platform implements SluggableInterface
      */
     public function getPlayerPlatform()
     {
-        return $this->playerPlaform;
+        return $this->playerPlatform;
     }
 
     /**
