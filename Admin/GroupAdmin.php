@@ -43,9 +43,9 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
         $gameOptions = [];
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
@@ -63,7 +63,7 @@ class GroupAdmin extends AbstractAdmin
             }
         }
 
-        $formMapper
+        $form
             ->add('id', TextType::class, [
                 'label' => 'idGroup',
                 'attr' => [
@@ -92,11 +92,11 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('translations.name', null, ['label' => 'Name'])
             ->add('game', ModelAutocompleteFilter::class, [], null, [
@@ -105,11 +105,11 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add(
                 'translations',
@@ -146,11 +146,11 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper): void
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('game', null, [

@@ -15,11 +15,9 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\ORMException;
 
@@ -65,11 +63,11 @@ class ProofAdmin extends AbstractAdmin
 
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add(
                 'picture',
                 ModelListType::class,
@@ -120,11 +118,11 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
                 'property' => 'pseudo',
@@ -143,11 +141,11 @@ class ProofAdmin extends AbstractAdmin
 
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add('player', null, [
                 'associated_property' => 'pseudo',
@@ -191,11 +189,11 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper): void
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('Player', null, ['label' => 'Player'])
             ->add('chart.group.game', null, ['label' => 'Game'])

@@ -19,7 +19,6 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ProofRequestAdmin extends AbstractAdmin
@@ -47,11 +46,11 @@ class ProofRequestAdmin extends AbstractAdmin
 
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add(
                 'playerRequesting',
                 ModelListType::class,
@@ -96,11 +95,11 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
                 'choices' => ProofRequest::getStatusChoices(),
@@ -115,11 +114,11 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add('createdAt')
             ->add('playerRequesting', null, [
@@ -161,11 +160,11 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper): void
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('createdAt')
             ->add('playerRequesting')

@@ -7,12 +7,23 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CountryAdmin extends AbstractAdmin
 {
+
+    /**
+     * @param RouteCollectionInterface $collection
+     */
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection
+            ->remove('export')
+            ->remove('delete');
+    }
+
     /**
      * @param ProxyQueryInterface $query
      * @return ProxyQueryInterface
@@ -28,7 +39,7 @@ class CountryAdmin extends AbstractAdmin
     /**
      * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $form
             ->add('codeIso2', TextType::class, [
@@ -51,7 +62,7 @@ class CountryAdmin extends AbstractAdmin
     /**
      * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('codeIso3');
@@ -60,7 +71,7 @@ class CountryAdmin extends AbstractAdmin
     /**
      * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('id')
@@ -80,7 +91,7 @@ class CountryAdmin extends AbstractAdmin
     /**
      * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $show)
+    protected function configureShowFields(ShowMapper $show): void
     {
         $show
             ->add('getName', null, ['label' => 'English name'])
@@ -88,15 +99,5 @@ class CountryAdmin extends AbstractAdmin
             ->add('codeIso2')
             ->add('codeIsoNumeric')
             ->add('badge');
-    }
-
-    /**
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection
-            ->remove('export')
-            ->remove('delete');
     }
 }

@@ -46,9 +46,9 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
         $groupOptions = array();
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
@@ -67,7 +67,7 @@ class ChartAdmin extends AbstractAdmin
             }
         }
 
-        $formMapper
+        $form
             ->add('id', TextType::class, array(
                 'label' => 'id',
                 'attr' => array(
@@ -94,7 +94,7 @@ class ChartAdmin extends AbstractAdmin
             ]);
 
         if (($this->hasRequest()) && ($this->isCurrentRoute('edit'))) {
-            $formMapper
+            $form
                 ->add(
                     'statusPlayer',
                     ChoiceType::class,
@@ -103,7 +103,7 @@ class ChartAdmin extends AbstractAdmin
                         'choices' => Chart::getStatusChoices()
                     )
                 );
-            $formMapper
+            $form
                 ->add(
                     'statusTeam',
                     ChoiceType::class,
@@ -114,7 +114,7 @@ class ChartAdmin extends AbstractAdmin
                 );
         }
 
-        $formMapper
+        $form
             ->add('libs', CollectionType::class, array(
                 'by_reference' => false,
                 'help' => (($this->isCurrentRoute('create')) ?
@@ -139,11 +139,11 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('translations.name', null, ['label' => 'Name'])
             ->add('group', ModelAutocompleteFilter::class, array(), null, array(
@@ -154,11 +154,11 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add(
                 'translations',
@@ -182,11 +182,11 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper): void
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('defaultName', null, ['label' => 'Name'])
             ->add('group', null, array(

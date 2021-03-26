@@ -3,23 +3,12 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
-use DateTime;
-use Doctrine\ORM\EntityManager;
-use Exception;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
@@ -28,9 +17,9 @@ class GameDayAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_game_day';
 
     /**
-     * @param RouteCollection $collection
+     * @param RouteCollectionInterface $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('export');
@@ -45,9 +34,9 @@ class GameDayAdmin extends AbstractAdmin
 
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
         $options = [];
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
@@ -59,7 +48,7 @@ class GameDayAdmin extends AbstractAdmin
             $options = ['data' => $date];
         }
 
-        $formMapper
+        $form
             ->add(
                 'game',
                 ModelListType::class,
@@ -77,11 +66,11 @@ class GameDayAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('day')
             ->add('game', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'translations.name',
@@ -89,11 +78,11 @@ class GameDayAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add('day')
             ->add('game', null, [
@@ -109,11 +98,11 @@ class GameDayAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('day')
             ->add('game');
