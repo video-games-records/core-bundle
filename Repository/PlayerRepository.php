@@ -303,15 +303,24 @@ class PlayerRepository extends EntityRepository
      */
     public function majPointBadge()
     {
+        // MAJ nbPlayer badge
+        $sql = "UPDATE vgr_badge b
+        SET nbPlayer = (
+            SELECT COUNT(id)
+            FROM vgr_player_badge
+            WHERE idBadge = b.id AND ended_at IS NULL
+            )";
+        $this->_em->getConnection()->executeStatement($sql);
+
         // MAJ value badge
-        $sql = "UPDATE badge, vgr_game
-        SET badge.value = FLOOR(
+        $sql = "UPDATE vgr_badge, vgr_game
+        SET vgr_badge.value = FLOOR(
             100 * (
-                6250 * ( -1 / ( 100 + vgr_game.nbPlayer - badge.nbUser) + 0.0102) / ( POW( badge.nbUser, 1 /3 ) )
+                6250 * ( -1 / ( 100 + vgr_game.nbPlayer - vgr_badge.nbPlayer) + 0.0102) / ( POW( vgr_badge.nbPlayer, 1 / 3 ) )
             )
         )
-        WHERE badge.id = vgr_game.idBadge
-        AND badge.nbUser > 0";
+        WHERE vgr_badge.id = vgr_game.idBadge
+        AND vgr_badge.nbPlayer > 0";
         $this->_em->getConnection()->executeStatement($sql);
 
 
