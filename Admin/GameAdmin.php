@@ -14,12 +14,11 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 
@@ -28,9 +27,9 @@ class GameAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_game';
 
     /**
-     * @param RouteCollection $collection
+     * @param RouteCollectionInterface $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('export')
@@ -51,17 +50,17 @@ class GameAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
             ->addSelect('t');
         return $query;
     }
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add('serie', ModelAutocompleteType::class, [
                 'property' => 'translations.name'
             ])
@@ -106,6 +105,7 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'Maj ?',
                 'required' => false,
             ])
+            ->add('platforms', null, ['required' => false, 'expanded' => false])
             ->add('translations', TranslationsType::class, [
                 'fields' => [
                     'name' => [
@@ -119,16 +119,15 @@ class GameAdmin extends AbstractAdmin
                         'required' => false,
                     ]
                 ]
-            ])
-            ->add('platforms', null, ['required' => false, 'expanded' => false]);
+            ]);
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('serie')
             ->add('translations.name', null, ['label' => 'Name'])
@@ -138,19 +137,34 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add(
+                'translations',
+                null,
+                [
+                    'associated_property' => 'name',
+                    'label' => 'Name'
+                ]
+            )
             ->add('slug', null, ['label' => 'Slug'])
             ->add(
                 'picture',
                 'text',
                 [
                     'label' => 'Picture',
+                    'editable' => true
+                ]
+            )
+            ->add(
+                'badge',
+                null,
+                [
+                    'label' => 'Badge',
                     'editable' => true
                 ]
             )
@@ -168,7 +182,7 @@ class GameAdmin extends AbstractAdmin
                 'choice',
                 [
                     'label' => 'Etat',
-                    'editable' => false,
+                    'editable' => true,
                     'choices' => Game::getEtatsChoices(),
                 ]
             )
@@ -190,13 +204,13 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('translations.name', null, ['label' => 'Name'])
             ->add('picture')
             ->add('badge')
             ->add('status')
@@ -208,7 +222,7 @@ class GameAdmin extends AbstractAdmin
      * @param $object
      * @throws Exception
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());

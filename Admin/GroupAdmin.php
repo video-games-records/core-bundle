@@ -9,7 +9,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,9 +20,9 @@ class GroupAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_group';
 
     /**
-     * @param RouteCollection $collection
+     * @param RouteCollectionInterface $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('export')
@@ -37,15 +37,15 @@ class GroupAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+        $query->innerJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
             ->addSelect('t');
         return $query;
     }
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
         $gameOptions = [];
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
@@ -63,7 +63,7 @@ class GroupAdmin extends AbstractAdmin
             }
         }
 
-        $formMapper
+        $form
             ->add('id', TextType::class, [
                 'label' => 'idGroup',
                 'attr' => [
@@ -92,11 +92,11 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('translations.name', null, ['label' => 'Name'])
             ->add('game', ModelAutocompleteFilter::class, [], null, [
@@ -105,13 +105,20 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add(
+                'translations',
+                null,
+                [
+                    'associated_property' => 'name',
+                    'label' => 'Name'
+                ]
+            )
             ->add('slug', null, ['label' => 'Slug'])
             ->add('game', null, [
                 'associated_property' => 'defaultName',
@@ -139,11 +146,11 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('getDefaultName', null, ['label' => 'Name'])
             ->add('game', null, [

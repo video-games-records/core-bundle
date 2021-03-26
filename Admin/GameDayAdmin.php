@@ -2,18 +2,19 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
-class PlayerAdmin extends AbstractAdmin
+class GameDayAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'vgrcorebundle_player';
+    protected $baseRouteName = 'vgrcorebundle_admin_game_day';
 
     /**
      * @param RouteCollectionInterface $collection
@@ -21,38 +22,47 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
-            ->remove('create')
-            ->remove('export')
-            ->remove('delete');
+            ->remove('export');
     }
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues['_page'] = 1;
+        $sortValues['_sort_order'] = 'DESC';
+        $sortValues['_sort_by'] = 'day';
+    }
+
 
     /**
      * @param FormMapper $form
      */
     protected function configureFormFields(FormMapper $form): void
     {
+        $options = [];
+        if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
+            $em = $this->getModelManager()
+                ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\GameDay');
+            $lastDay = $em->getRepository('VideoGamesRecordsCoreBundle:GameDay')->getMax();
+            $date = new \DateTime($lastDay);
+            $date->add(new \DateInterval('P1D'));
+            $options = ['data' => $date];
+        }
+
         $form
-            ->add('id', TextType::class, [
-                'label' => 'id',
-                'attr' => [
-                    'readonly' => true,
-                ]
-            ])
-            ->add('pseudo', TextType::class, [
-                'label' => 'pseudo',
-                'attr' => [
-                    'readonly' => true,
-                ]
-            ])
-            ->add('country', ModelListType::class, [
+            ->add(
+                'game',
+                ModelListType::class,
+                [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
                 'btn_edit' => false,
                 'btn_delete' => false,
-                'btn_catalogue' => false,
-                'label' => 'Country',
-            ]);
+                'btn_catalogue' => true,
+                'label' => 'Game',
+                ]
+            )
+            ->add('day', null, $options);
     }
 
     /**
@@ -61,8 +71,10 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('pseudo');
+            ->add('day')
+            ->add('game', ModelAutocompleteFilter::class, [], null, [
+                'property' => 'translations.name',
+            ]);
     }
 
     /**
@@ -72,8 +84,11 @@ class PlayerAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id')
-            ->add('pseudo')
-            ->add('country')
+            ->add('day')
+            ->add('game', null, [
+                'associated_property' => 'defaultName',
+                'label' => 'Game',
+            ])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -89,8 +104,7 @@ class PlayerAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('pseudo')
-            ->add('country')
-            ->add('team');
+            ->add('day')
+            ->add('game');
     }
 }

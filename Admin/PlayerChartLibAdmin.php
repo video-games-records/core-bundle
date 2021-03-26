@@ -9,9 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class PlayerChartLibAdmin extends AbstractAdmin
 {
     // Fields to be shown on create/edit forms
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add('id', TextType::class, [
                 'label' => 'id',
                 'attr' => [
@@ -25,9 +25,9 @@ class PlayerChartLibAdmin extends AbstractAdmin
     }
 
     // Fields to be shown on lists
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add('value');
     }

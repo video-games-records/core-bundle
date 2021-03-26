@@ -1,6 +1,7 @@
 label:
     serie: 'Serie'
     game: 'Game'
+    game.day: 'Game of day'
     group: 'Group'
     chart: 'Chart'
     chart.type: 'Chart type'

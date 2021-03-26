@@ -9,7 +9,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -25,9 +25,9 @@ class ChartAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_chart';
 
     /**
-     * @param RouteCollection $collection
+     * @param RouteCollectionInterface $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('export');
@@ -40,15 +40,15 @@ class ChartAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+        $query->innerJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
             ->addSelect('t');
         return $query;
     }
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
         $groupOptions = array();
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
@@ -67,7 +67,7 @@ class ChartAdmin extends AbstractAdmin
             }
         }
 
-        $formMapper
+        $form
             ->add('id', TextType::class, array(
                 'label' => 'id',
                 'attr' => array(
@@ -94,7 +94,7 @@ class ChartAdmin extends AbstractAdmin
             ]);
 
         if (($this->hasRequest()) && ($this->isCurrentRoute('edit'))) {
-            $formMapper
+            $form
                 ->add(
                     'statusPlayer',
                     ChoiceType::class,
@@ -103,7 +103,7 @@ class ChartAdmin extends AbstractAdmin
                         'choices' => Chart::getStatusChoices()
                     )
                 );
-            $formMapper
+            $form
                 ->add(
                     'statusTeam',
                     ChoiceType::class,
@@ -114,7 +114,7 @@ class ChartAdmin extends AbstractAdmin
                 );
         }
 
-        $formMapper
+        $form
             ->add('libs', CollectionType::class, array(
                 'by_reference' => false,
                 'help' => (($this->isCurrentRoute('create')) ?
@@ -139,11 +139,11 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('translations.name', null, ['label' => 'Name'])
             ->add('group', ModelAutocompleteFilter::class, array(), null, array(
@@ -154,13 +154,20 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
-            ->add('defaultName', null, ['label' => 'Name'])
+            ->add(
+                'translations',
+                null,
+                [
+                    'associated_property' => 'name',
+                    'label' => 'Name'
+                ]
+            )
             ->add('slug', null, ['label' => 'Slug'])
             ->add('group', null, array(
                 'associated_property' => 'defaultName',
@@ -175,11 +182,11 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('defaultName', null, ['label' => 'Name'])
             ->add('group', null, array(
@@ -191,7 +198,7 @@ class ChartAdmin extends AbstractAdmin
     /**
      * @param $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $libs = $object->getLibs();
         if (count($libs) == 0) {

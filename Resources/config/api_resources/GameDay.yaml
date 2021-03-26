@@ -1,0 +1,8 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\GameDay:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [gameDay.read,gameDay.game,game.read.mini]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [gameDay.read,gameDay.game,game.read.mini]}

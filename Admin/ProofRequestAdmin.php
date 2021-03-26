@@ -14,12 +14,11 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ProofRequestAdmin extends AbstractAdmin
@@ -29,15 +28,15 @@ class ProofRequestAdmin extends AbstractAdmin
     /** @var Messager */
     private $messager;
 
-    public function setMessager(Messager $messager)
+    public function setMessager(Messager $messager): void
     {
         $this->messager = $messager;
     }
 
     /**
-     * @param RouteCollection $collection
+     * @param RouteCollectionInterface $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('create')
@@ -47,11 +46,11 @@ class ProofRequestAdmin extends AbstractAdmin
 
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add(
                 'playerRequesting',
                 ModelListType::class,
@@ -96,11 +95,11 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
                 'choices' => ProofRequest::getStatusChoices(),
@@ -115,11 +114,11 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add('createdAt')
             ->add('playerRequesting', null, [
@@ -161,11 +160,11 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('createdAt')
             ->add('playerRequesting')
@@ -178,7 +177,7 @@ class ProofRequestAdmin extends AbstractAdmin
     /**
      * @param $object
      */
-    public function preValidate($object)
+    public function preValidate($object): void
     {
         $player =  $this->getPlayer();
 
@@ -209,7 +208,7 @@ class ProofRequestAdmin extends AbstractAdmin
      * @param $object
      * @throws ORMException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());

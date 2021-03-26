@@ -13,7 +13,6 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
  *
  * @ORM\Table(name="vgr_serie")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
- * @method SerieTranslation translate(string $locale, bool $fallbackToDefault)
  */
 class Serie implements TranslatableInterface, SluggableInterface
 {
@@ -30,9 +29,14 @@ class Serie implements TranslatableInterface, SluggableInterface
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="serie", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $games;
+
+    /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
     }
@@ -40,7 +44,7 @@ class Serie implements TranslatableInterface, SluggableInterface
     /**
      * @return string
      */
-    public function getDefaultName()
+    public function getDefaultName(): string
     {
         return $this->translate('en', false)->getName();
     }
@@ -49,7 +53,7 @@ class Serie implements TranslatableInterface, SluggableInterface
      * @param string $name
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): Serie
     {
         $this->translate(null, false)->setName($name);
 
@@ -59,7 +63,7 @@ class Serie implements TranslatableInterface, SluggableInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->translate(null, false)->getName();
     }
@@ -69,7 +73,7 @@ class Serie implements TranslatableInterface, SluggableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Serie
     {
         $this->id = $id;
         return $this;
@@ -80,9 +84,17 @@ class Serie implements TranslatableInterface, SluggableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGames()
+    {
+        return $this->games;
     }
 
     /**

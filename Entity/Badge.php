@@ -48,6 +48,13 @@ class Badge
     private $value = 0;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=true, options={"default":0})
+     */
+    private $nbPlayer = 0;
+
+    /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="badge")
      */
     private $game;
@@ -156,6 +163,29 @@ class Badge
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Set nbPlayer
+     *
+     * @param integer $nbPlayer
+     * @return $this
+     */
+    public function setNbPlayer(int $nbPlayer)
+    {
+        $this->nbPlayer = $nbPlayer;
+
+        return $this;
+    }
+
+    /**
+     * Get nbPlayer
+     *
+     * @return integer
+     */
+    public function getNbPlayer()
+    {
+        return $this->nbPlayer;
     }
 
     /**

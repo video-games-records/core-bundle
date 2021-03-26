@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
@@ -18,40 +18,40 @@ class BadgeAdmin extends AbstractAdmin
     protected $baseRouteName = 'pnbadgebundle_admin_badge';
 
     /**
-     * @param RouteCollection $collection
+     * @param RouteCollectionInterface $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->remove('export');
     }
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper->add('id', TextType::class, ['label' => 'idBadge', 'attr' => ['readonly' => true]])
+        $form->add('id', TextType::class, ['label' => 'idBadge', 'attr' => ['readonly' => true]])
             ->add('type', TextType::class, ['label' => 'Type'])
             ->add('picture', TextType::class, ['label' => 'Picture'])
             ->add('value', TextType::class, ['label' => 'Value', 'required' => false]);
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('type')
             ->add('picture');
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper->addIdentifier('id')
+        $list->addIdentifier('id')
             ->add('type', null, ['label' => 'Type'])
             ->add('picture', 'text', ['label' => 'Picture', 'editable' => true])
             ->add('value', null, ['label' => 'Value'])
@@ -59,11 +59,11 @@ class BadgeAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper->add('id')
+        $show->add('id')
             ->add('type')
             ->add('picture')
             ->add('value');

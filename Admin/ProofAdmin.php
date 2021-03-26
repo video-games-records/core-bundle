@@ -9,16 +9,15 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Symfony\Component\HttpFoundation\Response;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\ORMException;
 
@@ -35,9 +34,26 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @param RouteCollection $collection
+     * @param ProxyQueryInterface $query
+     * @return ProxyQueryInterface
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query
+            ->innerJoin($query->getRootAliases()[0]  . '.chart', 'chr')
+            ->addSelect('chr')
+            ->innerJoin('chr.group', 'grp')
+            ->addSelect('grp')
+            ->innerJoin('grp.game', 'gam')
+            ->addSelect('gam');
+        return $query;
+    }
+
+    /**
+     * @param RouteCollectionInterface $collection
+     */
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('create')
@@ -47,11 +63,11 @@ class ProofAdmin extends AbstractAdmin
 
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add(
                 'picture',
                 ModelListType::class,
@@ -102,11 +118,11 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
                 'property' => 'pseudo',
@@ -114,9 +130,6 @@ class ProofAdmin extends AbstractAdmin
             ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
                 'property' => 'translations.name',
             ])
-            /*->add('chart.group', ModelAutocompleteFilter::class, ['label' => 'Group'], null, [
-                'property' => 'translations.name',
-            ])*/
             ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
@@ -128,11 +141,11 @@ class ProofAdmin extends AbstractAdmin
 
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add('player', null, [
                 'associated_property' => 'pseudo',
@@ -176,11 +189,11 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('Player', null, ['label' => 'Player'])
             ->add('chart.group.game', null, ['label' => 'Game'])
@@ -196,7 +209,7 @@ class ProofAdmin extends AbstractAdmin
     /**
      * @param $object
      */
-    public function preValidate($object)
+    public function preValidate($object): void
     {
         $player = $this->getPlayer();
 
@@ -226,7 +239,7 @@ class ProofAdmin extends AbstractAdmin
      * @return bool|void
      * @throws ORMException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());

@@ -1,0 +1,11 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Data:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [data.read]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [data.read]}
+            put:
+                denormalization_context: {'groups': [data.put]}
+                normalization_context: {'groups': [data.read]}

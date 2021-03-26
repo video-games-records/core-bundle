@@ -3,11 +3,12 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,9 +19,9 @@ class PlayerChartAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_player_chart';
 
     /**
-     * @param RouteCollection $collection
+     * @param RouteCollectionInterface $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('create')
@@ -28,26 +29,38 @@ class PlayerChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param string $context
-     * @return mixed
+     * @param ProxyQueryInterface $query
+     * @return ProxyQueryInterface
      */
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        $query = parent::createQuery($context);
-        if ($context == 'list') {
-            $query->innerJoin($query->getRootAliases()[0] . '.chart', 'chart');
-            $query->innerJoin('chart.group', 'group');
-            $query->innerJoin('group.game', 'game');
-        }
+        $query = parent::configureQuery($query);
+
+        $rootAlias = current($query->getRootAliases());
+        $query
+            ->innerJoin($rootAlias[0] . '.chart', 'chart')
+            ->addSelect('chart')
+            ->innerJoin($rootAlias[0] . '.player', 'player')
+            ->addSelect('player')
+            ->innerJoin('chart.group', 'grp')
+            ->addSelect('grp')
+            ->innerJoin('grp.game', 'game')
+            ->addSelect('game')
+            ->leftJoin('game.translations', 't1', 'WITH', "t1.locale='en'")
+            ->addSelect('t1')
+            ->leftJoin('grp.translations', 't2', 'WITH', "t2.locale='en'")
+            ->addSelect('t2');
+
         return $query;
     }
 
+
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add('id', TextType::class, [
                 'label' => 'id',
                 'attr' => [
@@ -72,7 +85,7 @@ class PlayerChartAdmin extends AbstractAdmin
             ])
             ->add('status', null);
 
-        $formMapper
+        $form
             ->add('libs', CollectionType::class, array(
                 'btn_add' => false,
                 'by_reference' => false,
@@ -86,11 +99,11 @@ class PlayerChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('id')
             ->add('status')
             ->add('player', ModelAutocompleteFilter::class, array(), null, array(
@@ -103,11 +116,11 @@ class PlayerChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add('player', null, [
                 'associated_property' => 'pseudo',
@@ -135,11 +148,11 @@ class PlayerChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('player')
             ->add('chart');
