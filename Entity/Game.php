@@ -172,7 +172,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * @var Serie
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", inversedBy="games")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id")
      * })

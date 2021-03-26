@@ -29,7 +29,7 @@ class SerieAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
             ->addSelect('t');
         return $query;
     }
@@ -62,7 +62,14 @@ class SerieAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id')
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add(
+                'translations',
+                null,
+                [
+                    'associated_property' => 'name',
+                    'label' => 'Name'
+                ]
+            )
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -80,6 +87,7 @@ class SerieAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('getDefaultName', null, ['label' => 'Name']);
+            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('games');
     }
 }
