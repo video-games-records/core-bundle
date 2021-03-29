@@ -7,7 +7,7 @@ cache:
 stages:
   - build
   - qa
-  - deploy-preprod
+#  - deploy-preprod
 
 build:7.4:
   stage: build
