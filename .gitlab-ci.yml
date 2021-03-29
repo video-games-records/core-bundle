@@ -42,12 +42,12 @@ phpunit:7.4:
     - rsync -rav --quiet --delete --exclude 'vendor' -e "ssh -p ${PORT}" --rsync-path="mkdir -p ${PROJECT_DIR} && rsync" ${CI_PROJECT_DIR}/ deploy@${HOST}:${PROJECT_DIR}
 #    - ssh -p ${PORT} ${HOST} cd /home/deploy/projects/api/ && composer install
 
-deploy-pp:
-  extends: .base-deploy
-  image: alpine:3
-  stage: deploy-preprod
-  environment:
-    name: testing
-    url: https://api.projet-normandie.fr/
-  only:
-    - develop
+#deploy-pp:
+  #extends: .base-deploy
+  #image: alpine:3
+  #stage: deploy-preprod
+  #environment:
+    #name: testing
+    #url: https://api.projet-normandie.fr/
+  #only:
+    #- develop
