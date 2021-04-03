@@ -12,6 +12,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use DateTime;
 
 /**
  * Player
@@ -251,6 +252,42 @@ class Player implements SluggableInterface
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
     private $pointGame = 0;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(name="birthDate", type="date", nullable=true)
+     */
+    protected $birthDate;
+
+    /**
+     * @var string
+     * @ORM\Column(name="website", type="string", length=255, nullable=true)
+     */
+    protected $website;
+
+    /**
+     * @var string
+     * @ORM\Column(name="youtube", type="string", length=255, nullable=true)
+     */
+    protected $youtube;
+
+    /**
+     * @var string
+     * @ORM\Column(name="twitch", type="string", length=255, nullable=true)
+     */
+    protected $twitch;
+
+    /**
+     * @var string
+     * @ORM\Column(name="gender", type="string", length=1, nullable=false)
+     */
+    protected $gender;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="displayPersonalInfos", type="boolean", nullable=false)
+     */
+    private $displayPersonalInfos = false;
 
     /**
      * @var integer
@@ -999,6 +1036,118 @@ class Player implements SluggableInterface
     public function getRankPointGame()
     {
         return $this->rankPointGame;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * @param string|null $website
+     * @return $this
+     */
+    public function setWebsite(string $website = null)
+    {
+        $this->website = $website;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getYoutube()
+    {
+        return $this->youtube;
+    }
+
+    /**
+     * @param string|null $youtube
+     * @return $this
+     */
+    public function setYoutube(string $youtube = null)
+    {
+        $this->youtube = $youtube;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTwitch()
+    {
+        return $this->twitch;
+    }
+
+    /**
+     * @param string|null $twitch
+     * @return $this
+     */
+    public function setTwitch(string $twitch = null)
+    {
+        $this->twitch = $twitch;
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+
+    /**
+     * @param DateTime|null $birthDate
+     * @return $this
+     */
+    public function setBirthDate(DateTime $birthDate = null)
+    {
+        $this->birthDate = $birthDate;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param string $gender
+     * @return $this
+     */
+    public function setGender(string $gender)
+    {
+        $this->gender = $gender;
+        return $this;
+    }
+
+    /**
+     * Set displayPersonalInfos
+     * @param boolean $displayPersonalInfos
+     * @return $this
+     */
+    public function setDisplayPersonalInfos(bool $displayPersonalInfos)
+    {
+        $this->displayPersonalInfos = $displayPersonalInfos;
+
+        return $this;
+    }
+
+    /**
+     * Get DisplayPersonalInfos
+     * @return boolean
+     */
+    public function getDisplayPersonalInfos()
+    {
+        return $this->displayPersonalInfos;
     }
 
     /**

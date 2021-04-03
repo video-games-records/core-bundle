@@ -108,3 +108,27 @@ VideoGamesRecords\CoreBundle\Entity\Player:
         - 'player.team'
         - 'player.put'
         - 'player.profile'
+    birthDate:
+      groups:
+        - 'player.read'
+        - 'player.put'
+    gender:
+      groups:
+        - 'player.read'
+        - 'player.put'
+    website:
+      groups:
+        - 'player.read'
+        - 'player.put'
+    youtube:
+      groups:
+        - 'player.read'
+        - 'player.put'
+    twitch:
+      groups:
+        - 'player.read'
+        - 'player.put'
+    displayPersonalInfos:
+      groups:
+        - 'player.read'
+        - 'player.put'
