@@ -2,7 +2,7 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\GameDay:
         collectionOperations:
             get:
-                normalization_context: {'groups': [gameDay.read,gameDay.game,game.read.mini]}
+                normalization_context: {'groups': [gameDay.read,gameDay.game,game.read.mini,game.platforms,platform.read]}
         itemOperations:
             get:
                 normalization_context: {'groups': [gameDay.read,gameDay.game,game.read.mini]}
