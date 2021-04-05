@@ -1,0 +1,24 @@
+ProjetNormandie\ForumBundle\Entity\Forum:
+  attributes:
+    id:
+      groups:
+        - 'game.read'
+    status:
+      groups:
+        - 'game.read'
+    nbTopic:
+      groups:
+        - 'game.read'
+    nbMessage:
+      groups:
+        - 'game.read'
+    libForum:
+      groups:
+        - 'game.read'
+    slug:
+      groups:
+        - 'game.read'
+    createdAt:
+      groups: []
+    updatedAt:
+      groups: []

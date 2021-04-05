@@ -199,11 +199,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      */
     private $days;
 
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameTopic", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $topics;
-
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -225,6 +220,14 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      */
     private $playerGame;
 
+    /**
+     * @var ForumInterface
+     *
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ForumInterface")
+     * @ORM\JoinColumn(name="idForum", referencedColumnName="id")
+     */
+    private $forum;
+
 
     private $link;
 
@@ -234,7 +237,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     public function __construct()
     {
         $this->groups = new ArrayCollection();
-        $this->topics = new ArrayCollection();
         $this->platforms = new ArrayCollection();
     }
 
@@ -672,14 +674,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * @return mixed
      */
-    public function getTopics()
-    {
-        return $this->topics;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getVideos()
     {
         return $this->videos;
@@ -719,6 +713,23 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
         return $this->playerGame;
     }
 
+    /**
+     * @return ForumInterface
+     */
+    public function getForum()
+    {
+        return $this->forum;
+    }
+
+    /**
+     * @param $forum
+     * @return $this
+     */
+    public function setForum($forum)
+    {
+        $this->forum = $forum;
+        return $this;
+    }
     /**
      * @return array
      */
