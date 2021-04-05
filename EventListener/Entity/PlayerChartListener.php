@@ -15,8 +15,6 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 
 class PlayerChartListener
 {
-    private $lostPosition;
-
     /**
      * @param PlayerChart        $playerChart
      * @param LifecycleEventArgs $event

@@ -25,6 +25,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *
  * @ORM\Table(name="vgr_game")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener"})
  * @ApiResource(attributes={"order"={"translations.name"}})
  * @ApiFilter(
  *     SearchFilter::class,
@@ -223,7 +224,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * @var ForumInterface
      *
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ForumInterface")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ForumInterface",cascade={"persist"})
      * @ORM\JoinColumn(name="idForum", referencedColumnName="id")
      */
     private $forum;

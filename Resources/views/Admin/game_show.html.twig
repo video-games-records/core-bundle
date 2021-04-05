@@ -99,10 +99,14 @@
                                                     </td>
                                                 {% elseif field_name == 'picture' %}
                                                     <th>Picture</th>
-                                                    <td><img src="{{ picture_url }}/game/{{ object.getPicture() }}" alt="" /></td
+                                                    <td><img src="{{ picture_url }}/game/{{ object.getPicture() }}" alt="" /></td>
                                                 {% elseif field_name == 'badge' %}
                                                     <th>Badge</th>
-                                                    <td><img src="{{ picture_url }}/badge/{{ object.getBadge().getPicture() }}" alt="" /></td>
+                                                    <td>
+                                                    {% if object.getBadge() %}
+                                                        <img src="{{ picture_url }}/badge/{{ object.getBadge().getPicture() }}" alt="" />
+                                                    {% endif %}
+                                                    </td>
                                                 {%  else %}
                                                     {{ elements[field_name]|render_view_element(object)}}
                                                 {% endif %}
