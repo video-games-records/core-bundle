@@ -12,6 +12,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 
 /**
@@ -23,7 +24,8 @@ use DateTime;
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
- *          "pseudo": "partial"
+ *          "pseudo": "partial",
+ *          "user.enabled": "exact",
  *      }
  * )
  * @ApiFilter(
@@ -31,8 +33,30 @@ use DateTime;
  *     arguments={
  *          "parameterName": "groups",
  *          "overrideDefaultGroups": true,
- *          "whitelist": {"player.read", "player.team", "player.country", "player.pointChart", "player.medal", "team.read.mini"}
+ *          "whitelist": {
+ *              "player.read",
+ *              "player.team",
+ *              "player.country",
+ *              "country.read",
+ *              "player.pointChart",
+ *              "player.medal",
+ *              "player.user",
+ *              "vgr.user.read",
+ *              "team.read.mini"
+ *          }
  *     }
+ * )
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "id":"ASC",
+ *          "pseudo" : "ASC",
+ *          "user.createdAt": "DESC",
+ *          "user.nbConnexion": "DESC",
+ *          "user.lastLogin": "DESC",
+ *          "user.nbForumMessage": "DESC"
+ *     },
+ *     arguments={"orderParameterName"="order"}
  * )
  */
 class Player implements SluggableInterface
