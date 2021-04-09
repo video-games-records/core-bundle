@@ -15,16 +15,10 @@ ProjetNormandie\UserBundle\Entity\User:
     nbConnexion:
       groups:
         - 'vgr.user.read'
+    nbForumMessage:
+      groups:
+        - 'vgr.user.read'
     createdAt:
-      groups:
-        - 'vgr.user.read'
-    personalWebSite:
-      groups:
-        - 'vgr.user.read'
-    youtube:
-      groups:
-        - 'vgr.user.read'
-    twitch:
       groups:
         - 'vgr.user.read'
 

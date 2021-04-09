@@ -69,6 +69,9 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'game.list'
         - 'game.read'
         - 'game.read.mini'
+    forum:
+      groups:
+        - 'game.read'
     createdAt:
       groups: []
     updatedAt:

@@ -215,6 +215,7 @@ class GameAdmin extends AbstractAdmin
             ->add('badge')
             ->add('status')
             ->add('etat')
+            ->add('forum')
             ->add('groups');
     }
 

@@ -11,6 +11,10 @@ services:
     vgr.playerChartValueSubscriber:
         class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]
+    VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
 
 
 
