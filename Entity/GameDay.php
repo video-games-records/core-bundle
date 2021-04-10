@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use DateTime;
 
 /**
@@ -15,12 +15,7 @@ use DateTime;
  * @ORM\Table(name="vgr_game_day")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameDayRepository")
  * @UniqueEntity("day")
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "day": "exact",
- *      }
- * )
+ * @ApiFilter(DateFilter::class, properties={"day": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
  */
 
 class GameDay
@@ -34,7 +29,6 @@ class GameDay
     private $id;
 
     /**
-     * @var \DateTime
      *
      * @Assert\NotNull
      * @ORM\Column(name="day", type="date", nullable=true)
@@ -90,10 +84,10 @@ class GameDay
 
     /**
      * Set day
-     * @param DateTime $day
+     * @param $day
      * @return $this
      */
-    public function setDay(\DateTime $day): GameDay
+    public function setDay($day): GameDay
     {
         $this->day = $day;
         return $this;
@@ -104,7 +98,7 @@ class GameDay
      *
      * @return DateTime
      */
-    public function getDay(): ?DateTime
+    public function getDay()
     {
         return $this->day;
     }
