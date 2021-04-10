@@ -70,6 +70,9 @@ class GroupAdmin extends AbstractAdmin
                     'readonly' => true,
                 ]
             ])
+            ->add('translations', TranslationsType::class, [
+                'required' => true,
+            ])
             ->add('game', ModelListType::class, array_merge(
                 $gameOptions,
                 [
@@ -85,9 +88,6 @@ class GroupAdmin extends AbstractAdmin
             ->add('boolDLC', CheckboxType::class, [
                 'label' => 'DLC ?',
                 'required' => false,
-            ])
-            ->add('translations', TranslationsType::class, [
-                'required' => true,
             ]);
     }
 
