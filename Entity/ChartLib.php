@@ -140,4 +140,12 @@ class ChartLib implements TimestampableInterface
     {
         return $this->type;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s [%s]', $this->getType()->getName(), $this->idLibChart);
+    }
 }

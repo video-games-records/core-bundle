@@ -15,7 +15,7 @@ use DateTime;
  * @ORM\Table(name="vgr_game_day")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameDayRepository")
  * @UniqueEntity("day")
- * @ApiFilter(DateFilter::class, properties={"day": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
+ * @ApiFilter(DateFilter::class, properties={"day": DateFilter::EXCLUDE_NULL})
  */
 
 class GameDay

@@ -8,8 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
@@ -18,13 +16,11 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
  *
  * @ORM\Table(name="vgr_group")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
- * @ApiResource(attributes={"order"={"translations.name": "ASC"}})
- * @method GroupTranslation translate(string $locale, bool $fallbackToDefault)
+ * @ApiResource(attributes={"order"={"libGroupEn": "ASC"}})
  */
-class Group implements SluggableInterface, TimestampableInterface, TranslatableInterface
+class Group implements SluggableInterface, TimestampableInterface
 {
     use TimestampableTrait;
-    use TranslatableTrait;
     use SluggableTrait;
 
     /**
@@ -34,6 +30,22 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="libGroupEn", type="string", length=255, nullable=false)
+     */
+    private $libGroupEn;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="libGroupFr", type="string", length=255, nullable=false)
+     */
+    private $libGroupFr;
 
     /**
      * @var boolean
@@ -73,7 +85,7 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
     /**
      * @var Chart[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="group",cascade={"persist"})
      */
     private $charts;
 
@@ -96,9 +108,21 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
     /**
      * @return string
      */
-    public function getDefaultName()
+    public function getDefaultName(): string
     {
-        return $this->translate('en', false)->getName();
+        return $this->libGroupEn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($_SERVER['HTTP_ACCEPT_LANGUAGE'] == 'fr')) {
+            return $this->libGroupFr;
+        } else {
+            return $this->libGroupEn;
+        }
     }
 
     /**
@@ -122,22 +146,39 @@ class Group implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @param string $name
+     * @param string $libGroupEn
      * @return $this
      */
-    public function setName(string $name)
+    public function setLibGroupEn(string $libGroupEn): Group
     {
-        $this->translate(null, false)->setName($name);
-
+        $this->libGroupEn = $libGroupEn;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getLibGroupEn(): ?string
     {
-        return $this->translate(null, false)->getName();
+        return $this->libGroupEn;
+    }
+
+    /**
+     * @param string $libGroupFr
+     * @return $this
+     */
+    public function setLibGroupFr(string $libGroupFr): Group
+    {
+        $this->libGroupFr = $libGroupFr;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLibGroupFr(): ?string
+    {
+        return $this->libGroupFr;
     }
 
     /**

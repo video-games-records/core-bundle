@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Exception;
@@ -44,17 +43,6 @@ class GameAdmin extends AbstractAdmin
         $sortValues['_sort_by'] = 'id';
     }
 
-    /**
-     * @param ProxyQueryInterface $query
-     * @return ProxyQueryInterface
-     */
-    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
-    {
-        $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
-            ->addSelect('t');
-        return $query;
-    }
 
     /**
      * @param FormMapper $form
@@ -63,7 +51,15 @@ class GameAdmin extends AbstractAdmin
     {
         $form
             ->add('serie', ModelAutocompleteType::class, [
-                'property' => 'translations.name'
+                'property' => 'libSerie'
+            ])
+            ->add('libGameEn', TextType::class, [
+                'label' => 'Name [EN]',
+                'required' => true,
+            ])
+            ->add('libGameFr', TextType::class, [
+                'label' => 'Name [FR]',
+                'required' => false,
             ])
             ->add('badge', ModelListType::class, [
                 'btn_add' => true,
@@ -107,7 +103,7 @@ class GameAdmin extends AbstractAdmin
                 'required' => false,
             ])
             ->add('platforms', null, ['required' => false, 'expanded' => false])
-            ->add('translations', TranslationsType::class, [
+            /*->add('translations', TranslationsType::class, [
                 'fields' => [
                     'name' => [
                         'field_type' => TextType::class,
@@ -118,9 +114,25 @@ class GameAdmin extends AbstractAdmin
                         'field_type' => CKEditorType::class,
                         'label' => ' Rules',
                         'required' => false,
+                        'locale_options' => [
+                            'en' => [
+                                'config' => array(
+                                    'height' => '100',
+                                    'toolbar' => 'standard'
+                                ),
+                            ],
+                            'fr' => [
+                                'config' => array(
+                                    'height' => '100',
+                                    'toolbar' => 'standard'
+                                ),
+                            ],
+                        ]
                     ]
                 ]
-            ])
+            ])*/
+            ->end()
+            ->with('Groups')
             ->add(
                 'groups',
                 CollectionType::class,
@@ -138,13 +150,14 @@ class GameAdmin extends AbstractAdmin
                                 'required' => false,
                             )
                         )
-                    )
+                    ),
                 ),
                 array(
                     'edit' => 'inline',
                     'inline' => 'table',
                 )
-            );
+            )
+            ->end();
     }
 
     /**
@@ -155,7 +168,7 @@ class GameAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('serie')
-            ->add('translations.name', null, ['label' => 'Name'])
+            ->add('libGameEn', null, ['label' => 'Name [EN]'])
             ->add('status')
             ->add('etat')
             ->add('boolRanking');
@@ -168,14 +181,7 @@ class GameAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id')
-            ->add(
-                'translations',
-                null,
-                [
-                    'associated_property' => 'name',
-                    'label' => 'Name'
-                ]
-            )
+            ->add('libGameEn', null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add(
                 'picture',
@@ -235,7 +241,7 @@ class GameAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('translations.name', null, ['label' => 'Name'])
+            ->add('libGameEn', null, ['label' => 'Name'])
             ->add('picture')
             ->add('badge')
             ->add('status')

@@ -8,8 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
@@ -18,13 +16,11 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
  *
  * @ORM\Table(name="vgr_chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
- * @ApiResource(attributes={"order"={"translations.name": "ASC"}})
- * @method ChartTranslation translate(string $locale, bool $fallbackToDefault)
+ * @ApiResource(attributes={"order"={"libChartEn": "ASC"}})
  */
-class Chart implements SluggableInterface, TimestampableInterface, TranslatableInterface
+class Chart implements SluggableInterface, TimestampableInterface
 {
     use TimestampableTrait;
-    use TranslatableTrait;
     use SluggableTrait;
 
     const STATUS_NORMAL = 'NORMAL';
@@ -41,6 +37,22 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="libChartEn", type="string", length=255, nullable=false)
+     */
+    private $libChartEn;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="libChartFr", type="string", length=255, nullable=false)
+     */
+    private $libChartFr;
 
     /**
      * @var string
@@ -126,18 +138,36 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
      */
     public function getDefaultName()
     {
-        return $this->translate('en', false)->getName();
+        return $this->libChartEn;
+    }
+
+     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($_SERVER['HTTP_ACCEPT_LANGUAGE'] == 'fr')) {
+            return $this->libChartFr;
+        } else {
+            return $this->libChartEn;
+        }
     }
 
     /**
      * @param string $locale
      * @return string
      */
-    public function getCompleteName($locale = 'en')
+    public function getCompleteName($locale = 'en'): string
     {
-        return $this->getGroup()->getGame()->translate($locale, false)->getName() . ' - ' .
-            $this->getGroup()->translate($locale, false)->getName() . ' - ' .
-            $this->translate($locale, false)->getName();
+        if ($locale == 'fr') {
+            return $this->getGroup()->getGame()->getLibGameFr() . ' - ' .
+            $this->getGroup()->getLibGroupFr()  . ' - ' .
+            $this->getLibChartFr();
+        } else {
+            return $this->getGroup()->getGame()->getLibGameEn() . ' - ' .
+            $this->getGroup()->getLibGroupEn()  . ' - ' .
+            $this->getLibChartEn();
+        }
     }
 
     /**
@@ -164,22 +194,39 @@ class Chart implements SluggableInterface, TimestampableInterface, TranslatableI
     }
 
     /**
-     * @param string $name
+     * @param string $libChartEn
      * @return $this
      */
-    public function setName(string $name)
+    public function setLibChartEn(string $libChartEn): Chart
     {
-        $this->translate(null, false)->setName($name);
-
+        $this->libChartEn = $libChartEn;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getLibChartEn(): ?string
     {
-        return $this->translate(null, false)->getName();
+        return $this->libChartEn;
+    }
+
+    /**
+     * @param string $libChartFr
+     * @return $this
+     */
+    public function setLibChartFr(string $libChartFr): Chart
+    {
+        $this->libChartFr = $libChartFr;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLibChartFr(): ?string
+    {
+        return $this->libChartFr;
     }
 
     /**

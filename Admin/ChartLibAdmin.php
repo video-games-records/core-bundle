@@ -20,7 +20,7 @@ class ChartLibAdmin extends AbstractAdmin
             ])
             ->add('name', TextType::class, [
                 'label' => 'Name',
-                'required' => true,
+                'required' => false,
             ])
             ->add('type', null, ['required' => true]);
     }

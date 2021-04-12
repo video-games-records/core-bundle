@@ -128,7 +128,7 @@ class ProofAdmin extends AbstractAdmin
                 'property' => 'pseudo',
             ])
             ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
-                'property' => 'translations.name',
+                'property' => 'libGameEn',
             ])
             ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
@@ -152,15 +152,15 @@ class ProofAdmin extends AbstractAdmin
                 'label' => 'Player',
             ])
             ->add('chart.group.game', null, [
-                'associated_property' => 'getDefaultName',
+                'associated_property' => 'libGameEn',
                 'label' => 'Game',
             ])
             ->add('chart.group', null, [
-                'associated_property' => 'getDefaultName',
+                'associated_property' => 'libGroupEn',
                 'label' => 'Group',
             ])
             ->add('chart', null, [
-                'associated_property' => 'getDefaultName',
+                'associated_property' => 'libChartEn',
                 'label' => 'Chart',
             ])
             ->add('picture', null, [
