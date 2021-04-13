@@ -19,6 +19,8 @@ label:
     badge: 'Badge'
     country: 'Country'
 proof:
+    form:
+        success: 'La preuve a bien été chargée'
     request:
         confirm:
             object: 'Demande de preuve'
@@ -60,3 +62,6 @@ team:
 avatar:
     extension_not_allowed: 'Les format autorisés sont png et jpg'
     success: "L'avatar a bien été chargé"
+
+video:
+    type_not_found: "Impossible de déterminer l'origine de la vidéo"

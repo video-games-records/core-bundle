@@ -19,6 +19,8 @@ label:
     badge: 'Badge'
     country: 'Country'
 proof:
+    form:
+        success: 'Proof successful uploaded'
     request:
         confirm:
             object: 'Proof request'
@@ -59,3 +61,6 @@ team:
 avatar:
     extension_not_allowed: 'Format allowed are png and jpg'
     success: "Avatar has been successfull uploaded"
+
+video:
+    type_not_found: "Only URL from youtube and twitch"
