@@ -245,6 +245,15 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
      */
     private $forum;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Rule", inversedBy="games")
+     * @ORM\JoinTable(name="vgr_rule_game",
+     *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")}
+     *      )
+     */
+    private $rules;
+
 
     private $link;
 
@@ -255,6 +264,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     {
         $this->groups = new ArrayCollection();
         $this->platforms = new ArrayCollection();
+        $this->rules = new ArrayCollection();
     }
 
     /**
@@ -858,5 +868,31 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
             $this->getSlug(),
             $this->getId()
         );
+    }
+
+    /**
+     * @param Rule $rule
+     * @return $this
+     */
+    public function addRule(Rule $rule)
+    {
+        $this->rules[] = $rule;
+        return $this;
+    }
+
+    /**
+     * @param Rule $rule
+     */
+    public function removeRule(Rule $rule)
+    {
+        $this->rules->removeElement($rule);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRules()
+    {
+        return $this->rules;
     }
 }

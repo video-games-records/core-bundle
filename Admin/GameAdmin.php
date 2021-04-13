@@ -61,6 +61,7 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'Name [FR]',
                 'required' => false,
             ])
+            ->add('rules', null, ['required' => false, 'expanded' => false])
             ->add('badge', ModelListType::class, [
                 'btn_add' => true,
                 'btn_list' => true,
@@ -103,34 +104,6 @@ class GameAdmin extends AbstractAdmin
                 'required' => false,
             ])
             ->add('platforms', null, ['required' => false, 'expanded' => false])
-            /*->add('translations', TranslationsType::class, [
-                'fields' => [
-                    'name' => [
-                        'field_type' => TextType::class,
-                        'label' => ' Name',
-                        'required' => true,
-                    ],
-                    'rules' => [
-                        'field_type' => CKEditorType::class,
-                        'label' => ' Rules',
-                        'required' => false,
-                        'locale_options' => [
-                            'en' => [
-                                'config' => array(
-                                    'height' => '100',
-                                    'toolbar' => 'standard'
-                                ),
-                            ],
-                            'fr' => [
-                                'config' => array(
-                                    'height' => '100',
-                                    'toolbar' => 'standard'
-                                ),
-                            ],
-                        ]
-                    ]
-                ]
-            ])*/
             ->end()
             ->with('Groups')
             ->add(
