@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Exception;
@@ -44,17 +43,6 @@ class GameAdmin extends AbstractAdmin
         $sortValues['_sort_by'] = 'id';
     }
 
-    /**
-     * @param ProxyQueryInterface $query
-     * @return ProxyQueryInterface
-     */
-    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
-    {
-        $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
-            ->addSelect('t');
-        return $query;
-    }
 
     /**
      * @param FormMapper $form
@@ -63,8 +51,17 @@ class GameAdmin extends AbstractAdmin
     {
         $form
             ->add('serie', ModelAutocompleteType::class, [
-                'property' => 'translations.name'
+                'property' => 'libSerie'
             ])
+            ->add('libGameEn', TextType::class, [
+                'label' => 'Name [EN]',
+                'required' => true,
+            ])
+            ->add('libGameFr', TextType::class, [
+                'label' => 'Name [FR]',
+                'required' => false,
+            ])
+            ->add('rules', null, ['required' => false, 'expanded' => false])
             ->add('badge', ModelListType::class, [
                 'btn_add' => true,
                 'btn_list' => true,
@@ -107,20 +104,8 @@ class GameAdmin extends AbstractAdmin
                 'required' => false,
             ])
             ->add('platforms', null, ['required' => false, 'expanded' => false])
-            ->add('translations', TranslationsType::class, [
-                'fields' => [
-                    'name' => [
-                        'field_type' => TextType::class,
-                        'label' => ' Name',
-                        'required' => true,
-                    ],
-                    'rules' => [
-                        'field_type' => CKEditorType::class,
-                        'label' => ' Rules',
-                        'required' => false,
-                    ]
-                ]
-            ])
+            ->end()
+            ->with('Groups')
             ->add(
                 'groups',
                 CollectionType::class,
@@ -138,13 +123,14 @@ class GameAdmin extends AbstractAdmin
                                 'required' => false,
                             )
                         )
-                    )
+                    ),
                 ),
                 array(
                     'edit' => 'inline',
                     'inline' => 'table',
                 )
-            );
+            )
+            ->end();
     }
 
     /**
@@ -155,7 +141,7 @@ class GameAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('serie')
-            ->add('translations.name', null, ['label' => 'Name'])
+            ->add('libGameEn', null, ['label' => 'Name [EN]'])
             ->add('status')
             ->add('etat')
             ->add('boolRanking');
@@ -166,16 +152,21 @@ class GameAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
+        $btns = [];
+        if ($this->hasAccess('create')) {
+            $btns = [
+                'copy' => [
+                    'template' => 'VideoGamesRecordsCoreBundle:Admin:game_copy_link.html.twig'
+                ],
+                'add_group' => [
+                    'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
+                ]
+            ];
+        }
+
         $list
             ->addIdentifier('id')
-            ->add(
-                'translations',
-                null,
-                [
-                    'associated_property' => 'name',
-                    'label' => 'Name'
-                ]
-            )
+            ->add('libGameEn', null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add(
                 'picture',
@@ -212,20 +203,18 @@ class GameAdmin extends AbstractAdmin
                 ]
             )
             ->add('_action', 'actions', [
-                'actions' => [
-                    'show' => [],
-                    'edit' => [],
-                    'copy' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_copy_link.html.twig'
-                    ],
-                    'groups' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
-                    ],
-                    'add_group' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
-                    ],
-                ]
-            ]);
+                'actions' =>
+                    array_merge(
+                        [
+                            'show' => [],
+                            'edit' => [],
+                            'groups' => [
+                                'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
+                            ]
+                        ],
+                        $btns
+                    )
+             ]);
     }
 
     /**
@@ -235,7 +224,7 @@ class GameAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('translations.name', null, ['label' => 'Name'])
+            ->add('libGameEn', null, ['label' => 'Name'])
             ->add('picture')
             ->add('badge')
             ->add('status')

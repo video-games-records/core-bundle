@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -73,7 +72,7 @@ class GameDayAdmin extends AbstractAdmin
         $filter
             ->add('day')
             ->add('game', ModelAutocompleteFilter::class, [], null, [
-                'property' => 'translations.name',
+                'property' => 'libGameEn',
             ]);
     }
 

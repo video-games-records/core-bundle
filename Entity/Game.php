@@ -9,8 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -19,6 +17,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Game
@@ -26,7 +25,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  * @ORM\Table(name="vgr_game")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener"})
- * @ApiResource(attributes={"order"={"translations.name"}})
+ * @ApiResource(attributes={"order"={"libGameEn"}})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
@@ -34,7 +33,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *          "platforms": "exact",
  *          "playerGame.player": "exact",
  *          "groups.charts.lostPositions.player": "exact",
- *          "translations.name" : "partial",
+ *          "libGameEn" : "partial",
+ *          "libGameFr" : "partial",
  *          "badge": "exact",
  *      }
  * )
@@ -51,7 +51,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *     OrderFilter::class,
  *     properties={
  *          "id":"ASC",
- *          "translations.name" : "ASC",
+ *          "libGameEn" : "ASC",
+ *          "libGameFr" : "ASC",
  *          "publishedAt": "DESC",
  *          "nbChart": "DESC",
  *          "nbPost": "DESC",
@@ -60,10 +61,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class Game implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
+class Game implements ItemInterface, SluggableInterface, TimestampableInterface
 {
     use TimestampableTrait;
-    use TranslatableTrait;
     use SluggableTrait;
 
     const STATUS_ACTIVE = 'ACTIF';
@@ -83,6 +83,22 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="libGameEn", type="string", length=255, nullable=false)
+     */
+    private $libGameEn;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="libGameFr", type="string", length=255, nullable=false)
+     */
+    private $libGameFr;
 
     /**
      * @var string
@@ -229,6 +245,15 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
      */
     private $forum;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Rule", inversedBy="games")
+     * @ORM\JoinTable(name="vgr_rule_game",
+     *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")}
+     *      )
+     */
+    private $rules;
+
 
     private $link;
 
@@ -239,6 +264,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     {
         $this->groups = new ArrayCollection();
         $this->platforms = new ArrayCollection();
+        $this->rules = new ArrayCollection();
     }
 
     /**
@@ -252,9 +278,21 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     /**
      * @return string
      */
-    public function getDefaultName()
+    public function getDefaultName(): string
     {
-        return $this->translate('en', false)->getName();
+        return $this->libGameEn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($_SERVER['HTTP_ACCEPT_LANGUAGE'] == 'fr')) {
+            return $this->libGameFr;
+        } else {
+            return $this->libGameEn;
+        }
     }
 
     /**
@@ -280,41 +318,39 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
     }
 
     /**
-     * @param string $name
+     * @param string $libGameEn
      * @return $this
      */
-    public function setName(string $name)
+    public function setLibGameEn(string $libGameEn): Game
     {
-        $this->translate(null, false)->setName($name);
-
+        $this->libGameEn = $libGameEn;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getLibGameEn(): ?string
     {
-        return $this->translate(null, false)->getName();
+        return $this->libGameEn;
     }
 
     /**
-     * @param string $rules
+     * @param string $libGameFr
      * @return $this
      */
-    public function setRules(string $rules)
+    public function setLibGameFr(string $libGameFr): Game
     {
-        $this->translate(null, false)->setRules($rules);
-
+        $this->libGameFr = $libGameFr;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getRules()
+    public function getLibGameFr(): ?string
     {
-        return $this->translate(null, false)->getRules();
+        return $this->libGameFr;
     }
 
 
@@ -832,5 +868,31 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface,
             $this->getSlug(),
             $this->getId()
         );
+    }
+
+    /**
+     * @param Rule $rule
+     * @return $this
+     */
+    public function addRule(Rule $rule)
+    {
+        $this->rules[] = $rule;
+        return $this;
+    }
+
+    /**
+     * @param Rule $rule
+     */
+    public function removeRule(Rule $rule)
+    {
+        $this->rules->removeElement($rule);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRules()
+    {
+        return $this->rules;
     }
 }

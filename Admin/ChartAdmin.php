@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -34,18 +33,6 @@ class ChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ProxyQueryInterface $query
-     * @return ProxyQueryInterface
-     */
-    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
-    {
-        $query = parent::configureQuery($query);
-        $query->innerJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
-            ->addSelect('t');
-        return $query;
-    }
-
-    /**
      * @param FormMapper $form
      */
     protected function configureFormFields(FormMapper $form): void
@@ -73,46 +60,52 @@ class ChartAdmin extends AbstractAdmin
                 'attr' => array(
                     'readonly' => true,
                 )
-            ))
-            ->add('group', ModelAutocompleteType::class, [
-                'property' => 'translations.name',
-            ])
-            ->add('group', ModelListType::class, array_merge(
-                $groupOptions,
-                [
-                    'data_class' => null,
-                    'btn_add' => false,
-                    'btn_list' => true,
-                    'btn_edit' => false,
-                    'btn_delete' => false,
-                    'btn_catalogue' => true,
-                    'label' => 'Group',
-                ]
-            ))
-            ->add('translations', TranslationsType::class, [
+            ));
+
+        if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
+            $btnCalalogue = (bool)$this->isCurrentRoute('create');
+            $form->
+                add(
+                    'group', ModelListType::class, array_merge(
+                    $groupOptions, [
+                        'data_class' => null,
+                        'btn_add' => false,
+                        'btn_list' => $btnCalalogue,
+                        'btn_edit' => false,
+                        'btn_delete' => false,
+                        'btn_catalogue' => $btnCalalogue,
+                        'label' => 'Game',
+                    ]
+                )
+            );
+        }
+
+        $form
+            ->add('libChartEn', TextType::class, [
+                'label' => 'Name [EN]',
                 'required' => true,
+            ])
+            ->add('libChartFr', TextType::class, [
+                'label' => 'Name [FR]',
+                'required' => false,
             ]);
 
-        if (($this->hasRequest()) && ($this->isCurrentRoute('edit'))) {
+        if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
             $form
                 ->add(
-                    'statusPlayer',
-                    ChoiceType::class,
-                    array(
+                    'statusPlayer', ChoiceType::class, array(
                         'label' => 'Status Player',
                         'choices' => Chart::getStatusChoices()
                     )
-                );
-            $form
+                )
                 ->add(
-                    'statusTeam',
-                    ChoiceType::class,
-                    array(
+                    'statusTeam', ChoiceType::class, array(
                         'label' => 'Status Team',
                         'choices' => Chart::getStatusChoices()
                     )
                 );
         }
+
 
         $form
             ->add('libs', CollectionType::class, array(
@@ -121,7 +114,7 @@ class ChartAdmin extends AbstractAdmin
                     'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
                 'type_options' => array(
                     // Prevents the "Delete" option from being displayed
-                    'delete' => true,
+                    'delete' => false,
                     'delete_options' => array(
                         // You may otherwise choose to put the field but hide it
                         'type' => CheckboxType::class,
@@ -145,9 +138,9 @@ class ChartAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('translations.name', null, ['label' => 'Name'])
+            ->add('libChartEn', null, ['label' => 'Name [EN]'])
             ->add('group', ModelAutocompleteFilter::class, array(), null, array(
-                'property' => 'translations.name',
+                'property' => 'libGroupEn',
             ))
             ->add('statusPlayer', 'doctrine_orm_choice', array(), ChoiceType::class, array('choices' => Chart::getStatusChoices()))
             ->add('statusTeam', 'doctrine_orm_choice', array(), ChoiceType::class, array('choices' => Chart::getStatusChoices()));
@@ -160,19 +153,19 @@ class ChartAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id')
-            ->add(
-                'translations',
-                null,
-                [
-                    'associated_property' => 'name',
-                    'label' => 'Name'
-                ]
-            )
+            ->add('libChartEn', null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add('group', null, array(
                 'associated_property' => 'defaultName',
                 'label' => 'Group',
             ))
+            ->add(
+                'libs',
+                null,
+                [
+                    'label' => 'Libs',
+                ]
+            )
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -188,7 +181,7 @@ class ChartAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('defaultName', null, ['label' => 'Name'])
+            ->add('libChartEn', null, ['label' => 'Name'])
             ->add('group', null, array(
                 'associated_property' => 'defaultName',
                 'label' => 'Group',

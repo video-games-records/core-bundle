@@ -111,7 +111,7 @@ class VideoAdmin extends AbstractAdmin
                 'label' => 'Player',
             ])
             ->add('game', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' => 'libGameEn',
                 'label' => 'Game',
             ])
             ->add(

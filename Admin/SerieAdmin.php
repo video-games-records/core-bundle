@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -23,24 +22,13 @@ class SerieAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ProxyQueryInterface $query
-     * @return ProxyQueryInterface
-     */
-    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
-    {
-        $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't', 'WITH', "t.locale='en'")
-            ->addSelect('t');
-        return $query;
-    }
-
-    /**
      * @param FormMapper $form
      */
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('translations', TranslationsType::class, [
+            ->add('libSerie', TextType::class, [
+                'label' => 'Name',
                 'required' => true,
             ]);
     }
@@ -52,7 +40,7 @@ class SerieAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('translations.name', null, ['label' => 'Name']);
+            ->add('libSerie', null, ['label' => 'Name']);
     }
 
     /**
@@ -63,10 +51,9 @@ class SerieAdmin extends AbstractAdmin
         $list
             ->addIdentifier('id')
             ->add(
-                'translations',
+                'libSerie',
                 null,
                 [
-                    'associated_property' => 'name',
                     'label' => 'Name'
                 ]
             )
@@ -87,7 +74,7 @@ class SerieAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('getDefaultName', null, ['label' => 'Name'])
+            ->add('libSerie', null, ['label' => 'Name'])
             ->add('games');
     }
 }

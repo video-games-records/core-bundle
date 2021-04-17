@@ -19,26 +19,6 @@ use DateTime;
 class PlayerChartRepository extends EntityRepository
 {
     /**
-     * @param string $locale
-     * @return PlayerChart[]
-     */
-    public function getLast(string $locale = 'en')
-    {
-        $query = $this->createQueryBuilder('pc')
-            ->join('pc.chart', 'c')
-            ->addSelect('c')
-            ->innerJoin('c.translations', 'translation')
-            ->addSelect('translation')
-            ->where('translation.locale = :locale')
-            ->setParameter('locale', $locale)
-            ->orderBy('pc.lastUpdate', 'DESC');
-
-        $query->setMaxResults(20);
-
-        return $query->getQuery()->getResult();
-    }
-
-    /**
      * @param int $idPlayer
      * @param int $idChart
      * @return PlayerChart

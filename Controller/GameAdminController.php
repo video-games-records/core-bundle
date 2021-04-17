@@ -16,16 +16,20 @@ class GameAdminController extends CRUDController
      */
     public function copyAction($id)
     {
-        $object = $this->admin->getSubject();
+        if ($this->admin->hasAccess('create')) {
+            $object = $this->admin->getSubject();
 
-        if (!$object) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
+            if (!$object) {
+                throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
+            }
+
+            $em = $this->admin->getModelManager()
+                ->getEntityManager($this->admin->getClass());
+            $em->getRepository('VideoGamesRecordsCoreBundle:Game')
+                ->copy($id);
+
+            $this->addFlash('sonata_flash_success', 'Copied successfully');
         }
-
-        $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
-        $em->getRepository('VideoGamesRecordsCoreBundle:Game')->copy($id);
-
-        $this->addFlash('sonata_flash_success', 'Copied successfully');
 
         return new RedirectResponse($this->admin->generateUrl('list'));
     }

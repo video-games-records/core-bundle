@@ -162,3 +162,11 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\GameDay
             - ~
+    sonata.admin.vgr.rule:
+        class: VideoGamesRecords\CoreBundle\Admin\RuleAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.rules" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\Rule
+            - ~

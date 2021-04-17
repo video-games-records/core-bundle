@@ -3,8 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
@@ -14,9 +13,8 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
  * @ORM\Table(name="vgr_serie")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
  */
-class Serie implements TranslatableInterface, SluggableInterface
+class Serie implements SluggableInterface
 {
-    use TranslatableTrait;
     use SluggableTrait;
 
     /**
@@ -27,6 +25,15 @@ class Serie implements TranslatableInterface, SluggableInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="libSerie", type="string", length=255, nullable=false)
+     */
+    private $libSerie;
+
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="serie", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -46,18 +53,7 @@ class Serie implements TranslatableInterface, SluggableInterface
      */
     public function getDefaultName(): string
     {
-        return $this->translate('en', false)->getName();
-    }
-
-    /**
-     * @param string $name
-     * @return $this
-     */
-    public function setName(string $name): Serie
-    {
-        $this->translate(null, false)->setName($name);
-
-        return $this;
+        return $this->libSerie;
     }
 
     /**
@@ -65,7 +61,25 @@ class Serie implements TranslatableInterface, SluggableInterface
      */
     public function getName(): string
     {
-        return $this->translate(null, false)->getName();
+        return $this->libSerie;
+    }
+
+      /**
+     * @param string $libSerie
+     * @return $this
+     */
+    public function setLibSerie(string $libSerie): Serie
+    {
+        $this->libSerie = $libSerie;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLibSerie(): ?string
+    {
+        return $this->libSerie;
     }
 
     /**

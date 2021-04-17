@@ -38,24 +38,17 @@ class GameRepository extends EntityRepository
      */
     public function findWithLetter(string $letter, string $locale = 'en')
     {
-        $query = $this->createQueryBuilder('g')
-            ->addSelect('translation');
+        $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
+        $query = $this->createQueryBuilder('g');
         if ($letter === '0') {
-            $query
-                ->innerJoin('g.translations', 'translation')
-                ->where('SUBSTRING(translation.name , 1, 1) NOT IN (:list)')
+            $query->where("SUBSTRING(g.$column , 1, 1) NOT IN (:list)")
                 ->setParameter('list', range('a', 'z'));
         } else {
-            $query
-                ->innerJoin('g.translations', 'translation')
-                ->where('SUBSTRING(translation.name , 1, 1) = :letter')
+            $query->where("SUBSTRING(g.$column , 1, 1) = :letter")
                 ->setParameter('letter', $letter);
         }
-        $query
-            ->andWhere('translation.locale = :locale')
-            ->setParameter('locale', $locale)
-            ->orderBy('translation.name', 'ASC');
 
+        $this->setOrder($query, $locale);
         $this->onlyActive($query);
         $this->withPlatforms($query);
 
@@ -88,18 +81,14 @@ class GameRepository extends EntityRepository
      */
     public function findFromlostPosition($player, $locale = 'en')
     {
-        $query = $this->createQueryBuilder('game');
+        $query = $this->createQueryBuilder('g');
         $query
-            ->addSelect('translation')
-            ->innerJoin('game.translations', 'translation')
-            ->innerJoin('game.groups', 'group')
+            ->innerJoin('g.groups', 'group')
             ->innerJoin('group.charts', 'chart')
             ->innerJoin('chart.lostPositions', 'lostPosition')
             ->where('lostPosition.player = :player')
-            ->setParameter('player', $player)
-            ->andWhere('translation.locale = :locale')
-            ->setParameter('locale', $locale)
-            ->orderBy('translation.name', 'ASC');
+            ->setParameter('player', $player);
+        $this->setOrder($query, $locale);
         return $query->getQuery()->getResult();
     }
 
@@ -122,6 +111,16 @@ class GameRepository extends EntityRepository
     {
         $query->join('g.platforms', 'p')
             ->addSelect('p');
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param string       $locale
+     */
+    private function setOrder(QueryBuilder $query, $locale = 'en')
+    {
+        $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
+        $query->orderBy("g.$column", 'ASC');
     }
 
     /**

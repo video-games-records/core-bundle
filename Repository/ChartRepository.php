@@ -138,10 +138,7 @@ class ChartRepository extends EntityRepository
             ->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.player = :player')
             ->addSelect('gr')
             ->addSelect('pc')
-            ->setParameter('player', $player)
-            ->innerJoin('ch.translations', 'translation')
-            ->andWhere('translation.locale = :locale')
-            ->setParameter('locale', $locale);
+            ->setParameter('player', $player);
         if ($search['idGame'] != null) {
             $query->andWhere('ga.id = :idGame')
                 ->setParameter('idGame', $search['idGame']);
@@ -171,16 +168,14 @@ class ChartRepository extends EntityRepository
     public function getTopScore($group, $player, $locale = 'en')
     {
         $query = $this->createQueryBuilder('ch')
-            ->addSelect('translation')
-            ->innerJoin('ch.translations', 'translation')
-            ->join('ch.group', 'gr')
+             ->join('ch.group', 'gr')
             ->addSelect('gr')
             ->addSelect('pc')
             ->andWhere('ch.group = :group')
             ->setParameter('group', $group)
-            ->andWhere('translation.locale = :locale')
-            ->setParameter('locale', $locale)
-            ->orderBy('translation.name', 'ASC');
+            ->setParameter('locale', $locale);
+
+        $this->setOrder($query, $locale);
 
         if ($player !== null) {
             $query->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.rank = 1 OR pc.player = :player')
@@ -193,6 +188,16 @@ class ChartRepository extends EntityRepository
         /*$query->join('pc.libs', 'libs')
             ->join('pc.player', 'p');*/
         return $query->getQuery()->getResult();
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param string       $locale
+     */
+    private function setOrder(QueryBuilder $query, $locale = 'en')
+    {
+        $column = ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
+        $query->orderBy("ch.$column", 'ASC');
     }
 
 

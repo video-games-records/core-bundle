@@ -45,13 +45,9 @@ class PlayerChartAdmin extends AbstractAdmin
             ->innerJoin('chart.group', 'grp')
             ->addSelect('grp')
             ->innerJoin('grp.game', 'game')
-            ->addSelect('game')
-            ->leftJoin('game.translations', 't1', 'WITH', "t1.locale='en'")
-            ->addSelect('t1')
-            ->leftJoin('grp.translations', 't2', 'WITH', "t2.locale='en'")
-            ->addSelect('t2');
+            ->addSelect('game');
 
-        return $query;
+         return $query;
     }
 
 
@@ -110,7 +106,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 'property' => 'pseudo',
             ))
             ->add('chart.group.game', ModelAutocompleteFilter::class, array('label' => 'Game'), null, array(
-                'property' => 'translations.name',
+                'property' => 'libGameEn',
             ))
             ->add('chart.id');
     }

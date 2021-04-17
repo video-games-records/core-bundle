@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
@@ -31,6 +32,7 @@ class PlayerChartController extends AbstractController
     private $userManager;
     private $s3client;
     protected $feedManager;
+    private $translator;
 
     private $extensions = array(
         'text/plain' => '.txt',
@@ -41,11 +43,13 @@ class PlayerChartController extends AbstractController
     public function __construct(
         UserManagerInterface $userManager,
         S3Client $s3client,
-        FeedManager $feedManager
+        FeedManager $feedManager,
+        TranslatorInterface $translator
     ) {
         $this->userManager = $userManager;
         $this->s3client = $s3client;
         $this->feedManager = $feedManager;
+        $this->translator = $translator;
     }
 
     /**
@@ -215,58 +219,59 @@ class PlayerChartController extends AbstractController
             throw new AccessDeniedException('ACESS DENIED');
         }
 
-        $id = $playerChart->getId();
-
         $data = json_decode($request->getContent(), true);
         $url = $data['url'];
 
-        $video = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Video')->findOneBy(
-            array(
-                'url' => $url,
-            )
-        );
+        $videoIn = new Video();
+        $videoIn->setUrl($url);
+        $videoIn->majTypeAndVideoId();
 
-        $em = $this->getDoctrine()->getManager();
-
-        if ($video == null) {
-            //-- Video
-            $video = new Video();
-            $video->setUrl($url);
-            $video->setPlayer($this->getPlayer());
-            $video->setGame($playerChart->getChart()->getGroup()->getGame());
-            $video->setLibVideo($playerChart->getChart()->getCompleteName('en'));
-            $em->persist($video);
-        }
-
-        //-- Proof
-        $proof = new Proof();
-        $proof->setVideo($video);
-        $proof->setPlayer($playerChart->getPlayer());
-        $proof->setChart($playerChart->getChart());
-        $em->persist($proof);
-
-        //-- PlayerChart
-        $playerChart->setProof($proof);
-        if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
-            // NORMAL TO NORMAL_SEND_PROOF
-            $playerChart->setStatus(
-                $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
+        if (in_array($videoIn->getType(), array(Video::TYPE_TWITCH, Video::TYPE_YOUTUBE))) {
+            $video = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Video')->findOneBy(
+                array(
+                    'videoId' => $videoIn->getVideoId(),
+                )
             );
+
+            $em = $this->getDoctrine()->getManager();
+
+            if ($video == null) {
+                //-- Video
+                $video = new Video();
+                $video->setUrl($url);
+                $video->setPlayer($this->getPlayer());
+                $video->setGame($playerChart->getChart()->getGroup()->getGame());
+                $video->setLibVideo($playerChart->getChart()->getCompleteName('en'));
+                $em->persist($video);
+            }
+
+            //-- Proof
+            $proof = new Proof();
+            $proof->setVideo($video);
+            $proof->setPlayer($playerChart->getPlayer());
+            $proof->setChart($playerChart->getChart());
+            $em->persist($proof);
+
+            //-- PlayerChart
+            $playerChart->setProof($proof);
+            if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
+                // NORMAL TO NORMAL_SEND_PROOF
+                $playerChart->setStatus(
+                    $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
+                );
+            } else {
+                // INVESTIGATION TO DEMAND_SEND_PROOF
+                $playerChart->setStatus(
+                    $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF)
+                );
+            }
+            $em->flush();
+
         } else {
-            // INVESTIGATION TO DEMAND_SEND_PROOF
-            $playerChart->setStatus(
-                $this->getDoctrine()->getManager()->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF)
-            );
+            return $this->getResponse(false, $this->translator->trans('video.type_not_found'));
         }
-        $em->flush();
 
-        $response = new Response();
-        $response->setContent(json_encode([
-            'id' => $id,
-            'url' => $url,
-        ]));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->getResponse(true, ($this->translator->trans('proof.form.success')));
     }
 
 
@@ -278,5 +283,21 @@ class PlayerChartController extends AbstractController
     {
         $locale = $request->getLocale();
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getLast($locale);
+    }
+
+    /**
+     * @param bool $success
+     * @param null    $message
+     * @return Response
+     */
+    private function getResponse(bool $success, $message = null)
+    {
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode([
+            'success' => $success,
+            'message' => $message,
+        ]));
+        return $response;
     }
 }

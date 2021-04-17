@@ -8,9 +8,9 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="vgr_chart_translation")
+ * @ORM\Table(name="vgr_rule_translation")
  */
-class ChartTranslation implements TranslationInterface
+class RuleTranslation implements TranslationInterface
 {
     use TranslationTrait;
 
@@ -23,10 +23,9 @@ class ChartTranslation implements TranslationInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="text", type="text", nullable=false)
      */
-    private $name;
+    private $text;
 
     /**
      * @return mixed
@@ -37,12 +36,12 @@ class ChartTranslation implements TranslationInterface
     }
 
     /**
-     * @param string $name
+     * @param string $text
      * @return $this
      */
-    public function setName(string $name)
+    public function setText(string $text)
     {
-        $this->name = $name;
+        $this->text = $text;
 
         return $this;
     }
@@ -50,8 +49,8 @@ class ChartTranslation implements TranslationInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getText()
     {
-        return $this->name;
+        return $this->text;
     }
 }
