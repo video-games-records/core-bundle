@@ -152,6 +152,18 @@ class GameAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
+        $btns = [];
+        if ($this->hasAccess('create')) {
+            $btns = [
+                'copy' => [
+                    'template' => 'VideoGamesRecordsCoreBundle:Admin:game_copy_link.html.twig'
+                ],
+                'add_group' => [
+                    'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
+                ]
+            ];
+        }
+
         $list
             ->addIdentifier('id')
             ->add('libGameEn', null, ['label' => 'Name'])
@@ -191,20 +203,18 @@ class GameAdmin extends AbstractAdmin
                 ]
             )
             ->add('_action', 'actions', [
-                'actions' => [
-                    'show' => [],
-                    'edit' => [],
-                    'copy' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_copy_link.html.twig'
-                    ],
-                    'groups' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
-                    ],
-                    'add_group' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
-                    ],
-                ]
-            ]);
+                'actions' =>
+                    array_merge(
+                        [
+                            'show' => [],
+                            'edit' => [],
+                            'groups' => [
+                                'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
+                            ]
+                        ],
+                        $btns
+                    )
+             ]);
     }
 
     /**

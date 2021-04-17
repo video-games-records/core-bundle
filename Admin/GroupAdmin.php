@@ -95,8 +95,6 @@ class GroupAdmin extends AbstractAdmin
 
         $subject = $this->getSubject();
 
-        //if ((count($subject->getCharts()) < 50) && ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit'))) {
-        //var_dump($this->getRequest()->getPathInfo()); exit;
         if (
         (strpos($this->getRequest()->getPathInfo(), 'videogamesrecords/core/group')
             ||
@@ -152,6 +150,21 @@ class GroupAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
+        $btns = [];
+        if ($this->hasAccess('create')) {
+            $btns = [
+                'copy' => [
+                    'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy_link.html.twig'
+                ],
+                'copy2' => [
+                    'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy2_link.html.twig'
+                ],
+                'add_chart' => [
+                    'template' => 'VideoGamesRecordsCoreBundle:Admin:group_add_chart_link.html.twig'
+                ],
+            ];
+        }
+
         $list
             ->addIdentifier('id')
             ->add('libGroupEn', null, ['label' => 'Name'])
@@ -162,22 +175,17 @@ class GroupAdmin extends AbstractAdmin
             ])
             ->add('boolDLC', 'boolean')
             ->add('_action', 'actions', [
-                'actions' => [
-                    'show' => [],
-                    'edit' => [],
-                    'copy' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy_link.html.twig'
-                    ],
-                    'copy2' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy2_link.html.twig'
-                    ],
-                    'groups' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:group_charts_link.html.twig'
-                    ],
-                    'add_chart' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:group_add_chart_link.html.twig'
-                    ],
-                ]
+                'actions' =>
+                    array_merge(
+                        [
+                            'show' => [],
+                            'edit' => [],
+                            'groups' => [
+                                'template' => 'VideoGamesRecordsCoreBundle:Admin:group_charts_link.html.twig'
+                            ]
+                        ],
+                        $btns
+                    )
             ]);
     }
 
