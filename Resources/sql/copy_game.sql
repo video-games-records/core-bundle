@@ -4,6 +4,7 @@ CREATE PROCEDURE copy_game(IN game_id_src int)
 BEGIN
  	DECLARE game_id_dest INT;
  	DECLARE badge_id INT;
+    DECLARE forum_id INT;
 
 	DECLARE group_id_src INT;
 	DECLARE group_id_dest INT;
@@ -37,9 +38,16 @@ BEGIN
 
     SET badge_id = LAST_INSERT_ID();
 
+    -- Forum
+    INSERT INTO forum_forum(libForum, slug)
+    SELECT f.libForum, f.slug
+    FROM forum_forum f
+    INNER JOIN vgr_game g ON f.id = g.idForum WHERE g.id = game_id_src;
+    SET forum_id = LAST_INSERT_ID();
+
     -- GAME
-	INSERT INTO vgr_game (libGameEn, libGameFr, picture, status, etat, boolDlc, boolRanking, created_at, updated_at, idSerie, slug, idBadge)
-	SELECT CONCAT(libGameEn, ' [COPY]'), CONCAT(libGameFr, ' [COPY]'), picture, 'INACTIF', etat, boolDlc, boolRanking, NOW(), NOW(), idSerie, slug, badge_id FROM vgr_game
+	INSERT INTO vgr_game (libGameEn, libGameFr, picture, status, etat, boolDlc, boolRanking, created_at, updated_at, idSerie, slug, idBadge, idForum)
+	SELECT CONCAT(libGameEn, ' [COPY]'), CONCAT(libGameFr, ' [COPY]'), picture, 'INACTIF', etat, boolDlc, boolRanking, NOW(), NOW(), idSerie, slug, badge_id, forum_id FROM vgr_game
 	WHERE id = game_id_src;
 	SET game_id_dest = LAST_INSERT_ID();
 	SET group_id_local = 0;
