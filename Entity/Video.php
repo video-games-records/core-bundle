@@ -71,6 +71,7 @@ class Video implements TimestampableInterface, SluggableInterface
     /**
      * @var string
      *
+     * @Assert\NotNull(message="video.videoId.not_null")
      * @ORM\Column(name="videoId", type="string", nullable=false)
      */
     private $videoId = null;
@@ -242,7 +243,7 @@ class Video implements TimestampableInterface, SluggableInterface
     public function setUrl(string $url)
     {
         $this->url = $url;
-
+        $this->majTypeAndVideoId();
         return $this;
     }
 
@@ -319,14 +320,6 @@ class Video implements TimestampableInterface, SluggableInterface
     }
 
     /**
-     * @ORM\PrePersist
-     */
-    public function preInsert()
-    {
-        $this->majTypeAndVideoId();
-    }
-
-    /**
      * @return mixed|string|null
      */
     public function majTypeAndVideoId()
@@ -335,7 +328,7 @@ class Video implements TimestampableInterface, SluggableInterface
             $this->setType(self::TYPE_YOUTUBE);
             $explode = explode('=', $this->getUrl());
             $this->setVideoId($explode[1]);
-            return isset($explode[1]) ? $explode[1] : null;
+            return $explode[1] ?? null;
         } elseif (strpos($this->getUrl(), 'youtu.be')) {
             $this->setType(self::TYPE_YOUTUBE);
             $this->setVideoId(substr($this->getUrl(), strripos($this->getUrl(), '/') + 1, strlen($this->getUrl()) - 1));
