@@ -2,7 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
+use DateTime;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use ProjetNormandie\ForumBundle\Service\ForumManager;
 
@@ -28,5 +30,16 @@ class GameListener
         $em = $event->getEntityManager();
         $forum = $this->forumManager->getForum($game->getDefaultName());
         $game->setForum($forum);
+    }
+
+     /**
+     * @param Game       $game
+     * @param PreUpdateEventArgs $event
+     */
+    public function preUpdate(Game $game, PreUpdateEventArgs $event)
+    {
+        if (($game->getStatus() == Game::STATUS_ACTIVE) && ($game->getPublishedAt() == null)) {
+            $game->setPublishedAt(new DateTime());
+        }
     }
 }

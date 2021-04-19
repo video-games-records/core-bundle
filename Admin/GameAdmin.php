@@ -2,9 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use DateTime;
 use Doctrine\ORM\EntityManager;
-use Exception;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -177,7 +175,7 @@ class GameAdmin extends AbstractAdmin
                 ]
             )
             ->add(
-                'badge',
+                'badge.picture',
                 null,
                 [
                     'label' => 'Badge',
@@ -231,23 +229,5 @@ class GameAdmin extends AbstractAdmin
             ->add('etat')
             ->add('forum')
             ->add('groups');
-    }
-
-    /**
-     * @param $object
-     * @throws Exception
-     */
-    public function preUpdate($object): void
-    {
-        /** @var EntityManager $em */
-        $em = $this->getModelManager()->getEntityManager($this->getClass());
-        $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
-
-        // PUBLISHED
-        if ($originalObject['status'] === Game::STATUS_INACTIVE && $object->getStatus() === Game::STATUS_ACTIVE) {
-            if ($object->getPublishedAt() == null) {
-                $object->setPublishedAt(new DateTime());
-            }
-        }
     }
 }
