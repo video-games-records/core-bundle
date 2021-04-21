@@ -178,10 +178,27 @@ class ProofAdmin extends AbstractAdmin
             ->add('chart.group.game', null, [
                 'associated_property' =>  $this->getLibGame(),
                 'label' => 'Game',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => $this->getLibGame()
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'chart'),
+                    array('fieldName' => 'group'),
+                    array('fieldName' => 'game'),
+                )
             ])
             ->add('chart.group', null, [
                 'associated_property' =>  $this->getLibGroup(),
                 'label' => 'Group',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => $this->getLibGroup()
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'chart'),
+                    array('fieldName' => 'group')
+                )
             ])
             ->add('chart', null, [
                 'associated_property' => $this->getLibChart(),

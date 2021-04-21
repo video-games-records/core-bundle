@@ -172,7 +172,7 @@ class ChartAdmin extends AbstractAdmin
             ->add($this->getLibChart(), null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add('group', null, array(
-                'associated_property' => 'defaultName',
+                'associated_property' => $this->getLibGroup(),
                 'label' => 'Group',
             ))
             ->add(

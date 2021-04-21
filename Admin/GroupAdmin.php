@@ -182,21 +182,9 @@ class GroupAdmin extends AbstractAdmin
             ];
         }
 
-        if ($this->getRequest()->getLocale() == 'fr') {
-            $name = [
-                'key' => 'libGroupFr',
-                'label' => 'Name [FR]',
-            ];
-        } else {
-            $name = [
-                'key' => 'libGroupEn',
-                'label' => 'Name [EN]',
-            ];
-        }
-
         $list
             ->addIdentifier('id')
-            ->add($name['key'], null, ['label' => $name['label']])
+            ->add($this->getLibGroup(), null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),
