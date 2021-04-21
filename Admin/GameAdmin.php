@@ -2,15 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use Doctrine\ORM\EntityManager;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,6 +20,14 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 class GameAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_game';
+
+    /**
+     * @return string
+     */
+    private function getLibGame(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+    }
 
     /**
      * @param RouteCollectionInterface $collection
@@ -139,7 +144,7 @@ class GameAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('serie')
-            ->add('libGameEn', null, ['label' => 'Name [EN]'])
+            ->add($this->getLibGame(), null, ['label' => 'Name'])
             ->add('status')
             ->add('etat')
             ->add('boolRanking');
@@ -164,7 +169,7 @@ class GameAdmin extends AbstractAdmin
 
         $list
             ->addIdentifier('id')
-            ->add('libGameEn', null, ['label' => 'Name'])
+            ->add($this->getLibGame(), null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add(
                 'picture',
@@ -222,7 +227,8 @@ class GameAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('libGameEn', null, ['label' => 'Name'])
+            ->add('libGameEn', null, ['label' => 'Name [EN]'])
+            ->add('libGameFr', null, ['label' => 'Name [FR]'])
             ->add('picture')
             ->add('badge')
             ->add('status')

@@ -10,6 +10,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Symfony\Component\Intl\Locale;
 
 /**
  * Chart
@@ -146,7 +147,8 @@ class Chart implements SluggableInterface, TimestampableInterface
      */
     public function getName(): string
     {
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($_SERVER['HTTP_ACCEPT_LANGUAGE'] == 'fr')) {
+        $locale = Locale::getDefault();
+        if ($locale == 'fr') {
             return $this->libChartFr;
         } else {
             return $this->libChartEn;
