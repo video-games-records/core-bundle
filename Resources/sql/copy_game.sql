@@ -39,8 +39,8 @@ BEGIN
     SET badge_id = LAST_INSERT_ID();
 
     -- Forum
-    INSERT INTO forum_forum(libForum, slug)
-    SELECT f.libForum, f.slug
+    INSERT INTO forum_forum(libForum, libForumFr, slug)
+    SELECT f.libForum, f.libForumFr, f.slug
     FROM forum_forum f
     INNER JOIN vgr_game g ON f.id = g.idForum WHERE g.id = game_id_src;
     SET forum_id = LAST_INSERT_ID();

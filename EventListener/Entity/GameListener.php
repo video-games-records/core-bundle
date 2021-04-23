@@ -27,8 +27,10 @@ class GameListener
      */
     public function prePersist(Game $game, LifecycleEventArgs $event)
     {
-        $em = $event->getEntityManager();
-        $forum = $this->forumManager->getForum($game->getDefaultName());
+        $forum = $this->forumManager->getForum([
+            'libForum' => $game->getLibGameEn(),
+            'libForumFr' => $game->getLibGameFr(),
+        ]);
         $game->setForum($forum);
     }
 
