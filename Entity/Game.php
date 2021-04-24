@@ -18,6 +18,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Intl\Locale;
 
 /**
  * Game
@@ -288,7 +289,8 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
      */
     public function getName(): string
     {
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($_SERVER['HTTP_ACCEPT_LANGUAGE'] == 'fr')) {
+        $locale = Locale::getDefault();
+        if ($locale == 'fr') {
             return $this->libGameFr;
         } else {
             return $this->libGameEn;

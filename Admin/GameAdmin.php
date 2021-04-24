@@ -2,17 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use DateTime;
-use Doctrine\ORM\EntityManager;
-use Exception;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,6 +20,14 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 class GameAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_game';
+
+    /**
+     * @return string
+     */
+    private function getLibGame(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+    }
 
     /**
      * @param RouteCollectionInterface $collection
@@ -69,6 +72,14 @@ class GameAdmin extends AbstractAdmin
                 'btn_delete' => false,
                 'btn_catalogue' => true,
                 'label' => 'Badge',
+            ])
+            ->add('forum', ModelListType::class, [
+                'btn_add' => true,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'Forum',
             ])
             ->add('picture', TextType::class, [
                 'label' => 'Picture',
@@ -141,7 +152,7 @@ class GameAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('serie')
-            ->add('libGameEn', null, ['label' => 'Name [EN]'])
+            ->add($this->getLibGame(), null, ['label' => 'Name'])
             ->add('status')
             ->add('etat')
             ->add('boolRanking');
@@ -166,7 +177,7 @@ class GameAdmin extends AbstractAdmin
 
         $list
             ->addIdentifier('id')
-            ->add('libGameEn', null, ['label' => 'Name'])
+            ->add($this->getLibGame(), null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add(
                 'picture',
@@ -177,7 +188,7 @@ class GameAdmin extends AbstractAdmin
                 ]
             )
             ->add(
-                'badge',
+                'badge.picture',
                 null,
                 [
                     'label' => 'Badge',
@@ -224,30 +235,13 @@ class GameAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('libGameEn', null, ['label' => 'Name'])
+            ->add('libGameEn', null, ['label' => 'Name [EN]'])
+            ->add('libGameFr', null, ['label' => 'Name [FR]'])
             ->add('picture')
             ->add('badge')
             ->add('status')
             ->add('etat')
             ->add('forum')
             ->add('groups');
-    }
-
-    /**
-     * @param $object
-     * @throws Exception
-     */
-    public function preUpdate($object): void
-    {
-        /** @var EntityManager $em */
-        $em = $this->getModelManager()->getEntityManager($this->getClass());
-        $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
-
-        // PUBLISHED
-        if ($originalObject['status'] === Game::STATUS_INACTIVE && $object->getStatus() === Game::STATUS_ACTIVE) {
-            if ($object->getPublishedAt() == null) {
-                $object->setPublishedAt(new DateTime());
-            }
-        }
     }
 }

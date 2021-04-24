@@ -1,0 +1,2 @@
+# translations/validators/validators.en.yaml
+video.videoId.not_null: Can't determine website hosting the video (Youtube or Twitch)

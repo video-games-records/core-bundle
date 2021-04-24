@@ -224,7 +224,6 @@ class PlayerChartController extends AbstractController
 
         $videoIn = new Video();
         $videoIn->setUrl($url);
-        $videoIn->majTypeAndVideoId();
 
         if (in_array($videoIn->getType(), array(Video::TYPE_TWITCH, Video::TYPE_YOUTUBE))) {
             $video = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Video')->findOneBy(

@@ -34,6 +34,30 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
+     * @return string
+     */
+    private function getLibGame(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+    }
+
+    /**
+     * @return string
+     */
+    private function getLibGroup(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+    }
+
+    /**
+     * @return string
+     */
+    private function getLibChart(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+    }
+
+    /**
      * @param ProxyQueryInterface $query
      * @return ProxyQueryInterface
      */
@@ -128,7 +152,7 @@ class ProofAdmin extends AbstractAdmin
                 'property' => 'pseudo',
             ])
             ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
-                'property' => 'libGameEn',
+                'property' => $this->getLibGame(),
             ])
             ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
@@ -152,15 +176,32 @@ class ProofAdmin extends AbstractAdmin
                 'label' => 'Player',
             ])
             ->add('chart.group.game', null, [
-                'associated_property' => 'libGameEn',
+                'associated_property' =>  $this->getLibGame(),
                 'label' => 'Game',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => $this->getLibGame()
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'chart'),
+                    array('fieldName' => 'group'),
+                    array('fieldName' => 'game'),
+                )
             ])
             ->add('chart.group', null, [
-                'associated_property' => 'libGroupEn',
+                'associated_property' =>  $this->getLibGroup(),
                 'label' => 'Group',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => $this->getLibGroup()
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'chart'),
+                    array('fieldName' => 'group')
+                )
             ])
             ->add('chart', null, [
-                'associated_property' => 'libChartEn',
+                'associated_property' => $this->getLibChart(),
                 'label' => 'Chart',
             ])
             ->add('picture', null, [
@@ -196,9 +237,18 @@ class ProofAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('Player', null, ['label' => 'Player'])
-            ->add('chart.group.game', null, ['label' => 'Game'])
-            ->add('chart.group', null, ['label' => 'Group'])
-            ->add('chart', null, ['label' => 'Chart'])
+            ->add('chart.group.game', null, array(
+                'associated_property' => $this->getLibGame(),
+                'label' => 'Game',
+            ))
+            ->add('chart.group', null, array(
+                'associated_property' => $this->getLibGroup(),
+                'label' => 'Group',
+            ))
+            ->add('chart', null, array(
+                'associated_property' => $this->getLibChart(),
+                'label' => 'Chart',
+            ))
             ->add('playerChart')
             ->add('picture')
             ->add('video')

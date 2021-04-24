@@ -20,6 +20,22 @@ class GroupAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_group';
 
     /**
+     * @return string
+     */
+    private function getLibGame(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+    }
+
+    /**
+     * @return string
+     */
+    private function getLibGroup(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+    }
+
+    /**
      * @param RouteCollectionInterface $collection
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
@@ -139,10 +155,11 @@ class GroupAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('libGroupEn', null, ['label' => 'Name [EN]'])
+            ->add($this->getLibGroup(), null, ['label' => 'Name'])
             ->add('game', ModelAutocompleteFilter::class, [], null, [
-                'property' => 'libGameEn',
-            ]);
+                'property' => $this->getLibGame(),
+            ])
+        ;
     }
 
     /**
@@ -167,10 +184,10 @@ class GroupAdmin extends AbstractAdmin
 
         $list
             ->addIdentifier('id')
-            ->add('libGroupEn', null, ['label' => 'Name'])
+            ->add($this->getLibGroup(), null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add('game', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' => $this->getLibGame(),
                 'label' => 'Game',
             ])
             ->add('boolDLC', 'boolean')
@@ -196,9 +213,10 @@ class GroupAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('libGroupEn', null, ['label' => 'Name'])
+            ->add('libGroupEn', null, ['label' => 'Name [EN]'])
+            ->add('libGroupFr', null, ['label' => 'Name [FR]'])
             ->add('game', null, [
-                'associated_property' => 'libGameEn',
+                'associated_property' => $this->getLibGame(),
                 'label' => 'Game',
             ])
             ->add('charts');

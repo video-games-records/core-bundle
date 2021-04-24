@@ -24,6 +24,22 @@ class ChartAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_chart';
 
     /**
+     * @return string
+     */
+    private function getLibGroup(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+    }
+
+    /**
+     * @return string
+     */
+    private function getLibChart(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+    }
+
+    /**
      * @param RouteCollectionInterface $collection
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
@@ -138,10 +154,10 @@ class ChartAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('libChartEn', null, ['label' => 'Name [EN]'])
-            ->add('group', ModelAutocompleteFilter::class, array(), null, array(
-                'property' => 'libGroupEn',
-            ))
+            ->add($this->getLibChart(), null, ['label' => 'Name'])
+            ->add('group', ModelAutocompleteFilter::class, [], null, [
+                'property' => $this->getLibGroup(),
+            ])
             ->add('statusPlayer', 'doctrine_orm_choice', array(), ChoiceType::class, array('choices' => Chart::getStatusChoices()))
             ->add('statusTeam', 'doctrine_orm_choice', array(), ChoiceType::class, array('choices' => Chart::getStatusChoices()));
     }
@@ -153,10 +169,10 @@ class ChartAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id')
-            ->add('libChartEn', null, ['label' => 'Name'])
+            ->add($this->getLibChart(), null, ['label' => 'Name'])
             ->add('slug', null, ['label' => 'Slug'])
             ->add('group', null, array(
-                'associated_property' => 'defaultName',
+                'associated_property' => $this->getLibGroup(),
                 'label' => 'Group',
             ))
             ->add(
@@ -181,9 +197,10 @@ class ChartAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('libChartEn', null, ['label' => 'Name'])
+            ->add('libChartEn', null, ['label' => 'Name [EN]'])
+            ->add('libChartFr', null, ['label' => 'Name [FR]'])
             ->add('group', null, array(
-                'associated_property' => 'defaultName',
+                'associated_property' => $this->getLibGroup(),
                 'label' => 'Group',
             ));
     }
