@@ -7,6 +7,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 
@@ -182,15 +183,18 @@ class ChartRepository extends EntityRepository
         } else {
             $query->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.rank = 1');
         }
-
+        /*$query
+           */
+        /*$query->join('pc.libs', 'libs')
+            ->join('pc.player', 'p');*/
         return $query->getQuery()->getResult();
     }
 
     /**
-     * @param $query
+     * @param QueryBuilder $query
      * @param string       $locale
      */
-    private function setOrder($query, $locale = 'en')
+    private function setOrder(QueryBuilder $query, $locale = 'en')
     {
         $column = ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
         $query->orderBy("ch.$column", 'ASC');
