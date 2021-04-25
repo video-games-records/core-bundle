@@ -172,8 +172,7 @@ class ChartRepository extends EntityRepository
             ->addSelect('gr')
             ->addSelect('pc')
             ->andWhere('ch.group = :group')
-            ->setParameter('group', $group)
-            ->setParameter('locale', $locale);
+            ->setParameter('group', $group);
 
         $this->setOrder($query, $locale);
 
@@ -183,18 +182,15 @@ class ChartRepository extends EntityRepository
         } else {
             $query->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.rank = 1');
         }
-        /*$query
-           */
-        /*$query->join('pc.libs', 'libs')
-            ->join('pc.player', 'p');*/
+
         return $query->getQuery()->getResult();
     }
 
     /**
-     * @param QueryBuilder $query
+     * @param $query
      * @param string       $locale
      */
-    private function setOrder(QueryBuilder $query, $locale = 'en')
+    private function setOrder($query, $locale = 'en')
     {
         $column = ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
         $query->orderBy("ch.$column", 'ASC');
