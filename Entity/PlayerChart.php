@@ -152,7 +152,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * @var PlayerChartStatus
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus", inversedBy="playerCharts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })

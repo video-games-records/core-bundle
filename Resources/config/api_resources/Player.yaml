@@ -83,3 +83,8 @@ resources:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
                 denormalization_context: {'groups': [player.put]}
                 normalization_context: {'groups': [player.read.mini, player.team, team.read.mini]}
+            player-chart-stats:
+                method: 'GET'
+                normalization_context: {'groups': [playerChartStatus.read]}
+                path: '/players/{id}/player-chart-stats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::PlayerChartStats'

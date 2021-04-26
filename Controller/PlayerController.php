@@ -132,4 +132,14 @@ class PlayerController extends AbstractController
         $q = $request->query->get('query', null);
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:player')->autocomplete($q);
     }
+
+     /**
+     * @param Player    $player
+     * @return mixed
+     */
+    public function playerChartstats(Player $player)
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartStatus')
+            ->getStatsFromPlayer($player);
+    }
 }
