@@ -5,7 +5,6 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -17,7 +16,6 @@ use Symfony\Component\Intl\Locale;
  *
  * @ORM\Table(name="vgr_group")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
- * @ApiResource(attributes={"order"={"libGroupEn": "ASC"}})
  */
 class Group implements SluggableInterface, TimestampableInterface
 {
