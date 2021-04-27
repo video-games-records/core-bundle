@@ -155,7 +155,8 @@ class GroupAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add($this->getLibGroup(), null, ['label' => 'Name'])
+            ->add('libGroupEn', null, ['label' => 'Name [EN]'])
+            ->add('libGroupFr', null, ['label' => 'Name [FR]'])
             ->add('game', ModelAutocompleteFilter::class, [], null, [
                 'property' => $this->getLibGame(),
             ])

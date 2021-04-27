@@ -123,15 +123,15 @@ class PlayerChartAdmin extends AbstractAdmin
                 'label' => 'Player',
             ])
             ->add('chart.group.game', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' => 'libGameEn',
                 'label' => 'Game',
             ])
             ->add('chart.group', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' => 'libGroupEn',
                 'label' => 'Group',
             ])
             ->add('chart', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' => 'libChartEn',
                 'label' => 'Chart',
             ])
             ->add('status')
