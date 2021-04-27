@@ -21,6 +21,9 @@ ProjetNormandie\UserBundle\Entity\User:
     createdAt:
       groups:
         - 'vgr.user.read'
+    isOnline:
+      groups:
+        - 'vgr.user.read'
 
 
 
