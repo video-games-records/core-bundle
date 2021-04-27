@@ -29,7 +29,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  *     SearchFilter::class,
  *     properties={
  *          "libVideo": "partial",
- *          "game": "exacte",
+ *          "game": "exact",
  *      }
  * )
  * @DoctrineAssert\UniqueEntity(fields={"url"})
