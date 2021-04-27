@@ -359,10 +359,10 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     /**
      * Set picture
      *
-     * @param string $picture
-     * @return Game
+     * @param string|null $picture
+     * @return $this
      */
-    public function setPicture(string $picture)
+    public function setPicture(string $picture = null)
     {
         $this->picture = $picture;
 
