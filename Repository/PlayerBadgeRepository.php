@@ -12,39 +12,6 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 class PlayerBadgeRepository extends EntityRepository
 {
     /**
-     * @param $idPlayer
-     * @param string $type
-     * @return array
-     */
-    public function getFromPlayer($idPlayer, $type = 'master')
-    {
-        $query = $this->createQueryBuilder('pb');
-
-        $query->join('pb.badge', 'b')
-            ->addSelect('b');
-
-        /*if ($type == 'master') {
-            $query->join('b.games', 'g')
-                ->addSelect('g');
-        }*/
-
-        if ($type === 'master') {
-            $query->orderBy('pb.createdAt');
-        } else {
-            $query->orderBy('b.value', 'ASC');
-        }
-
-        $query->where('pb.idPlayer = :idPlayer')
-            ->setParameter('idPlayer', $idPlayer)
-            ->andWhere('b.type = :type')
-            ->setParameter('type', $type);
-
-        $this->onlyActive($query);
-
-        return $query->getQuery()->getResult();
-    }
-
-    /**
      * @param $badge
      * @return PlayerBadge[]|array
      */
@@ -186,7 +153,7 @@ class PlayerBadgeRepository extends EntityRepository
     {
         $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge)
         SELECT vgr_player.id,vgr_badge.id
-        FROM vgr_player,badge
+        FROM vgr_player,vgr_badge
         WHERE type = '%s'
         AND value <= vgr_player.%s
         AND vgr_badge.id NOT IN (SELECT idBadge FROM vgr_player_badge WHERE idPlayer = vgr_player.id)";
