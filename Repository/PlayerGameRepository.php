@@ -8,12 +8,12 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use DateTime;
+use Symfony\Component\Intl\Locale;
 
 class PlayerGameRepository extends EntityRepository
 {
@@ -180,14 +180,14 @@ class PlayerGameRepository extends EntityRepository
      */
     public function getFromPlayer($player)
     {
-         $qb = $this->createQueryBuilder('pg')
+        $qb = $this->createQueryBuilder('pg')
             ->join('pg.game', 'g')
             ->addSelect('g')
             ->join('g.platforms', 'p')
             ->addSelect('p')
-            ->orderBy('g.libGameEn')
             ->where('pg.player = :player')
-            ->setParameter('player', $player);
+            ->setParameter('player', $player)
+            ->orderBy('g.' . (Locale::getDefault() == 'fr' ? 'libGameFr' : 'libGameEn'), 'ASC');
 
          return $qb->getQuery()->getResult();
     }
