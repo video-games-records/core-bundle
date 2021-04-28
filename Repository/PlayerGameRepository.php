@@ -171,4 +171,24 @@ class PlayerGameRepository extends EntityRepository
         }
         $this->_em->flush();
     }
+
+    /**
+     * Return data from player with game and platforms
+     *
+     * @param $player
+     * @return int|mixed|string
+     */
+    public function getFromPlayer($player)
+    {
+         $qb = $this->createQueryBuilder('pg')
+            ->join('pg.game', 'g')
+            ->addSelect('g')
+            ->join('g.platforms', 'p')
+            ->addSelect('p')
+            ->orderBy('g.libGameEn')
+            ->where('pg.player = :player')
+            ->setParameter('player', $player);
+
+         return $qb->getQuery()->getResult();
+    }
 }

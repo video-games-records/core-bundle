@@ -178,13 +178,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
 
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="ordre", type="integer", nullable=true)
-     */
-    private $ordre;
-
-    /**
      * @var Serie
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", inversedBy="games")
@@ -602,29 +595,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     public function getNbTeam()
     {
         return $this->nbTeam;
-    }
-
-    /**
-     * Set ordre
-     *
-     * @param integer $ordre
-     * @return Game
-     */
-    public function setOrdre(int $ordre)
-    {
-        $this->ordre = $ordre;
-
-        return $this;
-    }
-
-    /**
-     * Get ordre
-     *
-     * @return integer
-     */
-    public function getOrdre()
-    {
-        return $this->ordre;
     }
 
     /**

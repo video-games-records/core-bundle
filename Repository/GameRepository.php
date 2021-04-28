@@ -4,6 +4,8 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -163,5 +165,46 @@ class GameRepository extends EntityRepository
     {
         $sql = sprintf("call copy_game (%d);", $id);
         $this->_em->getConnection()->executeUpdate($sql);
+    }
+
+
+    /**
+     * @param $player
+     * @return array
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function getStatsFromPlayer($player)
+    {
+        $qb = $this->createQueryBuilder('gam')
+            ->select('gam.id')
+            ->addSelect('status.id as idStatus')
+            ->addSelect('COUNT(pc) as nb')
+            ->innerJoin('gam.groups', 'grp')
+            ->innerJoin('grp.charts', 'chr')
+            ->innerJoin('chr.playerCharts', 'pc')
+            ->innerJoin('pc.status', 'status')
+            ->where('pc.player = :player')
+            ->setParameter('player', $player)
+            ->groupBy('gam.id')
+            ->addGroupBy('status.id')
+            ->orderBy('gam.id', 'ASC')
+            ->addOrderBy('status.id', 'ASC');
+
+        $list = $qb->getQuery()->getResult(2);
+
+        $games = [];
+        foreach ($list as $row) {
+            $idGame = $row['id'];
+            if (!array_key_exists($idGame, $games)) {
+                $games[$idGame] = [];
+            }
+            $games[$idGame][] = [
+                'status' => $this->_em->find('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', $row['idStatus']),
+                'nb' => $row['nb'],
+            ];
+        }
+        return $games;
     }
 }

@@ -107,7 +107,7 @@ class PlayerChartAdmin extends AbstractAdmin
 
         $form
             ->add('libs', CollectionType::class, array(
-                'btn_add' => false,
+                'btn_add' => true,
                 'by_reference' => false,
                 'type_options' => array(
                     'delete' => false,
