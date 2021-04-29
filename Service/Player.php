@@ -13,6 +13,15 @@ class Player
         $this->em = $em;
     }
 
+    public function getNbLostPosition($player)
+    {
+        return $this->em->getRepository('VideoGamesRecordsCoreBundle:LostPosition')->getNbLostPosition($player);
+    }
+
+    public function getNewNbLostPosition($player)
+    {
+
+    }
 
     public function getGameStats($player)
     {

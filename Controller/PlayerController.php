@@ -159,4 +159,13 @@ class PlayerController extends AbstractController
     {
         return $this->service->getGameStats($player);
     }
+
+    /**
+     * @param Player    $player
+     * @return mixed
+     */
+    public function nbLostPosition(Player $player)
+    {
+        return $this->service->getNbLostPosition($player);
+    }
 }

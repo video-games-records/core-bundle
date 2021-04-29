@@ -83,6 +83,10 @@ resources:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
                 denormalization_context: {'groups': [player.put]}
                 normalization_context: {'groups': [player.read.mini, player.team, team.read.mini]}
+            nb-lost-position:
+                method: 'GET'
+                path: '/players/{id}/nb-lost-position'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::nbLostPosition'
             player-chart-status:
                 method: 'GET'
                 normalization_context: {'groups': [playerChartStatus.read]}
