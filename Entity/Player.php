@@ -628,10 +628,10 @@ class Player implements SluggableInterface
     /**
      * Set presentation
      *
-     * @param string $presentation
+     * @param string|null $presentation
      * @return $this
      */
-    public function setPresentation(string $presentation)
+    public function setPresentation(string $presentation = null)
     {
         $this->presentation = $presentation;
 
@@ -651,10 +651,10 @@ class Player implements SluggableInterface
     /**
      * Set collection
      *
-     * @param string $collection
+     * @param string|null $collection
      * @return Player
      */
-    public function setCollection(string $collection)
+    public function setCollection(string $collection = null)
     {
         $this->collection = $collection;
 
