@@ -168,4 +168,13 @@ class PlayerController extends AbstractController
     {
         return $this->service->getNbLostPosition($player);
     }
+
+    /**
+     * @param Player    $player
+     * @return mixed
+     */
+    public function nbNewLostPosition(Player $player)
+    {
+        return $this->service->getNbNewLostPosition($player);
+    }
 }

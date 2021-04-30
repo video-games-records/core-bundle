@@ -13,16 +13,28 @@ class Player
         $this->em = $em;
     }
 
+    /**
+     * @param $player
+     * @return mixed
+     */
     public function getNbLostPosition($player)
     {
         return $this->em->getRepository('VideoGamesRecordsCoreBundle:LostPosition')->getNbLostPosition($player);
     }
 
-    public function getNewNbLostPosition($player)
+    /**
+     * @param $player
+     * @return mixed
+     */
+    public function getNbNewLostPosition($player)
     {
-
+        return $this->em->getRepository('VideoGamesRecordsCoreBundle:LostPosition')->getNbNewLostPosition($player);
     }
 
+    /**
+     * @param $player
+     * @return mixed
+     */
     public function getGameStats($player)
     {
         $playerGames = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getFromPlayer($player);
@@ -31,7 +43,6 @@ class Player
         foreach ($playerGames as $playerGame) {
             $playerGame->setStatuses($stats[$playerGame->getGame()->getId()]);
         }
-
         return $playerGames;
     }
 }

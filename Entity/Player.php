@@ -366,6 +366,12 @@ class Player implements SluggableInterface
     protected $country;
 
     /**
+     * @var DateTime
+     * @ORM\Column(name="lastDisplayLostPosition", type="datetime", nullable=true)
+     */
+    protected $lastDisplayLostPosition;
+
+    /**
      * @return string
      */
     public function __toString()
@@ -1269,6 +1275,25 @@ class Player implements SluggableInterface
     public function getLostPositions()
     {
         return $this->lostPositions;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getLastDisplayLostPosition()
+    {
+        return $this->birthDate;
+    }
+
+
+    /**
+     * @param DateTime|null $lastDisplayLostPosition
+     * @return $this
+     */
+    public function setLastDisplayLostPosition(DateTime $lastDisplayLostPosition = null)
+    {
+        $this->lastDisplayLostPosition = $lastDisplayLostPosition;
+        return $this;
     }
 
     /**
