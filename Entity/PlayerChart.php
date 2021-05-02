@@ -69,6 +69,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "id":"ASC",
  *          "lastUpdate" : "DESC",
  *          "rank" : "ASC",
+ *          "chart.libChartEn" : "ASC",
+ *          "chart.libChartFr" : "ASC",
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
