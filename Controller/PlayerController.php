@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Service\Player as PlayerService;
 
 /**
  * Class PlayerController
@@ -13,6 +14,13 @@ use VideoGamesRecords\CoreBundle\Entity\Player;
  */
 class PlayerController extends AbstractController
 {
+    private $service;
+
+    public function __construct(PlayerService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * @return Player|null
      */
@@ -131,5 +139,42 @@ class PlayerController extends AbstractController
     {
         $q = $request->query->get('query', null);
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:player')->autocomplete($q);
+    }
+
+    /**
+     * @param Player    $player
+     * @return mixed
+     */
+    public function playerChartStatus(Player $player)
+    {
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartStatus')
+            ->getStatsFromPlayer($player);
+    }
+
+    /**
+     * @param Player    $player
+     * @return mixed
+     */
+    public function gamePlayerChartStatus(Player $player)
+    {
+        return $this->service->getGameStats($player);
+    }
+
+    /**
+     * @param Player    $player
+     * @return mixed
+     */
+    public function nbLostPosition(Player $player)
+    {
+        return $this->service->getNbLostPosition($player);
+    }
+
+    /**
+     * @param Player    $player
+     * @return mixed
+     */
+    public function nbNewLostPosition(Player $player)
+    {
+        return $this->service->getNbNewLostPosition($player);
     }
 }

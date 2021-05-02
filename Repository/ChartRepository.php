@@ -7,6 +7,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 
@@ -172,8 +173,7 @@ class ChartRepository extends EntityRepository
             ->addSelect('gr')
             ->addSelect('pc')
             ->andWhere('ch.group = :group')
-            ->setParameter('group', $group)
-            ->setParameter('locale', $locale);
+            ->setParameter('group', $group);
 
         $this->setOrder($query, $locale);
 

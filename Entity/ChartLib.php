@@ -57,10 +57,10 @@ class ChartLib implements TimestampableInterface
     /**
      * Set lib
      *
-     * @param string $name
+     * @param string|null $name
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name = null)
     {
         $this->name = $name;
         return $this;

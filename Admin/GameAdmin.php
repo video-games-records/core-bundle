@@ -152,7 +152,8 @@ class GameAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('serie')
-            ->add($this->getLibGame(), null, ['label' => 'Name'])
+            ->add('libGameEn', null, ['label' => 'Name [EN]'])
+            ->add('libGameFr', null, ['label' => 'Name [FR]'])
             ->add('status')
             ->add('etat')
             ->add('boolRanking');

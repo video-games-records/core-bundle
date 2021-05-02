@@ -11,13 +11,11 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Intl\Locale;
 
 /**
@@ -26,7 +24,6 @@ use Symfony\Component\Intl\Locale;
  * @ORM\Table(name="vgr_game")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener"})
- * @ApiResource(attributes={"order"={"libGameEn"}})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
@@ -179,13 +176,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
      */
     private $nbTeam = 0;
 
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="ordre", type="integer", nullable=true)
-     */
-    private $ordre;
 
     /**
      * @var Serie
@@ -359,10 +349,10 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     /**
      * Set picture
      *
-     * @param string $picture
-     * @return Game
+     * @param string|null $picture
+     * @return $this
      */
-    public function setPicture(string $picture)
+    public function setPicture(string $picture = null)
     {
         $this->picture = $picture;
 
@@ -605,29 +595,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     public function getNbTeam()
     {
         return $this->nbTeam;
-    }
-
-    /**
-     * Set ordre
-     *
-     * @param integer $ordre
-     * @return Game
-     */
-    public function setOrdre(int $ordre)
-    {
-        $this->ordre = $ordre;
-
-        return $this;
-    }
-
-    /**
-     * Get ordre
-     *
-     * @return integer
-     */
-    public function getOrdre()
-    {
-        return $this->ordre;
     }
 
     /**

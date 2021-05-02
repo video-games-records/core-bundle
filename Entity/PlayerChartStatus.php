@@ -54,6 +54,12 @@ class PlayerChartStatus implements TranslatableInterface
      */
     private $boolSendProof = 0;
 
+      /**
+     * @var ArrayCollection|PlayerChart[]
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="status")
+     */
+    private $playerCharts;
+
     /**
      * @return string
      */

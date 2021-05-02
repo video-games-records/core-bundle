@@ -190,6 +190,9 @@ class PlayerGame
      */
     private $lastUpdate;
 
+
+    private $statuses;
+
     /**
      * Set rankPointChart
      * @param integer $rankPointChart
@@ -593,5 +596,21 @@ class PlayerGame
     public function getNbEqual()
     {
         return $this->nbEqual;
+    }
+
+    /**
+     * @param $statuses
+     */
+    public function setStatuses($statuses)
+    {
+        $this->statuses = $statuses;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatuses()
+    {
+        return $this->statuses;
     }
 }

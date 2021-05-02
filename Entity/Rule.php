@@ -2,10 +2,13 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * PlayerChartStatus
@@ -13,10 +16,10 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
  * @ORM\Table(name="vgr_rule")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\RuleRepository")
  */
-class Rule implements TranslatableInterface
+class Rule implements TranslatableInterface, TimestampableInterface
 {
     use TranslatableTrait;
-
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")

@@ -19,6 +19,30 @@ class PlayerChartAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_player_chart';
 
     /**
+     * @return string
+     */
+    private function getLibGame(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+    }
+
+    /**
+     * @return string
+     */
+    private function getLibGroup(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+    }
+
+    /**
+     * @return string
+     */
+    private function getLibChart(): string
+    {
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+    }
+
+    /**
      * @param RouteCollectionInterface $collection
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
@@ -79,11 +103,11 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'Chart',
             ])
-            ->add('status', null);
+            ->add('status');
 
         $form
             ->add('libs', CollectionType::class, array(
-                'btn_add' => false,
+                'btn_add' => true,
                 'by_reference' => false,
                 'type_options' => array(
                     'delete' => false,
@@ -123,15 +147,41 @@ class PlayerChartAdmin extends AbstractAdmin
                 'label' => 'Player',
             ])
             ->add('chart.group.game', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' =>  $this->getLibGame(),
+                'label' => 'Game',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => $this->getLibGame()
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'chart'),
+                    array('fieldName' => 'group'),
+                    array('fieldName' => 'game'),
+                )
+            ])
+            ->add('chart.group', null, [
+                'associated_property' =>  $this->getLibGroup(),
+                'label' => 'Group',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => $this->getLibGroup()
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'chart'),
+                    array('fieldName' => 'group')
+                )
+            ])
+
+            /*->add('chart.group.game', null, [
+                'associated_property' => 'libGameEn',
                 'label' => 'Game',
             ])
             ->add('chart.group', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' => 'libGroupEn',
                 'label' => 'Group',
-            ])
+            ])*/
             ->add('chart', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' => 'libChartEn',
                 'label' => 'Chart',
             ])
             ->add('status')

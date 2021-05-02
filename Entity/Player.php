@@ -366,6 +366,12 @@ class Player implements SluggableInterface
     protected $country;
 
     /**
+     * @var DateTime
+     * @ORM\Column(name="lastDisplayLostPosition", type="datetime", nullable=true)
+     */
+    protected $lastDisplayLostPosition;
+
+    /**
      * @return string
      */
     public function __toString()
@@ -628,10 +634,10 @@ class Player implements SluggableInterface
     /**
      * Set presentation
      *
-     * @param string $presentation
+     * @param string|null $presentation
      * @return $this
      */
-    public function setPresentation(string $presentation)
+    public function setPresentation(string $presentation = null)
     {
         $this->presentation = $presentation;
 
@@ -651,10 +657,10 @@ class Player implements SluggableInterface
     /**
      * Set collection
      *
-     * @param string $collection
+     * @param string|null $collection
      * @return Player
      */
-    public function setCollection(string $collection)
+    public function setCollection(string $collection = null)
     {
         $this->collection = $collection;
 
@@ -1269,6 +1275,25 @@ class Player implements SluggableInterface
     public function getLostPositions()
     {
         return $this->lostPositions;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getLastDisplayLostPosition()
+    {
+        return $this->birthDate;
+    }
+
+
+    /**
+     * @param DateTime|null $lastDisplayLostPosition
+     * @return $this
+     */
+    public function setLastDisplayLostPosition(DateTime $lastDisplayLostPosition = null)
+    {
+        $this->lastDisplayLostPosition = $lastDisplayLostPosition;
+        return $this;
     }
 
     /**

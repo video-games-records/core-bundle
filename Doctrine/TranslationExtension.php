@@ -5,13 +5,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInter
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use Doctrine\ORM\QueryBuilder;
-use Locale;
-use VideoGamesRecords\CoreBundle\Entity\Serie;
+use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
-use VideoGamesRecords\CoreBundle\Entity\TeamGame;
 
 final class TranslationExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
@@ -28,6 +25,7 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
         string $operationName = null
     ) {
         $this->addWhere($queryBuilder, $resourceClass);
+        $this->orderBy($queryBuilder, $resourceClass);
     }
 
     /**
@@ -64,5 +62,35 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
         }
         $queryBuilder->leftJoin('o.translations', 't', 'WITH', "t.locale='$locale'")
            ->addSelect('t');
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param string       $resourceClass
+     */
+    private function orderBy(QueryBuilder $queryBuilder, string $resourceClass): void
+    {
+        if (!in_array($resourceClass, array(Game::class, Group::class, Chart::class))) {
+            return;
+        }
+        $locale = Locale::getDefault();
+        if (!in_array($locale, array('en', 'fr'))) {
+            $locale = 'en';
+        }
+
+        $label = null;
+        switch ($resourceClass) {
+            case Game::class:
+                $label = 'o.libGame';
+                break;
+            case Group::class:
+                $label = 'o.libGroup';
+                break;
+            case Chart::class:
+                $label = 'o.libChart';
+                break;
+        }
+        $label .= ucfirst($locale);
+        $queryBuilder->orderBy($label, 'ASC');
     }
 }

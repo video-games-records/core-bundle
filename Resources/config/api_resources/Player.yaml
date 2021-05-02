@@ -83,3 +83,21 @@ resources:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
                 denormalization_context: {'groups': [player.put]}
                 normalization_context: {'groups': [player.read.mini, player.team, team.read.mini]}
+            nb-lost-position:
+                method: 'GET'
+                path: '/players/{id}/nb-lost-position'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::nbLostPosition'
+            nb-new-lost-position:
+                method: 'GET'
+                path: '/players/{id}/nb-new-lost-position'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::nbNewLostPosition'
+            player-chart-status:
+                method: 'GET'
+                normalization_context: {'groups': [playerChartStatus.read]}
+                path: '/players/{id}/player-chart-statuses'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::playerChartStatus'
+            player-chart-status-per-game:
+                method: 'GET'
+                normalization_context: { 'groups': [playerGame.game, game.stats, playerGame.proof, playerGame.statuses, playerChartStatus.read, game.read.mini, game.platforms, platform.read]}
+                path: '/players/{id}/games/player-chart-statuses'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::gamePlayerChartStatus'

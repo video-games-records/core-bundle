@@ -11,40 +11,6 @@ use VideoGamesRecords\CoreBundle\Entity\TeamGame;
 
 class TeamBadgeRepository extends EntityRepository
 {
-
-    /**
-     * @param $idTeam
-     * @param string $type
-     * @return array
-     */
-    public function getFromTeam($idTeam, $type = 'master')
-    {
-        $query = $this->createQueryBuilder('tb');
-
-        $query->join('tb.badge', 'b')
-            ->addSelect('b');
-
-        /*if ($type == 'master') {
-            $query->join('b.games', 'g')
-                ->addSelect('g');
-        }*/
-
-        if ($type == 'master') {
-            $query->orderBy('tb.createdAt');
-        } else {
-            $query->orderBy('b.value', 'ASC');
-        }
-
-        $query->where('tb.idTeam = :idTeam')
-            ->setParameter('idTeam', $idTeam)
-            ->andWhere('b.type = :type')
-            ->setParameter('type', $type);
-
-        $this->onlyActive($query);
-
-        return $query->getQuery()->getResult();
-    }
-
     /**
      * @param $badge
      * @return array

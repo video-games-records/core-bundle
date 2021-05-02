@@ -85,7 +85,7 @@ class GameDayAdmin extends AbstractAdmin
             ->addIdentifier('id')
             ->add('day')
             ->add('game', null, [
-                'associated_property' => 'defaultName',
+                'associated_property' => 'libGameEn',
                 'label' => 'Game',
             ])
             ->add('_action', 'actions', [

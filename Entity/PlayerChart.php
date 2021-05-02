@@ -43,8 +43,12 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *              "playerChart.read",
  *              "playerChart.status",
  *              "playerChartStatus.read",
+ *              "playerChart.platform",
+ *              "platform.read",
  *              "playerChart.player",
  *              "player.read.mini",
+ *              "player.country",
+ *              "country.read",
  *              "chart.read.mini",
  *              "playerChart.chart",
  *              "chart.group",
@@ -148,7 +152,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * @var PlayerChartStatus
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus", inversedBy="playerCharts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })
