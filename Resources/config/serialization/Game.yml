@@ -51,8 +51,6 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game.read'
         - 'game.stats'
-    ordre:
-      groups: []
     serie:
       groups:
         - 'game.read'
