@@ -41,7 +41,12 @@ class Player
         $stats = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->getStatsFromPlayer($player);
 
         foreach ($playerGames as $playerGame) {
-            $playerGame->setStatuses($stats[$playerGame->getGame()->getId()]);
+            if (isset($stats[$playerGame->getGame()->getId()])) {
+                $playerGame->setStatuses(
+                    $stats[$playerGame->getGame()
+                        ->getId()]
+                );
+            }
         }
         return $playerGames;
     }
