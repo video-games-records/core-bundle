@@ -25,7 +25,6 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
         string $operationName = null
     ) {
         $this->addWhere($queryBuilder, $resourceClass);
-        $this->orderBy($queryBuilder, $resourceClass);
     }
 
     /**
@@ -62,35 +61,5 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
         }
         $queryBuilder->leftJoin('o.translations', 't', 'WITH', "t.locale='$locale'")
            ->addSelect('t');
-    }
-
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param string       $resourceClass
-     */
-    private function orderBy(QueryBuilder $queryBuilder, string $resourceClass): void
-    {
-        if (!in_array($resourceClass, array(Game::class, Group::class, Chart::class))) {
-            return;
-        }
-        $locale = Locale::getDefault();
-        if (!in_array($locale, array('en', 'fr'))) {
-            $locale = 'en';
-        }
-
-        $label = null;
-        switch ($resourceClass) {
-            case Game::class:
-                $label = 'o.libGame';
-                break;
-            case Group::class:
-                $label = 'o.libGroup';
-                break;
-            case Chart::class:
-                $label = 'o.libChart';
-                break;
-        }
-        $label .= ucfirst($locale);
-        $queryBuilder->orderBy($label, 'ASC');
     }
 }

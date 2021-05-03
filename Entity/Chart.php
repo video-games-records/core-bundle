@@ -10,12 +10,23 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
  * Chart
  *
  * @ORM\Table(name="vgr_chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "id":"ASC",
+ *          "libChartEn" : "ASC",
+ *          "libChartFr" : "ASC",
+ *     },
+ *     arguments={"orderParameterName"="order"}
+ * )
  */
 class Chart implements SluggableInterface, TimestampableInterface
 {

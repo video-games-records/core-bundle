@@ -10,12 +10,23 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
  * Group
  *
  * @ORM\Table(name="vgr_group")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "id":"ASC",
+ *          "libGroupEn" : "ASC",
+ *          "libGroupFr" : "ASC",
+ *     },
+ *     arguments={"orderParameterName"="order"}
+ * )
  */
 class Group implements SluggableInterface, TimestampableInterface
 {
