@@ -22,7 +22,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *     SearchFilter::class,
  *     properties={
  *          "team": "exact",
- *          "badge": "exact"
+ *          "badge": "exact",
+ *          "badge.type": "exact",
  *      }
  *)
  * @ApiFilter(DateFilter::class, properties={"ended_at": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
