@@ -305,28 +305,19 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @return int|mixed|string
      */
-    public function majInvestigation()
+    public function getPlayerChartToDesactivate()
     {
         $date = new DateTime();
         $date->sub(new DateInterval('P14D'));
 
         $query = $this->createQueryBuilder('pc')
-            ->where('pc.idStatus = :idStatus')
+            ->where('pc.status = :idStatus')
             ->setParameter('idStatus', PlayerChartStatus::ID_STATUS_INVESTIGATION)
             ->andWhere('pc.dateInvestigation < :date')
             ->setParameter('date', $date->format('Y-m-d'));
-
-        $list = $query->getQuery()->getResult();
-
-        $statusReference = $this->_em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NOT_PROOVED);
-        /** @var PlayerChart $playerChart */
-        foreach ($list as $playerChart) {
-            $playerChart->setStatus($statusReference);
-        }
-        $this->getEntityManager()->flush();
+        return $query->getQuery()->getResult();
     }
 
 

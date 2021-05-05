@@ -2,22 +2,24 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use VideoGamesRecords\CoreBundle\Service\PlayerChart as Service;
 
-class PlayerChartCommand extends DefaultCommand
+class PlayerChartCommand extends Command
 {
     protected static $defaultName = 'vgr-core:player-chart';
 
-    private $em;
+    private $service;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(Service $service)
     {
-        $this->em = $em;
-        parent::__construct($em);
+        $this->service = $service;
+        parent::__construct();
     }
 
     protected function configure()
@@ -40,20 +42,19 @@ class PlayerChartCommand extends DefaultCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      * @return bool
+     * @throws ORMException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): bool
     {
-        $this->init($input);
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj-investigation':
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majInvestigation();
+                $this->service->majInvestigation();
                 break;
         }
-        $this->end($output);
         return true;
     }
 }
