@@ -5,3 +5,7 @@ resources:
                 normalization_context: {'groups': [teamBadge.read, teamBadge.badge, badge.read, badge.game, game.read.mini]}
         itemOperations:
             get: ~
+            put:
+                access_control: 'object.getTeam().getLeader().getUser() == user'
+                denormalization_context: { 'groups': [ teamBadge.put ] }
+                normalization_context: { 'groups': [ teamBadge.read, teamBadge.badge, badge.read, badge.game, game.read.mini ] }
