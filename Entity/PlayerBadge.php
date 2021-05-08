@@ -22,7 +22,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *     SearchFilter::class,
  *     properties={
  *          "player": "exact",
- *          "badge": "exact"
+ *          "badge": "exact",
+ *          "badge.type": "exact",
  *      }
  *)
  * @ApiFilter(DateFilter::class, properties={"ended_at": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
@@ -40,6 +41,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *     properties={
  *          "id":"ASC",
  *          "createdAt":"ASC",
+ *          "mbOrder":"ASC",
  *     },
  *     arguments={"orderParameterName"="order"}
  * )

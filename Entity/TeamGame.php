@@ -38,6 +38,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "chartRank3": "DESC",
  *          "pointGame": "DESC",
  *          "game.libGameEn" : "ASC",
+ *          "game.libGameFr" : "ASC",
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
