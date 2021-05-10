@@ -121,7 +121,7 @@
                                                     {% endif %}
                                                 {% elseif field_name == 'playerChart' %}
                                                     {% if object.getPlayerChart() %}
-                                                        <th>Score</th>
+                                                        <th>Score (ID={{ object.getPlayerChart().getId() }})</th>
                                                         <td>
                                                             {% for lib in object.getPlayerChart().libs %}
                                                                 {{ lib }}

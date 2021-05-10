@@ -189,6 +189,7 @@ class PlayerChartAdmin extends AbstractAdmin
             ->add('_action', 'actions', [
                 'actions' => [
                     'edit' => [],
+                    'show' => [],
                 ]
             ]);
     }
@@ -201,6 +202,9 @@ class PlayerChartAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('player')
-            ->add('chart');
+            ->add('chart')
+            ->add('status')
+            ->add('proof')
+            ->add('libs');
     }
 }

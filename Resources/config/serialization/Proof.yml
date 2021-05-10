@@ -3,6 +3,7 @@ VideoGamesRecords\CoreBundle\Entity\Proof:
     id:
       groups:
         - 'proof.read'
+        - 'proof.put'
     picture:
       groups:
         - 'proof.read'
@@ -12,3 +13,4 @@ VideoGamesRecords\CoreBundle\Entity\Proof:
     status:
       groups:
         - 'proof.read'
+        - 'proof.put'
