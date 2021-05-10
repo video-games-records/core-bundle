@@ -42,7 +42,8 @@ use DateTime;
  *              "player.medal",
  *              "player.user",
  *              "vgr.user.read",
- *              "team.read.mini"
+ *              "team.read.mini",
+ *              "user.status.read",
  *          }
  *     }
  * )
