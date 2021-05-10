@@ -41,6 +41,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *     properties={
  *          "id":"ASC",
  *          "createdAt":"ASC",
+ *          "mbOrder":"ASC",
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
