@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -107,7 +109,12 @@ class ChartCommand extends DefaultCommand
 
     /**
      * @param OutputInterface $output
-     * @throws Exception
+     * @throws DBALException
+     * @throws ExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     private function majPlayer(OutputInterface $output)
     {
@@ -190,20 +197,17 @@ class ChartCommand extends DefaultCommand
             $playerRepository->majRankCountry($country);
             $playerBadgeRepository->majCountryBadge($country);
         }
-
-        //----- Maj all players
-        $playerRepository->majGameRank();
-        $playerRepository->majRankPointChart();
-        $playerRepository->majRankPointGame();
-        $playerRepository->majRankMedal();
-        $playerRepository->majRankCup();
-        $playerRepository->majRankProof();
     }
 
 
     /**
      * @param OutputInterface $output
-     * @throws Exception
+     * @throws DBALException
+     * @throws ExceptionInterface
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     private function majTeam(OutputInterface $output)
     {
@@ -279,12 +283,5 @@ class ChartCommand extends DefaultCommand
         foreach ($teamList as $team) {
             $teamRepository->maj($team);
         }
-
-        //----- Maj all teams
-        $teamRepository->majGameRank();
-        $teamRepository->majRankPointChart();
-        $teamRepository->majRankPointGame();
-        $teamRepository->majRankMedal();
-        $teamRepository->majRankCup();
     }
 }

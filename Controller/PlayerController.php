@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Service\Player as PlayerService;
+use VideoGamesRecords\CoreBundle\Service\PlayerService;
 
 /**
  * Class PlayerController
@@ -14,11 +14,11 @@ use VideoGamesRecords\CoreBundle\Service\Player as PlayerService;
  */
 class PlayerController extends AbstractController
 {
-    private $service;
+    private $playerService;
 
-    public function __construct(PlayerService $service)
+    public function __construct(PlayerService $playerService)
     {
-        $this->service = $service;
+        $this->playerService = $playerService;
     }
 
     /**
@@ -157,7 +157,7 @@ class PlayerController extends AbstractController
      */
     public function gamePlayerChartStatus(Player $player)
     {
-        return $this->service->getGameStats($player);
+        return $this->playerService->getGameStats($player);
     }
 
     /**
@@ -166,7 +166,7 @@ class PlayerController extends AbstractController
      */
     public function nbLostPosition(Player $player)
     {
-        return $this->service->getNbLostPosition($player);
+        return $this->playerService->getNbLostPosition($player);
     }
 
     /**
@@ -175,6 +175,6 @@ class PlayerController extends AbstractController
      */
     public function nbNewLostPosition(Player $player)
     {
-        return $this->service->getNbNewLostPosition($player);
+        return $this->playerService->getNbNewLostPosition($player);
     }
 }
