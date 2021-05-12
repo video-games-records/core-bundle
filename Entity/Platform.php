@@ -20,6 +20,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     SearchFilter::class,
  *     properties={
  *          "status": "exact",
+ *          "playerPlatform.player": "exact",
+ *          "games.playerGame.player": "exact",
  *      }
  * )
  *
@@ -27,8 +29,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 class Platform implements SluggableInterface
 {
     use SluggableTrait;
-
-    const NUM_ITEMS = 20;
 
     /**
      * @var integer
@@ -61,6 +61,16 @@ class Platform implements SluggableInterface
      * @ORM\Column(name="status", type="string", nullable=false)
      */
     private $status = 'INACTIF';
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Game", mappedBy="platforms")
+     * @ORM\JoinTable(name="vgr_game_platform",
+     *      joinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")}
+     *      )
+     */
+    private $games;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="platform")
@@ -166,6 +176,14 @@ class Platform implements SluggableInterface
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGames()
+    {
+        return $this->games;
     }
 
     /**
