@@ -114,7 +114,20 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'Maj ?',
                 'required' => false,
             ])
-            ->add('platforms', null, ['required' => false, 'expanded' => false])
+            ->add(
+                'platforms',
+                null,
+                [
+                    'required' => false,
+                    'expanded' => false,
+                    'query_builder' =>
+                        function($er) {
+                            $qb = $er->createQueryBuilder('p');
+                            $qb->orderBy('p.libPlatform', 'ASC');
+                            return $qb;
+                        }
+                ]
+            )
             ->end()
             ->with('Groups')
             ->add(
