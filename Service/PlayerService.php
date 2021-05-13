@@ -18,6 +18,14 @@ class PlayerService
     }
 
     /**
+     * @return EntityManagerInterface
+     */
+    public function getEntityManager(): EntityManagerInterface
+    {
+        return $this->em;
+    }
+
+    /**
      * @param $player
      * @return mixed
      */

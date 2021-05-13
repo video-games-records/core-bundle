@@ -171,7 +171,7 @@ class PlayerSerieRepository extends EntityRepository
             $playerSerie->setSerie($serie);
 
             $this->_em->persist($playerSerie);
-            $this->_em->flush($playerSerie);
+            $this->_em->flush();
         }
     }
 }

@@ -2,11 +2,13 @@
 namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use VideoGamesRecords\CoreBundle\Service\PlayerService;
 
@@ -15,6 +17,7 @@ class PlayerCommand extends Command
     protected static $defaultName = 'vgr-core:player';
 
     private $playerService;
+    private $stack = null;
 
     public function __construct(PlayerService $playerService)
     {
@@ -31,8 +34,28 @@ class PlayerCommand extends Command
                 'function',
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
+            )
+             ->addOption(
+                'debug',
+                'd',
+                InputOption::VALUE_NONE,
+                'Debug option (sql)'
             );
         ;
+    }
+
+    /**
+     * @param InputInterface $input
+     */
+    private function init(InputInterface $input)
+    {
+        if ($input->getOption('debug')) {
+            // Start setup logger
+            $doctrineConnection = $this->playerService->getEntityManager()->getConnection();
+            $this->stack = new DebugStack();
+            $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
+            // End setup logger
+        }
     }
 
     /**
@@ -45,6 +68,7 @@ class PlayerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->init($input);
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj':
@@ -53,15 +77,12 @@ class PlayerCommand extends Command
             case 'maj-rank-badge':
                 $this->playerService->majRankBadge();
                 break;
-            /*case 'maj-rank-country':
-                $country = $this->em->getRepository('VideoGamesRecordsCoreBundle:CountryInterface')->find($input->getOption('idCountry'));
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCountry($country);
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majCountryBadge($country);
-                break;*/
-
-            case 'maj-rules-of-three':
+            case 'maj-role-player':
                 $this->playerService->majRulesOfThree();
                 break;
+        }
+        if ($this->stack != null) {
+            $output->writeln(sprintf('%s queries', count($this->stack->queries)));
         }
         return 0;
     }

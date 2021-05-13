@@ -138,7 +138,7 @@ class PlayerRepository extends EntityRepository
         $player->setPointGame($row2['pointGame']);
 
         $this->_em->persist($player);
-        $this->_em->flush($player);
+        $this->_em->flush();
     }
 
     /**
