@@ -13,19 +13,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
+use VideoGamesRecords\CoreBundle\Service\TeamChartService;
 
-class PlayerChartCommand extends Command
+class TeamChartCommand extends Command
 {
-    protected static $defaultName = 'vgr-core:player-chart';
+    protected static $defaultName = 'vgr-core:team-chart';
 
-    private $playerChartService;
+    private $teamChartService;
     private $nbChartToMaj = 100;
     private $stack = null;
 
-    public function __construct(PlayerChartService $playerChartService)
+    public function __construct(TeamChartService $teamChartService)
     {
-        $this->playerChartService = $playerChartService;
+        $this->teamChartService = $teamChartService;
         parent::__construct();
     }
 
@@ -61,7 +61,7 @@ class PlayerChartCommand extends Command
     {
         if ($input->getOption('debug')) {
             // Start setup logger
-            $doctrineConnection = $this->playerChartService->getEntityManager()->getConnection();
+            $doctrineConnection = $this->teamChartService->getEntityManager()->getConnection();
             $this->stack = new DebugStack();
             $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
             // End setup logger
@@ -81,9 +81,7 @@ class PlayerChartCommand extends Command
         $this->init($input);
         $function = $input->getArgument('function');
         switch ($function) {
-            case 'maj-investigation':
-                $this->playerChartService->majInvestigation();
-                break;
+
             case 'maj-ranking':
                 if ($input->getOption('nbChartToMaj')) {
                     $this->nbChartToMaj = $input->getOption('nbChartToMaj');
@@ -107,11 +105,11 @@ class PlayerChartCommand extends Command
      */
     private function majRanking($output)
     {
-        if ($this->playerChartService->isMajRunning()) {
-            $output->writeln('vgr:player-chart maj-ranking is already running');
+        if ($this->teamChartService->isMajRunning()) {
+            $output->writeln('vgr:team-chart maj-ranking is already running');
             return;
         }
-        $nb = $this->playerChartService->majRanking($this->nbChartToMaj);
+        $nb = $this->teamChartService->majRanking($this->nbChartToMaj);
         $output->writeln(sprintf('%d chart(s) updated', $nb));
     }
 }

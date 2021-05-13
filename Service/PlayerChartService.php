@@ -135,6 +135,7 @@ class PlayerChartService
             $playerRepository->majRankCountry($country);
             $playerBadgeRepository->majCountryBadge($country);
         }
+
         return count($charts);
     }
 }
