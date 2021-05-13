@@ -130,6 +130,8 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\PlayerChart
             - ~
+        calls:
+            - [ setTemplate, [ 'show', 'VideoGamesRecordsCoreBundle:Admin:playerchart_show.html.twig' ] ]
     sonata.admin.vgr.playerchart_lib:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
         tags:

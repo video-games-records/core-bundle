@@ -18,6 +18,10 @@ label:
     playerChart: 'Player / Chart'
     badge: 'Badge'
     country: 'Country'
+link:
+    front:
+        game: 'Lien vers ce jeu sur VGR'
+        chart: 'Lien vers ce record sur VGR'
 proof:
     form:
         success: 'La preuve a bien été chargée'
