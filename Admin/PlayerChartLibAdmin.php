@@ -12,6 +12,22 @@ class PlayerChartLibAdmin extends AbstractAdmin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $form): void
     {
+        $playerChart = $this->getRequest()->getSession()->get('vgrcorebundle_admin_playerChart.subject');
+
+        /*if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
+            $idPlayerChart = $this->getRequest()->get('idGame', null);
+            if ($idGame !== null) {
+                $this->getRequest()->getSession()->set('vgrcorebundle_admin_group.idGame', $idGame);
+            }
+
+            if ($this->getRequest()->getSession()->has('vgrcorebundle_admin_group.idGame')) {
+                $idGame= $this->getRequest()->getSession()->get('vgrcorebundle_admin_group.idGame');
+                $entityManager = $this->getModelManager()
+                    ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\Game');
+                $game = $entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
+            }
+        }*/
+
         $form
             ->add('id', TextType::class, [
                 'label' => 'id',
@@ -19,7 +35,7 @@ class PlayerChartLibAdmin extends AbstractAdmin
                     'readonly' => true,
                 ]
             ])
-            ->add('libChart', ModelListType::class, [
+            /*->add('libChart', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,
                 'btn_list' => true,
@@ -27,7 +43,21 @@ class PlayerChartLibAdmin extends AbstractAdmin
                 'btn_delete' => false,
                 'btn_catalogue' => true,
                 'label' => 'Lib',
-            ])
+            ])*/
+            ->add(
+                'libChart',
+                null,
+                [
+                    'required' => true,
+                    'query_builder' =>
+                        function($er) use ($playerChart) {
+                            $qb = $er->createQueryBuilder('l');
+                            $qb->where('l.chart = :chart');
+                            $qb->setParameter('chart', $playerChart->getChart());
+                            return $qb;
+                        }
+                ]
+            )
             ->add('value', TextType::class, [
                 'label' => 'Value',
                 'required' => true,
