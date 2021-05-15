@@ -53,7 +53,7 @@ class TeamRepository extends EntityRepository
             $team->setNbGame($row['nbGame']);
 
             $this->_em->persist($team);
-            $this->_em->flush($team);
+            $this->_em->flush();
         }
     }
 

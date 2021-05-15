@@ -102,7 +102,7 @@ class PlayerPlatformRepository extends EntityRepository
             $playerPlatform->setPlatform($platform);
 
             $this->_em->persist($playerPlatform);
-            $this->_em->flush($playerPlatform);
+            $this->_em->flush();
         }
     }
 }

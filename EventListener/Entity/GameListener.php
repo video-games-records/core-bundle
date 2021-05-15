@@ -34,7 +34,7 @@ class GameListener
         $game->setForum($forum);
     }
 
-     /**
+    /**
      * @param Game       $game
      * @param PreUpdateEventArgs $event
      */

@@ -36,7 +36,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      */
     private $name;
 
-     /**
+    /**
      * @ORM\ManyToMany(targetEntity="Game", mappedBy="rules")
      * @ORM\JoinTable(name="vgr_rule_game",
      *      joinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")},

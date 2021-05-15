@@ -214,7 +214,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     private $videos;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Platform")
+     * @ORM\ManyToMany(targetEntity="Platform", inversedBy="games")
      * @ORM\JoinTable(name="vgr_game_platform",
      *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="id")}

@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
@@ -12,6 +11,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  *
  * @ORM\Table(name="vgr_proof")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ProofListener"})
  */
 class Proof implements TimestampableInterface
 {
@@ -21,6 +21,7 @@ class Proof implements TimestampableInterface
     const STATUS_REFUSED = 'REFUSED';
     const STATUS_ACCEPTED = 'ACCEPTED';
     const STATUS_CLOSED = 'CLOSED';
+    const STATUS_DELETED = 'DELETED';
 
 
     /**

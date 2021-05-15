@@ -1,73 +1,4 @@
-{% extends base_template %}
-
-{% block title %}
-    {{ "title_show"|trans({'%name%': admin.toString(object)|sonata_truncate(15) }, 'SonataAdminBundle') }}
-{% endblock %}
-
-{% block navbar_title %}
-    {{ block('title') }}
-{% endblock %}
-
-{%- block actions -%}
-    {% include 'SonataAdminBundle:CRUD:action_buttons.html.twig' %}
-{%- endblock -%}
-
-{% block tab_menu %}
-    {{ knp_menu_render(admin.sidemenu(action), {
-        'currentClass' : 'active',
-        'template': sonata_admin.adminPool.getTemplate('tab_menu_template')
-    }, 'twig') }}
-{% endblock %}
-
-{% block show %}
-    <div class="sonata-ba-view">
-
-        {{ sonata_block_render_event('sonata.admin.show.top', { 'admin': admin, 'object': object }) }}
-
-        {% set has_tab = (admin.showtabs|length == 1 and admin.showtabs|keys[0] != 'default') or admin.showtabs|length > 1 %}
-
-        {% if has_tab %}
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs" role="tablist">
-                    {% for name, show_tab in admin.showtabs %}
-                        <li{% if loop.first %} class="active"{% endif %}>
-                            <a href="#tab_{{ admin.uniqid }}_{{ loop.index }}" data-toggle="tab">
-                                <i class="fa fa-exclamation-circle has-errors hide" aria-hidden="true"></i>
-                                {{ show_tab.label|trans({}, show_tab.translation_domain ?: admin.translationDomain) }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-
-                <div class="tab-content">
-                    {% for code, show_tab in admin.showtabs %}
-                        <div
-                                class="tab-pane fade{% if loop.first %} in active{% endif %}"
-                                id="tab_{{ admin.uniqid }}_{{ loop.index }}"
-                        >
-                            <div class="box-body  container-fluid">
-                                <div class="sonata-ba-collapsed-fields">
-                                    {% if show_tab.description != false %}
-                                        <p>{{ show_tab.description|raw }}</p>
-                                    {% endif %}
-
-                                    {% set groups = show_tab.groups %}
-                                    {{ block('show_groups') }}
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% elseif admin.showtabs is iterable %}
-            {% set groups = admin.showtabs.default.groups %}
-            {{ block('show_groups') }}
-        {% endif %}
-
-    </div>
-
-    {{ sonata_block_render_event('sonata.admin.show.bottom', { 'admin': admin, 'object': object }) }}
-{% endblock %}
+{% extends '@SonataAdmin/CRUD/show.html.twig' %}
 
 {% block show_groups %}
     <div class="row">
@@ -99,10 +30,14 @@
                                                         <th>Player</th>
                                                         <td>NO PLAYER</td>
                                                     {% endif %}
-                                                {% elseif field_name == 'Chart' %}
+                                                {% elseif field_name == 'chart' %}
                                                     {% if object.getPlayerChart() %}
-                                                        <th>Chart</th>
-                                                        <td>{{ object.getPlayerChart().getChart().getCompleteName() }}</td>
+                                                        {{ elements[field_name]|render_view_element(object)}}
+                                                        </tr><tr>
+                                                        <th>LINK</th>
+                                                        <td>
+                                                            <a target="_blank" href="{{ front_url }}/#/en/{{ object.getPlayerChart().getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
+                                                        </td>
                                                     {%  else %}
                                                         <th>Chart</th>
                                                         <td>NO CHART</td>
@@ -115,18 +50,19 @@
                                                 {% elseif field_name == 'video' %}
                                                     {% if object.getVideo() != null %}
                                                         <th>Video</th>
-                                                        <td><iframe width="720" height="405"
+                                                        <td>
+                                                            <iframe width="720" height="405"
                                                                     src="{{ object.getVideo().getEmbeddedUrl() }}">
-                                                            </iframe></td>
+                                                            </iframe>
+                                                        </td>
                                                     {% endif %}
                                                 {% elseif field_name == 'playerChart' %}
                                                     {% if object.getPlayerChart() %}
-                                                        <th>Score</th>
+                                                        <th>Score (ID={{ object.getPlayerChart().getId() }})</th>
                                                         <td>
                                                             {% for lib in object.getPlayerChart().libs %}
                                                                 {{ lib }}
                                                             {% endfor %}
-                                                            #<a target="_blank" href="{{ front_url }}/#/en/{{ object.getPlayerChart().getChart().getUrl() }}">Full Ranking</a>#
                                                         </td>
                                                     {%  else %}
                                                         <th>PlayerChart</th>

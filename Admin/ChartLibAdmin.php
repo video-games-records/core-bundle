@@ -22,7 +22,19 @@ class ChartLibAdmin extends AbstractAdmin
                 'label' => 'Name',
                 'required' => false,
             ])
-            ->add('type', null, ['required' => true]);
+            ->add(
+                'type',
+                null,
+                [
+                    'required' => true,
+                    'query_builder' =>
+                        function($er) {
+                            $qb = $er->createQueryBuilder('p');
+                            $qb->orderBy('p.name', 'ASC');
+                            return $qb;
+                        }
+                ]
+            );
     }
 
     // Fields to be shown on lists

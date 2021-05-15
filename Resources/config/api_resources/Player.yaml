@@ -2,7 +2,7 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
             get:
-                normalization_context: {'groups': [player.read.mini, vgr.user.read, user.status.read]}
+                normalization_context: {'groups': [player.read.mini, player.user, vgr.user.read, user.status.read]}
             stats:
                 method: 'GET'
                 path: '/players/stats'
