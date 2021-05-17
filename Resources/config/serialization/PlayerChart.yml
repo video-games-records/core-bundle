@@ -25,6 +25,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
     nbEqual:
       groups:
         - 'playerChart.ranking'
+        - 'playerChart.read'
     pointChart:
       groups:
         - 'playerChart.ranking'

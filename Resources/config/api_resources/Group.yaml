@@ -74,7 +74,7 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingMedals'
             top-score:
                 method: 'GET'
-                normalization_context: {'groups': [chart.read, chart.top-score, playerChart.libs, playerChartLib.format, playerChart.player, player.read.mini]}
+                normalization_context: {'groups': [chart.read, chart.top-score, playerChart.libs, playerChartLib.format, playerChart.read, playerChart.player, player.read.mini]}
                 path: '/groups/{id}/top-score'
                 swagger_context:
                     parameters:
