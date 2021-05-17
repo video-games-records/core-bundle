@@ -202,6 +202,9 @@ class PlayerChartRepository extends EntityRepository
                 ->addOrderBy($key, $lib->getType()->getOrderBy())
                 ->setParameter($key, $lib);
         }
+        $queryBuilder
+            ->addOrderBy('status.sOrder', 'ASC')
+            ->addOrderBy('pc.lastUpdate', 'ASC');
         return $queryBuilder->getQuery()->getResult();
     }
 
@@ -268,7 +271,9 @@ class PlayerChartRepository extends EntityRepository
             ->addSelect('status')
             ->where('c.id = :idChart')
             ->setParameter('idChart', $chart->getId())
-            ->orderBy('pc.rank');
+            ->orderBy('pc.rank','ASC')
+            ->addOrderBy('status.sOrder', 'ASC')
+            ->addOrderBy('pc.lastUpdate', 'ASC');
 
         foreach ($chart->getLibs() as $lib) {
             $key             = 'value_' . $lib->getIdLibChart();
