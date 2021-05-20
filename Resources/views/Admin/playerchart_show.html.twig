@@ -27,7 +27,7 @@
                                                     </tr><tr>
                                                     <th>LINK</th>
                                                     <td>
-                                                        <a target="_blank" href="{{ front_url }}/#/en/{{ object.getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
+                                                        <a target="_blank" href="{{ front_url }}/en/{{ object.getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
                                                     </td>
                                                 {%  else %}
                                                     {{ elements[field_name]|render_view_element(object)}}
