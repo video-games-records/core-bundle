@@ -230,6 +230,7 @@ class ProofAdmin extends AbstractAdmin
                     'choices' => Proof::getStatusChoices(),
                 ]
             )
+            ->add('created_at', 'datetime', ['label' => 'Created At'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -258,6 +259,8 @@ class ProofAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibChart(),
                 'label' => 'Chart',
             ))
+            ->add('created_at', 'datetime', ['label' => 'Created At'])
+            ->add('updated_at', 'datetime', ['label' => 'Updated At'])
             ->add('playerChart')
             ->add('picture')
             ->add('video')
