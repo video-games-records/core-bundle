@@ -306,7 +306,7 @@ class Player implements SluggableInterface
      * @var string
      * @ORM\Column(name="gender", type="string", length=1, nullable=false)
      */
-    protected $gender;
+    protected $gender = 'I';
 
     /**
      * @var boolean
