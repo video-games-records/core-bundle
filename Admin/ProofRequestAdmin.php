@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use ProjetNormandie\MessageBundle\Service\Messager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -77,13 +78,6 @@ class ProofRequestAdmin extends AbstractAdmin
                     'label' => 'playerResponding',
                 ]
             )
-            ->add('message', TextareaType::class, [
-                'label' => 'Message',
-                'required' => true,
-                'attr' => array(
-                    'readonly' => true,
-                )
-            ])
             ->add(
                 'status',
                 ChoiceType::class,
@@ -91,7 +85,26 @@ class ProofRequestAdmin extends AbstractAdmin
                     'label' => 'Status',
                     'choices' => ProofRequest::getStatusChoices(),
                 ]
-            );
+            )
+            ->add('message', CKEditorType::class, [
+                'label' => 'Message',
+                'required' => true,
+                'attr' => array(
+                    'readonly' => true,
+                ),
+                'config' => array(
+                    'height' => '100',
+                    'toolbar' => 'standard'
+                ),
+            ])
+            ->add('response', CKEditorType::class, [
+                'label' => 'Response',
+                'required' => false,
+                'config' => array(
+                    'height' => '100',
+                    'toolbar' => 'standard'
+                ),
+            ]);
     }
 
     /**
@@ -252,7 +265,8 @@ class ProofRequestAdmin extends AbstractAdmin
                     $recipient->getUsername(),
                     $url,
                     $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                    $object->getPlayerChart()->getPlayer()->getPseudo()
+                    $object->getPlayerChart()->getPlayer()->getPseudo(),
+                    $object->getResponse()
                 ),
                 $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
                 $recipient,
@@ -275,7 +289,8 @@ class ProofRequestAdmin extends AbstractAdmin
                     $recipient->getUsername(),
                     $url,
                     $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                    $object->getPlayerChart()->getPlayer()->getPseudo()
+                    $object->getPlayerChart()->getPlayer()->getPseudo(),
+                    $object->getResponse()
                 ),
                 $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
                 $recipient,

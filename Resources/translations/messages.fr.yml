@@ -29,35 +29,39 @@ proof:
         confirm:
             object: 'Demande de preuve'
             message: |
-                Bonjour %s,
-                Un membre de VGR vous a demandé une preuve sur le score : <a href="%s">%s</a>
-                Si vous n'avez pas prouvé votre score dans un délai de deux semaines, comprenez bien qu'il sera effacé du site.
-                Cordialement, l'équipe VGR.
+                <p>Bonjour %s,</p>
+                <p>Un membre de VGR vous a demandé une preuve sur le score : <a href="%s">%s</a><br />
+                Si vous n'avez pas prouvé votre score dans un délai de deux semaines, comprenez bien qu'il sera effacé du site.</p>
+                <p>Cordialement, l'équipe VGR.</p>
         accept:
             object: 'Demande de preuve acceptée'
             message: |
-                Bonjour %s,
-                Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s a été acceptée.
-                Cordialement, l'équipe VGR.
+                <p>Bonjour %s,</p>
+                <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s a été acceptée.</p>
+                %s
+                <p>Cordialement, l'équipe VGR.</p>
         refuse:
             object: 'Demande de preuve refusée'
             message: |
-                Bonjour %s,
-                Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s été refusée.
-                Cordialement, l'équipe VGR.
+                <p>Bonjour %s,</p>
+                <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s été refusée.</p>
+                %s
+                <p>Cordialement, l'équipe VGR.</p>
     proof:
         accept:
             object: 'Preuve acceptée'
             message: |
-                Bonjour %s,
-                Votre preuve sur le score <a href="%s">%s</a> a été acceptée.
-                Cordialement, l'équipe VGR.
+                <p>Bonjour %s,</p>
+                <p>Votre preuve sur le score <a href="%s">%s</a> a été acceptée.</p>
+                %s
+                <p>Cordialement, l'équipe VGR.</p>
         refuse:
             object: 'Preuve refusée'
             message: |
-                Bonjour %s,
-                Votre preuve sur le score <a href="%s">%s</a> a été refusée.
-                Cordialement, l'équipe VGR.
+                <p>Bonjour %s,</p>
+                <p>Votre preuve sur le score <a href="%s">%s</a> a été refusée.</p>
+                %s
+                <p>Cordialement, l'équipe VGR.</p>
 team:
     request:
         exists: 'Vous avez déjà envoyé une demande pour ce joueur'

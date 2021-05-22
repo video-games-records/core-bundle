@@ -29,35 +29,39 @@ proof:
         confirm:
             object: 'Proof request'
             message: |
-                Hello %s,
-                A VGR member asked you a proof on the following score: <a href="%s">%s</a>
-                If you do not prove your record in a 2 weeks delay, it will be deleted from the site.
-                Regards, VGR Team.
+                <p>Hello %s,</p>
+                <p> VGR member asked you a proof on the following score: <a href="%s">%s</a><br />
+                If you do not prove your record in a 2 weeks delay, it will be deleted from the site.</p>
+                <p>Regards, VGR Team.</p>
         accept:
             object: 'Proof request accepted'
             message: |
-                Hello %s,
-                Your request for proof on the score <a href="%s">%s</a> for player %s was accepted.
-                Regards, VGR Team.
+                <p>Hello %s,</p>
+                <p>Your request for proof on the score <a href="%s">%s</a> for player %s was accepted.</p>
+                %s
+                <p>Regards, VGR Team.</p>
         refuse:
             object: 'Proof request refused'
             message: |
-                Hello %s,
-                Your request for proof on the score <a href="%s">%s</a> for player %s was refused.
-                Regards, VGR Team.
+                <p>Hello %s,</p>
+                <p>Your request for proof on the score <a href="%s">%s</a> for player %s was refused.</p>
+                %s
+                <p>Regards, VGR Team.</p>
     proof:
         accept:
             object: 'Proof accepted'
             message: |
-                Hello %s,
-                Your proof on the score <a href="%s">%s</a> was accepted.
-                Regards, VGR Team.
+                <p>Hello %s,</p>
+                <p>Your proof on the score <a href="%s">%s</a> was accepted.</p>
+                %s
+                <p>Regards, VGR Team.</p>
         refuse:
             object: 'Proof refused'
             message: |
-                Hello %s,
-                Your proof on the score <a href="%s">%s</a> was refused.
-                Regards, VGR Team.
+                <p>Hello %s,</p>
+                <p>Your proof on the score <a href="%s">%s</a> was refused.</p>
+                %s
+                <p>Regards, VGR Team.</p>
 team:
     request:
         exists: 'You already requested this player'
