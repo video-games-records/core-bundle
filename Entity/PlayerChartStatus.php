@@ -54,6 +54,13 @@ class PlayerChartStatus implements TranslatableInterface
      */
     private $boolSendProof = 0;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="sOrder", type="integer", nullable=false, options={"default":0})
+     */
+    private $sOrder = 0;
+
       /**
      * @var ArrayCollection|PlayerChart[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="status")
@@ -181,6 +188,29 @@ class PlayerChartStatus implements TranslatableInterface
     public function getName()
     {
         return $this->translate(null, false)->getName();
+    }
+
+    /**
+     * Set sOrder
+     *
+     * @param integer $sOrder
+     * @return $this
+     */
+    public function setSOrder(int $sOrder)
+    {
+        $this->sOrder = $sOrder;
+
+        return $this;
+    }
+
+    /**
+     * Get sOrder
+     *
+     * @return integer
+     */
+    public function getSOrder()
+    {
+        return $this->sOrder;
     }
 
     /**

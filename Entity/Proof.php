@@ -61,6 +61,12 @@ class Proof implements TimestampableInterface
     private $status = self::STATUS_IN_PROGRESS;
 
     /**
+     * @var string
+     * @ORM\Column(name="response", type="text", nullable=true)
+     */
+    private $response;
+
+    /**
      * @var Player
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
@@ -193,6 +199,28 @@ class Proof implements TimestampableInterface
     public function getStatus()
     {
         return $this->status;
+    }
+
+     /**
+     * Set response
+     *
+     * @param string $response
+     * @return $this
+     */
+    public function setResponse(string $response)
+    {
+        $this->response = $response;
+        return $this;
+    }
+
+    /**
+     * Get response
+     *
+     * @return string
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 
     /**

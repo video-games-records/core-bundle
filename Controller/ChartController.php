@@ -75,6 +75,32 @@ class ChartController extends AbstractController
         return $ranking;
     }
 
+    /**
+     * @param Chart    $chart
+
+     * @return mixed
+     */
+    public function playerDisableRanking(Chart $chart)
+    {
+        $ranking = $this->getDoctrine()
+            ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+            ->getDisableRanking($chart);
+
+        for ($i=0; $i<=count($ranking)-1; $i++) {
+            foreach ($chart->getLibs() as $lib) {
+                $key = $lib->getIdLibChart();
+                // format value
+                $ranking[$i]['values'][] = Score::formatScore(
+                    $ranking[$i]["value_$key"],
+                    $lib->getType()->getMask()
+                );
+            }
+        }
+        return $ranking;
+    }
+
+
+
 
     /**
      * @param Chart    $chart

@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Doctrine\ORM\EntityManager;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use ProjetNormandie\MessageBundle\Service\Messager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -138,7 +139,15 @@ class ProofAdmin extends AbstractAdmin
                     'label' => 'Status',
                     'choices' => Proof::getStatusChoices(),
                 ]
-            );
+            )
+            ->add('response', CKEditorType::class, [
+                'label' => 'Response',
+                'required' => false,
+                'config' => array(
+                    'height' => '100',
+                    'toolbar' => 'standard'
+                ),
+            ]);
     }
 
     /**
@@ -314,14 +323,15 @@ class ProofAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
-            $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
+            $url = $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $this->messager->send(
                 $this->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
                 sprintf(
                     $this->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
                     $recipient->getUsername(),
                     $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                    $object->getResponse()
                 ),
                 $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
                 $recipient,
@@ -338,14 +348,15 @@ class ProofAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
-            $url = '#/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
+            $url = $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $this->messager->send(
                 $this->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
                 sprintf(
                     $this->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
                     $recipient->getUsername(),
                     $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                    $object->getResponse()
                 ),
                 $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
                 $recipient,

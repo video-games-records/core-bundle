@@ -146,7 +146,13 @@ class PlayerGameRepository extends EntityRepository
         $list = [];
         foreach ($result as $row) {
             $row['lastUpdate'] = new DateTime($row['lastUpdate']);
-            $row = array_merge($row, $dataWithoutDlc[$row['id']]);
+            if (isset($dataWithoutDlc[$row['id']])) {
+                $row = array_merge($row, $dataWithoutDlc[$row['id']]);
+            } else {
+                $row['pointChartWithoutDlc'] = 0;
+                $row['nbChartWithoutDlc'] = 0;
+                $row['nbChartProvenWithoutDlc'] = 0;
+            }
             $list[] = $row;
         }
 

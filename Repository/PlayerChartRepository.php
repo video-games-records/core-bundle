@@ -177,31 +177,26 @@ class PlayerChartRepository extends EntityRepository
      */
     public function getRankingForUpdate(Chart $chart)
     {
-        $queryBuilder = $this->createQueryBuilder('pc');
+        $queryBuilder = $this->getRankingBaseQuery2($chart);
         $queryBuilder
-            ->innerJoin('pc.player', 'p')
-            ->addSelect('p')
-            ->innerJoin('pc.status', 'status')
-            ->addSelect('status')
-            ->where('pc.chart = :chart')
-            ->setParameter('chart', $chart)
             ->andWhere('status.boolRanking = 1');
 
-        foreach ($chart->getLibs() as $lib) {
-            $key             = 'value_' . $lib->getIdLibChart();
-            $alias           = 'pcl_' . $lib->getIdLibChart();
-            $subQueryBuilder = $this->getEntityManager()->createQueryBuilder()
-                ->select(sprintf('%s.value', $alias))
-                ->from('VideoGamesRecordsCoreBundle:PlayerChartLib', $alias)
-                ->where(sprintf('%s.libChart = :%s', $alias, $key))
-                ->andWhere(sprintf('%s.playerChart = pc', $alias))
-                ->setParameter($key, $lib);
+        return $queryBuilder->getQuery()->getResult();
+    }
 
-            $queryBuilder
-                ->addSelect(sprintf('(%s) as %s', $subQueryBuilder->getQuery()->getDQL(), $key))
-                ->addOrderBy($key, $lib->getType()->getOrderBy())
-                ->setParameter($key, $lib);
-        }
+     /**
+     * Provides disabled list.
+     *
+     * @param Chart $chart
+     *
+     * @return array
+     */
+    public function getDisableRanking(Chart $chart)
+    {
+        $queryBuilder = $this->getRankingBaseQuery2($chart);
+        $queryBuilder
+            ->andWhere('status.boolRanking = 0');
+
         return $queryBuilder->getQuery()->getResult();
     }
 
@@ -268,7 +263,9 @@ class PlayerChartRepository extends EntityRepository
             ->addSelect('status')
             ->where('c.id = :idChart')
             ->setParameter('idChart', $chart->getId())
-            ->orderBy('pc.rank');
+            ->orderBy('pc.rank','ASC')
+            ->addOrderBy('status.sOrder', 'ASC')
+            ->addOrderBy('pc.lastUpdate', 'ASC');
 
         foreach ($chart->getLibs() as $lib) {
             $key             = 'value_' . $lib->getIdLibChart();
@@ -289,19 +286,39 @@ class PlayerChartRepository extends EntityRepository
     }
 
     /**
-     * Provides disabled list.
-     *
      * @param Chart $chart
-     *
-     * @return array
+     * @return QueryBuilder
      */
-    public function getDisableRanking(Chart $chart)
+    private function getRankingBaseQuery2(Chart $chart)
     {
-        $queryBuilder = $this->getRankingBaseQuery($chart);
+        $queryBuilder = $this->createQueryBuilder('pc');
         $queryBuilder
-            ->andWhere('status.boolRanking = 0');
+            ->innerJoin('pc.player', 'p')
+            ->addSelect('p')
+            ->innerJoin('pc.status', 'status')
+            ->addSelect('status')
+            ->where('pc.chart = :chart')
+            ->setParameter('chart', $chart);
 
-        return $queryBuilder->getQuery()->getResult();
+        foreach ($chart->getLibs() as $lib) {
+            $key             = 'value_' . $lib->getIdLibChart();
+            $alias           = 'pcl_' . $lib->getIdLibChart();
+            $subQueryBuilder = $this->getEntityManager()->createQueryBuilder()
+                ->select(sprintf('%s.value', $alias))
+                ->from('VideoGamesRecordsCoreBundle:PlayerChartLib', $alias)
+                ->where(sprintf('%s.libChart = :%s', $alias, $key))
+                ->andWhere(sprintf('%s.playerChart = pc', $alias))
+                ->setParameter($key, $lib);
+
+            $queryBuilder
+                ->addSelect(sprintf('(%s) as %s', $subQueryBuilder->getQuery()->getDQL(), $key))
+                ->addOrderBy($key, $lib->getType()->getOrderBy())
+                ->setParameter($key, $lib);
+        }
+        $queryBuilder
+            ->addOrderBy('status.sOrder', 'ASC')
+            ->addOrderBy('pc.lastUpdate', 'ASC');
+        return $queryBuilder;
     }
 
     /**
