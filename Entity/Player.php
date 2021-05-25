@@ -1321,7 +1321,7 @@ class Player implements SluggableInterface
     public function getUrl()
     {
         return sprintf(
-            '%s-player-p%d',
+            '%s-player-p%d/index',
             $this->getSlug(),
             $this->getId()
         );
