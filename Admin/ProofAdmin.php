@@ -326,7 +326,7 @@ class ProofAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
-            $url = $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
+            $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $this->messager->send(
                 $this->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
                 sprintf(
@@ -351,7 +351,7 @@ class ProofAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
-            $url = $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
+            $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $this->messager->send(
                 $this->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
                 sprintf(
