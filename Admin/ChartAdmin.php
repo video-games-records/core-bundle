@@ -90,7 +90,7 @@ class ChartAdmin extends AbstractAdmin
                         'btn_edit' => false,
                         'btn_delete' => false,
                         'btn_catalogue' => $btnCalalogue,
-                        'label' => 'Game',
+                        'label' => 'Group',
                     ]
                 )
             );
