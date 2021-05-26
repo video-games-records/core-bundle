@@ -1,0 +1,1 @@
+UPDATE vgr_game SET libGameFr = libGameEn WHERE libGameFr IS NULL;
