@@ -1281,7 +1281,7 @@ class Player implements SluggableInterface
     /**
      * @return DateTime
      */
-    public function getLastDisplayLostPosition()
+    public function getLastDisplayLostPosition(): ?DateTime
     {
         return $this->lastDisplayLostPosition;
     }

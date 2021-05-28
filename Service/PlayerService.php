@@ -40,7 +40,12 @@ class PlayerService
      */
     public function getNbNewLostPosition($player)
     {
-        return $this->em->getRepository('VideoGamesRecordsCoreBundle:LostPosition')->getNbNewLostPosition($player);
+        if ($player->getLastDisplayLostPosition() != null) {
+            return $this->em->getRepository('VideoGamesRecordsCoreBundle:LostPosition')
+                ->getNbNewLostPosition($player);
+        } else {
+            return $this->getNbLostPosition($player);
+        }
     }
 
     /**
