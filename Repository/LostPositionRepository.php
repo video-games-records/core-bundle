@@ -35,7 +35,7 @@ class LostPositionRepository extends EntityRepository
             ->select('COUNT(l.id)');
         $this->wherePlayer($qb, $player);
         $qb->andWhere('l.createdAt > :now')
-            ->setParameter('now', new \DateTime());
+            ->setParameter('now', $player->getLastDisplayLostPosition());
         return $qb->getQuery()->getSingleScalarResult();
     }
 
