@@ -1,0 +1,1 @@
+UPDATE vgr_group SET libGroupFr = libGroupEn WHERE libGroupFr IS NULL;

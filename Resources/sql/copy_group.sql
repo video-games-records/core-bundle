@@ -39,7 +39,7 @@ BEGIN
 
         -- ADD CHART
 		INSERT INTO vgr_chart (idGroup, libChartEn, libChartFr, slug, created_at, updated_at)
-		VALUES (group_id_dest, chart_id_src, chart_lib_en, chart_slug, NOW(), NOW());
+		VALUES (group_id_dest, chart_lib_en, chart_lib_fr, chart_slug, NOW(), NOW());
 		SET chart_id_dest = LAST_INSERT_ID();
 
         -- LIBRECORD

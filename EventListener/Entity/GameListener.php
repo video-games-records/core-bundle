@@ -27,6 +27,9 @@ class GameListener
      */
     public function prePersist(Game $game, LifecycleEventArgs $event)
     {
+        if ($game->getLibGameFr() == null) {
+            $game->setLibGameFr($game->getLibGameEn());
+        }
         $forum = $this->forumManager->getForum([
             'libForum' => $game->getLibGameEn(),
             'libForumFr' => $game->getLibGameFr(),
