@@ -190,7 +190,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     /**
      * @var Badge
      *
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game",cascade={"persist"}))
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })

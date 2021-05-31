@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 use DateTime;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use ProjetNormandie\ForumBundle\Service\ForumManager;
 
@@ -35,6 +36,11 @@ class GameListener
             'libForumFr' => $game->getLibGameFr(),
         ]);
         $game->setForum($forum);
+
+        $badge = new Badge();
+        $badge->setType('Master');
+        $badge->setPicture('master_default.gif');
+        $game->setBadge($badge);
     }
 
     /**
