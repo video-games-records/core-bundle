@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -11,9 +12,50 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\DBAL\DBALException;
+use VideoGamesRecords\CoreBundle\Entity\Proof;
 
 class GameRepository extends EntityRepository
 {
+
+    /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countEtatCreation()
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereEtat($qb, Game::ETAT_INIT);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countEtatRecord()
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereEtat($qb, Game::ETAT_CHART);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countEtatImage()
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereEtat($qb, Game::ETAT_PICTURE);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
 
     /**
      * @return mixed
@@ -92,37 +134,6 @@ class GameRepository extends EntityRepository
             ->setParameter('player', $player);
         $this->setOrder($query, $locale);
         return $query->getQuery()->getResult();
-    }
-
-    /**
-     * Requires only active games.
-     * @param QueryBuilder $query
-     */
-    private function onlyActive(QueryBuilder $query)
-    {
-        $query
-            ->andWhere('g.status = :status')
-            ->setParameter('status', Game::STATUS_ACTIVE);
-    }
-
-    /**
-     * Adds platforms in the output to fasten display.
-     * @param QueryBuilder $query
-     */
-    private function withPlatforms(QueryBuilder $query)
-    {
-        $query->join('g.platforms', 'p')
-            ->addSelect('p');
-    }
-
-    /**
-     * @param QueryBuilder $query
-     * @param string       $locale
-     */
-    private function setOrder(QueryBuilder $query, $locale = 'en')
-    {
-        $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
-        $query->orderBy("g.$column", 'ASC');
     }
 
     /**
@@ -206,5 +217,61 @@ class GameRepository extends EntityRepository
             ];
         }
         return $games;
+    }
+
+
+    /*************************************/
+    /************  PRIVATE  **************/
+    /*************************************/
+
+    /**
+     * @return QueryBuilder
+     */
+    private function getCountQueryBuilder()
+    {
+         return $this->createQueryBuilder('g')
+            ->select('COUNT(g.id)');
+    }
+
+    /**
+     * Requires only active games.
+     * @param QueryBuilder $query
+     */
+    private function onlyActive(QueryBuilder $query)
+    {
+        $query
+            ->andWhere('g.status = :status')
+            ->setParameter('status', Game::STATUS_ACTIVE);
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param string       $etat
+     */
+    private function whereEtat(QueryBuilder $query, string $etat)
+    {
+        $query
+            ->andWhere('g.etat = :etat')
+            ->setParameter('etat', $etat);
+    }
+
+    /**
+     * Adds platforms in the output to fasten display.
+     * @param QueryBuilder $query
+     */
+    private function withPlatforms(QueryBuilder $query)
+    {
+        $query->join('g.platforms', 'p')
+            ->addSelect('p');
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param string       $locale
+     */
+    private function setOrder(QueryBuilder $query, string $locale = 'en')
+    {
+        $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
+        $query->orderBy("g.$column", 'ASC');
     }
 }
