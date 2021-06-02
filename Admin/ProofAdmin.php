@@ -83,7 +83,8 @@ class ProofAdmin extends AbstractAdmin
         $collection
             ->remove('create')
             ->remove('delete')
-            ->remove('export');
+            ->remove('export')
+            ->add('stats', 'stats');
     }
 
 

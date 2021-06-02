@@ -1,0 +1,37 @@
+{% extends base_template %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        .row {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display:         flex;
+          flex-wrap: wrap;
+        }
+        .row > [class*='col-'] {
+          display: flex;
+          flex-direction: column;
+        }
+    </style>
+{% endblock %}
+
+{% block show %}
+    <h1>Proof Stats</h1>
+
+    <div class="container">
+            <div class="row">
+                {% for key,col in stats %}
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <h2>{{ key }}</h2>
+                        <ul>
+                        {% for result in col %}
+                            <li>{{ result['pseudo'] }} : {{ result['nb'] }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+{% endblock %}
