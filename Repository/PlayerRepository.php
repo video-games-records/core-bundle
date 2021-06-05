@@ -496,4 +496,20 @@ class PlayerRepository extends EntityRepository
             ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 9)');
         return $query->getQuery()->getResult();
     }
+
+    /**
+     * @return int|mixed|string
+     */
+    public function getProofStats()
+    {
+        $query = $this->createQueryBuilder('player')
+            ->select('player.id as idPlayer, player.pseudo')
+            ->innerJoin('player.proof', 'proof')
+            ->addSelect('COUNT(proof.id) as nb, SUBSTRING(proof.updatedAt, 1, 7) as month')
+            ->where("proof.updatedAt > '2020-01-01'")
+            ->orderBy('month', 'DESC')
+            ->groupBy('player.id')
+            ->addGroupBy('month');
+        return $query->getQuery()->getResult(2);
+    }
 }

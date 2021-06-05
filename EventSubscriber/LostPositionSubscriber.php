@@ -37,7 +37,8 @@ final class LostPositionSubscriber implements EventSubscriberInterface
         $attributes = RequestAttributesExtractor::extractAttributes($event->getRequest());
         $method = $event->getRequest()->getMethod();
         if (
-            ($attributes['resource_class'] == 'VideoGamesRecords\CoreBundle\Entity\LostPosition')
+            array_key_exists('resource_class', $attributes)
+            && ($attributes['resource_class'] == 'VideoGamesRecords\CoreBundle\Entity\LostPosition')
             && ($method == Request::METHOD_GET)
             && isset($attributes['collection_operation_name'])
             && ($attributes['collection_operation_name'] == 'get')

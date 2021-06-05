@@ -366,6 +366,12 @@ class Player implements SluggableInterface
      */
     protected $country;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="playerResponding")
+     */
+    private $proof;
+
     /**
      * @var DateTime
      * @ORM\Column(name="lastDisplayLostPosition", type="datetime", nullable=true)
