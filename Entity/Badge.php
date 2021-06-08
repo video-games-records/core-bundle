@@ -15,6 +15,22 @@ use ApiPlatform\Core\Annotation\ApiResource;
  */
 class Badge
 {
+    const TYPE_CONNEXION = 'Connexion';
+    const TYPE_DON = 'Don';
+    const TYPE_FORUM= 'Forum';
+    const TYPE_INSCRIPTION = 'Inscription';
+    const TYPE_MASTER = 'Master';
+    const TYPE_PLATFORM = 'Platform';
+    const TYPE_SPECIAL_WEBMASTER = 'SpecialWebmaster';
+    const TYPE_VGR_CHART = 'VgrChart';
+    const TYPE_VGR_PROOF = 'VgrProof';
+    const TYPE_VGR_SPECIAL_COUNTRY = 'VgrSpecialCountry';
+    const TYPE_VGR_SPECIAL_CUP = 'VgrSpecialCup';
+    const TYPE_VGR_SPECIAL_LEGEND = 'VgrSpecialLegend';
+    const TYPE_VGR_SPECIAL_MEDALS = 'VgrSpecialMedals';
+    const TYPE_VGR_SPECIAL_POINTS = 'VgrSpecialPoints';
+
+
     /**
      * @var integer
      *
@@ -63,6 +79,11 @@ class Badge
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country", mappedBy="badge")
      */
     private $country;
+
+    /**
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform", mappedBy="badge")
+     */
+    private $platform;
 
     /**
      * @return string
@@ -206,5 +227,38 @@ class Badge
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Get platform
+     *
+     * @return Platform
+     */
+    public function getPlatform()
+    {
+        return $this->platform;
+    }
+
+     /**
+     * @return array
+     */
+    public static function getTypeChoices()
+    {
+        return [
+            self::TYPE_CONNEXION => self::TYPE_CONNEXION,
+            self::TYPE_DON => self::TYPE_DON,
+            self::TYPE_FORUM => self::TYPE_FORUM,
+            self::TYPE_INSCRIPTION => self::TYPE_INSCRIPTION,
+            self::TYPE_MASTER => self::TYPE_MASTER,
+            self::TYPE_PLATFORM => self::TYPE_PLATFORM,
+            self::TYPE_SPECIAL_WEBMASTER => self::TYPE_SPECIAL_WEBMASTER,
+            self::TYPE_VGR_CHART => self::TYPE_VGR_CHART,
+            self::TYPE_VGR_PROOF => self::TYPE_VGR_PROOF,
+            self::TYPE_VGR_SPECIAL_COUNTRY => self::TYPE_VGR_SPECIAL_COUNTRY,
+            self::TYPE_VGR_SPECIAL_CUP => self::TYPE_VGR_SPECIAL_CUP,
+            self::TYPE_VGR_SPECIAL_LEGEND => self::TYPE_VGR_SPECIAL_LEGEND,
+            self::TYPE_VGR_SPECIAL_MEDALS => self::TYPE_VGR_SPECIAL_MEDALS,
+            self::TYPE_VGR_SPECIAL_POINTS => self::TYPE_VGR_SPECIAL_POINTS,
+        ];
     }
 }

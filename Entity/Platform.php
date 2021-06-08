@@ -77,6 +77,16 @@ class Platform implements SluggableInterface
      */
     private $playerPlatform;
 
+    /**
+     * @var Badge
+     *
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="platform",cascade={"persist"}))
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
+     * })
+     */
+    private $badge;
+
 
     /**
      * @return string
@@ -184,6 +194,29 @@ class Platform implements SluggableInterface
     public function getGames()
     {
         return $this->games;
+    }
+
+    /**
+     * Set badge
+     *
+     * @param $badge
+     * @return $this
+     */
+    public function setBadge($badge = null)
+    {
+        $this->badge = $badge;
+
+        return $this;
+    }
+
+    /**
+     * Get idBadge
+     *
+     * @return Badge
+     */
+    public function getBadge()
+    {
+        return $this->badge;
     }
 
     /**

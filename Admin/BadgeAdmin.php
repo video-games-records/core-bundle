@@ -8,7 +8,9 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use VideoGamesRecords\CoreBundle\Entity\Badge;
 
 /**
  * Administration manager for the Badge Bundle.
@@ -31,7 +33,14 @@ class BadgeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form->add('id', TextType::class, ['label' => 'idBadge', 'attr' => ['readonly' => true]])
-            ->add('type', TextType::class, ['label' => 'Type'])
+            ->add(
+                'type',
+                ChoiceType::class,
+                [
+                    'label' => 'Type',
+                    'choices' => Badge::getTypeChoices(),
+                ]
+            )
             ->add('picture', TextType::class, ['label' => 'Picture'])
             ->add('value', TextType::class, ['label' => 'Value', 'required' => false]);
     }
