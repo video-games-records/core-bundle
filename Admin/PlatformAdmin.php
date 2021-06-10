@@ -43,6 +43,14 @@ class PlatformAdmin extends AbstractAdmin
                 'label' => 'Picture',
                 'required' => true,
             ])
+            ->add('badge', ModelListType::class, [
+                'btn_add' => true,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'Badge',
+            ])
             ->add(
                 'status',
                 ChoiceType::class,
