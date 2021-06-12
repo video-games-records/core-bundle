@@ -140,7 +140,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\PlayerChartLib
             - ~
-    sonata.admin.badge:
+    sonata.admin.vgr.badge:
         class: VideoGamesRecords\CoreBundle\Admin\BadgeAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.others", label: "label.badge" }
@@ -148,7 +148,7 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Badge
             - ~
-    sonata.admin.country:
+    sonata.admin.vgr.country:
         class: VideoGamesRecords\CoreBundle\Admin\CountryAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "group.players", label: "label.country" }

@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -41,6 +42,14 @@ class PlatformAdmin extends AbstractAdmin
             ->add('picture', TextType::class, [
                 'label' => 'Picture',
                 'required' => true,
+            ])
+            ->add('badge', ModelListType::class, [
+                'btn_add' => true,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'Badge',
             ])
             ->add(
                 'status',
@@ -82,6 +91,14 @@ class PlatformAdmin extends AbstractAdmin
                 ]
             )
             ->add(
+                'badge.picture',
+                null,
+                [
+                    'label' => 'Badge',
+                    'editable' => false
+                ]
+            )
+            ->add(
                 'status',
                 'choice',
                 [
@@ -111,6 +128,6 @@ class PlatformAdmin extends AbstractAdmin
             ->add('libPlatform')
             ->add('picture')
             ->add('status')
-            ->add('class');
+            ->add('badge');
     }
 }
