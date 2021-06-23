@@ -174,15 +174,6 @@ class PlayerChartAdmin extends AbstractAdmin
                     array('fieldName' => 'group')
                 )
             ])
-
-            /*->add('chart.group.game', null, [
-                'associated_property' => 'libGameEn',
-                'label' => 'Game',
-            ])
-            ->add('chart.group', null, [
-                'associated_property' => 'libGroupEn',
-                'label' => 'Group',
-            ])*/
             ->add('chart', null, [
                 'associated_property' => 'libChartEn',
                 'label' => 'Chart',
