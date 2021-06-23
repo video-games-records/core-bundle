@@ -49,6 +49,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "chartRank3": "DESC",
  *          "pointGame": "DESC",
  *          "nbChart": "DESC",
+ *          "nbEqual": "ASC",
+ *          "game.nbPlayer" : "DESC",
  *          "game.libGameEn" : "ASC",
  *          "game.libGameFr" : "ASC",
  *     },
