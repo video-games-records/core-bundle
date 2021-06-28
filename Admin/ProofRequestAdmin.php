@@ -118,6 +118,9 @@ class ProofRequestAdmin extends AbstractAdmin
                 'choices' => ProofRequest::getStatusChoices(),
                 'multiple' => false,
             ])
+            ->add('playerChart.player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
+                'property' => 'pseudo',
+            ])
             ->add('playerRequesting', ModelAutocompleteFilter::class, [], null, [
                 'property' => 'pseudo',
             ])
@@ -143,10 +146,28 @@ class ProofRequestAdmin extends AbstractAdmin
                 'label' => 'PlayerResponding',
             ])
             ->add('playerChart.player', null, [
-                'label' => 'Player'
+                'associated_property' =>  'pseudo',
+                'label' => 'Player',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => 'pseudo'
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'playerChart'),
+                    array('fieldName' => 'player'),
+                )
             ])
             ->add('playerChart.chart', null, [
-                'label' => 'Chart'
+                'associated_property' =>  'libChartEn',
+                'label' => 'Chart',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => 'libChartEn'
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'playerChart'),
+                    array('fieldName' => 'chart'),
+                )
             ])
             ->add('message', 'text', [
                 'header_style' => 'width: 30%'
