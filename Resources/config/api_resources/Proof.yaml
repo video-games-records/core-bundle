@@ -3,7 +3,7 @@ resources:
         collectionOperations:
             get: ~
             send-picture:
-                access_control: 'is_granted("ROLE_PLAYER")'
+                access_control: 'is_granted("ROLE_USER")'
                 method: 'POST'
                 path: '/player-charts/{id}/send-picture'
                 consumes:
@@ -26,7 +26,7 @@ resources:
                                       type: string
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::sendPicture'
             send-video:
-                access_control: 'is_granted("ROLE_PLAYER")'
+                access_control: 'is_granted("ROLE_USER")'
                 method: 'POST'
                 path: '/player-charts/{id}/send-video'
                 consumes:
@@ -47,6 +47,6 @@ resources:
             get:
                 normalization_context: {'groups': [proof.read, picture.read]}
             put:
-                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
+                access_control: 'is_granted("ROLE_USER") and object.getPlayer().getUser() == user'
                 denormalization_context: { 'groups': [ proof.put ] }
                 normalization_context: { 'groups': [ proof.read, picture.read ] }
