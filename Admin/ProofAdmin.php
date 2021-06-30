@@ -95,32 +95,6 @@ class ProofAdmin extends AbstractAdmin
     {
         $form
             ->add(
-                'picture',
-                ModelListType::class,
-                [
-                    'data_class' => null,
-                    'btn_add' => false,
-                    'btn_list' => false,
-                    'btn_edit' => false,
-                    'btn_delete' => false,
-                    'btn_catalogue' => false,
-                    'label' => 'picture',
-                ]
-            )
-            ->add(
-                'video',
-                ModelListType::class,
-                [
-                    'data_class' => null,
-                    'btn_add' => false,
-                    'btn_list' => false,
-                    'btn_edit' => false,
-                    'btn_delete' => false,
-                    'btn_catalogue' => false,
-                    'label' => 'video',
-                ]
-            )
-            ->add(
                 'playerResponding',
                 ModelListType::class,
                 [
