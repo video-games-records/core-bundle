@@ -39,12 +39,14 @@ class ProofGamesBlockService extends AbstractBlockService
         Response $response = null
     ): Response {
         $settings = $blockContext->getSettings();
+        $games = $this->entityManager->getRepository('VideoGamesRecordsCoreBundle:Game')->getNbProofInProgress();
 
         return $this->renderResponse(
             'VideoGamesRecordsCoreBundle:Admin/Block:proof.games.html.twig',
             [
                 'block' => $blockContext->getBlock(),
                 'settings' => $settings,
+                'games' => $games,
             ],
             $response
         );

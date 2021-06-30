@@ -219,6 +219,26 @@ class GameRepository extends EntityRepository
         return $games;
     }
 
+    /**
+     * @return int|mixed|string
+     */
+    public function getNbProofInProgress()
+    {
+        $qb = $this->createQueryBuilder('gam')
+            ->select('gam')
+            ->addSelect('COUNT(proof) as nb')
+            ->innerJoin('gam.groups', 'grp')
+            ->innerJoin('grp.charts', 'chr')
+            ->innerJoin('chr.playerCharts', 'pc')
+            ->innerJoin('pc.proof', 'proof')
+            ->where('proof.status = :status')
+            ->setParameter('status', Proof::STATUS_IN_PROGRESS)
+            ->groupBy('gam.id')
+            ->orderBy('nb', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 
     /*************************************/
     /************  PRIVATE  **************/
