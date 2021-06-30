@@ -21,6 +21,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\ORMException;
+use DateTime;
 
 class ProofAdmin extends AbstractAdmin
 {
@@ -236,6 +237,7 @@ class ProofAdmin extends AbstractAdmin
             ))
             ->add('created_at', 'datetime', ['label' => 'Created At'])
             ->add('updated_at', 'datetime', ['label' => 'Updated At'])
+            ->add('checkedAt', 'datetime', ['label' => 'Checked At'])
             ->add('playerChart')
             ->add('picture')
             ->add('video')
@@ -345,6 +347,7 @@ class ProofAdmin extends AbstractAdmin
         // Player Responding
         if ($setPlayerResponding) {
             $object->setPlayerResponding($player);
+            $object->setCheckedAt(new DateTime());
         }
     }
 
