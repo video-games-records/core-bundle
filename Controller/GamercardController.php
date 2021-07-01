@@ -66,7 +66,7 @@ class GamercardController extends AbstractController
 
         // Add avatar
         try {
-            $avatar = Picture::loadFile($directory . 'avatar/' . $player->getAvatar(), true);
+            $avatar = Picture::loadFile($directory . 'user/' . $player->getAvatar(), true);
         } catch (Exception $e) {
             $avatar = Picture::loadFile($directory . 'avatar/default.png', true);
         }
@@ -140,7 +140,7 @@ class GamercardController extends AbstractController
 
         // Add avatar
         try {
-            $avatar = Picture::loadFile($directory . 'avatar/' . $player->getAvatar(), true);
+            $avatar = Picture::loadFile($directory . 'user/' . $player->getAvatar(), true);
         } catch (Exception $e) {
             $avatar = Picture::loadFile($directory . 'avatar/default.png', true);
         }
