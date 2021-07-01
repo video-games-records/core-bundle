@@ -13,7 +13,14 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *
  * @ORM\Table(name="vgr_team_game")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamGameRepository")
- * @ApiFilter(SearchFilter::class, properties={"team": "exact"})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "team": "exact",
+ *          "game": "exact",
+ *          "game.badge": "exact",
+ *     }
+ * )
  * @ApiFilter(
  *     GroupFilter::class,
  *     arguments={
