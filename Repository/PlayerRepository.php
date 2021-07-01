@@ -89,7 +89,7 @@ class PlayerRepository extends EntityRepository
      */
     public function maj($player)
     {
-        // query 1
+        // query (with boolRanking = true)
         $query = $this->_em->createQuery("
             SELECT
                  p.id,
@@ -104,28 +104,13 @@ class PlayerRepository extends EntityRepository
                  COUNT(DISTINCT pg.game) as nbGame
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
             JOIN pg.player p
-            WHERE pg.player = :player
-            GROUP BY p.id");
-
-        $query->setParameter('player', $player);
-        $result = $query->getResult();
-        $row1 = $result[0];
-
-        // query 2 (boolRanking = true)
-        $query = $this->_em->createQuery("
-            SELECT
-                 p.id,
-                 SUM(pg.pointChart) as pointChart,
-                 SUM(pg.pointGame) as pointGame
-            FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
-            JOIN pg.player p
             JOIN pg.game g
             WHERE pg.player = :player
             AND g.boolRanking = 1
             GROUP BY p.id");
         $query->setParameter('player', $player);
         $result = $query->getResult();
-        $row2 = $result[0];
+        $row1 = $result[0];
 
         $player->setChartRank0($row1['chartRank0']);
         $player->setChartRank1($row1['chartRank1']);
@@ -134,8 +119,9 @@ class PlayerRepository extends EntityRepository
         $player->setNbChart($row1['nbChart']);
         $player->setNbChartProven($row1['nbChartProven']);
         $player->setNbGame($row1['nbGame']);
-        $player->setPointChart($row2['pointChart']);
-        $player->setPointGame($row2['pointGame']);
+        $player->setPointChart($row1['pointChart']);
+        $player->setPointGame($row1['pointGame']);
+        $player->setBoolMaj(false);
 
         $this->_em->persist($player);
         $this->_em->flush();
@@ -159,6 +145,7 @@ class PlayerRepository extends EntityRepository
             JOIN pg.player p
             WHERE pg.rankPointChart = 1
             AND g.nbPlayer > 1
+            AND g.boolRanking = 1
             AND pg.nbEqual = 1
             GROUP BY p.id");
 
@@ -173,8 +160,10 @@ class PlayerRepository extends EntityRepository
                  p.id,
                  COUNT(pg.game) as nb
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
+            JOIN pg.game g
             JOIN pg.player p
             WHERE pg.rankPointChart = :rank
+            AND g.boolRanking = 1
             GROUP BY p.id");
 
         for ($i = 1; $i <= 3; $i++) {
@@ -333,9 +322,11 @@ class PlayerRepository extends EntityRepository
                  SUM(b.value) as pointBadge
             FROM VideoGamesRecords\CoreBundle\Entity\PlayerBadge pb
             JOIN pb.badge b
+            JOIN b.game g
             JOIN pb.player p
             WHERE b.type = :type
             AND pb.ended_at IS NULL
+            AND g.boolRanking = 1
             GROUP BY p.id");
         $query->setParameter('type', 'Master');
         $result = $query->getResult();
@@ -398,7 +389,7 @@ class PlayerRepository extends EntityRepository
      * @param int  $maxRank
      * @return int|mixed|string
      */
-    public function getRankingCup($player = null, $maxRank = 100)
+    public function getRankingCup($player = null, int $maxRank = 100)
     {
         return $this->getRanking('rankCup', $player, $maxRank);
     }
@@ -450,7 +441,7 @@ class PlayerRepository extends EntityRepository
      * @param null $team
      * @return int|mixed|string
      */
-    private function getRanking($column, $player = null, $maxRank = 100, $team = null)
+    private function getRanking($column, $player = null, int $maxRank = 100, $team = null)
     {
         $query = $this->createQueryBuilder('p')
             ->orderBy("p.$column");

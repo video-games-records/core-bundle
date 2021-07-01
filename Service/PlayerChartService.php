@@ -94,7 +94,6 @@ class PlayerChartService
         $playerList = [];
         $groupList  = [];
         $gameList   = [];
-        $countryList = [];
 
         foreach ($charts as $chart) {
             $idGroup = $chart->getGroup()->getId();
@@ -124,18 +123,16 @@ class PlayerChartService
 
         //----- Maj player
         foreach ($playerList as $player) {
-            $playerRepository->maj($player);
-            if ($player->getCountry()) {
-                $countryList[$player->getCountry()->getId()] = $player->getCountry();
-            }
+            $player->setBoolMaj(true);
         }
 
         //----- Maj rank country
-        foreach ($countryList as $country) {
+        /*foreach ($countryList as $country) {
             $playerRepository->majRankCountry($country);
             $playerBadgeRepository->majCountryBadge($country);
-        }
+        }*/
 
+        $this->em->flush();
         return count($charts);
     }
 }

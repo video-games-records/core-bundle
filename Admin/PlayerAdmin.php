@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 
@@ -44,6 +45,10 @@ class PlayerAdmin extends AbstractAdmin
                     'readonly' => true,
                 ]
             ])
+            ->add('boolMaj', CheckboxType::class, [
+                'label' => 'Maj ?',
+                'required' => false,
+            ])
             ->add('country', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,
@@ -62,7 +67,9 @@ class PlayerAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('pseudo');
+            ->add('pseudo')
+            ->add('boolMaj');
+
     }
 
     /**
@@ -74,6 +81,7 @@ class PlayerAdmin extends AbstractAdmin
             ->addIdentifier('id')
             ->add('pseudo')
             ->add('country')
+            ->add('slug')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -91,6 +99,7 @@ class PlayerAdmin extends AbstractAdmin
             ->add('id')
             ->add('pseudo')
             ->add('country')
-            ->add('team');
+            ->add('team')
+            ->add('boolMaj');
     }
 }

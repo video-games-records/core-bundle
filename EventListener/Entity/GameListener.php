@@ -5,21 +5,28 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 use DateTime;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use ProjetNormandie\ForumBundle\Service\ForumManager;
+use VideoGamesRecords\CoreBundle\Service\PlayerService;
 
 class GameListener
 {
     private $forumManager;
+    private $playerService;
+    private $majPlayers = false;
 
     /**
      * GameListener constructor.
-     * @param ForumManager $forumManager
+     * @param ForumManager  $forumManager
+     * @param PlayerService $playerService
      */
-    public function __construct(ForumManager $forumManager)
+    public function __construct(ForumManager $forumManager, PlayerService $playerService)
     {
         $this->forumManager = $forumManager;
+        $this->playerService = $playerService;
     }
 
     /**
@@ -49,8 +56,31 @@ class GameListener
      */
     public function preUpdate(Game $game, PreUpdateEventArgs $event)
     {
+        $changeSet = $event->getEntityChangeSet();
+
+        if (array_key_exists('boolRanking', $changeSet)) {
+            $this->majPlayers = true;
+        }
+
         if (($game->getStatus() == Game::STATUS_ACTIVE) && ($game->getPublishedAt() == null)) {
             $game->setPublishedAt(new DateTime());
         }
+    }
+
+    /**
+     * @param Game               $game
+     * @param LifecycleEventArgs $event
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function postUpdate(Game $game, LifecycleEventArgs $event)
+    {
+        $em = $event->getEntityManager();
+        if ($this->majPlayers) {
+            foreach ($game->getPlayerGame() as $playerGame) {
+                $playerGame->getPlayer()->setBoolMaj(true);
+            }
+        }
+        $em->flush();
     }
 }
