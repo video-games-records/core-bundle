@@ -335,7 +335,13 @@ class Proof implements TimestampableInterface
         return $this->playerChart;
     }
 
-
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return ($this->getPicture() != null) ? 'Picture' : 'Video';
+    }
 
     /**
      * @return array

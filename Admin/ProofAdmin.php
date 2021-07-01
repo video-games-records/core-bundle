@@ -189,10 +189,7 @@ class ProofAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibChart(),
                 'label' => 'Chart',
             ])
-            ->add('picture', null, [
-                'associated_property' => 'path',
-                'label' => 'Picture',
-            ])
+            ->addIdentifier('type')
             ->add('playerResponding', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'PlayerResponding',
