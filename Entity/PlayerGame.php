@@ -19,7 +19,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *     properties={
  *          "player": "exact",
  *          "game": "exact",
- *          "game.platforms": "exact"
+ *          "game.platforms": "exact",
+ *          "game.badge": "exact",
  *     }
  * )
  * @ApiFilter(
