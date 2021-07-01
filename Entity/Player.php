@@ -1310,7 +1310,7 @@ class Player implements SluggableInterface
         return $this;
     }
 
-     /**
+    /**
      * Set boolMaj
      *
      * @param boolean $boolMaj

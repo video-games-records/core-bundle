@@ -126,12 +126,6 @@ class PlayerChartService
             $player->setBoolMaj(true);
         }
 
-        //----- Maj rank country
-        /*foreach ($countryList as $country) {
-            $playerRepository->majRankCountry($country);
-            $playerBadgeRepository->majCountryBadge($country);
-        }*/
-
         $this->em->flush();
         return count($charts);
     }
