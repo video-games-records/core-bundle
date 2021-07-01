@@ -109,6 +109,19 @@ class ProofAdmin extends AbstractAdmin
                 ]
             )
             ->add(
+                'playerChart',
+                ModelListType::class,
+                [
+                    'data_class' => null,
+                    'btn_add' => false,
+                    'btn_list' => false,
+                    'btn_edit' => false,
+                    'btn_delete' => false,
+                    'btn_catalogue' => false,
+                    'label' => 'PlayerChart',
+                ]
+            )
+            ->add(
                 'status',
                 ChoiceType::class,
                 [
