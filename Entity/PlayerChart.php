@@ -40,7 +40,9 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  * @ApiFilter(
  *     RangeFilter::class,
  *     properties={
- *         "chart.nbPost"
+ *         "chart.nbPost",
+ *         "rank",
+ *         "pointChart",
  *     }
  * )
  * @ApiFilter(
@@ -80,6 +82,10 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "rank" : "ASC",
  *          "chart.libChartEn" : "ASC",
  *          "chart.libChartFr" : "ASC",
+ *          "chart.group.libGroupEn" : "ASC",
+ *          "chart.group.libGroupFr" : "ASC",
+ *          "chart.group.game.libGameEn" : "ASC",
+ *          "chart.group.game.libGameFr" : "ASC",
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
