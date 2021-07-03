@@ -350,7 +350,7 @@ class Video implements TimestampableInterface, SluggableInterface
         if ($this->getType() == self::TYPE_YOUTUBE) {
             return 'https://www.youtube.com/embed/' . $this->getVideoId();
         } elseif ($this->getType() == self::TYPE_TWITCH) {
-            return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getVideoId();
+            return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getVideoId() . '&parent=' .$_SERVER['SERVER_NAME'];
         } else {
             return $this->getUrl();
         }
