@@ -21,6 +21,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\ORMException;
+use DateTime;
 
 class ProofAdmin extends AbstractAdmin
 {
@@ -95,32 +96,6 @@ class ProofAdmin extends AbstractAdmin
     {
         $form
             ->add(
-                'picture',
-                ModelListType::class,
-                [
-                    'data_class' => null,
-                    'btn_add' => false,
-                    'btn_list' => false,
-                    'btn_edit' => false,
-                    'btn_delete' => false,
-                    'btn_catalogue' => false,
-                    'label' => 'picture',
-                ]
-            )
-            ->add(
-                'video',
-                ModelListType::class,
-                [
-                    'data_class' => null,
-                    'btn_add' => false,
-                    'btn_list' => false,
-                    'btn_edit' => false,
-                    'btn_delete' => false,
-                    'btn_catalogue' => false,
-                    'label' => 'video',
-                ]
-            )
-            ->add(
                 'playerResponding',
                 ModelListType::class,
                 [
@@ -131,6 +106,19 @@ class ProofAdmin extends AbstractAdmin
                     'btn_delete' => false,
                     'btn_catalogue' => false,
                     'label' => 'playerResponding',
+                ]
+            )
+            ->add(
+                'playerChart',
+                ModelListType::class,
+                [
+                    'data_class' => null,
+                    'btn_add' => false,
+                    'btn_list' => false,
+                    'btn_edit' => false,
+                    'btn_delete' => false,
+                    'btn_catalogue' => false,
+                    'label' => 'PlayerChart',
                 ]
             )
             ->add(
@@ -214,10 +202,7 @@ class ProofAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibChart(),
                 'label' => 'Chart',
             ])
-            ->add('picture', null, [
-                'associated_property' => 'path',
-                'label' => 'Picture',
-            ])
+            ->addIdentifier('type')
             ->add('playerResponding', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'PlayerResponding',
@@ -262,6 +247,7 @@ class ProofAdmin extends AbstractAdmin
             ))
             ->add('created_at', 'datetime', ['label' => 'Created At'])
             ->add('updated_at', 'datetime', ['label' => 'Updated At'])
+            ->add('checkedAt', 'datetime', ['label' => 'Checked At'])
             ->add('playerChart')
             ->add('picture')
             ->add('video')
@@ -371,6 +357,7 @@ class ProofAdmin extends AbstractAdmin
         // Player Responding
         if ($setPlayerResponding) {
             $object->setPlayerResponding($player);
+            $object->setCheckedAt(new DateTime());
         }
     }
 

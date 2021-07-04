@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CountryAdmin extends AbstractAdmin
@@ -53,6 +54,10 @@ class CountryAdmin extends AbstractAdmin
             ->add('codeIsoNumeric', TextType::class, [
                 'label' => 'ISO NUMERIC code',
                 'required' => true,
+            ])
+            ->add('boolMaj', CheckboxType::class, [
+                'label' => 'Maj ?',
+                'required' => false,
             ])
             ->add('translations', TranslationsType::class, [
                 'required' => true,

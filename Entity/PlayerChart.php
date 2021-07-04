@@ -14,6 +14,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 /**
@@ -32,7 +33,17 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "chart": "exact",
  *          "chart.group": "exact",
  *          "chart.group.game": "exact",
- *      }
+ *          "rank": "exact",
+ *          "nbEqual": "exact"
+ *     }
+ * )
+ * @ApiFilter(
+ *     RangeFilter::class,
+ *     properties={
+ *         "chart.nbPost",
+ *         "rank",
+ *         "pointChart",
+ *     }
  * )
  * @ApiFilter(
  *     GroupFilter::class,
@@ -71,6 +82,10 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "rank" : "ASC",
  *          "chart.libChartEn" : "ASC",
  *          "chart.libChartFr" : "ASC",
+ *          "chart.group.libGroupEn" : "ASC",
+ *          "chart.group.libGroupFr" : "ASC",
+ *          "chart.group.game.libGameEn" : "ASC",
+ *          "chart.group.game.libGameFr" : "ASC",
  *     },
  *     arguments={"orderParameterName"="order"}
  * )

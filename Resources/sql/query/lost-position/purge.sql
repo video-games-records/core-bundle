@@ -1,5 +1,5 @@
 DELIMITER &&
-CREATE PROCEDURE purge_lost_medal()
+CREATE PROCEDURE purge_lost_position()
 BEGIN
 
     DECLARE done INT DEFAULT FALSE;
@@ -32,9 +32,16 @@ BEGIN
         WHERE idPlayer = player_id AND idChart = chart_id AND oldRank=old_rank AND newRank=new_rank AND id != lostposition_id;
     END LOOP;
     CLOSE cursor1;
+
+    DELETE vgr_lostposition
+    FROM vgr_lostposition
+        INNER JOIN vgr_player_chart ON vgr_lostposition.idPlayer = vgr_player_chart.idPlayer AND vgr_lostposition.idChart = vgr_player_chart.idChart
+    WHERE (vgr_player_chart.rank <= vgr_lostposition.oldRank)
+    OR (vgr_player_chart.rank =1 AND vgr_player_chart.nbEqual = 1 AND vgr_lostposition.oldRank = 0);
+
 END &&
 
 DELIMITER ;
 
-CALL purge_lost_medal();
-DROP PROCEDURE purge_lost_medal;
+CALL purge_lost_position();
+DROP PROCEDURE purge_lost_position;

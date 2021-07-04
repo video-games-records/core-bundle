@@ -76,6 +76,13 @@ class PlayerService
     {
         /** @var PlayerRepository $playerRepository */
         $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
+        $players = $playerRepository->findBy(['boolMaj' => true]);
+        foreach ($players as $player) {
+            $playerRepository->maj($player);
+            if ($player->getCountry()) {
+                $player->getCountry()->setBoolMaj(true);
+            }
+        }
         $playerRepository->majGameRank();
         $playerRepository->majRankPointChart();
         $playerRepository->majRankPointGame();

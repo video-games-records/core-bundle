@@ -1,6 +1,15 @@
-<div id="cms-block-{{ block.id }}"
-     class="cms-block cms-block-element col-md-3">
-    <div class="small-box">
-
+<h2>Proof by games ({{ games|length }})</h2>
+    <div class="row">
+    <div id="cms-block-{{ block.id }}" class="cms-block cms-block-element col-md-12">
+       <ul>
+            {% for game in games %}
+            <li>
+                <a href="/admin/videogamesrecords/core/proof/list?filter%5Bchart__group__game%5D%5Bvalue%5D={{ game[0].getId }}&filter%5Bstatus%5D%5Bvalue%5D=IN+PROGRESS">
+                    {{ game[0].getName }}
+                 </a>
+                ({{ game['nb'] }})
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>

@@ -347,6 +347,13 @@ class Player implements SluggableInterface
     private $lostPositions;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
+     */
+    private $boolMaj = false;
+
+    /**
      * @var Team
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
@@ -1301,6 +1308,29 @@ class Player implements SluggableInterface
     {
         $this->lastDisplayLostPosition = $lastDisplayLostPosition;
         return $this;
+    }
+
+    /**
+     * Set boolMaj
+     *
+     * @param boolean $boolMaj
+     * @return $this
+     */
+    public function setBoolMaj(bool $boolMaj)
+    {
+        $this->boolMaj = $boolMaj;
+
+        return $this;
+    }
+
+    /**
+     * Get boolMaj
+     *
+     * @return boolean
+     */
+    public function getBoolMaj()
+    {
+        return $this->boolMaj;
     }
 
     /**

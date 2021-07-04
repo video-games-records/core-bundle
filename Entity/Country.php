@@ -62,6 +62,13 @@ class Country implements TranslatableInterface
     private $badge;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
+     */
+    private $boolMaj = false;
+
+    /**
      * Set codeIso
      *
      * @param string $codeIso2
@@ -182,6 +189,29 @@ class Country implements TranslatableInterface
     public function getBadge()
     {
         return $this->badge;
+    }
+
+    /**
+     * Set boolMaj
+     *
+     * @param boolean $boolMaj
+     * @return $this
+     */
+    public function setBoolMaj(bool $boolMaj)
+    {
+        $this->boolMaj = $boolMaj;
+
+        return $this;
+    }
+
+    /**
+     * Get boolMaj
+     *
+     * @return boolean
+     */
+    public function getBoolMaj()
+    {
+        return $this->boolMaj;
     }
 
     /**

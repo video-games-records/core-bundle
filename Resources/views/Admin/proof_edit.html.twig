@@ -1,0 +1,67 @@
+{% extends '@SonataAdmin/CRUD/edit.html.twig' %}
+{% block form %}
+
+    {# your custom code #}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Show
+                    </h4>
+                </div>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table">
+                    <tbody>
+                        <tr class="sonata-ba-view-container">
+                            <th>Game</th>
+                            <td>
+                                {{ object.getChart().getGroup().getGame().getName() }}
+                            </td>
+                        </tr>
+                        <tr class="sonata-ba-view-container">
+                            <th>Chart</th>
+                            <td>
+                                <a target="_blank" href="{{ front_url }}/en/{{ object.getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
+                            </td>
+                        </tr>
+                        {% if object.getPicture() != null %}
+                            <tr class="sonata-ba-view-container">
+                                <th>Picture</th>
+                                <td><img src="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}" width="50%" alt="" /></td>
+                            </tr>
+                        {% endif %}
+                        {% if object.getVideo() != null %}
+                            <tr class="sonata-ba-view-container">
+                                <th>Video</th>
+                                <td>
+                                    <iframe width="720" height="405"
+                                            src="{{ object.getVideo().getEmbeddedUrl() }}">
+                                    </iframe>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr class="sonata-ba-view-container">
+                            {% if object.getPlayerChart() %}
+                                <th>Score (ID={{ object.getPlayerChart().getId() }})</th>
+                                <td>
+                                    {% for lib in object.getPlayerChart().libs %}
+                                        {{ lib }}
+                                    {% endfor %}
+                                </td>
+                            {%  else %}
+                                <th>PlayerChart</th>
+                                <td>NO PLAYER CHART</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    {{ parent() }}
+
+{% endblock %}

@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use DateTime;
 
 /**
  * Proof
@@ -95,6 +96,13 @@ class Proof implements TimestampableInterface
      * })
      */
     private $chart;
+
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="checked_at", type="datetime", nullable=true)
+     */
+    private $checkedAt;
 
     /**
      * @ORM\OneToOne(targetEntity="\VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="proof")
@@ -293,6 +301,29 @@ class Proof implements TimestampableInterface
         return $this->chart;
     }
 
+     /**
+     * Set checkedAt
+     *
+     * @param DateTime $checkedAt
+     * @return $this
+     */
+    public function setCheckedAt(DateTime $checkedAt)
+    {
+        $this->checkedAt = $checkedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get checkedAt
+     *
+     * @return DateTime
+     */
+    public function getCheckedAt()
+    {
+        return $this->checkedAt;
+    }
+
 
     /**
      * Get playerChart
@@ -304,7 +335,13 @@ class Proof implements TimestampableInterface
         return $this->playerChart;
     }
 
-
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return ($this->getPicture() != null) ? 'Picture' : 'Video';
+    }
 
     /**
      * @return array

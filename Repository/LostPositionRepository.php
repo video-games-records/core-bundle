@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NoResultException;
@@ -39,6 +40,19 @@ class LostPositionRepository extends EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * @throws Exception
+     */
+    public function purge()
+    {
+        $sql = "DELETE vgr_lostposition
+        FROM vgr_lostposition
+            INNER JOIN vgr_player_chart ON vgr_lostposition.idPlayer = vgr_player_chart.idPlayer AND vgr_lostposition.idChart = vgr_player_chart.idChart
+        WHERE (vgr_player_chart.rank <= vgr_lostposition.oldRank)
+        OR (vgr_player_chart.rank =1 AND vgr_player_chart.nbEqual = 1 AND vgr_lostposition.oldRank = 0)";
+        $this->_em->getConnection()->executeStatement($sql);
+    }
+
 
     /**
      * @param QueryBuilder $query
@@ -49,4 +63,5 @@ class LostPositionRepository extends EntityRepository
         $query->where('l.player = :player')
             ->setParameter('player', $player);
     }
+
 }

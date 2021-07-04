@@ -77,6 +77,7 @@ services:
             - VideoGamesRecords\CoreBundle\Controller\ProofAdminController
         calls:
             - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:proof_show.html.twig']]
+            - [ setTemplate, ['edit', 'VideoGamesRecordsCoreBundle:Admin:proof_edit.html.twig']]
             - [ setMessager, ['@ProjetNormandie\MessageBundle\Service\Messager']]
     sonata.admin.vgr.proof.picture:
         class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
