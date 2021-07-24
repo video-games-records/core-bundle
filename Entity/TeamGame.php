@@ -28,6 +28,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "overrideDefaultGroups": true,
  *          "whitelist": {
  *              "game.read.mini",
+ *              "game.platforms",
+ *              "platform.read",
  *              "teamGame.game",
  *              "teamGame.pointChart",
  *              "teamGame.medal",
