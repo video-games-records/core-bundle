@@ -30,6 +30,7 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     logo:
       groups:
         - 'team.read'
+        - 'team.read.mini'
         - 'team.profile'
     leader:
       groups:
