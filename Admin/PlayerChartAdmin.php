@@ -4,11 +4,11 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,9 +43,9 @@ class PlayerChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @param RouteCollectionInterface $collection
+     * @param RouteCollection $collection
      */
-    protected function configureRoutes(RouteCollectionInterface $collection): void
+    protected function configureRoutes(RouteCollection $collection): void
     {
         $collection
             ->remove('create')
@@ -201,5 +201,15 @@ class PlayerChartAdmin extends AbstractAdmin
             ->add('dateInvestigation')
             ->add('proof')
             ->add('libs');
+    }
+
+    /**
+     * @param $object
+     */
+    public function preUpdate($object): void
+    {
+        $chart = $object->getChart();
+        $chart->setStatusPlayer('MAJ');
+        $chart->setStatusTeam('MAJ');
     }
 }
