@@ -127,13 +127,11 @@ class Ranking
     }
 
     /**
-     * Renvoie le tableau des pointsVGR
-     *
+     * Renvoie le tableau des points chart
      * @param $iNbPartcipant
-     *
-     * @return mixed
+     * @return array
      */
-    public static function chartPointProvider($iNbPartcipant)
+    public static function chartPointProvider($iNbPartcipant): array
     {
         $liste       = [];
         $pointRecord = 100 * $iNbPartcipant;
@@ -159,6 +157,16 @@ class Ranking
         }
 
         return $liste;
+    }
+
+     /**
+     * Renvoie le tableau des points platform
+     * @param $iNbPartcipant
+     * @return array
+     */
+    public static function platformPointProvider($iNbPartcipant): array
+    {
+        return self::chartPointProvider($iNbPartcipant);
     }
 
     /**

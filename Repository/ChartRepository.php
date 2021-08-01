@@ -18,7 +18,7 @@ class ChartRepository extends EntityRepository
      * @return Chart
      * @throws NonUniqueResultException
      */
-    public function getWithChartType($id)
+    public function getWithChartType($id): Chart
     {
         $query = $this->createQueryBuilder('c')
             ->join('c.libs', 'lib')
@@ -36,7 +36,7 @@ class ChartRepository extends EntityRepository
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function isMajPlayerRunning()
+    public function isMajPlayerRunning(): bool
     {
         $nb = $this->createQueryBuilder('c')
             ->select('COUNT(c.id)')
@@ -53,7 +53,7 @@ class ChartRepository extends EntityRepository
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function isMajTeamRunning()
+    public function isMajTeamRunning(): bool
     {
         $nb = $this->createQueryBuilder('c')
             ->select('COUNT(c.id)')
@@ -96,7 +96,7 @@ class ChartRepository extends EntityRepository
     /**
      * @return Chart[]
      */
-    public function getChartToMajPlayer()
+    public function getChartToMajPlayer(): array
     {
         $query = $this->createQueryBuilder('ch')
             ->join('ch.group', 'gr')
@@ -110,7 +110,7 @@ class ChartRepository extends EntityRepository
     /**
      * @return Chart[]
      */
-    public function getChartToMajTeam()
+    public function getChartToMajTeam(): array
     {
         $query = $this->createQueryBuilder('ch')
             ->join('ch.group', 'gr')
@@ -122,14 +122,14 @@ class ChartRepository extends EntityRepository
     }
 
     /**
-     * @param int   $page
-     * @param null  $player
-     * @param array $search
+     * @param int    $page
+     * @param null   $player
+     * @param array  $search
      * @param string $locale
-     * @param int $itemsPerPage
+     * @param int    $itemsPerPage
      * @return Paginator
      */
-    public function getList(int $page = 1, $player = null, $search = array(), $locale = 'en', $itemsPerPage = 20) : Paginator
+    public function getList(int $page = 1, $player = null, array $search = array(), $locale = 'en', int $itemsPerPage = 20) : Paginator
     {
         $firstResult = ($page - 1) * $itemsPerPage;
 
@@ -140,6 +140,9 @@ class ChartRepository extends EntityRepository
             ->addSelect('gr')
             ->addSelect('pc')
             ->setParameter('player', $player);
+
+        $this->setOrder($query, $locale);
+
         if ($search['idGame'] != null) {
             $query->andWhere('ga.id = :idGame')
                 ->setParameter('idGame', $search['idGame']);
@@ -166,7 +169,7 @@ class ChartRepository extends EntityRepository
      * @param string $locale
      * @return int|mixed|string
      */
-    public function getTopScore($group, $player, $locale = 'en')
+    public function getTopScore($group, $player, string $locale = 'en')
     {
         $query = $this->createQueryBuilder('ch')
              ->join('ch.group', 'gr')
@@ -183,10 +186,6 @@ class ChartRepository extends EntityRepository
         } else {
             $query->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.rank = 1');
         }
-        /*$query
-           */
-        /*$query->join('pc.libs', 'libs')
-            ->join('pc.player', 'p');*/
         return $query->getQuery()->getResult();
     }
 
@@ -194,7 +193,7 @@ class ChartRepository extends EntityRepository
      * @param QueryBuilder $query
      * @param string       $locale
      */
-    private function setOrder(QueryBuilder $query, $locale = 'en')
+    private function setOrder(QueryBuilder $query, string $locale = 'en')
     {
         $column = ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
         $query->orderBy("ch.$column", 'ASC');
@@ -205,7 +204,7 @@ class ChartRepository extends EntityRepository
      * @param        $game
      * @param string $status
      */
-    public function majStatus($game, $status = 'MAJ')
+    public function majStatus($game, string $status = 'MAJ')
     {
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')

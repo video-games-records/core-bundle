@@ -24,7 +24,7 @@ class PlayerChartRepository extends EntityRepository
      * @return PlayerChart
      * @throws NonUniqueResultException
      */
-    public function getFromUnique(int $idPlayer, int $idChart)
+    public function getFromUnique(int $idPlayer, int $idChart): ?PlayerChart
     {
         $query = $this->createQueryBuilder('pc')
             ->join('pc.player', 'p')
@@ -46,7 +46,7 @@ class PlayerChartRepository extends EntityRepository
      * @param null  $team
      * @return array
      */
-    public function getRankingPoints(Chart $chart, $maxRank = null, $player = null, $team = null)
+    public function getRankingPoints(Chart $chart, $maxRank = null, $player = null, $team = null): array
     {
         $query = $this->createQueryBuilder('pc')
             ->join('pc.player', 'p')
@@ -79,7 +79,7 @@ class PlayerChartRepository extends EntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function maj(Chart $chart)
+    public function maj(Chart $chart): array
     {
         /** @var Chart $chart */
         $chart       = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($chart);
@@ -92,6 +92,21 @@ class PlayerChartRepository extends EntityRepository
         $rank             = 1;
         $nbEqual          = 1;
         $playerChartEqual = [];
+
+        //$platformRanking = [];
+
+        $result = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getPlatforms($chart);
+        $platforms = [];
+        foreach ($result as $row) {
+            $platforms[$row['id']] = [
+                'count' => $row['nb'],
+                'points' => Ranking::platformPointProvider($row['nb']),
+                'previousLibValue' => '',
+                'rank' => 0,
+                'nbEqual' => 1,
+                'playerChartEqual' => [],
+            ];
+        }
 
         foreach ($ranking as $k => $item) {
             $libValue = '';
@@ -123,7 +138,21 @@ class PlayerChartRepository extends EntityRepository
                     $nbEqual          = 1;
                     $playerChartEqual = [];
                 }
+
             }
+            // Platform point
+            if ($playerChart->getPlatform() != null) {
+                $idPlatForm = $playerChart->getPlatform()->getId();
+                if ($platforms[$idPlatForm]['previousLibValue'] === $libValue) {
+                    ++$platforms[$idPlatForm]['nbEqual'];
+                } else {
+                    $platforms[$idPlatForm]['rank'] += $platforms[$idPlatForm]['nbEqual'];
+                    $platforms[$idPlatForm]['nbEqual'] = 1;
+                    $platforms[$idPlatForm]['playerChartEqual'] = [];
+                }
+                $platforms[$idPlatForm]['playerChartEqual'][] = $playerChart;
+            }
+
             $playerChartEqual[] = $playerChart;
 
             $playerChart
@@ -144,6 +173,24 @@ class PlayerChartRepository extends EntityRepository
                 }
             }
 
+            if ($playerChart->getPlatform() != null) {
+                $idPlatForm = $playerChart->getPlatform()->getId();
+                $playerChart->setPointPlatform((int)(
+                    array_sum(
+                        array_slice(array_values($platforms[$idPlatForm]['points']), $platforms[$idPlatForm]['rank'] - 1, $platforms[$idPlatForm]['nbEqual'])
+                    ) / $platforms[$idPlatForm]['nbEqual']
+                ));
+                if ($platforms[$idPlatForm]['nbEqual'] > 1) {
+                    // Pour les égalités déjà passées on met à jour le nbEqual et l'attribution des points
+                    foreach ($platforms[$idPlatForm]['playerChartEqual'] as $playerChartToModify) {
+                        $playerChartToModify
+                            ->setPointPlatform($playerChart->getPointPlatform());
+                    }
+                }
+            } else {
+                $playerChart->setPointPlatform(0);
+            }
+
             // Lost position ?
             $newRank = $playerChart->getRank();
             $newNbEqual = $playerChart->getNbEqual();
@@ -160,12 +207,35 @@ class PlayerChartRepository extends EntityRepository
             }
 
             $previousLibValue = $libValue;
-        }
 
+            // Platform point
+            if ($playerChart->getPlatform() != null) {
+                $platforms[$playerChart->getPlatform()->getId()]['previousLibValue'] = $libValue;
+            }
+        }
         $chart->setStatusPlayer(Chart::STATUS_NORMAL);
         $this->getEntityManager()->flush();
 
         return $players;
+    }
+
+    /**
+     * @param Chart $chart
+     * @return int|mixed|string
+     */
+    public function getPlatforms(Chart $chart)
+    {
+        $query = $this->_em->createQuery("
+            SELECT
+                 p.id,
+                 COUNT(pc) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            INNER JOIN pc.platform p
+            WHERE pc.chart = :chart
+            GROUP BY p.id");
+
+        $query->setParameter('chart', $chart);
+        return $query->getResult(2);
     }
 
     /**
@@ -175,7 +245,7 @@ class PlayerChartRepository extends EntityRepository
      *
      * @return array
      */
-    public function getRankingForUpdate(Chart $chart)
+    public function getRankingForUpdate(Chart $chart): array
     {
         $queryBuilder = $this->getRankingBaseQuery2($chart);
         $queryBuilder
@@ -191,7 +261,7 @@ class PlayerChartRepository extends EntityRepository
      *
      * @return array
      */
-    public function getDisableRanking(Chart $chart)
+    public function getDisableRanking(Chart $chart): array
     {
         $queryBuilder = $this->getRankingBaseQuery2($chart);
         $queryBuilder
@@ -252,7 +322,7 @@ class PlayerChartRepository extends EntityRepository
      *
      * @return QueryBuilder
      */
-    private function getRankingBaseQuery(Chart $chart)
+    private function getRankingBaseQuery(Chart $chart): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('pc');
         $queryBuilder
@@ -289,7 +359,7 @@ class PlayerChartRepository extends EntityRepository
      * @param Chart $chart
      * @return QueryBuilder
      */
-    private function getRankingBaseQuery2(Chart $chart)
+    private function getRankingBaseQuery2(Chart $chart): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('pc');
         $queryBuilder
@@ -341,7 +411,7 @@ class PlayerChartRepository extends EntityRepository
     /**
      * @return array
      */
-    public function getDataRank()
+    public function getDataRank(): array
     {
         $query = $this->_em->createQuery("
                     SELECT
@@ -366,7 +436,7 @@ class PlayerChartRepository extends EntityRepository
      * @param DateTime $date2
      * @return array
      */
-    public function getNbPostDay(DateTime $date1, DateTime $date2)
+    public function getNbPostDay(DateTime $date1, DateTime $date2): array
     {
         $query = $this->_em->createQuery("
             SELECT
@@ -418,7 +488,7 @@ class PlayerChartRepository extends EntityRepository
      * @param integer $limit
      * @return mixed
      */
-    public function rssTopScore($idGame = null, $idGroup = null, $limit = 20)
+    public function rssTopScore($idGame = null, $idGroup = null, int $limit = 20)
     {
         $query = $this->createQueryBuilder('pc')
             ->innerJoin('pc.chart', 'chart')

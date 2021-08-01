@@ -126,6 +126,13 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     private $pointChart = 0;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="pointPlatform", type="integer", nullable=false)
+     */
+    private $pointPlatform = 0;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
@@ -218,7 +225,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * Set id
      *
      * @param integer $id
-     * @return PlayerChart
+     * @return $this
      */
     public function setId(int $id)
     {
@@ -240,7 +247,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * Set rank
      *
      * @param integer $rank
-     * @return PlayerChart
+     * @return $this
      */
     public function setRank(int $rank)
     {
@@ -262,7 +269,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * Set nbEqual
      *
      * @param integer $nbEqual
-     * @return PlayerChart
+     * @return $this
      */
     public function setNbEqual(int $nbEqual)
     {
@@ -283,7 +290,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * Set pointChart
      * @param float $pointChart
-     * @return PlayerChart
+     * @return $this
      */
     public function setPointChart(float $pointChart)
     {
@@ -302,11 +309,32 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     }
 
     /**
+     * Set pointPlatform
+     * @param float $pointPlatform
+     * @return $this
+     */
+    public function setPointPlatform(float $pointPlatform)
+    {
+        $this->pointPlatform = $pointPlatform;
+        return $this;
+    }
+
+    /**
+     * Get pointPlatform
+     *
+     * @return float
+     */
+    public function getPointPlatform()
+    {
+        return $this->pointPlatform;
+    }
+
+    /**
      * Set topScore
      *
      * @param bool $topScore
      *
-     * @return PlayerChart
+     * @return $this
      */
     public function setTopScore(bool $topScore)
     {
@@ -450,7 +478,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * Get status
      *
-     * @return PlayerChartStatus
+     * @return $thisStatus
      */
     public function getStatus()
     {
@@ -544,6 +572,17 @@ class PlayerChart implements ItemInterface, TimestampableInterface
         return $this->getLink();
     }
 
+    /**
+     * @return string
+     */
+    public function getValuesAsString() : String
+    {
+        $values = [];
+        foreach ($this->getLibs() as $lib) {
+            $values[] = $lib->getValue();
+        }
+        return implode('|', $values);
+    }
 
     /**
      * @return string
