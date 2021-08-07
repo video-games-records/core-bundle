@@ -35,6 +35,7 @@ class PlayerController extends AbstractController
 
     /**
      * @param Request $request
+     * @return mixed
      */
     public function autocomplete(Request $request)
     {

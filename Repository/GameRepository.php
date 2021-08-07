@@ -100,6 +100,24 @@ class GameRepository extends EntityRepository
     }
 
     /**
+     * @param string $q
+     * @param string $locale
+     * @return int|mixed|string
+     */
+    public function autocomplete(string $q, string $locale = 'en')
+    {
+        $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
+        $query = $this->createQueryBuilder('g');
+
+        $query
+            ->where("g.$column LIKE :q")
+            ->setParameter('q', '%' . $q . '%')
+            ->orderBy("g.$column", 'ASC');
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
      * Finds games in the given series.
      *
      * @param int $idSerie

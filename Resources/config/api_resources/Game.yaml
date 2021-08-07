@@ -4,6 +4,17 @@ resources:
             get:
                 normalization_context: {'groups': [game.list]}
                 pagination_use_output_walkers: true
+            autocomplete:
+                method: 'GET'
+                normalization_context: { 'groups': [ game.read.mini ] }
+                path: '/games/autocomplete'
+                swagger_context:
+                    parameters:
+                        -   name: query
+                            in: query
+                            required: true
+                            type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::autocomplete'
         itemOperations:
             get:
                 normalization_context: {'groups': [game.read, game.platforms, platform.read]}
