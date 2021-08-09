@@ -57,7 +57,7 @@ BEGIN
 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-	IF OLD.lastUpdate != NEW.lastUpdate THEN
+	IF ((OLD.lastUpdate != NEW.lastUpdate) OR (OLD.idPlatform != NEW.idPlatform)) THEN
 		UPDATE vgr_chart
 	    SET statusPlayer = 'MAJ',
 	        statusTeam = 'MAJ'
