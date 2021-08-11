@@ -40,7 +40,8 @@ class ProofAdmin extends AbstractAdmin
      */
     private function getLibGame(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+        return 'libGameEn';
+        //return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
     }
 
     /**
@@ -48,7 +49,8 @@ class ProofAdmin extends AbstractAdmin
      */
     private function getLibGroup(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        return 'libGroupEn';
+        //return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**
@@ -56,7 +58,8 @@ class ProofAdmin extends AbstractAdmin
      */
     private function getLibChart(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+        return 'libChartEn';
+        //return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
     }
 
     /**

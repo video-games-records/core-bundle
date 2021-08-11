@@ -24,7 +24,8 @@ class GroupAdmin extends AbstractAdmin
      */
     private function getLibGame(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+        return 'libGameEn';
+        //return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
     }
 
     /**
@@ -32,7 +33,8 @@ class GroupAdmin extends AbstractAdmin
      */
     private function getLibGroup(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        return 'libGroupEn';
+        //return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**

@@ -28,7 +28,8 @@ class ChartAdmin extends AbstractAdmin
      */
     private function getLibGroup(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        return 'libGroupEn';
+        //return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**
@@ -36,7 +37,8 @@ class ChartAdmin extends AbstractAdmin
      */
     private function getLibChart(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+        return 'libChartEn';
+        //return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
     }
 
     /**
