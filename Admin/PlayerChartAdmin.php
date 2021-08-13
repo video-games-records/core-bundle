@@ -25,7 +25,7 @@ class PlayerChartAdmin extends AbstractAdmin
     private function getLibGame(): string
     {
         $locale = Locale::getDefault();
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+        return ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
     }
 
     /**
@@ -34,7 +34,7 @@ class PlayerChartAdmin extends AbstractAdmin
     private function getLibGroup(): string
     {
         $locale = Locale::getDefault();
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        return ($locale == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**
@@ -43,7 +43,7 @@ class PlayerChartAdmin extends AbstractAdmin
     private function getLibChart(): string
     {
         $locale = Locale::getDefault();
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+        return ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
     }
 
     /**
@@ -138,6 +138,9 @@ class PlayerChartAdmin extends AbstractAdmin
             ))
             ->add('chart.group.game', ModelAutocompleteFilter::class, array('label' => 'Game'), null, array(
                 'property' => 'libGameEn',
+            ))
+            ->add('chart.group', ModelAutocompleteFilter::class, array('label' => 'Group'), null, array(
+                'property' => 'libGroupEn',
             ))
             ->add('chart.id');
     }
