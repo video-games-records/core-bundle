@@ -9,6 +9,8 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
@@ -32,6 +34,22 @@ class PlayerChartService
     public function getEntityManager(): EntityManagerInterface
     {
         return $this->em;
+    }
+
+    /**
+     * @param $player
+     * @param $game
+     * @param $platform
+     */
+    public function majPlatform($player, $game, $platform) {
+        // Update platform
+        $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majPlatform(
+            $player,
+            $game,
+            $platform
+        );
+        // Maj all charts ot game
+        $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->setChartToMajPlayer($game);
     }
 
     /**

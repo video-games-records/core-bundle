@@ -22,6 +22,7 @@ use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
 use Aws\S3\S3Client;
 use Eko\FeedBundle\Feed\FeedManager;
+use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
 
 /**
  * Class PlayerChartController
@@ -33,6 +34,7 @@ class PlayerChartController extends AbstractController
     private $s3client;
     protected $feedManager;
     private $translator;
+    private $playerChartService;
 
     private $extensions = array(
         'text/plain' => '.txt',
@@ -44,12 +46,14 @@ class PlayerChartController extends AbstractController
         UserManagerInterface $userManager,
         S3Client $s3client,
         FeedManager $feedManager,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        PlayerChartService $playerChartService
     ) {
         $this->userManager = $userManager;
         $this->s3client = $s3client;
         $this->feedManager = $feedManager;
         $this->translator = $translator;
+        $this->playerChartService = $playerChartService;
     }
 
     /**
@@ -73,7 +77,7 @@ class PlayerChartController extends AbstractController
         $idPlatform = $data['idPlatform'];
         $em = $this->getDoctrine()->getManager();
 
-        $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majPlatform(
+        $this->playerChartService->majPlatform(
             $this->getPlayer(),
             $em->getReference(Game::class, $idGame),
             $em->getReference(Platform::class, $idPlatform)
