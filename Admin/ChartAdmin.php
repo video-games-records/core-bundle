@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
@@ -28,8 +29,8 @@ class ChartAdmin extends AbstractAdmin
      */
     private function getLibGroup(): string
     {
-        return 'libGroupEn';
-        //return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        $locale = Locale::getDefault();
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**
@@ -37,8 +38,8 @@ class ChartAdmin extends AbstractAdmin
      */
     private function getLibChart(): string
     {
-        return 'libChartEn';
-        //return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+        $locale = Locale::getDefault();
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
     }
 
     /**

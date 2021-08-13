@@ -13,6 +13,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\Form\Type\CollectionType;
+use Symfony\Component\Intl\Locale;
 
 class PlayerChartAdmin extends AbstractAdmin
 {
@@ -23,8 +24,8 @@ class PlayerChartAdmin extends AbstractAdmin
      */
     private function getLibGame(): string
     {
-        return 'libGameEn';
-        //return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+        $locale = Locale::getDefault();
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
     }
 
     /**
@@ -32,8 +33,8 @@ class PlayerChartAdmin extends AbstractAdmin
      */
     private function getLibGroup(): string
     {
-        return 'libGroupEn';
-        //return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        $locale = Locale::getDefault();
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**
@@ -41,8 +42,8 @@ class PlayerChartAdmin extends AbstractAdmin
      */
     private function getLibChart(): string
     {
-        return 'libChartEn';
-        //return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+        $locale = Locale::getDefault();
+        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
     }
 
     /**
