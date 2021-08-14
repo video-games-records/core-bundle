@@ -25,6 +25,12 @@ class PlayerService
         return $this->em;
     }
 
+
+    public function autocomplete($q)
+    {
+        return $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->autocomplete($q);
+    }
+
     /**
      * @param $player
      * @return mixed

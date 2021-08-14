@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\Form\Type\CollectionType;
+use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 
 class GameAdmin extends AbstractAdmin
@@ -26,7 +27,8 @@ class GameAdmin extends AbstractAdmin
      */
     private function getLibGame(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
     }
 
     /**

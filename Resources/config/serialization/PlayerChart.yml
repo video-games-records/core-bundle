@@ -42,6 +42,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
     dateInvestigation:
       groups:
         - 'playerChart.ranking'
+        - 'playerChart.read'
     platform:
       groups:
         - 'playerChart.ranking'

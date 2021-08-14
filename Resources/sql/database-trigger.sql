@@ -26,24 +26,6 @@ END //
 delimiter ;
 
 
--- PlayerChart
-delimiter //
-DROP TRIGGER IF EXISTS `vgrPlayerChartAfterInsert`//
-CREATE TRIGGER `vgrPlayerChartAfterInsert` AFTER INSERT ON `vgr_player_chart`
-FOR EACH ROW
-BEGIN
-    UPDATE vgr_chart
-	  SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = NEW.idChart AND idStatus != 7),
-		statusPlayer = 'MAJ',
-		statusTeam = 'MAJ'
-	WHERE id = NEW.idChart;
-	UPDATE vgr_player
-	SET nbChart = (SELECT COUNT(idChart) FROM vgr_player_chart WHERE idPlayer = NEW.idPlayer)
-	WHERE id = NEW.idPlayer;
-END //
-delimiter ;
-
-
 delimiter //
 DROP TRIGGER IF EXISTS `vgrChartPlayerAfterUpdate`//
 CREATE TRIGGER vgrChartPlayerAfterUpdate AFTER UPDATE ON vgr_player_chart
@@ -56,23 +38,6 @@ BEGIN
 	DECLARE cur2 CURSOR FOR SELECT idLibChart FROM vgr_chartlib WHERE idChart = NEW.idChart ORDER BY idLibChart ASC;
 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-	IF OLD.lastUpdate != NEW.lastUpdate THEN
-		UPDATE vgr_chart
-	    SET statusPlayer = 'MAJ',
-	        statusTeam = 'MAJ'
-	    WHERE id = OLD.idChart;
-	END IF;
-	IF (OLD.idStatus != NEW.idStatus AND (NEW.idStatus != 2 OR NEW.idStatus != 5)) THEN
-		UPDATE vgr_chart
-	    SET statusPlayer = 'MAJ'
-	    WHERE id = OLD.idChart;
-	END IF;
-	IF (OLD.idStatus != NEW.idStatus AND (OLD.idStatus = 7 OR NEW.idStatus = 7) ) THEN
-		UPDATE vgr_chart
-		SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = OLD.idChart AND idStatus != 7)
-		WHERE id = OLD.idChart;
-	END IF;
 
 	-- MOVE SCORE
 	IF OLD.idChart != NEW.idChart THEN
@@ -107,23 +72,6 @@ BEGIN
 
 	END IF;
 
-END //
-delimiter ;
-
-
-delimiter //
-DROP TRIGGER IF EXISTS `vgrChartPlayerAfterDelete`//
-CREATE TRIGGER `vgrChartPlayerAfterDelete` AFTER DELETE ON `vgr_player_chart`
-FOR EACH ROW
-BEGIN
-    UPDATE vgr_chart
-	SET nbPost = (SELECT COUNT(idPlayer) FROM vgr_player_chart WHERE idChart = OLD.idChart AND idStatus != 7),
-	    statusPlayer = 'MAJ',
-	    statusTeam = 'MAJ'
-	WHERE id = OLD.idChart;
-	UPDATE vgr_player
-	SET nbChart = (SELECT COUNT(idChart) FROM vgr_player_chart WHERE idPlayer = OLD.idPlayer)
-	WHERE id = OLD.idPlayer;
 END //
 delimiter ;
 

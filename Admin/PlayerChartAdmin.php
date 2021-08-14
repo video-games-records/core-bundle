@@ -4,15 +4,16 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\Form\Type\CollectionType;
+use Symfony\Component\Intl\Locale;
 
 class PlayerChartAdmin extends AbstractAdmin
 {
@@ -23,7 +24,8 @@ class PlayerChartAdmin extends AbstractAdmin
      */
     private function getLibGame(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
     }
 
     /**
@@ -31,7 +33,8 @@ class PlayerChartAdmin extends AbstractAdmin
      */
     private function getLibGroup(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**
@@ -39,13 +42,14 @@ class PlayerChartAdmin extends AbstractAdmin
      */
     private function getLibChart(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
     }
 
     /**
-     * @param RouteCollectionInterface $collection
+     * @param RouteCollection $collection
      */
-    protected function configureRoutes(RouteCollectionInterface $collection): void
+    protected function configureRoutes(RouteCollection $collection): void
     {
         $collection
             ->remove('create')
@@ -135,6 +139,9 @@ class PlayerChartAdmin extends AbstractAdmin
             ->add('chart.group.game', ModelAutocompleteFilter::class, array('label' => 'Game'), null, array(
                 'property' => 'libGameEn',
             ))
+            ->add('chart.group', ModelAutocompleteFilter::class, array('label' => 'Group'), null, array(
+                'property' => 'libGroupEn',
+            ))
             ->add('chart.id');
     }
 
@@ -201,5 +208,15 @@ class PlayerChartAdmin extends AbstractAdmin
             ->add('dateInvestigation')
             ->add('proof')
             ->add('libs');
+    }
+
+    /**
+     * @param $object
+     */
+    public function preUpdate($object): void
+    {
+        $chart = $object->getChart();
+        $chart->setStatusPlayer('MAJ');
+        $chart->setStatusTeam('MAJ');
     }
 }

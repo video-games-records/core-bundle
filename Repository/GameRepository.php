@@ -7,6 +7,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -97,6 +98,24 @@ class GameRepository extends EntityRepository
         $this->withPlatforms($query);
 
         return $query->getQuery();
+    }
+
+    /**
+     * @param string $q
+     * @param string $locale
+     * @return int|mixed|string
+     */
+    public function autocomplete(string $q, string $locale = 'en')
+    {
+        $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
+        $query = $this->createQueryBuilder('g');
+
+        $query
+            ->where("g.$column LIKE :q")
+            ->setParameter('q', '%' . $q . '%')
+            ->orderBy("g.$column", 'ASC');
+
+        return $query->getQuery()->getResult();
     }
 
     /**
@@ -293,5 +312,23 @@ class GameRepository extends EntityRepository
     {
         $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
         $query->orderBy("g.$column", 'ASC');
+    }
+
+
+    /**
+     * @param        $game
+     */
+    public function setChartToMajPlayer($game)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
+            ->set('c.statusPlayer', ':status')
+            ->setParameter('status', Chart::STATUS_MAJ)
+            ->where('c.group IN (
+                            SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
+                        WHERE g.game = :game)')
+            ->setParameter('game', $game);
+
+        $query->getQuery()->execute();
     }
 }

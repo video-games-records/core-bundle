@@ -34,6 +34,16 @@ class PlayerController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function autocomplete(Request $request)
+    {
+        $q = $request->query->get('query', null);
+        return $this->playerService->autocomplete($q);
+    }
+
+    /**
      * @return mixed
      */
     public function stats()
@@ -129,16 +139,6 @@ class PlayerController extends AbstractController
     public function rankingCupTop5()
     {
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCup(null, 5);
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function autocomplete(Request $request)
-    {
-        $q = $request->query->get('query', null);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:player')->autocomplete($q);
     }
 
     /**

@@ -11,6 +11,7 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Response;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Team;
+use VideoGamesRecords\CoreBundle\Service\GameService;
 
 /**
  * Class GameController
@@ -18,6 +19,13 @@ use VideoGamesRecords\CoreBundle\Entity\Team;
  */
 class GameController extends AbstractController
 {
+    private $gameService;
+
+    public function __construct(GameService $gameService)
+    {
+        $this->gameService = $gameService;
+    }
+
     /**
      * @return Player|null
      */
@@ -41,6 +49,17 @@ class GameController extends AbstractController
             return $player->getTeam();
         }
         return null;
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function autocomplete(Request $request)
+    {
+        $q = $request->query->get('query', null);
+        $locale = $request->getLocale();
+        return $this->gameService->autocomplete($q, $locale);
     }
 
     /**

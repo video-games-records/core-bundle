@@ -13,6 +13,23 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerRepository extends EntityRepository
 {
+
+    /**
+     * @param $q
+     * @return mixed
+     */
+    public function autocomplete($q)
+    {
+        $query = $this->createQueryBuilder('p');
+
+        $query
+            ->where('p.pseudo LIKE :q')
+            ->setParameter('q', '%' . $q . '%')
+            ->orderBy('p.pseudo', 'ASC');
+
+        return $query->getQuery()->getResult();
+    }
+
     /**
      * @param $user
      * @return mixed|Player
@@ -27,21 +44,6 @@ class PlayerRepository extends EntityRepository
             ->addSelect('team')->leftJoin('player.team', 'team');
 
         return $qb->getQuery()->getOneOrNullResult();
-    }
-
-    /**
-     * @param $q
-     * @return mixed
-     */
-    public function autocomplete($q)
-    {
-        $query = $this->createQueryBuilder('p');
-        $query
-            ->where('p.pseudo LIKE :q')
-            ->setParameter('q', '%' . $q . '%')
-            ->orderBy('p.pseudo', 'ASC');
-
-        return $query->getQuery()->getResult();
     }
 
     /**

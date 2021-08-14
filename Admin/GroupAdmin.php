@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\Form\Type\CollectionType;
+use Symfony\Component\Intl\Locale;
 
 class GroupAdmin extends AbstractAdmin
 {
@@ -24,7 +25,8 @@ class GroupAdmin extends AbstractAdmin
      */
     private function getLibGame(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
     }
 
     /**
@@ -32,7 +34,8 @@ class GroupAdmin extends AbstractAdmin
      */
     private function getLibGroup(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**

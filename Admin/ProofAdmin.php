@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
@@ -40,7 +41,8 @@ class ProofAdmin extends AbstractAdmin
      */
     private function getLibGame(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGameFr' : 'libGameEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
     }
 
     /**
@@ -48,7 +50,8 @@ class ProofAdmin extends AbstractAdmin
      */
     private function getLibGroup(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libGroupFr' : 'libGroupEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
     /**
@@ -56,7 +59,8 @@ class ProofAdmin extends AbstractAdmin
      */
     private function getLibChart(): string
     {
-        return ($this->getRequest()->getLocale() == 'fr') ? 'libChartFr' : 'libChartEn';
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
     }
 
     /**
