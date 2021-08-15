@@ -44,9 +44,12 @@ class PlayerChartListener
     public function preUpdate(PlayerChart $playerChart, PreUpdateEventArgs $event)
     {
         $this->changeSet = $event->getEntityChangeSet();
+
         if (array_key_exists('status', $this->changeSet)) {
-            if (!in_array($this->changeSet['status'][1], array(PlayerChartStatus::ID_STATUS_DEMAND, PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF))) {
-                $playerChart->getChart()->setStatusPlayer(Chart::STATUS_MAJ);
+            if ($this->changeSet['status'][1]->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
+                $chart = $playerChart->getChart();
+                $chart->setStatusPlayer(Chart::STATUS_MAJ);
+                $chart->setStatusTeam(Chart::STATUS_MAJ);
             }
         }
 
