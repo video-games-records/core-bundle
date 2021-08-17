@@ -13,6 +13,60 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 class ChartRepository extends EntityRepository
 {
+
+    /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countStatusPlayerMaj()
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatusPlayer($qb, Chart::STATUS_MAJ);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countStatusPlayerGoToMaj()
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatusPlayer($qb, Chart::STATUS_GO_TO_MAJ);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+      /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countStatusTeamMaj()
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatusTeam($qb, Chart::STATUS_MAJ);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countStatusTeamGoToMaj()
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatusTeam($qb, Chart::STATUS_GO_TO_MAJ);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
     /**
      * @param $id
      * @return Chart
@@ -226,5 +280,40 @@ class ChartRepository extends EntityRepository
             ->setParameter('game', $game);
 
         $query->getQuery()->execute();
+    }
+
+    /*************************************/
+    /************  PRIVATE  **************/
+    /*************************************/
+
+    /**
+     * @return QueryBuilder
+     */
+    private function getCountQueryBuilder()
+    {
+         return $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)');
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param string       $status
+     */
+    private function whereStatusPlayer(QueryBuilder $query, string $status)
+    {
+        $query
+            ->andWhere('c.statusPlayer = :status')
+            ->setParameter('status', $status);
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param string       $status
+     */
+    private function whereStatusTeam(QueryBuilder $query, string $status)
+    {
+        $query
+            ->andWhere('c.statusTeam = :status')
+            ->setParameter('status', $status);
     }
 }

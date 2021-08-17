@@ -185,6 +185,7 @@ class ChartAdmin extends AbstractAdmin
                     'label' => 'Libs',
                 ]
             )
+            ->add('updated_at', 'datetime', ['label' => 'Updated At'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
