@@ -34,7 +34,9 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *          "chart.group": "exact",
  *          "chart.group.game": "exact",
  *          "rank": "exact",
- *          "nbEqual": "exact"
+ *          "nbEqual": "exact",
+ *          "chart.libChartEn" : "partial",
+ *          "chart.libChartFr" : "partial",
  *     }
  * )
  * @ApiFilter(
