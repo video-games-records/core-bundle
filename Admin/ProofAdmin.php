@@ -299,8 +299,8 @@ class ProofAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
 
-        // Cant change status final
-        if (in_array($originalObject['status'], array(Proof::STATUS_ACCEPTED, Proof::STATUS_REFUSED), true)) {
+        // Cant change status final (CLOSED & REFUSED)
+        if (in_array($originalObject['status'], array(Proof::STATUS_CLOSED, Proof::STATUS_REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
 
@@ -334,11 +334,17 @@ class ProofAdmin extends AbstractAdmin
         }
 
         // REFUSED
-        if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_REFUSED) {
+        if (in_array($originalObject['status'], array(Proof::STATUS_IN_PROGRESS, Proof::STATUS_ACCEPTED)) && $object->getStatus() === Proof::STATUS_REFUSED) {
             /** @var PlayerChart $playerChart */
-            $idStatus = ($object->getPlayerChart()->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
-                ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
-            $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, $idStatus));
+            $playerChart = $object->getPlayerChart();
+            if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
+                $playerChart->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL));
+            } else {
+                $idStatus = ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
+                    ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
+                $playerChart
+                    ->setStatus($em->getReference(PlayerChartStatus::class, $idStatus));
+            }
             $setPlayerResponding = true;
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
