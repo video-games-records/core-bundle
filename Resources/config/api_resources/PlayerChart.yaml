@@ -35,7 +35,7 @@ resources:
             get:
                 normalization_context: {'groups': [playerChart.read, playerChart.libs, playerChart.player, player.read.mini, playerChart.status, playerChartStatus.read, chart.label.read, playerChartLib.format, playerChart.proof, proof.read, picture.read, video.read]}
             put:
-                denormalization_context: {'groups': [playerChart.write,playerChart.put]}
-                normalization_context: {'groups': [playerChart.write]}
+                denormalization_context: {'groups': [playerChart.write, playerChart.put]}
+                normalization_context: {'groups': [playerChart.read, playerChart.status, playerChartStatus.read, playerChart.platform]}
                 access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
                 _api_receive: true
