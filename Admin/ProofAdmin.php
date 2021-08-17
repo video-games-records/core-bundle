@@ -156,6 +156,8 @@ class ProofAdmin extends AbstractAdmin
             ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
                 'property' => $this->getLibGame(),
             ])
+            ->add('chart.group.game.libGameEn', null, ['label' => 'Game [EN]'])
+            ->add('chart.group.game.libGameFr', null, ['label' => 'Game [FR]'])
             ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
