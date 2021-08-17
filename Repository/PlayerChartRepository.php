@@ -213,7 +213,6 @@ class PlayerChartRepository extends EntityRepository
                 $platforms[$playerChart->getPlatform()->getId()]['previousLibValue'] = $libValue;
             }
         }
-        $chart->setStatusPlayer(Chart::STATUS_NORMAL);
         $this->getEntityManager()->flush();
 
         return $players;

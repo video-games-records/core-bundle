@@ -73,7 +73,16 @@ class ChartRepository extends EntityRepository
     public function goToMajPlayer(int $limit)
     {
         $sql = sprintf("UPDATE vgr_chart SET statusPlayer = '%s' WHERE statusPlayer='%s' LIMIT %d", Chart::STATUS_GO_TO_MAJ, Chart::STATUS_MAJ, $limit);
-        $this->_em->getConnection()->executeUpdate($sql);
+        $this->_em->getConnection()->executeStatement($sql);
+    }
+
+    /**
+     * @throws DBALException
+     */
+    public function goToNormalPlayer()
+    {
+        $sql = sprintf("UPDATE vgr_chart SET statusPlayer = '%s' WHERE statusPlayer='%s'", Chart::STATUS_NORMAL, Chart::STATUS_GO_TO_MAJ);
+        $this->_em->getConnection()->executeStatement($sql);
     }
 
     /**
@@ -90,7 +99,7 @@ class ChartRepository extends EntityRepository
             Chart::STATUS_MAJ,
             $limit
         );
-        $this->_em->getConnection()->executeUpdate($sql);
+        $this->_em->getConnection()->executeStatement($sql);
     }
 
     /**
