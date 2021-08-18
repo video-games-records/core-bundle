@@ -153,6 +153,7 @@ class ProofAdmin extends AbstractAdmin
             ->add('player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
                 'property' => 'pseudo',
             ])
+            ->add('player.pseudo', null, ['label' => 'Pseudo'])
             ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
                 'property' => $this->getLibGame(),
             ])
