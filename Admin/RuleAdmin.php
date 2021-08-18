@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
-use Doctrine\ORM\EntityManager;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -14,7 +13,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+
 
 class RuleAdmin extends AbstractAdmin
 {
@@ -51,6 +50,19 @@ class RuleAdmin extends AbstractAdmin
                 'label' => 'Name',
                 'required' => true,
             ])
+             ->add(
+                'player',
+                ModelListType::class,
+                [
+                    'data_class' => null,
+                    'btn_add' => false,
+                    'btn_list' => true,
+                    'btn_edit' => false,
+                    'btn_delete' => false,
+                    'btn_catalogue' => true,
+                    'label' => 'Player',
+                ]
+            )
             ->add('translations', TranslationsType::class, [
                 'fields' => [
                     'text' => [
@@ -94,6 +106,12 @@ class RuleAdmin extends AbstractAdmin
         $list
             ->addIdentifier('id')
             ->add('name', null, ['label' => 'Name'])
+             ->add('player', null, [
+                'associated_property' => 'pseudo',
+                'label' => 'Player',
+            ])
+            ->add('created_at', 'datetime', ['label' => 'Created At'])
+            ->add('updated_at', 'datetime', ['label' => 'Updated At'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -110,6 +128,9 @@ class RuleAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('name', null, ['label' => 'Name'])
+            ->add('player')
+            ->add('created_at', 'datetime', ['label' => 'Created At'])
+            ->add('updated_at', 'datetime', ['label' => 'Updated At'])
             ->add('games')
             ->add('getDefaultText', null, ['label' => 'Text', 'safe' => true]);
     }

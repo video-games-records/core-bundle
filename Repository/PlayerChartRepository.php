@@ -93,8 +93,6 @@ class PlayerChartRepository extends EntityRepository
         $nbEqual          = 1;
         $playerChartEqual = [];
 
-        //$platformRanking = [];
-
         $result = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getPlatforms($chart);
         $platforms = [];
         foreach ($result as $row) {
