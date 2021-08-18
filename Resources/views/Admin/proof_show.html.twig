@@ -45,7 +45,11 @@
                                                 {% elseif field_name == 'picture' %}
                                                     {% if object.getPicture() != null %}
                                                         <th>Picture</th>
-                                                        <td><img src="{{ path('vgr_core_picture_index',{'id': object.getPicture().getId()}) }}" width="100%" alt="" /></td>
+                                                        <td>
+                                                             <a target="_blank" href="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}">
+                                                                <img src="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}" width="100%" alt="" />
+                                                            </a>
+                                                        </td>
                                                     {% endif %}
                                                 {% elseif field_name == 'video' %}
                                                     {% if object.getVideo() != null %}

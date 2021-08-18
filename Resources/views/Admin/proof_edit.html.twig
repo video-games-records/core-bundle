@@ -41,7 +41,11 @@
                         {% if object.getPicture() != null %}
                             <tr class="sonata-ba-view-container">
                                 <th>Picture</th>
-                                <td><img src="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}" width="50%" alt="" /></td>
+                                <td>
+                                    <a target="_blank" href="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}">
+                                        <img src="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}" width="50%" alt="" />
+                                    </a>
+                                </td>
                             </tr>
                         {% endif %}
                         {% if object.getVideo() != null %}
