@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -32,6 +33,24 @@ class ProofRequestAdmin extends AbstractAdmin
     public function setMessager(Messager $messager): void
     {
         $this->messager = $messager;
+    }
+
+     /**
+     * @return string
+     */
+    private function getLibGame(): string
+    {
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
+    }
+
+    /**
+     * @return string
+     */
+    private function getLibChart(): string
+    {
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
     }
 
     /**
@@ -157,12 +176,26 @@ class ProofRequestAdmin extends AbstractAdmin
                     array('fieldName' => 'player'),
                 )
             ])
+             ->add('playerChart.chart.group.game', null, [
+                'associated_property' =>  $this->getLibGame(),
+                'label' => 'Game',
+                'sortable' => true,
+                'sort_field_mapping' => array(
+                    'fieldName' => $this->getLibGame()
+                ),
+                'sort_parent_association_mappings' => array(
+                    array('fieldName' => 'playerChart'),
+                    array('fieldName' => 'chart'),
+                    array('fieldName' => 'group'),
+                    array('fieldName' => 'game'),
+                )
+            ])
             ->add('playerChart.chart', null, [
-                'associated_property' =>  'libChartEn',
+                'associated_property' =>  $this->getLibChart(),
                 'label' => 'Chart',
                 'sortable' => true,
                 'sort_field_mapping' => array(
-                    'fieldName' => 'libChartEn'
+                    'fieldName' => $this->getLibChart()
                 ),
                 'sort_parent_association_mappings' => array(
                     array('fieldName' => 'playerChart'),
