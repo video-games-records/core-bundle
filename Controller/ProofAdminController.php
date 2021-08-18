@@ -25,21 +25,6 @@ class ProofAdminController extends CRUDController
             $months[$row['month']][] = $row;
         }
 
-        /*$table = array();
-        $index = 0;
-        $k = 0;
-        foreach ($months as $month => $data) {
-            if ($k == 4) {
-                $k = 0;
-                $index++;
-            }
-            $table[$index][$month] = $data;
-            $k++;
-        }
-        /*echo '<pre>';
-        var_dump($table); exit;*/
-
-
         return $this->renderWithExtraParams(
             'VideoGamesRecordsCoreBundle:Admin:proof.stats.html.twig',
                [
