@@ -66,6 +66,7 @@ services:
             - VideoGamesRecords\CoreBundle\Entity\ProofRequest
             - ~
         calls:
+            - [ setTemplate, ['edit', 'VideoGamesRecordsCoreBundle:Admin:proof_request_edit.html.twig']]
             - [ setMessager, ['@ProjetNormandie\MessageBundle\Service\Messager']]
     sonata.admin.vgr.proof.proof:
         class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
