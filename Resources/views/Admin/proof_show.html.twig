@@ -30,22 +30,14 @@
                                                         <th>Player</th>
                                                         <td>NO PLAYER</td>
                                                     {% endif %}
-                                                {% elseif field_name == 'chart' %}
-                                                    {% if object.getPlayerChart() %}
-                                                        {{ elements[field_name]|render_view_element(object)}}
-                                                        </tr><tr>
-                                                        <th>LINK</th>
-                                                        <td>
-                                                            <a target="_blank" href="{{ front_url }}/en/{{ object.getPlayerChart().getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
-                                                        </td>
-                                                    {%  else %}
-                                                        <th>Chart</th>
-                                                        <td>NO CHART</td>
-                                                    {% endif %}
                                                 {% elseif field_name == 'picture' %}
                                                     {% if object.getPicture() != null %}
                                                         <th>Picture</th>
-                                                        <td><img src="{{ path('vgr_core_picture_index',{'id': object.getPicture().getId()}) }}" width="100%" alt="" /></td>
+                                                        <td>
+                                                             <a target="_blank" href="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}">
+                                                                <img src="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}" width="100%" alt="" />
+                                                            </a>
+                                                        </td>
                                                     {% endif %}
                                                 {% elseif field_name == 'video' %}
                                                     {% if object.getVideo() != null %}
@@ -63,6 +55,11 @@
                                                             {% for lib in object.getPlayerChart().libs %}
                                                                 {{ lib }}
                                                             {% endfor %}
+                                                        </td>
+                                                        </tr><tr>
+                                                        <th>VGR LINK</th>
+                                                        <td>
+                                                            <a target="_blank" href="{{ front_url }}/en/{{ object.getPlayerChart().getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
                                                         </td>
                                                     {%  else %}
                                                         <th>PlayerChart</th>

@@ -33,10 +33,10 @@ class PlatformController extends AbstractController
      * @param Request  $request
      * @return mixed
      */
-    public function playerRankingPointChart(Platform $platform, Request $request)
+    public function playerRankingPointPlatform(Platform $platform, Request $request)
     {
         $maxRank = $request->query->get('maxRank', null);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerPlatform')->getRankingPointChart(
+        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerPlatform')->getRankingPointPlatform(
             $platform,
             $maxRank,
             $this->getPlayer()

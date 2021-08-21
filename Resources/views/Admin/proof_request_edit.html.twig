@@ -17,47 +17,21 @@
                         <tr class="sonata-ba-view-container">
                             <th>Game</th>
                             <td>
-                                {{ object.getChart().getGroup().getGame().getName() }}
+                                {{ object.getPlayerChart().getChart().getGroup().getGame().getName() }}
                             </td>
                         </tr>
                         <tr class="sonata-ba-view-container">
                             <th>Group</th>
                             <td>
-                                {{ object.getChart().getGroup().getName() }}
+                                {{ object.getPlayerChart().getChart().getGroup().getName() }}
                             </td>
                         </tr>
                         <tr class="sonata-ba-view-container">
                             <th>Chart</th>
                             <td>
-                                {{ object.getChart().getName() }}
+                                {{ object.getPlayerChart().getChart().getName() }}
                             </td>
                         </tr>
-                        <tr class="sonata-ba-view-container">
-                            <th>LINK</th>
-                            <td>
-                                <a target="_blank" href="{{ front_url }}/en/{{ object.getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
-                            </td>
-                        </tr>
-                        {% if object.getPicture() != null %}
-                            <tr class="sonata-ba-view-container">
-                                <th>Picture</th>
-                                <td>
-                                    <a target="_blank" href="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}">
-                                        <img src="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}" width="50%" alt="" />
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endif %}
-                        {% if object.getVideo() != null %}
-                            <tr class="sonata-ba-view-container">
-                                <th>Video</th>
-                                <td>
-                                    <iframe width="720" height="405"
-                                            src="{{ object.getVideo().getEmbeddedUrl() }}">
-                                    </iframe>
-                                </td>
-                            </tr>
-                        {% endif %}
                         <tr class="sonata-ba-view-container">
                             {% if object.getPlayerChart() %}
                                 <th>Score (ID={{ object.getPlayerChart().getId() }})</th>
@@ -70,6 +44,12 @@
                                 <th>PlayerChart</th>
                                 <td>NO PLAYER CHART</td>
                             {% endif %}
+                        </tr>
+                        <tr class="sonata-ba-view-container">
+                            <th>LINK</th>
+                            <td>
+                                <a target="_blank" href="{{ front_url }}/en/{{ object.getPlayerChart().getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

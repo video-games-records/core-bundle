@@ -2,7 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
@@ -37,6 +37,16 @@ class Rule implements TranslatableInterface, TimestampableInterface
     private $name;
 
     /**
+     * @var Player
+     *
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="rules")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
+     * })
+     */
+    private $player;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Game", mappedBy="rules")
      * @ORM\JoinTable(name="vgr_rule_game",
      *      joinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")},
@@ -50,7 +60,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      */
     public function __construct()
     {
-        $this->games = new ArrayCollection();
+
     }
 
     /**
@@ -66,7 +76,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Rule
     {
         $this->id = $id;
         return $this;
@@ -77,7 +87,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -88,7 +98,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      * @param string $name
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): Rule
     {
         $this->name = $name;
 
@@ -100,9 +110,32 @@ class Rule implements TranslatableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Set player
+     *
+     * @param Player $player
+     * @return $this
+     */
+    public function setPlayer(Player $player): Rule
+    {
+        $this->player = $player;
+
+        return $this;
+    }
+
+    /**
+     * Get player
+     *
+     * @return Player
+     */
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
     }
 
 
@@ -110,7 +143,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      * @param string $text
      * @return $this
      */
-    public function setText(string $text)
+    public function setText(string $text): Rule
     {
         $this->translate(null, false)->setName($text);
 
@@ -120,7 +153,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
     /**
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->translate(null, false)->getText();
     }
@@ -128,15 +161,15 @@ class Rule implements TranslatableInterface, TimestampableInterface
     /**
      * @return string
      */
-    public function getDefaultText()
+    public function getDefaultText(): string
     {
         return $this->translate('en', false)->getText();
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getGames()
+    public function getGames(): Collection
     {
         return $this->games;
     }

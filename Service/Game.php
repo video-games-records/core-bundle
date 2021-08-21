@@ -160,17 +160,4 @@ class Game
             rename($fileIn, $fileOut);
         }
     }
-
-    /**
-     *
-     */
-    public function majChartRank()
-    {
-        $games = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(array('boolMaj' => true));
-        foreach ($games as $game) {
-            $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart')->majStatus($game);
-            $game->setBoolMaj(false);
-            $this->em->flush();
-        }
-    }
 }

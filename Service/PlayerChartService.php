@@ -145,6 +145,7 @@ class PlayerChartService
         }
 
         $this->em->flush();
+        $chartRepository->goToNormalPlayer();
         return count($charts);
     }
 }

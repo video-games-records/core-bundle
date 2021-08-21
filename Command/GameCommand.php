@@ -7,19 +7,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Service\Game as Service;
+use VideoGamesRecords\CoreBundle\Service\GameService;
 
 class GameCommand extends DefaultCommand
 {
     protected static $defaultName = 'vgr-core:game';
 
     private $em;
-    private $service;
+    private $gameService;
 
-    public function __construct(EntityManagerInterface $em, Service $service)
+    public function __construct(EntityManagerInterface $em, GameService $gameService)
     {
         $this->em = $em;
-        $this->service = $service;
+        $this->gameService = $gameService;
         parent::__construct($em);
     }
 
@@ -68,14 +68,11 @@ class GameCommand extends DefaultCommand
                 $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majMasterBadge($game);
                 $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamBadge')->majMasterBadge($game);
                 break;
-            case 'add-from-csv':
-                $this->service->addFromCsv();
-                break;
-            case 'update-from-csv':
-                $this->service->updateFromCsv();
+            case 'game-of-day':
+                $this->gameService->addGameOfDay();
                 break;
             case 'maj-chart-rank':
-                $this->service->majChartRank();
+                $this->gameService->majChartRank();
                 break;
         }
         return true;

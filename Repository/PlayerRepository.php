@@ -496,7 +496,7 @@ class PlayerRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('player')
             ->select('player.id as idPlayer, player.pseudo')
-            ->innerJoin('player.proof', 'proof')
+            ->innerJoin('player.proofRespondings', 'proof')
             ->addSelect('COUNT(proof.id) as nb, SUBSTRING(proof.updatedAt, 1, 7) as month')
             ->where("proof.checkedAt > '2020-01-01'")
             ->orderBy('month', 'DESC')

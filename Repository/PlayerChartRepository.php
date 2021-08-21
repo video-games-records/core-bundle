@@ -93,8 +93,6 @@ class PlayerChartRepository extends EntityRepository
         $nbEqual          = 1;
         $playerChartEqual = [];
 
-        //$platformRanking = [];
-
         $result = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getPlatforms($chart);
         $platforms = [];
         foreach ($result as $row) {
@@ -213,7 +211,6 @@ class PlayerChartRepository extends EntityRepository
                 $platforms[$playerChart->getPlatform()->getId()]['previousLibValue'] = $libValue;
             }
         }
-        $chart->setStatusPlayer(Chart::STATUS_NORMAL);
         $this->getEntityManager()->flush();
 
         return $players;

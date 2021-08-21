@@ -70,7 +70,7 @@ class Proof implements TimestampableInterface
     /**
      * @var Player
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="proof")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="proofRespondings")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayerResponding", referencedColumnName="id", nullable=true)
      * })
@@ -80,7 +80,7 @@ class Proof implements TimestampableInterface
     /**
      * @var Player
      *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="proof")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="proofs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })

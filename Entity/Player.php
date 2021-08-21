@@ -375,9 +375,19 @@ class Player implements SluggableInterface
 
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="player")
+     */
+    private $proofs;
+
+    /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="playerResponding")
      */
-    private $proof;
+    private $proofRespondings;
+
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Rule", mappedBy="player")
+     */
+    private $rules;
 
     /**
      * @var DateTime

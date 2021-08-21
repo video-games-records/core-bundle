@@ -40,10 +40,12 @@ class PlayerChartListener
     /**
      * @param PlayerChart        $playerChart
      * @param PreUpdateEventArgs $event
+     * @throws ORMException
      */
     public function preUpdate(PlayerChart $playerChart, PreUpdateEventArgs $event)
     {
         $this->changeSet = $event->getEntityChangeSet();
+        $em = $event->getEntityManager();
 
         if (array_key_exists('status', $this->changeSet)) {
             if ($this->changeSet['status'][1]->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
@@ -55,9 +57,7 @@ class PlayerChartListener
 
         // Update by player
         if (array_key_exists('lastUpdate', $this->changeSet)) {
-            $chart = $playerChart->getChart();
-            $chart->setStatusPlayer(Chart::STATUS_MAJ);
-            $chart->setStatusTeam(Chart::STATUS_MAJ);
+            $playerChart->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL));
         }
 
         if (array_key_exists('platform', $this->changeSet)) {
@@ -87,6 +87,21 @@ class PlayerChartListener
             $playerChart->setPointChart(0);
             $playerChart->setRank(0);
             $playerChart->setTopScore(false);
+        }
+    }
+
+     /**
+     * @param PlayerChart              $playerChart
+     * @param LifecycleEventArgs $event
+     * @throws ORMException
+     */
+    public function postUpdate(PlayerChart $playerChart, LifecycleEventArgs $event)
+    {
+        if (array_key_exists('lastUpdate', $this->changeSet)) {
+            $chart = $playerChart->getChart();
+            $chart->setStatusPlayer(Chart::STATUS_MAJ);
+            $chart->setStatusTeam(Chart::STATUS_MAJ);
+            $event->getEntityManager()->flush();
         }
     }
 

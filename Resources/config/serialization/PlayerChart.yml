@@ -33,7 +33,6 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
     status:
       groups:
         - 'playerChart.status'
-        - 'playerChart.put'
     proof:
       groups:
         - 'playerChart.ranking'
