@@ -9,8 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\UserBundle\Model\UserManagerInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\Game;
@@ -30,7 +29,7 @@ use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
  */
 class PlayerChartController extends AbstractController
 {
-    private $userManager;
+    private $security;
     private $s3client;
     protected $feedManager;
     private $translator;
@@ -43,13 +42,13 @@ class PlayerChartController extends AbstractController
     );
 
     public function __construct(
-        UserManagerInterface $userManager,
+        Security $security,
         S3Client $s3client,
         FeedManager $feedManager,
         TranslatorInterface $translator,
         PlayerChartService $playerChartService
     ) {
-        $this->userManager = $userManager;
+        $this->security = $security;
         $this->s3client = $s3client;
         $this->feedManager = $feedManager;
         $this->translator = $translator;
@@ -62,7 +61,7 @@ class PlayerChartController extends AbstractController
     private function getPlayer()
     {
         return  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-            ->getPlayerFromUser($this->getUser());
+            ->getPlayerFromUser($this->security->getUser());
     }
 
 
