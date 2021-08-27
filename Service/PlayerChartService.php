@@ -9,9 +9,12 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\Platform;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
+use VideoGamesRecords\CoreBundle\Entity\PlayerGroup;
 use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
@@ -21,7 +24,7 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class PlayerChartService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -59,7 +62,7 @@ class PlayerChartService
     {
         $list = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getPlayerChartToDesactivate();
         $statusReference = $this->em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NOT_PROOVED);
-        /** @var \VideoGamesRecords\CoreBundle\Entity\PlayerChart $playerChart */
+        /** @var PlayerChart $playerChart */
         foreach ($list as $playerChart) {
             var_dump($playerChart->getId());
             $playerChart->setStatus($statusReference);
@@ -147,5 +150,53 @@ class PlayerChartService
         $this->em->flush();
         $chartRepository->goToNormalPlayer();
         return count($charts);
+    }
+
+    /**
+     * @param PlayerChart $playerChart
+     */
+    public function incrementNbChartProven(PlayerChart $playerChart)
+    {
+        $this->updateNbChartProven($playerChart, 1);
+    }
+
+    /**
+     * @param PlayerChart $playerChart
+     */
+    public function decrementNbChartProven(PlayerChart $playerChart)
+    {
+        $this->updateNbChartProven($playerChart, -1);
+    }
+
+    /**
+     * @param PlayerChart $playerChart
+     * @param int    $nb
+     */
+    private function updateNbChartProven(PlayerChart $playerChart, int $nb)
+    {
+        /** @var PlayerGroup $playerGroup */
+        $playerGroup = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->findOneBy(
+            array(
+                'player' => $playerChart->getPlayer(),
+                'group' => $playerChart->getChart()->getGroup()
+            )
+        );
+        if ($playerGroup) {
+            $playerGroup->setNbChartProven($playerGroup->getNbChartProven() + $nb);
+        }
+
+        /** @var PlayerGame $playerGame */
+        $playerGame = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->findOneBy(
+            array(
+                'player' => $playerChart->getPlayer(),
+                'game' => $playerChart->getChart()->getGroup()->getGame()
+            )
+        );
+        if ($playerGame) {
+            $playerGame->setNbChartProven($playerGame->getNbChartProven() + $nb);
+        }
+
+        $playerChart->getPlayer()->setNbChartProven($playerChart->getPlayer()->getNbChartProven() + $nb);
+        $this->em->flush();
     }
 }

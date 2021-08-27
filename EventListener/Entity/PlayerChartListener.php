@@ -3,17 +3,27 @@
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
 
 class PlayerChartListener
 {
-    private $changeSet = array();
+    private array $changeSet = array();
+    private PlayerChartService $playerChartService;
+
+    /**
+     * PlayerChartListener constructor.
+     * @param PlayerChartService $playerChartService
+     */
+    public function __construct(PlayerChartService $playerChartService)
+    {
+        $this->playerChartService = $playerChartService;
+    }
 
     /**
      * @param PlayerChart        $playerChart
@@ -46,14 +56,6 @@ class PlayerChartListener
     {
         $this->changeSet = $event->getEntityChangeSet();
         $em = $event->getEntityManager();
-
-        if (array_key_exists('status', $this->changeSet)) {
-            if ($this->changeSet['status'][1]->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
-                $chart = $playerChart->getChart();
-                $chart->setStatusPlayer(Chart::STATUS_MAJ);
-                $chart->setStatusTeam(Chart::STATUS_MAJ);
-            }
-        }
 
         // Update by player
         if (array_key_exists('lastUpdate', $this->changeSet)) {
@@ -102,6 +104,24 @@ class PlayerChartListener
             $chart->setStatusPlayer(Chart::STATUS_MAJ);
             $chart->setStatusTeam(Chart::STATUS_MAJ);
             $event->getEntityManager()->flush();
+        }
+
+        if (array_key_exists('status', $this->changeSet)) {
+            if (($this->changeSet['status'][0]->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED)
+                || ($this->changeSet['status'][1]->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED)) {
+                $chart = $playerChart->getChart();
+                $chart->setStatusPlayer(Chart::STATUS_MAJ);
+                $chart->setStatusTeam(Chart::STATUS_MAJ);
+                $event->getEntityManager()->flush();
+            }
+
+            if ($this->changeSet['status'][1]->getId() == PlayerChartStatus::ID_STATUS_PROOVED) {
+                $this->playerChartService->incrementNbChartProven($playerChart);
+            }
+
+            if ($this->changeSet['status'][0]->getId() == PlayerChartStatus::ID_STATUS_PROOVED) {
+                $this->playerChartService->decrementNbChartProven($playerChart);
+            }
         }
     }
 

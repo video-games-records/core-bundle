@@ -45,7 +45,7 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
                 ->getPlayerFromUser($token->getUser());
 
             $nbRequest = $this->em->getRepository('VideoGamesRecordsCoreBundle:ProofRequest')->getNbRequestFromToDay($player);
-            if ($nbRequest >= 5) {
+            if ($nbRequest >= 3) {
                 throw new PostException('You raise limit request for today');
             }
             $request->setPlayerRequesting($player);

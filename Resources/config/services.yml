@@ -20,6 +20,11 @@ services:
         public: true
         tags:
             - { name: "sonata.block" }
+    VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
 
 
 

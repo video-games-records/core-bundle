@@ -100,6 +100,7 @@ class PlayerAdmin extends AbstractAdmin
             ->add('pseudo')
             ->add('country')
             ->add('team')
-            ->add('boolMaj');
+            ->add('boolMaj')
+            ->add('nbChartProven');
     }
 }
