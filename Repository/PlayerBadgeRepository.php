@@ -7,6 +7,9 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Country;
+use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 
 class PlayerBadgeRepository extends EntityRepository
@@ -15,7 +18,7 @@ class PlayerBadgeRepository extends EntityRepository
      * @param $badge
      * @return PlayerBadge[]|array
      */
-    public function getFromBadge($badge)
+    public function getFromBadge($badge) : array
     {
         $query = $this->createQueryBuilder('pb');
         $query
@@ -29,10 +32,10 @@ class PlayerBadgeRepository extends EntityRepository
 
 
     /**
-     * @param $game
+     * @param Game $game
      * @throws Exception
      */
-    public function majMasterBadge($game)
+    public function majMasterBadge(Game $game)
     {
         //----- get ranking with maxRank = 1
         $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, 1);
@@ -67,10 +70,10 @@ class PlayerBadgeRepository extends EntityRepository
     }
 
     /**
-     * @param $country
+     * @param Country $country
      * @throws Exception
      */
-    public function majCountryBadge($country)
+    public function majCountryBadge(Country $country)
     {
         if ($country->getBadge() === null) {
             return;
@@ -85,6 +88,28 @@ class PlayerBadgeRepository extends EntityRepository
         }
 
         $this->updateBadge($players, $country->getBadge());
+    }
+
+
+    /**
+     * @param Platform $platform
+     * @throws Exception
+     */
+    public function majPlatformBadge(Platform $platform)
+    {
+        if ($platform->getBadge() === null) {
+            return;
+        }
+
+        //----- get ranking with maxRank = 1
+        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerPlatform')->getRankingPointPlatform($platform, 1);
+
+        $players = array();
+        foreach ($ranking as $playerPlatform) {
+            $players[$playerPlatform->getPlayer()->getId()] = 0;
+        }
+
+        $this->updateBadge($players, $platform->getBadge());
     }
 
     /**

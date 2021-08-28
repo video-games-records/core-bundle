@@ -12,9 +12,9 @@ abstract class DefaultCommand extends Command
 {
     protected static $defaultName = 'vgr-core:default';
 
-    private $sglLoggerEnabled = false;
-    private $stack;
-    private $em;
+    private bool $sglLoggerEnabled = false;
+    private DebugStack $stack;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
