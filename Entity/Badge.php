@@ -239,6 +239,33 @@ class Badge
         return $this->platform;
     }
 
+    /**
+     * @return string
+     */
+    public function getTitle(): ?string
+    {
+        switch ($this->getType()) {
+            case self::TYPE_PLATFORM:
+                return $this->getPlatform()->getLibPlatform();
+            case self::TYPE_MASTER:
+                return $this->getGame()->getName();
+            case self::TYPE_VGR_SPECIAL_COUNTRY:
+            case self::TYPE_VGR_SPECIAL_CUP:
+            case self::TYPE_VGR_SPECIAL_MEDALS:
+            case self::TYPE_VGR_SPECIAL_LEGEND:
+            case self::TYPE_VGR_SPECIAL_POINTS:
+                return $this->getType() . ' ' . $this->getValue();
+            case self::TYPE_FORUM:
+            case self::TYPE_CONNEXION:
+            case self::TYPE_DON:
+            case self::TYPE_VGR_CHART:
+            case self::TYPE_VGR_PROOF:
+                return $this->getValue() . ' ' . $this->getType();
+            default:
+                return $this->getType();
+        }
+    }
+
      /**
      * @return array
      */
