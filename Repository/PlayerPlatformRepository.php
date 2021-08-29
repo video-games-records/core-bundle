@@ -31,11 +31,11 @@ class PlayerPlatformRepository extends EntityRepository
             ->setParameter('platform', $platform);
 
         if (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pp.rankPointPlatForm <= :maxRank OR pp.player = :player)')
+            $query->andWhere('(pp.rankPointPlatform <= :maxRank OR pp.player = :player)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
         } elseif ($maxRank !== null) {
-            $query->andWhere('pp.rankPointPlatForm <= :maxRank')
+            $query->andWhere('pp.rankPointPlatform <= :maxRank')
                 ->setParameter('maxRank', $maxRank);
         }
         return $query->getQuery()->getResult();

@@ -9,6 +9,9 @@ VideoGamesRecords\CoreBundle\Entity\Badge:
     picture:
       groups:
         - 'badge.read'
+    title:
+      groups:
+        - 'badge.read'
     value:
       groups:
         - 'badge.read'
