@@ -109,7 +109,7 @@ class ProofAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'playerResponding',
+                    'label' => 'label.playerResponding',
                 ]
             )
             ->add(
@@ -134,7 +134,7 @@ class ProofAdmin extends AbstractAdmin
                 ]
             )
             ->add('response', CKEditorType::class, [
-                'label' => 'Response',
+                'label' => 'label.proof.response',
                 'required' => false,
                 'config' => array(
                     'height' => '100',
@@ -150,10 +150,10 @@ class ProofAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
+            ->add('player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, [
                 'property' => 'pseudo',
             ])
-            ->add('player.pseudo', null, ['label' => 'Pseudo'])
+            ->add('player.pseudo', null, ['label' => 'label.pseudo'])
             ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
                 'property' => $this->getLibGame(),
             ])
@@ -212,7 +212,7 @@ class ProofAdmin extends AbstractAdmin
             ->addIdentifier('type')
             ->add('playerResponding', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'PlayerResponding',
+                'label' => 'label.playerResponding',
             ])
             ->add(
                 'status',
@@ -258,7 +258,7 @@ class ProofAdmin extends AbstractAdmin
             ->add('playerChart')
             ->add('picture')
             ->add('video')
-            ->add('payerResponding')
+            ->add('payerResponding', null, ['label' => 'label.playerResponding'])
             ->add('status');
     }
 
