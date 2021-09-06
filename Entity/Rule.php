@@ -153,7 +153,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
     /**
      * @return string
      */
-    public function getText(): string
+    public function getText(): ?string
     {
         return $this->translate(null, false)->getText();
     }
