@@ -20,7 +20,8 @@ BEGIN
     UPDATE vgr_player
     SET
         pseudo = NEW.username,
-        avatar = NEW.avatar
+        avatar = NEW.avatar,
+        slug = NEW.slug
     WHERE normandie_user_id = NEW.id;
 END //
 delimiter ;
