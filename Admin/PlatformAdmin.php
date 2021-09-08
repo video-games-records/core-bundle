@@ -30,17 +30,17 @@ class PlatformAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, [
-                'label' => 'id',
+                'label' => 'label.id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
             ->add('libPlatform', TextType::class, [
-                'label' => 'Name',
+                'label' => 'label.name',
                 'required' => true,
             ])
             ->add('picture', TextType::class, [
-                'label' => 'Picture',
+                'label' => 'label.picture',
                 'required' => true,
             ])
             ->add('badge', ModelListType::class, [
@@ -49,13 +49,13 @@ class PlatformAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'Badge',
+                'label' => 'label.badge',
             ])
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'choices' => [
                         'ACTIF' => 'ACTIF',
                         'INACTIF' => 'INACTIF',
@@ -79,14 +79,14 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list) : void
     {
         $list
-            ->addIdentifier('id')
-            ->add('libPlatform', null, ['editable' => false])
-            ->add('slug')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('libPlatform', null, ['editable' => false, 'label' => 'label.name'])
+            ->add('slug', null, ['label' => 'label.slug'])
             ->add(
                 'picture',
                 'text',
                 [
-                    'label' => 'Picture',
+                    'label' => 'label.picture',
                     'editable' => true
                 ]
             )
@@ -94,7 +94,7 @@ class PlatformAdmin extends AbstractAdmin
                 'badge.picture',
                 null,
                 [
-                    'label' => 'Badge',
+                    'label' => 'label.badge',
                     'editable' => false
                 ]
             )
@@ -102,7 +102,7 @@ class PlatformAdmin extends AbstractAdmin
                 'status',
                 'choice',
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'editable' => false,
                     'choices' => [
                         'ACTIF' => 'ACTIF',
@@ -124,10 +124,10 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show) : void
     {
         $show
-            ->add('idPlatform')
-            ->add('libPlatform')
-            ->add('picture')
-            ->add('status')
-            ->add('badge');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('libPlatform', null, ['label' => 'label.name'])
+            ->add('picture', null, ['label' => 'label.picture'])
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('badge', null, ['label' => 'label.badge']);
     }
 }

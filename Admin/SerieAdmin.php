@@ -28,7 +28,7 @@ class SerieAdmin extends AbstractAdmin
     {
         $form
             ->add('libSerie', TextType::class, [
-                'label' => 'Name',
+                'label' => 'label.name',
                 'required' => true,
             ]);
     }
@@ -39,8 +39,8 @@ class SerieAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('libSerie', null, ['label' => 'Name']);
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('libSerie', null, ['label' => 'label.name']);
     }
 
     /**
@@ -49,14 +49,8 @@ class SerieAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
-            ->add(
-                'libSerie',
-                null,
-                [
-                    'label' => 'Name'
-                ]
-            )
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('libSerie',null, ['label' => 'label.name'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -74,7 +68,7 @@ class SerieAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('libSerie', null, ['label' => 'Name'])
-            ->add('games');
+            ->add('libSerie', null, ['label' => 'label.name'])
+            ->add('games', null, ['label' => 'label.games']);
     }
 }

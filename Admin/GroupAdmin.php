@@ -72,17 +72,17 @@ class GroupAdmin extends AbstractAdmin
 
         $form
             ->add('id', TextType::class, [
-                'label' => 'idGroup',
+                'label' => 'label.id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
             ->add('libGroupEn', TextType::class, [
-                'label' => 'Name [EN]',
+                'label' => 'label.name.en',
                 'required' => true,
             ])
             ->add('libGroupFr', TextType::class, [
-                'label' => 'Name [FR]',
+                'label' => 'label.name.fr',
                 'required' => false,
             ]);
 
@@ -101,14 +101,14 @@ class GroupAdmin extends AbstractAdmin
                         'btn_edit' => false,
                         'btn_delete' => false,
                         'btn_catalogue' => $btnCalalogue,
-                        'label' => 'Game',
+                        'label' => 'label.game',
                     ]
                 )
             );
         }
 
         $form->add('boolDLC', CheckboxType::class, [
-            'label' => 'DLC ?',
+            'label' => 'label.boolDlc',
             'required' => false,
         ]);
 
@@ -128,6 +128,7 @@ class GroupAdmin extends AbstractAdmin
                 ->with('Charts')
                 ->add(
                     'charts', CollectionType::class, array(
+                        'label' => 'label.charts',
                         'by_reference' => false,
                         'type_options' => array(
                             // Prevents the "Delete" option from being displayed
