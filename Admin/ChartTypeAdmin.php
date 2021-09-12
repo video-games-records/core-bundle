@@ -29,27 +29,27 @@ class ChartTypeAdmin extends AbstractAdmin
     {
         $form
             ->add('idType', TextType::class, [
-                'label' => 'idType',
+                'label' => 'label.id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
             ->add('name', TextType::class, [
-                'label' => 'Name',
+                'label' => 'label.name',
                 'required' => true,
             ])
             ->add('mask', TextType::class, [
-                'label' => 'Mask',
+                'label' => 'label.mask',
                 'required' => true,
             ])
             ->add(
                 'orderBy',
                 ChoiceType::class,
                 [
-                    'label' => 'orderBy',
+                    'label' => 'label.orderBy',
                     'choices' => [
-                        'ASC' => 'ASC',
-                        'DESC' => 'DESC',
+                        'label.orderBy.asc' => 'ASC',
+                        'label.orderBy.desc' => 'DESC',
                     ]
                 ]
             );
@@ -61,8 +61,8 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('idType')
-            ->add('name');
+            ->add('idType', null, ['label' => 'label.id'])
+            ->add('name', null, ['label' => 'label.name']);
     }
 
     /**
@@ -71,10 +71,10 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('idType')
-            ->add('name')
-            ->add('mask')
-            ->add('orderBy')
+            ->addIdentifier('idType', null, ['label' => 'label.id'])
+            ->add('name', null, ['label' => 'label.name'])
+            ->add('mask', null, ['label' => 'label.mask'])
+            ->add('orderBy', null, ['label' => 'label.orderBy'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'edit' => [],

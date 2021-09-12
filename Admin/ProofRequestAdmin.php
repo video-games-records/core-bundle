@@ -28,7 +28,7 @@ class ProofRequestAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
     /** @var Messager */
-    private $messager;
+    private Messager $messager;
 
     public function setMessager(Messager $messager): void
     {
@@ -81,7 +81,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'PlayerRequesting',
+                    'label' => 'label.player.requesting',
                 ]
             )
             ->add(
@@ -94,19 +94,19 @@ class ProofRequestAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'playerResponding',
+                    'label' => 'label.player.responding',
                 ]
             )
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'choices' => ProofRequest::getStatusChoices(),
                 ]
             )
             ->add('message', CKEditorType::class, [
-                'label' => 'Message',
+                'label' => 'label.Message',
                 'required' => true,
                 'attr' => array(
                     'readonly' => true,
@@ -117,7 +117,7 @@ class ProofRequestAdmin extends AbstractAdmin
                 ),
             ])
             ->add('response', CKEditorType::class, [
-                'label' => 'Response',
+                'label' => 'label.response',
                 'required' => false,
                 'config' => array(
                     'height' => '100',
@@ -132,18 +132,18 @@ class ProofRequestAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('status', ChoiceFilter::class, ['label' => 'label.status'], ChoiceType::class, [
                 'choices' => ProofRequest::getStatusChoices(),
                 'multiple' => false,
             ])
-            ->add('playerChart.player', ModelAutocompleteFilter::class, ['label' => 'Player'], null, [
+            ->add('playerChart.player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, [
                 'property' => 'pseudo',
             ])
-            ->add('playerRequesting', ModelAutocompleteFilter::class, [], null, [
+            ->add('playerRequesting', ModelAutocompleteFilter::class, ['label' => 'label.player.requesting'], null, [
                 'property' => 'pseudo',
             ])
-            ->add('playerResponding', ModelAutocompleteFilter::class, [], null, [
+            ->add('playerResponding', ModelAutocompleteFilter::class, ['label' => 'label.player.responding'], null, [
                 'property' => 'pseudo',
             ]);
     }
@@ -154,19 +154,19 @@ class ProofRequestAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
-            ->add('createdAt')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('createdAt', null, ['label' => 'label.createdAt'])
             ->add('playerRequesting', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'PlayerRequesting',
+                'label' => 'label.player.requesting',
             ])
             ->add('playerResponding', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'PlayerResponding',
+                'label' => 'label.player.responding',
             ])
             ->add('playerChart.player', null, [
                 'associated_property' =>  'pseudo',
-                'label' => 'Player',
+                'label' => 'label.player',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => 'pseudo'
@@ -178,7 +178,7 @@ class ProofRequestAdmin extends AbstractAdmin
             ])
              ->add('playerChart.chart.group.game', null, [
                 'associated_property' =>  $this->getLibGame(),
-                'label' => 'Game',
+                'label' => 'label.name',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => $this->getLibGame()
@@ -192,7 +192,7 @@ class ProofRequestAdmin extends AbstractAdmin
             ])
             ->add('playerChart.chart', null, [
                 'associated_property' =>  $this->getLibChart(),
-                'label' => 'Chart',
+                'label' => 'label.chart',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => $this->getLibChart()
@@ -203,13 +203,14 @@ class ProofRequestAdmin extends AbstractAdmin
                 )
             ])
             ->add('message', 'text', [
+                'label' => 'label.message',
                 'header_style' => 'width: 30%'
             ])
             ->add(
                 'status',
                 'choice',
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'editable' => true,
                     'choices' => ProofRequest::getStatusChoices(),
                 ]
@@ -232,13 +233,13 @@ class ProofRequestAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('createdAt')
-            ->add('playerRequesting')
-            ->add('playerResponding')
-            ->add('playerChart')
-            ->add('message')
-            ->add('status');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('createdAt', null, ['label' => 'label.createdAt'])
+            ->add('playerRequesting', null, ['label' => 'label.player.requesting'])
+            ->add('playerResponding', null, ['label' => 'label.player.responding'])
+            ->add('playerChart', null, ['label' => 'label.playerChart'])
+            ->add('message', null, ['label' => 'label.message'])
+            ->add('status', null, ['label' => 'label.status']);
     }
 
     /**

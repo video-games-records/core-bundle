@@ -31,12 +31,8 @@ class PictureAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add(
-                'id'
-            )
-            ->add(
-                'path'
-            )
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('path', null, ['label' => 'label.path'])
             ->add(
                 'player',
                 ModelListType::class,
@@ -47,7 +43,7 @@ class PictureAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'player',
+                    'label' => 'label.player',
                 ]
             )
             ->add(
@@ -60,7 +56,7 @@ class PictureAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'game',
+                    'label' => 'label.game',
                 ]
             );
     }
@@ -70,8 +66,7 @@ class PictureAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $filter
-            ->add('id');
+        $filter->add('id', null, ['label' => 'label.id']);
     }
 
 
@@ -81,10 +76,10 @@ class PictureAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
-            ->add('path')
-            ->add('player')
-            ->add('game')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('path', null, ['label' => 'label.path'])
+            ->add('player', null, ['label' => 'label.player'])
+            ->add('game', null, ['label' => 'label.game'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -99,9 +94,9 @@ class PictureAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('path')
-            ->add('player')
-            ->add('game');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('path', null, ['label' => 'label.path'])
+            ->add('player', null, ['label' => 'label.player'])
+            ->add('game', null, ['label' => 'label.game']);
     }
 }

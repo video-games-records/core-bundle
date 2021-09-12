@@ -13,19 +13,20 @@ class ChartLibAdmin extends AbstractAdmin
     {
         $form
             ->add('idLibChart', TextType::class, [
-                'label' => 'idLibChart',
+                'label' => 'label.id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
             ->add('name', TextType::class, [
-                'label' => 'Name',
+                'label' => 'label.name',
                 'required' => false,
             ])
             ->add(
                 'type',
                 null,
                 [
+                    'label' => 'label.type',
                     'required' => true,
                     'query_builder' =>
                         function($er) {
@@ -41,8 +42,8 @@ class ChartLibAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('idLibChart')
-            ->add('name')
-            ->add('type');
+            ->addIdentifier('idLibChart', null, ['label' => 'label.id'])
+            ->add('name', null, ['label' => 'label.name'])
+            ->add('type', null, ['label' => 'label.type']);
     }
 }

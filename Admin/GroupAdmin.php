@@ -125,7 +125,7 @@ class GroupAdmin extends AbstractAdmin
             && (count($subject->getCharts()) < 50)
         ) {
             $form->end()
-                ->with('Charts')
+                ->with('label.charts')
                 ->add(
                     'charts', CollectionType::class, array(
                         'label' => 'label.charts',
@@ -158,10 +158,10 @@ class GroupAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('libGroupEn', null, ['label' => 'Name [EN]'])
-            ->add('libGroupFr', null, ['label' => 'Name [FR]'])
-            ->add('game', ModelAutocompleteFilter::class, [], null, [
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('libGroupEn', null, ['label' => 'label.name.en'])
+            ->add('libGroupFr', null, ['label' => 'label.name.fr'])
+            ->add('game', ModelAutocompleteFilter::class, ['label' => 'label.game'], null, [
                 'property' => $this->getLibGame(),
             ])
         ;
@@ -188,14 +188,14 @@ class GroupAdmin extends AbstractAdmin
         }
 
         $list
-            ->addIdentifier('id')
-            ->add($this->getLibGroup(), null, ['label' => 'Name'])
-            ->add('slug', null, ['label' => 'Slug'])
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add($this->getLibGroup(), null, ['label' => 'label.name'])
+            ->add('slug', null, ['label' => 'label.slug'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),
-                'label' => 'Game',
+                'label' => 'label.game',
             ])
-            ->add('boolDLC', 'boolean')
+            ->add('boolDLC', 'boolean', ['label' => 'label.boolDlc'])
             ->add('_action', 'actions', [
                 'actions' =>
                     array_merge(
@@ -217,13 +217,13 @@ class GroupAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('libGroupEn', null, ['label' => 'Name [EN]'])
-            ->add('libGroupFr', null, ['label' => 'Name [FR]'])
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('libGroupEn', null, ['label' => 'label.name.en'])
+            ->add('libGroupFr', null, ['label' => 'lel.name.fr'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),
-                'label' => 'Game',
+                'label' => 'label.game',
             ])
-            ->add('charts');
+            ->add('charts', null, ['label' => 'label.charts']);
     }
 }
