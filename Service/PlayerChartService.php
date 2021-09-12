@@ -9,8 +9,6 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
@@ -61,13 +59,13 @@ class PlayerChartService
     public function majInvestigation()
     {
         $list = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getPlayerChartToDesactivate();
+        var_dump(count($list));
         $statusReference = $this->em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NOT_PROOVED);
         /** @var PlayerChart $playerChart */
         foreach ($list as $playerChart) {
-            var_dump($playerChart->getId());
             $playerChart->setStatus($statusReference);
+            $this->em->flush();
         }
-        $this->em->flush();
     }
 
     /**
