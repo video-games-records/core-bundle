@@ -44,19 +44,19 @@ class CountryAdmin extends AbstractAdmin
     {
         $form
             ->add('codeIso2', TextType::class, [
-                'label' => 'ISO ALPHA 2',
+                'label' => 'label.country.iso2',
                 'required' => true,
             ])
             ->add('codeIso3', TextType::class, [
-                'label' => 'ISO ALPHA 3',
+                'label' => 'label.country.iso3',
                 'required' => true,
             ])
             ->add('codeIsoNumeric', TextType::class, [
-                'label' => 'ISO NUMERIC code',
+                'label' => 'label.country.isoNumeric',
                 'required' => true,
             ])
             ->add('boolMaj', CheckboxType::class, [
-                'label' => 'Maj ?',
+                'label' => 'label.boolMaj',
                 'required' => false,
             ])
             ->add('translations', TranslationsType::class, [
@@ -70,7 +70,7 @@ class CountryAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('codeIso3');
+            ->add('codeIso3', null, ['label' => 'label.country.iso3']);
     }
 
     /**
@@ -79,12 +79,12 @@ class CountryAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
-            ->add('codeIso2')
-            ->add('codeIso3')
-            ->add('codeIsoNumeric')
-            ->add('badge')
-            ->add('getDefaultName', null, ['label' => 'English name'])
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('codeIso2', null, ['label' => 'label.country.iso2'])
+            ->add('codeIso3', null, ['label' => 'label.country.iso3'])
+            ->add('codeIsoNumeric', null, ['label' => 'label.country.isoNumeric'])
+            ->add('badge', null, ['label' => 'label.badge'])
+            ->add('getDefaultName', null, ['label' => 'label.name.en'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],

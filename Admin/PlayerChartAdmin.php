@@ -89,7 +89,7 @@ class PlayerChartAdmin extends AbstractAdmin
 
         $form
             ->add('id', TextType::class, [
-                'label' => 'id',
+                'label' => 'label.id',
                 'attr' => [
                     'readonly' => true,
                 ]
@@ -100,7 +100,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'Player',
+                'label' => 'label.player',
             ])
             ->add('chart', ModelListType::class, [
                 'btn_add' => false,
@@ -108,12 +108,13 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'Chart',
+                'label' => 'label.chart',
             ])
-            ->add('status');
+            ->add('status', null, ['label' => 'label.status']);
 
         $form
             ->add('libs', CollectionType::class, array(
+                'label' => 'label.libs',
                 'btn_add' => true,
                 'by_reference' => false,
                 'type_options' => array(
@@ -131,20 +132,20 @@ class PlayerChartAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('status')
-            ->add('player', ModelAutocompleteFilter::class, array(), null, array(
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, array(
                 'property' => 'pseudo',
             ))
-            ->add('chart.group.game', ModelAutocompleteFilter::class, array('label' => 'Game'), null, array(
+            ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'label.game'], null, array(
                 'property' => 'libGameEn',
             ))
-            ->add('chart.group', ModelAutocompleteFilter::class, array('label' => 'Group'), null, array(
+            ->add('chart.group', ModelAutocompleteFilter::class, ['label' => 'label.group'], null, array(
                 'property' => 'libGroupEn',
             ))
-            ->add('chart.id')
-            ->add('chart.libChartEn', null, ['label' => 'Chart [EN]'])
-            ->add('chart.libChartFr', null, ['label' => 'Chart [FR]']);
+            ->add('chart.id', null, ['label' => 'label.id'])
+            ->add('chart.libChartEn', null, ['label' => 'label.name.en'])
+            ->add('chart.libChartFr', null, ['label' => 'label.name.fr']);
     }
 
     /**
@@ -153,14 +154,14 @@ class PlayerChartAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'Player',
+                'label' => 'label.player',
             ])
             ->add('chart.group.game', null, [
                 'associated_property' =>  $this->getLibGame(),
-                'label' => 'Game',
+                'label' => 'label.game',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => $this->getLibGame()
@@ -173,7 +174,7 @@ class PlayerChartAdmin extends AbstractAdmin
             ])
             ->add('chart.group', null, [
                 'associated_property' =>  $this->getLibGroup(),
-                'label' => 'Group',
+                'label' => 'label.group',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => $this->getLibGroup()
@@ -185,10 +186,10 @@ class PlayerChartAdmin extends AbstractAdmin
             ])
             ->add('chart', null, [
                 'associated_property' => 'libChartEn',
-                'label' => 'Chart',
+                'label' => 'label.chart',
             ])
-            ->add('status')
-            ->add('libs')
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('libs', null, ['label' => 'label.libs'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'edit' => [],
@@ -203,13 +204,13 @@ class PlayerChartAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('player')
-            ->add('chart')
-            ->add('status')
-            ->add('dateInvestigation')
-            ->add('proof')
-            ->add('libs');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('player', null, ['label' => 'label.player'])
+            ->add('chart', null, ['label' => 'label.chart'])
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('dateInvestigation', null, ['label' => 'label.dateInvestigation'])
+            ->add('proof', null, ['label' => 'label.proof'])
+            ->add('libs', null, ['label' => 'label.libs']);
     }
 
     /**

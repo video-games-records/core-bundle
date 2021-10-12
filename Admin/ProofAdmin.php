@@ -29,7 +29,7 @@ class ProofAdmin extends AbstractAdmin
     //protected $baseRouteName = 'vgrcorebundle_admin_proof';
 
     /** @var Messager */
-    private $messager;
+    private Messager $messager;
 
     public function setMessager(Messager $messager)
     {
@@ -109,7 +109,7 @@ class ProofAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'label.playerResponding',
+                    'label' => 'label.player.responding',
                 ]
             )
             ->add(
@@ -122,14 +122,14 @@ class ProofAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'PlayerChart',
+                    'label' => 'label.playerChart',
                 ]
             )
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'choices' => Proof::getStatusChoices(),
                 ]
             )
@@ -149,21 +149,21 @@ class ProofAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
+            ->add('id', null, ['label' => 'label.id'])
             ->add('player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, [
                 'property' => 'pseudo',
             ])
             ->add('player.pseudo', null, ['label' => 'label.pseudo'])
-            ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'Game'], null, [
+            ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'label.game'], null, [
                 'property' => $this->getLibGame(),
             ])
-            ->add('chart.group.game.libGameEn', null, ['label' => 'Game [EN]'])
-            ->add('chart.group.game.libGameFr', null, ['label' => 'Game [FR]'])
-            ->add('status', ChoiceFilter::class, [], ChoiceType::class, [
+            ->add('chart.group.game.libGameEn', null, ['label' => 'label.game.en'])
+            ->add('chart.group.game.libGameFr', null, ['label' => 'label.game.fr'])
+            ->add('status', ChoiceFilter::class, ['label' => 'label.status'], ChoiceType::class, [
                 'choices' => Proof::getStatusChoices(),
                 'multiple' => false,
             ])
-            ->add('playerResponding', ModelAutocompleteFilter::class, [], null, [
+            ->add('playerResponding', ModelAutocompleteFilter::class, ['label' => 'label.player.responding'], null, [
                 'property' => 'pseudo',
             ]);
     }
@@ -175,14 +175,14 @@ class ProofAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'Player',
+                'label' => 'label.player',
             ])
             ->add('chart.group.game', null, [
                 'associated_property' =>  $this->getLibGame(),
-                'label' => 'Game',
+                'label' => 'label.game',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => $this->getLibGame()
@@ -195,7 +195,7 @@ class ProofAdmin extends AbstractAdmin
             ])
             ->add('chart.group', null, [
                 'associated_property' =>  $this->getLibGroup(),
-                'label' => 'Group',
+                'label' => 'label.group',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => $this->getLibGroup()
@@ -207,23 +207,23 @@ class ProofAdmin extends AbstractAdmin
             ])
             ->add('chart', null, [
                 'associated_property' => $this->getLibChart(),
-                'label' => 'Chart',
+                'label' => 'label.chart',
             ])
-            ->addIdentifier('type')
+            ->addIdentifier('type', null, ['label' => 'label.type'])
             ->add('playerResponding', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'label.playerResponding',
+                'label' => 'label.player.responding',
             ])
             ->add(
                 'status',
                 'choice',
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'editable' => true,
                     'choices' => Proof::getStatusChoices(),
                 ]
             )
-            ->add('created_at', 'datetime', ['label' => 'Created At'])
+            ->add('created_at', 'datetime', ['label' => 'label.createdAt'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],

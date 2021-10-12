@@ -32,17 +32,17 @@ class BadgeAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('id', TextType::class, ['label' => 'idBadge', 'attr' => ['readonly' => true]])
+        $form->add('id', TextType::class, ['label' => 'label.id', 'attr' => ['readonly' => true]])
             ->add(
                 'type',
                 ChoiceType::class,
                 [
-                    'label' => 'Type',
+                    'label' => 'label.type',
                     'choices' => Badge::getTypeChoices(),
                 ]
             )
             ->add('picture', TextType::class, ['label' => 'label.picture'])
-            ->add('value', TextType::class, ['label' => 'Value', 'required' => false]);
+            ->add('value', TextType::class, ['label' => 'label.Value', 'required' => false]);
     }
 
     /**
@@ -60,7 +60,7 @@ class BadgeAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')
+        $list->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('type', null, ['label' => 'label.type'])
             ->add('picture', 'text', ['label' => 'label.picture', 'editable' => true])
             ->add('value', null, ['label' => 'label.value'])

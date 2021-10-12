@@ -75,7 +75,7 @@ class ChartAdmin extends AbstractAdmin
 
         $form
             ->add('id', TextType::class, array(
-                'label' => 'id',
+                'label' => 'label.id',
                 'attr' => array(
                     'readonly' => true,
                 )
@@ -93,7 +93,7 @@ class ChartAdmin extends AbstractAdmin
                         'btn_edit' => false,
                         'btn_delete' => false,
                         'btn_catalogue' => $btnCalalogue,
-                        'label' => 'Group',
+                        'label' => 'label.group',
                     ]
                 )
             );
@@ -101,11 +101,11 @@ class ChartAdmin extends AbstractAdmin
 
         $form
             ->add('libChartEn', TextType::class, [
-                'label' => 'Name [EN]',
+                'label' => 'label.name.en',
                 'required' => true,
             ])
             ->add('libChartFr', TextType::class, [
-                'label' => 'Name [FR]',
+                'label' => 'label.name.fr',
                 'required' => false,
             ]);
 
@@ -113,13 +113,13 @@ class ChartAdmin extends AbstractAdmin
             $form
                 ->add(
                     'statusPlayer', ChoiceType::class, array(
-                        'label' => 'Status Player',
+                        'label' => 'label.chart.statusPlayer',
                         'choices' => Chart::getStatusChoices()
                     )
                 )
                 ->add(
                     'statusTeam', ChoiceType::class, array(
-                        'label' => 'Status Team',
+                        'label' => 'label.chart.statusTeam',
                         'choices' => Chart::getStatusChoices()
                     )
                 );
@@ -128,9 +128,10 @@ class ChartAdmin extends AbstractAdmin
 
         $form
             ->add('libs', CollectionType::class, array(
+                'label' => 'label.libs',
                 'by_reference' => false,
                 'help' => (($this->isCurrentRoute('create')) ?
-                    'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group' : ''),
+                    'label.libs.help' : ''),
                 'type_options' => array(
                     // Prevents the "Delete" option from being displayed
                     'delete' => false,
@@ -156,13 +157,23 @@ class ChartAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add($this->getLibChart(), null, ['label' => 'Name'])
-            ->add('group', ModelAutocompleteFilter::class, [], null, [
+            ->add('id', null, ['label' => 'label.id'])
+            ->add($this->getLibChart(), null, ['label' => 'label.name'])
+            ->add('group', ModelAutocompleteFilter::class, ['label' => 'label.group'], null, [
                 'property' => $this->getLibGroup(),
             ])
-            ->add('statusPlayer', 'doctrine_orm_choice', array(), ChoiceType::class, array('choices' => Chart::getStatusChoices()))
-            ->add('statusTeam', 'doctrine_orm_choice', array(), ChoiceType::class, array('choices' => Chart::getStatusChoices()));
+            ->add(
+                'statusPlayer',
+                'doctrine_orm_choice',
+                ['label' => 'label.chart.statusPlayer'],
+                ChoiceType::class,
+                array(
+                    'choices' => Chart::getStatusChoices(),
+                    'expanded' => false,
+                    'choice_translation_domain' => true,
+                )
+            )
+            ->add('statusTeam', 'doctrine_orm_choice', ['label' => 'label.chart.statusTeam'], ChoiceType::class, array('choices' => Chart::getStatusChoices()));
     }
 
     /**
@@ -171,21 +182,21 @@ class ChartAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
-            ->add($this->getLibChart(), null, ['label' => 'Name'])
-            ->add('slug', null, ['label' => 'Slug'])
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add($this->getLibChart(), null, ['label' => 'label.name'])
+            ->add('slug', null, ['label' => 'label.slug'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),
-                'label' => 'Group',
+                'label' => 'label.group',
             ))
             ->add(
                 'libs',
                 null,
                 [
-                    'label' => 'Libs',
+                    'label' => 'label.libs',
                 ]
             )
-            ->add('updated_at', 'datetime', ['label' => 'Updated At'])
+            ->add('updated_at', 'datetime', ['label' => 'label.updatedAt'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -200,12 +211,12 @@ class ChartAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('libChartEn', null, ['label' => 'Name [EN]'])
-            ->add('libChartFr', null, ['label' => 'Name [FR]'])
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('libChartEn', null, ['label' => 'label.name.en'])
+            ->add('libChartFr', null, ['label' => 'label.name.fr'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),
-                'label' => 'Group',
+                'label' => 'label.group',
             ));
     }
 

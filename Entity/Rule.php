@@ -110,7 +110,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

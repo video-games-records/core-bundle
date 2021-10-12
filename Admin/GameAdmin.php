@@ -56,24 +56,25 @@ class GameAdmin extends AbstractAdmin
     {
         $form
             ->add('serie', ModelAutocompleteType::class, [
-                'property' => 'libSerie'
+                'property' => 'libSerie',
+                'label' => 'label.serie',
             ])
             ->add('libGameEn', TextType::class, [
-                'label' => 'Name [EN]',
+                'label' => 'label.name.en',
                 'required' => true,
             ])
             ->add('libGameFr', TextType::class, [
-                'label' => 'Name [FR]',
+                'label' => 'label.name.fr',
                 'required' => false,
             ])
-            ->add('rules', null, ['required' => false, 'expanded' => false])
+            ->add('rules', null, ['required' => false, 'expanded' => false, 'label' => 'label.rules'])
             ->add('badge', ModelListType::class, [
                 'btn_add' => true,
                 'btn_list' => true,
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'Badge',
+                'label' => 'label.badge',
             ])
             ->add('forum', ModelListType::class, [
                 'btn_add' => true,
@@ -81,22 +82,22 @@ class GameAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'Forum',
+                'label' => 'label.forum',
             ])
             ->add('picture', TextType::class, [
-                'label' => 'Picture',
+                'label' => 'label.picture',
                 'required' => false,
             ])
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'choices' => Game::getStatusChoices(),
                 ]
             )
             ->add('publishedAt', DateType::class, [
-                'label' => 'Published At',
+                'label' => 'label.publishedAt',
                 'required' => false,
                 'years' => range(2004, date('Y'))
             ])
@@ -104,22 +105,23 @@ class GameAdmin extends AbstractAdmin
                 'etat',
                 ChoiceType::class,
                 [
-                    'label' => 'Etat',
+                    'label' => 'label.state',
                     'choices' => Game::getEtatsChoices(),
                 ]
             )
             ->add('boolRanking', CheckboxType::class, [
-                'label' => 'Ranking ?',
+                'label' => 'label.boolRanking',
                 'required' => false,
             ])
             ->add('boolMaj', CheckboxType::class, [
-                'label' => 'Maj ?',
+                'label' => 'label.boolMaj',
                 'required' => false,
             ])
             ->add(
                 'platforms',
                 null,
                 [
+                    'label' => 'label.platforms',
                     'required' => false,
                     'expanded' => false,
                     'query_builder' =>
@@ -131,11 +133,12 @@ class GameAdmin extends AbstractAdmin
                 ]
             )
             ->end()
-            ->with('Groups')
+            ->with('label.groups')
             ->add(
                 'groups',
                 CollectionType::class,
                 array(
+                    'label' => 'label.groups',
                     'by_reference' => false,
                     'type_options' => array(
                         // Prevents the "Delete" option from being displayed
@@ -165,13 +168,13 @@ class GameAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('serie')
-            ->add('libGameEn', null, ['label' => 'Name [EN]'])
-            ->add('libGameFr', null, ['label' => 'Name [FR]'])
-            ->add('status')
-            ->add('etat')
-            ->add('boolRanking');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('serie', null, ['label' => 'label.serie'])
+            ->add('libGameEn', null, ['label' => 'label.name.en'])
+            ->add('libGameFr', null, ['label' => 'label.name.fr'])
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('etat', null, ['label' => 'label.state'])
+            ->add('boolRanking', null, ['label' => 'label.boolRanking']);
     }
 
     /**
@@ -192,14 +195,14 @@ class GameAdmin extends AbstractAdmin
         }
 
         $list
-            ->addIdentifier('id')
-            ->add($this->getLibGame(), null, ['label' => 'Name'])
-            ->add('slug', null, ['label' => 'Slug'])
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add($this->getLibGame(), null, ['label' => 'label.name'])
+            ->add('slug', null, ['label' => 'label.slug'])
             ->add(
                 'picture',
                 'text',
                 [
-                    'label' => 'Picture',
+                    'label' => 'label.picture',
                     'editable' => true
                 ]
             )
@@ -207,7 +210,7 @@ class GameAdmin extends AbstractAdmin
                 'badge.picture',
                 null,
                 [
-                    'label' => 'Badge',
+                    'label' => 'label.badge',
                     'editable' => true
                 ]
             )
@@ -215,7 +218,7 @@ class GameAdmin extends AbstractAdmin
                 'status',
                 'choice',
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'editable' => true,
                     'choices' => Game::getStatusChoices(),
                 ]
@@ -224,7 +227,7 @@ class GameAdmin extends AbstractAdmin
                 'etat',
                 'choice',
                 [
-                    'label' => 'Etat',
+                    'label' => 'label.state',
                     'editable' => true,
                     'choices' => Game::getEtatsChoices(),
                 ]
@@ -250,14 +253,14 @@ class GameAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('libGameEn', null, ['label' => 'Name [EN]'])
-            ->add('libGameFr', null, ['label' => 'Name [FR]'])
-            ->add('picture')
-            ->add('badge')
-            ->add('status')
-            ->add('etat')
-            ->add('forum')
-            ->add('groups');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('libGameEn', null, ['label' => 'label.name.en'])
+            ->add('libGameFr', null, ['label' => 'label.name.fr'])
+            ->add('picture', null, ['label' => 'label.picture'])
+            ->add('badge', null, ['label' => 'label.badge'])
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('etat', null, ['label' => 'label.state'])
+            ->add('forum', null, ['label' => 'label.forum'])
+            ->add('groups', null, ['label' => 'label.groups']);
     }
 }
