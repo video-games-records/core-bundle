@@ -17,7 +17,7 @@ label:
     player: 'Joueur'
     playerChart: 'Score'
     request: 'Requête'
-    rules: 'Réglemenent'
+    rules: 'Règlemenent'
     serie: 'Série'
     slug: 'Slug'
     status: 'Statut'
@@ -56,6 +56,8 @@ proof:
                 <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s été refusée.</p>
                 %s
                 <p>Cordialement, l'équipe VGR.</p>
+        form:
+            refuse: Vous avez atteint la limite maximale de %d demandes de preuves par jour, désolé
     proof:
         accept:
             object: 'Preuve acceptée'
