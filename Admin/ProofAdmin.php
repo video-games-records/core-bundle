@@ -131,6 +131,7 @@ class ProofAdmin extends AbstractAdmin
                 [
                     'label' => 'label.status',
                     'choices' => Proof::getStatusChoices(),
+                    'choice_translation_domain' => false,
                 ]
             )
             ->add('response', CKEditorType::class, [
@@ -221,6 +222,7 @@ class ProofAdmin extends AbstractAdmin
                     'label' => 'label.status',
                     'editable' => true,
                     'choices' => Proof::getStatusChoices(),
+                    'choice_translation_domain' => false,
                 ]
             )
             ->add('created_at', 'datetime', ['label' => 'label.createdAt'])

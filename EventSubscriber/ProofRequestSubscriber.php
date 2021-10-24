@@ -8,19 +8,22 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use VideoGamesRecords\CoreBundle\Exception\PostException;
 
 final class ProofRequestSubscriber implements EventSubscriberInterface
 {
 
-    private $tokenStorage;
-    private $em;
+    private TokenStorageInterface $tokenStorage;
+    private EntityManagerInterface $em;
+    private TranslatorInterface $translator;
 
-    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em,  TranslatorInterface $translator)
     {
         $this->tokenStorage = $tokenStorage;
         $this->em = $em;
+        $this->translator = $translator;
     }
 
     public static function getSubscribedEvents()
@@ -39,14 +42,16 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
         $request = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
+        $nb = 3;
+
         if (($request instanceof ProofRequest) && ($method == Request::METHOD_POST)) {
             $token = $this->tokenStorage->getToken();
             $player =  $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')
                 ->getPlayerFromUser($token->getUser());
 
             $nbRequest = $this->em->getRepository('VideoGamesRecordsCoreBundle:ProofRequest')->getNbRequestFromToDay($player);
-            if ($nbRequest >= 3) {
-                throw new PostException('You raise limit request for today');
+            if ($nbRequest >= $nb) {
+                 throw new PostException(sprintf($this->translator->trans('proof.request.send.refuse'), $nb));
             }
             $request->setPlayerRequesting($player);
         }

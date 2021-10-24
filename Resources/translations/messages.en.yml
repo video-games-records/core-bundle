@@ -119,6 +119,8 @@ proof:
                 <p>Your request for proof on the score <a href="%s">%s</a> for player %s was refused.</p>
                 %s
                 <p>Regards, VGR Team.</p>
+        send:
+            refuse: You reached the maximum limit of %d proof asks per day, sorry
     proof:
         accept:
             object: 'Proof accepted'

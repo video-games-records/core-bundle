@@ -213,6 +213,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     'label' => 'label.status',
                     'editable' => true,
                     'choices' => ProofRequest::getStatusChoices(),
+                    'choice_translation_domain' => false,
                 ]
             )
             ->add('_action', 'actions', [

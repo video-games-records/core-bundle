@@ -346,13 +346,13 @@ class Proof implements TimestampableInterface
     /**
      * @return array
      */
-    public static function getStatusChoices()
+    public static function getStatusChoices(): array
     {
         return [
-            'label.status.inProgress' => self::STATUS_IN_PROGRESS,
-            'label.status.refused' => self::STATUS_REFUSED,
-            'label.status.accepted' => self::STATUS_ACCEPTED,
-            'label.status.closed' => self::STATUS_CLOSED
+            self::STATUS_IN_PROGRESS => self::STATUS_IN_PROGRESS,
+            self::STATUS_REFUSED => self::STATUS_REFUSED,
+            self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
+            self::STATUS_CLOSED => self::STATUS_CLOSED
         ];
     }
 }
