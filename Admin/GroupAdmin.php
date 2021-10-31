@@ -189,8 +189,9 @@ class GroupAdmin extends AbstractAdmin
 
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add($this->getLibGroup(), null, ['label' => 'label.name'])
-            ->add('slug', null, ['label' => 'label.slug'])
+            ->add('libGroupEn', null, ['label' => 'label.group.en','editable' => true])
+            ->add('libGroupFr', null, ['label' => 'label.group.fr','editable' => true])
+            //->add('slug', null, ['label' => 'label.slug'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',

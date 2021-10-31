@@ -183,8 +183,9 @@ class ChartAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add($this->getLibChart(), null, ['label' => 'label.name'])
-            ->add('slug', null, ['label' => 'label.slug'])
+            ->add('libChartEn', null, ['label' => 'label.chart.en','editable' => true])
+            ->add('libChartFr', null, ['label' => 'label.chart.fr','editable' => true])
+            //->add('slug', null, ['label' => 'label.slug'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),
                 'label' => 'label.group',

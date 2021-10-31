@@ -196,8 +196,9 @@ class GameAdmin extends AbstractAdmin
 
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add($this->getLibGame(), null, ['label' => 'label.name'])
-            ->add('slug', null, ['label' => 'label.slug'])
+            ->add('libGameEn', null, ['label' => 'label.game.en','editable' => true])
+            ->add('libGameFr', null, ['label' => 'label.game.fr','editable' => true])
+            //->add('slug', null, ['label' => 'label.slug'])
             ->add(
                 'picture',
                 'text',
