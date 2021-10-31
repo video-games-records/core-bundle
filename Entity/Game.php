@@ -88,15 +88,15 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGameEn", type="string", length=255, nullable=false)
      */
-    private $libGameEn;
+    private string $libGameEn;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGameFr", type="string", length=255, nullable=false)
      */
-    private $libGameFr;
+    private ?string $libGameFr;
 
     /**
      * @var string

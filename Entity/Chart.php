@@ -54,36 +54,36 @@ class Chart implements SluggableInterface, TimestampableInterface
      * @Assert\Length(max="255")
      * @ORM\Column(name="libChartEn", type="string", length=255, nullable=false)
      */
-    private $libChartEn;
+    private string $libChartEn;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libChartFr", type="string", length=255, nullable=false)
      */
-    private $libChartFr;
+    private ?string $libChartFr;
 
     /**
      * @var string
      *
      * @ORM\Column(name="statusPlayer", type="string", nullable=false)
      */
-    private $statusPlayer = 'NORMAL';
+    private string $statusPlayer = 'NORMAL';
 
     /**
      * @var string
      *
      * @ORM\Column(name="statusTeam", type="string", nullable=false)
      */
-    private $statusTeam = 'NORMAL';
+    private string $statusTeam = 'NORMAL';
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nbPost", type="integer", nullable=false)
      */
-    private $nbPost = 0;
+    private int $nbPost = 0;
 
     /**
      * @var Group
@@ -223,10 +223,10 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @param string $libChartFr
+     * @param string|null $libChartFr
      * @return $this
      */
-    public function setLibChartFr(string $libChartFr): Chart
+    public function setLibChartFr(?string $libChartFr): Chart
     {
         $this->libChartFr = $libChartFr;
         return $this;

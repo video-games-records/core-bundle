@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -48,15 +49,15 @@ class Group implements SluggableInterface, TimestampableInterface
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGroupEn", type="string", length=255, nullable=false)
      */
-    private $libGroupEn;
+    private string $libGroupEn;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGroupFr", type="string", length=255, nullable=false)
      */
-    private $libGroupFr;
+    private ?string $libGroupFr;
 
     /**
      * @var boolean
@@ -68,19 +69,19 @@ class Group implements SluggableInterface, TimestampableInterface
      * @var integer
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $nbChart = 0;
+    private int $nbChart = 0;
 
     /**
      * @var integer
      * @ORM\Column(name="nbPost", type="integer", nullable=false)
      */
-    private $nbPost = 0;
+    private int $nbPost = 0;
 
     /**
      * @var integer
      * @ORM\Column(name="nbPlayer", type="integer", nullable=false)
      */
-    private $nbPlayer = 0;
+    private int $nbPlayer = 0;
 
     /**
      * @var Game
