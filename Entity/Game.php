@@ -155,7 +155,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
      *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id")
      * })
      */
-    private Serie $serie;
+    private ?Serie $serie;
 
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game",cascade={"persist"}))
@@ -163,7 +163,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })
      */
-    private Badge $badge;
+    private ?Badge $badge;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
