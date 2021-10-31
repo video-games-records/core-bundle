@@ -40,61 +40,47 @@ class Chart implements SluggableInterface, TimestampableInterface
     const STATUS_ERROR = 'ERROR';
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libChartEn", type="string", length=255, nullable=false)
      */
-    private string $libChartEn;
+    private ?string $libChartEn;
 
     /**
-     * @var string|null
-     *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libChartFr", type="string", length=255, nullable=false)
      */
-    private ?string $libChartFr;
+    private ?string $libChartFr = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="statusPlayer", type="string", nullable=false)
      */
     private string $statusPlayer = 'NORMAL';
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="statusTeam", type="string", nullable=false)
      */
     private string $statusTeam = 'NORMAL';
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbPost", type="integer", nullable=false)
      */
     private int $nbPost = 0;
 
     /**
-     * @var Group
-     *
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", inversedBy="charts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id", nullable=false)
      * })
      */
-    private $group;
+    private Group $group;
 
     /**
      * @var ArrayCollection|ChartLib[]

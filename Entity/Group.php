@@ -36,63 +36,52 @@ class Group implements SluggableInterface, TimestampableInterface
     use SluggableTrait;
 
     /**
-     * @var integer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected ?int $id = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGroupEn", type="string", length=255, nullable=false)
      */
-    private string $libGroupEn;
+    private ?string $libGroupEn;
 
     /**
-     * @var string|null
-     *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGroupFr", type="string", length=255, nullable=false)
      */
-    private ?string $libGroupFr;
+    private ?string $libGroupFr = null;
 
     /**
-     * @var boolean
      * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
      */
-    private $boolDlc = false;
+    private bool $boolDlc = false;
 
     /**
-     * @var integer
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
     private int $nbChart = 0;
 
     /**
-     * @var integer
      * @ORM\Column(name="nbPost", type="integer", nullable=false)
      */
     private int $nbPost = 0;
 
     /**
-     * @var integer
      * @ORM\Column(name="nbPlayer", type="integer", nullable=false)
      */
     private int $nbPlayer = 0;
 
     /**
-     * @var Game
-     *
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="groups")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
      * })
      */
-    private $game;
+    private Game $game;
 
     /**
      * @var Chart[]|ArrayCollection

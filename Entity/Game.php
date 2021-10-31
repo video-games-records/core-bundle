@@ -74,128 +74,96 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
 
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected ?int $id = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGameEn", type="string", length=255, nullable=false)
      */
-    private string $libGameEn;
+    private ?string $libGameEn;
 
     /**
-     * @var string|null
-     *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGameFr", type="string", length=255, nullable=false)
      */
-    private ?string $libGameFr;
+    private ?string $libGameFr = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="200")
      * @ORM\Column(name="picture", type="string", length=200, nullable=true)
      */
-    private $picture;
+    private string $picture;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private $status = self::STATUS_INACTIVE;
+    private string $status = self::STATUS_INACTIVE;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="etat", type="string", nullable=false)
      */
-    private $etat = self::ETAT_INIT;
+    private string $etat = self::ETAT_INIT;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
-    private $publishedAt;
+    private ?DateTime $publishedAt = null;
 
     /**
-     * @var boolean
-     *
      * @ORM\Column(name="boolDlc", type="boolean", nullable=false, options={"default":0})
      */
-    private $boolDlc = false;
+    private bool $boolDlc = false;
 
     /**
-     * @var boolean
-     *
      * @ORM\Column(name="boolRanking", type="boolean", nullable=true, options={"default":1})
      */
-    private $boolRanking = true;
+    private bool $boolRanking = true;
 
     /**
-     * @var boolean
-     *
      * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
      */
-    private $boolMaj = false;
+    private bool $boolMaj = false;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
      */
-    private $nbChart = 0;
+    private int $nbChart = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default":0})
      */
-    private $nbPost = 0;
+    private int $nbPost = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default":0})
      */
-    private $nbPlayer = 0;
+    private int $nbPlayer = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbTeam", type="integer", nullable=false, options={"default":0})
      */
-    private $nbTeam = 0;
+    private int $nbTeam = 0;
 
 
     /**
-     * @var Serie
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", inversedBy="games")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id")
      * })
      */
-    private $serie;
+    private Serie $serie;
 
     /**
-     * @var Badge
-     *
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game",cascade={"persist"}))
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })
      */
-    private $badge;
+    private Badge $badge;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
