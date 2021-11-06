@@ -2,28 +2,20 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\DBAL\Exception;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\GameDay;
-use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
+use VideoGamesRecords\CoreBundle\Repository\GameDayRepository;
+use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 
 class GameService
 {
-    private $em;
+    private GameRepository $gameRepository;
+    private GameDayRepository $gameDayRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(GameRepository $gameRepository, GameDayRepository $gameDayRepository)
     {
-        $this->em = $em;
-    }
-
-    /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager(): EntityManagerInterface
-    {
-        return $this->em;
+        $this->gameRepository = $gameRepository;
+        $this->gameDayRepository = $gameDayRepository;
     }
 
     /**
@@ -33,45 +25,39 @@ class GameService
      */
     public function autocomplete(string $q, string $locale)
     {
-        return $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->autocomplete($q, $locale);
+        return $this->gameRepository->autocomplete($q, $locale);
     }
 
 
     /**
-     *
+     * @throws ORMException
      */
     public function majChartRank()
     {
-        $games = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(array('boolMaj' => true));
+        $games = $this->gameRepository->findBy(array('boolMaj' => true));
         foreach ($games as $game) {
-            $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart')->majStatus($game);
+            $this->gameRepository->majChartStatus($game);
             $game->setBoolMaj(false);
-            $this->em->flush();
+            $this->gameRepository->flush();
         }
     }
 
     /**
-     *
+     * @throws ORMException
      */
     public function addGameOfDay()
     {
         $now = new \Datetime();
-        $gameDay = $this->em->getRepository('VideoGamesRecordsCoreBundle:GameDay')->findOneBy(array('day' => $now));
+        $gameDay = $this->gameDayRepository->findOneBy(array('day' => $now));
         if (!$gameDay) {
-            $result = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')
-                ->findBy(array('status' => 'ACTIF'));
-            $games = array();
-            foreach ($result as $game) {
-                $games[] = $game;
-            }
+            $games = $this->gameRepository->getIds();
             $rand_key = array_rand($games, 1);
-            $game = $games[$rand_key];
-
+            $game = $this->gameRepository->findOneBy($games[$rand_key]);
             $gameDay = new GameDay();
             $gameDay->setGame($game);
             $gameDay->setDay($now);
-            $this->em->persist($gameDay);
-            $this->em->flush();
+            $this->gameDayRepository->save($gameDay);
+            $this->gameDayRepository->flush();
         }
     }
 }

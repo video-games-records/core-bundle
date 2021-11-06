@@ -5,18 +5,23 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * TeamRepository
  */
-class TeamRepository extends EntityRepository
+class TeamRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Team::class);
+    }
+
     /**
      * @param $team
      * @throws ORMException

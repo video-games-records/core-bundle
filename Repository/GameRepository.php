@@ -2,21 +2,36 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\DBAL\DBALException;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 
-class GameRepository extends EntityRepository
+class GameRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Game::class);
+    }
+
+    /**
+     * @return array
+     */
+    public function getIds() : array
+    {
+         return $this->createQueryBuilder('game')
+             ->select('game.id')
+             ->where('game.status = :status')
+             ->setParameter('status', Game::STATUS_ACTIVE)
+             ->getQuery()
+             ->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
 
     /**
      * @return mixed
@@ -256,6 +271,25 @@ class GameRepository extends EntityRepository
             ->orderBy('nb', 'DESC');
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param        $game
+     * @param string $status
+     */
+    public function majChartStatus($game, string $status = 'MAJ')
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
+            ->set('c.statusPlayer', ':status')
+            ->set('c.statusTeam', ':status')
+            ->setParameter('status', $status)
+            ->where('c.group IN (
+                            SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
+                        WHERE g.game = :game)')
+            ->setParameter('game', $game);
+
+        $query->getQuery()->execute();
     }
 
 

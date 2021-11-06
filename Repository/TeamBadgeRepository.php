@@ -3,14 +3,19 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateTime;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use VideoGamesRecords\CoreBundle\Entity\TeamBadge;
 use VideoGamesRecords\CoreBundle\Entity\TeamGame;
 
-class TeamBadgeRepository extends EntityRepository
+class TeamBadgeRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, TeamBadge::class);
+    }
+
     /**
      * @param $badge
      * @return array

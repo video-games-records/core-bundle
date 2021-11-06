@@ -3,7 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateInterval;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
@@ -16,8 +16,13 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\NonUniqueResultException;
 use DateTime;
 
-class PlayerChartRepository extends EntityRepository
+class PlayerChartRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PlayerChart::class);
+    }
+
     /**
      * @param int $idPlayer
      * @param int $idChart

@@ -2,17 +2,23 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\TransactionRequiredException;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use VideoGamesRecords\CoreBundle\Entity\PlayerSerie;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerSerieRepository extends EntityRepository
+class PlayerSerieRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PlayerSerie::class);
+    }
+
     /**
      * @param int  $idSerie
      * @param null $idPlayer

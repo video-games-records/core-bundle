@@ -3,13 +3,19 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 
-class LostPositionRepository extends EntityRepository
+class LostPositionRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, LostPosition::class);
+    }
+
     /**
      * @param $player
      * @return int|mixed|string
