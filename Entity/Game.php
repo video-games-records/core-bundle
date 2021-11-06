@@ -124,11 +124,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     private bool $boolRanking = true;
 
     /**
-     * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
-     */
-    private bool $boolMaj = false;
-
-    /**
      * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
      */
     private int $nbChart = 0;
@@ -448,29 +443,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     public function getBoolRanking()
     {
         return $this->boolRanking;
-    }
-
-    /**
-     * Set boolMaj
-     *
-     * @param boolean $boolMaj
-     * @return Game
-     */
-    public function setBoolMaj(bool $boolMaj)
-    {
-        $this->boolMaj = $boolMaj;
-
-        return $this;
-    }
-
-    /**
-     * Get boolMaj
-     *
-     * @return boolean
-     */
-    public function getBoolMaj()
-    {
-        return $this->boolMaj;
     }
 
     /**

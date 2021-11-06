@@ -38,7 +38,8 @@ class GameAdmin extends AbstractAdmin
     {
         $collection
             ->remove('export')
-            ->add('copy', $this->getRouterIdParameter().'/copy');
+            ->add('copy', $this->getRouterIdParameter().'/copy')
+            ->add('maj', $this->getRouterIdParameter().'/maj');
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -113,10 +114,6 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'label.boolRanking',
                 'required' => false,
             ])
-            ->add('boolMaj', CheckboxType::class, [
-                'label' => 'label.boolMaj',
-                'required' => false,
-            ])
             ->add(
                 'platforms',
                 null,
@@ -182,16 +179,20 @@ class GameAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
-        $btns = [];
+        $btns = [
+            'maj' => [
+                'template' => 'VideoGamesRecordsCoreBundle:Admin:game_maj_link.html.twig'
+            ],
+        ];
         if ($this->hasAccess('create')) {
-            $btns = [
+            $btns = array_merge($btns, [
                 'copy' => [
                     'template' => 'VideoGamesRecordsCoreBundle:Admin:game_copy_link.html.twig'
                 ],
                 'add_group' => [
                     'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
                 ]
-            ];
+            ]);
         }
 
         $list

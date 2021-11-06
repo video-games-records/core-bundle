@@ -28,20 +28,6 @@ class GameService
         return $this->gameRepository->autocomplete($q, $locale);
     }
 
-
-    /**
-     * @throws ORMException
-     */
-    public function majChartRank()
-    {
-        $games = $this->gameRepository->findBy(array('boolMaj' => true));
-        foreach ($games as $game) {
-            $this->gameRepository->majChartStatus($game);
-            $game->setBoolMaj(false);
-            $this->gameRepository->flush();
-        }
-    }
-
     /**
      * @throws ORMException
      */
