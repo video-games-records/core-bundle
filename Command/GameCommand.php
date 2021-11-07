@@ -2,19 +2,21 @@
 namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\ORM\ORMException;
+use Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Service\GameService;
 
 class GameCommand extends DefaultCommand
 {
     protected static $defaultName = 'vgr-core:game';
 
-    private $em;
-    private $gameService;
+    private EntityManagerInterface $em;
+    private GameService $gameService;
 
     public function __construct(EntityManagerInterface $em, GameService $gameService)
     {
@@ -45,36 +47,31 @@ class GameCommand extends DefaultCommand
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @return bool|int|null
+     * @return int
      * @throws ORMException
+     * @throws ExceptionInterface
+     * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj-player':
                 $idGame = $input->getOption('idGame');
-                $game = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->maj($game);
+                $this->gameService->majPlayerGame($idGame);
                 break;
             case 'maj-team':
                 $idGame = $input->getOption('idGame');
-                $game = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->maj($game);
+                $this->gameService->majTeamGame($idGame);
                 break;
             case 'maj-master-badge':
                 $idGame = $input->getOption('idGame');
-                $game = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->find($idGame);
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majMasterBadge($game);
-                $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamBadge')->majMasterBadge($game);
+                $this->gameService->majMasterBadge($idGame);
                 break;
             case 'game-of-day':
                 $this->gameService->addGameOfDay();
                 break;
-            case 'maj-chart-rank':
-                $this->gameService->majChartRank();
-                break;
         }
-        return true;
+        return 1;
     }
 }

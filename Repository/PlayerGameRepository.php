@@ -86,13 +86,13 @@ class PlayerGameRepository extends DefaultRepository
     }
 
     /**
-     * @param $game
+     * @param Game $game
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws ExceptionInterface
      * @throws Exception
      */
-    public function maj($game)
+    public function maj(Game $game)
     {
         //----- delete
         $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerGame pg WHERE pg.game = :game');
