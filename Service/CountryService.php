@@ -2,39 +2,43 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Exception;
 use VideoGamesRecords\CoreBundle\Repository\CountryRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class CountryService
 {
-    private $em;
+    private CountryRepository $countryRepository;
+    private PlayerRepository $playerRepository;
+    private PlayerBadgeRepository $playerBadgeRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(
+        CountryRepository $countryRepository,
+        PlayerRepository $playerRepository,
+        PlayerBadgeRepository $playerBadgeRepository
+    )
     {
-        $this->em = $em;
+        $this->countryRepository = $countryRepository;
+        $this->playerRepository = $playerRepository;
+        $this->playerBadgeRepository = $playerBadgeRepository;
     }
 
     /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager(): EntityManagerInterface
-    {
-        return $this->em;
-    }
-
-    /**
-     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws Exception
      */
     public function maj()
     {
-        /** @var CountryRepository $countryRepository */
-        $countryRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Country');
-        $countries = $countryRepository->findBy(['boolMaj' => true]);
+        $countries = $this->countryRepository->findBy(['boolMaj' => true]);
         foreach ($countries as $country) {
-            $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->majRankCountry($country);
-            $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge')->majCountryBadge($country);
+            $this->playerRepository->majRankCountry($country);
+            $this->playerBadgeRepository->majCountryBadge($country);
             $country->setBoolMaj(false);
         }
-        $this->em->flush();
+        $this->countryRepository->flush();
     }
 }

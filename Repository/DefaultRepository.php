@@ -10,7 +10,8 @@ abstract class DefaultRepository extends ServiceEntityRepository
 {
     protected string $entityClass;
 
-    public function __construct(Registry $registry, $entityClass) {
+    public function __construct(Registry $registry, $entityClass)
+    {
         $this->entityClass = $entityClass;
         parent::__construct($registry, $entityClass);
     }

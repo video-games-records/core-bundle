@@ -65,6 +65,6 @@ class GroupCommand extends DefaultCommand
                 $this->groupService->majTeamGroup($idGroup);
                 break;
         }
-        return 1;
+        return 0;
     }
 }

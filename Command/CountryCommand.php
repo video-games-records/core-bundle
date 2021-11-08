@@ -1,28 +1,27 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Logging\DebugStack;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use VideoGamesRecords\CoreBundle\Service\CountryService;
 
-class CountryCommand extends Command
+class CountryCommand extends DefaultCommand
 {
     protected static $defaultName = 'vgr-core:country';
 
-    private $countryService;
-    private $stack = null;
+    private EntityManagerInterface $em;
+    private CountryService $countryService;
 
-    public function __construct(CountryService $countryService)
+    public function __construct(EntityManagerInterface $em, CountryService $countryService)
     {
+        $this->em = $em;
         $this->countryService = $countryService;
-        parent::__construct();
+        parent::__construct($em);
     }
 
     protected function configure()
@@ -45,24 +44,9 @@ class CountryCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     */
-    private function init(InputInterface $input)
-    {
-        if ($input->getOption('debug')) {
-            // Start setup logger
-            $doctrineConnection = $this->playerService->getEntityManager()->getConnection();
-            $this->stack = new DebugStack();
-            $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
-            // End setup logger
-        }
-    }
-
-    /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
-     * @throws Exception
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -75,9 +59,7 @@ class CountryCommand extends Command
                 $this->countryService->maj();
                 break;
         }
-        if ($this->stack != null) {
-            $output->writeln(sprintf('%s queries', count($this->stack->queries)));
-        }
+        $this->end($output);
         return 0;
     }
 }

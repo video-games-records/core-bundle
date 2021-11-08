@@ -72,6 +72,6 @@ class GameCommand extends DefaultCommand
                 $this->gameService->addGameOfDay();
                 break;
         }
-        return 1;
+        return 0;
     }
 }
