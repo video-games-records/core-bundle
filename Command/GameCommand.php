@@ -20,7 +20,6 @@ class GameCommand extends DefaultCommand
 
     public function __construct(EntityManagerInterface $em, GameService $gameService)
     {
-        $this->em = $em;
         $this->gameService = $gameService;
         parent::__construct($em);
     }

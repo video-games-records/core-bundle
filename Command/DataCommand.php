@@ -21,7 +21,6 @@ class DataCommand extends DefaultCommand
 
     public function __construct(EntityManagerInterface $em, DataService $dataService)
     {
-        $this->em = $em;
         $this->dataService = $dataService;
         parent::__construct($em);
     }

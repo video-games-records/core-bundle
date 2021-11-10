@@ -19,7 +19,6 @@ class CountryCommand extends DefaultCommand
 
     public function __construct(EntityManagerInterface $em, CountryService $countryService)
     {
-        $this->em = $em;
         $this->countryService = $countryService;
         parent::__construct($em);
     }

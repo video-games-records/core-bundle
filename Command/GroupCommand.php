@@ -20,7 +20,6 @@ class GroupCommand extends DefaultCommand
 
     public function __construct(EntityManagerInterface $em, GroupService $groupService)
     {
-        $this->em = $em;
         $this->groupService = $groupService;
         parent::__construct($em);
     }
