@@ -112,6 +112,18 @@ class GameService
     }
 
     /**
+     * @param int    $idGame
+     * @param string $status
+     */
+    public function majChartStatus(int $idGame, string $status = 'MAJ')
+    {
+        $game = $this->getGame($idGame);
+        if ($game) {
+            $this->gameRepository->majChartStatus($game, $status);
+        }
+    }
+
+    /**
      * @param $idGame
      * @return Game|null
      */

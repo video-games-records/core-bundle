@@ -32,13 +32,8 @@ class LostPositionCommand extends DefaultCommand
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             )
-             ->addOption(
-                'debug',
-                'd',
-                InputOption::VALUE_NONE,
-                'Debug option (sql)'
-            );
         ;
+        parent::configure();
     }
 
     /**

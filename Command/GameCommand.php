@@ -34,13 +34,8 @@ class GameCommand extends DefaultCommand
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             )
-            ->addOption(
-                'idGame',
-                null,
-                InputOption::VALUE_REQUIRED,
-                ''
-            )
         ;
+        parent::configure();
     }
 
     /**

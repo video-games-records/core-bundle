@@ -2,40 +2,90 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Exception;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Exception;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGroup;
-use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class PlayerChartService
 {
-    private EntityManagerInterface $em;
+    private GameService $gameService;
+    private GroupService $groupService;
+    private ChartService $chartService;
+    private PlayerChartRepository $playerChartRepository;
 
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
+    public function __construct(
+        GameService $gameService,
+        GroupService $groupService,
+        ChartService $chartService,
+        PlayerChartRepository $playerChartRepository
+    ) {
+        $this->gameService = $gameService;
+        $this->groupService = $groupService;
+        $this->chartService = $chartService;
+        $this->playerChartRepository = $playerChartRepository;
     }
 
-     /**
-     * @return EntityManagerInterface
+
+    /**
+     * @param int $nbChartToMaj
+     * @return int
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws ExceptionInterface
+     * @throws Exception
      */
-    public function getEntityManager(): EntityManagerInterface
+    public function majRanking(int $nbChartToMaj = 100): int
     {
-        return $this->em;
+        $this->chartService->goToMajPlayer($nbChartToMaj);
+        $charts = $this->chartService->getChartToMajPlayer();
+
+        $playerList = [];
+        $groupList  = [];
+        $gameList   = [];
+
+        foreach ($charts as $chart) {
+            $idGroup = $chart->getGroup()->getId();
+            $idGame  = $chart->getGroup()->getGame()->getId();
+            //----- Player
+            $playerList = array_merge($playerList, $this->playerChartRepository->maj($chart));
+            //----- Group
+            if (!isset($groupList[$idGroup])) {
+                $groupList[$idGroup] = $chart->getGroup();
+            }
+            //----- Game
+            if (!isset($gameList[$idGame])) {
+                $gameList[$idGame] = $chart->getGroup()->getGame();
+            }
+        }
+
+        //----- Maj group
+        foreach ($groupList as $group) {
+            $this->groupService->majPlayerGroup($group->getId());
+        }
+
+        //----- Maj game
+        foreach ($gameList as $game) {
+            $this->gameService->majPlayerGame($game->getId());
+            $this->gameService->majMasterBadge($game->getId());
+        }
+
+        //----- Maj player
+        foreach ($playerList as $player) {
+            $player->setBoolMaj(true);
+        }
+
+        $this->playerChartRepository->flush();
+        $this->chartService->goToNormalPlayer();
+        return count($charts);
     }
+
+
 
     /**
      * @param $player
@@ -44,14 +94,23 @@ class PlayerChartService
      */
     public function majPlatform($player, $game, $platform) {
         // Update platform
-        $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majPlatform(
+        $this->playerChartRepository->majPlatform(
             $player,
             $game,
             $platform
         );
         // Maj all charts ot game
-        $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->setChartToMajPlayer($game);
+        $this->gameService->majChartStatus($game->getId(), 'MAJ');
     }
+
+
+
+
+
+
+
+
+
 
     /**
      * @throws ORMException
@@ -68,87 +127,8 @@ class PlayerChartService
         }
     }
 
-    /**
-     * @return bool
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function isMajRunning(): bool
-    {
-        /** @var ChartRepository $chartRepository */
-        $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
-        if ($chartRepository->isMajPlayerRunning()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param int $nbChartToMaj
-     * @return int
-     * @throws Exception
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws ExceptionInterface
-     */
-    public function majRanking(int $nbChartToMaj = 100): int
-    {
-        /** @var ChartRepository $chartRepository */
-        $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
-        /** @var PlayerChartRepository $playerChartRepository */
-        $playerChartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart');
-        /** @var PlayerGroupRepository $playerGroupRepository */
-        $playerGroupRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup');
-        /** @var PlayerGameRepository $playerGameRepository */
-        $playerGameRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame');
-        /** @var PlayerRepository $playerRepository */
-        $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
-        /** @var PlayerBadgeRepository $playerBadgeRepository */
-        $playerBadgeRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge');
 
 
-        $chartRepository->goToMajPlayer($nbChartToMaj);
-        $charts = $chartRepository->getChartToMajPlayer();
-
-        $playerList = [];
-        $groupList  = [];
-        $gameList   = [];
-
-        foreach ($charts as $chart) {
-            $idGroup = $chart->getGroup()->getId();
-            $idGame  = $chart->getGroup()->getGame()->getId();
-            //----- Player
-            $playerList = array_merge($playerList, $playerChartRepository->maj($chart));
-            //----- Group
-            if (!isset($groupList[$idGroup])) {
-                $groupList[$idGroup] = $chart->getGroup();
-            }
-            //----- Game
-            if (!isset($gameList[$idGame])) {
-                $gameList[$idGame] = $chart->getGroup()->getGame();
-            }
-        }
-
-        //----- Maj group
-        foreach ($groupList as $group) {
-            $playerGroupRepository->maj($group);
-        }
-
-        //----- Maj game
-        foreach ($gameList as $game) {
-            $playerGameRepository->maj($game);
-            $playerBadgeRepository->majMasterBadge($game);
-        }
-
-        //----- Maj player
-        foreach ($playerList as $player) {
-            $player->setBoolMaj(true);
-        }
-
-        $this->em->flush();
-        $chartRepository->goToNormalPlayer();
-        return count($charts);
-    }
 
     /**
      * @param PlayerChart $playerChart

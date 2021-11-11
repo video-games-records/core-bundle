@@ -34,13 +34,8 @@ class GroupCommand extends DefaultCommand
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             )
-            ->addOption(
-                'idGroup',
-                null,
-                InputOption::VALUE_REQUIRED,
-                ''
-            )
         ;
+        parent::configure();
     }
 
     /**

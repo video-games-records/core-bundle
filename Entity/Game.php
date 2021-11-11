@@ -96,7 +96,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
      * @Assert\Length(max="200")
      * @ORM\Column(name="picture", type="string", length=200, nullable=true)
      */
-    private string $picture;
+    private ?string $picture;
 
     /**
      * @ORM\Column(name="status", type="string", nullable=false)
@@ -324,10 +324,9 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
 
     /**
      * Get picture
-     *
-     * @return string
+     * @return string|null
      */
-    public function getPicture()
+    public function getPicture(): ?string
     {
         return $this->picture;
     }

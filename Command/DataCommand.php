@@ -35,12 +35,8 @@ class DataCommand extends DefaultCommand
                 InputArgument::REQUIRED,
                 'What do you want to do?'
             )
-            ->addOption(
-                'debug',
-                null,
-                InputOption::VALUE_NONE,
-                ''
-            );
+        ;
+        parent::configure();
     }
 
     /**

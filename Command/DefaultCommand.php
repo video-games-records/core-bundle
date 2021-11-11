@@ -5,7 +5,9 @@ namespace VideoGamesRecords\CoreBundle\Command;
 use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class DefaultCommand extends Command
@@ -20,6 +22,17 @@ abstract class DefaultCommand extends Command
     {
         $this->em = $em;
         parent::__construct();
+    }
+
+    protected function configure()
+    {
+        $this->addOption(
+                'debug',
+                null,
+                InputOption::VALUE_NONE,
+                ''
+            )
+        ;
     }
 
     protected function init(InputInterface $input)

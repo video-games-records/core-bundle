@@ -480,7 +480,7 @@ class PlayerChartRepository extends DefaultRepository
                             join c.group g
                         WHERE g.game = :game)')
             ->setParameter('game', $game);
-
+        //@todo MAJ statut chart to MAJ
         $query->getQuery()->execute();
     }
 
