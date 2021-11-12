@@ -14,7 +14,7 @@ use VideoGamesRecords\CoreBundle\Service\PlayerService;
  */
 class PlayerController extends AbstractController
 {
-    private $playerService;
+    private PlayerService $playerService;
 
     public function __construct(PlayerService $playerService)
     {
