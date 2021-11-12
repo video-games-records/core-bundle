@@ -2,51 +2,35 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Exception;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
-use VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamChartRepository;
-use VideoGamesRecords\CoreBundle\Repository\TeamGameRepository;
-use VideoGamesRecords\CoreBundle\Repository\TeamGroupRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
 class TeamChartService
 {
-    private $em;
+    private GameService $gameService;
+    private GroupService $groupService;
+    private ChartService $chartService;
+    private TeamChartRepository $teamChartRepository;
+    private TeamRepository $teamRepository;
 
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
+    public function __construct(
+        GameService $gameService,
+        GroupService $groupService,
+        ChartService $chartService,
+        TeamChartRepository $teamChartRepository,
+        TeamRepository $teamRepository
+    ) {
+        $this->gameService = $gameService;
+        $this->groupService = $groupService;
+        $this->chartService = $chartService;
+        $this->teamChartRepository = $teamChartRepository;
+        $this->teamRepository = $teamRepository;
     }
 
-     /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager(): EntityManagerInterface
-    {
-        return $this->em;
-    }
-
-    /**
-     * @return bool
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function isMajRunning(): bool
-    {
-        /** @var ChartRepository $chartRepository */
-        $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
-        if ($chartRepository->isMajTeamRunning()) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * @param int $nbChartToMaj
@@ -58,21 +42,8 @@ class TeamChartService
      */
     public function majRanking(int $nbChartToMaj = 100): int
     {
-        /** @var ChartRepository $chartRepository */
-        $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
-        /** @var TeamChartRepository $teamChartRepository */
-        $teamChartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamChart');
-        /** @var TeamGroupRepository $teamGroupRepository */
-        $teamGroupRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamGroup');
-        /** @var TeamGameRepository $teamGameRepository */
-        $teamGameRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamGame');
-        /** @var TeamRepository $teamRepository */
-        $teamRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Team');
-        /** @var TeamBadgeRepository $teamBadgeRepository */
-        $teamBadgeRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamBadge');
-
-        $chartRepository->goToMajTeam($nbChartToMaj);
-        $charts = $chartRepository->getChartToMajTeam();
+        $this->chartService->goToMajTeam($nbChartToMaj);
+        $charts = $this->chartService->getChartToMajTeam();
 
         $teamList = array();
         $groupList = array();
@@ -82,7 +53,7 @@ class TeamChartService
             $groupId = $chart->getGroup()->getId();
             $gameId = $chart->getGroup()->getGame()->getId();
             $teamList = array_unique(
-                array_merge($teamList, $teamChartRepository->maj($chart))
+                array_merge($teamList, $this->teamChartRepository->maj($chart))
             );
 
             //----- Group
@@ -97,20 +68,19 @@ class TeamChartService
 
         //----- Maj group
         foreach ($groupList as $group) {
-            $teamGroupRepository->maj($group);
+            $this->groupService->majTeamGroup($group->getId());
         }
 
         //----- Maj game
         foreach ($gameList as $game) {
-            $teamGameRepository->maj($game);
-            $teamBadgeRepository->majMasterBadge($game);
+            $this->gameService->majTeamGame($game->getId());
+            $this->gameService->majTeamMasterBadge($game->getId());
         }
 
         //----- Maj team
         foreach ($teamList as $team) {
-            $teamRepository->maj($team);
+            $this->teamRepository->maj($team);
         }
-
         return count($charts);
     }
 }

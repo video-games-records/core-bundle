@@ -7,7 +7,6 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 
 class ChartService
 {
@@ -60,6 +59,31 @@ class ChartService
      * @throws DBALException
      */
     public function goToNormalPlayer()
+    {
+        $this->chartRepository->goToNormalPlayer();
+    }
+
+    /**
+     * @param int $nbChart
+     * @throws DBALException
+     */
+    public function goToMajTeam(int $nbChart = 100)
+    {
+        $this->chartRepository->goToMajPlayer($nbChart);
+    }
+
+    /**
+     * @return Chart[]
+     */
+    public function getChartToMajTeam(): array
+    {
+        return $this->chartRepository->getChartToMajPlayer();
+    }
+
+    /**
+     * @throws DBALException
+     */
+    public function goToNormalTeam()
     {
         $this->chartRepository->goToNormalPlayer();
     }

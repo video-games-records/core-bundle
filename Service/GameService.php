@@ -102,14 +102,26 @@ class GameService
      * @param int $idGame
      * @throws Exception
      */
-    public function majMasterBadge(int $idGame)
+    public function majPlayerMasterBadge(int $idGame)
     {
         $game = $this->getGame($idGame);
         if ($game) {
             $this->playerBadgeRepository->majMasterBadge($game);
+        }
+    }
+
+     /**
+     * @param int $idGame
+     * @throws Exception
+     */
+    public function majTeamMasterBadge(int $idGame)
+    {
+        $game = $this->getGame($idGame);
+        if ($game) {
             $this->teamBadgeRepository->majMasterBadge($game);
         }
     }
+
 
     /**
      * @param int    $idGame
