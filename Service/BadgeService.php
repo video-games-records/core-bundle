@@ -12,8 +12,7 @@ class BadgeService
 
     public function __construct(
         PlayerBadgeRepository $playerBadgeRepository
-    )
-    {
+    ) {
         $this->playerBadgeRepository = $playerBadgeRepository;
     }
 
