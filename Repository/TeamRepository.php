@@ -370,7 +370,7 @@ class TeamRepository extends DefaultRepository
      * @param int  $maxRank
      * @return int|mixed|string
      */
-    private function getRanking($column, $team = null, $maxRank = 100)
+    private function getRanking($column, $team = null, int $maxRank = 100)
     {
         $query = $this->createQueryBuilder('t')
             ->where("(t.$column != 0)")
