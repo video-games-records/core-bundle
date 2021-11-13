@@ -4,9 +4,9 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
@@ -29,13 +29,13 @@ use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
  */
 class PlayerChartController extends AbstractController
 {
-    private $security;
-    private $s3client;
-    protected $feedManager;
-    private $translator;
-    private $playerChartService;
+    private Security $security;
+    private S3Client $s3client;
+    protected FeedManager $feedManager;
+    private TranslatorInterface $translator;
+    private PlayerChartService $playerChartService;
 
-    private $extensions = array(
+    private array $extensions = array(
         'text/plain' => '.txt',
         'image/png' => '.png',
         'image/jpeg' => '.jpg',
@@ -69,7 +69,7 @@ class PlayerChartController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function majPlatform(Request $request)
+    public function majPlatform(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $idGame = $data['idGame'];
@@ -90,7 +90,7 @@ class PlayerChartController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function rssAction(Request $request)
+    public function rssAction(Request $request): Response
     {
         $idGame = $request->query->get('idGame', null);
         $idGroup = $request->query->get('idGroup', null);
@@ -115,7 +115,7 @@ class PlayerChartController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function sendPicture(PlayerChart $playerChart, Request $request)
+    public function sendPicture(PlayerChart $playerChart, Request $request): Response
     {
         if ($playerChart->getPlayer() != $this->getPlayer()) {
             throw new AccessDeniedException('ACESS DENIED');
@@ -213,7 +213,7 @@ class PlayerChartController extends AbstractController
      * @return Response
      * @throws AccessDeniedException
      */
-    public function sendVideo(PlayerChart $playerChart, Request $request)
+    public function sendVideo(PlayerChart $playerChart, Request $request): Response
     {
         if ($playerChart->getPlayer() != $this->getPlayer()) {
             throw new AccessDeniedException('ACESS DENIED');

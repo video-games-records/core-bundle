@@ -2,13 +2,13 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Service\GameService;
@@ -19,7 +19,7 @@ use VideoGamesRecords\CoreBundle\Service\GameService;
  */
 class GameController extends AbstractController
 {
-    private $gameService;
+    private GameService $gameService;
 
     public function __construct(GameService $gameService)
     {
@@ -142,10 +142,8 @@ class GameController extends AbstractController
     }
 
 
-
     /**
-     * @Route("/rss", name="game_rss")
-     * @Method("GET")
+     * @Route("/rss", methods={"GET"})
      * @Cache(smaxage="10")
      * @return Response
      */
@@ -169,5 +167,17 @@ class GameController extends AbstractController
         $feed->addFromArray($games);
 
         return new Response($feed->render('rss'));
+    }
+
+
+    /**
+     * @Route("/day", name="game_of_day")
+     * @return Response
+     * @throws NonUniqueResultException
+     */
+    public function dayAction(): Response
+    {
+        $game = $this->gameService->getGameOfDay();
+        return $this->render('VideoGamesRecordsCoreBundle:Default:game_day.html.twig', ['game' => $game]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Exception;
@@ -133,6 +134,15 @@ class GameService
         if ($game) {
             $this->gameRepository->majChartStatus($game, $status);
         }
+    }
+
+    /**
+     * @return Game|null
+     * @throws NonUniqueResultException
+     */
+    public function getGameOfDay(): ?Game
+    {
+        return $this->gameRepository->getGameOfday();
     }
 
     /**

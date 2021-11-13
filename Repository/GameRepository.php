@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use DateTime;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -290,6 +291,24 @@ class GameRepository extends DefaultRepository
             ->setParameter('game', $game);
 
         $query->getQuery()->execute();
+    }
+
+    /**
+     * @return Game|null
+     * @throws NonUniqueResultException
+     */
+    public function getGameOfday(): ?Game
+    {
+        $now = new Datetime();
+        $qb = $this->createQueryBuilder('g')
+            ->select('g')
+            ->innerJoin('g.days', 'day')
+            ->where('day.day = :today')
+            ->setParameter('today', $now->format('Y-m-d'));
+
+        $this->withPlatforms($qb);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
 

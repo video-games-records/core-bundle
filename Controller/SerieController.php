@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class SerieController
- * @Route("/serie")
  */
 class SerieController extends AbstractController
 {

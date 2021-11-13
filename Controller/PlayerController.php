@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -10,7 +9,6 @@ use VideoGamesRecords\CoreBundle\Service\PlayerService;
 
 /**
  * Class PlayerController
- * @Route("/player")
  */
 class PlayerController extends AbstractController
 {
@@ -24,7 +22,7 @@ class PlayerController extends AbstractController
     /**
      * @return Player|null
      */
-    private function getPlayer()
+    private function getPlayer(): ?Player
     {
         if ($this->getUser() !== null) {
             return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
