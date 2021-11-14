@@ -2,28 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
-use VideoGamesRecords\CoreBundle\Entity\Player;
 
 /**
  * Class PlatformController
  */
-class PlatformController extends AbstractController
+class PlatformController extends DefaultController
 {
-    /**
-     * @return Player|null
-     */
-    private function getPlayer(): ?Player
-    {
-        if ($this->getUser() !== null) {
-            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-        }
-        return null;
-    }
-
     /**
      * @param Platform $platform
      * @param Request  $request

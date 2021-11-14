@@ -2,7 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Service\PlayerService;
@@ -10,25 +11,13 @@ use VideoGamesRecords\CoreBundle\Service\PlayerService;
 /**
  * Class PlayerController
  */
-class PlayerController extends AbstractController
+class PlayerController extends DefaultController
 {
     private PlayerService $playerService;
 
     public function __construct(PlayerService $playerService)
     {
         $this->playerService = $playerService;
-    }
-
-    /**
-     * @return Player|null
-     */
-    private function getPlayer(): ?Player
-    {
-        if ($this->getUser() !== null) {
-            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-        }
-        return null;
     }
 
     /**
@@ -42,9 +31,9 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function stats()
+    public function stats(): array
     {
         $playerStats =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getStats();
         $gameStats =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->getStats();
@@ -159,8 +148,10 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @param Player    $player
-     * @return mixed
+     * @param Player $player
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function nbLostPosition(Player $player)
     {
@@ -168,8 +159,10 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @param Player    $player
-     * @return mixed
+     * @param Player $player
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function nbNewLostPosition(Player $player)
     {

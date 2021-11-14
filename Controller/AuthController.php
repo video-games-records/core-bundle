@@ -2,10 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use ProjetNormandie\UserBundle\Service\IpManager;
 
-class AuthController extends AbstractController
+class AuthController extends DefaultController
 {
     private IpManager $ipManager;
 
@@ -15,16 +14,6 @@ class AuthController extends AbstractController
     public function __construct(IpManager $ipManager)
     {
         $this->ipManager = $ipManager;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    private function getPlayer()
-    {
-        return  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-            ->getPlayerFromUser($this->getUser());
     }
 
     /**
@@ -38,22 +27,5 @@ class AuthController extends AbstractController
             $this->getUser(),
             $this->getPlayer()
         );
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function profilePlayer()
-    {
-        return $this->getPlayer();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function profileTeam()
-    {
-        return $this->getPlayer()->getTeam();
     }
 }

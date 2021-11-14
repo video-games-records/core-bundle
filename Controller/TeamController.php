@@ -2,56 +2,33 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\ORMException;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use VideoGamesRecords\CoreBundle\Entity\Team;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
 /**
  * Class TeamController
  */
-class TeamController extends AbstractController
+class TeamController extends DefaultController
 {
     private TranslatorInterface $translator;
     private TeamRepository $teamRepository;
-    private PlayerRepository $playerRepository;
 
     private array $extensions = array(
         'image/png' => '.png',
         'image/jpeg' => '.jpg',
     );
 
-    public function __construct(TranslatorInterface $translator, TeamRepository $teamRepository, PlayerRepository $playerRepository)
+    public function __construct(TranslatorInterface $translator, TeamRepository $teamRepository)
     {
         $this->translator = $translator;
         $this->teamRepository = $teamRepository;
-        $this->playerRepository = $playerRepository;
-    }
-
-    /**
-     * @return Team|null
-     * @throws NonUniqueResultException
-     * @throws ORMException
-     */
-    private function getTeam(): ?Team
-    {
-        if ($this->getUser() !== null) {
-            $player =  $this->playerRepository->getPlayerFromUser($this->getUser());
-            return $player->getTeam();
-        }
-        return null;
     }
 
     /**
      * @return array
-     * @throws NonUniqueResultException
-     * @throws ORMException
      */
     public function rankingPointChart(): array
     {
@@ -60,8 +37,6 @@ class TeamController extends AbstractController
 
     /**
      * @return array
-     * @throws NonUniqueResultException
-     * @throws ORMException
      */
     public function rankingPointGame(): array
     {
@@ -70,8 +45,6 @@ class TeamController extends AbstractController
 
     /**
      * @return array
-     * @throws NonUniqueResultException
-     * @throws ORMException
      */
     public function rankingMedal(): array
     {
@@ -80,8 +53,6 @@ class TeamController extends AbstractController
 
     /**
      * @return array
-     * @throws NonUniqueResultException
-     * @throws ORMException
      */
     public function rankingCup(): array
     {
@@ -90,8 +61,6 @@ class TeamController extends AbstractController
 
     /**
      * @return array
-     * @throws NonUniqueResultException
-     * @throws ORMException
      */
     public function rankingBadge() : array
     {
@@ -145,21 +114,5 @@ class TeamController extends AbstractController
 
         $this->teamRepository-flush();
         return $this->getResponse(true, $this->translator->trans('avatar.success'));
-    }
-
-    /**
-     * @param bool $success
-     * @param null    $message
-     * @return Response
-     */
-    private function getResponse(bool $success, $message = null): Response
-    {
-        $response = new Response();
-        $response->headers->set('Content-Type', 'application/json');
-        $response->setContent(json_encode([
-            'success' => $success,
-            'message' => $message,
-        ]));
-        return $response;
     }
 }

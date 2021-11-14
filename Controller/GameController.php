@@ -4,51 +4,23 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Service\GameService;
 
 /**
  * Class GameController
  * @Route("/game")
  */
-class GameController extends AbstractController
+class GameController extends DefaultController
 {
     private GameService $gameService;
 
     public function __construct(GameService $gameService)
     {
         $this->gameService = $gameService;
-    }
-
-    /**
-     * @return Player|null
-     */
-    private function getPlayer()
-    {
-        if ($this->getUser() !== null) {
-            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                               ->getPlayerFromUser($this->getUser());
-        }
-        return null;
-    }
-
-    /**
-     * @return Team|null
-     */
-    private function getTeam()
-    {
-        if ($this->getUser() !== null) {
-            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-            return $player->getTeam();
-        }
-        return null;
     }
 
     /**

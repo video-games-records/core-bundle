@@ -4,7 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +26,7 @@ use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
  * Class PlayerChartController
  * @Route("/player-chart")
  */
-class PlayerChartController extends AbstractController
+class PlayerChartController extends DefaultController
 {
     private Security $security;
     private S3Client $s3client;
@@ -54,16 +53,6 @@ class PlayerChartController extends AbstractController
         $this->translator = $translator;
         $this->playerChartService = $playerChartService;
     }
-
-    /**
-     * @return mixed
-     */
-    private function getPlayer()
-    {
-        return  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-            ->getPlayerFromUser($this->security->getUser());
-    }
-
 
     /**
      * @param Request $request
@@ -285,21 +274,5 @@ class PlayerChartController extends AbstractController
     {
         $locale = $request->getLocale();
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getLast($locale);
-    }
-
-    /**
-     * @param bool $success
-     * @param null    $message
-     * @return Response
-     */
-    private function getResponse(bool $success, $message = null)
-    {
-        $response = new Response();
-        $response->headers->set('Content-Type', 'application/json');
-        $response->setContent(json_encode([
-            'success' => $success,
-            'message' => $message,
-        ]));
-        return $response;
     }
 }
