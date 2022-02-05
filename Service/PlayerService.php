@@ -8,6 +8,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
@@ -76,19 +77,22 @@ class PlayerService
         return $playerGames;
     }
 
+
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function majPlayer(Player $player)
+    {
+        $this->playerRepository->majPlayer($player);
+    }
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
     public function maj()
     {
-        $players = $this->playerRepository->findBy(['boolMaj' => true]);
-        foreach ($players as $player) {
-            $this->playerRepository->maj($player);
-            if ($player->getCountry()) {
-                $player->getCountry()->setBoolMaj(true);
-            }
-        }
         $this->playerRepository->majGameRank();
         $this->playerRepository->majRankPointChart();
         $this->playerRepository->majRankPointGame();
