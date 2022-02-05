@@ -19,40 +19,34 @@ class VideoComment implements TimestampableInterface
     use TimestampableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var Video
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video", inversedBy="comments")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idVideo", referencedColumnName="id", nullable=false)
      * })
      */
-    private $video;
+    private Video $video;
 
     /**
-     * @var Player
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="text", type="text", nullable=false)
      */
-    private $text;
+    private string $text;
 
     /**
      * @return string
@@ -67,7 +61,7 @@ class VideoComment implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
 
@@ -79,7 +73,7 @@ class VideoComment implements TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -88,7 +82,7 @@ class VideoComment implements TimestampableInterface
      * Get video
      * @return Video
      */
-    public function getVideo()
+    public function getVideo(): Video
     {
         return $this->video;
     }
@@ -98,7 +92,7 @@ class VideoComment implements TimestampableInterface
      * @param Video $video
      * @return $this
      */
-    public function setVideo(Video $video)
+    public function setVideo(Video $video): Self
     {
         $this->video = $video;
         return $this;
@@ -108,7 +102,7 @@ class VideoComment implements TimestampableInterface
      * Get player
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }
@@ -118,7 +112,7 @@ class VideoComment implements TimestampableInterface
      * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player)
+    public function setPlayer(Player $player): Self
     {
         $this->player = $player;
         return $this;
@@ -128,7 +122,7 @@ class VideoComment implements TimestampableInterface
      * @param string $text
      * @return $this
      */
-    public function setText(string $text)
+    public function setText(string $text): Self
     {
         $this->text = $text;
 
@@ -138,7 +132,7 @@ class VideoComment implements TimestampableInterface
     /**
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }

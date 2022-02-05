@@ -32,58 +32,48 @@ class Badge
 
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="50")
      * @ORM\Column(name="type", type="string", length=50, nullable=false)
      */
-    private $type;
+    private string $type;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="100")
      * @ORM\Column(name="picture", type="string", length=50, nullable=false)
      */
-    private $picture;
+    private string $picture;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="value", type="integer", nullable=true, options={"default":0})
      */
-    private $value = 0;
+    private ?int $value = null;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbPlayer", type="integer", nullable=true, options={"default":0})
      */
-    private $nbPlayer = 0;
+    private int $nbPlayer = 0;
 
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="badge")
      */
-    private $game;
+    private ?Game $game;
 
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country", mappedBy="badge")
      */
-    private $country;
+    private ?Country $country;
 
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform", mappedBy="badge")
      */
-    private $platform;
+    private ?Platform $platform;
 
     /**
      * @return string
@@ -100,7 +90,7 @@ class Badge
      * @param integer $id
      * @return Badge
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -111,7 +101,7 @@ class Badge
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -122,7 +112,7 @@ class Badge
      * @param string $type
      * @return Badge
      */
-    public function setType(string $type)
+    public function setType(string $type): Self
     {
         $this->type = $type;
 
@@ -134,7 +124,7 @@ class Badge
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -146,7 +136,7 @@ class Badge
      * @param string $picture
      * @return Badge
      */
-    public function setPicture(string $picture)
+    public function setPicture(string $picture): Self
     {
         $this->picture = $picture;
 
@@ -158,7 +148,7 @@ class Badge
      *
      * @return string
      */
-    public function getPicture()
+    public function getPicture(): ?string
     {
         return $this->picture;
     }
@@ -169,7 +159,7 @@ class Badge
      * @param integer $value
      * @return Badge
      */
-    public function setValue(int $value)
+    public function setValue(int $value): Self
     {
         $this->value = $value;
 
@@ -181,7 +171,7 @@ class Badge
      *
      * @return integer
      */
-    public function getValue()
+    public function getValue(): ?int
     {
         return $this->value;
     }
@@ -192,7 +182,7 @@ class Badge
      * @param integer $nbPlayer
      * @return $this
      */
-    public function setNbPlayer(int $nbPlayer)
+    public function setNbPlayer(int $nbPlayer): Self
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -204,7 +194,7 @@ class Badge
      *
      * @return integer
      */
-    public function getNbPlayer()
+    public function getNbPlayer(): int
     {
         return $this->nbPlayer;
     }
@@ -214,7 +204,7 @@ class Badge
      *
      * @return Game
      */
-    public function getGame()
+    public function getGame(): ?Game
     {
         return $this->game;
     }
@@ -224,7 +214,7 @@ class Badge
      *
      * @return Country
      */
-    public function getCountry()
+    public function getCountry(): ?Country
     {
         return $this->country;
     }
@@ -234,7 +224,7 @@ class Badge
      *
      * @return Platform
      */
-    public function getPlatform()
+    public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
@@ -269,7 +259,7 @@ class Badge
      /**
      * @return array
      */
-    public static function getTypeChoices()
+    public static function getTypeChoices(): array
     {
         return [
             self::TYPE_CONNEXION => self::TYPE_CONNEXION,

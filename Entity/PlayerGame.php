@@ -61,145 +61,111 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 class PlayerGame
 {
     /**
-     * @var Player
-     *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerGame")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
-     * @var Game
-     *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER", inversedBy="playerGame")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
      * })
      */
-    private $game;
+    private Game $game;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
      */
-    private $rankPointChart;
+    private int $rankPointChart = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankMedal", type="integer", nullable=false)
      */
-    private $rankMedal;
+    private int $rankMedal = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="chartRank0", type="integer", nullable=false)
      */
-    private $chartRank0;
+    private int $chartRank0 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank1", type="integer", nullable=false)
      */
-    private $chartRank1;
+    private int $chartRank1 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank2", type="integer", nullable=false)
      */
-    private $chartRank2;
+    private int $chartRank2 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank3", type="integer", nullable=false)
      */
-    private $chartRank3;
+    private int $chartRank3 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank4", type="integer", nullable=false)
      */
-    private $chartRank4;
+    private int $chartRank4 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank5", type="integer", nullable=false)
      */
-    private $chartRank5;
+    private int $chartRank5 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
-    private $pointChart;
+    private int $pointChart = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="pointChartWithoutDlc", type="integer", nullable=false)
      */
-    private $pointChartWithoutDlc;
+    private int $pointChartWithoutDlc = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $nbChart;
+    private int $nbChart = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
-    private $nbChartProven;
+    private int $nbChartProven = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChartWithoutDlc", type="integer", nullable=false)
      */
-    private $nbChartWithoutDlc;
+    private int $nbChartWithoutDlc = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChartProvenWithoutDlc", type="integer", nullable=false)
      */
-    private $nbChartProvenWithoutDlc;
+    private int $nbChartProvenWithoutDlc = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
-    private $pointGame;
+    private int $pointGame = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbEqual", type="integer", nullable=false)
      */
-    private $nbEqual = 0;
+    private int $nbEqual = 1;
 
     /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="lastUpdate", type="datetime", nullable=true)
+     * @ORM\Column(name="lastUpdate", type="datetime", nullable=false)
      */
-    private $lastUpdate;
+    private DateTime $lastUpdate;
 
 
     private $statuses;
@@ -209,7 +175,7 @@ class PlayerGame
      * @param integer $rankPointChart
      * @return $this
      */
-    public function setRankPointChart(int $rankPointChart)
+    public function setRankPointChart(int $rankPointChart): Self
     {
         $this->rankPointChart = $rankPointChart;
         return $this;
@@ -220,7 +186,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getRankPointChart()
+    public function getRankPointChart(): int
     {
         return $this->rankPointChart;
     }
@@ -231,7 +197,7 @@ class PlayerGame
      * @param integer $rankMedal
      * @return $this
      */
-    public function setRankMedal(int $rankMedal)
+    public function setRankMedal(int $rankMedal): Self
     {
         $this->rankMedal = $rankMedal;
         return $this;
@@ -242,7 +208,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getRankMedal()
+    public function getRankMedal(): int
     {
         return $this->rankMedal;
     }
@@ -252,7 +218,7 @@ class PlayerGame
      * @param integer $chartRank0
      * @return $this
      */
-    public function setChartRank0(int $chartRank0)
+    public function setChartRank0(int $chartRank0): Self
     {
         $this->chartRank0 = $chartRank0;
         return $this;
@@ -263,7 +229,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getChartRank0()
+    public function getChartRank0(): int
     {
         return $this->chartRank0;
     }
@@ -273,7 +239,7 @@ class PlayerGame
      * @param integer $chartRank1
      * @return $this
      */
-    public function setChartRank1(int $chartRank1)
+    public function setChartRank1(int $chartRank1): Self
     {
         $this->chartRank1 = $chartRank1;
         return $this;
@@ -284,7 +250,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getChartRank1()
+    public function getChartRank1(): int
     {
         return $this->chartRank1;
     }
@@ -294,7 +260,7 @@ class PlayerGame
      * @param integer $chartRank2
      * @return $this
      */
-    public function setChartRank2(int $chartRank2)
+    public function setChartRank2(int $chartRank2): Self
     {
         $this->chartRank2 = $chartRank2;
         return $this;
@@ -305,7 +271,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getChartRank2()
+    public function getChartRank2(): int
     {
         return $this->chartRank2;
     }
@@ -315,7 +281,7 @@ class PlayerGame
      * @param integer $chartRank3
      * @return $this
      */
-    public function setChartRank3(int $chartRank3)
+    public function setChartRank3(int $chartRank3): Self
     {
         $this->chartRank3 = $chartRank3;
         return $this;
@@ -326,7 +292,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getChartRank3()
+    public function getChartRank3(): int
     {
         return $this->chartRank3;
     }
@@ -336,7 +302,7 @@ class PlayerGame
      * @param integer $chartRank4
      * @return $this
      */
-    public function setChartRank4(int $chartRank4)
+    public function setChartRank4(int $chartRank4): Self
     {
         $this->chartRank4 = $chartRank4;
         return $this;
@@ -347,7 +313,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getChartRank4()
+    public function getChartRank4(): int
     {
         return $this->chartRank4;
     }
@@ -357,7 +323,7 @@ class PlayerGame
      * @param integer $chartRank5
      * @return $this
      */
-    public function setChartRank5(int $chartRank5)
+    public function setChartRank5(int $chartRank5): Self
     {
         $this->chartRank5 = $chartRank5;
         return $this;
@@ -368,7 +334,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getChartRank5()
+    public function getChartRank5(): int
     {
         return $this->chartRank5;
     }
@@ -378,7 +344,7 @@ class PlayerGame
      * @param integer $pointChart
      * @return $this
      */
-    public function setPointChart(int $pointChart)
+    public function setPointChart(int $pointChart): Self
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -389,7 +355,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getPointChart()
+    public function getPointChart(): int
     {
         return $this->pointChart;
     }
@@ -399,7 +365,7 @@ class PlayerGame
      * @param integer $pointChartWithoutDlc
      * @return $this
      */
-    public function setPointChartWithoutDlc(int $pointChartWithoutDlc)
+    public function setPointChartWithoutDlc(int $pointChartWithoutDlc): Self
     {
         $this->pointChartWithoutDlc = $pointChartWithoutDlc;
         return $this;
@@ -410,7 +376,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getPointChartWithoutDlc()
+    public function getPointChartWithoutDlc(): int
     {
         return $this->pointChartWithoutDlc;
     }
@@ -420,7 +386,7 @@ class PlayerGame
      * @param integer $nbChart
      * @return $this
      */
-    public function setNbChart(int $nbChart)
+    public function setNbChart(int $nbChart): Self
     {
         $this->nbChart = $nbChart;
         return $this;
@@ -431,7 +397,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getNbChart()
+    public function getNbChart(): int
     {
         return $this->nbChart;
     }
@@ -442,7 +408,7 @@ class PlayerGame
      * @param integer $nbChartProven
      * @return $this
      */
-    public function setNbChartProven(int $nbChartProven)
+    public function setNbChartProven(int $nbChartProven): Self
     {
         $this->nbChartProven = $nbChartProven;
         return $this;
@@ -453,7 +419,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getNbChartProven()
+    public function getNbChartProven(): int
     {
         return $this->nbChartProven;
     }
@@ -463,7 +429,7 @@ class PlayerGame
      * @param integer $nbChartWithoutDlc
      * @return $this
      */
-    public function setNbChartWithoutDlc(int $nbChartWithoutDlc)
+    public function setNbChartWithoutDlc(int $nbChartWithoutDlc): Self
     {
         $this->nbChartWithoutDlc = $nbChartWithoutDlc;
         return $this;
@@ -474,7 +440,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getNbChartWithoutDlc()
+    public function getNbChartWithoutDlc(): int
     {
         return $this->nbChartWithoutDlc;
     }
@@ -484,7 +450,7 @@ class PlayerGame
      * @param integer $nbChartProvenWithoutDlc
      * @return $this
      */
-    public function setNbChartProvenWithoutDlc(int $nbChartProvenWithoutDlc)
+    public function setNbChartProvenWithoutDlc(int $nbChartProvenWithoutDlc): Self
     {
         $this->nbChartProvenWithoutDlc = $nbChartProvenWithoutDlc;
         return $this;
@@ -495,7 +461,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getNbChartProvenWithoutDlc()
+    public function getNbChartProvenWithoutDlc(): int
     {
         return $this->nbChartProvenWithoutDlc;
     }
@@ -505,7 +471,7 @@ class PlayerGame
      * @param integer $pointGame
      * @return $this
      */
-    public function setPointGame(int $pointGame)
+    public function setPointGame(int $pointGame): Self
     {
         $this->pointGame = $pointGame;
         return $this;
@@ -516,17 +482,17 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getPointGame()
+    public function getPointGame(): int
     {
         return $this->pointGame;
     }
 
     /**
      * Set game
-     * @param Game|null $game
+     * @param Game $game
      * @return $this
      */
-    public function setGame(Game $game = null)
+    public function setGame(Game $game): Self
     {
         $this->game = $game;
 
@@ -538,7 +504,7 @@ class PlayerGame
      * @param DateTime $lastUpdate
      * @return $this
      */
-    public function setLastUpdate(DateTime $lastUpdate)
+    public function setLastUpdate(DateTime $lastUpdate): Self
     {
         $this->lastUpdate = $lastUpdate;
 
@@ -550,7 +516,7 @@ class PlayerGame
      *
      * @return DateTime
      */
-    public function getLastUpdate()
+    public function getLastUpdate(): DateTime
     {
         return $this->lastUpdate;
     }
@@ -560,7 +526,7 @@ class PlayerGame
      *
      * @return Game
      */
-    public function getGame()
+    public function getGame(): Game
     {
         return $this->game;
     }
@@ -568,10 +534,10 @@ class PlayerGame
 
     /**
      * Set player
-     * @param Player|null $player
+     * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player = null)
+    public function setPlayer(Player $player): Self
     {
         $this->player = $player;
 
@@ -583,7 +549,7 @@ class PlayerGame
      *
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }
@@ -593,7 +559,7 @@ class PlayerGame
      * @param integer $nbEqual
      * @return $this
      */
-    public function setNbEqual(int $nbEqual)
+    public function setNbEqual(int $nbEqual): Self
     {
         $this->nbEqual = $nbEqual;
         return $this;
@@ -604,7 +570,7 @@ class PlayerGame
      *
      * @return integer
      */
-    public function getNbEqual()
+    public function getNbEqual(): int
     {
         return $this->nbEqual;
     }

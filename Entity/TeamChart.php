@@ -13,46 +13,34 @@ use Doctrine\ORM\Mapping as ORM;
 class TeamChart
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointChart", type="float", nullable=false)
+     * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
-    private $pointChart = 0;
+    private int $pointChart = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
      */
-    private $rankPointChart;
+    private int $rankPointChart;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank0", type="integer", nullable=false)
      */
-    private $chartRank0;
+    private int $chartRank0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank1", type="integer", nullable=false)
      */
-    private $chartRank1;
+    private int $chartRank1;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank2", type="integer", nullable=false)
      */
-    private $chartRank2;
+    private int $chartRank2;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank3", type="integer", nullable=false)
      */
-    private $chartRank3;
+    private int $chartRank3;
 
     /**
      * @var Team
@@ -63,7 +51,7 @@ class TeamChart
      *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false)
      * })
      */
-    private $team;
+    private Team $team;
 
     /**
      * @var Chart
@@ -74,14 +62,14 @@ class TeamChart
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
      */
-    private $chart;
+    private Chart $chart;
 
     /**
      * Set pointChart
      * @param float $pointChart
      * @return $this
      */
-    public function setPointChart(float $pointChart)
+    public function setPointChart(float $pointChart): Self
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -102,7 +90,7 @@ class TeamChart
      * @param integer $rankPointChart
      * @return $this
      */
-    public function setRankPointChart(int $rankPointChart)
+    public function setRankPointChart(int $rankPointChart): Self
     {
         $this->rankPointChart = $rankPointChart;
         return $this;
@@ -113,7 +101,7 @@ class TeamChart
      *
      * @return integer
      */
-    public function getRankPointChart()
+    public function getRankPointChart(): int
     {
         return $this->rankPointChart;
     }
@@ -123,7 +111,7 @@ class TeamChart
      * @param integer $chartRank0
      * @return $this
      */
-    public function setChartRank0(int $chartRank0)
+    public function setChartRank0(int $chartRank0): Self
     {
         $this->chartRank0 = $chartRank0;
         return $this;
@@ -134,7 +122,7 @@ class TeamChart
      *
      * @return integer
      */
-    public function getChartRank0()
+    public function getChartRank0(): int
     {
         return $this->chartRank0;
     }
@@ -144,7 +132,7 @@ class TeamChart
      * @param integer $chartRank1
      * @return $this
      */
-    public function setChartRank1(int $chartRank1)
+    public function setChartRank1(int $chartRank1): Self
     {
         $this->chartRank1 = $chartRank1;
         return $this;
@@ -155,7 +143,7 @@ class TeamChart
      *
      * @return integer
      */
-    public function getChartRank1()
+    public function getChartRank1(): int
     {
         return $this->chartRank1;
     }
@@ -165,7 +153,7 @@ class TeamChart
      * @param integer $chartRank2
      * @return $this
      */
-    public function setChartRank2(int $chartRank2)
+    public function setChartRank2(int $chartRank2): Self
     {
         $this->chartRank2 = $chartRank2;
         return $this;
@@ -176,7 +164,7 @@ class TeamChart
      *
      * @return integer
      */
-    public function getChartRank2()
+    public function getChartRank2(): int
     {
         return $this->chartRank2;
     }
@@ -186,7 +174,7 @@ class TeamChart
      * @param integer $chartRank3
      * @return $this
      */
-    public function setChartRank3(int $chartRank3)
+    public function setChartRank3(int $chartRank3): Self
     {
         $this->chartRank3 = $chartRank3;
         return $this;
@@ -197,17 +185,17 @@ class TeamChart
      *
      * @return integer
      */
-    public function getChartRank3()
+    public function getChartRank3(): int
     {
         return $this->chartRank3;
     }
 
     /**
      * Set chart
-     * @param Chart|null $chart
+     * @param Chart $chart
      * @return $this
      */
-    public function setChart(Chart $chart = null)
+    public function setChart(Chart $chart): Self
     {
         $this->chart = $chart;
 
@@ -219,7 +207,7 @@ class TeamChart
      *
      * @return Chart
      */
-    public function getChart()
+    public function getChart(): Chart
     {
         return $this->chart;
     }
@@ -230,7 +218,7 @@ class TeamChart
      * @param Team|null $team
      * @return $this
      */
-    public function setTeam(Team $team = null)
+    public function setTeam(Team $team = null): Self
     {
         $this->team = $team;
 
@@ -242,7 +230,7 @@ class TeamChart
      *
      * @return Team
      */
-    public function getTeam()
+    public function getTeam(): Team
     {
         return $this->team;
     }

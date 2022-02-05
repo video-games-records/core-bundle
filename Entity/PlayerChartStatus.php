@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
@@ -30,42 +31,33 @@ class PlayerChartStatus implements TranslatableInterface
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="30")
      * @ORM\Column(name="class", type="string", length=30, nullable=false)
      */
-    private $class;
+    private string $class;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="boolRanking", type="integer", nullable=false)
      */
-    private $boolRanking = 0;
+    private int $boolRanking = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="boolSendProof", type="integer", nullable=false)
      */
-    private $boolSendProof = 0;
+    private int $boolSendProof = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="sOrder", type="integer", nullable=false, options={"default":0})
      */
-    private $sOrder = 0;
+    private int $sOrder = 0;
 
-      /**
-     * @var ArrayCollection|PlayerChart[]
+    /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="status")
      */
-    private $playerCharts;
+    private Collection $playerCharts;
 
     /**
      * @return string
@@ -78,7 +70,7 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * @return string
      */
-    public function getDefaultName()
+    public function getDefaultName(): string
     {
         return $this->translate('en', false)->getName();
     }
@@ -88,7 +80,7 @@ class PlayerChartStatus implements TranslatableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -99,7 +91,7 @@ class PlayerChartStatus implements TranslatableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -110,7 +102,7 @@ class PlayerChartStatus implements TranslatableInterface
      * @param string $class
      * @return $this
      */
-    public function setLabel(string $class)
+    public function setLabel(string $class): Self
     {
         $this->class = $class;
 
@@ -122,7 +114,7 @@ class PlayerChartStatus implements TranslatableInterface
      *
      * @return string
      */
-    public function getClass()
+    public function getClass(): string
     {
         return $this->class;
     }
@@ -133,7 +125,7 @@ class PlayerChartStatus implements TranslatableInterface
      * @param integer $boolRanking
      * @return $this
      */
-    public function setBoolRanking(int $boolRanking)
+    public function setBoolRanking(int $boolRanking): Self
     {
         $this->boolRanking = $boolRanking;
         return $this;
@@ -144,7 +136,7 @@ class PlayerChartStatus implements TranslatableInterface
      *
      * @return integer
      */
-    public function getBoolRanking()
+    public function getBoolRanking(): int
     {
         return $this->boolRanking;
     }
@@ -155,7 +147,7 @@ class PlayerChartStatus implements TranslatableInterface
      * @param integer $boolSendProof
      * @return $this
      */
-    public function setBoolSendProof(int $boolSendProof)
+    public function setBoolSendProof(int $boolSendProof): Self
     {
         $this->boolSendProof = $boolSendProof;
         return $this;
@@ -166,7 +158,7 @@ class PlayerChartStatus implements TranslatableInterface
      *
      * @return integer
      */
-    public function getBoolSendProof()
+    public function getBoolSendProof(): int
     {
         return $this->boolSendProof;
     }
@@ -175,7 +167,7 @@ class PlayerChartStatus implements TranslatableInterface
      * @param string $name
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): Self
     {
         $this->translate(null, false)->setName($name);
 
@@ -185,7 +177,7 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->translate(null, false)->getName();
     }
@@ -196,7 +188,7 @@ class PlayerChartStatus implements TranslatableInterface
      * @param integer $sOrder
      * @return $this
      */
-    public function setSOrder(int $sOrder)
+    public function setSOrder(int $sOrder): Self
     {
         $this->sOrder = $sOrder;
 
@@ -208,7 +200,7 @@ class PlayerChartStatus implements TranslatableInterface
      *
      * @return integer
      */
-    public function getSOrder()
+    public function getSOrder(): int
     {
         return $this->sOrder;
     }
@@ -216,7 +208,7 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * @return array
      */
-    public static function getStatusForProving()
+    public static function getStatusForProving(): array
     {
         return array(
             self::ID_STATUS_NORMAL,

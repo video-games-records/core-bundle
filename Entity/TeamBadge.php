@@ -51,54 +51,44 @@ class TeamBadge implements TimestampableInterface
     use TimestampableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(name="ended_at", type="datetime", nullable=true)
      */
-    private $ended_at;
+    private ?DateTime $ended_at = null;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="mbOrder", type="integer", nullable=true, options={"default":0})
      */
-    private $mbOrder = 0;
+    private int $mbOrder = 0;
 
     /**
-     * @var Team
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="teamBadge")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false)
      * })
      */
-    private $team;
+    private Team $team;
 
     /**
-     * @var Badge
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=false)
      * })
      */
-    private $badge;
+    private Badge $badge;
 
     /**
      * Set id
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
@@ -110,17 +100,17 @@ class TeamBadge implements TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
      * Set ended_at
-     * @param DateTime $ended_at
+     * @param DateTime|null $ended_at
      * @return $this
      */
-    public function setEndedAt(DateTime $ended_at)
+    public function setEndedAt(DateTime $ended_at = null): self
     {
         $this->ended_at = $ended_at;
 
@@ -132,7 +122,7 @@ class TeamBadge implements TimestampableInterface
      *
      * @return DateTime
      */
-    public function getEndedAt()
+    public function getEndedAt(): ?DateTime
     {
         return $this->ended_at;
     }
@@ -142,7 +132,7 @@ class TeamBadge implements TimestampableInterface
      * @param integer $mbOrder
      * @return $this
      */
-    public function setMbOrder(int $mbOrder)
+    public function setMbOrder(int $mbOrder): self
     {
         $this->mbOrder = $mbOrder;
 
@@ -154,7 +144,7 @@ class TeamBadge implements TimestampableInterface
      *
      * @return integer
      */
-    public function getMbOrder()
+    public function getMbOrder(): int
     {
         return $this->mbOrder;
     }
@@ -166,7 +156,7 @@ class TeamBadge implements TimestampableInterface
      * @param $badge
      * @return $this
      */
-    public function setBadge($badge = null)
+    public function setBadge($badge = null): self
     {
         $this->badge = $badge;
         return $this;
@@ -177,7 +167,7 @@ class TeamBadge implements TimestampableInterface
      *
      * @return Badge
      */
-    public function getBadge()
+    public function getBadge(): Badge
     {
         return $this->badge;
     }
@@ -185,10 +175,10 @@ class TeamBadge implements TimestampableInterface
 
     /**
      * Set team
-     * @param Team|object|null $team
+     * @param Team $team
      * @return $this
      */
-    public function setTeam(Team $team = null)
+    public function setTeam(Team $team): self
     {
         $this->team = $team;
         return $this;
@@ -199,7 +189,7 @@ class TeamBadge implements TimestampableInterface
      *
      * @return Team
      */
-    public function getTeam()
+    public function getTeam(): Team
     {
         return $this->team;
     }

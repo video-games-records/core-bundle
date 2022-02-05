@@ -26,88 +26,71 @@ class Proof implements TimestampableInterface
 
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var Picture
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Picture")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPicture", referencedColumnName="id", nullable=true)
      * })
      */
-    private $picture;
+    private ?Picture $picture = null;
 
     /**
-     * @var Video
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idVideo", referencedColumnName="id", nullable=true)
      * })
      */
-    private $video;
+    private ?Video $video = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private $status = self::STATUS_IN_PROGRESS;
+    private string $status = self::STATUS_IN_PROGRESS;
 
     /**
-     * @var string
      * @ORM\Column(name="response", type="text", nullable=true)
      */
-    private $response;
+    private ?string $response = null;
 
     /**
-     * @var Player
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="proofRespondings")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayerResponding", referencedColumnName="id", nullable=true)
      * })
      */
-    private $playerResponding;
+    private ?Player $playerResponding = null;
 
     /**
-     * @var Player
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="proofs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
-     * @var Chart
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
      */
-    private $chart;
+    private Chart $chart;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(name="checked_at", type="datetime", nullable=true)
      */
-    private $checkedAt;
+    private ?DateTime $checkedAt;
 
     /**
      * @ORM\OneToOne(targetEntity="\VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="proof")
      */
-    private $playerChart;
+    private PlayerChart $playerChart;
 
     public function __construct()
     {
@@ -127,7 +110,7 @@ class Proof implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -138,7 +121,7 @@ class Proof implements TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -149,7 +132,7 @@ class Proof implements TimestampableInterface
      * @param Picture $picture
      * @return $this
      */
-    public function setPicture(Picture $picture)
+    public function setPicture(Picture $picture): Self
     {
         $this->picture = $picture;
         return $this;
@@ -160,7 +143,7 @@ class Proof implements TimestampableInterface
      *
      * @return Picture
      */
-    public function getPicture()
+    public function getPicture(): ?Picture
     {
         return $this->picture;
     }
@@ -171,7 +154,7 @@ class Proof implements TimestampableInterface
      * @param Video $video
      * @return $this
      */
-    public function setVideo(Video $video)
+    public function setVideo(Video $video): Self
     {
         $this->video= $video;
         return $this;
@@ -182,7 +165,7 @@ class Proof implements TimestampableInterface
      *
      * @return Video
      */
-    public function getVideo()
+    public function getVideo(): ?Video
     {
         return $this->video;
     }
@@ -193,7 +176,7 @@ class Proof implements TimestampableInterface
      * @param string $status
      * @return $this
      */
-    public function setStatus(string $status)
+    public function setStatus(string $status): Self
     {
         $this->status = $status;
         return $this;
@@ -204,7 +187,7 @@ class Proof implements TimestampableInterface
      *
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -215,7 +198,7 @@ class Proof implements TimestampableInterface
      * @param string $response
      * @return $this
      */
-    public function setResponse(string $response)
+    public function setResponse(string $response): Self
     {
         $this->response = $response;
         return $this;
@@ -226,7 +209,7 @@ class Proof implements TimestampableInterface
      *
      * @return string
      */
-    public function getResponse()
+    public function getResponse(): ?string
     {
         return $this->response;
     }
@@ -237,7 +220,7 @@ class Proof implements TimestampableInterface
      * @param Player $playerResponding
      * @return $this
      */
-    public function setPlayerResponding(Player $playerResponding)
+    public function setPlayerResponding(Player $playerResponding): Self
     {
         $this->playerResponding = $playerResponding;
 
@@ -249,7 +232,7 @@ class Proof implements TimestampableInterface
      *
      * @return Player
      */
-    public function getPlayerResponding()
+    public function getPlayerResponding(): ?Player
     {
         return $this->playerResponding;
     }
@@ -261,7 +244,7 @@ class Proof implements TimestampableInterface
      * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player)
+    public function setPlayer(Player $player): Self
     {
         $this->player = $player;
 
@@ -273,7 +256,7 @@ class Proof implements TimestampableInterface
      *
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }
@@ -284,7 +267,7 @@ class Proof implements TimestampableInterface
      * @param Chart $chart
      * @return $this
      */
-    public function setChart(Chart $chart)
+    public function setChart(Chart $chart): Self
     {
         $this->chart = $chart;
 
@@ -296,7 +279,7 @@ class Proof implements TimestampableInterface
      *
      * @return Chart
      */
-    public function getChart()
+    public function getChart(): Chart
     {
         return $this->chart;
     }
@@ -307,7 +290,7 @@ class Proof implements TimestampableInterface
      * @param DateTime $checkedAt
      * @return $this
      */
-    public function setCheckedAt(DateTime $checkedAt)
+    public function setCheckedAt(DateTime $checkedAt): Self
     {
         $this->checkedAt = $checkedAt;
 
@@ -319,7 +302,7 @@ class Proof implements TimestampableInterface
      *
      * @return DateTime
      */
-    public function getCheckedAt()
+    public function getCheckedAt(): ?DateTime
     {
         return $this->checkedAt;
     }
@@ -330,7 +313,7 @@ class Proof implements TimestampableInterface
      *
      * @return PlayerChart
      */
-    public function getPlayerChart()
+    public function getPlayerChart(): PlayerChart
     {
         return $this->playerChart;
     }

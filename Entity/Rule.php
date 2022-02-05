@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,25 +27,21 @@ class Rule implements TranslatableInterface, TimestampableInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
-      /**
-     * @var string
-     *
+    /**
      * @Assert\Length(min="3",max="100")
      * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=true)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var Player
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="rules")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=true)
      * })
      */
-    private $player;
+    private ?Player $player;
 
     /**
      * @ORM\ManyToMany(targetEntity="Game", mappedBy="rules")
@@ -53,14 +50,14 @@ class Rule implements TranslatableInterface, TimestampableInterface
      *      inverseJoinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")}
      *      )
      */
-    private $games;
+    private Collection $games;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-
+        $this->games = new ArrayCollection();
     }
 
     /**

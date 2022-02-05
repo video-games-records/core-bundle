@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -83,22 +84,19 @@ class Chart implements SluggableInterface, TimestampableInterface
     private Group $group;
 
     /**
-     * @var ArrayCollection|ChartLib[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $libs;
+    private Collection $libs;
 
     /**
-     * @var ArrayCollection|PlayerChart[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart")
      */
-    private $playerCharts;
+    private Collection $playerCharts;
 
     /**
-     * @var ArrayCollection|LostPosition[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="chart")
      */
-    private $lostPositions;
+    private Collection $lostPositions;
 
     /**
      * Shortcut to playerChart.rank = 1
@@ -271,17 +269,17 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return ArrayCollection|PlayerChart[]
+     * @return Collection
      */
-    public function getPlayerCharts()
+    public function getPlayerCharts(): Collection
     {
         return $this->playerCharts;
     }
 
     /**
-     * @return ArrayCollection|LostPosition[]
+     * @return Collection
      */
-    public function getLostPositions()
+    public function getLostPositions(): Collection
     {
         return $this->lostPositions;
     }
@@ -361,9 +359,9 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return ArrayCollection|ChartLib[]
+     * @return Collection
      */
-    public function getLibs()
+    public function getLibs(): Collection
     {
         return $this->libs;
     }

@@ -2,20 +2,20 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
-use Exception;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
-use Eko\FeedBundle\Item\Writer\ItemInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
-use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
 
 /**
  * PlayerChart
@@ -92,108 +92,84 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class PlayerChart implements ItemInterface, TimestampableInterface
+class PlayerChart implements TimestampableInterface
 {
     use TimestampableTrait;
-    use \VideoGamesRecords\CoreBundle\Model\Player;
+    use PlayerTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="`rank`", type="integer", nullable=true)
      */
-    private $rank;
+    private ?int $rank = null;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbEqual", type="integer", nullable=false)
      */
-    private $nbEqual = 0;
+    private int $nbEqual = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
-    private $pointChart = 0;
+    private int $pointChart = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointPlatform", type="integer", nullable=false)
      */
-    private $pointPlatform = 0;
+    private int $pointPlatform = 0;
 
     /**
-     * @var boolean
-     *
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
      */
-    private $topScore = false;
+    private bool $topScore = false;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(name="lastUpdate", type="datetime", nullable=false)
      */
-    private $lastUpdate;
+    private DateTime $lastUpdate;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(name="dateInvestigation", type="date", nullable=true)
      */
-    private $dateInvestigation;
+    private ?DateTime $dateInvestigation;
 
     /**
-     * @var Chart
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
      */
-    private $chart;
+    private Chart $chart;
 
     /**
-     * @var Proof
-     *
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", inversedBy="playerChart")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idProof", referencedColumnName="id")
      * })
      */
-    private $proof;
+    private ?Proof $proof = null;
 
     /**
-     * @var PlayerChartStatus
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus", inversedBy="playerCharts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })
      */
-    private $status;
+    private PlayerChartStatus $status;
 
     /**
-     * @var Platform
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="id")
      * })
      */
-    private $platform;
+    private ?Platform $platform;
 
     /**
      * @ORM\OneToMany(
@@ -203,9 +179,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *     orphanRemoval=true
      * )
      */
-    private $libs;
-
-    private $link;
+    private Collection $libs;
 
     /**
      * Constructor
@@ -229,7 +203,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -240,7 +214,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -251,7 +225,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param integer $rank
      * @return $this
      */
-    public function setRank(int $rank)
+    public function setRank(int $rank): Self
     {
         $this->rank = $rank;
         return $this;
@@ -262,7 +236,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getRank()
+    public function getRank(): ?int
     {
         return $this->rank;
     }
@@ -273,7 +247,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param integer $nbEqual
      * @return $this
      */
-    public function setNbEqual(int $nbEqual)
+    public function setNbEqual(int $nbEqual): Self
     {
         $this->nbEqual = $nbEqual;
         return $this;
@@ -284,7 +258,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getNbEqual()
+    public function getNbEqual(): int
     {
         return $this->nbEqual;
     }
@@ -294,7 +268,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param float $pointChart
      * @return $this
      */
-    public function setPointChart(float $pointChart)
+    public function setPointChart(float $pointChart): Self
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -305,7 +279,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return float
      */
-    public function getPointChart()
+    public function getPointChart(): float
     {
         return $this->pointChart;
     }
@@ -315,7 +289,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param float $pointPlatform
      * @return $this
      */
-    public function setPointPlatform(float $pointPlatform)
+    public function setPointPlatform(float $pointPlatform): Self
     {
         $this->pointPlatform = $pointPlatform;
         return $this;
@@ -326,7 +300,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return float
      */
-    public function getPointPlatform()
+    public function getPointPlatform(): float
     {
         return $this->pointPlatform;
     }
@@ -338,7 +312,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return $this
      */
-    public function setTopScore(bool $topScore)
+    public function setTopScore(bool $topScore): Self
     {
         $this->topScore = $topScore;
         return $this;
@@ -349,7 +323,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return bool
      */
-    public function isTopScore()
+    public function isTopScore(): bool
     {
         return $this->topScore;
     }
@@ -360,7 +334,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param DateTime $lastUpdate
      * @return $this
      */
-    public function setLastUpdate(DateTime $lastUpdate)
+    public function setLastUpdate(DateTime $lastUpdate): Self
     {
         $this->lastUpdate = $lastUpdate;
 
@@ -372,7 +346,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return DateTime
      */
-    public function getLastUpdate()
+    public function getLastUpdate(): DateTime
     {
         return $this->lastUpdate;
     }
@@ -382,7 +356,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param DateTime|null $dateInvestigation
      * @return $this
      */
-    public function setDateInvestigation(DateTime $dateInvestigation = null)
+    public function setDateInvestigation(DateTime $dateInvestigation = null): Self
     {
         $this->dateInvestigation = $dateInvestigation;
         return $this;
@@ -393,17 +367,17 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return DateTime
      */
-    public function getDateInvestigation()
+    public function getDateInvestigation(): ?DateTime
     {
         return $this->dateInvestigation;
     }
 
     /**
      * Set Chart
-     * @param Chart|null $chart
+     * @param Chart $chart
      * @return $this
      */
-    public function setChart(Chart $chart = null)
+    public function setChart(Chart $chart): Self
     {
         $this->chart = $chart;
 
@@ -415,7 +389,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return Chart
      */
-    public function getChart()
+    public function getChart(): Chart
     {
         return $this->chart;
     }
@@ -425,7 +399,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param Proof|null $proof
      * @return $this
      */
-    public function setProof(Proof $proof = null)
+    public function setProof(Proof $proof = null): Self
     {
         $this->proof = $proof;
 
@@ -437,7 +411,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return Proof
      */
-    public function getProof()
+    public function getProof(): ?Proof
     {
         return $this->proof;
     }
@@ -448,7 +422,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param Platform|null $platform
      * @return $this
      */
-    public function setPlatform(Platform $platform = null)
+    public function setPlatform(Platform $platform = null): Self
     {
         $this->platform = $platform;
         return $this;
@@ -459,7 +433,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      *
      * @return Platform
      */
-    public function getPlatform()
+    public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
@@ -467,10 +441,10 @@ class PlayerChart implements ItemInterface, TimestampableInterface
 
     /**
      * Set status
-     * @param PlayerChartStatus|object|null $status
+     * @param PlayerChartStatus $status
      * @return $this
      */
-    public function setStatus(PlayerChartStatus $status = null)
+    public function setStatus(PlayerChartStatus $status): Self
     {
         $this->status = $status;
 
@@ -480,9 +454,9 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * Get status
      *
-     * @return $thisStatus
+     * @return PlayerChartStatus
      */
-    public function getStatus()
+    public function getStatus(): PlayerChartStatus
     {
         return $this->status;
     }
@@ -491,7 +465,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
      * @param PlayerChartLib $lib
      * @return $this
      */
-    public function addLib(PlayerChartLib $lib)
+    public function addLib(PlayerChartLib $lib): Self
     {
         $lib->setPlayerChart($this);
         $this->libs[] = $lib;
@@ -507,71 +481,11 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     }
 
     /**
-     * @return ArrayCollection|PlayerChartLib[]
+     * @return Collection
      */
-    public function getLibs()
+    public function getLibs(): Collection
     {
         return $this->libs;
-    }
-
-    /**
-     * Set link
-     *
-     * @param string $link
-     * @return string
-     */
-    public function setLink(string $link)
-    {
-        $this->link = $link;
-
-        return $this;
-    }
-
-    /**
-     * Get link
-     *
-     * @return string
-     */
-    public function getLink()
-    {
-        return $this->link;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFeedItemTitle()
-    {
-        return sprintf(
-            'New score on %s by %s rank#%d',
-            $this->getChart()->getGroup()->getGame()->getName(),
-            $this->getPlayer()->getPseudo(),
-            $this->getRank()
-        );
-    }
-
-    /**
-     * @return string
-     */
-    public function getFeedItemDescription()
-    {
-        return null;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getFeedItemPubDate()
-    {
-        return $this->getLastUpdate();
-    }
-
-    /**
-     * @return string
-     */
-    public function getFeedItemLink()
-    {
-        return $this->getLink();
     }
 
     /**
@@ -589,7 +503,7 @@ class PlayerChart implements ItemInterface, TimestampableInterface
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return sprintf(
             '%s-game-g%d/%s-group-g%d/%s-chart-c%d/pc-%d/index',

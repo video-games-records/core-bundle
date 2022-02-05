@@ -16,49 +16,42 @@ class PlayerChartLib
 {
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
 
     /**
-     * @var integer
      * @Assert\NotNull
      * @Assert\NotBlank
      *
      * @ORM\Column(name="value", type="integer", nullable=false)
      */
-    private $value;
+    private int $value;
 
 
     /**
-     * @var ChartLib
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idLibChart", referencedColumnName="idLibChart")
      * })
      */
-    private $libChart;
+    private ChartLib $libChart;
 
 
     /**
-     * @var playerChart
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", inversedBy="libs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id")
      * })
      */
-    private $playerChart;
+    private playerChart $playerChart;
 
 
-    private $parseValue;
-    private $formatValue;
+    private array $parseValue;
+    private string $formatValue;
 
     /**
      * @return string
@@ -75,18 +68,18 @@ class PlayerChartLib
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idP
+     * Get id
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -96,7 +89,7 @@ class PlayerChartLib
      *
      * @return integer
      */
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
@@ -107,7 +100,7 @@ class PlayerChartLib
      * @param integer $value
      * @return $this
      */
-    public function setValue(int $value)
+    public function setValue(int $value): Self
     {
         $this->value = $value;
         return $this;
@@ -118,7 +111,7 @@ class PlayerChartLib
      * @param ChartLib|null $libChart
      * @return $this
      */
-    public function setLibChart(ChartLib $libChart = null)
+    public function setLibChart(ChartLib $libChart = null): Self
     {
         $this->libChart = $libChart;
         return $this;
@@ -129,7 +122,7 @@ class PlayerChartLib
      *
      * @return ChartLib
      */
-    public function getLibChart()
+    public function getLibChart(): ChartLib
     {
         return $this->libChart;
     }
@@ -137,10 +130,10 @@ class PlayerChartLib
 
     /**
      * Set player
-     * @param PlayerChart|null $playerChart
+     * @param PlayerChart $playerChart
      * @return $this
      */
-    public function setPlayerChart(PlayerChart $playerChart = null)
+    public function setPlayerChart(PlayerChart $playerChart): Self
     {
         $this->playerChart = $playerChart;
         return $this;
@@ -151,7 +144,7 @@ class PlayerChartLib
      *
      * @return PlayerChart
      */
-    public function getPlayerChart()
+    public function getPlayerChart(): PlayerChart
     {
         return $this->playerChart;
     }
@@ -162,7 +155,7 @@ class PlayerChartLib
      *
      * @return array
      */
-    public function getParseValue()
+    public function getParseValue(): array
     {
         $this->setParseValueFromValue();
         return $this->parseValue;
@@ -174,7 +167,7 @@ class PlayerChartLib
      * @param $parseValue
      * @return $this
      */
-    public function setParseValue($parseValue)
+    public function setParseValue($parseValue): Self
     {
         $this->parseValue = $parseValue;
         return $this;
@@ -212,7 +205,10 @@ class PlayerChartLib
         }
     }
 
-    public function getFormatValue()
+    /**
+     * @return string
+     */
+    public function getFormatValue(): string
     {
         return Score::formatScore(
             $this->value,

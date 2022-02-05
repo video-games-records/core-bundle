@@ -22,47 +22,37 @@ class LostPosition implements TimestampableInterface
     use TimestampableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="oldRank", type="integer", nullable=false, options={"default":0})
      */
-    private $oldRank;
+    private int $oldRank = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="newRank", type="integer", nullable=false, options={"default":0})
      */
-    private $newRank;
+    private int $newRank = 0;
 
     /**
-     * @var Player
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="lostPositions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
-     * @var Chart
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="lostPositions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
      */
-    private $chart;
+    private Chart $chart;
 
     public function __construct()
     {
@@ -74,7 +64,7 @@ class LostPosition implements TimestampableInterface
      * @param integer $id
      * @return LostPosition
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -85,7 +75,7 @@ class LostPosition implements TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -96,7 +86,7 @@ class LostPosition implements TimestampableInterface
      * @param integer $newRank
      * @return LostPosition
      */
-    public function setNewRank(int $newRank)
+    public function setNewRank(int $newRank): Self
     {
         $this->newRank = $newRank;
         return $this;
@@ -107,7 +97,7 @@ class LostPosition implements TimestampableInterface
      *
      * @return integer
      */
-    public function getNewRank()
+    public function getNewRank(): int
     {
         return $this->newRank;
     }
@@ -118,7 +108,7 @@ class LostPosition implements TimestampableInterface
      * @param integer $oldRank
      * @return LostPosition
      */
-    public function setOldRank(int $oldRank)
+    public function setOldRank(int $oldRank): Self
     {
         $this->oldRank = $oldRank;
         return $this;
@@ -129,17 +119,17 @@ class LostPosition implements TimestampableInterface
      *
      * @return integer
      */
-    public function getOldRank()
+    public function getOldRank(): int
     {
         return $this->oldRank;
     }
 
     /**
      * Set chart
-     * @param Chart|object|null $chart
+     * @param Chart $chart
      * @return LostPosition
      */
-    public function setChart(Chart $chart = null)
+    public function setChart(Chart $chart): Self
     {
         $this->chart = $chart;
 
@@ -151,7 +141,7 @@ class LostPosition implements TimestampableInterface
      *
      * @return Chart
      */
-    public function getChart()
+    public function getChart(): Chart
     {
         return $this->chart;
     }
@@ -159,10 +149,10 @@ class LostPosition implements TimestampableInterface
 
     /**
      * Set player
-     * @param Player|object|null $player
+     * @param Player $player
      * @return LostPosition
      */
-    public function setPlayer(Player $player = null)
+    public function setPlayer(Player $player): Self
     {
         $this->player = $player;
 
@@ -174,7 +164,7 @@ class LostPosition implements TimestampableInterface
      *
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }

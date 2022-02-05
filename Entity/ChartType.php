@@ -15,37 +15,29 @@ use VideoGamesRecords\CoreBundle\Tools\Score;
 class ChartType
 {
     /**
-     * @var integer
-     *
      * @ORM\Column(name="idType", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idType;
+    private ?int $idType = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="100")
      * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="100")
      * @ORM\Column(name="mask", type="string", length=100)
      */
-    private $mask;
+    private string $mask = '';
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="10")
      * @ORM\Column(name="orderBy", type="string", length=10, nullable=true)
      */
-    private $orderBy;
+    private string $orderBy = 'ASC';
 
 
     /**
@@ -62,7 +54,7 @@ class ChartType
      * @param string $mask
      * @return ChartType
      */
-    public function setMask(string $mask)
+    public function setMask(string $mask): Self
     {
         $this->mask = $mask;
         return $this;
@@ -73,7 +65,7 @@ class ChartType
      *
      * @return string
      */
-    public function getMask()
+    public function getMask(): string
     {
         return $this->mask;
     }
@@ -85,7 +77,7 @@ class ChartType
      * @param string $orderBy
      * @return ChartType
      */
-    public function setOrderBy(string $orderBy)
+    public function setOrderBy(string $orderBy): Self
     {
         $this->orderBy = $orderBy;
         return $this;
@@ -96,7 +88,7 @@ class ChartType
      *
      * @return string
      */
-    public function getOrderBy()
+    public function getOrderBy(): string
     {
         return $this->orderBy;
     }
@@ -106,7 +98,7 @@ class ChartType
      * Get the number of input for the mask.
      * @return int
      */
-    public function getNbInput()
+    public function getNbInput(): int
     {
         return count(explode('|', $this->getMask()));
     }
@@ -114,7 +106,7 @@ class ChartType
     /**
      * @return int
      */
-    public function getIdType()
+    public function getIdType(): ?int
     {
         return $this->idType;
     }
@@ -123,7 +115,7 @@ class ChartType
      * @param int $idType
      * @return ChartType
      */
-    public function setIdType(int $idType)
+    public function setIdType(int $idType): Self
     {
         $this->idType = $idType;
         return $this;
@@ -132,7 +124,7 @@ class ChartType
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -141,7 +133,7 @@ class ChartType
      * @param string $name
      * @return ChartType
      */
-    public function setName(string $name)
+    public function setName(string $name): Self
     {
         $this->name = $name;
         return $this;
@@ -152,7 +144,7 @@ class ChartType
      *
      * @return array
      */
-    public function getParseMask()
+    public function getParseMask(): array
     {
         return Score::parseChartMask($this->mask);
     }

@@ -1,27 +1,25 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Model;
+namespace VideoGamesRecords\CoreBundle\Model\Entity;
 
-use VideoGamesRecords\CoreBundle\Entity\Player as PlayerEntity;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 
-trait Player
+trait PlayerTrait
 {
     /**
-     * @var PlayerEntity
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id")
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
      * Set player
-     * @param PlayerEntity|object|null $player
+     * @param Player|null $player
      * @return $this
      */
-    public function setPlayer(PlayerEntity $player = null)
+    public function setPlayer(?Player $player = null): self
     {
         $this->player = $player;
 
@@ -31,9 +29,9 @@ trait Player
     /**
      * Get player
      *
-     * @return PlayerEntity
+     * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }

@@ -31,36 +31,28 @@ class Platform implements SluggableInterface
     use SluggableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="100")
-     * @ORM\Column(name="libPlatform", type="string", length=100, nullable=true)
+     * @ORM\Column(name="libPlatform", type="string", length=100, nullable=false)
      */
-    private $libPlatform;
+    private string $libPlatform = '';
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="30")
-     * @ORM\Column(name="picture", type="string", length=30, nullable=true)
+     * @ORM\Column(name="picture", type="string", length=30, nullable=false)
      */
-    private $picture;
+    private string $picture = 'bt_default.png';
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private $status = 'INACTIF';
+    private string $status = 'INACTIF';
 
 
     /**
@@ -78,14 +70,12 @@ class Platform implements SluggableInterface
     private $playerPlatform;
 
     /**
-     * @var Badge
-     *
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="platform",cascade={"persist"}))
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })
      */
-    private $badge;
+    private ?Badge $badge;
 
 
     /**
@@ -102,7 +92,7 @@ class Platform implements SluggableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -114,7 +104,7 @@ class Platform implements SluggableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -124,7 +114,7 @@ class Platform implements SluggableInterface
      *
      * @return string
      */
-    public function getLibPlatform()
+    public function getLibPlatform(): string
     {
         return $this->libPlatform;
     }
@@ -135,7 +125,7 @@ class Platform implements SluggableInterface
      * @param string $libPlatform
      * @return $this
      */
-    public function setLibPlatform(string $libPlatform)
+    public function setLibPlatform(string $libPlatform): Self
     {
         $this->libPlatform = $libPlatform;
 
@@ -148,7 +138,7 @@ class Platform implements SluggableInterface
      * @param string $picture
      * @return $this
      */
-    public function setPicture(string $picture)
+    public function setPicture(string $picture): Self
     {
         $this->picture = $picture;
 
@@ -160,7 +150,7 @@ class Platform implements SluggableInterface
      *
      * @return string
      */
-    public function getPicture()
+    public function getPicture(): ?string
     {
         return $this->picture;
     }
@@ -171,7 +161,7 @@ class Platform implements SluggableInterface
      * @param string $status
      * @return $this
      */
-    public function setStatus(string $status)
+    public function setStatus(string $status): Self
     {
         $this->status = $status;
 
@@ -183,7 +173,7 @@ class Platform implements SluggableInterface
      *
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -202,7 +192,7 @@ class Platform implements SluggableInterface
      * @param $badge
      * @return $this
      */
-    public function setBadge($badge = null)
+    public function setBadge($badge = null): Self
     {
         $this->badge = $badge;
 
@@ -214,7 +204,7 @@ class Platform implements SluggableInterface
      *
      * @return Badge
      */
-    public function getBadge()
+    public function getBadge(): ?Badge
     {
         return $this->badge;
     }

@@ -1,27 +1,27 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Model;
+namespace VideoGamesRecords\CoreBundle\Model\Entity;
 
-use VideoGamesRecords\CoreBundle\Entity\Game as GameEntity;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 
-trait Game
+trait GameTrait
 {
     /**
-     * @var GameEntity
+     * @var Game
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGame", referencedColumnName="id")
      * })
      */
-    private $game;
+    private Game $game;
 
     /**
      * Set game
-     * @param GameEntity|null $game
+     * @param Game|null $game
      * @return $this
      */
-    public function setGame(GameEntity $game = null)
+    public function setGame(?Game $game = null): self
     {
         $this->game = $game;
 
@@ -31,9 +31,9 @@ trait Game
     /**
      * Get game
      *
-     * @return GameEntity
+     * @return Game
      */
-    public function getGame()
+    public function getGame(): Game
     {
         return $this->game;
     }

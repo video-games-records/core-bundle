@@ -21,30 +21,27 @@ use DateTime;
 class GameDay
 {
     /**
-     * @var integer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      *
      * @Assert\NotNull
-     * @ORM\Column(name="day", type="date", nullable=true)
+     * @ORM\Column(name="day", type="date", nullable=false)
      */
-    private $day;
+    private DateTime $day;
 
     /**
-     * @var Game
-     *
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="days")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
      * })
      */
-    private $game;
+    private Game $game;
 
 
     /**
@@ -67,7 +64,7 @@ class GameDay
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): GameDay
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -87,7 +84,7 @@ class GameDay
      * @param $day
      * @return $this
      */
-    public function setDay($day): GameDay
+    public function setDay($day): Self
     {
         $this->day = $day;
         return $this;
@@ -98,7 +95,7 @@ class GameDay
      *
      * @return DateTime
      */
-    public function getDay()
+    public function getDay(): DateTime
     {
         return $this->day;
     }
@@ -108,7 +105,7 @@ class GameDay
      * @param Game $game
      * @return $this
      */
-    public function setGame(Game $game): GameDay
+    public function setGame(Game $game): Self
     {
         $this->game = $game;
 
@@ -119,7 +116,7 @@ class GameDay
      * Get game
      * @return Game
      */
-    public function getGame(): ?Game
+    public function getGame(): Game
     {
         return $this->game;
     }
