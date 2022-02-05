@@ -113,35 +113,6 @@ class GameController extends DefaultController
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($game, $maxRank, $this->getTeam());
     }
 
-
-    /**
-     * @Route("/rss", methods={"GET"})
-     * @Cache(smaxage="10")
-     * @return Response
-     */
-    public function rssAction()
-    {
-        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(
-            array(
-                'status' => 'ACTIF'
-            ),
-            array('publishedAt' => 'DESC'),
-            20
-        );
-
-        $feed = $this->get('eko_feed.feed.manager')->get('game');
-
-        // Add prefixe link
-        foreach ($games as $game) {
-            $game->setLink($feed->get('link') . $game->getId() . '/' . $game->getSlug());
-        }
-
-        $feed->addFromArray($games);
-
-        return new Response($feed->render('rss'));
-    }
-
-
     /**
      * @Route("/day", name="game_of_day")
      * @return Response
