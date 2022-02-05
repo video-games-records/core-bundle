@@ -147,7 +147,7 @@ class ChartController extends DefaultController
                     $playerChartLib->setLibChart($lib);
                     $playerChart->addLib($playerChartLib);
                 }
-                $chart->setPlayerCharts(array($playerChart));
+                $chart->addPlayerChart($playerChart);
             } else {
                 // Set lastUpdate now for return put call
                 $playerCharts = $chart->getPlayerCharts();

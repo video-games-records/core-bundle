@@ -29,7 +29,7 @@ class PlayerChartLib
      *
      * @ORM\Column(name="value", type="integer", nullable=false)
      */
-    private int $value;
+    private ?int $value = null;
 
 
     /**
@@ -89,18 +89,17 @@ class PlayerChartLib
      *
      * @return integer
      */
-    public function getValue(): int
+    public function getValue(): ?int
     {
         return $this->value;
     }
 
     /**
      * Set value
-     *
-     * @param integer $value
+     * @param int|null $value
      * @return $this
      */
-    public function setValue(int $value): Self
+    public function setValue(int $value = null): Self
     {
         $this->value = $value;
         return $this;

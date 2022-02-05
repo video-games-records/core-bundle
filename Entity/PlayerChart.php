@@ -137,7 +137,7 @@ class PlayerChart implements TimestampableInterface
     /**
      * @ORM\Column(name="dateInvestigation", type="date", nullable=true)
      */
-    private ?DateTime $dateInvestigation;
+    private ?DateTime $dateInvestigation = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts", fetch="EAGER")
@@ -161,7 +161,7 @@ class PlayerChart implements TimestampableInterface
      *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })
      */
-    private PlayerChartStatus $status;
+    private ?PlayerChartStatus $status = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform")
@@ -456,7 +456,7 @@ class PlayerChart implements TimestampableInterface
      *
      * @return PlayerChartStatus
      */
-    public function getStatus(): PlayerChartStatus
+    public function getStatus(): ?PlayerChartStatus
     {
         return $this->status;
     }
