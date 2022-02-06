@@ -2,28 +2,44 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\DBAL\Exception;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Exception;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\GameDay;
-use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
+use VideoGamesRecords\CoreBundle\Repository\GameDayRepository;
+use VideoGamesRecords\CoreBundle\Repository\GameRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
+use VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository;
+use VideoGamesRecords\CoreBundle\Repository\TeamGameRepository;
 
 class GameService
 {
-    private $em;
+    private GameRepository $gameRepository;
+    private GameDayRepository $gameDayRepository;
+    private PlayerGameRepository $playerGameRepository;
+    private TeamGameRepository $teamGameRepository;
+    private PlayerBadgeRepository $playerBadgeRepository;
+    private TeamBadgeRepository $teamBadgeRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(
+        GameRepository $gameRepository,
+        GameDayRepository $gameDayRepository,
+        PlayerGameRepository $playerGameRepository,
+        TeamGameRepository $teamGameRepository,
+        PlayerBadgeRepository $playerBadgeRepository,
+        TeamBadgeRepository $teamBadgeRepository
+    )
     {
-        $this->em = $em;
-    }
-
-    /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager(): EntityManagerInterface
-    {
-        return $this->em;
+        $this->gameRepository = $gameRepository;
+        $this->gameDayRepository = $gameDayRepository;
+        $this->playerGameRepository = $playerGameRepository;
+        $this->teamGameRepository = $teamGameRepository;
+        $this->playerBadgeRepository = $playerBadgeRepository;
+        $this->teamBadgeRepository = $teamBadgeRepository;
     }
 
     /**
@@ -33,45 +49,108 @@ class GameService
      */
     public function autocomplete(string $q, string $locale)
     {
-        return $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->autocomplete($q, $locale);
-    }
-
-
-    /**
-     *
-     */
-    public function majChartRank()
-    {
-        $games = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(array('boolMaj' => true));
-        foreach ($games as $game) {
-            $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart')->majStatus($game);
-            $game->setBoolMaj(false);
-            $this->em->flush();
-        }
+        return $this->gameRepository->autocomplete($q, $locale);
     }
 
     /**
-     *
+     * @throws ORMException
      */
     public function addGameOfDay()
     {
         $now = new \Datetime();
-        $gameDay = $this->em->getRepository('VideoGamesRecordsCoreBundle:GameDay')->findOneBy(array('day' => $now));
+        $gameDay = $this->gameDayRepository->findOneBy(array('day' => $now));
         if (!$gameDay) {
-            $result = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')
-                ->findBy(array('status' => 'ACTIF'));
-            $games = array();
-            foreach ($result as $game) {
-                $games[] = $game;
-            }
+            $games = $this->gameRepository->getIds();
             $rand_key = array_rand($games, 1);
-            $game = $games[$rand_key];
-
+            $game = $this->gameRepository->findOneBy($games[$rand_key]);
             $gameDay = new GameDay();
             $gameDay->setGame($game);
             $gameDay->setDay($now);
-            $this->em->persist($gameDay);
-            $this->em->flush();
+            $this->gameDayRepository->save($gameDay);
+            $this->gameDayRepository->flush();
         }
+    }
+
+    /**
+     * @param int $idGame
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws ExceptionInterface
+     */
+    public function majPlayerGame(int $idGame)
+    {
+        $game = $this->getGame($idGame);
+        if ($game) {
+            $this->playerGameRepository->maj($game);
+        }
+    }
+
+    /**
+     * @param int $idGame
+     * @throws ExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function majTeamGame(int $idGame)
+    {
+        $game = $this->getGame($idGame);
+        if ($game) {
+            $this->teamGameRepository->maj($game);
+        }
+    }
+
+    /**
+     * @param int $idGame
+     * @throws Exception
+     */
+    public function majPlayerMasterBadge(int $idGame)
+    {
+        $game = $this->getGame($idGame);
+        if ($game) {
+            $this->playerBadgeRepository->majMasterBadge($game);
+        }
+    }
+
+     /**
+     * @param int $idGame
+     * @throws Exception
+     */
+    public function majTeamMasterBadge(int $idGame)
+    {
+        $game = $this->getGame($idGame);
+        if ($game) {
+            $this->teamBadgeRepository->majMasterBadge($game);
+        }
+    }
+
+
+    /**
+     * @param int    $idGame
+     * @param string $status
+     */
+    public function majChartStatus(int $idGame, string $status = 'MAJ')
+    {
+        $game = $this->getGame($idGame);
+        if ($game) {
+            $this->gameRepository->majChartStatus($game, $status);
+        }
+    }
+
+    /**
+     * @return Game|null
+     * @throws NonUniqueResultException
+     */
+    public function getGameOfDay(): ?Game
+    {
+        return $this->gameRepository->getGameOfday();
+    }
+
+    /**
+     * @param $idGame
+     * @return Game|null
+     */
+    private function getGame($idGame) : ?Game
+    {
+        return $this->gameRepository->find($idGame);
     }
 }

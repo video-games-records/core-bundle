@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -174,7 +174,7 @@ class GamercardController extends AbstractController
      * @param $number
      * @return string
      */
-    private function getOrdinalSuffix($number)
+    private function getOrdinalSuffix($number): string
     {
         if ($number <= 0) {
             return '';
@@ -196,7 +196,7 @@ class GamercardController extends AbstractController
      * @param      $value
      * @return string
      */
-    private function numberFormat($value)
+    private function numberFormat($value): string
     {
         return number_format($value);
     }

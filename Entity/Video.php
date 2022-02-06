@@ -2,19 +2,21 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Player;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
 
 /**
  * Video
@@ -38,86 +40,67 @@ class Video implements TimestampableInterface, SluggableInterface
 {
     use TimestampableTrait;
     use SluggableTrait;
-    use Player;
+    use PlayerTrait;
 
     const TYPE_YOUTUBE = 'Youtube';
     const TYPE_TWITCH = 'Twitch';
     const TYPE_UNKNOWN = 'Unknown';
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var boolean
-     *
      * @ORM\Column(name="boolActive", type="boolean", nullable=false, options={"default":true})
      */
-    private $boolActive = true;
-
+    private bool $boolActive = true;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="type", type="string", nullable=false)
      */
-    private $type = self::TYPE_YOUTUBE;
+    private string $type = self::TYPE_YOUTUBE;
 
     /**
-     * @var string
-     *
      * @Assert\NotNull(message="video.videoId.not_null")
-     * @ORM\Column(name="videoId", type="string", nullable=false)
+     * @ORM\Column(name="videoId", type="string", nullable=true)
      */
-    private $videoId = null;
+    private ?string $videoId = null;
 
     /**
-     * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Length(min="5", max="255")
      * @ORM\Column(name="url", type="string", length=255, nullable=false)
      */
-    private $url;
+    private string $url = '';
 
     /**
-     * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Length(min="5", max="200")
      * @ORM\Column(name="libVideo", type="string", length=200, nullable=false)
      */
-    private $libVideo;
+    private string $libVideo;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbComment", type="integer", nullable=false, options={"default":0})
      */
-    private $nbComment = 0;
+    private int $nbComment = 0;
 
     /**
-     * @var Game
-     *
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="videos")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=true)
      * })
      */
-    private $game;
+    private ?Game $game;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\VideoComment", mappedBy="video")
      */
-    private $comments;
-
-
+    private ArrayCollection $comments;
 
     /**
      * @return string
@@ -132,7 +115,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param integer $id
      * @return Video
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -143,7 +126,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -153,7 +136,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param boolean $boolActive
      * @return Video
      */
-    public function setBoolActive(bool $boolActive)
+    public function setBoolActive(bool $boolActive): Self
     {
         $this->boolActive = $boolActive;
 
@@ -165,7 +148,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return boolean
      */
-    public function getBoolActive()
+    public function getBoolActive(): bool
     {
         return $this->boolActive;
     }
@@ -175,7 +158,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param string $type
      * @return Video
      */
-    public function setType(string $type)
+    public function setType(string $type): Self
     {
         $this->type = $type;
         return $this;
@@ -186,7 +169,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -197,7 +180,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param string $videoId
      * @return $this
      */
-    public function setVideoId(string $videoId)
+    public function setVideoId(string $videoId): Self
     {
         $this->videoId = $videoId;
         return $this;
@@ -208,7 +191,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return string
      */
-    public function getVideoId()
+    public function getVideoId(): ?string
     {
         return $this->videoId;
     }
@@ -218,7 +201,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param string $libVideo
      * @return Video
      */
-    public function setLibVideo(string $libVideo)
+    public function setLibVideo(string $libVideo): Self
     {
         $this->libVideo = $libVideo;
 
@@ -230,7 +213,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return string
      */
-    public function getLibVideo()
+    public function getLibVideo(): string
     {
         return $this->libVideo;
     }
@@ -240,7 +223,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param string $url
      * @return Video
      */
-    public function setUrl(string $url)
+    public function setUrl(string $url): Self
     {
         $this->url = $url;
         $this->majTypeAndVideoId();
@@ -252,7 +235,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -262,7 +245,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param Game|null $game
      * @return Video
      */
-    public function setGame(Game $game = null)
+    public function setGame(Game $game = null): Self
     {
         $this->game = $game;
 
@@ -274,7 +257,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param integer $nbComment
      * @return $this
      */
-    public function setNbComment(int $nbComment)
+    public function setNbComment(int $nbComment): Self
     {
         $this->nbComment = $nbComment;
 
@@ -286,7 +269,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return integer
      */
-    public function getNbComment()
+    public function getNbComment(): int
     {
         return $this->nbComment;
     }
@@ -295,15 +278,15 @@ class Video implements TimestampableInterface, SluggableInterface
      * Get game
      * @return Game
      */
-    public function getGame()
+    public function getGame(): ?Game
     {
         return $this->game;
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getComments()
+    public function getComments(): Collection
     {
         return $this->comments;
     }
@@ -311,7 +294,7 @@ class Video implements TimestampableInterface, SluggableInterface
     /**
      * @return array
      */
-    public static function getTypeChoices()
+    public static function getTypeChoices(): array
     {
         return [
             self::TYPE_YOUTUBE => self::TYPE_YOUTUBE,
@@ -320,7 +303,7 @@ class Video implements TimestampableInterface, SluggableInterface
     }
 
     /**
-     * @return mixed|string|null
+     *
      */
     public function majTypeAndVideoId()
     {
@@ -328,8 +311,7 @@ class Video implements TimestampableInterface, SluggableInterface
             $this->setType(self::TYPE_YOUTUBE);
             $explode = explode('=', $this->getUrl());
             $this->setVideoId($explode[1]);
-            return $explode[1] ?? null;
-        } elseif (strpos($this->getUrl(), 'youtu.be')) {
+          } elseif (strpos($this->getUrl(), 'youtu.be')) {
             $this->setType(self::TYPE_YOUTUBE);
             $this->setVideoId(substr($this->getUrl(), strripos($this->getUrl(), '/') + 1, strlen($this->getUrl()) - 1));
         } elseif (strpos($this->getUrl(), 'twitch')) {
@@ -345,7 +327,7 @@ class Video implements TimestampableInterface, SluggableInterface
     /**
      * @return string
      */
-    public function getEmbeddedUrl()
+    public function getEmbeddedUrl(): string
     {
         if ($this->getType() == self::TYPE_YOUTUBE) {
             return 'https://www.youtube.com/embed/' . $this->getVideoId();
@@ -354,24 +336,6 @@ class Video implements TimestampableInterface, SluggableInterface
         } else {
             return $this->getUrl();
         }
-    }
-
-    /**
-     * @return mixed|string
-     */
-    private function setYoutubeId()
-    {
-        $explode = explode('=', $this->getUrl());
-        return isset($explode[1]) ? $explode[1] : null;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    private function setTwitchId()
-    {
-        $explode = explode('/', $this->getUrl());
-        return $explode[count($explode) - 1];
     }
 
     /**

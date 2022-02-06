@@ -3,101 +3,84 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use VideoGamesRecords\CoreBundle\Entity\Team;
 use Symfony\Component\HttpFoundation\Request;
+use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
 /**
  * Class TeamController
- * @Route("/team")
  */
-class TeamController extends AbstractController
+class TeamController extends DefaultController
 {
-    private $translator;
+    private TranslatorInterface $translator;
+    private TeamRepository $teamRepository;
 
-    private $extensions = array(
+    private array $extensions = array(
         'image/png' => '.png',
         'image/jpeg' => '.jpg',
     );
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, TeamRepository $teamRepository)
     {
         $this->translator = $translator;
+        $this->teamRepository = $teamRepository;
     }
 
     /**
-     * @return Team|null
+     * @return array
      */
-    private function getTeam()
+    public function rankingPointChart(): array
     {
-        if ($this->getUser() !== null) {
-            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-            return $player->getTeam();
-        }
-        return null;
+        return $this->teamRepository->getRankingPointChart($this->getTeam());
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function rankingPointChart()
+    public function rankingPointGame(): array
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingPointChart($this->getTeam());
+        return $this->teamRepository->getRankingPointGame($this->getTeam());
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function rankingPointGame()
+    public function rankingMedal(): array
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingPointGame($this->getTeam());
+        return $this->teamRepository->getRankingMedal($this->getTeam());
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function rankingMedal()
+    public function rankingCup(): array
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingMedal($this->getTeam());
+        return $this->teamRepository->getRankingCup($this->getTeam());
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function rankingCup()
+    public function rankingBadge() : array
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingCup($this->getTeam());
+        return $this->teamRepository->getRankingBadge($this->getTeam());
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function rankingBadge()
+    public function rankingPointGameTop5(): array
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingBadge($this->getTeam());
+        return $this->teamRepository->getRankingPointGame(null, 5);
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function rankingPointGameTop5()
+    public function rankingCupTop5(): array
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingPointGame(null, 5);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function rankingCupTop5()
-    {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getRankingCup(null, 5);
+        return $this->teamRepository->getRankingCup(null, 5);
     }
 
     /**
@@ -105,7 +88,7 @@ class TeamController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function uploadAvatar(Request $request)
+    public function uploadAvatar(Request $request): Response
     {
         $team = $this->getTeam();
         $data = json_decode($request->getContent(), true);
@@ -129,25 +112,7 @@ class TeamController extends AbstractController
 
         $team->setLogo($filename);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
-
+        $this->teamRepository-flush();
         return $this->getResponse(true, $this->translator->trans('avatar.success'));
-    }
-
-    /**
-     * @param bool $success
-     * @param null    $message
-     * @return Response
-     */
-    private function getResponse(bool $success, $message = null)
-    {
-        $response = new Response();
-        $response->headers->set('Content-Type', 'application/json');
-        $response->setContent(json_encode([
-            'success' => $success,
-            'message' => $message,
-        ]));
-        return $response;
     }
 }

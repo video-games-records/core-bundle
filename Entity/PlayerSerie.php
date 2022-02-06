@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
 
 /**
  * PlayerSerie
@@ -12,90 +14,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PlayerSerie
 {
+    use RankMedalTrait;
+    use RankPointChartTrait;
+
     /**
-     * @var Player
-     *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
-     * @var Serie
-     *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id", nullable=false)
      * })
      */
-    private $serie;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rankPoint", type="integer", nullable=false)
-     */
-    private $rankPoint;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rankMedal", type="integer", nullable=false)
-     */
-    private $rankMedal;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rank0", type="integer", nullable=false)
-     */
-    private $rank0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rank1", type="integer", nullable=false)
-     */
-    private $rank1;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rank2", type="integer", nullable=false)
-     */
-    private $rank2;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rank3", type="integer", nullable=false)
-     */
-    private $rank3;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rank4", type="integer", nullable=false)
-     */
-    private $rank4;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rank5", type="integer", nullable=false)
-     */
-    private $rank5;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
-     */
-    private $pointChart;
+    private Serie $serie;
 
     /**
      * @var integer
@@ -146,194 +84,6 @@ class PlayerSerie
      */
     private $nbGame;
 
-    /**
-     * Set rankPoint
-     * @param integer $rankPoint
-     * @return PlayerSerie
-     */
-    public function setRankPoint(int $rankPoint)
-    {
-        $this->rankPoint = $rankPoint;
-        return $this;
-    }
-
-    /**
-     * Get rankPoint
-     *
-     * @return integer
-     */
-    public function getRankPoint()
-    {
-        return $this->rankPoint;
-    }
-
-    /**
-     * Set rankMedal
-     * @param integer $rankMedal
-     * @return PlayerSerie
-     */
-    public function setRankMedal(int $rankMedal)
-    {
-        $this->rankMedal = $rankMedal;
-        return $this;
-    }
-
-    /**
-     * Get rankMedal
-     *
-     * @return integer
-     */
-    public function getRankMedal()
-    {
-        return $this->rankMedal;
-    }
-
-    /**
-     * Set rank0
-     * @param integer $rank0
-     * @return PlayerSerie
-     */
-    public function setRank0(int $rank0)
-    {
-        $this->rank0 = $rank0;
-        return $this;
-    }
-
-    /**
-     * Get rank0
-     *
-     * @return integer
-     */
-    public function getRank0()
-    {
-        return $this->rank0;
-    }
-
-    /**
-     * Set rank1
-     * @param integer $rank1
-     * @return PlayerSerie
-     */
-    public function setRank1(int $rank1)
-    {
-        $this->rank1 = $rank1;
-        return $this;
-    }
-
-    /**
-     * Get rank1
-     *
-     * @return integer
-     */
-    public function getRank1()
-    {
-        return $this->rank1;
-    }
-
-    /**
-     * Set rank2
-     * @param integer $rank2
-     * @return PlayerSerie
-     */
-    public function setRank2(int $rank2)
-    {
-        $this->rank2 = $rank2;
-        return $this;
-    }
-
-    /**
-     * Get rank2
-     *
-     * @return integer
-     */
-    public function getRank2()
-    {
-        return $this->rank2;
-    }
-
-    /**
-     * Set rank3
-     * @param integer $rank3
-     * @return PlayerSerie
-     */
-    public function setRank3(int $rank3)
-    {
-        $this->rank3 = $rank3;
-        return $this;
-    }
-
-    /**
-     * Get rank3
-     *
-     * @return integer
-     */
-    public function getRank3()
-    {
-        return $this->rank3;
-    }
-
-    /**
-     * Set rank4
-     * @param integer $rank4
-     * @return PlayerSerie
-     */
-    public function setRank4(int $rank4)
-    {
-        $this->rank4 = $rank4;
-        return $this;
-    }
-
-    /**
-     * Get rank4
-     *
-     * @return integer
-     */
-    public function getRank4()
-    {
-        return $this->rank4;
-    }
-
-    /**
-     * Set rank5
-     * @param integer $rank5
-     * @return PlayerSerie
-     */
-    public function setRank5(int $rank5)
-    {
-        $this->rank5 = $rank5;
-        return $this;
-    }
-
-    /**
-     * Get rank5
-     *
-     * @return integer
-     */
-    public function getRank5()
-    {
-        return $this->rank5;
-    }
-
-    /**
-     * Set pointChart
-     * @param integer $pointChart
-     * @return PlayerSerie
-     */
-    public function setPointChart(int $pointChart)
-    {
-        $this->pointChart = $pointChart;
-        return $this;
-    }
-
-    /**
-     * Get pointChart
-     *
-     * @return integer
-     */
-    public function getPointChart()
-    {
-        return $this->pointChart;
-    }
 
     /**
      * Set pointChartWithoutDlc

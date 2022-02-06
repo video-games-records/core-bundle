@@ -4,15 +4,19 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
 use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
+use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 
-class ChartRepository extends EntityRepository
+class ChartRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Chart::class);
+    }
 
     /**
      * @return mixed
@@ -263,24 +267,7 @@ class ChartRepository extends EntityRepository
     }
 
 
-    /**
-     * @param        $game
-     * @param string $status
-     */
-    public function majStatus($game, string $status = 'MAJ')
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
-            ->set('c.statusPlayer', ':status')
-            ->set('c.statusTeam', ':status')
-            ->setParameter('status', $status)
-            ->where('c.group IN (
-                            SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
-                        WHERE g.game = :game)')
-            ->setParameter('game', $game);
 
-        $query->getQuery()->execute();
-    }
 
     /*************************************/
     /************  PRIVATE  **************/

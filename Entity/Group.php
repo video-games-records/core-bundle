@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -84,11 +85,9 @@ class Group implements SluggableInterface, TimestampableInterface
     private Game $game;
 
     /**
-     * @var Chart[]|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="group",cascade={"persist"})
      */
-    private $charts;
+    private Collection $charts;
 
     /**
      * Constructor
@@ -307,9 +306,9 @@ class Group implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return Chart[]|ArrayCollection
+     * @return Collection
      */
-    public function getCharts()
+    public function getCharts(): Collection
     {
         return $this->charts;
     }

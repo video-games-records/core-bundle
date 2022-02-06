@@ -4,19 +4,17 @@ namespace VideoGamesRecords\CoreBundle\Service;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
 class TeamService
 {
-    private $em;
+    private TeamRepository $teamRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(TeamRepository $teamRepository)
     {
-        $this->em = $em;
+        $this->teamRepository = $teamRepository;
     }
 
     /**
@@ -26,13 +24,11 @@ class TeamService
      */
     public function maj()
     {
-        /** @var TeamRepository $teamRepository */
-        $teamRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Team');
-        $teamRepository->majGameRank();
-        $teamRepository->majRankPointChart();
-        $teamRepository->majRankPointGame();
-        $teamRepository->majRankMedal();
-        $teamRepository->majRankCup();
+        $this->teamRepository->majGameRank();
+        $this->teamRepository->majRankPointChart();
+        $this->teamRepository->majRankPointGame();
+        $this->teamRepository->majRankMedal();
+        $this->teamRepository->majRankCup();
     }
 
      /**
@@ -42,9 +38,7 @@ class TeamService
      */
     public function majRankBadge()
     {
-        /** @var TeamRepository $teamRepository */
-        $teamRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Team');
-        $teamRepository->majPointBadge();
-        $teamRepository->majRankBadge();
+        $this->teamRepository->majPointBadge();
+        $this->teamRepository->majRankBadge();
     }
 }

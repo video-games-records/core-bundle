@@ -19,18 +19,17 @@ class RuleTranslation implements TranslationInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
      * @ORM\Column(name="text", type="text", nullable=false)
      */
-    private $text;
+    private string $text;
 
     /**
-     * @return mixed
+     * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -39,7 +38,7 @@ class RuleTranslation implements TranslationInterface
      * @param string $text
      * @return $this
      */
-    public function setText(string $text)
+    public function setText(string $text): self
     {
         $this->text = $text;
 
@@ -49,7 +48,7 @@ class RuleTranslation implements TranslationInterface
     /**
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }

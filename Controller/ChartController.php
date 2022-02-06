@@ -4,12 +4,8 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use DateTime;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
@@ -17,33 +13,8 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 /**
  * Class ChartController
  */
-class ChartController extends AbstractController
+class ChartController extends DefaultController
 {
-    /**
-     * @return Player|null
-     */
-    private function getPlayer()
-    {
-        if ($this->getUser() !== null) {
-            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-        }
-        return null;
-    }
-
-    /**
-     * @return Team|null
-     */
-    private function getTeam()
-    {
-        if ($this->getUser() !== null) {
-            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-            return $player->getTeam();
-        }
-        return null;
-    }
-
     /**
      * @param Chart    $chart
      * @param Request $request
@@ -176,7 +147,7 @@ class ChartController extends AbstractController
                     $playerChartLib->setLibChart($lib);
                     $playerChart->addLib($playerChartLib);
                 }
-                $chart->setPlayerCharts(array($playerChart));
+                $chart->addPlayerChart($playerChart);
             } else {
                 // Set lastUpdate now for return put call
                 $playerCharts = $chart->getPlayerCharts();

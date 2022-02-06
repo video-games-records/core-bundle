@@ -2,113 +2,56 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Exception;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Exception;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGroup;
-use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class PlayerChartService
 {
-    private EntityManagerInterface $em;
+    private GameService $gameService;
+    private GroupService $groupService;
+    private ChartService $chartService;
+    private PlayerChartRepository $playerChartRepository;
+    private PlayerGroupRepository $playerGroupRepository;
+    private PlayerGameRepository $playerGameRepository;
 
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
+    public function __construct(
+        GameService $gameService,
+        GroupService $groupService,
+        ChartService $chartService,
+        PlayerChartRepository $playerChartRepository,
+        PlayerGroupRepository $playerGroupRepository,
+        PlayerGameRepository $playerGameRepository
+    ) {
+        $this->gameService = $gameService;
+        $this->groupService = $groupService;
+        $this->chartService = $chartService;
+        $this->playerChartRepository = $playerChartRepository;
+        $this->playerGroupRepository = $playerGroupRepository;
+        $this->playerGameRepository = $playerGameRepository;
     }
 
-     /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager(): EntityManagerInterface
-    {
-        return $this->em;
-    }
-
-    /**
-     * @param $player
-     * @param $game
-     * @param $platform
-     */
-    public function majPlatform($player, $game, $platform) {
-        // Update platform
-        $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->majPlatform(
-            $player,
-            $game,
-            $platform
-        );
-        // Maj all charts ot game
-        $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->setChartToMajPlayer($game);
-    }
-
-    /**
-     * @throws ORMException
-     */
-    public function majInvestigation()
-    {
-        $list = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getPlayerChartToDesactivate();
-        var_dump(count($list));
-        $statusReference = $this->em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NOT_PROOVED);
-        /** @var PlayerChart $playerChart */
-        foreach ($list as $playerChart) {
-            $playerChart->setStatus($statusReference);
-            $this->em->flush();
-        }
-    }
-
-    /**
-     * @return bool
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function isMajRunning(): bool
-    {
-        /** @var ChartRepository $chartRepository */
-        $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
-        if ($chartRepository->isMajPlayerRunning()) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * @param int $nbChartToMaj
      * @return int
-     * @throws Exception
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws ExceptionInterface
+     * @throws Exception
      */
     public function majRanking(int $nbChartToMaj = 100): int
     {
-        /** @var ChartRepository $chartRepository */
-        $chartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart');
-        /** @var PlayerChartRepository $playerChartRepository */
-        $playerChartRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart');
-        /** @var PlayerGroupRepository $playerGroupRepository */
-        $playerGroupRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup');
-        /** @var PlayerGameRepository $playerGameRepository */
-        $playerGameRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame');
-        /** @var PlayerRepository $playerRepository */
-        $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
-        /** @var PlayerBadgeRepository $playerBadgeRepository */
-        $playerBadgeRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerBadge');
-
-
-        $chartRepository->goToMajPlayer($nbChartToMaj);
-        $charts = $chartRepository->getChartToMajPlayer();
+        $this->chartService->goToMajPlayer($nbChartToMaj);
+        $charts = $this->chartService->getChartToMajPlayer();
 
         $playerList = [];
         $groupList  = [];
@@ -118,7 +61,7 @@ class PlayerChartService
             $idGroup = $chart->getGroup()->getId();
             $idGame  = $chart->getGroup()->getGame()->getId();
             //----- Player
-            $playerList = array_merge($playerList, $playerChartRepository->maj($chart));
+            $playerList = array_merge($playerList, $this->playerChartRepository->maj($chart));
             //----- Group
             if (!isset($groupList[$idGroup])) {
                 $groupList[$idGroup] = $chart->getGroup();
@@ -131,13 +74,13 @@ class PlayerChartService
 
         //----- Maj group
         foreach ($groupList as $group) {
-            $playerGroupRepository->maj($group);
+            $this->groupService->majPlayerGroup($group->getId());
         }
 
         //----- Maj game
         foreach ($gameList as $game) {
-            $playerGameRepository->maj($game);
-            $playerBadgeRepository->majMasterBadge($game);
+            $this->gameService->majPlayerGame($game->getId());
+            $this->gameService->majPlayerMasterBadge($game->getId());
         }
 
         //----- Maj player
@@ -145,13 +88,47 @@ class PlayerChartService
             $player->setBoolMaj(true);
         }
 
-        $this->em->flush();
-        $chartRepository->goToNormalPlayer();
+        $this->playerChartRepository->flush();
+        $this->chartService->goToNormalPlayer();
         return count($charts);
     }
 
+
+
+    /**
+     * @param $player
+     * @param $game
+     * @param $platform
+     */
+    public function majPlatform($player, $game, $platform) {
+        // Update platform
+        $this->playerChartRepository->majPlatform(
+            $player,
+            $game,
+            $platform
+        );
+        // Maj all charts ot game
+        $this->gameService->majChartStatus($game->getId(), 'MAJ');
+    }
+
+    /**
+     *
+     */
+    public function majInvestigation()
+    {
+        $list = $this->playerChartRepository->getPlayerChartToDesactivate();
+        $statusReference = $this->em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NOT_PROOVED);
+        /** @var PlayerChart $playerChart */
+        foreach ($list as $playerChart) {
+            $playerChart->setStatus($statusReference);
+            $this->em->flush();
+        }
+    }
+
+
     /**
      * @param PlayerChart $playerChart
+     * @throws ORMException
      */
     public function incrementNbChartProven(PlayerChart $playerChart)
     {
@@ -160,6 +137,7 @@ class PlayerChartService
 
     /**
      * @param PlayerChart $playerChart
+     * @throws ORMException
      */
     public function decrementNbChartProven(PlayerChart $playerChart)
     {
@@ -168,12 +146,13 @@ class PlayerChartService
 
     /**
      * @param PlayerChart $playerChart
-     * @param int    $nb
+     * @param int         $nb
+     * @throws ORMException
      */
     private function updateNbChartProven(PlayerChart $playerChart, int $nb)
     {
         /** @var PlayerGroup $playerGroup */
-        $playerGroup = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->findOneBy(
+        $playerGroup = $this->playerGroupRepository->findOneBy(
             array(
                 'player' => $playerChart->getPlayer(),
                 'group' => $playerChart->getChart()->getGroup()
@@ -184,7 +163,7 @@ class PlayerChartService
         }
 
         /** @var PlayerGame $playerGame */
-        $playerGame = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->findOneBy(
+        $playerGame = $this->playerGameRepository->findOneBy(
             array(
                 'player' => $playerChart->getPlayer(),
                 'game' => $playerChart->getChart()->getGroup()->getGame()
@@ -195,6 +174,6 @@ class PlayerChartService
         }
 
         $playerChart->getPlayer()->setNbChartProven($playerChart->getPlayer()->getNbChartProven() + $nb);
-        $this->em->flush();
+        $this->playerChartRepository->flush();
     }
 }

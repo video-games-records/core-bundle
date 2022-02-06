@@ -26,45 +26,35 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 class Data
 {
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="50")
      * @ORM\Column(name="category", type="string", length=50, nullable=false)
      */
-    private $category;
+    private string $category;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="50")
      * @ORM\Column(name="label", type="string", length=50, nullable=false)
      */
-    private $label;
+    private string $label;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="50")
      * @ORM\Column(name="value", type="string", length=50, nullable=false)
      */
-    private $value;
+    private string $value;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="10")
      * @ORM\Column(name="version", type="string", length=50, nullable=false)
      */
-    private $version;
+    private string $version;
 
     /**
      * @return string
@@ -79,7 +69,7 @@ class Data
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): Data
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -97,7 +87,7 @@ class Data
      * @param string $category
      * @return $this
      */
-    public function setCategory(string $category): Data
+    public function setCategory(string $category): Self
     {
         $this->category = $category;
 
@@ -117,7 +107,7 @@ class Data
      * @param string $label
      * @return $this
      */
-    public function setLabel(string $label): Data
+    public function setLabel(string $label): Self
     {
         $this->label = $label;
 
@@ -137,7 +127,7 @@ class Data
      * @param string $value
      * @return $this
      */
-    public function setValue(string $value): Data
+    public function setValue(string $value): Self
     {
         $this->value = $value;
 
@@ -156,7 +146,7 @@ class Data
      * @param string $version
      * @return $this
      */
-    public function setVersion(string $version): Data
+    public function setVersion(string $version): Self
     {
         $this->version = $version;
 

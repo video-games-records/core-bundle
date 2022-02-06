@@ -2,16 +2,21 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 
-class PlayerChartLibRepository extends EntityRepository
+class PlayerChartLibRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PlayerChartLib::class);
+    }
+
     /**
      * @param Player     $player
      * @param Chart|null $chart

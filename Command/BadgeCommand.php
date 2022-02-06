@@ -1,61 +1,58 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
+use Doctrine\DBAL\DBALException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Service\PlatformService;
+use VideoGamesRecords\CoreBundle\Service\BadgeService;
 
-class PlayerPlatformCommand extends Command
+class BadgeCommand extends DefaultCommand
 {
-    protected static $defaultName = 'vgr-core:player-platform';
+    protected static $defaultName = 'vgr-core:badge';
 
-    private PlatformService $platformService;
+    private EntityManagerInterface $em;
+    private BadgeService $badgeService;
 
-    public function __construct(PlatformService $platformService)
+    public function __construct(EntityManagerInterface $em, BadgeService $badgeService)
     {
-        $this->platformService = $platformService;
-        parent::__construct();
+        $this->badgeService = $badgeService;
+        parent::__construct($em);
     }
 
     protected function configure()
     {
         $this
-            ->setName('vgr-core:player-platform')
-            ->setDescription('Command to update platform rankings for players')
+            ->setName('vgr-core:badge')
+            ->setDescription('Command to maj player badges')
             ->addArgument(
                 'function',
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             )
-            ->addOption(
-                'idPlatform',
-                null,
-                InputOption::VALUE_REQUIRED,
-                ''
-            )
         ;
+        parent::configure();
     }
 
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
+     * @throws DBALException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->init($input);
         $function = $input->getArgument('function');
         switch ($function) {
-            case 'maj-all':
-                $this->platformService->majAll();
-                break;
             case 'maj':
-                $this->platformService->majRanking($input->getOption('idPlatform'));
+                $this->badgeService->majUserBadge();
+                $this->badgeService->majPlayerBadge();
                 break;
         }
+        $this->end($output);
         return 0;
     }
 }

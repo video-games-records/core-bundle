@@ -2,10 +2,16 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 
-class ChartLibRepository extends EntityRepository
+class ChartLibRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ChartLib::class);
+    }
+
     /**
      * @param $params
      * @return array

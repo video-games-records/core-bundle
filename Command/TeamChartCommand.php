@@ -45,13 +45,8 @@ class TeamChartCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Nb Chart to MAJ'
             )
-            ->addOption(
-                'debug',
-                null,
-                InputOption::VALUE_NONE,
-                'Debug option (sql)'
-            )
         ;
+        parent::configure();
     }
 
     /**

@@ -13,7 +13,7 @@ class ProofAdminController extends CRUDController
     /**
      * @return Response
      */
-    public function statsAction()
+    public function statsAction(): Response
     {
         $stats = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getProofStats();
         // Formatage

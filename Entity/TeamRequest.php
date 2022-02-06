@@ -33,40 +33,32 @@ class TeamRequest implements TimestampableInterface
     const STATUS_REFUSED = 'REFUSED';
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private $status = self::STATUS_ACTIVE;
+    private string $status = self::STATUS_ACTIVE;
 
     /**
-     * @var Team
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false)
      * })
      */
-    private $team;
+    private Team $team;
 
     /**
-     * @var Player
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
      * @return string
@@ -81,7 +73,7 @@ class TeamRequest implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -92,7 +84,7 @@ class TeamRequest implements TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -102,7 +94,7 @@ class TeamRequest implements TimestampableInterface
      * @param string $status
      * @return $this
      */
-    public function setStatus(string $status)
+    public function setStatus(string $status): Self
     {
         $this->status = $status;
 
@@ -114,17 +106,17 @@ class TeamRequest implements TimestampableInterface
      *
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
      * Set player
-     * @param Player|null $player
+     * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player = null)
+    public function setPlayer(Player $player): Self
     {
         $this->player = $player;
 
@@ -136,17 +128,17 @@ class TeamRequest implements TimestampableInterface
      *
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }
 
     /**
      * Set team
-     * @param Team|null $team
+     * @param Team $team
      * @return $this
      */
-    public function setTeam(Team $team = null)
+    public function setTeam(Team $team): Self
     {
         $this->team = $team;
 
@@ -157,7 +149,7 @@ class TeamRequest implements TimestampableInterface
      * Get team
      * @return Team
      */
-    public function getTeam()
+    public function getTeam(): Team
     {
         return $this->team;
     }
@@ -165,7 +157,7 @@ class TeamRequest implements TimestampableInterface
     /**
      * @return array
      */
-    public static function getStatusChoices()
+    public static function getStatusChoices(): array
     {
         return [
             self::STATUS_ACTIVE => self::STATUS_ACTIVE,

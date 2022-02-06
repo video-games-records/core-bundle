@@ -4,16 +4,21 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateTime;
 use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Country;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 
-class PlayerBadgeRepository extends EntityRepository
+class PlayerBadgeRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PlayerBadge::class);
+    }
+
     /**
      * @param $badge
      * @return PlayerBadge[]|array

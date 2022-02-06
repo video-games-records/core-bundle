@@ -17,7 +17,7 @@ use VideoGamesRecords\CoreBundle\File\Picture as PictureFile;
  */
 class PictureController extends AbstractController
 {
-    private $s3client;
+    private S3Client $s3client;
 
     public function __construct(S3Client $s3client)
     {

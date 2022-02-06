@@ -19,18 +19,17 @@ class PlayerChartStatusTranslation implements TranslationInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -39,7 +38,7 @@ class PlayerChartStatusTranslation implements TranslationInterface
      * @param string $name
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): Self
     {
         $this->name = $name;
 
@@ -49,7 +48,7 @@ class PlayerChartStatusTranslation implements TranslationInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

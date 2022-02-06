@@ -2,31 +2,40 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Doctrine\DBAL\Logging\DebugStack;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use VideoGamesRecords\CoreBundle\Service\ChartService;
 use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
+use VideoGamesRecords\CoreBundle\Service\TeamChartService;
 
-class PlayerChartCommand extends Command
+class ChartCommand extends DefaultCommand
 {
-    protected static $defaultName = 'vgr-core:player-chart';
+    protected static $defaultName = 'vgr-core:chart';
 
-    private $playerChartService;
-    private $nbChartToMaj = 100;
-    private $stack = null;
+    private ChartService $chartService;
+    private PlayerChartService $playerChartService;
+    private TeamChartService $teamChartService;
+    private int $nbChartToMaj = 100;
 
-    public function __construct(PlayerChartService $playerChartService)
+    public function __construct(
+        EntityManagerInterface $em,
+        ChartService $chartService,
+        PlayerChartService $playerChartService,
+        TeamChartService $teamChartService
+    )
     {
+        $this->chartService = $chartService;
         $this->playerChartService = $playerChartService;
-        parent::__construct();
+        $this->teamChartService = $teamChartService;
+        parent::__construct($em);
     }
 
     protected function configure()
@@ -45,27 +54,8 @@ class PlayerChartCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Nb Chart to MAJ'
             )
-            ->addOption(
-                'debug',
-                null,
-                InputOption::VALUE_NONE,
-                'Debug option (sql)'
-            )
         ;
-    }
-
-    /**
-     * @param InputInterface $input
-     */
-    private function init(InputInterface $input)
-    {
-        if ($input->getOption('debug')) {
-            // Start setup logger
-            $doctrineConnection = $this->playerChartService->getEntityManager()->getConnection();
-            $this->stack = new DebugStack();
-            $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
-            // End setup logger
-        }
+        parent::configure();
     }
 
     /**
@@ -84,16 +74,21 @@ class PlayerChartCommand extends Command
             case 'maj-investigation':
                 $this->playerChartService->majInvestigation();
                 break;
-            case 'maj-ranking':
+            case 'maj-player':
                 if ($input->getOption('nbChartToMaj')) {
                     $this->nbChartToMaj = $input->getOption('nbChartToMaj');
                 }
-                $this->majRanking($output);
+                $this->majPlayer($output);
                 break;
+            case 'maj-team':
+                if ($input->getOption('nbChartToMaj')) {
+                    $this->nbChartToMaj = $input->getOption('nbChartToMaj');
+                }
+                $this->majTeam($output);
+                break;
+
         }
-        if ($this->stack != null) {
-            $output->writeln(sprintf('%s queries', count($this->stack->queries)));
-        }
+        $this->end($output);
         return 0;
     }
 
@@ -105,13 +100,31 @@ class PlayerChartCommand extends Command
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    private function majRanking($output)
+    private function majPlayer($output)
     {
-        if ($this->playerChartService->isMajRunning()) {
-            $output->writeln('vgr:player-chart maj-ranking is already running');
+        if ($this->chartService->isMajPlayerRunning()) {
+            $output->writeln('vgr:chart maj-player is already running');
             return;
         }
         $nb = $this->playerChartService->majRanking($this->nbChartToMaj);
+        $output->writeln(sprintf('%d chart(s) updated', $nb));
+    }
+
+    /**
+     * @param $output
+     * @throws ExceptionInterface
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    private function majTeam($output)
+    {
+        if ($this->chartService->isMajTeamRunning()) {
+            $output->writeln('vgr:chart maj-team is already running');
+            return;
+        }
+        $nb = $this->teamChartService->majRanking($this->nbChartToMaj);
         $output->writeln(sprintf('%d chart(s) updated', $nb));
     }
 }

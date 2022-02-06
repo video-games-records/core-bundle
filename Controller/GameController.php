@@ -2,53 +2,25 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Response;
-use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Entity\Team;
+use Symfony\Component\Routing\Annotation\Route;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\GameService;
 
 /**
  * Class GameController
  * @Route("/game")
  */
-class GameController extends AbstractController
+class GameController extends DefaultController
 {
-    private $gameService;
+    private GameService $gameService;
 
     public function __construct(GameService $gameService)
     {
         $this->gameService = $gameService;
-    }
-
-    /**
-     * @return Player|null
-     */
-    private function getPlayer()
-    {
-        if ($this->getUser() !== null) {
-            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                               ->getPlayerFromUser($this->getUser());
-        }
-        return null;
-    }
-
-    /**
-     * @return Team|null
-     */
-    private function getTeam()
-    {
-        if ($this->getUser() !== null) {
-            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-            return $player->getTeam();
-        }
-        return null;
     }
 
     /**
@@ -141,33 +113,14 @@ class GameController extends AbstractController
         return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($game, $maxRank, $this->getTeam());
     }
 
-
-
     /**
-     * @Route("/rss", name="game_rss")
-     * @Method("GET")
-     * @Cache(smaxage="10")
+     * @Route("/day", name="game_of_day")
      * @return Response
+     * @throws NonUniqueResultException
      */
-    public function rssAction()
+    public function dayAction(): Response
     {
-        $games = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->findBy(
-            array(
-                'status' => 'ACTIF'
-            ),
-            array('publishedAt' => 'DESC'),
-            20
-        );
-
-        $feed = $this->get('eko_feed.feed.manager')->get('game');
-
-        // Add prefixe link
-        foreach ($games as $game) {
-            $game->setLink($feed->get('link') . $game->getId() . '/' . $game->getSlug());
-        }
-
-        $feed->addFromArray($games);
-
-        return new Response($feed->render('rss'));
+        $game = $this->gameService->getGameOfDay();
+        return $this->render('VideoGamesRecordsCoreBundle:Default:game_day.html.twig', ['game' => $game]);
     }
 }

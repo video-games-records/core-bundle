@@ -2,42 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Group;
-use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Entity\Team;
 
 /**
  * Class GroupController
  */
-class GroupController extends AbstractController
+class GroupController extends DefaultController
 {
-    /**
-     * @return Player|null
-     */
-    private function getPlayer()
-    {
-        if ($this->getUser() !== null) {
-            return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-        }
-        return null;
-    }
-
-    /**
-     * @return Team|null
-     */
-    private function getTeam()
-    {
-        if ($this->getUser() !== null) {
-            $player =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')
-                ->getPlayerFromUser($this->getUser());
-            return $player->getTeam();
-        }
-        return null;
-    }
-
     /**
      * @param Group    $group
      * @param Request $request

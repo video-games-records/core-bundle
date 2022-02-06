@@ -2,27 +2,24 @@
 namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Logging\DebugStack;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Symfony\Component\Console\Command\Command;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use VideoGamesRecords\CoreBundle\Service\LostPositionService;
 
-class LostPositionCommand extends Command
+class LostPositionCommand extends DefaultCommand
 {
     protected static $defaultName = 'vgr-core:lost-position';
 
-    private $lostPositionService;
-    private $stack = null;
+    private EntityManagerInterface $em;
+    private LostPositionService $lostPositionService;
 
-    public function __construct(LostPositionService $lostPositionService)
+    public function __construct(EntityManagerInterface $em, LostPositionService $lostPositionService)
     {
         $this->lostPositionService = $lostPositionService;
-        parent::__construct();
+        parent::__construct($em);
     }
 
     protected function configure()
@@ -35,33 +32,15 @@ class LostPositionCommand extends Command
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             )
-             ->addOption(
-                'debug',
-                'd',
-                InputOption::VALUE_NONE,
-                'Debug option (sql)'
-            );
         ;
-    }
-
-    /**
-     * @param InputInterface $input
-     */
-    private function init(InputInterface $input)
-    {
-        if ($input->getOption('debug')) {
-            // Start setup logger
-            $doctrineConnection = $this->playerService->getEntityManager()->getConnection();
-            $this->stack = new DebugStack();
-            $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
-            // End setup logger
-        }
+        parent::configure();
     }
 
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

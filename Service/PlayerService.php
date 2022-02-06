@@ -4,51 +4,53 @@ namespace VideoGamesRecords\CoreBundle\Service;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class PlayerService
 {
-    private $em;
+    private EntityManagerInterface $em;
+    private PlayerRepository $playerRepository;
+    private LostPositionRepository $lostPositionRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, PlayerRepository $playerRepository, LostPositionRepository $lostPositionRepository)
     {
         $this->em = $em;
-    }
-
-    /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager(): EntityManagerInterface
-    {
-        return $this->em;
+        $this->playerRepository = $playerRepository;
+        $this->lostPositionRepository = $lostPositionRepository;
     }
 
 
     public function autocomplete($q)
     {
-        return $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')->autocomplete($q);
+        return $this->playerRepository->autocomplete($q);
     }
 
     /**
      * @param $player
-     * @return mixed
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function getNbLostPosition($player)
     {
-        return $this->em->getRepository('VideoGamesRecordsCoreBundle:LostPosition')->getNbLostPosition($player);
+        return $this->lostPositionRepository->getNbLostPosition($player);
     }
 
     /**
      * @param $player
-     * @return mixed
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function getNbNewLostPosition($player)
     {
         if ($player->getLastDisplayLostPosition() != null) {
-            return $this->em->getRepository('VideoGamesRecordsCoreBundle:LostPosition')
-                ->getNbNewLostPosition($player);
+            return $this->lostPositionRepository->getNbNewLostPosition($player);
         } else {
             return $this->getNbLostPosition($player);
         }
@@ -80,21 +82,19 @@ class PlayerService
      */
     public function maj()
     {
-        /** @var PlayerRepository $playerRepository */
-        $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
-        $players = $playerRepository->findBy(['boolMaj' => true]);
+        $players = $this->playerRepository->findBy(['boolMaj' => true]);
         foreach ($players as $player) {
-            $playerRepository->maj($player);
+            $this->playerRepository->maj($player);
             if ($player->getCountry()) {
                 $player->getCountry()->setBoolMaj(true);
             }
         }
-        $playerRepository->majGameRank();
-        $playerRepository->majRankPointChart();
-        $playerRepository->majRankPointGame();
-        $playerRepository->majRankMedal();
-        $playerRepository->majRankCup();
-        $playerRepository->majRankProof();
+        $this->playerRepository->majGameRank();
+        $this->playerRepository->majRankPointChart();
+        $this->playerRepository->majRankPointGame();
+        $this->playerRepository->majRankMedal();
+        $this->playerRepository->majRankCup();
+        $this->playerRepository->majRankProof();
     }
 
 
@@ -105,25 +105,20 @@ class PlayerService
      */
     public function majRankBadge()
     {
-        /** @var PlayerRepository $playerRepository */
-        $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
-        $playerRepository->majPointBadge();
-        $playerRepository->majRankBadge();
+        $this->playerRepository->majPointBadge();
+        $this->playerRepository->majRankBadge();
     }
 
 
     /**
-     * @throws ORMException
+     *
      */
     public function majRulesOfThree()
     {
-        /** @var PlayerRepository $playerRepository */
-        $playerRepository = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player');
-
         $group1 = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 2);
         $group2 = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 9);
 
-        $players = $playerRepository->getPlayerToDisabled();
+        $players = $this->playerRepository->getPlayerToDisabled();
         foreach ($players as $player) {
             $user = $player->getUser();
             $user->removeGroup($group1);
@@ -131,7 +126,7 @@ class PlayerService
         }
         $this->em->flush();
 
-        $players = $playerRepository->getPlayerToEnabled();
+        $players = $this->playerRepository->getPlayerToEnabled();
         foreach ($players as $player) {
             $user = $player->getUser();
             $user->addGroup($group1);

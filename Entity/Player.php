@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -65,261 +66,194 @@ class Player implements SluggableInterface
     use SluggableTrait;
 
     /**
-     * @var UserInterface
-     *
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User\UserInterface")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(min="3",max="50")
      * @ORM\Column(name="pseudo", type="string", length=50, nullable=false, unique=true)
      */
-    private $pseudo;
+    private string $pseudo;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="avatar", type="string", length=100, nullable=false)
      */
-    private $avatar = 'default.jpg';
+    private string $avatar = 'default.jpg';
 
     /**
-     * @var string
-     *
+
      * @ORM\Column(name="gamerCard", type="string", length=50, nullable=true)
      */
-    private $gamerCard;
+    private ?string $gamerCard;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank0", type="integer", nullable=true)
      */
-    private $chartRank0 = 0;
+    private int $chartRank0 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank1", type="integer", nullable=true)
      */
-    private $chartRank1 = 0;
+    private int $chartRank1 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank2", type="integer", nullable=true)
      */
-    private $chartRank2 = 0;
+    private int $chartRank2 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chartRank3", type="integer", nullable=true)
      */
-    private $chartRank3 = 0;
+    private int $chartRank3 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
-    private $pointChart = 0;
+    private int $pointChart = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointVGR", type="integer", nullable=false)
      */
-    private $pointVGR = 0;
+    private int $pointVGR = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointBadge", type="integer", nullable=false)
      */
-    private $pointBadge = 0;
+    private int $pointBadge = 0;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="presentation", type="text", length=65535, nullable=true)
      */
-    private $presentation;
+    private ?string $presentation;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="collection", type="text", length=65535, nullable=true)
      */
-    private $collection;
+    private ?string $collection;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankPointChart", type="integer", nullable=true)
      */
-    private $rankPointChart;
+    private ?int $rankPointChart;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankMedal", type="integer", nullable=true)
      */
-    private $rankMedal;
+    private ?int $rankMedal;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankProof", type="integer", nullable=true)
      */
-    private $rankProof;
+    private ?int $rankProof;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankBadge", type="integer", nullable=true)
      */
-    private $rankBadge;
+    private ?int $rankBadge;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankCup", type="integer", nullable=true)
      */
-    private $rankCup;
+    private ?int $rankCup;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankCountry", type="integer", nullable=true)
      */
-    private $rankCountry;
+    private ?int $rankCountry;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="gameRank0", type="integer", nullable=true)
      */
-    private $gameRank0 = 0;
+    private int $gameRank0 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="gameRank1", type="integer", nullable=true)
      */
-    private $gameRank1 = 0;
+    private int $gameRank1 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="gameRank2", type="integer", nullable=true)
      */
-    private $gameRank2 = 0;
+    private int $gameRank2 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="gameRank3", type="integer", nullable=true)
      */
-    private $gameRank3 = 0;
+    private int $gameRank3 = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbGame", type="integer", nullable=false)
      */
-    private $nbGame = 0;
+    private int $nbGame = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $nbChart = 0;
+    private int $nbChart = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
-    private $nbChartProven = 0;
+    private int $nbChartProven = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChartDisabled", type="integer", nullable=false)
      */
-    private $nbChartDisabled = 0;
+    private int $nbChartDisabled = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
      */
-    private $nbMasterBadge = 0;
+    private int $nbMasterBadge = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
-    private $pointGame = 0;
+    private int $pointGame = 0;
 
     /**
-     * @var DateTime
      * @ORM\Column(name="birthDate", type="date", nullable=true)
      */
-    protected $birthDate;
+    protected ?DateTime $birthDate;
 
     /**
-     * @var string
      * @ORM\Column(name="website", type="string", length=255, nullable=true)
      */
-    protected $website;
+    protected ?string $website;
 
     /**
-     * @var string
      * @ORM\Column(name="youtube", type="string", length=255, nullable=true)
      */
-    protected $youtube;
+    protected ?string $youtube;
 
     /**
-     * @var string
      * @ORM\Column(name="twitch", type="string", length=255, nullable=true)
      */
-    protected $twitch;
+    protected ?string $twitch;
 
     /**
-     * @var string
      * @ORM\Column(name="gender", type="string", length=1, nullable=false)
      */
-    protected $gender = 'I';
+    protected string $gender = 'I';
 
     /**
-     * @var boolean
      * @ORM\Column(name="displayPersonalInfos", type="boolean", nullable=false)
      */
-    private $displayPersonalInfos = false;
+    private bool $displayPersonalInfos = false;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankPointGame", type="integer", nullable=true)
      */
-    private $rankPointGame;
+    private ?int $rankPointGame;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="player")
@@ -1294,9 +1228,9 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @return ArrayCollection|LostPosition[]
+     * @return Collection
      */
-    public function getLostPositions()
+    public function getLostPositions(): Collection
     {
         return $this->lostPositions;
     }

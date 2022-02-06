@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -886,17 +887,17 @@ class Team implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getPlayers()
+    public function getPlayers(): Collection
     {
         return $this->players;
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getTeamGame()
+    public function getTeamGame(): Collection
     {
         return $this->teamGame;
     }
@@ -912,7 +913,7 @@ class Team implements SluggableInterface, TimestampableInterface
     /**
      * @return bool
      */
-    public function isOpened()
+    public function isOpened(): bool
     {
         return ($this->getStatus() == self::STATUS_OPENED);
     }

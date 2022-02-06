@@ -51,47 +51,37 @@ class PlayerBadge implements TimestampableInterface
     use TimestampableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(name="ended_at", type="datetime", nullable=true)
      */
-    private $ended_at;
+    private ?DateTime $ended_at = null;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="mbOrder", type="integer", nullable=true, options={"default":0})
      */
-    private $mbOrder = 0;
+    private int $mbOrder = 0;
 
     /**
-     * @var Player
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerBadge")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
-     * @var Badge
-     *
-      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=false)
      * })
      */
-    private $badge;
+    private Badge $badge;
 
     /**
      * Set id
@@ -99,7 +89,7 @@ class PlayerBadge implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
 
@@ -111,7 +101,7 @@ class PlayerBadge implements TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -122,7 +112,7 @@ class PlayerBadge implements TimestampableInterface
      * @param DateTime $ended_at
      * @return $this
      */
-    public function setEndedAt(DateTime $ended_at)
+    public function setEndedAt(DateTime $ended_at): Self
     {
         $this->ended_at = $ended_at;
 
@@ -134,7 +124,7 @@ class PlayerBadge implements TimestampableInterface
      *
      * @return DateTime
      */
-    public function getEndedAt()
+    public function getEndedAt(): ?DateTime
     {
         return $this->ended_at;
     }
@@ -145,7 +135,7 @@ class PlayerBadge implements TimestampableInterface
      * @param integer $mbOrder
      * @return $this
      */
-    public function setMbOrder(int $mbOrder)
+    public function setMbOrder(int $mbOrder): Self
     {
         $this->mbOrder = $mbOrder;
 
@@ -157,7 +147,7 @@ class PlayerBadge implements TimestampableInterface
      *
      * @return integer
      */
-    public function getMbOrder()
+    public function getMbOrder(): int
     {
         return $this->mbOrder;
     }
@@ -165,10 +155,10 @@ class PlayerBadge implements TimestampableInterface
     /**
      * Set badge
      *
-     * @param $badge
+     * @param Badge $badge
      * @return $this
      */
-    public function setBadge($badge = null)
+    public function setBadge(Badge $badge): Self
     {
         $this->badge = $badge;
 
@@ -180,7 +170,7 @@ class PlayerBadge implements TimestampableInterface
      *
      * @return Badge
      */
-    public function getBadge()
+    public function getBadge(): Badge
     {
         return $this->badge;
     }
@@ -188,10 +178,10 @@ class PlayerBadge implements TimestampableInterface
 
     /**
      * Set player
-     * @param Player|object|null $player
+     * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player = null)
+    public function setPlayer(Player $player): Self
     {
         $this->player = $player;
 
@@ -203,7 +193,7 @@ class PlayerBadge implements TimestampableInterface
      *
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }

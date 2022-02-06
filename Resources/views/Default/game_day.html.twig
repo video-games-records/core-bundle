@@ -1,0 +1,9 @@
+{% if game %}
+<div class="game__day" style="width:198px; height:100px">
+    <h2>Game of the day</h2>
+    <div class="home-games item">
+        <a href="{{ front_url }}/en/{{ game.getUrl() }}" class="" title="{{ game.libGameEn }}">
+            <img src="{{ picture_url }}/game/{{ game.picture }}" alt="{{ game.libGameEn }}" width="198" height="100"></a>
+    </div>
+</div>
+{% endif %}

@@ -5,6 +5,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\GameTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
 
 /**
  * Proof
@@ -14,36 +16,32 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  */
 class Picture implements TimestampableInterface
 {
-    use \VideoGamesRecords\CoreBundle\Model\Player;
-    use \VideoGamesRecords\CoreBundle\Model\Game;
+    use PlayerTrait;
+    use GameTrait;
     use TimestampableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
      * @ORM\Column(name="path", type="string", nullable=false)
      */
-    private $path;
+    private string $path = '';
 
     /**
-     * @var string
      * @ORM\Column(name="metadata", type="text", nullable=true)
      */
-    private $metadata;
+    private ?string $metadata = null;
 
     /**
      * @var string
      * @ORM\Column(name="hash", type="string", nullable=false)
      */
-    private $hash;
+    private string $hash;
 
 
     public function __construct()
@@ -66,7 +64,7 @@ class Picture implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
         return $this;
@@ -77,7 +75,7 @@ class Picture implements TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -89,7 +87,7 @@ class Picture implements TimestampableInterface
      * @param string $path
      * @return $this
      */
-    public function setPath(string $path)
+    public function setPath(string $path): Self
     {
         $this->path = $path;
         return $this;
@@ -100,7 +98,7 @@ class Picture implements TimestampableInterface
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -111,7 +109,7 @@ class Picture implements TimestampableInterface
      * @param string $metadata
      * @return $this
      */
-    public function setMetadata(string $metadata)
+    public function setMetadata(string $metadata): Self
     {
         $this->metadata = $metadata;
         return $this;
@@ -122,7 +120,7 @@ class Picture implements TimestampableInterface
      *
      * @return string
      */
-    public function getMetadata()
+    public function getMetadata(): ?string
     {
         return $this->metadata;
     }
@@ -133,7 +131,7 @@ class Picture implements TimestampableInterface
      * @param string $hash
      * @return $this
      */
-    public function setHash(string $hash)
+    public function setHash(string $hash): Self
     {
         $this->hash = $hash;
         return $this;
@@ -144,7 +142,7 @@ class Picture implements TimestampableInterface
      *
      * @return string
      */
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }

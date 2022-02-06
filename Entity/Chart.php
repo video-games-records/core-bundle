@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -83,34 +84,31 @@ class Chart implements SluggableInterface, TimestampableInterface
     private Group $group;
 
     /**
-     * @var ArrayCollection|ChartLib[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $libs;
+    private Collection $libs;
 
     /**
-     * @var ArrayCollection|PlayerChart[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart")
      */
-    private $playerCharts;
+    private Collection $playerCharts;
 
     /**
-     * @var ArrayCollection|LostPosition[]
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="chart")
      */
-    private $lostPositions;
+    private Collection $lostPositions;
 
     /**
      * Shortcut to playerChart.rank = 1
      * @var PlayerChart
      */
-    private $playerChart1;
+    private PlayerChart $playerChart1;
 
     /**
      * Shortcut to playerChart.player = player
      * @var PlayerChart
      */
-    private $playerChartP;
+    private PlayerChart $playerChartP;
 
     /**
      * Constructor
@@ -119,6 +117,7 @@ class Chart implements SluggableInterface, TimestampableInterface
     {
         $this->libs = new ArrayCollection();
         $this->playerCharts = new ArrayCollection();
+        $this->lostPositions = new ArrayCollection();
     }
 
     /**
@@ -132,7 +131,7 @@ class Chart implements SluggableInterface, TimestampableInterface
     /**
      * @return string
      */
-    public function getDefaultName()
+    public function getDefaultName(): ?string
     {
         return $this->libChartEn;
     }
@@ -154,7 +153,7 @@ class Chart implements SluggableInterface, TimestampableInterface
      * @param string $locale
      * @return string
      */
-    public function getCompleteName($locale = 'en'): string
+    public function getCompleteName(string $locale = 'en'): string
     {
         if ($locale == 'fr') {
             return $this->getGroup()->getGame()->getLibGameFr() . ' - ' .
@@ -173,7 +172,7 @@ class Chart implements SluggableInterface, TimestampableInterface
      * @param integer $id
      * @return Chart
      */
-    public function setId(int $id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
@@ -185,7 +184,7 @@ class Chart implements SluggableInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -194,7 +193,7 @@ class Chart implements SluggableInterface, TimestampableInterface
      * @param string $libChartEn
      * @return $this
      */
-    public function setLibChartEn(string $libChartEn): Chart
+    public function setLibChartEn(string $libChartEn): self
     {
         $this->libChartEn = $libChartEn;
         return $this;
@@ -212,7 +211,7 @@ class Chart implements SluggableInterface, TimestampableInterface
      * @param string|null $libChartFr
      * @return $this
      */
-    public function setLibChartFr(?string $libChartFr): Chart
+    public function setLibChartFr(?string $libChartFr): self
     {
         $this->libChartFr = $libChartFr;
         return $this;
@@ -232,7 +231,7 @@ class Chart implements SluggableInterface, TimestampableInterface
      * @param string $statusPlayer
      * @return Chart
      */
-    public function setStatusPlayer(string $statusPlayer)
+    public function setStatusPlayer(string $statusPlayer): self
     {
         $this->statusPlayer = $statusPlayer;
         return $this;
@@ -243,7 +242,7 @@ class Chart implements SluggableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getStatusPlayer()
+    public function getStatusPlayer(): string
     {
         return $this->statusPlayer;
     }
@@ -254,7 +253,7 @@ class Chart implements SluggableInterface, TimestampableInterface
      * @param string $statusTeam
      * @return Chart
      */
-    public function setStatusTeam(string $statusTeam)
+    public function setStatusTeam(string $statusTeam): self
     {
         $this->statusTeam = $statusTeam;
         return $this;
@@ -265,23 +264,23 @@ class Chart implements SluggableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getStatusTeam()
+    public function getStatusTeam(): string
     {
         return $this->statusTeam;
     }
 
     /**
-     * @return ArrayCollection|PlayerChart[]
+     * @return Collection
      */
-    public function getPlayerCharts()
+    public function getPlayerCharts(): Collection
     {
         return $this->playerCharts;
     }
 
     /**
-     * @return ArrayCollection|LostPosition[]
+     * @return Collection
      */
-    public function getLostPositions()
+    public function getLostPositions(): Collection
     {
         return $this->lostPositions;
     }
@@ -290,9 +289,20 @@ class Chart implements SluggableInterface, TimestampableInterface
      * @param ArrayCollection|PlayerChart[] $playerCharts
      * @return Chart
      */
-    public function setPlayerCharts($playerCharts)
+    public function setPlayerCharts($playerCharts): self
     {
         $this->playerCharts = $playerCharts;
+
+        return $this;
+    }
+
+    /**
+     * @param PlayerChart $playerChart
+     * @return $this
+     */
+    public function addPlayerChart(PlayerChart $playerChart): self
+    {
+        $this->playerCharts->add($playerChart);
 
         return $this;
     }
@@ -361,9 +371,9 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return ArrayCollection|ChartLib[]
+     * @return Collection
      */
-    public function getLibs()
+    public function getLibs(): Collection
     {
         return $this->libs;
     }
@@ -378,9 +388,9 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return mixed
+     * @return PlayerChart
      */
-    public function getPlayerChart1()
+    public function getPlayerChart1(): PlayerChart
     {
         return $this->playerChart1;
     }
@@ -394,9 +404,9 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return mixed
+     * @return PlayerChart
      */
-    public function getPlayerChartP()
+    public function getPlayerChartP(): PlayerChart
     {
         return $this->playerChartP;
     }

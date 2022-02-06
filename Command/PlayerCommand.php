@@ -2,27 +2,25 @@
 namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Logging\DebugStack;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use VideoGamesRecords\CoreBundle\Service\PlayerService;
 
-class PlayerCommand extends Command
+class PlayerCommand extends DefaultCommand
 {
     protected static $defaultName = 'vgr-core:player';
 
-    private $playerService;
-    private $stack = null;
+    private PlayerService $playerService;
 
-    public function __construct(PlayerService $playerService)
+    public function __construct(EntityManagerInterface $em,PlayerService $playerService)
     {
         $this->playerService = $playerService;
-        parent::__construct();
+        parent::__construct($em);
     }
 
     protected function configure()
@@ -35,28 +33,10 @@ class PlayerCommand extends Command
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             )
-             ->addOption(
-                'debug',
-                'd',
-                InputOption::VALUE_NONE,
-                'Debug option (sql)'
-            );
         ;
+        parent::configure();
     }
 
-    /**
-     * @param InputInterface $input
-     */
-    private function init(InputInterface $input)
-    {
-        if ($input->getOption('debug')) {
-            // Start setup logger
-            $doctrineConnection = $this->playerService->getEntityManager()->getConnection();
-            $this->stack = new DebugStack();
-            $doctrineConnection->getConfiguration()->setSQLLogger($this->stack);
-            // End setup logger
-        }
-    }
 
     /**
      * @param InputInterface  $input
@@ -81,9 +61,7 @@ class PlayerCommand extends Command
                 $this->playerService->majRulesOfThree();
                 break;
         }
-        if ($this->stack != null) {
-            $output->writeln(sprintf('%s queries', count($this->stack->queries)));
-        }
+        $this->end($output);
         return 0;
     }
 }

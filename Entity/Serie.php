@@ -18,13 +18,11 @@ class Serie implements SluggableInterface
     use SluggableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @var string
@@ -32,7 +30,7 @@ class Serie implements SluggableInterface
      * @Assert\Length(max="255")
      * @ORM\Column(name="libSerie", type="string", length=255, nullable=false)
      */
-    private $libSerie;
+    private string $libSerie;
 
 
     /**

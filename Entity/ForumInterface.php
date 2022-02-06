@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 interface ForumInterface
 {
     /** @return integer */
-    public function getId();
+    public function getId(): int;
     /** @return string */
-    public function getLibForum();
+    public function getLibForum(): string;
 }

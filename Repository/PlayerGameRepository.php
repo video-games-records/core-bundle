@@ -2,7 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
@@ -15,8 +15,13 @@ use Doctrine\ORM\OptimisticLockException;
 use DateTime;
 use Symfony\Component\Intl\Locale;
 
-class PlayerGameRepository extends EntityRepository
+class PlayerGameRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PlayerGame::class);
+    }
+
     /**
      * @param Game $game
      * @param null $maxRank
@@ -81,13 +86,13 @@ class PlayerGameRepository extends EntityRepository
     }
 
     /**
-     * @param $game
+     * @param Game $game
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws ExceptionInterface
      * @throws Exception
      */
-    public function maj($game)
+    public function maj(Game $game)
     {
         //----- delete
         $query = $this->_em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerGame pg WHERE pg.game = :game');

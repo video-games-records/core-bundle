@@ -20,27 +20,21 @@ class Country implements TranslatableInterface
     use TranslatableTrait;
 
     /**
-     * @var string
-     *
      * @Assert\Length(min="2", max="2")
      * @ORM\Column(name="code_iso2", type="string", length=2, nullable=false)
      */
-    private $codeIso2;
+    private string $codeIso2;
 
     /**
-     * @var string
-     *
      * @Assert\Length(min="3", max="3")
      * @ORM\Column(name="code_iso3", type="string", length=3, nullable=false)
      */
-    private $codeIso3;
+    private string $codeIso3;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="code_iso_numeric", type="integer", nullable=false)
      */
-    private $codeIsoNumeric;
+    private string $codeIsoNumeric;
 
     /**
      * @var integer
@@ -49,24 +43,20 @@ class Country implements TranslatableInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var Badge
-     *
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="country")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
      * })
      */
-    private $badge;
+    private ?Badge $badge;
 
     /**
-     * @var boolean
-     *
      * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
      */
-    private $boolMaj = false;
+    private bool $boolMaj = false;
 
     /**
      * Set codeIso
@@ -74,7 +64,7 @@ class Country implements TranslatableInterface
      * @param string $codeIso2
      * @return Country
      */
-    public function setCodeIso2(string $codeIso2)
+    public function setCodeIso2(string $codeIso2): Self
     {
         $this->codeIso2 = $codeIso2;
 
@@ -86,7 +76,7 @@ class Country implements TranslatableInterface
      *
      * @return string
      */
-    public function getCodeIso2()
+    public function getCodeIso2(): string
     {
         return $this->codeIso2;
     }
@@ -94,7 +84,7 @@ class Country implements TranslatableInterface
     /**
      * @return string
      */
-    public function getCodeIso3()
+    public function getCodeIso3(): string
     {
         return $this->codeIso3;
     }
@@ -103,7 +93,7 @@ class Country implements TranslatableInterface
      * @param string $codeIso3
      * @return Country
      */
-    public function setCodeIso3(string $codeIso3)
+    public function setCodeIso3(string $codeIso3): Self
     {
         $this->codeIso3 = $codeIso3;
         return $this;
@@ -112,7 +102,7 @@ class Country implements TranslatableInterface
     /**
      * @return string
      */
-    public function getCodeIsoNumeric()
+    public function getCodeIsoNumeric(): string
     {
         return $this->codeIsoNumeric;
     }
@@ -121,7 +111,7 @@ class Country implements TranslatableInterface
      * @param string $codeIsoNumeric
      * @return Country
      */
-    public function setCodeIsoNumeric(string $codeIsoNumeric)
+    public function setCodeIsoNumeric(string $codeIsoNumeric): Self
     {
         $this->codeIsoNumeric = $codeIsoNumeric;
         return $this;
@@ -131,7 +121,7 @@ class Country implements TranslatableInterface
      * @param string $name
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): Self
     {
         $this->translate(null, false)->setName($name);
 
@@ -141,7 +131,7 @@ class Country implements TranslatableInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->translate(null, false)->getName();
     }
@@ -151,7 +141,7 @@ class Country implements TranslatableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -162,7 +152,7 @@ class Country implements TranslatableInterface
      * @param int $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Self
     {
         $this->id = $id;
 
@@ -174,7 +164,7 @@ class Country implements TranslatableInterface
      * @param Badge|null $badge
      * @return $this
      */
-    public function setBadge(Badge $badge = null)
+    public function setBadge(Badge $badge = null): Self
     {
         $this->badge = $badge;
 
@@ -186,7 +176,7 @@ class Country implements TranslatableInterface
      *
      * @return Badge
      */
-    public function getBadge()
+    public function getBadge(): ?Badge
     {
         return $this->badge;
     }
@@ -197,7 +187,7 @@ class Country implements TranslatableInterface
      * @param boolean $boolMaj
      * @return $this
      */
-    public function setBoolMaj(bool $boolMaj)
+    public function setBoolMaj(bool $boolMaj): Country
     {
         $this->boolMaj = $boolMaj;
 
@@ -209,7 +199,7 @@ class Country implements TranslatableInterface
      *
      * @return boolean
      */
-    public function getBoolMaj()
+    public function getBoolMaj(): bool
     {
         return $this->boolMaj;
     }
@@ -225,7 +215,7 @@ class Country implements TranslatableInterface
     /**
      * @return string
      */
-    public function getDefaultName()
+    public function getDefaultName(): string
     {
         return $this->translate('en', false)->getName();
     }

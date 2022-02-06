@@ -13,54 +13,44 @@ use Doctrine\ORM\Mapping as ORM;
 class PlayerPlatform
 {
     /**
-     * @var Player
-     *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerPlatform")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
      * })
      */
-    private $player;
+    private Player $player;
 
     /**
-     * @var Platform
-     *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform", fetch="EAGER", inversedBy="playerPlatform")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="id", nullable=false)
      * })
      */
-    private $platform;
+    private Platform $platform;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="rankPointPlatform", type="integer", nullable=false)
      */
-    private $rankPointPlatform;
+    private int $rankPointPlatform;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="pointPlatform", type="integer", nullable=false)
      */
-    private $pointPlatform = 0;
+    private int $pointPlatform = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
-    private $nbChart = 0;
+    private int $nbChart = 0;
 
     /**
      * Set rankPointPlatform
      * @param integer $rankPointPlatform
      * @return $this
      */
-    public function setRankPointPlatform(int $rankPointPlatform)
+    public function setRankPointPlatform(int $rankPointPlatform): self
     {
         $this->rankPointPlatform = $rankPointPlatform;
         return $this;
@@ -71,7 +61,7 @@ class PlayerPlatform
      *
      * @return integer
      */
-    public function getRankPointPlatform()
+    public function getRankPointPlatform(): int
     {
         return $this->rankPointPlatform;
     }
@@ -81,7 +71,7 @@ class PlayerPlatform
      * @param integer $pointPlatform
      * @return $this
      */
-    public function setPointPlatform(int $pointPlatform)
+    public function setPointPlatform(int $pointPlatform): self
     {
         $this->pointPlatform = $pointPlatform;
         return $this;
@@ -92,7 +82,7 @@ class PlayerPlatform
      *
      * @return integer
      */
-    public function getPointPlatform()
+    public function getPointPlatform(): int
     {
         return $this->pointPlatform;
     }
@@ -102,7 +92,7 @@ class PlayerPlatform
      * @param integer $nbChart
      * @return $this
      */
-    public function setNbChart(int $nbChart)
+    public function setNbChart(int $nbChart): self
     {
         $this->nbChart = $nbChart;
         return $this;
@@ -113,7 +103,7 @@ class PlayerPlatform
      *
      * @return integer
      */
-    public function getNbChart()
+    public function getNbChart(): int
     {
         return $this->nbChart;
     }
@@ -121,10 +111,10 @@ class PlayerPlatform
 
     /**
      * Set platform
-     * @param Platform|null $platform
+     * @param Platform $platform
      * @return $this
      */
-    public function setPlatform(Platform $platform = null)
+    public function setPlatform(Platform $platform): self
     {
         $this->platform = $platform;
 
@@ -137,7 +127,7 @@ class PlayerPlatform
      *
      * @return Platform
      */
-    public function getPlatform()
+    public function getPlatform(): Platform
     {
         return $this->platform;
     }
@@ -145,10 +135,10 @@ class PlayerPlatform
 
     /**
      * Set player
-     * @param Player|null $player
+     * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player = null)
+    public function setPlayer(Player $player): self
     {
         $this->player = $player;
 
@@ -160,7 +150,7 @@ class PlayerPlatform
      *
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }

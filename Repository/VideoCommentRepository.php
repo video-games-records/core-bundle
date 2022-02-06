@@ -2,8 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\VideoComment;
 
-class VideoCommentRepository extends EntityRepository
+class VideoCommentRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, VideoComment::class);
+    }
+
 }

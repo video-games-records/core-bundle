@@ -6,9 +6,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Intl\Locale;
-use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\Group;
-use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\Country;
 
 final class TranslationExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
@@ -52,7 +50,7 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
      */
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
-        if (!in_array($resourceClass, array(Country::class))) {
+        if ($resourceClass != Country::class) {
             return;
         }
         $locale = Locale::getDefault();

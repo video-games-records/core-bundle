@@ -2,15 +2,19 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 
-class ProofRequestRepository extends EntityRepository
+class ProofRequestRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ProofRequest::class);
+    }
 
-     /**
+    /**
      * @return mixed
      * @throws NonUniqueResultException
      * @throws NoResultException

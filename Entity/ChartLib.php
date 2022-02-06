@@ -18,41 +18,33 @@ class ChartLib implements TimestampableInterface
     use TimestampableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="idLibChart", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idLibChart;
+    private ?int $idLibChart = null;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="100")
      * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var Chart
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="libs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id")
      * })
      */
-    private $chart;
+    private Chart $chart;
 
     /**
-     * @var ChartType
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartType")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idType", referencedColumnName="idType")
      * })
      */
-    private $type;
+    private ChartType $type;
 
     /**
      * Set lib
@@ -60,7 +52,7 @@ class ChartLib implements TimestampableInterface
      * @param string|null $name
      * @return $this
      */
-    public function setName(string $name = null)
+    public function setName(string $name = null): Self
     {
         $this->name = $name;
         return $this;
@@ -71,7 +63,7 @@ class ChartLib implements TimestampableInterface
      *
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -81,7 +73,7 @@ class ChartLib implements TimestampableInterface
      *
      * @return integer
      */
-    public function getIdLibChart()
+    public function getIdLibChart(): ?int
     {
         return $this->idLibChart;
     }
@@ -92,7 +84,7 @@ class ChartLib implements TimestampableInterface
      * @param int $idLibChart
      * @return $this
      */
-    public function setIdLibChart(int $idLibChart)
+    public function setIdLibChart(int $idLibChart): Self
     {
         $this->idLibChart = $idLibChart;
 
@@ -101,10 +93,10 @@ class ChartLib implements TimestampableInterface
 
     /**
      * Set chart
-     * @param Chart|null $chart
+     * @param Chart $chart
      * @return $this
      */
-    public function setChart(Chart $chart = null)
+    public function setChart(Chart $chart): Self
     {
         $this->chart = $chart;
         return $this;
@@ -115,17 +107,17 @@ class ChartLib implements TimestampableInterface
      *
      * @return Chart
      */
-    public function getChart()
+    public function getChart(): Chart
     {
         return $this->chart;
     }
 
     /**
      * Set type
-     * @param ChartType|object|null $type
+     * @param ChartType $type
      * @return $this
      */
-    public function setType(ChartType $type = null)
+    public function setType(ChartType $type): ChartLib
     {
         $this->type = $type;
         return $this;
@@ -136,7 +128,7 @@ class ChartLib implements TimestampableInterface
      *
      * @return ChartType
      */
-    public function getType()
+    public function getType(): ChartType
     {
         return $this->type;
     }
