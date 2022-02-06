@@ -69,7 +69,7 @@ class ChartService
      */
     public function goToMajTeam(int $nbChart = 100)
     {
-        $this->chartRepository->goToMajPlayer($nbChart);
+        $this->chartRepository->goToMajTeam($nbChart);
     }
 
     /**
@@ -77,7 +77,7 @@ class ChartService
      */
     public function getChartToMajTeam(): array
     {
-        return $this->chartRepository->getChartToMajPlayer();
+        return $this->chartRepository->getChartToMajTeam();
     }
 
     /**

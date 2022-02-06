@@ -122,7 +122,7 @@ class TeamGame
      * @param integer $pointGame
      * @return $this
      */
-    public function setPointGame(integer $pointGame): Self
+    public function setPointGame(int $pointGame): Self
     {
         $this->pointGame = $pointGame;
         return $this;
