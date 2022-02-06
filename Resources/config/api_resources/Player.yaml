@@ -91,6 +91,10 @@ resources:
                 method: 'GET'
                 path: '/players/{id}/nb-new-lost-position'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::nbNewLostPosition'
+            can-ask-proof:
+                method: 'GET'
+                path: '/players/{id}/can-ask-proof'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::canAskProof'
             player-chart-status:
                 method: 'GET'
                 normalization_context: {'groups': [playerChartStatus.read]}
