@@ -144,7 +144,7 @@ class TeamBadge implements TimestampableInterface
      *
      * @return integer
      */
-    public function getMbOrder(): int
+    public function getMbOrder(): ?int
     {
         return $this->mbOrder;
     }
