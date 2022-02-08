@@ -27,6 +27,7 @@ class PlayerChartService
         GameService $gameService,
         GroupService $groupService,
         ChartService $chartService,
+        PlayerService $playerService,
         PlayerChartRepository $playerChartRepository,
         PlayerGroupRepository $playerGroupRepository,
         PlayerGameRepository $playerGameRepository
@@ -34,6 +35,7 @@ class PlayerChartService
         $this->gameService = $gameService;
         $this->groupService = $groupService;
         $this->chartService = $chartService;
+        $this->playerService = $playerService;
         $this->playerChartRepository = $playerChartRepository;
         $this->playerGroupRepository = $playerGroupRepository;
         $this->playerGameRepository = $playerGameRepository;
@@ -85,7 +87,10 @@ class PlayerChartService
 
         //----- Maj player
         foreach ($playerList as $player) {
-            $player->setBoolMaj(true);
+            $this->playerService->majPlayer($player);
+            if ($player->getCountry()) {
+                $player->getCountry()->setBoolMaj(true);
+            }
         }
 
         $this->playerChartRepository->flush();

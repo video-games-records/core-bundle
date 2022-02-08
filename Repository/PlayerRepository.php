@@ -92,9 +92,9 @@ class PlayerRepository extends DefaultRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function maj($player)
+    public function majPlayer($player)
     {
-        // query (with boolRanking = true)
+        // 1
         $query = $this->_em->createQuery("
             SELECT
                  p.id,
@@ -114,31 +114,26 @@ class PlayerRepository extends DefaultRepository
             AND g.boolRanking = 1
             GROUP BY p.id");
         $query->setParameter('player', $player);
-        $result = $query->getResult();
-        $row1 = $result[0];
+        $row = $query->getOneOrNullResult();
 
-        $player->setChartRank0($row1['chartRank0']);
-        $player->setChartRank1($row1['chartRank1']);
-        $player->setChartRank2($row1['chartRank2']);
-        $player->setChartRank3($row1['chartRank3']);
-        $player->setNbChart($row1['nbChart']);
-        $player->setNbChartProven($row1['nbChartProven']);
-        $player->setNbGame($row1['nbGame']);
-        $player->setPointChart($row1['pointChart']);
-        $player->setPointGame($row1['pointGame']);
-        $player->setBoolMaj(false);
+        $player->setChartRank0($row['chartRank0']);
+        $player->setChartRank1($row['chartRank1']);
+        $player->setChartRank2($row['chartRank2']);
+        $player->setChartRank3($row['chartRank3']);
+        $player->setNbChart($row['nbChart']);
+        $player->setNbChartProven($row['nbChartProven']);
+        $player->setNbGame($row['nbGame']);
+        $player->setPointChart($row['pointChart']);
+        $player->setPointGame($row['pointGame']);
 
-        $this->_em->persist($player);
-        $this->_em->flush();
-    }
+        // 2 game Ranking
+        $data = [
+            'gameRank0' => 0,
+            'gameRank1' => 0,
+            'gameRank2' => 0,
+            'gameRank3' => 0,
+        ];
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function majGameRank()
-    {
-        $data = [];
 
         //----- data rank0
         $query = $this->_em->createQuery("
@@ -149,16 +144,17 @@ class PlayerRepository extends DefaultRepository
             JOIN pg.game g
             JOIN pg.player p
             WHERE pg.rankPointChart = 1
+            AND pg.player = :player
             AND g.nbPlayer > 1
             AND g.boolRanking = 1
             AND pg.nbEqual = 1
             GROUP BY p.id");
 
-        $result = $query->getResult();
-        foreach ($result as $row) {
-            $data['gameRank0'][$row['id']] = (int) $row['nb'];
+        $query->setParameter('player', $player);
+        $row = $query->getOneOrNullResult();
+        if ($row) {
+            $data['gameRank0'] = $row['nb'];
         }
-
         //----- data rank1 to rank3
         $query = $this->_em->createQuery("
             SELECT
@@ -168,34 +164,26 @@ class PlayerRepository extends DefaultRepository
             JOIN pg.game g
             JOIN pg.player p
             WHERE pg.rankPointChart = :rank
+            AND pg.player = :player
             AND g.boolRanking = 1
             GROUP BY p.id");
 
+        $query->setParameter('player', $player);
         for ($i = 1; $i <= 3; $i++) {
             $query->setParameter('rank', $i);
-            $result = $query->getResult();
-            foreach ($result as $row) {
-                $data["gameRank$i"][$row['id']] = (int) $row['nb'];
+            $row = $query->getOneOrNullResult();
+            if ($row) {
+                $data["gameRank$i"] = $row['nb'];
             }
         }
 
-        /** @var Player[] $players */
-        $players = $this->findAll();
+        $player->setGameRank0($data['gameRank0']);
+        $player->setGameRank1($data['gameRank1']);
+        $player->setGameRank2($data['gameRank2']);
+        $player->setGameRank3($data['gameRank3']);
 
-        foreach ($players as $player) {
-            $idPlayer = $player->getId();
-
-            $rank0 = isset($data['gameRank0'][$idPlayer]) ? $data['gameRank0'][$idPlayer] : 0;
-            $rank1 = isset($data['gameRank1'][$idPlayer]) ? $data['gameRank1'][$idPlayer] : 0;
-            $rank2 = isset($data['gameRank2'][$idPlayer]) ? $data['gameRank2'][$idPlayer] : 0;
-            $rank3 = isset($data['gameRank3'][$idPlayer]) ? $data['gameRank3'][$idPlayer] : 0;
-
-            $player->setGameRank0($rank0);
-            $player->setGameRank1($rank1);
-            $player->setGameRank2($rank2);
-            $player->setGameRank3($rank3);
-        }
-        $this->getEntityManager()->flush();
+        $this->_em->persist($player);
+        $this->_em->flush();
     }
 
     /**

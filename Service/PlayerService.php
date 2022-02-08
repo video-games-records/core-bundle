@@ -8,20 +8,44 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
+use VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository;
 
 class PlayerService
 {
     private EntityManagerInterface $em;
     private PlayerRepository $playerRepository;
     private LostPositionRepository $lostPositionRepository;
+    private ProofRequestRepository $proofRequestRepository;
 
-    public function __construct(EntityManagerInterface $em, PlayerRepository $playerRepository, LostPositionRepository $lostPositionRepository)
+    public function __construct(
+        EntityManagerInterface $em,
+        PlayerRepository $playerRepository,
+        LostPositionRepository $lostPositionRepository,
+        ProofRequestRepository $proofRequestRepository
+    )
     {
         $this->em = $em;
         $this->playerRepository = $playerRepository;
         $this->lostPositionRepository = $lostPositionRepository;
+        $this->proofRequestRepository = $proofRequestRepository;
+    }
+
+    /**
+     * @param Player $player
+     * @return bool
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function canAskProof(Player $player): bool
+    {
+        $nb = $this->proofRequestRepository->getNbRequestFromToDay($player);
+        if ($nb >= 3) {
+             return false;
+        }
+        return true;
     }
 
 
@@ -76,19 +100,22 @@ class PlayerService
         return $playerGames;
     }
 
+
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function majPlayer(Player $player)
+    {
+        $this->playerRepository->majPlayer($player);
+    }
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
     public function maj()
     {
-        $players = $this->playerRepository->findBy(['boolMaj' => true]);
-        foreach ($players as $player) {
-            $this->playerRepository->maj($player);
-            if ($player->getCountry()) {
-                $player->getCountry()->setBoolMaj(true);
-            }
-        }
         $this->playerRepository->majGameRank();
         $this->playerRepository->majRankPointChart();
         $this->playerRepository->majRankPointGame();

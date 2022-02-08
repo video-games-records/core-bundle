@@ -49,6 +49,17 @@ class PlayerController extends DefaultController
     }
 
     /**
+     * @param Player $player
+     * @return bool
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function canAskProof(Player $player): bool
+    {
+        return $this->playerService->canAskProof($player);
+    }
+
+    /**
      * @param Request $request
      * @return mixed
      */

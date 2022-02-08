@@ -65,7 +65,7 @@ class PlayerBadge implements TimestampableInterface
     /**
      * @ORM\Column(name="mbOrder", type="integer", nullable=true, options={"default":0})
      */
-    private int $mbOrder = 0;
+    private ?int $mbOrder = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerBadge")
@@ -147,7 +147,7 @@ class PlayerBadge implements TimestampableInterface
      *
      * @return integer
      */
-    public function getMbOrder(): int
+    public function getMbOrder(): ?int
     {
         return $this->mbOrder;
     }
