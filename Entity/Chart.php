@@ -100,15 +100,13 @@ class Chart implements SluggableInterface, TimestampableInterface
 
     /**
      * Shortcut to playerChart.rank = 1
-     * @var PlayerChart
      */
-    private PlayerChart $playerChart1;
+    private ?PlayerChart $playerChart1 = null;
 
     /**
      * Shortcut to playerChart.player = player
-     * @var PlayerChart
      */
-    private PlayerChart $playerChartP;
+    private ?PlayerChart $playerChartP = null;
 
     /**
      * Constructor
@@ -380,9 +378,9 @@ class Chart implements SluggableInterface, TimestampableInterface
 
 
     /**
-     * @param $playerChart1
+     * @param PlayerChart|null $playerChart1
      */
-    public function setPlayerChart1($playerChart1)
+    public function setPlayerChart1(?PlayerChart $playerChart1)
     {
         $this->playerChart1 = $playerChart1;
     }
@@ -396,9 +394,9 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @param $playerChartP
+     * @param PlayerChart|null $playerChartP
      */
-    public function setPlayerChartP($playerChartP)
+    public function setPlayerChartP(?PlayerChart $playerChartP)
     {
         $this->playerChartP = $playerChartP;
     }
