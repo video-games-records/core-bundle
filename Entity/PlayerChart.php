@@ -169,7 +169,7 @@ class PlayerChart implements TimestampableInterface
      *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="id")
      * })
      */
-    private ?Platform $platform;
+    private ?Platform $platform = null;
 
     /**
      * @ORM\OneToMany(
