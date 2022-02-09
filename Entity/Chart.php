@@ -386,9 +386,9 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return PlayerChart
+     * @return PlayerChart|null
      */
-    public function getPlayerChart1(): PlayerChart
+    public function getPlayerChart1(): ?PlayerChart
     {
         return $this->playerChart1;
     }
@@ -402,9 +402,9 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return PlayerChart
+     * @return PlayerChart|null
      */
-    public function getPlayerChartP(): PlayerChart
+    public function getPlayerChartP(): ?PlayerChart
     {
         return $this->playerChartP;
     }
