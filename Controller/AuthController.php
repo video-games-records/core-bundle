@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use ProjetNormandie\UserBundle\Service\IpManager;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
 class AuthController extends DefaultController
 {
@@ -27,5 +29,21 @@ class AuthController extends DefaultController
             $this->getUser(),
             $this->getPlayer()
         );
+    }
+
+    /**
+     * @return Player|null
+     */
+    public function profilePlayer(): ?Player
+    {
+        return $this->getPlayer();
+    }
+
+    /**
+     * @return Team|null
+     */
+    public function profileTeam(): ?Team
+    {
+        return $this->getTeam();
     }
 }
