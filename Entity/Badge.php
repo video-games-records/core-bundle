@@ -249,6 +249,7 @@ class Badge
             case self::TYPE_FORUM:
             case self::TYPE_CONNEXION:
             case self::TYPE_DON:
+            case self::TYPE_TWITCH:
             case self::TYPE_VGR_CHART:
             case self::TYPE_VGR_PROOF:
                 return $this->getValue() . ' ' . $this->getType();
