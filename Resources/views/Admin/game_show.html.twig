@@ -46,7 +46,9 @@
                                                     <th>Badge</th>
                                                     <td>
                                                     {% if object.getBadge() %}
-                                                        <img src="{{ picture_url }}/badge/{{ object.getBadge().getPicture() }}" alt="" />
+                                                        <a href="{{ path('vgrcorebundle_admin_badge_show', {'id': object.getBadge().getId()}) }}">
+                                                            <img src="{{ picture_url }}/badge/{{ object.getBadge().getPicture() }}" alt="" />
+                                                        </a>
                                                     {% endif %}
                                                     </td>
                                                 {%  else %}
