@@ -6,6 +6,7 @@ use DateTime;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
@@ -31,6 +32,11 @@ class ChartController extends DefaultController
             $ranking = $this->getDoctrine()
                 ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
                 ->getRankingForUpdate($chart);
+            $i = 1;
+            foreach ($ranking as $row) {
+                $row[0]->setRank($i);
+                $i++;
+            }
         }
 
         for ($i=0; $i<=count($ranking)-1; $i++) {

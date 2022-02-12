@@ -83,7 +83,7 @@ class Ranking
      * @param array         $columns
      * @return array
      */
-    public static function addObjectRank(array $array, $ranking = 'rankPointChart', array $columns = ['pointChart'])
+    public static function addObjectRank(array $array, string $ranking = 'rankPointChart', array $columns = ['pointChart']): array
     {
         $setter  = 'set' . ucfirst($ranking);
         $getters = [];
