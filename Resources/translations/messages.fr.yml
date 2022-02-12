@@ -1,6 +1,7 @@
 breadcrumb:
     link_platform_list: 'Liste des platformes'
     link_serie_list: 'Liste des séries'
+    link_player_badge_list: 'Liste des Player/Badge'
 label:
     action: 'Action'
     badge: 'Badge 2'

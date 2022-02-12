@@ -15,7 +15,7 @@ class Ranking
      *
      * @return array
      */
-    public static function order(array $array, array $columns)
+    public static function order(array $array, array $columns): array
     {
         $arrayMultisortParameters = [];
         foreach ($columns as $column => $order) {
@@ -36,7 +36,7 @@ class Ranking
      * @param bool   $boolEqual
      * @return array
      */
-    public static function addRank(array $array, $key = 'rank', $columns = ['pointChart'], $boolEqual = false)
+    public static function addRank(array $array, string $key = 'rank', array $columns = ['pointChart'], bool $boolEqual = false): array
     {
         $rank     = 1;
         $compteur = 0;

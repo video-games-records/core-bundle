@@ -197,4 +197,9 @@ class PlayerBadge implements TimestampableInterface
     {
         return $this->player;
     }
+
+    public function __toString(): string
+    {
+        return sprintf('%s # %s ', $this->getPlayer()->getPseudo(), $this->getBadge()->__toString());
+    }
 }
