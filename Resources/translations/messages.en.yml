@@ -17,6 +17,8 @@ breadcrumb:
     link_serie_create: 'Serie Create'
     link_serie_list: 'Serie list'
     link_video_list: 'Video List'
+    link_player_badge_create: 'Player/Badge Create'
+    link_player_badge_list: 'Player/Badge list'
 list:
     label__action: 'Action'
 label:

@@ -17,7 +17,7 @@ use VideoGamesRecords\CoreBundle\Entity\Badge;
  */
 class BadgeAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'pnbadgebundle_admin_badge';
+    protected $baseRouteName = 'vgrcorebundle_admin_badge';
 
     /**
      * @param RouteCollectionInterface $collection
@@ -51,8 +51,12 @@ class BadgeAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
+            ->add('id', null, ['label' => 'label.id'])
             ->add('type', null, ['label' => 'label.type'])
-            ->add('picture', null, ['label' => 'label.picture']);
+            ->add('picture', null, ['label' => 'label.picture'])
+            ->add('game.id', null, ['label' => 'label.game.id'])
+            ->add('game.libGameFr', null, ['label' => 'label.game.fr'])
+            ->add('game.libGameEn', null, ['label' => 'label.game.en']);
     }
 
     /**
@@ -72,7 +76,7 @@ class BadgeAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id')
+        $show->add('id',null, ['label' => 'label.id'])
             ->add('type',null, ['label' => 'label.type'])
             ->add('picture',null, ['label' => 'label.picture'])
             ->add('value', null, ['label' => 'label.value']);

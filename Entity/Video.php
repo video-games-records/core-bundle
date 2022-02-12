@@ -71,9 +71,9 @@ class Video implements TimestampableInterface, SluggableInterface
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min="5", max="255")
-     * @ORM\Column(name="url", type="string", length=255, nullable=false)
+     * @ORM\Column(name="url", type="string", length=255, nullable=true)
      */
-    private string $url = '';
+    private ?string $url = null;
 
     /**
      * @Assert\NotBlank()
@@ -219,10 +219,10 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set url
-     * @param string $url
+     * @param string|null $url
      * @return Video
      */
-    public function setUrl(string $url): Self
+    public function setUrl(?string $url): Self
     {
         $this->url = $url;
         $this->majTypeAndVideoId();
@@ -234,7 +234,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return string
      */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }

@@ -108,6 +108,14 @@ services:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Player
             - ~
+    sonata.admin.vgr.playerbadge:
+        class: VideoGamesRecords\CoreBundle\Admin\PlayerBadgeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.badge", label: "label.player", label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+        arguments:
+            - ~
+            - VideoGamesRecords\CoreBundle\Entity\PlayerBadge
+            - ~
     sonata.admin.vgr.team:
         class: VideoGamesRecords\CoreBundle\Admin\TeamAdmin
         tags:
@@ -145,7 +153,7 @@ services:
     sonata.admin.vgr.badge:
         class: VideoGamesRecords\CoreBundle\Admin\BadgeAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.others", label: "label.badge", label_translator_strategy: "sonata.admin.label.strategy.underscore"  }
+            - { name: sonata.admin, manager_type: orm, group: "group.badge", label: "label.badge", label_translator_strategy: "sonata.admin.label.strategy.underscore"  }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Badge

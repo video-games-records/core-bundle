@@ -3,7 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\ChartType;
 
 class ChartTypeRepository extends DefaultRepository
 {

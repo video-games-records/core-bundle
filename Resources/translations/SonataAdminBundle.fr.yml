@@ -1,4 +1,5 @@
 group:
+    badge: 'Badges'
     games: 'Games'
     proofs: 'Proofs'
     scores: 'Scores'
