@@ -29,6 +29,7 @@ class Badge
     const TYPE_VGR_SPECIAL_LEGEND = 'VgrSpecialLegend';
     const TYPE_VGR_SPECIAL_MEDALS = 'VgrSpecialMedals';
     const TYPE_VGR_SPECIAL_POINTS = 'VgrSpecialPoints';
+    const TYPE_TWITCH = 'Twitch';
 
 
     /**
@@ -269,6 +270,7 @@ class Badge
             self::TYPE_MASTER => self::TYPE_MASTER,
             self::TYPE_PLATFORM => self::TYPE_PLATFORM,
             self::TYPE_SPECIAL_WEBMASTER => self::TYPE_SPECIAL_WEBMASTER,
+            self::TYPE_TWITCH => self::TYPE_TWITCH,
             self::TYPE_VGR_CHART => self::TYPE_VGR_CHART,
             self::TYPE_VGR_PROOF => self::TYPE_VGR_PROOF,
             self::TYPE_VGR_SPECIAL_COUNTRY => self::TYPE_VGR_SPECIAL_COUNTRY,
