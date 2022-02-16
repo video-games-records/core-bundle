@@ -84,9 +84,6 @@ class PlayerChartAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $form): void
     {
-        $subject = $this->getSubject();
-        $this->getRequest()->getSession()->set('vgrcorebundle_admin_playerChart.subject', $subject);
-
         $form
             ->add('id', TextType::class, [
                 'label' => 'label.id',
@@ -110,9 +107,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'label.chart',
             ])
-            ->add('status', null, ['label' => 'label.status']);
-
-        $form
+            ->add('status', null, ['label' => 'label.status'])
             ->add('libs', CollectionType::class, array(
                 'label' => 'label.libs',
                 'btn_add' => true,
