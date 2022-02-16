@@ -24,7 +24,7 @@ class RuleTranslation implements TranslationInterface
     /**
      * @ORM\Column(name="text", type="text", nullable=false)
      */
-    private string $text;
+    private string $text = '';
 
     /**
      * @return integer
