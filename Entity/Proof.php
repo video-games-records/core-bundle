@@ -90,7 +90,7 @@ class Proof implements TimestampableInterface
     /**
      * @ORM\OneToOne(targetEntity="\VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="proof")
      */
-    private PlayerChart $playerChart;
+    private ?PlayerChart $playerChart;
 
     public function __construct()
     {
@@ -313,7 +313,7 @@ class Proof implements TimestampableInterface
      *
      * @return PlayerChart
      */
-    public function getPlayerChart(): PlayerChart
+    public function getPlayerChart(): ?PlayerChart
     {
         return $this->playerChart;
     }
