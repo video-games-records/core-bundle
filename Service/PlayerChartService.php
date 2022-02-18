@@ -19,6 +19,7 @@ class PlayerChartService
     private GameService $gameService;
     private GroupService $groupService;
     private ChartService $chartService;
+    private PlayerService $playerService;
     private PlayerChartRepository $playerChartRepository;
     private PlayerGroupRepository $playerGroupRepository;
     private PlayerGameRepository $playerGameRepository;
@@ -117,7 +118,7 @@ class PlayerChartService
     }
 
     /**
-     *
+     * @throws ORMException
      */
     public function majInvestigation()
     {
@@ -126,7 +127,7 @@ class PlayerChartService
         /** @var PlayerChart $playerChart */
         foreach ($list as $playerChart) {
             $playerChart->setStatus($statusReference);
-            $this->em->flush();
+            $this->playerChartRepository->flush();
         }
     }
 
