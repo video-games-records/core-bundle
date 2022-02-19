@@ -11,6 +11,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGroup;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
+use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
 
@@ -23,6 +24,7 @@ class PlayerChartService
     private PlayerChartRepository $playerChartRepository;
     private PlayerGroupRepository $playerGroupRepository;
     private PlayerGameRepository $playerGameRepository;
+    private PlayerChartStatusRepository $playerChartStatusRepository;
 
     public function __construct(
         GameService $gameService,
@@ -31,7 +33,8 @@ class PlayerChartService
         PlayerService $playerService,
         PlayerChartRepository $playerChartRepository,
         PlayerGroupRepository $playerGroupRepository,
-        PlayerGameRepository $playerGameRepository
+        PlayerGameRepository $playerGameRepository,
+        PlayerChartStatusRepository $playerChartStatusRepository
     ) {
         $this->gameService = $gameService;
         $this->groupService = $groupService;
@@ -40,6 +43,7 @@ class PlayerChartService
         $this->playerChartRepository = $playerChartRepository;
         $this->playerGroupRepository = $playerGroupRepository;
         $this->playerGameRepository = $playerGameRepository;
+        $this->playerChartStatusRepository = $playerChartStatusRepository;
     }
 
 
@@ -123,10 +127,10 @@ class PlayerChartService
     public function majInvestigation()
     {
         $list = $this->playerChartRepository->getPlayerChartToDesactivate();
-        $statusReference = $this->em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NOT_PROOVED);
+        $statut = $this->playerChartStatusRepository->getReference(PlayerChartStatus::ID_STATUS_NOT_PROOVED);
         /** @var PlayerChart $playerChart */
         foreach ($list as $playerChart) {
-            $playerChart->setStatus($statusReference);
+            $playerChart->setStatus($statut);
             $this->playerChartRepository->flush();
         }
     }
