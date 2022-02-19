@@ -35,4 +35,13 @@ abstract class DefaultRepository extends ServiceEntityRepository
     {
         $this->_em->flush();
     }
+
+    /**
+     * @throws ORMException
+     */
+    public function getReference($id)
+    {
+        return $this->_em->getReference($this->entityClass, $id);
+    }
+
 }
