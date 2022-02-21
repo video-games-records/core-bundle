@@ -9,14 +9,14 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use ProjetNormandie\ForumBundle\Service\ForumManager;
+use ProjetNormandie\ForumBundle\Manager\ForumManager;
 use VideoGamesRecords\CoreBundle\Service\PlayerService;
 
 class GameListener
 {
-    private $forumManager;
-    private $playerService;
-    private $majPlayers = false;
+    private ForumManager $forumManager;
+    private PlayerService $playerService;
+    private bool $majPlayers = false;
 
     /**
      * GameListener constructor.
@@ -41,6 +41,7 @@ class GameListener
         $forum = $this->forumManager->getForum([
             'libForum' => $game->getLibGameEn(),
             'libForumFr' => $game->getLibGameFr(),
+            'parent' => 10953
         ]);
         $game->setForum($forum);
 
