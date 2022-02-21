@@ -16,7 +16,6 @@
     "api-platform/api-pack": "^1.2",
     "doctrine/orm": "^2.5",
     "doctrine/doctrine-bundle": "~2.0",
-    "eko/feedbundle": "^2.0",
     "symfony/validator": "~4.4",
     "symfony/framework-bundle": "~4.4",
     "knplabs/doctrine-behaviors": "~2.0"

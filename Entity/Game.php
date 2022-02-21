@@ -164,7 +164,7 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $groups;
+    private Collection $groups;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameDay", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
