@@ -34,6 +34,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
  *      }
  * )
  * @DoctrineAssert\UniqueEntity(fields={"url"})
+ * @DoctrineAssert\UniqueEntity(fields={"type", "videoId"})
  */
 class Video implements TimestampableInterface, SluggableInterface
 {
