@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,7 +18,6 @@ use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
 use Aws\S3\S3Client;
-use Eko\FeedBundle\Feed\FeedManager;
 use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
 
 /**
@@ -30,7 +28,6 @@ class PlayerChartController extends DefaultController
 {
     private Security $security;
     private S3Client $s3client;
-    protected FeedManager $feedManager;
     private TranslatorInterface $translator;
     private PlayerChartService $playerChartService;
 
@@ -43,13 +40,11 @@ class PlayerChartController extends DefaultController
     public function __construct(
         Security $security,
         S3Client $s3client,
-        FeedManager $feedManager,
         TranslatorInterface $translator,
         PlayerChartService $playerChartService
     ) {
         $this->security = $security;
         $this->s3client = $s3client;
-        $this->feedManager = $feedManager;
         $this->translator = $translator;
         $this->playerChartService = $playerChartService;
     }
