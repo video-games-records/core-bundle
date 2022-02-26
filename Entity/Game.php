@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Eko\FeedBundle\Item\Writer\ItemInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -60,7 +59,7 @@ use Symfony\Component\Intl\Locale;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class Game implements ItemInterface, SluggableInterface, TimestampableInterface
+class Game implements SluggableInterface, TimestampableInterface
 {
     use TimestampableTrait;
     use SluggableTrait;
@@ -207,8 +206,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
      */
     private $rules;
 
-
-    private $link;
 
     /**
      * Constructor
@@ -697,63 +694,6 @@ class Game implements ItemInterface, SluggableInterface, TimestampableInterface
             self::ETAT_END => self::ETAT_END,
         ];
     }
-
-
-    /**
-     * Set link
-     *
-     * @param string $link
-     * @return string
-     */
-    public function setLink(string $link): string
-    {
-        $this->link = $link;
-
-        return $this;
-    }
-
-    /**
-     * Get link
-     *
-     * @return string
-     */
-    public function getLink(): string
-    {
-        return $this->link;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFeedItemTitle(): string
-    {
-        return 'New Game: ' . $this->getName();
-    }
-
-    /**
-     * @return string
-     */
-    public function getFeedItemDescription(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getFeedItemPubDate(): ?DateTime
-    {
-        return $this->getPublishedAt();
-    }
-
-    /**
-     * @return string
-     */
-    public function getFeedItemLink(): string
-    {
-        return $this->getLink();
-    }
-
 
     /**
      * Returns an array of the fields used to generate the slug.
