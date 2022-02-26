@@ -74,31 +74,6 @@ class PlayerChartController extends DefaultController
     }
 
     /**
-     * @Route("/top-score", name="playerChart_top_score", methods={"GET"})
-     * @Cache(smaxage="10")
-     * @param Request $request
-     * @return Response
-     */
-    public function rssAction(Request $request): Response
-    {
-        $idGame = $request->query->get('idGame', null);
-        $idGroup = $request->query->get('idGroup', null);
-
-        $playerCharts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->rssTopScore($idGame, $idGroup);
-
-        $feed = $this->feedManager->get('player.chart.high.scores');
-
-        // Add prefixe link
-        foreach ($playerCharts as $playerChart) {
-            $playerChart->setLink($feed->get('link') . $playerChart->getChart()->getId() . '/' . $playerChart->getChart()->getSlug());
-        }
-
-        $feed->addFromArray($playerCharts);
-        return new Response($feed->render('rss'));
-    }
-
-
-    /**
      * @param PlayerChart $playerChart
      * @param Request     $request
      * @return Response

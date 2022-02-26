@@ -122,7 +122,7 @@ class ProofAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'label.playerChart',
+                    'label' => 'label.playerChart.edit',
                 ]
             )
             ->add(

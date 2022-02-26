@@ -241,6 +241,7 @@ class Badge
             case self::TYPE_MASTER:
                 return $this->getGame()->getName();
             case self::TYPE_VGR_SPECIAL_COUNTRY:
+                return $this->getCountry()->getName();
             case self::TYPE_VGR_SPECIAL_CUP:
             case self::TYPE_VGR_SPECIAL_MEDALS:
             case self::TYPE_VGR_SPECIAL_LEGEND:

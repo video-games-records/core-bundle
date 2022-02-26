@@ -72,6 +72,7 @@ label:
     player.requesting: 'Joueur demandant'
     player.responding: 'Vérifié par'
     playerChart: 'Score'
+    playerChart.edit: 'Editer un score'
     pseudo: 'Peudo'
     publishedAt: 'Publié le'
     request: 'Demande'

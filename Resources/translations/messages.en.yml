@@ -72,6 +72,7 @@ label:
     player.requesting: 'Player requesting'
     player.responding: 'Checked by'
     playerChart: 'Score'
+    playerChart.edit: 'Edit score'
     pseudo: 'Peudo'
     publishedAt: 'Published At'
     request: 'Request'
