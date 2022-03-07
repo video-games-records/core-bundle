@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -164,16 +165,32 @@ class ChartAdmin extends AbstractAdmin
             ])
             ->add(
                 'statusPlayer',
-                'doctrine_orm_choice',
-                ['label' => 'label.chart.statusPlayer'],
-                ChoiceType::class,
-                array(
-                    'choices' => Chart::getStatusChoices(),
-                    'expanded' => false,
-                    'choice_translation_domain' => true,
-                )
+                ChoiceFilter::class,[
+                    'label' => 'label.chart.statusPlayer',
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => Chart::getStatusChoices(),
+                        'multiple' => true,
+                        'expanded' => false,
+                        'choice_translation_domain' => true,
+                    ]
+
+                ]
             )
-            ->add('statusTeam', 'doctrine_orm_choice', ['label' => 'label.chart.statusTeam'], ChoiceType::class, array('choices' => Chart::getStatusChoices()));
+            ->add(
+                'statusTeam',
+                ChoiceFilter::class,[
+                    'label' => 'label.chart.statusTeam',
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => Chart::getStatusChoices(),
+                        'multiple' => true,
+                        'expanded' => false,
+                        'choice_translation_domain' => true,
+                    ]
+
+                ]
+            );
     }
 
     /**
