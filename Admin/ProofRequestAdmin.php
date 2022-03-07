@@ -133,9 +133,13 @@ class ProofRequestAdmin extends AbstractAdmin
     {
         $filter
             ->add('id', null, ['label' => 'label.id'])
-            ->add('status', ChoiceFilter::class, ['label' => 'label.status'], ChoiceType::class, [
-                'choices' => ProofRequest::getStatusChoices(),
-                'multiple' => false,
+            ->add('status', ChoiceFilter::class, [
+                'label' => 'label.status',
+                'field_type' => ChoiceType::class,
+                'field_options' => [
+                    'choices' => ProofRequest::getStatusChoices(),
+                    'multiple' => false,
+                ]
             ])
             ->add('playerChart.player', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
