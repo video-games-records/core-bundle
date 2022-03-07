@@ -3,18 +3,17 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -159,8 +158,9 @@ class ChartAdmin extends AbstractAdmin
         $filter
             ->add('id', null, ['label' => 'label.id'])
             ->add($this->getLibChart(), null, ['label' => 'label.name'])
-            ->add('group', ModelAutocompleteFilter::class, ['label' => 'label.group'], null, [
-                'property' => $this->getLibGroup(),
+            ->add('group', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>$this->getLibGroup()],
             ])
             ->add(
                 'statusPlayer',

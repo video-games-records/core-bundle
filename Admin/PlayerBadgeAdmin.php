@@ -3,14 +3,15 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PlayerBadgeAdmin extends AbstractAdmin
@@ -63,9 +64,10 @@ class PlayerBadgeAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, array(
-                'property' => 'pseudo',
-            ))
+            ->add('player', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'pseudo'],
+            ])
             ->add('badge.game.libGameFr', null, ['label' => 'label.game.fr'])
             ->add('badge.game.libGameEn', null, ['label' => 'label.game.en'])
             ->add('badge.value', null, ['label' => 'label.value'])

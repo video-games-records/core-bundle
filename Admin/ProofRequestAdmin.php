@@ -8,19 +8,19 @@ use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use ProjetNormandie\MessageBundle\Service\Messager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ProofRequestAdmin extends AbstractAdmin
@@ -137,14 +137,17 @@ class ProofRequestAdmin extends AbstractAdmin
                 'choices' => ProofRequest::getStatusChoices(),
                 'multiple' => false,
             ])
-            ->add('playerChart.player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, [
-                'property' => 'pseudo',
+            ->add('playerChart.player', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'pseudo'],
             ])
-            ->add('playerRequesting', ModelAutocompleteFilter::class, ['label' => 'label.player.requesting'], null, [
-                'property' => 'pseudo',
+            ->add('playerRequesting', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'pseudo'],
             ])
-            ->add('playerResponding', ModelAutocompleteFilter::class, ['label' => 'label.player.responding'], null, [
-                'property' => 'pseudo',
+            ->add('playerResponding', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'pseudo'],
             ]);
     }
 

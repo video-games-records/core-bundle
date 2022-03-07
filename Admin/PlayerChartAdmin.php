@@ -4,14 +4,15 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Intl\Locale;
@@ -130,15 +131,18 @@ class PlayerChartAdmin extends AbstractAdmin
         $filter
             ->add('id', null, ['label' => 'label.id'])
             ->add('status', null, ['label' => 'label.status'])
-            ->add('player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, array(
-                'property' => 'pseudo',
-            ))
-            ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'label.game'], null, array(
-                'property' => 'libGameEn',
-            ))
-            ->add('chart.group', ModelAutocompleteFilter::class, ['label' => 'label.group'], null, array(
-                'property' => 'libGroupEn',
-            ))
+            ->add('player', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'pseudo'],
+            ])
+            ->add('chart.group.game', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'libGameEn'],
+            ])
+            ->add('chart.group', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'libGroupEn'],
+            ])
             ->add('chart.id', null, ['label' => 'label.id'])
             ->add('chart.libChartEn', null, ['label' => 'label.name.en'])
             ->add('chart.libChartFr', null, ['label' => 'label.name.fr']);
