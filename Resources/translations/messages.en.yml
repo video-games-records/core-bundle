@@ -29,6 +29,7 @@ label:
     boolMaj: 'Maj ?'
     boolRanking: 'Ranking ?'
     chart: 'Record'
+    chart.id: 'Chart Id'
     chart.en: 'Record [EN]'
     chart.fr: 'Record [FR]'
     chart.statusPlayer: 'Status player'
