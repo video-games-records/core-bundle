@@ -232,6 +232,8 @@ class ChartAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('libChartEn', null, ['label' => 'label.name.en'])
             ->add('libChartFr', null, ['label' => 'label.name.fr'])
+            ->add('statusPlayer', null, ['label' => 'label.chart.statusPlayer'])
+            ->add('statusTeam', null, ['label' => 'label.chart.statusTeam'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),
                 'label' => 'label.group',

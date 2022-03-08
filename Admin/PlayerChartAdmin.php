@@ -143,7 +143,7 @@ class PlayerChartAdmin extends AbstractAdmin
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>'libGroupEn'],
             ])
-            ->add('chart.id', null, ['label' => 'label.id'])
+            ->add('chart.id', null, ['label' => 'label.chart.id'])
             ->add('chart.libChartEn', null, ['label' => 'label.name.en'])
             ->add('chart.libChartFr', null, ['label' => 'label.name.fr']);
     }
