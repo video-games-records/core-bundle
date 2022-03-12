@@ -3,14 +3,14 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\Form\Type\CollectionType;
@@ -161,8 +161,9 @@ class GroupAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('libGroupEn', null, ['label' => 'label.name.en'])
             ->add('libGroupFr', null, ['label' => 'label.name.fr'])
-            ->add('game', ModelAutocompleteFilter::class, ['label' => 'label.game'], null, [
-                'property' => $this->getLibGame(),
+            ->add('game', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>$this->getLibGame()],
             ])
         ;
     }

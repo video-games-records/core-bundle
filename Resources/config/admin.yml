@@ -18,7 +18,7 @@ services:
     sonata.admin.vgr.game:
         class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.game", label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.game", label_translator_strategy: "sonata.admin.label.strategy.underscore", default: true }
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Game
@@ -36,7 +36,7 @@ services:
     sonata.admin.vgr.chart:
         class: VideoGamesRecords\CoreBundle\Admin\ChartAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.chart", label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.chart", label_translator_strategy: "sonata.admin.label.strategy.underscore"}
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\Chart
@@ -44,7 +44,7 @@ services:
     sonata.admin.vgr.chart_type:
         class: VideoGamesRecords\CoreBundle\Admin\ChartTypeAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.chart.type", label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+            - { name: sonata.admin, manager_type: orm, group: "group.games", label: "label.chart.type", label_translator_strategy: "sonata.admin.label.strategy.underscore"}
         arguments:
             - ~
             - VideoGamesRecords\CoreBundle\Entity\ChartType

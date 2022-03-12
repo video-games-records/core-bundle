@@ -3,14 +3,15 @@
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
@@ -95,8 +96,9 @@ class VideoAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('boolActive', null, ['label' => 'label.boolActive'])
             ->add('type', null, ['label' => 'label.type'])
-            ->add('player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, [
-                'property' => 'pseudo',
+            ->add('player', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'pseudo'],
             ]);
     }
 

@@ -122,7 +122,7 @@ class PlayerChart implements TimestampableInterface
     /**
      * @ORM\Column(name="pointPlatform", type="integer", nullable=false)
      */
-    private int $pointPlatform = 0;
+    private ?int $pointPlatform = null;
 
     /**
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
@@ -298,9 +298,9 @@ class PlayerChart implements TimestampableInterface
     /**
      * Get pointPlatform
      *
-     * @return float
+     * @return int
      */
-    public function getPointPlatform(): float
+    public function getPointPlatform(): ?int
     {
         return $this->pointPlatform;
     }

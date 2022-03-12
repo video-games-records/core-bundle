@@ -6,18 +6,19 @@ use Doctrine\ORM\EntityManager;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use ProjetNormandie\MessageBundle\Service\Messager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -151,21 +152,28 @@ class ProofAdmin extends AbstractAdmin
     {
         $filter
             ->add('id', null, ['label' => 'label.id'])
-            ->add('player', ModelAutocompleteFilter::class, ['label' => 'label.player'], null, [
-                'property' => 'pseudo',
+            ->add('player', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'pseudo'],
             ])
             ->add('player.pseudo', null, ['label' => 'label.pseudo'])
-            ->add('chart.group.game', ModelAutocompleteFilter::class, ['label' => 'label.game'], null, [
-                'property' => $this->getLibGame(),
+            ->add('chart.group.game', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>$this->getLibGame()],
             ])
             ->add('chart.group.game.libGameEn', null, ['label' => 'label.game.en'])
             ->add('chart.group.game.libGameFr', null, ['label' => 'label.game.fr'])
-            ->add('status', ChoiceFilter::class, ['label' => 'label.status'], ChoiceType::class, [
-                'choices' => Proof::getStatusChoices(),
-                'multiple' => false,
+            ->add('status', ChoiceFilter::class, [
+                'label' => 'label.status',
+                'field_type' => ChoiceType::class,
+                'field_options' => [
+                    'choices' => Proof::getStatusChoices(),
+                    'multiple' => false,
+                ]
             ])
-            ->add('playerResponding', ModelAutocompleteFilter::class, ['label' => 'label.player.responding'], null, [
-                'property' => 'pseudo',
+            ->add('playerResponding', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'pseudo'],
             ]);
     }
 

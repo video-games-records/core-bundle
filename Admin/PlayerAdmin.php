@@ -56,7 +56,7 @@ class PlayerAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'Country',
+                'label' => 'label.country',
             ]);
     }
 
@@ -96,11 +96,47 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('pseudo')
-            ->add('country')
-            ->add('team')
-            ->add('boolMaj')
-            ->add('nbChartProven');
+            ->with('Player', ['class' => 'col-md-6'])
+                ->add('id', null, ['label' => 'label.id'])
+                ->add('pseudo', null, ['label' => 'label.pseudo'])
+                ->add('country', null, ['label' => 'label.country'])
+                ->add('team', null, ['label' => 'label.team'])
+                ->add('website', null, ['label' => 'label.website'])
+                ->add('youtube', null, ['label' => 'label.youtube'])
+                ->add('twitch', null, ['label' => 'label.twitch'])
+            ->end()
+            ->with('Ranking', ['class' => 'col-md-6'])
+                ->add('rankPointChart', null, ['label' => 'label.rankPointChart'])
+                ->add('rankPointGame', null, ['label' => 'label.rankPointGame'])
+                ->add('rankMedal', null, ['label' => 'label.rankMedal'])
+                ->add('rankProof', null, ['label' => 'label.rankProof'])
+                ->add('rankBadge', null, ['label' => 'label.rankBadge'])
+                ->add('rankCup', null, ['label' => 'label.rankCup'])
+                ->add('rankCountry', null, ['label' => 'label.rankCountry'])
+            ->end()
+            ->with('Points', ['class' => 'col-md-6'])
+                ->add('pointChart', null, ['label' => 'label.pointChart'])
+                ->add('pointGame', null, ['label' => 'label.pointGame'])
+                ->add('pointBadge', null, ['label' => 'label.pointBadge'])
+            ->end()
+            ->with('stats', ['class' => 'col-md-6'])
+                ->add('nbGame', null, ['label' => 'label.nbGame'])
+                ->add('nbChart', null, ['label' => 'label.nbChart'])
+                ->add('nbChartProven', null, ['label' => 'label.nbChartProven'])
+                ->add('nbChartDisabled', null, ['label' => 'label.nbChartDisabled'])
+            ->end()
+            ->with('Medals', ['class' => 'col-md-6'])
+                ->add('chartRank0', null, ['label' => 'label.chartRank0'])
+                ->add('chartRank1', null, ['label' => 'label.chartRank1'])
+                ->add('chartRank2', null, ['label' => 'label.chartRank2'])
+                ->add('chartRank3', null, ['label' => 'label.chartRank3'])
+            ->end()
+            ->with('Cups', ['class' => 'col-md-6'])
+                ->add('gameRank0', null, ['label' => 'label.gameRank0'])
+                ->add('gameRank1', null, ['label' => 'label.gameRank1'])
+                ->add('gameRank2', null, ['label' => 'label.gameRank2'])
+                ->add('gameRank3', null, ['label' => 'label.gameRank3'])
+           ->end()
+           ;
     }
 }

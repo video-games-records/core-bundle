@@ -128,11 +128,9 @@ class PlayerChartListener
     /**
      * @param PlayerChart            $playerChart
      * @param LifecycleEventArgs $event
-     * @throws ORMException
      */
-    public function postRemove(PlayerChart $playerChart,  LifecycleEventArgs $event)
+    public function preRemove(PlayerChart $playerChart,  LifecycleEventArgs $event)
     {
-        $em = $event->getEntityManager();
          // Chart
         $chart = $playerChart->getChart();
         $chart->setNbPost($chart->getNbPost() - 1);
@@ -142,7 +140,5 @@ class PlayerChartListener
         // Player
         $player = $playerChart->getPlayer();
         $player->setNbChart($player->getNbChart() - 1);
-
-        $em->flush();
     }
 }
