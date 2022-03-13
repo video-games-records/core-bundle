@@ -181,16 +181,16 @@ class GameAdmin extends AbstractAdmin
     {
         $btns = [
             'maj' => [
-                'template' => 'VideoGamesRecordsCoreBundle:Admin:game_maj_link.html.twig'
+                'template' => '@VideoGamesRecordsCore/Admin/game_maj_link.html.twig'
             ],
         ];
         if ($this->hasAccess('create')) {
             $btns = array_merge($btns, [
                 'copy' => [
-                    'template' => 'VideoGamesRecordsCoreBundle:Admin:game_copy_link.html.twig'
+                    'template' => '@VideoGamesRecordsCore/Admin/game_copy_link.html.twig'
                 ],
                 'add_group' => [
-                    'template' => 'VideoGamesRecordsCoreBundle:Admin:game_add_group_link.html.twig'
+                    'template' => '@VideoGamesRecordsCore/Admin/game_add_group_link.html.twig'
                 ]
             ]);
         }
@@ -241,7 +241,7 @@ class GameAdmin extends AbstractAdmin
                             'show' => [],
                             'edit' => [],
                             'groups' => [
-                                'template' => 'VideoGamesRecordsCoreBundle:Admin:game_groups_link.html.twig'
+                                'template' => '@VideoGamesRecordsCore/Admin/game_groups_link.html.twig'
                             ]
                         ],
                         $btns

@@ -268,7 +268,7 @@ class ProofAdmin extends AbstractAdmin
             ->add('playerChart')
             ->add('picture')
             ->add('video')
-            ->add('payerResponding', null, ['label' => 'label.player.responding'])
+            ->add('playerResponding', null, ['label' => 'label.player.responding'])
             ->add('status', null, ['label' => 'label.status']);
     }
 
