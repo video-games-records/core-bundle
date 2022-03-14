@@ -228,7 +228,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     'show' => [],
                     'edit' => [],
                     'view_chart' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:view_chart_link.html.twig'
+                        'template' => '@VideoGamesRecordsCore/Admin/view_chart_link.html.twig'
                     ],
                 ],
                 'header_style' => 'width: 220px'

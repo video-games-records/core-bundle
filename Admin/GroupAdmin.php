@@ -177,13 +177,13 @@ class GroupAdmin extends AbstractAdmin
         if ($this->hasAccess('create')) {
             $btns = [
                 'copy' => [
-                    'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy_link.html.twig'
+                    'template' => '@VideoGamesRecordsCore/Admin/group_copy_link.html.twig'
                 ],
                 'copy2' => [
-                    'template' => 'VideoGamesRecordsCoreBundle:Admin:group_copy2_link.html.twig'
+                    'template' => '@VideoGamesRecordsCore/Admin/group_copy2_link.html.twig'
                 ],
                 'add_chart' => [
-                    'template' => 'VideoGamesRecordsCoreBundle:Admin:group_add_chart_link.html.twig'
+                    'template' => '@VideoGamesRecordsCore/Admin/group_add_chart_link.html.twig'
                 ],
             ];
         }
@@ -205,7 +205,7 @@ class GroupAdmin extends AbstractAdmin
                             'show' => [],
                             'edit' => [],
                             'groups' => [
-                                'template' => 'VideoGamesRecordsCoreBundle:Admin:group_charts_link.html.twig'
+                                'template' => '@VideoGamesRecordsCore/Admin/group_charts_link.html.twig'
                             ]
                         ],
                         $btns

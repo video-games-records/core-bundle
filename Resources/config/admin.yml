@@ -24,7 +24,7 @@ services:
             - VideoGamesRecords\CoreBundle\Entity\Game
             - VideoGamesRecords\CoreBundle\Controller\GameAdminController
         calls:
-            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:game_show.html.twig']]
+            - [ setTemplate, ['show', '@@VideoGamesRecordsCore/Admin/game_show.html.twig']]
     sonata.admin.vgr.group:
         class: VideoGamesRecords\CoreBundle\Admin\GroupAdmin
         tags:
@@ -66,7 +66,7 @@ services:
             - VideoGamesRecords\CoreBundle\Entity\ProofRequest
             - ~
         calls:
-            - [ setTemplate, ['edit', 'VideoGamesRecordsCoreBundle:Admin:proof_request_edit.html.twig']]
+            - [ setTemplate, ['edit', '@@VideoGamesRecordsCore/Admin/proof_request_edit.html.twig']]
             - [ setMessager, ['@ProjetNormandie\MessageBundle\Service\Messager']]
     sonata.admin.vgr.proof.proof:
         class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
@@ -77,8 +77,8 @@ services:
             - VideoGamesRecords\CoreBundle\Entity\Proof
             - VideoGamesRecords\CoreBundle\Controller\ProofAdminController
         calls:
-            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:proof_show.html.twig']]
-            - [ setTemplate, ['edit', 'VideoGamesRecordsCoreBundle:Admin:proof_edit.html.twig']]
+            - [ setTemplate, ['show', '@@VideoGamesRecordsCore/Admin/proof_show.html.twig']]
+            - [ setTemplate, ['edit', '@@VideoGamesRecordsCore/Admin/proof_edit.html.twig']]
             - [ setMessager, ['@ProjetNormandie\MessageBundle\Service\Messager']]
     sonata.admin.vgr.proof.picture:
         class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
@@ -89,7 +89,7 @@ services:
             - VideoGamesRecords\CoreBundle\Entity\Picture
             - ~
         calls:
-            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:picture_show.html.twig']]
+            - [ setTemplate, ['show', '@@VideoGamesRecordsCore/Admin/picture_show.html.twig']]
     sonata.admin.vgr.proof.video:
         class: VideoGamesRecords\CoreBundle\Admin\VideoAdmin
         tags:
@@ -99,7 +99,7 @@ services:
             - VideoGamesRecords\CoreBundle\Entity\Video
             - ~
         calls:
-            - [ setTemplate, ['show', 'VideoGamesRecordsCoreBundle:Admin:video_show.html.twig']]
+            - [ setTemplate, ['show', '@@VideoGamesRecordsCore/Admin/video_show.html.twig']]
     sonata.admin.vgr.player:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
         tags:
@@ -141,7 +141,7 @@ services:
             - VideoGamesRecords\CoreBundle\Entity\PlayerChart
             - ~
         calls:
-            - [ setTemplate, [ 'show', 'VideoGamesRecordsCoreBundle:Admin:playerchart_show.html.twig' ] ]
+            - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/playerchart_show.html.twig' ] ]
     sonata.admin.vgr.playerchart_lib:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
         tags:

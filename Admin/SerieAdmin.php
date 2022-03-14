@@ -56,7 +56,7 @@ class SerieAdmin extends AbstractAdmin
                     'show' => [],
                     'edit' => [],
                     'games' => [
-                        'template' => 'VideoGamesRecordsCoreBundle:Admin:serie_games_link.html.twig'
+                        'template' => '@VideoGamesRecordsCore/Admin/serie_games_link.html.twig'
                     ],
                 ]
             ]);
