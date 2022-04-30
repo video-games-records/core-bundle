@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
@@ -32,9 +33,17 @@ class ProofAdmin extends AbstractAdmin
     /** @var Messager */
     private Messager $messager;
 
+    /** @var ContainerInterface */
+    private ContainerInterface $container;
+
     public function setMessager(Messager $messager)
     {
         $this->messager = $messager;
+    }
+
+    public function setContainer (ContainerInterface $container)
+    {
+        $this->container = $container;
     }
 
     /**
@@ -281,7 +290,7 @@ class ProofAdmin extends AbstractAdmin
 
         if ($object->getPlayerChart() != null) {
             if ($object->getPlayerChart()->getPlayer()->getId() === $player->getId()) {
-                $this->getConfigurationPool()->getContainer()->get('session')->getFlashBag()->add(
+                $this->container->get('session')->getFlashBag()->add(
                     'error',
                     "You can't update this proof"
                 );
@@ -332,9 +341,9 @@ class ProofAdmin extends AbstractAdmin
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $this->messager->send(
-                $this->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
+                $this->getTranslator()->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
                 sprintf(
-                    $this->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
+                    $this->getTranslator()->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
                     $recipient->getUsername(),
                     $url,
                     $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
@@ -363,9 +372,9 @@ class ProofAdmin extends AbstractAdmin
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
             $this->messager->send(
-                $this->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
+                $this->getTranslator()->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
                 sprintf(
-                    $this->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
+                    $this->getTranslator()->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
                     $recipient->getUsername(),
                     $url,
                     $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
@@ -391,7 +400,7 @@ class ProofAdmin extends AbstractAdmin
     {
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         return $em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser($user);
     }
 }
