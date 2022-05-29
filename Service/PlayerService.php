@@ -116,6 +116,7 @@ class PlayerService
      */
     public function maj()
     {
+        $this->playerRepository->majNbChartDisabled();
         $this->playerRepository->majRankPointChart();
         $this->playerRepository->majRankPointGame();
         $this->playerRepository->majRankMedal();
