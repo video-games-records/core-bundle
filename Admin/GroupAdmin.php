@@ -120,19 +120,22 @@ class GroupAdmin extends AbstractAdmin
              (
                ($this->getRequest()->getPathInfo() == '/admin/core/append-form-field-element')
                &&
-               ($this->getRequest()->query->get('code') == 'sonata.admin.vgr.group')
+               ($this->getRequest()->query->get('_sonata_admin') == 'sonata.admin.vgr.group')
             ))
             && (count($subject->getCharts()) < 50)
         ) {
             $form->end()
                 ->with('label.charts')
                 ->add(
-                    'charts', CollectionType::class, array(
+                    'charts',
+                    CollectionType::class,
+                    array(
                         'label' => 'label.charts',
                         'by_reference' => false,
+                        'help' => 'label.libs.help',
                         'type_options' => array(
                             // Prevents the "Delete" option from being displayed
-                            'delete' => false,
+                            'delete' => true,
                             'delete_options' => array(
                                 // You may otherwise choose to put the field but hide it
                                 'type' => CheckboxType::class,
