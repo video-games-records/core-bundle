@@ -153,14 +153,17 @@ class ProofRequestAdmin extends AbstractAdmin
             ->add('playerChart.player', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>'pseudo'],
+                 'label' => 'label.player',
             ])
             ->add('playerRequesting', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>'pseudo'],
+                 'label' => 'label.player.requesting',
             ])
             ->add('playerResponding', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>'pseudo'],
+                 'label' => 'label.player.responding',
             ]);
     }
 

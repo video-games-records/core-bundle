@@ -167,6 +167,7 @@ class GroupAdmin extends AbstractAdmin
             ->add('game', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>$this->getLibGame()],
+                 'label' => 'label.game'
             ])
         ;
     }

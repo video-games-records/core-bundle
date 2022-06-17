@@ -162,6 +162,7 @@ class ChartAdmin extends AbstractAdmin
             ->add('group', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>$this->getLibGroup()],
+                 'label' => 'label.group',
             ])
             ->add(
                 'statusPlayer',

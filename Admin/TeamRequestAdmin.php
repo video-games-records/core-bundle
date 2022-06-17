@@ -72,8 +72,8 @@ class TeamRequestAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('status');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('status', null, ['label' => 'label.status']);
     }
 
     /**
@@ -82,20 +82,20 @@ class TeamRequestAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('team', null, [
                 'associated_property' => 'libTeam',
-                'label' => 'Team',
+                'label' => 'label.team',
             ])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'Player',
+                'label' => 'label.player',
             ])
             ->add(
                 'status',
                 'choice',
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'editable' => false,
                     'choices' => TeamRequest::getStatusChoices(),
                 ]
