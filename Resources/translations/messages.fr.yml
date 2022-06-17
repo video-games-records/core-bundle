@@ -88,6 +88,7 @@ label:
     player.responding: 'Vérifié par'
     playerChart: 'Score'
     playerChart.edit: 'Editer un score'
+    playerChart.status: 'Statut du score'
     points: 'Points'
     pointChart: 'Record Points'
     pointGame: 'Game Points'
@@ -126,6 +127,7 @@ label:
     video.id: 'Vidéo Id'
     proof: 'Preuve'
     proof.response: 'Réponse de refus'
+    proof.status: 'Statut de la preuve'
     website: 'Website'
     youtube: 'Youtube'
 link:

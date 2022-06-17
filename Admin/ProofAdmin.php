@@ -175,13 +175,14 @@ class ProofAdmin extends AbstractAdmin
             ->add('chart.group.game.libGameEn', null, ['label' => 'label.game.en'])
             ->add('chart.group.game.libGameFr', null, ['label' => 'label.game.fr'])
             ->add('status', ChoiceFilter::class, [
-                'label' => 'label.status',
+                'label' => 'label.proof.status',
                 'field_type' => ChoiceType::class,
                 'field_options' => [
                     'choices' => Proof::getStatusChoices(),
                     'multiple' => false,
                 ]
             ])
+            ->add('playerChart.status', null, ['label' => 'label.playerChart.status'])
             ->add('playerResponding', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>'pseudo'],
@@ -245,6 +246,7 @@ class ProofAdmin extends AbstractAdmin
                     'choice_translation_domain' => false,
                 ]
             )
+            ->add('playerChart.status', null, ['label' => 'label.playerChart.status'])
             ->add('created_at', 'datetime', ['label' => 'label.createdAt'])
             ->add('_action', 'actions', [
                 'actions' => [
