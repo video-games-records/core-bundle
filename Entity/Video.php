@@ -59,9 +59,9 @@ class Video implements TimestampableInterface, SluggableInterface
     private bool $boolActive = true;
 
     /**
-     * @ORM\Column(name="type", type="string", nullable=false)
+     * @ORM\Column(name="type", type="string", nullable=true)
      */
-    private string $type = self::TYPE_YOUTUBE;
+    private ?string $type = self::TYPE_YOUTUBE;
 
     /**
      * @Assert\NotNull(message="video.videoId.not_null")
@@ -169,7 +169,7 @@ class Video implements TimestampableInterface, SluggableInterface
      *
      * @return string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
