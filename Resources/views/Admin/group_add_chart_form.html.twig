@@ -1,0 +1,29 @@
+{% extends base_template %}
+
+{% block title %}
+    {{ 'title_show'|trans({'%name%': admin.toString(object)|u.truncate(15, '...') }, 'SonataAdminBundle') }}
+{% endblock %}
+
+{% block navbar_title %}
+    {{ 'title_show'|trans({'%name%': admin.toString(object)|u.truncate(100, '...') }, 'SonataAdminBundle') }}
+{% endblock %}
+
+{%- block actions -%}
+    {% include '@SonataAdmin/CRUD/action_buttons.html.twig' %}
+{%- endblock -%}
+
+{% block sonata_admin_content %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                Add liChart on all groups of {{ group.game.getName() }} / {{ group.getName() }}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div>
+                {{ form(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

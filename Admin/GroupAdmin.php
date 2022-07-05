@@ -46,7 +46,23 @@ class GroupAdmin extends AbstractAdmin
         $collection
             ->remove('export')
             ->add('copy', $this->getRouterIdParameter().'/copy')
-            ->add('copy-with-lib-chart', $this->getRouterIdParameter().'/copy-with-lib-chart');
+            ->add('copy-with-lib-chart', $this->getRouterIdParameter().'/copy-with-lib-chart')
+            ->add('add-lib-chart', $this->getRouterIdParameter().'/add-lib-chart');
+    }
+
+    /**
+     * @param array $actions
+     * @return array|\mixed[][]
+     */
+    protected function configureDashboardActions(array $actions): array
+    {
+        $actions['addlibchart'] = [
+            'label' => 'add_lib_chart',
+            'url' => $this->generateUrl('add-lib-chart'),
+            'icon' => 'import',
+            'translation_domain' => 'SonataAdminBundle',
+        ];
+        return $actions;
     }
 
     /**
