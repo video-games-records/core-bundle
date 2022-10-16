@@ -146,7 +146,7 @@ class GamercardController extends AbstractController
         }
         $gamercard->copyResized($avatar, 9, 30, 0, 0, 64, 64);
 
-        $playerGames = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->findBy(
+        $playerGames = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->findBy(
             array(
                 'player' => $player
             ),

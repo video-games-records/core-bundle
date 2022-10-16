@@ -46,7 +46,7 @@ final class LostPositionSubscriber implements EventSubscriberInterface
             $token = $this->tokenStorage->getToken();
             if ($token->getUser() != 'anon.') {
                 // MAJ date see lost position
-                $player = $this->em->getRepository('VideoGamesRecordsCoreBundle:Player')
+                $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
                     ->findOneBy(
                         [
                             'id' => $token->getUser()->getId(),

@@ -50,6 +50,6 @@ class GameAdminController extends CRUDController
     private function getRepository()
     {
         $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
-        return $em->getRepository('VideoGamesRecordsCoreBundle:Game');
+        return $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game');
     }
 }

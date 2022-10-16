@@ -42,7 +42,7 @@ class GameController extends DefaultController
     {
         $letter = $request->query->get('letter', '0');
         $locale = $request->getLocale();
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')
             ->findWithLetter($letter, $locale)
             ->getResult();
     }
@@ -55,7 +55,7 @@ class GameController extends DefaultController
     public function listFromPlayerLostPosition(Request $request)
     {
         $locale = $request->getLocale();
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')
             ->findFromlostPosition($this->getPlayer(), $locale);
     }
 
@@ -74,7 +74,7 @@ class GameController extends DefaultController
         } else {
             $team = null;
         }
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, $maxRank, $this->getPlayer(), $team);
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getRankingPoints($game, $maxRank, $this->getPlayer(), $team);
     }
 
 
@@ -86,7 +86,7 @@ class GameController extends DefaultController
     public function playerRankingMedals(Game $game, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingMedals($game, $maxRank, $this->getPlayer());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getRankingMedals($game, $maxRank, $this->getPlayer());
     }
 
 
@@ -98,7 +98,7 @@ class GameController extends DefaultController
     public function teamRankingPoints(Game $game, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingPoints($game, $maxRank, $this->getTeam());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGame')->getRankingPoints($game, $maxRank, $this->getTeam());
     }
 
 
@@ -110,7 +110,7 @@ class GameController extends DefaultController
     public function teamRankingMedals(Game $game, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGame')->getRankingMedals($game, $maxRank, $this->getTeam());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGame')->getRankingMedals($game, $maxRank, $this->getTeam());
     }
 
     /**

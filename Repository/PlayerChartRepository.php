@@ -87,7 +87,7 @@ class PlayerChartRepository extends DefaultRepository
     public function maj(Chart $chart): array
     {
         /** @var Chart $chart */
-        $chart       = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Chart')->getWithChartType($chart);
+        $chart       = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getWithChartType($chart);
         $ranking     = $this->getRankingForUpdate($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
         $players     = [];
@@ -98,7 +98,7 @@ class PlayerChartRepository extends DefaultRepository
         $nbEqual          = 1;
         $playerChartEqual = [];
 
-        $result = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getPlatforms($chart);
+        $result = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChart')->getPlatforms($chart);
         $platforms = [];
         foreach ($result as $row) {
             $platforms[$row['id']] = [

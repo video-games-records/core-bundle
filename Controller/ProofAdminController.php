@@ -15,7 +15,7 @@ class ProofAdminController extends CRUDController
      */
     public function statsAction(): Response
     {
-        $stats = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getProofStats();
+        $stats = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getProofStats();
         // Formatage
         $months = [];
 

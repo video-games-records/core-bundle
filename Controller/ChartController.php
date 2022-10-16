@@ -26,11 +26,11 @@ class ChartController extends DefaultController
         if ($chart->getStatusPlayer() == Chart::STATUS_NORMAL) {
             $maxRank = $request->query->get('maxRank', 100);
             $ranking = $this->getDoctrine()
-                ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+                ->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChart')
                 ->getRanking($chart, $this->getPlayer(), $maxRank);
         } else {
             $ranking = $this->getDoctrine()
-                ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+                ->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChart')
                 ->getRankingForUpdate($chart);
             $i = 1;
             foreach ($ranking as $row) {
@@ -60,7 +60,7 @@ class ChartController extends DefaultController
     public function playerDisableRanking(Chart $chart)
     {
         $ranking = $this->getDoctrine()
-            ->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')
+            ->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChart')
             ->getDisableRanking($chart);
 
         for ($i=0; $i<=count($ranking)-1; $i++) {
@@ -93,7 +93,7 @@ class ChartController extends DefaultController
         } else {
             $team = null;
         }
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getRankingPoints($chart, $maxRank, $this->getPlayer(), $team);
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChart')->getRankingPoints($chart, $maxRank, $this->getPlayer(), $team);
     }
 
     /**
@@ -104,7 +104,7 @@ class ChartController extends DefaultController
     public function teamRanking(Chart $chart, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamChart')->getRankingPoints($chart, $maxRank, $this->getTeam());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamChart')->getRankingPoints($chart, $maxRank, $this->getTeam());
     }
 
     /**
@@ -126,7 +126,7 @@ class ChartController extends DefaultController
             'idChart' => $request->query->get('idChart', null),
             'libChart' => $request->query->get('libChart', null),
         );
-        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getList(
+        $charts = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getList(
             $page,
             $this->getPlayer(),
             $search,
@@ -134,7 +134,7 @@ class ChartController extends DefaultController
             $itemsPerPage
         );
         // IF NOT EXIST => Create a playerChart with id=-1 AND value = null
-        $game = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->find($search['idGame']);
+        $game = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($search['idGame']);
         $platforms = $game->getPlatforms();
         foreach ($charts as $chart) {
             if (count($chart->getPlayerCharts()) == 0) {

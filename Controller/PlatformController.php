@@ -18,7 +18,7 @@ class PlatformController extends DefaultController
     public function playerRankingPointPlatform(Platform $platform, Request $request)
     {
         $maxRank = $request->query->get('maxRank', null);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerPlatform')->getRankingPointPlatform(
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerPlatform')->getRankingPointPlatform(
             $platform,
             $maxRank,
             $this->getPlayer()

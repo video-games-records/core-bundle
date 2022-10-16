@@ -1,6 +1,7 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Form\Type\ChartTypeType;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,7 +27,7 @@ class GroupAdminController extends CRUDController
         }
 
         $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
-        $em->getRepository('VideoGamesRecordsCoreBundle:Group')->copy($id, false);
+        $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($id, false);
 
         $this->addFlash('sonata_flash_success', 'Copied successfully');
 
@@ -46,7 +47,7 @@ class GroupAdminController extends CRUDController
         }
 
         $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
-        $em->getRepository('VideoGamesRecordsCoreBundle:Group')->copy($id, true);
+        $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($id, true);
 
         $this->addFlash('sonata_flash_success', 'Copied with libchart successfully');
 
@@ -66,13 +67,18 @@ class GroupAdminController extends CRUDController
             throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
         }
 
+        if ($object->getGame()->getStatus() == Game::STATUS_ACTIVE) {
+            $this->addFlash('sonata_flash_error', 'Game is already activated');
+            return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));
+        }
+
         $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
         $form = $this->createForm(ChartTypeType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $type = $data['type'];
-            $result = $em->getRepository('VideoGamesRecordsCoreBundle:Group')->insertLibChart($id, $type->getIdType());
+            $result = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->insertLibChart($id, $type->getIdType());
             if ($result) {
                 $this->addFlash('sonata_flash_success', 'Add all libchart on group successfully');
                 return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));

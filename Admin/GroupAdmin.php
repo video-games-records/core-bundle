@@ -54,16 +54,17 @@ class GroupAdmin extends AbstractAdmin
      * @param array $actions
      * @return array|\mixed[][]
      */
-    protected function configureDashboardActions(array $actions): array
+    /*protected function configureDashboardActions(array $actions): array
     {
+        $subject = $this->getSubject();
         $actions['addlibchart'] = [
             'label' => 'add_lib_chart',
-            'url' => $this->generateUrl('add-lib-chart'),
+            'url' => $this->generateUrl('add-lib-chart', ['id' => $subject->getId()]),
             'icon' => 'import',
             'translation_domain' => 'SonataAdminBundle',
         ];
         return $actions;
-    }
+    }*/
 
     /**
      * @param FormMapper $form

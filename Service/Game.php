@@ -141,14 +141,14 @@ class Game
                         // DO nothing
                         break;
                     case 'group':
-                        $group = $this->em->getRepository('VideoGamesRecordsCoreBundle:Group')->find($id);
+                        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
                         $group->translate('en', false)->setName($libEn);
                         $group->translate('fr', false)->setName($libFr);
                         $group->mergeNewTranslations();
                         $this->em->persist($group);
                         break;
                     case 'chart':
-                        $chart = $this->em->getRepository('VideoGamesRecordsCoreBundle:Chart')->find($id);
+                        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($id);
                         $chart->translate('en', false)->setName($libEn);
                         $chart->translate('fr', false)->setName($libFr);
                         $chart->mergeNewTranslations();
