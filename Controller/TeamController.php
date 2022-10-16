@@ -112,7 +112,7 @@ class TeamController extends DefaultController
 
         $team->setLogo($filename);
 
-        $this->teamRepository-flush();
+        $this->teamRepository->flush();
         return $this->getResponse(true, $this->translator->trans('avatar.success'));
     }
 }

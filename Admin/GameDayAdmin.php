@@ -42,7 +42,7 @@ class GameDayAdmin extends AbstractAdmin
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
             $em = $this->getModelManager()
                 ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\GameDay');
-            $lastDay = $em->getRepository('VideoGamesRecordsCoreBundle:GameDay')->getMax();
+            $lastDay = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\GameDay')->getMax();
             $date = new \DateTime($lastDay);
             $date->add(new \DateInterval('P1D'));
             $options = ['data' => $date];

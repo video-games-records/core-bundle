@@ -35,9 +35,9 @@ class PlayerController extends DefaultController
      */
     public function stats(): array
     {
-        $playerStats =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getStats();
-        $gameStats =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Game')->getStats();
-        $teamStats =  $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Team')->getStats();
+        $playerStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getStats();
+        $gameStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->getStats();
+        $teamStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->getStats();
 
         return array(
             'nbPlayer' => $playerStats[1],
@@ -72,7 +72,7 @@ class PlayerController extends DefaultController
         } else {
             $team = null;
         }
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointChart($this->getPlayer(), $maxRank, $team);
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingPointChart($this->getPlayer(), $maxRank, $team);
     }
 
     /**
@@ -88,7 +88,7 @@ class PlayerController extends DefaultController
         } else {
             $team = null;
         }
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointGame($this->getPlayer(), $maxRank, $team);
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingPointGame($this->getPlayer(), $maxRank, $team);
     }
 
     /**
@@ -96,7 +96,7 @@ class PlayerController extends DefaultController
      */
     public function rankingMedal()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingMedal($this->getPlayer());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingMedal($this->getPlayer());
     }
 
     /**
@@ -104,7 +104,7 @@ class PlayerController extends DefaultController
      */
     public function rankingCup()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCup($this->getPlayer());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingCup($this->getPlayer());
     }
 
     /**
@@ -112,7 +112,7 @@ class PlayerController extends DefaultController
      */
     public function rankingProof()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingProof($this->getPlayer());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingProof($this->getPlayer());
     }
 
     /**
@@ -120,7 +120,7 @@ class PlayerController extends DefaultController
      */
     public function rankingBadge()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingBadge($this->getPlayer());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingBadge($this->getPlayer());
     }
 
     /**
@@ -128,7 +128,7 @@ class PlayerController extends DefaultController
      */
     public function rankingPointGameTop5()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingPointGame(null, 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingPointGame(null, 5);
     }
 
     /**
@@ -136,7 +136,7 @@ class PlayerController extends DefaultController
      */
     public function rankingCupTop5()
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCup(null, 5);
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingCup(null, 5);
     }
 
     /**
@@ -145,7 +145,7 @@ class PlayerController extends DefaultController
      */
     public function playerChartStatus(Player $player)
     {
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChartStatus')
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus')
             ->getStatsFromPlayer($player);
     }
 

@@ -86,8 +86,8 @@ class PlayerService
      */
     public function getGameStats($player)
     {
-        $playerGames = $this->em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getFromPlayer($player);
-        $stats = $this->em->getRepository('VideoGamesRecordsCoreBundle:Game')->getStatsFromPlayer($player);
+        $playerGames = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getFromPlayer($player);
+        $stats = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->getStatsFromPlayer($player);
 
         foreach ($playerGames as $playerGame) {
             if (isset($stats[$playerGame->getGame()->getId()])) {
@@ -116,6 +116,7 @@ class PlayerService
      */
     public function maj()
     {
+        $this->playerRepository->majNbChartDisabled();
         $this->playerRepository->majRankPointChart();
         $this->playerRepository->majRankPointGame();
         $this->playerRepository->majRankMedal();

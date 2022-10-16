@@ -24,7 +24,7 @@ class GroupController extends DefaultController
         } else {
             $team = null;
         }
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingPoints($group, $maxRank, $this->getPlayer(), $team);
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGroup')->getRankingPoints($group, $maxRank, $this->getPlayer(), $team);
     }
 
 
@@ -36,7 +36,7 @@ class GroupController extends DefaultController
     public function playerRankingMedals(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerGroup')->getRankingMedals($group, $maxRank, $this->getPlayer());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGroup')->getRankingMedals($group, $maxRank, $this->getPlayer());
     }
 
 
@@ -48,7 +48,7 @@ class GroupController extends DefaultController
     public function teamRankingPoints(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingPoints($group, $maxRank, $this->getTeam());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGroup')->getRankingPoints($group, $maxRank, $this->getTeam());
     }
 
 
@@ -60,7 +60,7 @@ class GroupController extends DefaultController
     public function teamRankingMedals(Group $group, Request $request)
     {
         $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:TeamGroup')->getRankingMedals($group, $maxRank, $this->getTeam());
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGroup')->getRankingMedals($group, $maxRank, $this->getTeam());
     }
 
     /**
@@ -72,7 +72,7 @@ class GroupController extends DefaultController
     {
         $player = $this->getPlayer();
         $locale = $request->getLocale();
-        $charts = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Chart')->getTopScore($group, $player, $locale);
+        $charts = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getTopScore($group, $player, $locale);
         foreach ($charts as $chart) {
             foreach ($chart->getPlayerCharts() as $playerChart) {
                 if ($playerChart->getRank() == 1) {

@@ -41,7 +41,7 @@ final class TeamRequestSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
 
         if (($requestA instanceof TeamRequest) && ($method == Request::METHOD_POST)) {
-            $requestB =  $this->em->getRepository('VideoGamesRecordsCoreBundle:TeamRequest')
+            $requestB =  $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamRequest')
                 ->findOneBy(
                     array(
                         'player' => $requestA->getPlayer(),

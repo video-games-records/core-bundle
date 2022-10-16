@@ -99,6 +99,7 @@ class VideoAdmin extends AbstractAdmin
             ->add('player', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>'pseudo'],
+                 'label' => 'label.player',
             ]);
     }
 

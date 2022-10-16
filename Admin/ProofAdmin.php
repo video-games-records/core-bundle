@@ -164,25 +164,29 @@ class ProofAdmin extends AbstractAdmin
             ->add('player', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>'pseudo'],
+                 'label' => 'label.player'
             ])
             ->add('player.pseudo', null, ['label' => 'label.pseudo'])
             ->add('chart.group.game', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>$this->getLibGame()],
+                 'label' => 'label.game'
             ])
             ->add('chart.group.game.libGameEn', null, ['label' => 'label.game.en'])
             ->add('chart.group.game.libGameFr', null, ['label' => 'label.game.fr'])
             ->add('status', ChoiceFilter::class, [
-                'label' => 'label.status',
+                'label' => 'label.proof.status',
                 'field_type' => ChoiceType::class,
                 'field_options' => [
                     'choices' => Proof::getStatusChoices(),
                     'multiple' => false,
                 ]
             ])
+            ->add('playerChart.status', null, ['label' => 'label.playerChart.status'])
             ->add('playerResponding', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>'pseudo'],
+                 'label' => 'label.player.responding'
             ]);
     }
 
@@ -242,6 +246,7 @@ class ProofAdmin extends AbstractAdmin
                     'choice_translation_domain' => false,
                 ]
             )
+            ->add('playerChart.status', null, ['label' => 'label.playerChart.status'])
             ->add('created_at', 'datetime', ['label' => 'label.createdAt'])
             ->add('_action', 'actions', [
                 'actions' => [
@@ -401,6 +406,6 @@ class ProofAdmin extends AbstractAdmin
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
-        return $em->getRepository('VideoGamesRecordsCoreBundle:Player')->getPlayerFromUser($user);
+        return $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getPlayerFromUser($user);
     }
 }

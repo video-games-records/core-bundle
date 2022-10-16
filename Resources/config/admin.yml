@@ -114,7 +114,7 @@ services:
     sonata.admin.vgr.game.day:
         class: VideoGamesRecords\CoreBundle\Admin\GameDayAdmin
         tags:
-            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Platform, manager_type: orm, group: "group.others", label: "label.game.day", label_translator_strategy: "sonata.admin.label.strategy.underscore"  }
+            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\GameDay, manager_type: orm, group: "group.others", label: "label.game.day", label_translator_strategy: "sonata.admin.label.strategy.underscore"  }
         arguments: [ ~, ~, ~ ]
     sonata.admin.vgr.rule:
         class: VideoGamesRecords\CoreBundle\Admin\RuleAdmin

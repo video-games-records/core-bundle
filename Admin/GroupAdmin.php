@@ -46,8 +46,25 @@ class GroupAdmin extends AbstractAdmin
         $collection
             ->remove('export')
             ->add('copy', $this->getRouterIdParameter().'/copy')
-            ->add('copy-with-lib-chart', $this->getRouterIdParameter().'/copy-with-lib-chart');
+            ->add('copy-with-lib-chart', $this->getRouterIdParameter().'/copy-with-lib-chart')
+            ->add('add-lib-chart', $this->getRouterIdParameter().'/add-lib-chart');
     }
+
+    /**
+     * @param array $actions
+     * @return array|\mixed[][]
+     */
+    /*protected function configureDashboardActions(array $actions): array
+    {
+        $subject = $this->getSubject();
+        $actions['addlibchart'] = [
+            'label' => 'add_lib_chart',
+            'url' => $this->generateUrl('add-lib-chart', ['id' => $subject->getId()]),
+            'icon' => 'import',
+            'translation_domain' => 'SonataAdminBundle',
+        ];
+        return $actions;
+    }*/
 
     /**
      * @param FormMapper $form
@@ -120,19 +137,22 @@ class GroupAdmin extends AbstractAdmin
              (
                ($this->getRequest()->getPathInfo() == '/admin/core/append-form-field-element')
                &&
-               ($this->getRequest()->query->get('code') == 'sonata.admin.vgr.group')
+               ($this->getRequest()->query->get('_sonata_admin') == 'sonata.admin.vgr.group')
             ))
             && (count($subject->getCharts()) < 50)
         ) {
             $form->end()
                 ->with('label.charts')
                 ->add(
-                    'charts', CollectionType::class, array(
+                    'charts',
+                    CollectionType::class,
+                    array(
                         'label' => 'label.charts',
                         'by_reference' => false,
+                        'help' => 'label.libs.help',
                         'type_options' => array(
                             // Prevents the "Delete" option from being displayed
-                            'delete' => false,
+                            'delete' => true,
                             'delete_options' => array(
                                 // You may otherwise choose to put the field but hide it
                                 'type' => CheckboxType::class,
@@ -164,6 +184,7 @@ class GroupAdmin extends AbstractAdmin
             ->add('game', ModelFilter::class, [
                  'field_type' => ModelAutocompleteType::class,
                  'field_options' => ['property'=>$this->getLibGame()],
+                 'label' => 'label.game'
             ])
         ;
     }

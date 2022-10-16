@@ -66,6 +66,11 @@
                                         {{ lib }}
                                     {% endfor %}
                                 </td>
+                        </tr><tr>
+                                <th>Status</th>
+                                <td>
+                                    {{ object.getPlayerChart().getStatus() }}
+                                </td>
                             {%  else %}
                                 <th>PlayerChart</th>
                                 <td>NO PLAYER CHART</td>

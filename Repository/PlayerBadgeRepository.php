@@ -43,7 +43,7 @@ class PlayerBadgeRepository extends DefaultRepository
     public function majMasterBadge(Game $game)
     {
         //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerGame')->getRankingPoints($game, 1);
+        $ranking = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getRankingPoints($game, 1);
         $players = array();
         foreach ($ranking as $playerGame) {
             $players[$playerGame->getPlayer()->getId()] = 0;
@@ -85,7 +85,7 @@ class PlayerBadgeRepository extends DefaultRepository
         }
 
         //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:Player')->getRankingCountry($country, 1);
+        $ranking = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingCountry($country, 1);
 
         $players = array();
         foreach ($ranking as $player) {
@@ -107,7 +107,7 @@ class PlayerBadgeRepository extends DefaultRepository
         }
 
         //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecordsCoreBundle:PlayerPlatform')->getRankingPointPlatform($platform, 1);
+        $ranking = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerPlatform')->getRankingPointPlatform($platform, 1);
 
         $players = array();
         foreach ($ranking as $playerPlatform) {

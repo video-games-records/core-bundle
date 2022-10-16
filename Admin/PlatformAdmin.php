@@ -70,7 +70,7 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter) : void
     {
         $filter
-            ->add('libPlatform');
+            ->add('libPlatform', null, ['label' => 'label.name']);
     }
 
     /**

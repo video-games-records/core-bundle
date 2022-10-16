@@ -91,7 +91,7 @@ class PlayerChartController extends DefaultController
         $file = $data['file'];
 
         $hash = hash_file('sha256', $file);
-        $picture = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Picture')->findOneBy(
+        $picture = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Picture')->findOneBy(
             array(
                 'hash' => $hash,
                 'player' => $playerChart->getPlayer(),
@@ -188,7 +188,7 @@ class PlayerChartController extends DefaultController
         $videoIn->setUrl($url);
 
         if (in_array($videoIn->getType(), array(Video::TYPE_TWITCH, Video::TYPE_YOUTUBE))) {
-            $video = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Video')->findOneBy(
+            $video = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Video')->findOneBy(
                 array(
                     'videoId' => $videoIn->getVideoId(),
                 )
@@ -243,6 +243,6 @@ class PlayerChartController extends DefaultController
     public function last(Request $request)
     {
         $locale = $request->getLocale();
-        return $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:PlayerChart')->getLast($locale);
+        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChart')->getLast($locale);
     }
 }

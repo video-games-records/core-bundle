@@ -65,8 +65,8 @@ class TeamAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('libTeam');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('libTeam', null, ['label' => 'label.team']);
     }
 
     /**
@@ -75,20 +75,20 @@ class TeamAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add(
                 'libTeam',
                 'text',
                 [
                     'label' => 'libTeam',
-                    'editable' => false
+                    'editable' => false,
                 ]
             )
             ->add('leader', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'Leader',
             ])
-            ->add('nbPlayer')
+            ->add('nbPlayer', null, ['label' => 'label.nbPlayer'])
             ->add(
                 'status',
                 'choice',

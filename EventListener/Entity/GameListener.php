@@ -66,6 +66,16 @@ class GameListener
         if (($game->getStatus() == Game::STATUS_ACTIVE) && ($game->getPublishedAt() == null)) {
             $game->setPublishedAt(new DateTime());
         }
+
+        if (array_key_exists('status', $changeSet)) {
+            if (($changeSet['status'][0] == Game::STATUS_INACTIVE) && ($changeSet['status'][1] == Game::STATUS_ACTIVE)) {
+                $game->setEtat(Game::ETAT_END);
+            }
+        }
+
+        if (array_key_exists('picture', $changeSet)) {
+            $game->setEtat(Game::ETAT_PICTURE);
+        }
     }
 
     /**

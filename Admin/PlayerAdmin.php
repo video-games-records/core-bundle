@@ -66,9 +66,9 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id')
-            ->add('pseudo')
-            ->add('boolMaj');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('pseudo', null, ['label' => 'label.pseudo'])
+            ->add('boolMaj', null, ['label' => 'label.boolMaj']);
 
     }
 
@@ -78,10 +78,10 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
-            ->add('pseudo')
-            ->add('country')
-            ->add('slug')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('pseudo', null, ['label' => 'label.pseudo'])
+            ->add('country', null, ['label' => 'label.country'])
+            ->add('slug', null, ['label' => 'label.slug'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
