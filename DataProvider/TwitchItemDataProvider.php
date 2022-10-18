@@ -38,8 +38,7 @@ final class TwitchItemDataProvider implements ItemDataProviderInterface, Restric
 
         return match ($context['item_operation_name']) {
             'twitch-channel-info' => $this->getChannelInfo(),
-            'twitch-get-stream' => $this->getStream(),
-            default => $this->getGames(),
+            'twitch-get-stream' => $this->getStream()
         };
     }
 
