@@ -1,0 +1,11 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Twitch:
+        itemOperations:
+            get: ~
+            twitch-channel-info:
+                method: 'GET'
+                path: '/twitches/{id}/channel-info'
+            twitch-get-stream:
+                method: 'GET'
+                path: '/twitches/{id}/get-stream'
+

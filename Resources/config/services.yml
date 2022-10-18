@@ -5,6 +5,10 @@ services:
         public: false       # Allows optimizing the container by removing unused services; this also means
         # fetching services directly from the container via $container->get() won't work.
         # The best practice is to be explicit about your dependencies anyway.
+        bind:
+            $twitchClientId: '%env(string:VGR_TWITCH_CLIENT_ID)%'
+            $twitchClientSecret: '%env(string:VGR_TWITCH_CLIENT_SECRET)%'
+            $twitchBroadcasterId: '%env(int:VGR_TWITCH_BROADCASTER_ID)%'
     VideoGamesRecords\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
@@ -24,6 +28,9 @@ services:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener
         tags:
             - { name: doctrine.orm.entity_listener }
+    VideoGamesRecords\CoreBundle\DataProvider\TwitchItemDataProvider:
+        # Uncomment only if autoconfiguration is disabled
+        tags: [ 'api_platform.item_data_provider' ]
 
 
 
