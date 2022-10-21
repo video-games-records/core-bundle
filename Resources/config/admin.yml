@@ -2,12 +2,24 @@ services:
     sonata.admin.vgr.platform:
         class: VideoGamesRecords\CoreBundle\Admin\PlatformAdmin
         tags:
-            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Platform, manager_type: orm, group: "group.games", label: "label.platform", label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+            -
+                name: sonata.admin
+                model_class: VideoGamesRecords\CoreBundle\Entity\Platform
+                manager_type: orm
+                group: "group.games"
+                label: "label.platform"
+                label_translator_strategy: "sonata.admin.label.strategy.underscore"
         arguments: [ ~, ~, ~ ]
     sonata.admin.vgr.serie:
         class: VideoGamesRecords\CoreBundle\Admin\SerieAdmin
         tags:
-            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Serie, manager_type: orm, group: "group.games", label: "label.serie", label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+            -
+                name: sonata.admin
+                model_class: VideoGamesRecords\CoreBundle\Entity\Serie
+                manager_type: orm
+                group: "group.games"
+                label: "label.serie"
+                label_translator_strategy: "sonata.admin.label.strategy.underscore"
         arguments: [ ~, ~, ~ ]
     sonata.admin.vgr.game:
         class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
