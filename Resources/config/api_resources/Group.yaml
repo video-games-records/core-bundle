@@ -26,7 +26,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGroupController::getRankingPoints'
             player-ranking-medals:
                 method: 'GET'
                 normalization_context: {'groups': [playerGroup.medal,playerGroup.player,player.read.mini,player.team,team.read.mini,player.country,country.read]}
@@ -41,7 +41,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::playerRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGroupController::getRankingMedals'
             team-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [teamGroup.pointChart, teamGroup.team, team.read.mini]}
@@ -56,7 +56,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGroupController::getRankingPoints'
             team-ranking-medals:
                 method: 'GET'
                 normalization_context: {'groups': [teamGroup.medal, teamGroup.team, team.read.mini]}
@@ -71,7 +71,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::teamRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGroupController::getRankingMedals'
             top-score:
                 method: 'GET'
                 normalization_context: {'groups': [chart.read, chart.top-score, playerChart.libs, playerChartLib.format, playerChart.read, playerChart.player, player.read.mini]}

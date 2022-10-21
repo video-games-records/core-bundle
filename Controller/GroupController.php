@@ -11,59 +11,6 @@ use VideoGamesRecords\CoreBundle\Entity\Group;
 class GroupController extends DefaultController
 {
     /**
-     * @param Group    $group
-     * @param Request $request
-     * @return mixed
-     */
-    public function playerRankingPoints(Group $group, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        $idTeam = $request->query->get('idTeam', null);
-        if ($idTeam) {
-            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
-        } else {
-            $team = null;
-        }
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGroup')->getRankingPoints($group, $maxRank, $this->getPlayer(), $team);
-    }
-
-
-    /**
-     * @param Group    $group
-     * @param Request $request
-     * @return mixed
-     */
-    public function playerRankingMedals(Group $group, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGroup')->getRankingMedals($group, $maxRank, $this->getPlayer());
-    }
-
-
-    /**
-     * @param Group    $group
-     * @param Request $request
-     * @return mixed
-     */
-    public function teamRankingPoints(Group $group, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGroup')->getRankingPoints($group, $maxRank, $this->getTeam());
-    }
-
-
-    /**
-     * @param Group    $group
-     * @param Request $request
-     * @return mixed
-     */
-    public function teamRankingMedals(Group $group, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGroup')->getRankingMedals($group, $maxRank, $this->getTeam());
-    }
-
-    /**
      * @param Group   $group
      * @param Request $request
      * @return mixed
