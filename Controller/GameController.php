@@ -63,59 +63,6 @@ class GameController extends DefaultController
 
 
     /**
-     * @param Game    $game
-     * @param Request $request
-     * @return mixed
-     */
-    public function playerRankingPoints(Game $game, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        $idTeam = $request->query->get('idTeam', null);
-        if ($idTeam) {
-            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
-        } else {
-            $team = null;
-        }
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getRankingPoints($game, $maxRank, $this->getPlayer(), $team);
-    }
-
-
-    /**
-     * @param Game    $game
-     * @param Request $request
-     * @return mixed
-     */
-    public function playerRankingMedals(Game $game, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getRankingMedals($game, $maxRank, $this->getPlayer());
-    }
-
-
-    /**
-     * @param Game    $game
-     * @param Request $request
-     * @return mixed
-     */
-    public function teamRankingPoints(Game $game, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGame')->getRankingPoints($game, $maxRank, $this->getTeam());
-    }
-
-
-    /**
-     * @param Game    $game
-     * @param Request $request
-     * @return mixed
-     */
-    public function teamRankingMedals(Game $game, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGame')->getRankingMedals($game, $maxRank, $this->getTeam());
-    }
-
-    /**
      * @Route("/day", name="game_of_day")
      * @return Response
      * @throws NonUniqueResultException
