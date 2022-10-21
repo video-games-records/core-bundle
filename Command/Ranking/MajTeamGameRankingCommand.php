@@ -1,7 +1,6 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
-use Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -40,7 +39,6 @@ class MajTeamGameRankingCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
-     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

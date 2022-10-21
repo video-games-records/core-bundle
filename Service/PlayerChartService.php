@@ -16,11 +16,13 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
 use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGameRanking;
 use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGroupRanking;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerRanking;
 
 class PlayerChartService
 {
     private PlayerGameRanking $playerGameRanking;
     private PlayerGroupRanking $playerGroupRanking;
+    private PlayerRanking $playeRanking;
     private GameService $gameService;
     private ChartService $chartService;
     private PlayerService $playerService;
@@ -32,6 +34,7 @@ class PlayerChartService
     public function __construct(
         PlayerGameRanking $playerGameRanking,
         PlayerGroupRanking $playerGroupRanking,
+        PlayerRanking $playerRanking,
         GameService $gameService,
         ChartService $chartService,
         PlayerService $playerService,
@@ -42,6 +45,7 @@ class PlayerChartService
     ) {
         $this->playerGameRanking = $playerGameRanking;
         $this->playerGroupRanking = $playerGroupRanking;
+        $this->playeRanking = $playerRanking;
         $this->gameService = $gameService;
         $this->chartService = $chartService;
         $this->playerService = $playerService;
@@ -97,7 +101,7 @@ class PlayerChartService
 
         //----- Maj player
         foreach ($playerList as $player) {
-            $this->playerService->majPlayer($player);
+            $this->playeRanking->maj($player->getId());
             if ($player->getCountry()) {
                 $player->getCountry()->setBoolMaj(true);
             }

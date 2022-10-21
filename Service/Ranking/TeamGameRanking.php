@@ -17,7 +17,7 @@ class TeamGameRanking implements RankingInterface
         $this->em = $em;
     }
 
-    public function maj($id): void
+    public function maj(int $id): void
     {
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
         if (null === $game) {
@@ -81,7 +81,7 @@ class TeamGameRanking implements RankingInterface
         $this->em->flush();
     }
 
-    public function getRankingPoints(int $id, array $options = []): array
+    public function getRankingPoints(int $id = null, array $options = []): array
     {
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
         if (null === $game) {
@@ -115,7 +115,7 @@ class TeamGameRanking implements RankingInterface
         return $query->getQuery()->getResult();
     }
 
-    public function getRankingMedals(int $id, array $options = []): array
+    public function getRankingMedals(int $id = null, array $options = []): array
     {
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
         if (null === $game) {

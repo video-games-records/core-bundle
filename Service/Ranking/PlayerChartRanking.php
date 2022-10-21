@@ -161,9 +161,4 @@ class PlayerChartRanking
         $this->getEntityManager()->flush();
         //return $players;
     }
-
-    public function get($id): void
-    {
-        // TODO: Implement get() method.
-    }
 }

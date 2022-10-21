@@ -100,26 +100,13 @@ class PlayerService
         return $playerGames;
     }
 
-
     /**
-     * @throws OptimisticLockException
-     * @throws ORMException
+     * @throws Exception
      */
-    public function majPlayer(Player $player)
-    {
-        $this->playerRepository->majPlayer($player);
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function maj()
+    public function maj(): void
     {
         $this->playerRepository->majNbChartDisabled();
-        $this->playerRepository->majRankPointChart();
         $this->playerRepository->majRankPointGame();
-        $this->playerRepository->majRankMedal();
         $this->playerRepository->majRankCup();
         $this->playerRepository->majRankProof();
     }
@@ -130,7 +117,7 @@ class PlayerService
      * @throws OptimisticLockException
      * @throws Exception
      */
-    public function majRankBadge()
+    public function majRankBadge(): void
     {
         $this->playerRepository->majPointBadge();
         $this->playerRepository->majRankBadge();
