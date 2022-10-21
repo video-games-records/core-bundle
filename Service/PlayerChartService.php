@@ -14,6 +14,7 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGameRanking;
 
 class PlayerChartService
 {
@@ -27,6 +28,7 @@ class PlayerChartService
     private PlayerChartStatusRepository $playerChartStatusRepository;
 
     public function __construct(
+        PlayerGameRanking $playerGameRanking,
         GameService $gameService,
         GroupService $groupService,
         ChartService $chartService,

@@ -3,10 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Service;
 
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Exception;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\GameDay;
 use VideoGamesRecords\CoreBundle\Repository\GameDayRepository;
@@ -68,34 +66,6 @@ class GameService
             $gameDay->setDay($now);
             $this->gameDayRepository->save($gameDay);
             $this->gameDayRepository->flush();
-        }
-    }
-
-    /**
-     * @param int $idGame
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws ExceptionInterface
-     */
-    public function majPlayerGame(int $idGame)
-    {
-        $game = $this->getGame($idGame);
-        if ($game) {
-            $this->playerGameRepository->maj($game);
-        }
-    }
-
-    /**
-     * @param int $idGame
-     * @throws ExceptionInterface
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function majTeamGame(int $idGame)
-    {
-        $game = $this->getGame($idGame);
-        if ($game) {
-            $this->teamGameRepository->maj($game);
         }
     }
 

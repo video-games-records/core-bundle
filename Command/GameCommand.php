@@ -34,6 +34,12 @@ class GameCommand extends DefaultCommand
                 InputArgument::REQUIRED,
                 'Who do you want to do?'
             )
+            ->addOption(
+                'id',
+                null,
+                InputOption::VALUE_REQUIRED,
+                ''
+            )
         ;
         parent::configure();
     }
@@ -50,16 +56,8 @@ class GameCommand extends DefaultCommand
     {
         $function = $input->getArgument('function');
         switch ($function) {
-            case 'maj-player':
-                $idGame = $input->getOption('idGame');
-                $this->gameService->majPlayerGame($idGame);
-                break;
-            case 'maj-team':
-                $idGame = $input->getOption('idGame');
-                $this->gameService->majTeamGame($idGame);
-                break;
             case 'maj-master-badge':
-                $idGame = $input->getOption('idGame');
+                $idGame = $input->getOption('id');
                 $this->gameService->majMasterBadge($idGame);
                 break;
             case 'game-of-day':
