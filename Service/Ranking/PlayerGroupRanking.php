@@ -160,4 +160,14 @@ class PlayerGroupRanking implements RankingInterface
     {
         // TODO: Implement get() method.
     }
+
+    public function getRankingPoints(int $id, array $options = []): array
+    {
+        // TODO: Implement getRankingPoints() method.
+    }
+
+    public function getRankingMedals(int $id, array $options = []): array
+    {
+        // TODO: Implement getRankingMedals() method.
+    }
 }

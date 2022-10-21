@@ -5,5 +5,7 @@ interface RankingInterface
 {
     public function maj($id): void;
 
-    public function get($id): void;
+    public function getRankingPoints(int $id, array $options = []): array;
+
+    public function getRankingMedals(int $id, array $options = []): array;
 }

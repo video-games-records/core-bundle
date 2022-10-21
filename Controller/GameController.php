@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\GameService;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGameRanking;
 
 /**
  * Class GameController
@@ -16,6 +17,7 @@ use VideoGamesRecords\CoreBundle\Service\GameService;
  */
 class GameController extends DefaultController
 {
+    private PlayerGameRanking $playerGameRanking;
     private GameService $gameService;
 
     public function __construct(GameService $gameService)

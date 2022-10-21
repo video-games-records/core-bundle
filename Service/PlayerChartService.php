@@ -15,11 +15,13 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
 use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGameRanking;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGroupRanking;
 
 class PlayerChartService
 {
+    private PlayerGameRanking $playerGameRanking;
+    private PlayerGroupRanking $playerGroupRanking;
     private GameService $gameService;
-    private GroupService $groupService;
     private ChartService $chartService;
     private PlayerService $playerService;
     private PlayerChartRepository $playerChartRepository;
@@ -29,8 +31,8 @@ class PlayerChartService
 
     public function __construct(
         PlayerGameRanking $playerGameRanking,
+        PlayerGroupRanking $playerGroupRanking,
         GameService $gameService,
-        GroupService $groupService,
         ChartService $chartService,
         PlayerService $playerService,
         PlayerChartRepository $playerChartRepository,
@@ -38,8 +40,9 @@ class PlayerChartService
         PlayerGameRepository $playerGameRepository,
         PlayerChartStatusRepository $playerChartStatusRepository
     ) {
+        $this->playerGameRanking = $playerGameRanking;
+        $this->playerGroupRanking = $playerGroupRanking;
         $this->gameService = $gameService;
-        $this->groupService = $groupService;
         $this->chartService = $chartService;
         $this->playerService = $playerService;
         $this->playerChartRepository = $playerChartRepository;
@@ -83,12 +86,12 @@ class PlayerChartService
 
         //----- Maj group
         foreach ($groupList as $group) {
-            $this->groupService->majPlayerGroup($group->getId());
+            $this->playerGroupRanking->maj($group->getId());
         }
 
         //----- Maj game
         foreach ($gameList as $game) {
-            $this->gameService->majPlayerGame($game->getId());
+            $this->playerGameRanking->maj($game->getId());
             $this->gameService->majPlayerMasterBadge($game->getId());
         }
 

@@ -8,24 +8,29 @@ use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Repository\TeamChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
+use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGameRanking;
+use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGroupRanking;
 
 class TeamChartService
 {
+    private TeamGameRanking $teamGameRanking;
+    private TeamGroupRanking $teamGroupRanking;
     private GameService $gameService;
-    private GroupService $groupService;
     private ChartService $chartService;
     private TeamChartRepository $teamChartRepository;
     private TeamRepository $teamRepository;
 
     public function __construct(
+        TeamGameRanking $teamGameRanking,
+        TeamGroupRanking $teamGroupRanking,
         GameService $gameService,
-        GroupService $groupService,
         ChartService $chartService,
         TeamChartRepository $teamChartRepository,
         TeamRepository $teamRepository
     ) {
+        $this->teamGameRanking = $teamGameRanking;
+        $this->teamGroupRanking = $teamGroupRanking;
         $this->gameService = $gameService;
-        $this->groupService = $groupService;
         $this->chartService = $chartService;
         $this->teamChartRepository = $teamChartRepository;
         $this->teamRepository = $teamRepository;
@@ -68,12 +73,12 @@ class TeamChartService
 
         //----- Maj group
         foreach ($groupList as $group) {
-            $this->groupService->majTeamGroup($group->getId());
+            $this->teamGroupRanking->maj($group->getId());
         }
 
         //----- Maj game
         foreach ($gameList as $game) {
-            $this->gameService->majTeamGame($game->getId());
+            $this->teamGameRanking->maj($game->getId());
             $this->gameService->majTeamMasterBadge($game->getId());
         }
 
