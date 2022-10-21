@@ -23,36 +23,6 @@ class PlayerGameRepository extends DefaultRepository
     }
 
     /**
-     * @param Game $game
-     * @param null $maxRank
-     * @param null $player
-     * @return array
-     */
-    public function getRankingMedals(Game $game, $maxRank = null, $player = null)
-    {
-        $query = $this->createQueryBuilder('pg')
-            ->join('pg.player', 'p')
-            ->addSelect('p')
-            ->orderBy('pg.rankMedal');
-
-        $query->where('pg.game = :game')
-            ->setParameter('game', $game);
-
-        if (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.player = :player)')
-                ->setParameter('maxRank', $maxRank)
-                ->setParameter('player', $player);
-        } elseif ($maxRank !== null) {
-            $query->andWhere('pg.rankMedal <= :maxRank')
-                ->setParameter('maxRank', $maxRank);
-        } else {
-            $query->setMaxResults(100);
-        }
-
-        return $query->getQuery()->getResult();
-    }
-
-    /**
      * Return data from player with game and platforms
      *
      * @param $player

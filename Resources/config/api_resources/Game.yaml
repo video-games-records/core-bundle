@@ -68,7 +68,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::playerRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGameController::getRankingMedals'
             team-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [teamGame.pointChart, teamGame.team, team.read.mini]}

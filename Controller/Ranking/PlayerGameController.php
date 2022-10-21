@@ -24,7 +24,7 @@ class PlayerGameController extends DefaultController
      * @param Request $request
      * @return array
      */
-    public function getRankingPoints(Game $game, Request $request)
+    public function getRankingPoints(Game $game, Request $request): array
     {
         $idTeam = $request->query->get('idTeam', null);
         $options = [
@@ -39,12 +39,17 @@ class PlayerGameController extends DefaultController
     /**
      * @param Game    $game
      * @param Request $request
-     * @return mixed
+     * @return array
      */
-    public function playerRankingMedals(Game $game, Request $request)
+    public function getRankingMedals(Game $game, Request $request): array
     {
-        $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getRankingMedals($game, $maxRank, $this->getPlayer());
+        return $this->playerGameRanking->getRankingMedals(
+            $game->getId(),
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'player' => $this->getPlayer(),
+            ]
+        );
     }
 
 
