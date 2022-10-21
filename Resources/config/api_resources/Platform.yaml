@@ -22,4 +22,4 @@ resources:
                             in: query
                             required: false
                             type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlatformController::playerRankingPointPlatform'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerPlatformController::getRankingPoints'

@@ -43,18 +43,7 @@ class PlatformService
         return $platform;
     }
 
-    /**
-     * @throws ExceptionInterface
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function majAll()
-    {
-        $platforms = $this->platformRepository->findAll();
-        foreach ($platforms as $platform) {
-            $this->majRanking($platform);
-        }
-    }
+
 
     /**
      * @param $platform
