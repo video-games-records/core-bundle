@@ -3,13 +3,10 @@
 namespace VideoGamesRecords\CoreBundle\Service\Ranking;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
-use VideoGamesRecords\CoreBundle\Interface\RankingInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerChartRanking
@@ -158,7 +155,7 @@ class PlayerChartRanking
                 $platforms[$playerChart->getPlatform()->getId()]['previousLibValue'] = $libValue;
             }
         }
-        $this->getEntityManager()->flush();
+        $this->em->flush();
         //return $players;
     }
 }

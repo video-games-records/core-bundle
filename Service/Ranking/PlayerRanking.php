@@ -2,10 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Interface\RankingInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
