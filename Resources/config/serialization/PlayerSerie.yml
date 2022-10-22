@@ -1,0 +1,49 @@
+VideoGamesRecords\CoreBundle\Entity\PlayerSerie:
+  attributes:
+    player:
+      groups:
+        - 'playerSerie.player'
+    serie:
+      groups:
+        - 'playerSerie.serie'
+    rankPointChart:
+      groups:
+        - 'playerSerie.pointChart'
+    rankMedal:
+      groups:
+        - 'playerSerie.medal'
+    chartRank0:
+      groups:
+        - 'playerSerie.medal'
+    chartRank1:
+      groups:
+        - 'playerSerie.medal'
+    chartRank2:
+      groups:
+        - 'playerSerie.medal'
+    chartRank3:
+      groups:
+        - 'playerSerie.medal'
+    chartRank4:
+    chartRank5:
+    pointChart:
+      groups:
+        - 'playerSerie.pointChart'
+    pointChartWithoutDlc:
+      groups:
+        - 'playerSerie.pointChart'
+    nbChart:
+      groups:
+        - 'playerSerie.pointChart'
+        - 'playerSerie.medal'
+        - 'playerSerie.proof'
+    nbChartProven:
+      groups:
+        - 'playerSerie.pointChart'
+        - 'playerSerie.medal'
+        - 'playerSerie.proof'
+    nbChartWithoutDlc:
+    nbChartProvenWithoutDlc:
+    pointGame:
+      groups:
+        - 'playerSerie.pointChart'
