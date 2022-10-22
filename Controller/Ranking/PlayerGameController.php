@@ -27,12 +27,14 @@ class PlayerGameController extends DefaultController
     public function getRankingPoints(Game $game, Request $request): array
     {
         $idTeam = $request->query->get('idTeam', null);
-        $options = [
-            'maxRank' => $request->query->get('maxRank', 5),
-            'player' => $this->getPlayer(),
-            'team' => $idTeam ? $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam) : null,
-        ];
-        return $this->playerGameRanking->getRankingPoints($game->getId(), $options);
+        return $this->playerGameRanking->getRankingPoints(
+            $game->getId(),
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'player' => $this->getPlayer(),
+                'team' => $idTeam ? $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam) : null,
+            ]
+        );
     }
 
 

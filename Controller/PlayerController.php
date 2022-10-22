@@ -59,45 +59,6 @@ class PlayerController extends DefaultController
         return $this->playerService->canAskProof($player);
     }
 
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function rankingPointChart(Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 100);
-        $idTeam = $request->query->get('idTeam', null);
-        if ($idTeam) {
-            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
-        } else {
-            $team = null;
-        }
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingPointChart($this->getPlayer(), $maxRank, $team);
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function rankingPointGame(Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 100);
-        $idTeam = $request->query->get('idTeam', null);
-        if ($idTeam) {
-            $team = $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam);
-        } else {
-            $team = null;
-        }
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingPointGame($this->getPlayer(), $maxRank, $team);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function rankingMedal()
-    {
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingMedal($this->getPlayer());
-    }
 
     /**
      * @return mixed

@@ -11,12 +11,12 @@ resources:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.pointChart,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-point-chart'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointChart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingPointChart'
             player-ranking-point-game:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.pointGame,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-point-game'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingPointGame'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingPointGame'
             player-ranking-point-game-home:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.pointGame,player.team,team.read.mini]}
@@ -26,7 +26,7 @@ resources:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.medal,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-medal'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::rankingMedal'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingMedals'
             player-ranking-cup:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.cup,player.team,team.read.mini,player.country,country.read]}

@@ -211,40 +211,6 @@ class PlayerRepository extends DefaultRepository
     /**
      * @param null $player
      * @param int  $maxRank
-     * @param null $team
-     * @return array
-     */
-    public function getRankingPointChart($player = null, $maxRank = 100, $team = null)
-    {
-        return $this->getRanking('rankPointChart', $player, $maxRank, $team);
-    }
-
-
-    /**
-     * @param Player|null $player
-     * @param int         $maxRank
-     * @param Team|null   $team
-     * @return int|mixed|string
-     */
-    public function getRankingPointGame(Player $player = null, int $maxRank = 100, Team $team = null)
-    {
-        return $this->getRanking('rankPointGame', $player, $maxRank, $team);
-    }
-
-
-    /**
-     * @param null $player
-     * @return array
-     */
-    public function getRankingMedal($player = null)
-    {
-        return $this->getRanking('rankMedal', $player);
-    }
-
-
-    /**
-     * @param null $player
-     * @param int  $maxRank
      * @return int|mixed|string
      */
     public function getRankingCup($player = null, int $maxRank = 100)
