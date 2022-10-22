@@ -3,18 +3,23 @@
 namespace VideoGamesRecords\CoreBundle\Service\Ranking;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use VideoGamesRecords\CoreBundle\Event\GameEvent;
 use VideoGamesRecords\CoreBundle\Interface\RankingInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class TeamGameRanking implements RankingInterface
 {
     private EntityManagerInterface $em;
+    private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $eventDispatcher)
     {
         $this->em = $em;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function maj(int $id): void
@@ -79,6 +84,9 @@ class TeamGameRanking implements RankingInterface
             }
         }
         $this->em->flush();
+
+        $event = new GameEvent($game);
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::TEAM_GAME_MAJ_COMPLETED);
     }
 
     public function getRankingPoints(int $id = null, array $options = []): array

@@ -4,40 +4,24 @@ namespace VideoGamesRecords\CoreBundle\Service;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\ORMException;
-use Exception;
+
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\GameDay;
 use VideoGamesRecords\CoreBundle\Repository\GameDayRepository;
 use VideoGamesRecords\CoreBundle\Repository\GameRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
-use VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository;
-use VideoGamesRecords\CoreBundle\Repository\TeamGameRepository;
 
 class GameService
 {
     private GameRepository $gameRepository;
     private GameDayRepository $gameDayRepository;
-    private PlayerGameRepository $playerGameRepository;
-    private TeamGameRepository $teamGameRepository;
-    private PlayerBadgeRepository $playerBadgeRepository;
-    private TeamBadgeRepository $teamBadgeRepository;
 
     public function __construct(
         GameRepository $gameRepository,
-        GameDayRepository $gameDayRepository,
-        PlayerGameRepository $playerGameRepository,
-        TeamGameRepository $teamGameRepository,
-        PlayerBadgeRepository $playerBadgeRepository,
-        TeamBadgeRepository $teamBadgeRepository
+        GameDayRepository $gameDayRepository
     )
     {
         $this->gameRepository = $gameRepository;
         $this->gameDayRepository = $gameDayRepository;
-        $this->playerGameRepository = $playerGameRepository;
-        $this->teamGameRepository = $teamGameRepository;
-        $this->playerBadgeRepository = $playerBadgeRepository;
-        $this->teamBadgeRepository = $teamBadgeRepository;
     }
 
     /**
@@ -68,31 +52,6 @@ class GameService
             $this->gameDayRepository->flush();
         }
     }
-
-    /**
-     * @param int $idGame
-     * @throws Exception
-     */
-    public function majPlayerMasterBadge(int $idGame)
-    {
-        $game = $this->getGame($idGame);
-        if ($game) {
-            $this->playerBadgeRepository->majMasterBadge($game);
-        }
-    }
-
-     /**
-     * @param int $idGame
-     * @throws Exception
-     */
-    public function majTeamMasterBadge(int $idGame)
-    {
-        $game = $this->getGame($idGame);
-        if ($game) {
-            $this->teamBadgeRepository->majMasterBadge($game);
-        }
-    }
-
 
     /**
      * @param int    $idGame

@@ -25,7 +25,6 @@ class PlayerChartService
     private PlayerRanking $playeRanking;
     private GameService $gameService;
     private ChartService $chartService;
-    private PlayerService $playerService;
     private PlayerChartRepository $playerChartRepository;
     private PlayerGroupRepository $playerGroupRepository;
     private PlayerGameRepository $playerGameRepository;
@@ -37,7 +36,6 @@ class PlayerChartService
         PlayerRanking $playerRanking,
         GameService $gameService,
         ChartService $chartService,
-        PlayerService $playerService,
         PlayerChartRepository $playerChartRepository,
         PlayerGroupRepository $playerGroupRepository,
         PlayerGameRepository $playerGameRepository,
@@ -48,7 +46,6 @@ class PlayerChartService
         $this->playeRanking = $playerRanking;
         $this->gameService = $gameService;
         $this->chartService = $chartService;
-        $this->playerService = $playerService;
         $this->playerChartRepository = $playerChartRepository;
         $this->playerGroupRepository = $playerGroupRepository;
         $this->playerGameRepository = $playerGameRepository;
@@ -96,7 +93,6 @@ class PlayerChartService
         //----- Maj game
         foreach ($gameList as $game) {
             $this->playerGameRanking->maj($game->getId());
-            $this->gameService->majPlayerMasterBadge($game->getId());
         }
 
         //----- Maj player

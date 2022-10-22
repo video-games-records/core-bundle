@@ -3,11 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Country;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
@@ -35,44 +33,6 @@ class PlayerBadgeRepository extends DefaultRepository
         return $query->getQuery()->getResult();
     }
 
-
-    /**
-     * @param Game $game
-     * @throws Exception
-     */
-    public function majMasterBadge(Game $game)
-    {
-        //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getRankingPoints($game, 1);
-        $players = array();
-        foreach ($ranking as $playerGame) {
-            $players[$playerGame->getPlayer()->getId()] = 0;
-        }
-
-        //----- get players with master badge
-        $list = $this->getFromBadge($game->getBadge());
-
-        //----- Remove master badge
-        foreach ($list as $playerBadge) {
-            $idPlayer = $playerBadge->getPlayer()->getId();
-            //----- Remove badge
-            if (!array_key_exists($idPlayer, $players)) {
-                $playerBadge->setEndedAt(new DateTime());
-                $this->_em->persist($playerBadge);
-            }
-            $players[$idPlayer] = 1;
-        }
-        //----- Add master badge
-        foreach ($players as $idPlayer => $value) {
-            if (0 === $value) {
-                $playerBadge = new PlayerBadge();
-                $playerBadge->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer));
-                $playerBadge->setBadge($game->getBadge());
-                $this->_em->persist($playerBadge);
-            }
-        }
-        $this->_em->flush();
-    }
 
     /**
      * @param Country $country
@@ -122,12 +82,12 @@ class PlayerBadgeRepository extends DefaultRepository
      * @param $badge
      * @throws Exception
      */
-    private function updateBadge(array $players, $badge)
+    public function updateBadge(array $players, $badge)
     {
-        //----- get players with country badge
+        //----- get players with badge
         $list = $this->getFromBadge($badge);
 
-        //----- Remove country badge
+        //----- Remove badge
         foreach ($list as $playerBadge) {
             $idPlayer = $playerBadge->getPlayer()->getId();
             //----- Remove badge
@@ -137,7 +97,7 @@ class PlayerBadgeRepository extends DefaultRepository
             }
             $players[$idPlayer] = 1;
         }
-        //----- Add master badge
+        //----- Add badge
         foreach ($players as $idPlayer => $value) {
             if (0 === $value) {
                 $playerBadge = new PlayerBadge();
@@ -159,7 +119,6 @@ class PlayerBadgeRepository extends DefaultRepository
 
     /**
      * Maj user badges (Connexion / Forum)
-     * @throws DBALException
      */
     public function majUserBadge()
     {
@@ -177,7 +136,6 @@ class PlayerBadgeRepository extends DefaultRepository
 
     /**
      * Maj player badges
-     * @throws DBALException
      */
     public function majPlayerBadge()
     {

@@ -118,7 +118,7 @@ class PlayerGameRanking implements RankingInterface
         $this->em->flush();
 
         $event = new GameEvent($game);
-        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::GAME_MAJ_COMPLETED);
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_GAME_MAJ_COMPLETED);
     }
 
     public function getRankingPoints(int $id = null, array $options = []): array

@@ -15,7 +15,6 @@ class TeamChartService
 {
     private TeamGameRanking $teamGameRanking;
     private TeamGroupRanking $teamGroupRanking;
-    private GameService $gameService;
     private ChartService $chartService;
     private TeamChartRepository $teamChartRepository;
     private TeamRepository $teamRepository;
@@ -23,14 +22,12 @@ class TeamChartService
     public function __construct(
         TeamGameRanking $teamGameRanking,
         TeamGroupRanking $teamGroupRanking,
-        GameService $gameService,
         ChartService $chartService,
         TeamChartRepository $teamChartRepository,
         TeamRepository $teamRepository
     ) {
         $this->teamGameRanking = $teamGameRanking;
         $this->teamGroupRanking = $teamGroupRanking;
-        $this->gameService = $gameService;
         $this->chartService = $chartService;
         $this->teamChartRepository = $teamChartRepository;
         $this->teamRepository = $teamRepository;
@@ -79,7 +76,6 @@ class TeamChartService
         //----- Maj game
         foreach ($gameList as $game) {
             $this->teamGameRanking->maj($game->getId());
-            $this->gameService->majTeamMasterBadge($game->getId());
         }
 
         //----- Maj team
