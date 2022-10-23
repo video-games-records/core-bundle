@@ -6,24 +6,24 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerPlatformRanking;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerRankingUpdate;
 
-class MajPlayerPlatformRankingCommand extends Command
+class PlayerRankingUpdateCommand extends Command
 {
-    protected static $defaultName = 'vgr-core:maj-player-platform-ranking';
+    protected static $defaultName = 'vgr-core:player-ranking-update';
 
-    private PlayerPlatformRanking $playerPlatformRanking;
+    private PlayerRankingUpdate $playerRankingUpdate;
 
-    public function __construct(PlayerPlatformRanking $playerPlatformRanking)
+    public function __construct(PlayerRankingUpdate $playerRankingUpdate)
     {
-        $this->playerPlatformRanking = $playerPlatformRanking;
+        $this->playerRankingUpdate = $playerRankingUpdate;
         parent::__construct();
     }
 
     protected function configure()
     {
         $this
-            ->setName('vgr-core:maj-player-platform-ranking')
+            ->setName('vgr-core:player-ranking-update')
             ->setDescription('Command to update players ranking')
             ->addArgument(
                 'function',
@@ -52,10 +52,10 @@ class MajPlayerPlatformRankingCommand extends Command
         switch ($function) {
             case 'maj':
                 $id = $input->getOption('id');
-                $this->playerPlatformRanking->maj($id);
+                $this->playerRankingUpdate->maj($id);
                 break;
-            case 'maj-all':
-                $this->playerPlatformRanking->majAll();
+            case 'maj-rank':
+                $this->playerRankingUpdate->majRank();
                 break;
         }
         return 0;

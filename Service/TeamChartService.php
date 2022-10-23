@@ -8,26 +8,26 @@ use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Repository\TeamChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGameRanking;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGroupRanking;
+use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGameRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGroupRankingUpdate;
 
 class TeamChartService
 {
-    private TeamGameRanking $teamGameRanking;
-    private TeamGroupRanking $teamGroupRanking;
+    private TeamGameRankingUpdate $teamGameRankingUpdate;
+    private TeamGroupRankingUpdate $teamGroupRankingUpdate;
     private ChartService $chartService;
     private TeamChartRepository $teamChartRepository;
     private TeamRepository $teamRepository;
 
     public function __construct(
-        TeamGameRanking $teamGameRanking,
-        TeamGroupRanking $teamGroupRanking,
+        TeamGameRankingUpdate $teamGameRankingUpdate,
+        TeamGroupRankingUpdate $teamGroupRankingUpdate,
         ChartService $chartService,
         TeamChartRepository $teamChartRepository,
         TeamRepository $teamRepository
     ) {
-        $this->teamGameRanking = $teamGameRanking;
-        $this->teamGroupRanking = $teamGroupRanking;
+        $this->teamGameRankingUpdate = $teamGameRankingUpdate;
+        $this->teamGroupRankingUpdate = $teamGroupRankingUpdate;
         $this->chartService = $chartService;
         $this->teamChartRepository = $teamChartRepository;
         $this->teamRepository = $teamRepository;
@@ -70,12 +70,12 @@ class TeamChartService
 
         //----- Maj group
         foreach ($groupList as $group) {
-            $this->teamGroupRanking->maj($group->getId());
+            $this->teamGroupRankingUpdate->maj($group->getId());
         }
 
         //----- Maj game
         foreach ($gameList as $game) {
-            $this->teamGameRanking->maj($game->getId());
+            $this->teamGameRankingUpdate->maj($game->getId());
         }
 
         //----- Maj team

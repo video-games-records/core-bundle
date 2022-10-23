@@ -14,15 +14,15 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
-use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGameRanking;
-use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGroupRanking;
-use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerRanking;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGameRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGroupRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerRankingUpdate;
 
 class PlayerChartService
 {
-    private PlayerGameRanking $playerGameRanking;
-    private PlayerGroupRanking $playerGroupRanking;
-    private PlayerRanking $playeRanking;
+    private PlayerGameRankingUpdate $playerGameRankingUpdate;
+    private PlayerGroupRankingUpdate $playerGroupRankingUpdate;
+    private PlayerRankingUpdate $playerRankingUpdate;
     private GameService $gameService;
     private ChartService $chartService;
     private PlayerChartRepository $playerChartRepository;
@@ -31,9 +31,9 @@ class PlayerChartService
     private PlayerChartStatusRepository $playerChartStatusRepository;
 
     public function __construct(
-        PlayerGameRanking $playerGameRanking,
-        PlayerGroupRanking $playerGroupRanking,
-        PlayerRanking $playerRanking,
+        PlayerGameRankingUpdate $playerGameRankingUpdate,
+        PlayerGroupRankingUpdate $playerGroupRankingUpdate,
+        PlayerRankingUpdate $playerRankingUpdate,
         GameService $gameService,
         ChartService $chartService,
         PlayerChartRepository $playerChartRepository,
@@ -41,9 +41,9 @@ class PlayerChartService
         PlayerGameRepository $playerGameRepository,
         PlayerChartStatusRepository $playerChartStatusRepository
     ) {
-        $this->playerGameRanking = $playerGameRanking;
-        $this->playerGroupRanking = $playerGroupRanking;
-        $this->playeRanking = $playerRanking;
+        $this->playerGameRankingUpdate = $playerGameRankingUpdate;
+        $this->playerGroupRankingUpdate = $playerGroupRankingUpdate;
+        $this->playerRankingUpdate = $playerRankingUpdate;
         $this->gameService = $gameService;
         $this->chartService = $chartService;
         $this->playerChartRepository = $playerChartRepository;
@@ -87,17 +87,17 @@ class PlayerChartService
 
         //----- Maj group
         foreach ($groupList as $group) {
-            $this->playerGroupRanking->maj($group->getId());
+            $this->playerGroupRankingUpdate->maj($group->getId());
         }
 
         //----- Maj game
         foreach ($gameList as $game) {
-            $this->playerGameRanking->maj($game->getId());
+            $this->playerGameRankingUpdate->maj($game->getId());
         }
 
         //----- Maj player
         foreach ($playerList as $player) {
-            $this->playeRanking->maj($player->getId());
+            $this->playerRankingUpdate->maj($player->getId());
             if ($player->getCountry()) {
                 $player->getCountry()->setBoolMaj(true);
             }

@@ -5,18 +5,18 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
-use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerPlatformRanking;
+use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerPlatformRankingSelect;
 
 /**
  * Class PlayerPlaformController
  */
 class PlayerPlatformController extends DefaultController
 {
-    private PlayerPlatformRanking $playerPlaformRanking;
+    private PlayerPlatformRankingSelect $playerPlatformRankingSelect;
 
-    public function __construct(PlayerPlatformRanking $playerPlaformRanking)
+    public function __construct(PlayerPlatformRankingSelect $playerPlatformRankingSelect)
     {
-        $this->playerPlaformRanking = $playerPlaformRanking;
+        $this->playerPlatformRankingSelect = $playerPlatformRankingSelect;
     }
 
     /**
@@ -30,6 +30,6 @@ class PlayerPlatformController extends DefaultController
             'maxRank' => $request->query->get('maxRank', 5),
             'player' => $this->getPlayer(),
         ];
-        return $this->playerPlaformRanking->getRankingPoints($platform->getId(), $options);
+        return $this->playerPlatformRankingSelect->getRankingPoints($platform->getId(), $options);
     }
 }

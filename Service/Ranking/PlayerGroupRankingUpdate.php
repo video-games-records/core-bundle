@@ -2,14 +2,15 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking;
 
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
-use VideoGamesRecords\CoreBundle\Interface\RankingInterface;
+use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerGroupRanking implements RankingInterface
+class PlayerGroupRankingUpdate implements RankingUpdateInterface
 {
     private EntityManagerInterface $em;
 

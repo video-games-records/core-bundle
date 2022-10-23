@@ -7,11 +7,11 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
-use VideoGamesRecords\CoreBundle\Interface\RankingInterface;
+use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class PlayerGameRanking implements RankingInterface
+class PlayerGameRankingUpdate implements RankingUpdateInterface
 {
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;
