@@ -101,15 +101,6 @@ class PlayerService
     }
 
     /**
-     * @throws Exception
-     */
-    public function maj(): void
-    {
-        $this->playerRepository->majNbChartDisabled();
-    }
-
-
-    /**
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws Exception

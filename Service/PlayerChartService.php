@@ -26,8 +26,6 @@ class PlayerChartService
     private GameService $gameService;
     private ChartService $chartService;
     private PlayerChartRepository $playerChartRepository;
-    private PlayerGroupRepository $playerGroupRepository;
-    private PlayerGameRepository $playerGameRepository;
     private PlayerChartStatusRepository $playerChartStatusRepository;
 
     public function __construct(
@@ -37,8 +35,6 @@ class PlayerChartService
         GameService $gameService,
         ChartService $chartService,
         PlayerChartRepository $playerChartRepository,
-        PlayerGroupRepository $playerGroupRepository,
-        PlayerGameRepository $playerGameRepository,
         PlayerChartStatusRepository $playerChartStatusRepository
     ) {
         $this->playerGameRankingUpdate = $playerGameRankingUpdate;
@@ -47,8 +43,6 @@ class PlayerChartService
         $this->gameService = $gameService;
         $this->chartService = $chartService;
         $this->playerChartRepository = $playerChartRepository;
-        $this->playerGroupRepository = $playerGroupRepository;
-        $this->playerGameRepository = $playerGameRepository;
         $this->playerChartStatusRepository = $playerChartStatusRepository;
     }
 
@@ -108,8 +102,6 @@ class PlayerChartService
         return count($charts);
     }
 
-
-
     /**
      * @param $player
      * @param $game
@@ -138,57 +130,5 @@ class PlayerChartService
             $playerChart->setStatus($statut);
             $this->playerChartRepository->flush();
         }
-    }
-
-
-    /**
-     * @param PlayerChart $playerChart
-     * @throws ORMException
-     */
-    public function incrementNbChartProven(PlayerChart $playerChart)
-    {
-        $this->updateNbChartProven($playerChart, 1);
-    }
-
-    /**
-     * @param PlayerChart $playerChart
-     * @throws ORMException
-     */
-    public function decrementNbChartProven(PlayerChart $playerChart)
-    {
-        $this->updateNbChartProven($playerChart, -1);
-    }
-
-    /**
-     * @param PlayerChart $playerChart
-     * @param int         $nb
-     * @throws ORMException
-     */
-    private function updateNbChartProven(PlayerChart $playerChart, int $nb)
-    {
-        /** @var PlayerGroup $playerGroup */
-        $playerGroup = $this->playerGroupRepository->findOneBy(
-            array(
-                'player' => $playerChart->getPlayer(),
-                'group' => $playerChart->getChart()->getGroup()
-            )
-        );
-        if ($playerGroup) {
-            $playerGroup->setNbChartProven($playerGroup->getNbChartProven() + $nb);
-        }
-
-        /** @var PlayerGame $playerGame */
-        $playerGame = $this->playerGameRepository->findOneBy(
-            array(
-                'player' => $playerChart->getPlayer(),
-                'game' => $playerChart->getChart()->getGroup()->getGame()
-            )
-        );
-        if ($playerGame) {
-            $playerGame->setNbChartProven($playerGame->getNbChartProven() + $nb);
-        }
-
-        $playerChart->getPlayer()->setNbChartProven($playerChart->getPlayer()->getNbChartProven() + $nb);
-        $this->playerChartRepository->flush();
     }
 }

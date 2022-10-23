@@ -49,17 +49,12 @@ class GameCommand extends DefaultCommand
      * @param OutputInterface $output
      * @return int
      * @throws ORMException
-     * @throws ExceptionInterface
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $function = $input->getArgument('function');
         switch ($function) {
-            case 'maj-master-badge':
-                $idGame = $input->getOption('id');
-                $this->gameService->majMasterBadge($idGame);
-                break;
             case 'game-of-day':
                 $this->gameService->addGameOfDay();
                 break;
