@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
@@ -23,49 +22,7 @@ class TeamRepository extends DefaultRepository
     }
 
     /**
-     * @param $team
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function maj($team)
-    {
-        $query = $this->_em->createQuery("
-            SELECT
-                 t.id,
-                 SUM(tg.chartRank0) as chartRank0,
-                 SUM(tg.chartRank1) as chartRank1,
-                 SUM(tg.chartRank2) as chartRank2,
-                 SUM(tg.chartRank3) as chartRank3,
-                 SUM(tg.pointChart) as pointChart,
-                 SUM(tg.pointGame) as pointGame,
-                 COUNT(DISTINCT tg.game) as nbGame
-            FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
-            JOIN tg.team t
-            WHERE tg.team = :team
-            GROUP BY t.id");
-
-        $query->setParameter('team', $team);
-        $result = $query->getResult();
-        if ($result) {
-            $row = $result[0];
-
-            $team->setChartRank0($row['chartRank0']);
-            $team->setChartRank1($row['chartRank1']);
-            $team->setChartRank2($row['chartRank2']);
-            $team->setChartRank3($row['chartRank3']);
-            $team->setPointChart($row['pointChart']);
-            $team->setPointGame($row['pointGame']);
-            $team->setNbGame($row['nbGame']);
-
-            $this->_em->persist($team);
-            $this->_em->flush();
-        }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws DBALException
+     * @return void
      */
     public function majGameRank()
     {

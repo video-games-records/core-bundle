@@ -7,7 +7,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Repository\TeamChartRepository;
-use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
+use VideoGamesRecords\CoreBundle\Service\Ranking\TeamRankingUpdate;
 use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGameRankingUpdate;
 use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGroupRankingUpdate;
 
@@ -17,20 +17,20 @@ class TeamChartService
     private TeamGroupRankingUpdate $teamGroupRankingUpdate;
     private ChartService $chartService;
     private TeamChartRepository $teamChartRepository;
-    private TeamRepository $teamRepository;
+    private TeamRankingUpdate $teamRankingUpdate;
 
     public function __construct(
         TeamGameRankingUpdate $teamGameRankingUpdate,
         TeamGroupRankingUpdate $teamGroupRankingUpdate,
         ChartService $chartService,
         TeamChartRepository $teamChartRepository,
-        TeamRepository $teamRepository
+        TeamRankingUpdate $teamRankingUpdate
     ) {
         $this->teamGameRankingUpdate = $teamGameRankingUpdate;
         $this->teamGroupRankingUpdate = $teamGroupRankingUpdate;
         $this->chartService = $chartService;
         $this->teamChartRepository = $teamChartRepository;
-        $this->teamRepository = $teamRepository;
+        $this->teamRankingUpdate = $teamRankingUpdate;
     }
 
 
@@ -80,7 +80,7 @@ class TeamChartService
 
         //----- Maj team
         foreach ($teamList as $team) {
-            $this->teamRepository->maj($team);
+            $this->teamRankingUpdate->maj($team);
         }
         return count($charts);
     }
