@@ -39,7 +39,7 @@ class PlayerRankingSelect implements RankingSelectInterface
      * @param array  $options
      * @return float|int|mixed|string
      */
-    private function getRanking(string $column = 'rankPointChart', array $options = [])
+    private function getRanking(string $column = 'rankPointChart', array $options = []): mixed
     {
         $maxRank = $options['maxRank'] ?? null;
         $player = $options['player'] ?? null;

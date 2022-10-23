@@ -106,9 +106,6 @@ class PlayerService
     public function maj(): void
     {
         $this->playerRepository->majNbChartDisabled();
-        $this->playerRepository->majRankPointGame();
-        $this->playerRepository->majRankCup();
-        $this->playerRepository->majRankProof();
     }
 
 

@@ -88,63 +88,6 @@ class PlayerRepository extends DefaultRepository
     }
 
 
-
-    /**
-     * Update column rankPointGame
-     */
-    public function majRankPointGame()
-    {
-        $players = $this->findBy(array(), array('pointGame' => 'DESC'));
-
-        Ranking::addObjectRank($players, 'rankPointGame', array('pointGame'));
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * Update column rankCup
-     */
-    public function majRankCup()
-    {
-        $players = $this->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
-
-        Ranking::addObjectRank($players, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * Update column rankProof
-     */
-    public function majRankProof()
-    {
-        $players = $this->findBy(array(), array('nbChartProven' => 'DESC'));
-
-        Ranking::addObjectRank($players, 'rankProof', array('nbChartProven'));
-        $this->getEntityManager()->flush();
-    }
-
-
-    /**
-     * @param $country
-     */
-    public function majRankCountry($country)
-    {
-        $players = $this->findBy(array('country' => $country), array('rankPointChart' => 'ASC'));
-
-        Ranking::addObjectRank($players, 'rankCountry', array('rankPointChart'));
-        $this->getEntityManager()->flush();
-    }
-
-
-    /**
-     */
-    public function majRankBadge()
-    {
-        $players = $this->findBy(array(), array('pointBadge' => 'DESC', 'nbMasterBadge' => 'DESC'));
-
-        Ranking::addObjectRank($players, 'rankBadge', array('pointBadge', 'nbMasterBadge'));
-        $this->getEntityManager()->flush();
-    }
-
     /**
      * @throws Exception
      */

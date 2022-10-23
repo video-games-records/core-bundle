@@ -20,7 +20,7 @@ class PlayerChartRanking
 
     public function maj($id): void
     {
-        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
+        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($id);
         if (null === $chart) {
             return;
         }

@@ -3,6 +3,9 @@
 namespace VideoGamesRecords\CoreBundle\Service\Ranking;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
@@ -61,15 +64,28 @@ class TeamRankingUpdate implements RankingUpdateInterface
     public function majRank(): void
     {
         $this->majRankPointChart();
+        $this->majRankPointGame();
         $this->majRankMedal();
+        $this->majRankCup();
     }
-     /**
+
+    /**
      * Update column rankPointChart
      */
     private function majRankPointChart()
     {
-        $players = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->findBy(array(), array('pointChart' => 'DESC'));
-        Ranking::addObjectRank($players, 'rankPointChart', array('pointChart'));
+        $teams = $this->getTeamRepository()->findBy(array(), array('pointChart' => 'DESC'));
+        Ranking::addObjectRank($teams, 'rankPointChart', array('pointChart'));
+        $this->em->flush();
+    }
+
+    /**
+     * Update column rankPointGame
+     */
+    private function majRankPointGame()
+    {
+        $teams = $this->getTeamRepository()->findBy(array(), array('pointGame' => 'DESC'));
+        Ranking::addObjectRank($teams, 'rankPointGame', array('pointGame'));
         $this->em->flush();
     }
 
@@ -78,8 +94,23 @@ class TeamRankingUpdate implements RankingUpdateInterface
      */
     private function majRankMedal()
     {
-        $players = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->findBy(array(), array('chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC'));
-        Ranking::addObjectRank($players, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
+        $teams = $this->getTeamRepository()->findBy(array(), array('chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC'));
+        Ranking::addObjectRank($teams, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
         $this->em->flush();
+    }
+
+    /**
+     * Update column rankCup
+     */
+    public function majRankCup()
+    {
+        $teams = $this->getTeamRepository()->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
+        Ranking::addObjectRank($teams, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
+        $this->em->flush();
+    }
+
+    private function getTeamRepository(): EntityRepository
+    {
+        return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team');
     }
 }
