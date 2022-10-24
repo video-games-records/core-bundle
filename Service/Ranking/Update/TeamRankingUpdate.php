@@ -1,11 +1,9 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 

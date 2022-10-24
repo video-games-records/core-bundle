@@ -1,12 +1,11 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGameRankingUpdate;
-use Symfony\Component\Console\Command\Command;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamGameRankingUpdate;
 
 class TeamGameRankingUpdateCommand extends Command
 {

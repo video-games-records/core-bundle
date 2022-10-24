@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamRankingUpdate;
 
 class TeamRankingUpdateCommand extends Command
 {

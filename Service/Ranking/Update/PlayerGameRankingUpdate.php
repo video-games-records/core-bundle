@@ -1,11 +1,11 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;

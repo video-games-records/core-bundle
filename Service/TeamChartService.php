@@ -2,14 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Exception;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Exception;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Repository\TeamChartRepository;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamRankingUpdate;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGameRankingUpdate;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGroupRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamGameRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamGroupRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamRankingUpdate;
 
 class TeamChartService
 {

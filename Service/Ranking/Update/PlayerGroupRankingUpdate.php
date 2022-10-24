@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;

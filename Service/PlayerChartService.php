@@ -8,15 +8,11 @@ use Exception;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
-use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
-use VideoGamesRecords\CoreBundle\Entity\PlayerGroup;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerGroupRepository;
-use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGameRankingUpdate;
-use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerGroupRankingUpdate;
-use VideoGamesRecords\CoreBundle\Service\Ranking\PlayerRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Update\PlayerGameRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Update\PlayerGroupRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Update\PlayerRankingUpdate;
 
 class PlayerChartService
 {
