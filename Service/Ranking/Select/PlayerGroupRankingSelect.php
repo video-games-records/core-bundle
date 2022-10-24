@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;

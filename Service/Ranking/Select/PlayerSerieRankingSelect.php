@@ -1,11 +1,11 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
 use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
+use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
 
 class PlayerSerieRankingSelect implements RankingSelectInterface
 {

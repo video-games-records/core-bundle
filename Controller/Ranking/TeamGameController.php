@@ -2,10 +2,10 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
-use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 use Symfony\Component\HttpFoundation\Request;
+use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGameRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Select\TeamGameRankingSelect;
 
 /**
  * Class TeamGameController

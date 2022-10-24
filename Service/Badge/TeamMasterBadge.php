@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Service\Badge;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Service\Ranking\TeamGameRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Select\TeamGameRankingSelect;
 
 class TeamMasterBadge
 {

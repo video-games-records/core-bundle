@@ -1,11 +1,11 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
 
-class TeamGameRankingSelect implements RankingSelectInterface
+class TeamGroupRankingSelect implements RankingSelectInterface
 {
     private EntityManagerInterface $em;
 
@@ -16,8 +16,8 @@ class TeamGameRankingSelect implements RankingSelectInterface
 
     public function getRankingPoints(int $id = null, array $options = []): array
     {
-        $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
-        if (null === $game) {
+        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
+        if (null === $group) {
             return [];
         }
 
@@ -26,13 +26,13 @@ class TeamGameRankingSelect implements RankingSelectInterface
 
         $query = $this->em->createQueryBuilder()
             ->select('tg')
-            ->from('VideoGamesRecords\CoreBundle\Entity\TeamGame', 'tg')
+            ->from('VideoGamesRecords\CoreBundle\Entity\TeamGroup', 'tg')
             ->join('tg.team', 't')
             ->addSelect('t')
             ->orderBy('tg.rankPointChart');
 
-        $query->where('tg.game = :game')
-            ->setParameter('game', $game);
+        $query->where('tg.group = :group')
+            ->setParameter('group', $group);
 
         if (($maxRank !== null) && ($team !== null)) {
             $query->andWhere('(tg.rankPointChart <= :maxRank OR tg.team = :team)')
@@ -50,23 +50,23 @@ class TeamGameRankingSelect implements RankingSelectInterface
 
     public function getRankingMedals(int $id = null, array $options = []): array
     {
-        $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
-        if (null === $game) {
+        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
+        if (null === $group) {
             return [];
         }
 
         $maxRank = $options['maxRank'] ?? null;
         $team = $options['team'] ?? null;
 
-         $query = $this->em->createQueryBuilder()
+        $query = $this->em->createQueryBuilder()
             ->select('tg')
-            ->from('VideoGamesRecords\CoreBundle\Entity\TeamGame', 'tg')
+            ->from('VideoGamesRecords\CoreBundle\Entity\TeamGroup', 'tg')
             ->join('tg.team', 't')
             ->addSelect('t')
             ->orderBy('tg.rankMedal');
 
-        $query->where('tg.game = :game')
-            ->setParameter('game', $game);
+        $query->where('tg.group = :group')
+            ->setParameter('group', $group);
 
         if (($maxRank !== null) && ($team !== null)) {
             $query->andWhere('(tg.rankMedal <= :maxRank OR tg.team = :team)')

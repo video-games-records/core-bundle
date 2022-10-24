@@ -1,12 +1,9 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
-use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerPlatformRankingSelect implements RankingSelectInterface
 {
