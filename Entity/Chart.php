@@ -438,6 +438,11 @@ class Chart implements SluggableInterface, TimestampableInterface
         ];
     }
 
+    public function isStatusPlayerNormal()
+    {
+        return self::STATUS_NORMAL === $this->statusPlayer;
+    }
+
     /**
      * Returns an array of the fields used to generate the slug.
      *

@@ -74,7 +74,7 @@ resources:
                 path: '/charts/{id}/player-ranking'
                 swagger_context:
                     summary: 'Retrive ranking of a chart'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::playerRanking'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerChartController::getRanking'
                 defaults:
                     _api_receive: false
             player-ranking-points:
@@ -91,4 +91,4 @@ resources:
                             in: query
                             required: false
                             type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::playerRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerChartController::getRankingPoints'

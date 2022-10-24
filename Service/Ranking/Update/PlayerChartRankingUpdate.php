@@ -1,21 +1,24 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerChartRankingSelect;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerChartRanking
+class PlayerChartRankingUpdate
 {
     private EntityManagerInterface $em;
+    private PlayerChartRankingSelect $playerChartRankingSelect;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, PlayerChartRankingSelect $playerChartRankingSelect)
     {
         $this->em = $em;
+        $this->playerChartRankingSelect = $playerChartRankingSelect;
     }
 
     public function maj($id): void
@@ -27,7 +30,7 @@ class PlayerChartRanking
 
         /** @var Chart $chart */
         $chart       = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getWithChartType($chart);
-        $ranking     = $this->getRankingForUpdate($chart);
+        $ranking     = $this->playerChartRankingSelect->getRanking($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
         //$players     = [];
 

@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -12,13 +13,20 @@ use VideoGamesRecords\CoreBundle\Entity\Team;
  */
 class DefaultController extends AbstractController
 {
+    protected EntityManagerInterface $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * @return Player|null
      */
     public function getPlayer(): ?Player
     {
         if ($this->getUser() !== null) {
-            return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
+            return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
                 ->getPlayerFromUser($this->getUser());
         }
         return null;
@@ -30,7 +38,7 @@ class DefaultController extends AbstractController
     public function getTeam(): ?Team
     {
         if ($this->getUser() !== null) {
-            $player =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
+            $player =  $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
                 ->getPlayerFromUser($this->getUser());
             return $player->getTeam();
         }

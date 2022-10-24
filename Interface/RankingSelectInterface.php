@@ -6,5 +6,4 @@ interface RankingSelectInterface
     public function getRankingPoints(int $id = null, array $options = []) : array;
 
     public function getRankingMedals(int $id = null, array $options = []) : array;
-
 }
