@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\Game;
@@ -26,7 +25,6 @@ use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
  */
 class PlayerChartController extends DefaultController
 {
-    private Security $security;
     private S3Client $s3client;
     private TranslatorInterface $translator;
     private PlayerChartService $playerChartService;
@@ -38,12 +36,10 @@ class PlayerChartController extends DefaultController
     );
 
     public function __construct(
-        Security $security,
         S3Client $s3client,
         TranslatorInterface $translator,
         PlayerChartService $playerChartService
     ) {
-        $this->security = $security;
         $this->s3client = $s3client;
         $this->translator = $translator;
         $this->playerChartService = $playerChartService;
