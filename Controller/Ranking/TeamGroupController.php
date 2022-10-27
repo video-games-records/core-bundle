@@ -2,15 +2,15 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\TeamGroupRankingSelect;
 
 /**
  * Class TeamGroupController
  */
-class TeamGroupController extends DefaultController
+class TeamGroupController extends AbstractController
 {
     private TeamGroupRankingSelect $teamGroupRankingSelect;
 
@@ -30,7 +30,6 @@ class TeamGroupController extends DefaultController
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'team' => $this->getTeam(),
             ]
         );
     }
@@ -46,7 +45,6 @@ class TeamGroupController extends DefaultController
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'team' => $this->getTeam(),
             ]
         );
     }

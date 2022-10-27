@@ -2,18 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
-use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
 
-class TeamGameRankingSelect implements RankingSelectInterface
+use Doctrine\ORM\Exception\ORMException;
+
+class TeamGameRankingSelect extends DefaultRankingSelect
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
+    /**
+     * @throws ORMException
+     */
     public function getRankingPoints(int $id = null, array $options = []): array
     {
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
@@ -22,7 +18,7 @@ class TeamGameRankingSelect implements RankingSelectInterface
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $team = $options['team'] ?? null;
+        $team = $this->getTeam();
 
         $query = $this->em->createQueryBuilder()
             ->select('tg')
@@ -56,9 +52,9 @@ class TeamGameRankingSelect implements RankingSelectInterface
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $team = $options['team'] ?? null;
+        $team = $this->getTeam();
 
-         $query = $this->em->createQueryBuilder()
+        $query = $this->em->createQueryBuilder()
             ->select('tg')
             ->from('VideoGamesRecords\CoreBundle\Entity\TeamGame', 'tg')
             ->join('tg.team', 't')

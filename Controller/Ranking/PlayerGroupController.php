@@ -2,15 +2,15 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerGroupRankingSelect;
 
 /**
  * Class PlayerGroupController
  */
-class PlayerGroupController extends DefaultController
+class PlayerGroupController extends AbstractController
 {
     private PlayerGroupRankingSelect $playerGroupRankingSelect;
 
@@ -26,13 +26,13 @@ class PlayerGroupController extends DefaultController
      */
     public function getRankingPoints(Game $game, Request $request): array
     {
-        $idTeam = $request->query->get('idTeam', null);
-        $options = [
-            'maxRank' => $request->query->get('maxRank', 5),
-            'player' => $this->getPlayer(),
-            'team' => $idTeam ? $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam) : null,
-        ];
-        return $this->playerGroupRankingSelect->getRankingPoints($game->getId(), $options);
+        return $this->playerGroupRankingSelect->getRankingPoints(
+            $game->getId(),
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
+        );
     }
 
 
@@ -47,7 +47,7 @@ class PlayerGroupController extends DefaultController
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'player' => $this->getPlayer(),
+                'idTeam' => $request->query->get('idTeam')
             ]
         );
     }

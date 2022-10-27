@@ -17,17 +17,6 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 class ChartController extends DefaultController
 {
     /**
-     * @param Chart    $chart
-     * @param Request $request
-     * @return mixed
-     */
-    public function teamRanking(Chart $chart, Request $request)
-    {
-        $maxRank = $request->query->get('maxRank', 5);
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamChart')->getRankingPoints($chart, $maxRank, $this->getTeam());
-    }
-
-    /**
      * Call api form form submit scores
      * Return charts with the one relation player-chart of the connected user
      * If the user has not relation, a default relation is created

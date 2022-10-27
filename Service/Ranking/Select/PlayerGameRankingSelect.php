@@ -2,19 +2,13 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
-use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
+use Doctrine\ORM\Exception\ORMException;
 
-class PlayerGameRankingSelect implements RankingSelectInterface
+class PlayerGameRankingSelect extends DefaultRankingSelect
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-
+    /**
+     * @throws ORMException
+     */
     public function getRankingPoints(int $id = null, array $options = []): array
     {
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
@@ -23,8 +17,8 @@ class PlayerGameRankingSelect implements RankingSelectInterface
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $options['player'] ?? null;
-        $team = $options['team'] ?? null;
+        $player = $this->getPlayer();
+        $team = (null !== $options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
 
         $query = $this->em->createQueryBuilder()
             ->select('pg')
@@ -52,6 +46,9 @@ class PlayerGameRankingSelect implements RankingSelectInterface
         return $query->getQuery()->getResult();
     }
 
+    /**
+     * @throws ORMException
+     */
     public function getRankingMedals(int $id = null, array $options = []): array
     {
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
@@ -60,7 +57,7 @@ class PlayerGameRankingSelect implements RankingSelectInterface
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $options['player'] ?? null;
+        $player = $this->getPlayer();
 
         $query = $this->em->createQueryBuilder()
             ->select('pg')

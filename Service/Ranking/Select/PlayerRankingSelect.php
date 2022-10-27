@@ -2,18 +2,10 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
-use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
+use Doctrine\ORM\Exception\ORMException;
 
-class PlayerRankingSelect implements RankingSelectInterface
+class PlayerRankingSelect extends DefaultRankingSelect
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     public function getRankingPoints(int $id = null, array $options = []): array
     {
         return $this->getRanking('rankPointChart', $options);
@@ -38,14 +30,15 @@ class PlayerRankingSelect implements RankingSelectInterface
      * @param string $column
      * @param array  $options
      * @return float|int|mixed|string
+     * @throws ORMException
      */
     private function getRanking(string $column = 'rankPointChart', array $options = []): mixed
     {
         $maxRank = $options['maxRank'] ?? null;
-        $player = $options['player'] ?? null;
-        $team = $options['team'] ?? null;
+        $player = $this->getPlayer();
+        $team = (null !== $options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
 
-        $query = $this->em->createQueryBuilder('p')
+        $query = $this->em->createQueryBuilder()
             ->select('p')
             ->from('VideoGamesRecords\CoreBundle\Entity\Player', 'p')
             ->orderBy("p.$column");

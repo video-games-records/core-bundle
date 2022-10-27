@@ -2,20 +2,11 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
-use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
-use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
 
-class PlayerSerieRankingSelect implements RankingSelectInterface
+class PlayerSerieRankingSelect extends DefaultRankingSelect
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     public function getRankingPoints(int $id = null, array $options = []): array
     {
         $serie = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Serie')->find($id);
@@ -24,7 +15,7 @@ class PlayerSerieRankingSelect implements RankingSelectInterface
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $options['player'] ?? null;
+        $player = $this->getPlayer();
         $limit = $options['limit'] ?? null;
 
         $query = $this->em->createQueryBuilder()
@@ -65,7 +56,7 @@ class PlayerSerieRankingSelect implements RankingSelectInterface
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $options['player'] ?? null;
+        $player = $this->getPlayer();
         $limit = $options['limit'] ?? null;
 
         $query = $this->em->createQueryBuilder()

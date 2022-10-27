@@ -2,23 +2,18 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Interface\RankingSelectInterface;
 
-class PlayerChartRankingSelect implements RankingSelectInterface
+class PlayerChartRankingSelect extends DefaultRankingSelect
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
+    /**
+     * @throws ORMException
+     */
     public function getRankingPoints(int $id = null, array $options = []): array
     {
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($id);
@@ -27,8 +22,8 @@ class PlayerChartRankingSelect implements RankingSelectInterface
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $options['player'] ?? null;
-        $team = $options['team'] ?? null;
+        $player = $this->getPlayer();
+        $team = (null !== $options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
 
         $query = $this->em->createQueryBuilder()
             ->select('pc')
@@ -66,11 +61,12 @@ class PlayerChartRankingSelect implements RankingSelectInterface
      * @param Chart $chart
      * @param array $options
      * @return array
+     * @throws ORMException
      */
     public function getRanking(Chart $chart, array $options = []): array
     {
         $maxRank = $options['maxRank'] ?? null;
-        $player = $options['player'] ?? null;
+        $player = $this->getPlayer();
 
         $queryBuilder = $this->getRankingBaseQuery($chart);
         $queryBuilder->andWhere('status.boolRanking = 1');

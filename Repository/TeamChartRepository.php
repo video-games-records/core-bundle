@@ -23,36 +23,6 @@ class TeamChartRepository extends DefaultRepository
     }
 
     /**
-     * @param Chart $chart
-     * @param null  $maxRank
-     * @param null  $team
-     * @return array
-     */
-    public function getRankingPoints(Chart $chart, $maxRank = null, $team = null)
-    {
-        $query = $this->createQueryBuilder('tc')
-            ->join('tc.team', 't')
-            ->addSelect('t')
-            ->orderBy('tc.rankPointChart');
-
-        $query->where('tc.chart = :chart')
-            ->setParameter('chart', $chart);
-
-        if (($maxRank !== null) && ($team !== null)) {
-            $query->andWhere('(tc.rankPointChart <= :maxRank OR tc.team = :team)')
-                ->setParameter('maxRank', $maxRank)
-                ->setParameter('team', $team);
-        } elseif ($maxRank !== null) {
-            $query->andWhere('tc.rankPointChart <= :maxRank')
-                ->setParameter('maxRank', $maxRank);
-        } else {
-            $query->setMaxResults(100);
-        }
-        return $query->getQuery()->getResult();
-    }
-
-
-    /**
      * @param $chart
      * @return array
      * @throws ORMException

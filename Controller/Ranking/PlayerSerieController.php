@@ -2,15 +2,15 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerSerieRankingSelect;
 
 /**
  * Class PlayerSerieController
  */
-class PlayerSerieController extends DefaultController
+class PlayerSerieController extends AbstractController
 {
     private PlayerSerieRankingSelect $playerSerieRankingSelect;
 
@@ -31,7 +31,6 @@ class PlayerSerieController extends DefaultController
             [
                 'maxRank' => $request->query->get('maxRank', 100),
                 'limit' => $request->query->get('limit', 100),
-                'player' => $this->getPlayer(),
             ]
         );
     }
@@ -49,7 +48,6 @@ class PlayerSerieController extends DefaultController
             [
                 'maxRank' => $request->query->get('maxRank', 100),
                 'limit' => $request->query->get('limit', 100),
-                'player' => $this->getPlayer(),
             ]
         );
     }

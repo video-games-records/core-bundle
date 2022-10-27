@@ -2,15 +2,16 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
+use Doctrine\ORM\Exception\ORMException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerPlatformRankingSelect;
 
 /**
  * Class PlayerPlaformController
  */
-class PlayerPlatformController extends DefaultController
+class PlayerPlatformController extends AbstractController
 {
     private PlayerPlatformRankingSelect $playerPlatformRankingSelect;
 
@@ -21,15 +22,17 @@ class PlayerPlatformController extends DefaultController
 
     /**
      * @param Platform $platform
-     * @param Request $request
+     * @param Request  $request
      * @return array
+     * @throws ORMException
      */
     public function getRankingPoints(Platform $platform, Request $request): array
     {
-        $options = [
-            'maxRank' => $request->query->get('maxRank', 5),
-            'player' => $this->getPlayer(),
-        ];
-        return $this->playerPlatformRankingSelect->getRankingPoints($platform->getId(), $options);
+        return $this->playerPlatformRankingSelect->getRankingPoints(
+            $platform->getId(),
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+            ]
+        );
     }
 }

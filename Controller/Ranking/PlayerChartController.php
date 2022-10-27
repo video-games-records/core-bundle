@@ -3,16 +3,16 @@
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
 use Doctrine\ORM\Exception\ORMException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerChartRankingSelect;
 use VideoGamesRecords\CoreBundle\Tools\Score;
-use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 
 /**
  * Class PlayerChartController
  */
-class PlayerChartController extends RankingController
+class PlayerChartController extends AbstractController
 {
     private PlayerChartRankingSelect $playerChartRankingSelect;
 
@@ -29,7 +29,13 @@ class PlayerChartController extends RankingController
      */
     public function getRankingPoints(Chart $chart, Request $request): array
     {
-        return $this->playerChartRankingSelect->getRankingPoints($chart->getId(), $this->getOptions($request));
+        return $this->playerChartRankingSelect->getRankingPoints(
+            $chart->getId(),
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
+        );
     }
 
 
@@ -41,7 +47,12 @@ class PlayerChartController extends RankingController
      */
     public function getRanking(Chart $chart, Request $request): array
     {
-        $ranking = $this->playerChartRankingSelect->getRanking($chart, $this->getOptions($request, 100));
+        $ranking = $this->playerChartRankingSelect->getRanking(
+            $chart,
+            [
+                'maxRank' => $request->query->get('maxRank', 100),
+            ]
+        );
 
         if (!$chart->isStatusPlayerNormal()) {
             $i = 1;

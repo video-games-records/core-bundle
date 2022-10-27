@@ -2,14 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Controller\DefaultController;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerRankingSelect;
 
 /**
  * Class PlayerController
  */
-class PlayerController extends DefaultController
+class PlayerController extends AbstractController
 {
     private PlayerRankingSelect $playerRankingSelect;
 
@@ -26,7 +26,10 @@ class PlayerController extends DefaultController
     {
         return $this->playerRankingSelect->getRankingPointChart(
             null,
-            $this->getOptions($request)
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
         );
     }
 
@@ -38,7 +41,10 @@ class PlayerController extends DefaultController
     {
         return $this->playerRankingSelect->getRankingPointGame(
             null,
-            $this->getOptions($request)
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
         );
     }
 
@@ -50,21 +56,10 @@ class PlayerController extends DefaultController
     {
         return $this->playerRankingSelect->getRankingMedals(
             null,
-            $this->getOptions($request)
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
         );
-    }
-
-    /**
-     * @param Request $request
-     * @return array
-     */
-    private function getOptions(Request $request): array
-    {
-        $idTeam = $request->query->get('idTeam', null);
-        return [
-            'maxRank' => $request->query->get('maxRank', 5),
-            'player' => $this->getPlayer(),
-            'team' => $idTeam ? $this->getDoctrine()->getManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam) : null,
-        ];
     }
 }
