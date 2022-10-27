@@ -2,20 +2,20 @@
 namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadge;
-use VideoGamesRecords\CoreBundle\Service\Badge\TeamMasterBadge;
+use VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadgeUpdater;
+use VideoGamesRecords\CoreBundle\Service\Badge\TeamMasterBadgeUpdater;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
 
 final class GameSubscriber implements EventSubscriberInterface
 {
-    private PlayerMasterBadge $playerMasterBadge;
-    private TeamMasterBadge $teamMasterBadge;
+    private PlayerMasterBadgeUpdater $playerMasterBadgeUpdater;
+    private TeamMasterBadgeUpdater $teamMasterBadgeUpdater;
 
-    public function __construct(PlayerMasterBadge $playerMasterBadge, TeamMasterBadge $teamMasterBadge)
+    public function __construct(PlayerMasterBadgeUpdater $playerMasterBadgeUpdater, TeamMasterBadgeUpdater $teamMasterBadgeUpdater)
     {
-        $this->playerMasterBadge = $playerMasterBadge;
-        $this->teamMasterBadge = $teamMasterBadge;
+        $this->playerMasterBadgeUpdater = $playerMasterBadgeUpdater;
+        $this->teamMasterBadgeUpdater = $teamMasterBadgeUpdater;
     }
 
     public static function getSubscribedEvents(): array
@@ -31,7 +31,7 @@ final class GameSubscriber implements EventSubscriberInterface
      */
     public function playerGamePostMaj(GameEvent $event)
     {
-        $this->playerMasterBadge->maj($event->getGame());
+        $this->playerMasterBadgeUpdater->process($event->getGame());
     }
 
     /**
@@ -39,6 +39,6 @@ final class GameSubscriber implements EventSubscriberInterface
      */
     public function teamGamePostMaj(GameEvent $event)
     {
-        $this->teamMasterBadge->maj($event->getGame());
+        $this->teamMasterBadgeUpdater->process($event->getGame());
     }
 }

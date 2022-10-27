@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\TeamGameRankingSelect;
 
-class TeamMasterBadge
+class TeamMasterBadgeUpdater
 {
     private EntityManagerInterface $em;
     private TeamGameRankingSelect $teamGameRankingSelect;
@@ -17,7 +17,7 @@ class TeamMasterBadge
         $this->teamGameRankingSelect = $teamGameRankingSelect;
     }
 
-    public function maj(Game $game): void
+    public function process(Game $game): void
     {
         //----- get ranking with maxRank = 1
         $ranking = $this->teamGameRankingSelect->getRankingPoints($game->getId(), ['maxRank' => 1]);
