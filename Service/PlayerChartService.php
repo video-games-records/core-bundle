@@ -44,61 +44,6 @@ class PlayerChartService
 
 
     /**
-     * @param int $nbChartToMaj
-     * @return int
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws ExceptionInterface
-     * @throws Exception
-     */
-    public function majRanking(int $nbChartToMaj = 100): int
-    {
-        $this->chartService->goToMajPlayer($nbChartToMaj);
-        $charts = $this->chartService->getChartToMajPlayer();
-
-        $playerList = [];
-        $groupList  = [];
-        $gameList   = [];
-
-        foreach ($charts as $chart) {
-            $idGroup = $chart->getGroup()->getId();
-            $idGame  = $chart->getGroup()->getGame()->getId();
-            //----- Player
-            $playerList = array_merge($playerList, $this->playerChartRepository->maj($chart));
-            //----- Group
-            if (!isset($groupList[$idGroup])) {
-                $groupList[$idGroup] = $chart->getGroup();
-            }
-            //----- Game
-            if (!isset($gameList[$idGame])) {
-                $gameList[$idGame] = $chart->getGroup()->getGame();
-            }
-        }
-
-        //----- Maj group
-        foreach ($groupList as $group) {
-            $this->playerGroupRankingUpdater->maj($group->getId());
-        }
-
-        //----- Maj game
-        foreach ($gameList as $game) {
-            $this->playerGameRankingUpdater->maj($game->getId());
-        }
-
-        //----- Maj player
-        foreach ($playerList as $player) {
-            $this->playerRankingUpdate->maj($player->getId());
-            if ($player->getCountry()) {
-                $player->getCountry()->setBoolMaj(true);
-            }
-        }
-
-        $this->playerChartRepository->flush();
-        $this->chartService->goToNormalPlayer();
-        return count($charts);
-    }
-
-    /**
      * @param $player
      * @param $game
      * @param $platform

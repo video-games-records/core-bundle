@@ -18,7 +18,7 @@ class PlayerGameRankingSelect extends DefaultRankingSelect
 
         $maxRank = $options['maxRank'] ?? null;
         $player = $this->getPlayer();
-        $team = (null !== $options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
+        $team = !empty($options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
 
         $query = $this->em->createQueryBuilder()
             ->select('pg')

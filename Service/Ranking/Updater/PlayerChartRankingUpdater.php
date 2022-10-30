@@ -16,6 +16,8 @@ class PlayerChartRankingUpdater implements RankingUpdaterInterface
     private EntityManagerInterface $em;
     private PlayerChartRankingSelect $playerChartRankingSelect;
     private array $players = [];
+    private array $games = [];
+    private array $groups = [];
 
     public function __construct(EntityManagerInterface $em, PlayerChartRankingSelect $playerChartRankingSelect)
     {
@@ -63,7 +65,10 @@ class PlayerChartRankingUpdater implements RankingUpdaterInterface
             $oldRank = $playerChart->getRank();
             $oldNbEqual = $playerChart->getNbEqual();
 
-            $this->players[$playerChart->getPlayer()->getId()]  = $playerChart->getPlayer();
+            $this->players[$playerChart->getPlayer()->getId()] = $playerChart->getPlayer();
+            $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
+            $this->games[$chart->getGroup()->getGame()->getId()] = $chart->getGroup()->getGame();
+
             $playerChart->setTopScore(false);
 
             foreach ($chart->getLibs() as $lib) {
@@ -166,5 +171,15 @@ class PlayerChartRankingUpdater implements RankingUpdaterInterface
     public function getPlayers(): array
     {
         return $this->players;
+    }
+
+    public function getGames(): array
+    {
+        return $this->games;
+    }
+
+    public function getGroups(): array
+    {
+        return $this->groups;
     }
 }
