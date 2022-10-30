@@ -180,28 +180,6 @@ class PlayerRepository extends DefaultRepository
     }
 
     /**
-     * @param      $country
-     * @param null $maxRank
-     * @return array
-     */
-    public function getRankingCountry($country, $maxRank = null)
-    {
-        $query = $this->createQueryBuilder('p')
-            ->where('(p.country = :country)')
-            ->setParameter('country', $country)
-            ->orderBy('p.rankCountry');
-
-        if ($maxRank !== null) {
-            $query->andWhere('p.rankCountry <= :maxRank')
-                ->setParameter('maxRank', $maxRank);
-        } else {
-            $query->setMaxResults($maxRank);
-        }
-
-        return $query->getQuery()->getResult();
-    }
-
-    /**
      * @param      $column
      * @param null $player
      * @param int  $maxRank

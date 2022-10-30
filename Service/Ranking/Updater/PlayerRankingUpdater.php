@@ -184,17 +184,6 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
 
 
     /**
-     * @param $country
-     */
-    public function majRankCountry($country)
-    {
-        $players = $this->getPlayerRepository()->findBy(array('country' => $country), array('rankPointChart' => 'ASC'));
-        Ranking::addObjectRank($players, 'rankCountry', array('rankPointChart'));
-        $this->em->flush();
-    }
-
-
-    /**
      */
     public function majRankBadge()
     {
