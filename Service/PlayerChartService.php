@@ -16,28 +16,16 @@ use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerRankingUpdater;
 
 class PlayerChartService
 {
-    private PlayerGameRankingUpdater $playerGameRankingUpdater;
-    private PlayerGroupRankingUpdater $playerGroupRankingUpdater;
-    private PlayerRankingUpdater $playerRankingUpdate;
     private GameService $gameService;
-    private ChartService $chartService;
     private PlayerChartRepository $playerChartRepository;
     private PlayerChartStatusRepository $playerChartStatusRepository;
 
     public function __construct(
-        PlayerGameRankingUpdater $playerGameRankingUpdater,
-        PlayerGroupRankingUpdater $playerGroupRankingUpdater,
-        PlayerRankingUpdater $playerRankingUpdate,
         GameService $gameService,
-        ChartService $chartService,
         PlayerChartRepository $playerChartRepository,
         PlayerChartStatusRepository $playerChartStatusRepository
     ) {
-        $this->playerGameRankingUpdater = $playerGameRankingUpdater;
-        $this->playerGroupRankingUpdater = $playerGroupRankingUpdater;
-        $this->playerRankingUpdate = $playerRankingUpdate;
         $this->gameService = $gameService;
-        $this->chartService = $chartService;
         $this->playerChartRepository = $playerChartRepository;
         $this->playerChartStatusRepository = $playerChartStatusRepository;
     }
