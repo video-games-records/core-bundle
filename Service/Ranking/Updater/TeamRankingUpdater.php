@@ -4,10 +4,10 @@ namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
+use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class TeamRankingUpdater implements RankingUpdateInterface
+class TeamRankingUpdater implements RankingUpdaterInterface
 {
     private EntityManagerInterface $em;
 

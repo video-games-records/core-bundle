@@ -1,7 +1,7 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Interface;
 
-interface RankingUpdateInterface
+interface RankingUpdaterInterface
 {
     public function maj(int $id): void;
 }

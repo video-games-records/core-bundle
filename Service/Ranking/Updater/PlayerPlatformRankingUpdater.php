@@ -5,10 +5,10 @@ namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
+use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerPlatformRankingUpdater implements RankingUpdateInterface
+class PlayerPlatformRankingUpdater implements RankingUpdaterInterface
 {
     private EntityManagerInterface $em;
 

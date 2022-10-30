@@ -7,13 +7,15 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerChartRankingSelect;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerChartRankingUpdater
+class PlayerChartRankingUpdater implements RankingUpdaterInterface
 {
     private EntityManagerInterface $em;
     private PlayerChartRankingSelect $playerChartRankingSelect;
+    private array $players = [];
 
     public function __construct(EntityManagerInterface $em, PlayerChartRankingSelect $playerChartRankingSelect)
     {
@@ -21,18 +23,17 @@ class PlayerChartRankingUpdater
         $this->playerChartRankingSelect = $playerChartRankingSelect;
     }
 
-    public function maj(int $id): array
+    public function maj(int $id): void
     {
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($id);
         if (null === $chart) {
-            return [];
+            return ;
         }
 
         /** @var Chart $chart */
         $chart       = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getWithChartType($chart);
         $ranking     = $this->playerChartRankingSelect->getRanking($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
-        $players     = [];
 
         $topScoreLibValue = '';
         $previousLibValue = '';
@@ -62,7 +63,7 @@ class PlayerChartRankingUpdater
             $oldRank = $playerChart->getRank();
             $oldNbEqual = $playerChart->getNbEqual();
 
-            $players[$playerChart->getPlayer()->getId()]  = $playerChart->getPlayer();
+            $this->players[$playerChart->getPlayer()->getId()]  = $playerChart->getPlayer();
             $playerChart->setTopScore(false);
 
             foreach ($chart->getLibs() as $lib) {
@@ -160,6 +161,10 @@ class PlayerChartRankingUpdater
             }
         }
         $this->em->flush();
-        return $players;
+    }
+
+    public function getPlayers(): array
+    {
+        return $this->players;
     }
 }
