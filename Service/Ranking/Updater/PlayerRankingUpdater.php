@@ -4,16 +4,21 @@ namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use VideoGamesRecords\CoreBundle\Event\PlayerEvent;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerRankingUpdater implements RankingUpdaterInterface
 {
     private EntityManagerInterface $em;
+    private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $eventDispatcher)
     {
         $this->em = $em;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function maj(int $id): void
@@ -111,6 +116,9 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
 
         $this->em->persist($player);
         $this->em->flush();
+
+        $event = new PlayerEvent($player);
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_MAJ_COMPLETED);
     }
 
     /**

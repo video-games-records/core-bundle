@@ -58,9 +58,6 @@ class ScoringPlayerRankingUpdater
         /** @var Player $player */
         foreach ($players as $player) {
             $this->playerRankingUpdater->maj($player->getId());
-            /*if ($player->getCountry()) {
-                $player->getCountry()->setBoolMaj(true);
-            }*/
         }
 
         $this->em->flush();

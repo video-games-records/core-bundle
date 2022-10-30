@@ -64,7 +64,7 @@ class Country implements TranslatableInterface
      * @param string $codeIso2
      * @return Country
      */
-    public function setCodeIso2(string $codeIso2): Self
+    public function setCodeIso2(string $codeIso2): Country
     {
         $this->codeIso2 = $codeIso2;
 
@@ -93,7 +93,7 @@ class Country implements TranslatableInterface
      * @param string $codeIso3
      * @return Country
      */
-    public function setCodeIso3(string $codeIso3): Self
+    public function setCodeIso3(string $codeIso3): Country
     {
         $this->codeIso3 = $codeIso3;
         return $this;
@@ -111,7 +111,7 @@ class Country implements TranslatableInterface
      * @param string $codeIsoNumeric
      * @return Country
      */
-    public function setCodeIsoNumeric(string $codeIsoNumeric): Self
+    public function setCodeIsoNumeric(string $codeIsoNumeric): Country
     {
         $this->codeIsoNumeric = $codeIsoNumeric;
         return $this;
@@ -121,7 +121,7 @@ class Country implements TranslatableInterface
      * @param string $name
      * @return $this
      */
-    public function setName(string $name): Self
+    public function setName(string $name): Country
     {
         $this->translate(null, false)->setName($name);
 
@@ -152,7 +152,7 @@ class Country implements TranslatableInterface
      * @param int $id
      * @return $this
      */
-    public function setId(int $id): Self
+    public function setId(int $id): Country
     {
         $this->id = $id;
 
@@ -164,7 +164,7 @@ class Country implements TranslatableInterface
      * @param Badge|null $badge
      * @return $this
      */
-    public function setBadge(Badge $badge = null): Self
+    public function setBadge(Badge $badge = null): Country
     {
         $this->badge = $badge;
 
@@ -173,8 +173,7 @@ class Country implements TranslatableInterface
 
     /**
      * Get idBadge
-     *
-     * @return Badge
+     * @return Badge|null
      */
     public function getBadge(): ?Badge
     {
