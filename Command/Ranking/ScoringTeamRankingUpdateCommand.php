@@ -3,28 +3,30 @@ namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\ScoringPlayerRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\ScoringTeamRankingUpdater;
 
-class ScoringPlayerRankingUpdateCommand extends Command
+class ScoringTeamRankingUpdateCommand extends Command
 {
-    protected static $defaultName = 'vgr-core:scoring-player-ranking-update';
+    protected static $defaultName = 'vgr-core:scoring-team-ranking-update';
 
-    private ScoringPlayerRankingUpdater $scoringPlayerRankingUpdater;
+    private ScoringTeamRankingUpdater $scoringTeamRankingUpdater;
 
-    public function __construct(ScoringPlayerRankingUpdater $scoringPlayerRankingUpdater)
+    public function __construct(ScoringTeamRankingUpdater $scoringTeamRankingUpdater)
     {
-        $this->scoringPlayerRankingUpdater = $scoringPlayerRankingUpdater;
+        $this->scoringTeamRankingUpdater = $scoringTeamRankingUpdater;
         parent::__construct();
     }
 
     protected function configure()
     {
         $this
-            ->setName('vgr-core:scoring-player-ranking-update')
-            ->setDescription('Command to update all players rankings after scroring')
+            ->setName('vgr-core:scoring-team-ranking-update')
+            ->setDescription('Command to update all team rankings after scroring')
         ;
         parent::configure();
     }
@@ -42,7 +44,7 @@ class ScoringPlayerRankingUpdateCommand extends Command
         $lock = $factory->createLock(self::$defaultName);
 
         if ($lock->acquire()) {
-            $this->scoringPlayerRankingUpdater->process();
+            $this->scoringTeamRankingUpdater->process();
             $lock->release();
         }
         return 0;

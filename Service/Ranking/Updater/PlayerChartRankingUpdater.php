@@ -32,6 +32,9 @@ class PlayerChartRankingUpdater implements RankingUpdaterInterface
             return ;
         }
 
+        $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
+        $this->games[$chart->getGroup()->getGame()->getId()] = $chart->getGroup()->getGame();
+
         /** @var Chart $chart */
         $chart       = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getWithChartType($chart);
         $ranking     = $this->playerChartRankingSelect->getRanking($chart);
@@ -61,14 +64,11 @@ class PlayerChartRankingUpdater implements RankingUpdaterInterface
             /** @var PlayerChart $playerChart */
             $playerChart = $item[0];
 
+            $this->players[$playerChart->getPlayer()->getId()] = $playerChart->getPlayer();
+
             // Lost position ?
             $oldRank = $playerChart->getRank();
             $oldNbEqual = $playerChart->getNbEqual();
-
-            $this->players[$playerChart->getPlayer()->getId()] = $playerChart->getPlayer();
-            $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
-            $this->games[$chart->getGroup()->getGame()->getId()] = $chart->getGroup()->getGame();
-
             $playerChart->setTopScore(false);
 
             foreach ($chart->getLibs() as $lib) {

@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 use VideoGamesRecords\CoreBundle\Entity\TeamBadge;
 use VideoGamesRecords\CoreBundle\Entity\TeamGame;
 
@@ -20,7 +21,7 @@ class TeamBadgeRepository extends DefaultRepository
      * @param $badge
      * @return array
      */
-    public function getFromBadge($badge)
+    public function getFromBadge($badge): array
     {
         $query = $this->createQueryBuilder('tb');
         $query
@@ -33,24 +34,17 @@ class TeamBadgeRepository extends DefaultRepository
     }
 
 
-    /**
-     * @param $game
+     /**
+     * @param array $teams
+     * @param $badge
      * @throws Exception
      */
-    public function majMasterBadge($game)
+    public function updateBadge(array $teams, $badge)
     {
-        //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamGame')->getRankingPoints($game, 1);
-        $teams = array();
-        /** @var TeamGame $teamGame */
-        foreach ($ranking as $teamGame) {
-            $teams[$teamGame->getTeam()->getId()] = 0;
-        }
+        //----- get players with badge
+        $list = $this->getFromBadge($badge);
 
-        //----- get teams with master badge
-        $list = $this->getFromBadge($game->getBadge());
-
-        //----- Remove master badge
+        //----- Remove badge
         foreach ($list as $teamBadge) {
             $idTeam = $teamBadge->getTeam()->getId();
             //----- Remove badge
@@ -60,12 +54,12 @@ class TeamBadgeRepository extends DefaultRepository
             }
             $teams[$idTeam] = 1;
         }
-        //----- Add master badge
+        //----- Add badge
         foreach ($teams as $idTeam => $value) {
             if ($value == 0) {
                 $teamBadge = new TeamBadge();
                 $teamBadge->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam));
-                $teamBadge->setBadge($game->getBadge());
+                $teamBadge->setBadge($badge);
                 $this->_em->persist($teamBadge);
             }
         }

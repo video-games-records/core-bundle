@@ -19,7 +19,7 @@ class PlayerBadgeRepository extends DefaultRepository
 
     /**
      * @param $badge
-     * @return PlayerBadge[]|array
+     * @return array
      */
     public function getFromBadge($badge) : array
     {

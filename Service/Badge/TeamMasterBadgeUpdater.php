@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Service\Badge;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\TeamGameRankingSelect;
 
@@ -17,6 +18,9 @@ class TeamMasterBadgeUpdater
         $this->teamGameRankingSelect = $teamGameRankingSelect;
     }
 
+    /**
+     * @throws ORMException
+     */
     public function process(Game $game): void
     {
         //----- get ranking with maxRank = 1
