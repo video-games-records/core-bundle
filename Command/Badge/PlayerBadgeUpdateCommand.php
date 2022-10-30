@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\Command;
+namespace VideoGamesRecords\CoreBundle\Command\Badge;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
