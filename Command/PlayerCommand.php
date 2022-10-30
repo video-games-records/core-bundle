@@ -52,7 +52,7 @@ class PlayerCommand extends DefaultCommand
         $function = $input->getArgument('function');
         switch ($function) {
             case 'maj':
-                $this->playerService->maj();
+                //$this->playerService->maj();
                 break;
             case 'maj-rank-badge':
                 $this->playerService->majRankBadge();

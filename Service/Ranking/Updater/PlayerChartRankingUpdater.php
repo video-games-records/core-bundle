@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
@@ -10,7 +10,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerChartRankingSelect;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerChartRankingUpdate
+class PlayerChartRankingUpdater
 {
     private EntityManagerInterface $em;
     private PlayerChartRankingSelect $playerChartRankingSelect;
@@ -21,18 +21,18 @@ class PlayerChartRankingUpdate
         $this->playerChartRankingSelect = $playerChartRankingSelect;
     }
 
-    public function maj($id): void
+    public function maj(int $id): array
     {
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($id);
         if (null === $chart) {
-            return;
+            return [];
         }
 
         /** @var Chart $chart */
         $chart       = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getWithChartType($chart);
         $ranking     = $this->playerChartRankingSelect->getRanking($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
-        //$players     = [];
+        $players     = [];
 
         $topScoreLibValue = '';
         $previousLibValue = '';
@@ -137,6 +137,7 @@ class PlayerChartRankingUpdate
             }
 
             // Lost position ?
+            //@todo listener
             $newRank = $playerChart->getRank();
             $newNbEqual = $playerChart->getNbEqual();
 
@@ -159,6 +160,6 @@ class PlayerChartRankingUpdate
             }
         }
         $this->em->flush();
-        //return $players;
+        return $players;
     }
 }

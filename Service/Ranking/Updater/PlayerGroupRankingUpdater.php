@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,7 +10,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerGroupRankingUpdate implements RankingUpdateInterface
+class PlayerGroupRankingUpdater implements RankingUpdateInterface
 {
     private EntityManagerInterface $em;
 

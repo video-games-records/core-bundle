@@ -1,13 +1,13 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerRankingUpdate implements RankingUpdateInterface
+class PlayerRankingUpdater implements RankingUpdateInterface
 {
     private EntityManagerInterface $em;
 

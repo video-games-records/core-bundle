@@ -6,17 +6,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Update\PlayerRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerRankingUpdater;
 
 class PlayerRankingUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:player-ranking-update';
 
-    private PlayerRankingUpdate $playerRankingUpdate;
+    private PlayerRankingUpdater $playerRankingUpdater;
 
-    public function __construct(PlayerRankingUpdate $playerRankingUpdate)
+    public function __construct(PlayerRankingUpdater $playerRankingUpdater)
     {
-        $this->playerRankingUpdate = $playerRankingUpdate;
+        $this->playerRankingUpdater = $playerRankingUpdater;
         parent::__construct();
     }
 
@@ -52,10 +52,10 @@ class PlayerRankingUpdateCommand extends Command
         switch ($function) {
             case 'maj':
                 $id = $input->getOption('id');
-                $this->playerRankingUpdate->maj($id);
+                $this->playerRankingUpdater->maj($id);
                 break;
             case 'maj-rank':
-                $this->playerRankingUpdate->majRank();
+                $this->playerRankingUpdater->majRank();
                 break;
         }
         return 0;

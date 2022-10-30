@@ -7,30 +7,30 @@ use Doctrine\ORM\ORMException;
 use Exception;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Repository\TeamChartRepository;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamGameRankingUpdate;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamGroupRankingUpdate;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\TeamGameRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\TeamGroupRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\TeamRankingUpdater;
 
 class TeamChartService
 {
-    private TeamGameRankingUpdate $teamGameRankingUpdate;
-    private TeamGroupRankingUpdate $teamGroupRankingUpdate;
+    private TeamGameRankingUpdater $teamGameRankingUpdater;
+    private TeamGroupRankingUpdater $teamGroupRankingUpdater;
     private ChartService $chartService;
     private TeamChartRepository $teamChartRepository;
-    private TeamRankingUpdate $teamRankingUpdate;
+    private TeamRankingUpdater $teamRankingUpdater;
 
     public function __construct(
-        TeamGameRankingUpdate $teamGameRankingUpdate,
-        TeamGroupRankingUpdate $teamGroupRankingUpdate,
+        TeamGameRankingUpdater $teamGameRankingUpdater,
+        TeamGroupRankingUpdater $teamGroupRankingUpdater,
         ChartService $chartService,
         TeamChartRepository $teamChartRepository,
-        TeamRankingUpdate $teamRankingUpdate
+        TeamRankingUpdater $teamRankingUpdater
     ) {
-        $this->teamGameRankingUpdate = $teamGameRankingUpdate;
-        $this->teamGroupRankingUpdate = $teamGroupRankingUpdate;
+        $this->teamGameRankingUpdater = $teamGameRankingUpdater;
+        $this->teamGroupRankingUpdater = $teamGroupRankingUpdater;
         $this->chartService = $chartService;
         $this->teamChartRepository = $teamChartRepository;
-        $this->teamRankingUpdate = $teamRankingUpdate;
+        $this->teamRankingUpdater = $teamRankingUpdater;
     }
 
 
@@ -70,17 +70,17 @@ class TeamChartService
 
         //----- Maj group
         foreach ($groupList as $group) {
-            $this->teamGroupRankingUpdate->maj($group->getId());
+            $this->teamGroupRankingUpdater->maj($group->getId());
         }
 
         //----- Maj game
         foreach ($gameList as $game) {
-            $this->teamGameRankingUpdate->maj($game->getId());
+            $this->teamGameRankingUpdater->maj($game->getId());
         }
 
         //----- Maj team
         foreach ($teamList as $team) {
-            $this->teamRankingUpdate->maj($team);
+            $this->teamRankingUpdater->maj($team);
         }
         return count($charts);
     }

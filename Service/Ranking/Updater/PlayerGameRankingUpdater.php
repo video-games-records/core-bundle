@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -11,7 +11,7 @@ use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class PlayerGameRankingUpdate implements RankingUpdateInterface
+class PlayerGameRankingUpdater implements RankingUpdateInterface
 {
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;

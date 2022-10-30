@@ -5,17 +5,17 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Update\TeamGameRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\TeamGameRankingUpdater;
 
 class TeamGameRankingUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:team-game-ranking-update';
 
-    private TeamGameRankingUpdate $teamGameRankingUpdate;
+    private TeamGameRankingUpdater $teamGameRankingUpdater;
 
-    public function __construct(TeamGameRankingUpdate $teamGameRankingUpdate)
+    public function __construct(TeamGameRankingUpdater $teamGameRankingUpdater)
     {
-        $this->teamGameRankingUpdate = $teamGameRankingUpdate;
+        $this->teamGameRankingUpdater = $teamGameRankingUpdater;
         parent::__construct();
     }
 
@@ -41,7 +41,7 @@ class TeamGameRankingUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->teamGameRankingUpdate->maj($input->getOption('id'));
+        $this->teamGameRankingUpdater->maj($input->getOption('id'));
         return 0;
     }
 }

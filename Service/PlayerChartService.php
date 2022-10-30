@@ -10,31 +10,31 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Update\PlayerGameRankingUpdate;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Update\PlayerGroupRankingUpdate;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Update\PlayerRankingUpdate;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerGameRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerGroupRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerRankingUpdater;
 
 class PlayerChartService
 {
-    private PlayerGameRankingUpdate $playerGameRankingUpdate;
-    private PlayerGroupRankingUpdate $playerGroupRankingUpdate;
-    private PlayerRankingUpdate $playerRankingUpdate;
+    private PlayerGameRankingUpdater $playerGameRankingUpdater;
+    private PlayerGroupRankingUpdater $playerGroupRankingUpdater;
+    private PlayerRankingUpdater $playerRankingUpdate;
     private GameService $gameService;
     private ChartService $chartService;
     private PlayerChartRepository $playerChartRepository;
     private PlayerChartStatusRepository $playerChartStatusRepository;
 
     public function __construct(
-        PlayerGameRankingUpdate $playerGameRankingUpdate,
-        PlayerGroupRankingUpdate $playerGroupRankingUpdate,
-        PlayerRankingUpdate $playerRankingUpdate,
+        PlayerGameRankingUpdater $playerGameRankingUpdater,
+        PlayerGroupRankingUpdater $playerGroupRankingUpdater,
+        PlayerRankingUpdater $playerRankingUpdate,
         GameService $gameService,
         ChartService $chartService,
         PlayerChartRepository $playerChartRepository,
         PlayerChartStatusRepository $playerChartStatusRepository
     ) {
-        $this->playerGameRankingUpdate = $playerGameRankingUpdate;
-        $this->playerGroupRankingUpdate = $playerGroupRankingUpdate;
+        $this->playerGameRankingUpdater = $playerGameRankingUpdater;
+        $this->playerGroupRankingUpdater = $playerGroupRankingUpdater;
         $this->playerRankingUpdate = $playerRankingUpdate;
         $this->gameService = $gameService;
         $this->chartService = $chartService;
@@ -77,12 +77,12 @@ class PlayerChartService
 
         //----- Maj group
         foreach ($groupList as $group) {
-            $this->playerGroupRankingUpdate->maj($group->getId());
+            $this->playerGroupRankingUpdater->maj($group->getId());
         }
 
         //----- Maj game
         foreach ($gameList as $game) {
-            $this->playerGameRankingUpdate->maj($game->getId());
+            $this->playerGameRankingUpdater->maj($game->getId());
         }
 
         //----- Maj player

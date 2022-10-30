@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Update;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdateInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerPlatformRankingUpdate implements RankingUpdateInterface
+class PlayerPlatformRankingUpdater implements RankingUpdateInterface
 {
     private EntityManagerInterface $em;
 
