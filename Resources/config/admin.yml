@@ -24,14 +24,14 @@ services:
     sonata.admin.vgr.game:
         class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
         tags:
-            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Game, controller: VideoGamesRecords\CoreBundle\Controller\GameAdminController, manager_type: orm, group: "group.games", label: "label.game", label_translator_strategy: "sonata.admin.label.strategy.underscore", default: true }
+            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Game, controller: VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController, manager_type: orm, group: "group.games", label: "label.game", label_translator_strategy: "sonata.admin.label.strategy.underscore", default: true }
         arguments: [ ~, ~, ~ ]
         calls:
             - [ setTemplate, ['show', '@@VideoGamesRecordsCore/Admin/game_show.html.twig']]
     sonata.admin.vgr.group:
         class: VideoGamesRecords\CoreBundle\Admin\GroupAdmin
         tags:
-            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Group, controller: VideoGamesRecords\CoreBundle\Controller\GroupAdminController, manager_type: orm, group: "group.games", label: "label.group", label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Group, controller: VideoGamesRecords\CoreBundle\Controller\Admin\GroupAdminController, manager_type: orm, group: "group.games", label: "label.group", label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         arguments: [ ~, ~, ~ ]
     sonata.admin.vgr.chart:
         class: VideoGamesRecords\CoreBundle\Admin\ChartAdmin
@@ -60,7 +60,7 @@ services:
     sonata.admin.vgr.proof.proof:
         class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
         tags:
-            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Proof, controller: VideoGamesRecords\CoreBundle\Controller\ProofAdminController, manager_type: orm, group: "group.proofs", label: "label.proof", label_translator_strategy: "sonata.admin.label.strategy.underscore"  }
+            - { name: sonata.admin, model_class: VideoGamesRecords\CoreBundle\Entity\Proof, controller: VideoGamesRecords\CoreBundle\Controller\Admin\ProofAdminController, manager_type: orm, group: "group.proofs", label: "label.proof", label_translator_strategy: "sonata.admin.label.strategy.underscore"  }
         arguments: [ ~, ~, ~ ]
         calls:
             - [ setTemplate, ['show', '@@VideoGamesRecordsCore/Admin/proof_show.html.twig']]

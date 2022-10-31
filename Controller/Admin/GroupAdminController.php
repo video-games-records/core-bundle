@@ -1,13 +1,13 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
-use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Form\Type\ChartTypeType;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Form\Type\ChartTypeType;
 
 /**
  * Class GroupAdminController

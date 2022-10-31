@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Response;
