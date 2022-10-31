@@ -12,37 +12,27 @@ resources:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.pointChart]}
                 path: '/teams/ranking-point-chart'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointChart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingPointChart'
             team-ranking-point-game:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.pointGame]}
                 path: '/teams/ranking-point-game'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointGame'
-            eam-ranking-point-game-top-5:
-                method: 'GET'
-                normalization_context: {'groups': [team.read.mini, team.rank.pointGame]}
-                path: '/teams/ranking-point-game-top-5'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingPointGameTop5'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingPointGame'
             team-ranking-medal:
                 method: 'GET'
-                normalization_context: {'groups': [team.read.mini, team.rank.medal]}
+                normalization_context: { 'groups': [ team.read.mini, team.rank.medal ] }
                 path: '/teams/ranking-medal'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingMedal'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingMedals'
             team-ranking-cup:
                 method: 'GET'
-                normalization_context: {'groups': [team.read.mini, team.rank.cup]}
+                normalization_context: { 'groups': [ team.read.mini, team.rank.cup ] }
                 path: '/teams/ranking-cup'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingCup'
-            team-ranking-cup-top-5:
-                method: 'GET'
-                normalization_context: {'groups': [team.read.mini, team.rank.cup]}
-                path: '/teams/ranking-cup-top-5'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingCupTop5'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingCup'
             team-ranking-badge:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.badge]}
                 path: '/teams/ranking-badge'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::rankingBadge'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingBadge'
             upload-avatar:
                 access_control: 'is_granted("ROLE_USER")'
                 method: 'POST'

@@ -3,10 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateTime;
-use Doctrine\DBAL\Exception;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\Entity\Team;
@@ -72,57 +69,6 @@ class TeamRepository extends DefaultRepository
     }
 
     /**
-     * @param null $team
-     * @return array
-     */
-    public function getRankingPointChart($team = null)
-    {
-        return $this->getRanking('rankPointChart', $team);
-    }
-
-    /**
-     * @param null $team
-     * @param int  $maxRank
-     * @return array
-     */
-    public function getRankingPointGame($team = null, $maxRank = 100)
-    {
-        return $this->getRanking('rankPointGame', $team, $maxRank);
-    }
-
-
-    /**
-     * @param null $team
-     * @return array
-     */
-    public function getRankingMedal($team = null)
-    {
-        return $this->getRanking('rankMedal', $team);
-    }
-
-
-    /**
-     * @param null $team
-     * @param int  $maxRank
-     * @return array
-     */
-    public function getRankingCup($team = null, $maxRank = 100)
-    {
-        return $this->getRanking('rankCup', $team, $maxRank);
-    }
-
-
-    /**
-     * @param null $team
-     * @return array
-     */
-    public function getRankingBadge($team = null)
-    {
-        return $this->getRanking('rankBadge', $team);
-    }
-
-
-    /**
      * @param DateTime $date1
      * @param DateTime $date2
      * @return array
@@ -179,28 +125,6 @@ class TeamRepository extends DefaultRepository
         return $query->getResult();
     }
 
-    /**
-     * @param      $column
-     * @param null $team
-     * @param int  $maxRank
-     * @return int|mixed|string
-     */
-    private function getRanking($column, $team = null, int $maxRank = 100)
-    {
-        $query = $this->createQueryBuilder('t')
-            ->where("(t.$column != 0)")
-            ->orderBy("t.$column");
-
-        if ($team !== null) {
-            $query->andWhere("(t.$column <= :maxRank OR t = :team)")
-                ->setParameter('maxRank', $maxRank)
-                ->setParameter('team', $team);
-        } else {
-            $query->andWhere("t.$column <= :maxRank")
-                ->setParameter('maxRank', $maxRank);
-        }
-        return $query->getQuery()->getResult();
-    }
 
 
     /**

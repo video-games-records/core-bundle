@@ -28,62 +28,6 @@ class TeamController extends DefaultController
     }
 
     /**
-     * @return array
-     */
-    public function rankingPointChart(): array
-    {
-        return $this->teamRepository->getRankingPointChart($this->getTeam());
-    }
-
-    /**
-     * @return array
-     */
-    public function rankingPointGame(): array
-    {
-        return $this->teamRepository->getRankingPointGame($this->getTeam());
-    }
-
-    /**
-     * @return array
-     */
-    public function rankingMedal(): array
-    {
-        return $this->teamRepository->getRankingMedal($this->getTeam());
-    }
-
-    /**
-     * @return array
-     */
-    public function rankingCup(): array
-    {
-        return $this->teamRepository->getRankingCup($this->getTeam());
-    }
-
-    /**
-     * @return array
-     */
-    public function rankingBadge() : array
-    {
-        return $this->teamRepository->getRankingBadge($this->getTeam());
-    }
-
-    /**
-     * @return array
-     */
-    public function rankingPointGameTop5(): array
-    {
-        return $this->teamRepository->getRankingPointGame(null, 5);
-    }
-
-    /**
-     * @return array
-     */
-    public function rankingCupTop5(): array
-    {
-        return $this->teamRepository->getRankingCup(null, 5);
-    }
-
-    /**
      * @param Request     $request
      * @return Response
      * @throws Exception

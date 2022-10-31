@@ -2,9 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\DBAL\Exception;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
 class TeamService
@@ -18,16 +15,6 @@ class TeamService
 
     /**
      * @return void
-     */
-    public function maj()
-    {
-        $this->teamRepository->majGameRank();
-    }
-
-     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws Exception
      */
     public function majRankBadge()
     {

@@ -6,22 +6,26 @@ use Doctrine\ORM\Exception\ORMException;
 
 class PlayerRankingSelect extends DefaultRankingSelect
 {
-    public function getRankingPoints(int $id = null, array $options = []): array
+    /**
+     * @throws ORMException
+     */
+    public function getRankingPointChart(array $options = []): array
     {
         return $this->getRanking('rankPointChart', $options);
     }
 
-    public function getRankingPointChart(int $id = null, array $options = []): array
-    {
-        return $this->getRankingPoints($id, $options);
-    }
-
-    public function getRankingPointGame(int $id = null, array $options = []): array
+    /**
+     * @throws ORMException
+     */
+    public function getRankingPointGame(array $options = []): array
     {
         return $this->getRanking('rankPointGame', $options);
     }
 
-    public function getRankingMedals(int $id = null, array $options = []): array
+    /**
+     * @throws ORMException
+     */
+    public function getRankingMedals(array $options = []): array
     {
         return $this->getRanking('rankMedal', $options);
     }
