@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
@@ -24,6 +25,7 @@ class TeamGameRankingUpdater implements RankingUpdaterInterface
 
     public function maj(int $id): void
     {
+        /** @var Game $game */
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
         if (null === $game) {
             return;
@@ -62,6 +64,8 @@ class TeamGameRankingUpdater implements RankingUpdaterInterface
         foreach ($result as $row) {
             $list[] = $row;
         }
+
+        $game->setNbTeam(count($list));
 
         //----- add some data
         $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);

@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -18,17 +17,11 @@ class TeamService
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws DBALException
+     * @return void
      */
     public function maj()
     {
         $this->teamRepository->majGameRank();
-        $this->teamRepository->majRankPointChart();
-        $this->teamRepository->majRankPointGame();
-        $this->teamRepository->majRankMedal();
-        $this->teamRepository->majRankCup();
     }
 
      /**

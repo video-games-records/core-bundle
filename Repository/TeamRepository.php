@@ -24,74 +24,6 @@ class TeamRepository extends DefaultRepository
     /**
      * @return void
      */
-    public function majGameRank()
-    {
-        $data = [];
-
-        //----- MAJ game.nbTeam
-        $sql = 'UPDATE vgr_game g SET nbTeam = (SELECT COUNT(idGame) FROM vgr_team_game tg WHERE tg.idGame = g.id)';
-        $this->_em->getConnection()->executeUpdate($sql);
-
-        //----- data rank0
-        $query = $this->_em->createQuery("
-            SELECT
-                 t.id,
-                 COUNT(tg.game) as nb
-            FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
-            JOIN tg.game g
-            JOIN tg.team t
-            WHERE g.nbTeam > 1
-            AND tg.rankPointChart = 1
-            AND tg.nbEqual = 1
-            GROUP BY t.id");
-
-        $result = $query->getResult();
-        foreach ($result as $row) {
-            $data['gameRank0'][$row['id']] = (int) $row['nb'];
-        }
-
-        //----- data rank1 to rank3
-        $query = $this->_em->createQuery("
-            SELECT
-                 t.id,
-                 COUNT(tg.game) as nb
-            FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
-            JOIN tg.team t
-            WHERE tg.rankPointChart = :rank
-            GROUP BY t.id");
-
-        for ($i = 1; $i <= 3; $i++) {
-            $query->setParameter('rank', $i);
-            $result = $query->getResult();
-            foreach ($result as $row) {
-                $data["gameRank$i"][$row['id']] = (int) $row['nb'];
-            }
-        }
-
-        /** @var Team[] $teams */
-        $teams = $this->findAll();
-
-        foreach ($teams as $team) {
-            $idTeam = $team->getId();
-
-            $rank0 = isset($data['gameRank0'][$idTeam]) ? $data['gameRank0'][$idTeam] : 0;
-            $rank1 = isset($data['gameRank1'][$idTeam]) ? $data['gameRank1'][$idTeam] : 0;
-            $rank2 = isset($data['gameRank2'][$idTeam]) ? $data['gameRank2'][$idTeam] : 0;
-            $rank3 = isset($data['gameRank3'][$idTeam]) ? $data['gameRank3'][$idTeam] : 0;
-
-            $team->setGameRank0($rank0);
-            $team->setGameRank1($rank1);
-            $team->setGameRank2($rank2);
-            $team->setGameRank3($rank3);
-        }
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws Exception
-     */
     public function majPointBadge()
     {
         //----- data
@@ -129,8 +61,7 @@ class TeamRepository extends DefaultRepository
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @return void
      */
     public function majRankBadge()
     {

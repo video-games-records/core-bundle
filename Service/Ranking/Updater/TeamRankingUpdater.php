@@ -4,25 +4,34 @@ namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use VideoGamesRecords\CoreBundle\Event\TeamEvent;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class TeamRankingUpdater implements RankingUpdaterInterface
 {
     private EntityManagerInterface $em;
+    private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $eventDispatcher)
     {
         $this->em = $em;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function maj(int $id): void
     {
         $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->find($id);
         if (null === $team) {
             return;
         }
-        
+
         $query = $this->em->createQuery("
             SELECT
                  t.id,
@@ -51,9 +60,68 @@ class TeamRankingUpdater implements RankingUpdaterInterface
             $team->setPointGame($row['pointGame']);
             $team->setNbGame($row['nbGame']);
 
-            $this->em->persist($team);
-            $this->em->flush();
+
         }
+
+        // 2 game Ranking
+        $data = [
+            'gameRank0' => 0,
+            'gameRank1' => 0,
+            'gameRank2' => 0,
+            'gameRank3' => 0,
+        ];
+
+        //----- data rank0
+        $query = $this->em->createQuery("
+            SELECT
+                 t.id,
+                 COUNT(tg.game) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
+            JOIN tg.game g
+            JOIN tg.team t
+            WHERE g.nbTeam > 1
+            AND tg.rankPointChart = 1
+            AND tg.nbEqual = 1
+            AND tg.team = :team
+            GROUP BY t.id");
+
+        $query->setParameter('team', $team);
+        $row = $query->getOneOrNullResult();
+        if ($row) {
+            $data['gameRank0'] = $row['nb'];
+        }
+
+        //----- data rank1 to rank3
+        $query = $this->em->createQuery("
+            SELECT
+                 t.id,
+                 COUNT(tg.game) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\TeamGame tg
+            JOIN tg.team t
+            WHERE tg.rankPointChart = :rank
+            AND tg.team = :team
+            GROUP BY t.id");
+
+        $query->setParameter('team', $team);
+
+        for ($i = 1; $i <= 3; $i++) {
+            $query->setParameter('rank', $i);
+            $row = $query->getOneOrNullResult();
+            if ($row) {
+                $data["gameRank$i"] = $row['nb'];
+            }
+        }
+
+        $team->setGameRank0($data['gameRank0']);
+        $team->setGameRank1($data['gameRank1']);
+        $team->setGameRank2($data['gameRank2']);
+        $team->setGameRank3($data['gameRank3']);
+
+        $this->em->persist($team);
+        $this->em->flush();
+
+        $event = new TeamEvent($team);
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::TEAM_MAJ_COMPLETED);
     }
 
     /**
