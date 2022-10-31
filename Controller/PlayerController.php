@@ -60,45 +60,6 @@ class PlayerController extends DefaultController
     }
 
 
-    /**
-     * @return mixed
-     */
-    public function rankingCup()
-    {
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingCup($this->getPlayer());
-    }
-
-    /**
-     * @return mixed
-     */
-    public function rankingProof()
-    {
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingProof($this->getPlayer());
-    }
-
-    /**
-     * @return mixed
-     */
-    public function rankingBadge()
-    {
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingBadge($this->getPlayer());
-    }
-
-    /**
-     * @return mixed
-     */
-    public function rankingPointGameTop5()
-    {
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingPointGame(null, 5);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function rankingCupTop5()
-    {
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingCup(null, 5);
-    }
 
     /**
      * @param Player    $player

@@ -75,7 +75,7 @@ class TeamController extends AbstractController
         );
     }
 
-     /**
+    /**
      * @param Request $request
      * @return array
      * @throws ORMException

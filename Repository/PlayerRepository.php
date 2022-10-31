@@ -151,59 +151,6 @@ class PlayerRepository extends DefaultRepository
         $this->getEntityManager()->flush();
     }
 
-    /**
-     * @param null $player
-     * @param int  $maxRank
-     * @return int|mixed|string
-     */
-    public function getRankingCup($player = null, int $maxRank = 100)
-    {
-        return $this->getRanking('rankCup', $player, $maxRank);
-    }
-
-    /**
-     * @param null $player
-     * @return array
-     */
-    public function getRankingProof($player = null)
-    {
-        return $this->getRanking('rankProof', $player);
-    }
-
-    /**
-     * @param null $player
-     * @return array
-     */
-    public function getRankingBadge($player = null)
-    {
-        return $this->getRanking('rankBadge', $player);
-    }
-
-    /**
-     * @param      $column
-     * @param null $player
-     * @param int  $maxRank
-     * @param null $team
-     * @return int|mixed|string
-     */
-    private function getRanking($column, $player = null, int $maxRank = 100, $team = null)
-    {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy("p.$column");
-
-        if ($team !== null) {
-            $query->andWhere('(p.team = :team)')
-                ->setParameter('team', $team);
-        } elseif ($player !== null) {
-            $query->where("(p.$column <= :maxRank OR p = :player)")
-                ->setParameter('maxRank', 100)
-                ->setParameter('player', $player);
-        } else {
-            $query->where("p.$column <= :maxRank")
-                ->setParameter('maxRank', $maxRank);
-        }
-        return $query->getQuery()->getResult();
-    }
 
     /**
      * Get list who cant send scores

@@ -7,6 +7,8 @@ use Doctrine\ORM\Exception\ORMException;
 class PlayerRankingSelect extends DefaultRankingSelect
 {
     /**
+     * @param array $options
+     * @return array
      * @throws ORMException
      */
     public function getRankingPointChart(array $options = []): array
@@ -15,6 +17,8 @@ class PlayerRankingSelect extends DefaultRankingSelect
     }
 
     /**
+     * @param array $options
+     * @return array
      * @throws ORMException
      */
     public function getRankingPointGame(array $options = []): array
@@ -23,6 +27,8 @@ class PlayerRankingSelect extends DefaultRankingSelect
     }
 
     /**
+     * @param array $options
+     * @return array
      * @throws ORMException
      */
     public function getRankingMedals(array $options = []): array
@@ -31,12 +37,42 @@ class PlayerRankingSelect extends DefaultRankingSelect
     }
 
     /**
-     * @param string $column
-     * @param array  $options
-     * @return float|int|mixed|string
+     * @param array $options
+     * @return array
      * @throws ORMException
      */
-    private function getRanking(string $column = 'rankPointChart', array $options = []): mixed
+    public function getRankingBadge(array $options = []): array
+    {
+        return $this->getRanking('rankBadge', $options);
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     * @throws ORMException
+     */
+    public function getRankingCup(array $options = []): array
+    {
+        return $this->getRanking('rankCup', $options);
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     * @throws ORMException
+     */
+    public function getRankingProof(array $options = []): array
+    {
+        return $this->getRanking('rankProof', $options);
+    }
+
+    /**
+     * @param string $column
+     * @param array  $options
+     * @return array
+     * @throws ORMException
+     */
+    private function getRanking(string $column = 'rankPointChart', array $options = []): array
     {
         $maxRank = $options['maxRank'] ?? null;
         $player = $this->getPlayer();

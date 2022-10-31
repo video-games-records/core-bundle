@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerRankingSelect;
@@ -21,26 +22,11 @@ class PlayerController extends AbstractController
     /**
      * @param Request $request
      * @return array
+     * @throws ORMException
      */
-    public function getRankingPointChart(Request $request)
+    public function getRankingPointChart(Request $request): array
     {
         return $this->playerRankingSelect->getRankingPointChart(
-            null,
-            [
-                'maxRank' => $request->query->get('maxRank', 5),
-                'idTeam' => $request->query->get('idTeam')
-            ]
-        );
-    }
-
-     /**
-     * @param Request $request
-     * @return array
-     */
-    public function getRankingPointGame(Request $request)
-    {
-        return $this->playerRankingSelect->getRankingPointGame(
-            null,
             [
                 'maxRank' => $request->query->get('maxRank', 5),
                 'idTeam' => $request->query->get('idTeam')
@@ -51,11 +37,71 @@ class PlayerController extends AbstractController
     /**
      * @param Request $request
      * @return array
+     * @throws ORMException
+     */
+    public function getRankingPointGame(Request $request): array
+    {
+        return $this->playerRankingSelect->getRankingPointGame(
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws ORMException
      */
     public function getRankingMedals(Request $request): array
     {
         return $this->playerRankingSelect->getRankingMedals(
-            null,
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws ORMException
+     */
+    public function getRankingBadge(Request $request): array
+    {
+        return $this->playerRankingSelect->getRankingBadge(
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws ORMException
+     */
+    public function getRankingCup(Request $request): array
+    {
+        return $this->playerRankingSelect->getRankingCup(
+            [
+                'maxRank' => $request->query->get('maxRank', 5),
+                'idTeam' => $request->query->get('idTeam')
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws ORMException
+     */
+    public function getRankingProof(Request $request): array
+    {
+        return $this->playerRankingSelect->getRankingProof(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
                 'idTeam' => $request->query->get('idTeam')
