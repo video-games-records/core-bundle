@@ -12,8 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class Game
 {
-    private $em;
-    private $directory;
+    private EntityManagerInterface $em;
+    private string $directory;
 
     public function __construct(EntityManagerInterface $em)
     {

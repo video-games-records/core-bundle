@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -36,19 +35,6 @@ class ChartRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countStatusPlayerGoToMaj()
-    {
-        $qb = $this->getCountQueryBuilder();
-        $this->whereStatusPlayer($qb, Chart::STATUS_GO_TO_MAJ);
-        return $qb->getQuery()
-            ->getSingleScalarResult();
-    }
-
-      /**
-     * @return mixed
-     * @throws NonUniqueResultException
-     * @throws NoResultException
-     */
     public function countStatusTeamMaj()
     {
         $qb = $this->getCountQueryBuilder();
@@ -56,20 +42,6 @@ class ChartRepository extends DefaultRepository
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
-
-    /**
-     * @return mixed
-     * @throws NonUniqueResultException
-     * @throws NoResultException
-     */
-    public function countStatusTeamGoToMaj()
-    {
-        $qb = $this->getCountQueryBuilder();
-        $this->whereStatusTeam($qb, Chart::STATUS_GO_TO_MAJ);
-        return $qb->getQuery()
-            ->getSingleScalarResult();
-    }
-
 
     /**
      * @param $id
@@ -90,105 +62,6 @@ class ChartRepository extends DefaultRepository
     }
 
     /**
-     * @return bool
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function isMajPlayerRunning(): bool
-    {
-        $nb = $this->createQueryBuilder('c')
-            ->select('COUNT(c.id)')
-            ->where('c.statusPlayer = :status')
-            ->setParameter('status', Chart::STATUS_GO_TO_MAJ)
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        return $nb > 0;
-    }
-
-    /**
-     * @return bool
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function isMajTeamRunning(): bool
-    {
-        $nb = $this->createQueryBuilder('c')
-            ->select('COUNT(c.id)')
-            ->where('c.statusTeam = :status')
-            ->setParameter('status', Chart::STATUS_GO_TO_MAJ)
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        return $nb > 0;
-    }
-
-    /**
-     * @param int $limit
-     *
-     * @throws DBALException
-     */
-    public function goToMajPlayer(int $limit)
-    {
-        $sql = sprintf("UPDATE vgr_chart SET statusPlayer = '%s' WHERE statusPlayer='%s' LIMIT %d", Chart::STATUS_GO_TO_MAJ, Chart::STATUS_MAJ, $limit);
-        $this->_em->getConnection()->executeStatement($sql);
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function goToNormalPlayer()
-    {
-        $sql = sprintf("UPDATE vgr_chart SET statusPlayer = '%s' WHERE statusPlayer='%s'", Chart::STATUS_NORMAL, Chart::STATUS_GO_TO_MAJ);
-        $this->_em->getConnection()->executeStatement($sql);
-    }
-
-    /**
-     * @param int $limit
-     *
-     * @throws DBALException
-     */
-    public function goToMajTeam(int $limit)
-    {
-        $sql = sprintf(
-            "UPDATE vgr_chart SET statusTeam = '%s' WHERE statusPlayer='%s' AND statusTeam='%s' LIMIT %d",
-            Chart::STATUS_GO_TO_MAJ,
-            Chart::STATUS_NORMAL,
-            Chart::STATUS_MAJ,
-            $limit
-        );
-        $this->_em->getConnection()->executeStatement($sql);
-    }
-
-    /**
-     * @return Chart[]
-     */
-    public function getChartToMajPlayer(): array
-    {
-        $query = $this->createQueryBuilder('ch')
-            ->join('ch.group', 'gr')
-            ->addSelect('gr')
-            ->andWhere('ch.statusPlayer = :status')
-            ->setParameter('status', Chart::STATUS_GO_TO_MAJ);
-
-        return $query->getQuery()->getResult();
-    }
-
-    /**
-     * @return Chart[]
-     */
-    public function getChartToMajTeam(): array
-    {
-        $query = $this->createQueryBuilder('ch')
-            ->join('ch.group', 'gr')
-            ->addSelect('gr')
-            ->andWhere('ch.statusTeam = :status')
-            ->setParameter('status', Chart::STATUS_GO_TO_MAJ);
-
-        return $query->getQuery()->getResult();
-    }
-
-    /**
      * @param int    $page
      * @param null   $player
      * @param array  $search
@@ -196,7 +69,7 @@ class ChartRepository extends DefaultRepository
      * @param int    $itemsPerPage
      * @return Paginator
      */
-    public function getList(int $page = 1, $player = null, array $search = array(), $locale = 'en', int $itemsPerPage = 20) : Paginator
+    public function getList(int $page = 1, $player = null, array $search = array(), string $locale = 'en', int $itemsPerPage = 20) : Paginator
     {
         $firstResult = ($page - 1) * $itemsPerPage;
 
