@@ -19,56 +19,6 @@ class TeamRepository extends DefaultRepository
     }
 
     /**
-     * @return void
-     */
-    public function majPointBadge()
-    {
-        //----- data
-        $data = [];
-        $query = $this->_em->createQuery("
-            SELECT
-                 t.id,
-                 COUNT(tb.badge) as nbMasterBadge,
-                 SUM(b.value) as pointBadge
-            FROM VideoGamesRecords\CoreBundle\Entity\TeamBadge tb
-            JOIN tb.badge b
-            JOIN tb.team t
-            WHERE b.type = :type
-            AND tb.ended_at IS NULL
-            GROUP BY t.id");
-        $query->setParameter('type', 'Master');
-        $result = $query->getResult();
-        foreach ($result as $row) {
-            $data['nbMasterBadge'][$row['id']] = (int) $row['nbMasterBadge'];
-            $data['pointBadge'][$row['id']] = (int) $row['pointBadge'];
-        }
-
-        /** @var Team[] $teams */
-        $teams = $this->findAll();
-
-        foreach ($teams as $team) {
-            $idTeam = $team->getId();
-            $nbMasterBadge = isset($data['nbMasterBadge'][$idTeam]) ? $data['nbMasterBadge'][$idTeam] : 0;
-            $pointBadge = isset($data['pointBadge'][$idTeam]) ? $data['pointBadge'][$idTeam] : 0;
-
-            $team->setNbMasterBadge($nbMasterBadge);
-            $team->setPointBadge($pointBadge);
-        }
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @return void
-     */
-    public function majRankBadge()
-    {
-        $teams = $this->findBy(array(), array('pointBadge' => 'DESC', 'nbMasterBadge' => 'DESC'));
-
-        Ranking::addObjectRank($teams, 'rankBadge', array('pointBadge', 'nbMasterBadge'));
-        $this->getEntityManager()->flush();
-    }
-
-    /**
      * @param DateTime $date1
      * @param DateTime $date2
      * @return array

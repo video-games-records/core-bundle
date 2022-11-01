@@ -101,18 +101,6 @@ class PlayerService
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws Exception
-     */
-    public function majRankBadge(): void
-    {
-        $this->playerRepository->majPointBadge();
-        $this->playerRepository->majRankBadge();
-    }
-
-
-    /**
      *
      */
     public function majRulesOfThree()

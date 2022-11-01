@@ -121,7 +121,7 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
         $player->setGameRank3($data['gameRank3']);
 
 
-        // 3 game Ranking
+        // 3 Badge Ranking
         $query = $this->em->createQuery("
             SELECT
                  p.id,
