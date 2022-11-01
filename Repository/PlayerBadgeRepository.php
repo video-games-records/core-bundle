@@ -35,27 +35,6 @@ class PlayerBadgeRepository extends DefaultRepository
     }
 
 
-    /**
-     * @param Country $country
-     * @throws Exception
-     */
-    public function majCountryBadge(Country $country)
-    {
-        if ($country->getBadge() === null) {
-            return;
-        }
-
-        //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getRankingCountry($country, 1);
-
-        $players = array();
-        foreach ($ranking as $player) {
-            $players[$player->getId()] = 0;
-        }
-
-        $this->updateBadge($players, $country->getBadge());
-    }
-
 
     /**
      * @param Platform $platform

@@ -3,18 +3,23 @@
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use VideoGamesRecords\CoreBundle\Event\PlatformEvent;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class PlayerPlatformRankingUpdater implements RankingUpdaterInterface
+class PlatformRankingUpdater implements RankingUpdaterInterface
 {
     private EntityManagerInterface $em;
+    private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $eventDispatcher)
     {
         $this->em = $em;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function majAll()
@@ -73,41 +78,8 @@ class PlayerPlatformRankingUpdater implements RankingUpdaterInterface
             $this->em->persist($playerPlatform);
             $this->em->flush();
         }
-    }
 
-    public function getRankingPoints(int $id = null, array $options = []): array
-    {
-        $platform = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Platform')->find($id);
-        if (null === $platform) {
-            return [];
-        }
-
-        $maxRank = $options['maxRank'] ?? null;
-        $player = $options['player'] ?? null;
-
-        $query = $this->em->createQueryBuilder()
-            ->select('pp')
-            ->from('VideoGamesRecords\CoreBundle\Entity\PlayerPlatform', 'pp')
-            ->join('pp.player', 'p')
-            ->addSelect('p')
-            ->orderBy('pp.rankPointPlatform');
-
-        $query->where('pp.platform = :platform')
-            ->setParameter('platform', $platform);
-
-        if (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pp.rankPointPlatform <= :maxRank OR pp.player = :player)')
-                ->setParameter('maxRank', $maxRank)
-                ->setParameter('player', $player);
-        } elseif ($maxRank !== null) {
-            $query->andWhere('pp.rankPointPlatform <= :maxRank')
-                ->setParameter('maxRank', $maxRank);
-        }
-        return $query->getQuery()->getResult();
-    }
-
-    public function getRankingMedals(int $id = null, array $options = []): array
-    {
-        return [];
+        $event = new PlatformEvent($platform);
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLATFORM_MAJ_COMPLETED);
     }
 }
