@@ -2,12 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
