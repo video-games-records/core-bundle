@@ -91,7 +91,7 @@ class Badge
      * @param integer $id
      * @return Badge
      */
-    public function setId(int $id): Self
+    public function setId(int $id): Badge
     {
         $this->id = $id;
         return $this;
@@ -113,7 +113,7 @@ class Badge
      * @param string $type
      * @return Badge
      */
-    public function setType(string $type): Self
+    public function setType(string $type): Badge
     {
         $this->type = $type;
 
@@ -137,7 +137,7 @@ class Badge
      * @param string $picture
      * @return Badge
      */
-    public function setPicture(string $picture): Self
+    public function setPicture(string $picture): Badge
     {
         $this->picture = $picture;
 
@@ -160,7 +160,7 @@ class Badge
      * @param integer $value
      * @return Badge
      */
-    public function setValue(int $value): Self
+    public function setValue(int $value): Badge
     {
         $this->value = $value;
 
@@ -181,9 +181,9 @@ class Badge
      * Set nbPlayer
      *
      * @param integer $nbPlayer
-     * @return $this
+     * @return Badge
      */
-    public function setNbPlayer(int $nbPlayer): Self
+    public function setNbPlayer(int $nbPlayer): Badge
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -281,5 +281,20 @@ class Badge
             self::TYPE_VGR_SPECIAL_MEDALS => self::TYPE_VGR_SPECIAL_MEDALS,
             self::TYPE_VGR_SPECIAL_POINTS => self::TYPE_VGR_SPECIAL_POINTS,
         ];
+    }
+
+    public function majValue(): void
+    {
+        if (self::TYPE_MASTER !== $this->type) {
+            return;
+        }
+        if (0 === $this->nbPlayer) {
+            $this->value = 0;
+        } else {
+            $this->value = floor(
+                100 * (6250 * (-1 / (100 + $this->getGame()
+                                ->getNbPlayer() - $this->nbPlayer) + 0.0102) / (pow($this->nbPlayer, 1 / 3)))
+            );
+        }
     }
 }

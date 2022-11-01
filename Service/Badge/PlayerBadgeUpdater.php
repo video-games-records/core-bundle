@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Badge;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerBadgeUpdater
@@ -13,6 +14,9 @@ class PlayerBadgeUpdater
         $this->em = $em;
     }
 
+    /**
+     * @throws Exception
+     */
     public function process(): void
     {
         $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge)
@@ -23,8 +27,8 @@ class PlayerBadgeUpdater
         AND vgr_player.normandie_user_id = user.id
         AND vgr_badge.id NOT IN (SELECT idBadge FROM vgr_player_badge WHERE idPlayer = vgr_player.id)";
 
-        $this->em->getConnection()->executeUpdate(sprintf($sql, 'Connexion', 'nbConnexion'));
-        $this->em->getConnection()->executeUpdate(sprintf($sql, 'Forum', 'nbForumMessage'));
+        $this->em->getConnection()->executeQuery(sprintf($sql, 'Connexion', 'nbConnexion'));
+        $this->em->getConnection()->executeQuery(sprintf($sql, 'Forum', 'nbForumMessage'));
 
         $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge)
         SELECT vgr_player.id,vgr_badge.id
@@ -33,7 +37,7 @@ class PlayerBadgeUpdater
         AND value <= vgr_player.%s
         AND vgr_badge.id NOT IN (SELECT idBadge FROM vgr_player_badge WHERE idPlayer = vgr_player.id)";
 
-        $this->em->getConnection()->executeUpdate(sprintf($sql, 'VgrChart', 'nbChart'));
-        $this->em->getConnection()->executeUpdate(sprintf($sql, 'VgrProof', 'nbChartProven'));
+        $this->em->getConnection()->executeQuery(sprintf($sql, 'VgrChart', 'nbChart'));
+        $this->em->getConnection()->executeQuery(sprintf($sql, 'VgrProof', 'nbChartProven'));
     }
 }

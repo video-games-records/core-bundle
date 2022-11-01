@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 use VideoGamesRecords\CoreBundle\Entity\TeamBadge;
 use VideoGamesRecords\CoreBundle\Entity\TeamGame;
@@ -36,10 +37,10 @@ class TeamBadgeRepository extends DefaultRepository
 
      /**
      * @param array $teams
-     * @param $badge
+     * @param Badge $badge
      * @throws Exception
      */
-    public function updateBadge(array $teams, $badge)
+    public function updateBadge(array $teams, Badge $badge)
     {
         //----- get players with badge
         $list = $this->getFromBadge($badge);
@@ -63,6 +64,7 @@ class TeamBadgeRepository extends DefaultRepository
                 $this->_em->persist($teamBadge);
             }
         }
+
         $this->_em->flush();
     }
 

@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 
@@ -30,6 +31,7 @@ class ScoringPlayerRankingUpdater
 
     /**
      * @return int
+     * @throws NonUniqueResultException
      */
     public function process(): int
     {
@@ -59,6 +61,8 @@ class ScoringPlayerRankingUpdater
         foreach ($players as $player) {
             $this->playerRankingUpdater->maj($player->getId());
         }
+
+        $this->playerRankingUpdater->majRank();
 
         $this->em->flush();
         echo sprintf("%d charts updated\n", count($charts));

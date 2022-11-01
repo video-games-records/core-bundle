@@ -4,7 +4,9 @@ namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Event\PlayerEvent;
 use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
@@ -21,8 +23,12 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function maj(int $id): void
     {
+        /** @var Player $player */
         $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->find($id);
         if (null === $player) {
             return;
@@ -114,6 +120,31 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
         $player->setGameRank2($data['gameRank2']);
         $player->setGameRank3($data['gameRank3']);
 
+
+        // 3 game Ranking
+        $query = $this->em->createQuery("
+            SELECT
+                 p.id,
+                 COUNT(pb.badge) as nbMasterBadge,
+                 SUM(b.value) as pointBadge
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerBadge pb
+            JOIN pb.badge b
+            JOIN b.game g
+            JOIN pb.player p
+            WHERE b.type = :type
+            AND pb.player = :player
+            AND pb.ended_at IS NULL
+            AND g.boolRanking = 1
+            GROUP BY p.id");
+        $query->setParameter('type', 'Master');
+        $query->setParameter('player', $player);
+
+        $row = $query->getOneOrNullResult();
+        if ($row) {
+            $player->setNbMasterBadge($row['nbMasterBadge']);
+            $player->setPointBadge($row['pointBadge']);
+        }
+
         $this->em->persist($player);
         $this->em->flush();
 
@@ -131,11 +162,13 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
         $this->majRankMedal();
         $this->majRankCup();
         $this->majRankProof();
+        $this->majRankBadge();
     }
-     /**
-     * Update column rankPointChart
+
+    /**
+     * @return void
      */
-    private function majRankPointChart()
+    private function majRankPointChart(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('pointChart' => 'DESC'));
         Ranking::addObjectRank($players, 'rankPointChart', array('pointChart'));
@@ -143,9 +176,9 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
     }
 
     /**
-     * Update column rankMedal
+     * @return void
      */
-    private function majRankMedal()
+    private function majRankMedal(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC'));
         Ranking::addObjectRank($players, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
@@ -153,9 +186,9 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
     }
 
     /**
-     * Update column rankPointGame
+     * @return void
      */
-    private function majRankPointGame()
+    private function majRankPointGame(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('pointGame' => 'DESC'));
         Ranking::addObjectRank($players, 'rankPointGame', array('pointGame'));
@@ -163,9 +196,9 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
     }
 
     /**
-     * Update column rankCup
+     * @return void
      */
-    private function majRankCup()
+    private function majRankCup(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
         Ranking::addObjectRank($players, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
@@ -173,9 +206,9 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
     }
 
     /**
-     * Update column rankProof
+     * @return void
      */
-    private function majRankProof()
+    private function majRankProof(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('nbChartProven' => 'DESC'));
         Ranking::addObjectRank($players, 'rankProof', array('nbChartProven'));
@@ -186,7 +219,7 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
     /**
      * @return void
      */
-    public function majRankBadge()
+    private function majRankBadge(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('pointBadge' => 'DESC', 'nbMasterBadge' => 'DESC'));
         Ranking::addObjectRank($players, 'rankBadge', array('pointBadge', 'nbMasterBadge'));
