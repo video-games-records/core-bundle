@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
 use Symfony\Component\Console\Command\Command;
 
-class LostPositionCommand extends Command
+class LostPositionPurgeCommand extends Command
 {
     protected static $defaultName = 'vgr-core:lost-position-purge';
 
