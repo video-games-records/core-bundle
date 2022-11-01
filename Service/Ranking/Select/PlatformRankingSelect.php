@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
 
-
 use Doctrine\ORM\Exception\ORMException;
 
 class PlatformRankingSelect extends DefaultRankingSelect
@@ -39,10 +38,5 @@ class PlatformRankingSelect extends DefaultRankingSelect
                 ->setParameter('maxRank', $maxRank);
         }
         return $query->getQuery()->getResult();
-    }
-
-    public function getRankingMedals(int $id = null, array $options = []): array
-    {
-        return [];
     }
 }

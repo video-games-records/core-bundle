@@ -34,29 +34,6 @@ class PlayerBadgeRepository extends DefaultRepository
         return $query->getQuery()->getResult();
     }
 
-
-
-    /**
-     * @param Platform $platform
-     * @throws Exception
-     */
-    public function majPlatformBadge(Platform $platform)
-    {
-        if ($platform->getBadge() === null) {
-            return;
-        }
-
-        //----- get ranking with maxRank = 1
-        $ranking = $this->_em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerPlatform')->getRankingPointPlatform($platform, 1);
-
-        $players = array();
-        foreach ($ranking as $playerPlatform) {
-            $players[$playerPlatform->getPlayer()->getId()] = 0;
-        }
-
-        $this->updateBadge($players, $platform->getBadge());
-    }
-
     /**
      * @param array $players
      * @param Badge $badge
