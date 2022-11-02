@@ -118,9 +118,9 @@ class GameRepository extends DefaultRepository
     /**
      * @param string $q
      * @param string $locale
-     * @return int|mixed|string
+     * @return mixed
      */
-    public function autocomplete(string $q, string $locale = 'en')
+    public function autocomplete(string $q, string $locale = 'en'): mixed
     {
         $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
         $query = $this->createQueryBuilder('g');

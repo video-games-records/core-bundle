@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use VideoGamesRecords\CoreBundle\Service\GameService;
+use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 
 /**
  * Class GameController
@@ -13,22 +13,22 @@ use VideoGamesRecords\CoreBundle\Service\GameService;
  */
 class GameController extends AbstractController
 {
-    private GameService $gameService;
+    private GameRepository $gameRepository;
 
-    public function __construct(GameService $gameService)
+    public function __construct(GameRepository $gameRepository)
     {
-        $this->gameService = $gameService;
+        $this->gameRepository = $gameRepository;
     }
 
     /**
      * @param Request $request
      * @return mixed
      */
-    public function autocomplete(Request $request)
+    public function autocomplete(Request $request): mixed
     {
         $q = $request->query->get('query', null);
         $locale = $request->getLocale();
-        return $this->gameService->autocomplete($q, $locale);
+        return $this->gameRepository->autocomplete($q, $locale);
     }
 
     /**
@@ -39,7 +39,7 @@ class GameController extends AbstractController
     {
         $letter = $request->query->get('letter', '0');
         $locale = $request->getLocale();
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')
+        return $this->gameRepository
             ->findWithLetter($letter, $locale)
             ->getResult();
     }
