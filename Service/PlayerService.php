@@ -14,19 +14,16 @@ class PlayerService
 {
     private EntityManagerInterface $em;
     private PlayerRepository $playerRepository;
-    private LostPositionRepository $lostPositionRepository;
     private ProofRequestRepository $proofRequestRepository;
 
     public function __construct(
         EntityManagerInterface $em,
         PlayerRepository $playerRepository,
-        LostPositionRepository $lostPositionRepository,
         ProofRequestRepository $proofRequestRepository
     )
     {
         $this->em = $em;
         $this->playerRepository = $playerRepository;
-        $this->lostPositionRepository = $lostPositionRepository;
         $this->proofRequestRepository = $proofRequestRepository;
     }
 
@@ -51,31 +48,7 @@ class PlayerService
         return $this->playerRepository->autocomplete($q);
     }
 
-    /**
-     * @param $player
-     * @return int|mixed|string
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function getNbLostPosition($player)
-    {
-        return $this->lostPositionRepository->getNbLostPosition($player);
-    }
 
-    /**
-     * @param $player
-     * @return int|mixed|string
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function getNbNewLostPosition($player)
-    {
-        if ($player->getLastDisplayLostPosition() != null) {
-            return $this->lostPositionRepository->getNbNewLostPosition($player);
-        } else {
-            return $this->getNbLostPosition($player);
-        }
-    }
 
     /**
      * @param $player

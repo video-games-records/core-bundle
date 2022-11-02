@@ -6,6 +6,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Service\LostPositionManager;
 use VideoGamesRecords\CoreBundle\Service\PlayerService;
 
 /**
@@ -14,10 +15,12 @@ use VideoGamesRecords\CoreBundle\Service\PlayerService;
 class PlayerController extends DefaultController
 {
     private PlayerService $playerService;
+    private LostPositionManager $lostPositionManager;
 
-    public function __construct(PlayerService $playerService)
+    public function __construct(PlayerService $playerService, LostPositionManager $lostPositionManager)
     {
         $this->playerService = $playerService;
+        $this->lostPositionManager = $lostPositionManager;
     }
 
     /**
@@ -82,23 +85,23 @@ class PlayerController extends DefaultController
 
     /**
      * @param Player $player
-     * @return int|mixed|string
+     * @return int
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function nbLostPosition(Player $player)
+    public function getNbLostPosition(Player $player): int
     {
-        return $this->playerService->getNbLostPosition($player);
+        return $this->lostPositionManager->getNbLostPosition($player);
     }
 
     /**
      * @param Player $player
-     * @return int|mixed|string
+     * @return int
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function nbNewLostPosition(Player $player)
+    public function getNbNewLostPosition(Player $player): int
     {
-        return $this->playerService->getNbNewLostPosition($player);
+        return $this->lostPositionManager->getNbNewLostPosition($player);
     }
 }

@@ -76,11 +76,11 @@ resources:
             nb-lost-position:
                 method: 'GET'
                 path: '/players/{id}/nb-lost-position'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::nbLostPosition'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::getNbLostPosition'
             nb-new-lost-position:
                 method: 'GET'
                 path: '/players/{id}/nb-new-lost-position'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::nbNewLostPosition'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::getNbNewLostPosition'
             can-ask-proof:
                 method: 'GET'
                 path: '/players/{id}/can-ask-proof'

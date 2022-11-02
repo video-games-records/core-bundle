@@ -43,12 +43,4 @@ class GameController extends AbstractController
             ->findWithLetter($letter, $locale)
             ->getResult();
     }
-
-
-    /*public function listFromPlayerLostPosition(Request $request)
-    {
-        $locale = $request->getLocale();
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')
-            ->findFromlostPosition($this->getPlayer(), $locale);
-    }*/
 }
