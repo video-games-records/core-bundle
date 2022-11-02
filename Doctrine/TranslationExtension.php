@@ -1,9 +1,10 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Doctrine;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
+use ApiPlatform\Doctrine\Orm\Extension\QueryItemExtensionInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Country;
@@ -14,14 +15,16 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
      * @param QueryBuilder                $queryBuilder
      * @param QueryNameGeneratorInterface $queryNameGenerator
      * @param string                      $resourceClass
-     * @param string|null                 $operationName
+     * @param Operation|null              $operation
+     * @param array                       $context
      */
     public function applyToCollection(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
-    ) {
+        Operation $operation = null,
+        array $context = []
+    ): void {
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
@@ -30,7 +33,7 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
      * @param QueryNameGeneratorInterface $queryNameGenerator
      * @param string                      $resourceClass
      * @param array                       $identifiers
-     * @param string|null                 $operationName
+     * @param Operation|null              $operation
      * @param array                       $context
      */
     public function applyToItem(
@@ -38,9 +41,9 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         array $identifiers,
-        string $operationName = null,
+        Operation $operation = null,
         array $context = []
-    ) {
+    ): void {
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
