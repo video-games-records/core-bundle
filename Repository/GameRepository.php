@@ -11,7 +11,6 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\DBAL\DBALException;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 
 class GameRepository extends DefaultRepository
@@ -205,7 +204,6 @@ class GameRepository extends DefaultRepository
 
     /**
      * @param $id
-     * @throws DBALException
      */
     public function copy($id)
     {
@@ -291,24 +289,6 @@ class GameRepository extends DefaultRepository
             ->setParameter('game', $game);
 
         $query->getQuery()->execute();
-    }
-
-    /**
-     * @return Game|null
-     * @throws NonUniqueResultException
-     */
-    public function getGameOfday(): ?Game
-    {
-        $now = new Datetime();
-        $qb = $this->createQueryBuilder('g')
-            ->select('g')
-            ->innerJoin('g.days', 'day')
-            ->where('day.day = :today')
-            ->setParameter('today', $now->format('Y-m-d'));
-
-        $this->withPlatforms($qb);
-
-        return $qb->getQuery()->getOneOrNullResult();
     }
 
 

@@ -44,15 +44,6 @@ class GameService
     }
 
     /**
-     * @return Game|null
-     * @throws NonUniqueResultException
-     */
-    public function getGameOfDay(): ?Game
-    {
-        return $this->gameRepository->getGameOfday();
-    }
-
-    /**
      * @param $idGame
      * @return Game|null
      */
