@@ -1,18 +1,18 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Read;
 
 use Doctrine\ORM\Exception\ORMException;
 
-class PlayerGameRankingSelect extends DefaultRankingSelect
+class PlayerGroupRankingSelect extends DefaultRankingSelect
 {
     /**
      * @throws ORMException
      */
     public function getRankingPoints(int $id = null, array $options = []): array
     {
-        $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
-        if (null === $game) {
+        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
+        if (null === $group) {
             return [];
         }
 
@@ -22,19 +22,19 @@ class PlayerGameRankingSelect extends DefaultRankingSelect
 
         $query = $this->em->createQueryBuilder()
             ->select('pg')
-            ->from('VideoGamesRecords\CoreBundle\Entity\PlayerGame', 'pg')
+            ->from('VideoGamesRecords\CoreBundle\Entity\PlayerGroup', 'pg')
             ->join('pg.player', 'p')
             ->addSelect('p')
             ->orderBy('pg.rankPointChart');
 
-        $query->where('pg.game = :game')
-            ->setParameter('game', $game);
+        $query->where('pg.group = :group')
+            ->setParameter('group', $group);
 
         if ($team != null) {
             $query->andWhere('(p.team = :team)')
                 ->setParameter('team', $team);
         } elseif (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player = :player)')
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player= :player)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
         } elseif ($maxRank !== null) {
@@ -43,16 +43,14 @@ class PlayerGameRankingSelect extends DefaultRankingSelect
         } else {
             $query->setMaxResults(100);
         }
+
         return $query->getQuery()->getResult();
     }
 
-    /**
-     * @throws ORMException
-     */
     public function getRankingMedals(int $id = null, array $options = []): array
     {
-        $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
-        if (null === $game) {
+        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
+        if (null === $group) {
             return [];
         }
 
@@ -61,16 +59,16 @@ class PlayerGameRankingSelect extends DefaultRankingSelect
 
         $query = $this->em->createQueryBuilder()
             ->select('pg')
-            ->from('VideoGamesRecords\CoreBundle\Entity\PlayerGame', 'pg')
+            ->from('VideoGamesRecords\CoreBundle\Entity\PlayerGroup', 'pg')
             ->join('pg.player', 'p')
             ->addSelect('p')
             ->orderBy('pg.rankMedal');
 
-        $query->where('pg.game = :game')
-            ->setParameter('game', $game);
+        $query->where('pg.group = :group')
+            ->setParameter('group', $group);
 
         if (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.player = :player)')
+            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.player= :player)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
         } elseif ($maxRank !== null) {

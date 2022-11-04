@@ -38,7 +38,7 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatCreation()
+    public function countEtatCreation(): mixed
     {
         $qb = $this->getCountQueryBuilder();
         $this->whereEtat($qb, Game::ETAT_INIT);
@@ -51,7 +51,7 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatRecord()
+    public function countEtatRecord(): mixed
     {
         $qb = $this->getCountQueryBuilder();
         $this->whereEtat($qb, Game::ETAT_CHART);
@@ -64,7 +64,7 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatImage()
+    public function countEtatImage(): mixed
     {
         $qb = $this->getCountQueryBuilder();
         $this->whereEtat($qb, Game::ETAT_PICTURE);
@@ -149,24 +149,6 @@ class GameRepository extends DefaultRepository
         $this->onlyActive($query);
         $this->withPlatforms($query);
 
-        return $query->getQuery()->getResult();
-    }
-
-    /**
-     * @param        $player
-     * @param string $locale
-     * @return int|mixed|string
-     */
-    public function findFromlostPosition($player, $locale = 'en')
-    {
-        $query = $this->createQueryBuilder('g');
-        $query
-            ->innerJoin('g.groups', 'group')
-            ->innerJoin('group.charts', 'chart')
-            ->innerJoin('chart.lostPositions', 'lostPosition')
-            ->where('lostPosition.player = :player')
-            ->setParameter('player', $player);
-        $this->setOrder($query, $locale);
         return $query->getQuery()->getResult();
     }
 

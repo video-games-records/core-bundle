@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Select;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Read;
 
 class TeamGroupRankingSelect extends DefaultRankingSelect
 {

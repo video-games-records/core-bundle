@@ -6,7 +6,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlatformRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlatformRankingSelect;
 
 /**
  * Class PlaformController

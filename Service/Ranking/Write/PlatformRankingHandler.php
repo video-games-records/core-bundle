@@ -1,17 +1,17 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Event\PlatformEvent;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
+use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class PlatformRankingUpdater implements RankingUpdaterInterface
+class PlatformRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;
@@ -26,13 +26,13 @@ class PlatformRankingUpdater implements RankingUpdaterInterface
     {
         $platforms = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Platform')->findAll();
         foreach ($platforms as $platform) {
-            $this->maj($platform->getId());
+            $this->handle($platform->getId());
         }
     }
 
-    public function maj(int $id): void
+    public function handle($mixed): void
     {
-        $platform = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Platform')->find($id);
+        $platform = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Platform')->find($mixed);
         if (null === $platform) {
             return;
         }

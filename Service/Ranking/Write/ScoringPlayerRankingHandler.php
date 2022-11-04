@@ -1,68 +1,68 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 
-class ScoringPlayerRankingUpdater
+class ScoringPlayerRankingHandler
 {
     private EntityManagerInterface $em;
-    private PlayerChartRankingUpdater $playerChartRankingUpdater;
-    private PlayerGroupRankingUpdater $playerGroupRankingUpdater;
-    private PlayerGameRankingUpdater $playerGameRankingUpdater;
-    private PlayerRankingUpdater $playerRankingUpdater;
+    private PlayerChartRankingHandler $playerChartRankingHandler;
+    private PlayerGroupRankingHandler $playerGroupRankingHandler;
+    private PlayerGameRankingHandler $playerGameRankingHandler;
+    private PlayerRankingHandler $playerRankingHandler;
 
     public function __construct(
         EntityManagerInterface $em,
-        PlayerChartRankingUpdater $playerChartRankingUpdater,
-        PlayerGroupRankingUpdater $playerGroupRankingUpdater,
-        PlayerGameRankingUpdater $playerGameRankingUpdater,
-        PlayerRankingUpdater $playerRankingUpdater
+        PlayerChartRankingHandler $playerChartRankingHandler,
+        PlayerGroupRankingHandler $playerGroupRankingHandler,
+        PlayerGameRankingHandler$playerGameRankingHandler,
+        PlayerRankingHandler $playerRankingHandler
     ) {
         $this->em = $em;
-        $this->playerChartRankingUpdater = $playerChartRankingUpdater;
-        $this->playerGroupRankingUpdater = $playerGroupRankingUpdater;
-        $this->playerGameRankingUpdater = $playerGameRankingUpdater;
-        $this->playerRankingUpdater = $playerRankingUpdater;
+        $this->playerChartRankingHandler = $playerChartRankingHandler;
+        $this->playerGroupRankingHandler = $playerGroupRankingHandler;
+        $this->playerGameRankingHandler = $playerGameRankingHandler;
+        $this->playerRankingHandler = $playerRankingHandler;
     }
 
     /**
      * @return int
      * @throws NonUniqueResultException
      */
-    public function process(): int
+    public function handle(): int
     {
         $charts = $this->getChartsToUpdate();
 
         /** @var Chart $chart */
         foreach ($charts as $chart) {
-            $this->playerChartRankingUpdater->maj($chart->getId());
+            $this->playerChartRankingHandler->handle($chart->getId());
             $chart->setStatusPlayer(Chart::STATUS_NORMAL);
         }
 
-        $groups = $this->playerChartRankingUpdater->getGroups();
-        $games = $this->playerChartRankingUpdater->getGames();
-        $players = $this->playerChartRankingUpdater->getPlayers();
+        $groups = $this->playerChartRankingHandler->getGroups();
+        $games = $this->playerChartRankingHandler->getGames();
+        $players = $this->playerChartRankingHandler->getPlayers();
 
         //----- Maj group
         foreach ($groups as $group) {
-            $this->playerGroupRankingUpdater->maj($group->getId());
+            $this->playerGroupRankingHandler->handle($group->getId());
         }
 
         //----- Maj game
         foreach ($games as $game) {
-            $this->playerGameRankingUpdater->maj($game->getId());
+            $this->playerGameRankingHandler->handle($game->getId());
         }
 
         /** @var Player $player */
         foreach ($players as $player) {
-            $this->playerRankingUpdater->maj($player->getId());
+            $this->playerRankingHandler->handle($player->getId());
         }
 
-        $this->playerRankingUpdater->majRank();
+        $this->playerRankingHandler->majRank();
 
         $this->em->flush();
         echo sprintf("%d charts updated\n", count($charts));

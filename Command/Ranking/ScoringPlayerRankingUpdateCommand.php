@@ -1,22 +1,23 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\ScoringPlayerRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Write\ScoringPlayerRankingHandler;
 
 class ScoringPlayerRankingUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:scoring-player-ranking-update';
 
-    private ScoringPlayerRankingUpdater $scoringPlayerRankingUpdater;
+    private ScoringPlayerRankingHandler $scoringPlayerRankingHandler;
 
-    public function __construct(ScoringPlayerRankingUpdater $scoringPlayerRankingUpdater)
+    public function __construct(ScoringPlayerRankingHandler $scoringPlayerRankingHandler)
     {
-        $this->scoringPlayerRankingUpdater = $scoringPlayerRankingUpdater;
+        $this->scoringPlayerRankingHandler = $scoringPlayerRankingHandler;
         parent::__construct();
     }
 
@@ -33,6 +34,7 @@ class ScoringPlayerRankingUpdateCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
+     * @throws NonUniqueResultException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -42,7 +44,7 @@ class ScoringPlayerRankingUpdateCommand extends Command
         $lock = $factory->createLock(self::$defaultName);
 
         if ($lock->acquire()) {
-            $this->scoringPlayerRankingUpdater->process();
+            $this->scoringPlayerRankingHandler->handle();
             $lock->release();
         }
         return 0;

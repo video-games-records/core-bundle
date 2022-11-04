@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerGroupRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGroupRankingSelect;
 
 /**
  * Class PlayerGroupController

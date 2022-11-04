@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -8,11 +8,11 @@ use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Event\PlayerEvent;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
+use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class PlayerRankingUpdater implements RankingUpdaterInterface
+class PlayerRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;
@@ -26,10 +26,10 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
     /**
      * @throws NonUniqueResultException
      */
-    public function maj(int $id): void
+    public function handle($mixed): void
     {
         /** @var Player $player */
-        $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->find($id);
+        $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->find($mixed);
         if (null === $player) {
             return;
         }
@@ -214,7 +214,6 @@ class PlayerRankingUpdater implements RankingUpdaterInterface
         Ranking::addObjectRank($players, 'rankProof', array('nbChartProven'));
         $this->em->flush();
     }
-
 
     /**
      * @return void

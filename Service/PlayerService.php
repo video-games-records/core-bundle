@@ -49,7 +49,6 @@ class PlayerService
     }
 
 
-
     /**
      * @param $player
      * @return mixed

@@ -1,16 +1,16 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Event\CountryEvent;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
+use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class CountryRankingUpdater implements RankingUpdaterInterface
+class CountryRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;
@@ -25,15 +25,15 @@ class CountryRankingUpdater implements RankingUpdaterInterface
     {
         $countries = $this->getCountryRepository()->findBy(['boolMaj' => true]);
         foreach ($countries as $country) {
-            $this->maj($country->getId());
+            $this->handle($country->getId());
             $country->setBoolMaj(false);
         }
         $this->em->flush();
     }
 
-    public function maj(int $id): void
+    public function handle($mixed): void
     {
-        $country = $this->getCountryRepository()->find($id);
+        $country = $this->getCountryRepository()->find($mixed);
         if (null === $country) {
             return;
         }

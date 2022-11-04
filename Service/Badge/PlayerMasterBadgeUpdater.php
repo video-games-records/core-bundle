@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Service\Badge;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerGameRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGameRankingSelect;
 
 class PlayerMasterBadgeUpdater
 {

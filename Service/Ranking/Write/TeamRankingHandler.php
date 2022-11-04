@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -8,11 +8,11 @@ use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Event\TeamEvent;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
+use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class TeamRankingUpdater implements RankingUpdaterInterface
+class TeamRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;
@@ -26,9 +26,9 @@ class TeamRankingUpdater implements RankingUpdaterInterface
     /**
      * @throws NonUniqueResultException
      */
-    public function maj(int $id): void
+    public function handle($mixed): void
     {
-        $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->find($id);
+        $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->find($mixed);
         if (null === $team) {
             return;
         }

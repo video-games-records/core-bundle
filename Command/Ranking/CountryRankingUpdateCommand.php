@@ -6,18 +6,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\CountryRankingUpdater;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerSerieRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Write\CountryRankingHandler;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Write\PlayerSerieRankingHandler;
 
 class CountryRankingUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:country-ranking-update';
 
-    private CountryRankingUpdater $countryRankingUpdater;
+    private CountryRankingHandler $countryRankingHandler;
 
-    public function __construct(CountryRankingUpdater $countryRankingUpdater)
+    public function __construct(CountryRankingHandler $countryRankingHandler)
     {
-        $this->countryRankingUpdater = $countryRankingUpdater;
+        $this->countryRankingHandler = $countryRankingHandler;
         parent::__construct();
     }
 
@@ -53,10 +53,10 @@ class CountryRankingUpdateCommand extends Command
         switch ($function) {
             case 'maj':
                 $id = $input->getOption('id');
-                $this->countryRankingUpdater->maj($id);
+                $this->countryRankingHandler->handle($id);
                 break;
             case 'maj-all':
-                $this->countryRankingUpdater->majAll();
+                $this->countryRankingHandler->majAll();
                 break;
         }
         return 0;

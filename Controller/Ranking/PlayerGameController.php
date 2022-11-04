@@ -6,7 +6,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerGameRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGameRankingSelect;
 
 /**
  * Class PlayerGameController

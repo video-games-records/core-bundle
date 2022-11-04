@@ -1,16 +1,16 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
+use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerGroupRankingUpdater implements RankingUpdaterInterface
+class PlayerGroupRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
 
@@ -19,9 +19,9 @@ class PlayerGroupRankingUpdater implements RankingUpdaterInterface
         $this->em = $em;
     }
 
-    public function maj(int $id): void
+    public function handle($mixed): void
     {
-        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
+        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($mixed);
         if (null === $group) {
             return;
         }

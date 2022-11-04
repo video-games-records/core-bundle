@@ -10,9 +10,9 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerGameRankingUpdater;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerGroupRankingUpdater;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\PlayerRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Write\PlayerGameRankingHandler;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Write\PlayerGroupRankingHandler;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Write\PlayerRankingHandler;
 
 class PlayerChartService
 {

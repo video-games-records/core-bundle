@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -8,11 +8,11 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
+use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class TeamGameRankingUpdater implements RankingUpdaterInterface
+class TeamGameRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;
@@ -23,10 +23,10 @@ class TeamGameRankingUpdater implements RankingUpdaterInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function maj(int $id): void
+    public function handle($mixed): void
     {
         /** @var Game $game */
-        $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
+        $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($mixed);
         if (null === $game) {
             return;
         }

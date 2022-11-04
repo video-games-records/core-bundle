@@ -1,17 +1,17 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Select\PlayerChartRankingSelect;
+use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerChartRankingSelect;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerChartRankingUpdater implements RankingUpdaterInterface
+class PlayerChartRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
     private PlayerChartRankingSelect $playerChartRankingSelect;
@@ -25,9 +25,9 @@ class PlayerChartRankingUpdater implements RankingUpdaterInterface
         $this->playerChartRankingSelect = $playerChartRankingSelect;
     }
 
-    public function maj(int $id): void
+    public function handle($mixed): void
     {
-        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($id);
+        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($mixed);
         if (null === $chart) {
             return ;
         }

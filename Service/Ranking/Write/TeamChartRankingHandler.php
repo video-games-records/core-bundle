@@ -1,15 +1,15 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Ranking\Updater;
+namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use VideoGamesRecords\CoreBundle\Interface\RankingUpdaterInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Select\TeamChartRankingSelect;
+use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamChartRankingSelect;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class TeamChartRankingUpdater implements RankingUpdaterInterface
+class TeamChartRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
     private array $teams = [];
@@ -21,9 +21,9 @@ class TeamChartRankingUpdater implements RankingUpdaterInterface
         $this->em = $em;
     }
 
-    public function maj(int $id): void
+    public function handle($mixed): void
     {
-        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($id);
+        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($mixed);
         if (null === $chart) {
             return ;
         }

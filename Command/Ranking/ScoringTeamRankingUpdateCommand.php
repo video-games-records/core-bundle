@@ -7,18 +7,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\ScoringPlayerRankingUpdater;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Updater\ScoringTeamRankingUpdater;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Write\ScoringPlayerRankingHandler;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Write\ScoringTeamRankingHandler;
 
 class ScoringTeamRankingUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:scoring-team-ranking-update';
 
-    private ScoringTeamRankingUpdater $scoringTeamRankingUpdater;
+    private ScoringTeamRankingHandler $scoringTeamRankingHandler;
 
-    public function __construct(ScoringTeamRankingUpdater $scoringTeamRankingUpdater)
+    public function __construct(ScoringTeamRankingHandler $scoringTeamRankingHandler)
     {
-        $this->scoringTeamRankingUpdater = $scoringTeamRankingUpdater;
+        $this->scoringTeamRankingHandler = $scoringTeamRankingHandler;
         parent::__construct();
     }
 
@@ -44,7 +44,7 @@ class ScoringTeamRankingUpdateCommand extends Command
         $lock = $factory->createLock(self::$defaultName);
 
         if ($lock->acquire()) {
-            $this->scoringTeamRankingUpdater->process();
+            $this->scoringTeamRankingHandler->handle();
             $lock->release();
         }
         return 0;

@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Service\Badge;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Country;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Select\CountryRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\CountryRankingSelect;
 
 class CountryBadgeUpdater
 {
