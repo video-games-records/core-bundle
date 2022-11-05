@@ -3,16 +3,12 @@
 namespace VideoGamesRecords\CoreBundle\Service\Stats;
 
 use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
-use VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository;
 
-class PlayerStatsProvider implements StatsProviderInterface
+class PlayerGameStatsProvider implements StatsProviderInterface
 {
     private EntityManagerInterface $em;
 
-    public function __construct(
-        EntityManagerInterface $em,
-    )
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
@@ -30,14 +26,8 @@ class PlayerStatsProvider implements StatsProviderInterface
             ->getStatsFromPlayer($mixed);
 
         foreach ($playerGames as $playerGame) {
-            if (isset(
-                $stats[$playerGame->getGame()
-                    ->getId()]
-            )) {
-                $playerGame->setStatuses(
-                    $stats[$playerGame->getGame()
-                        ->getId()]
-                );
+            if (isset($stats[$playerGame->getGame()->getId()])) {
+                $playerGame->setStatuses($stats[$playerGame->getGame()->getId()]);
             }
         }
         return $playerGames;

@@ -11,5 +11,4 @@ class PictureRepository extends DefaultRepository
     {
         parent::__construct($registry, Picture::class);
     }
-
 }

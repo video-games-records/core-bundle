@@ -11,5 +11,4 @@ class VideoCommentRepository extends DefaultRepository
     {
         parent::__construct($registry, VideoComment::class);
     }
-
 }

@@ -16,7 +16,7 @@ class PlayerChartStatusRepository extends DefaultRepository
      * @param $player
      * @return int|mixed|string
      */
-    public function getStatsFromPlayer($player)
+    public function getStatsFromPlayer($player): mixed
     {
         $query = $this->_em->createQuery("
             SELECT

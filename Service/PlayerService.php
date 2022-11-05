@@ -50,29 +50,9 @@ class PlayerService
 
 
     /**
-     * @param $player
-     * @return mixed
-     */
-    public function getGameStats($player)
-    {
-        $playerGames = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->getFromPlayer($player);
-        $stats = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->getStatsFromPlayer($player);
-
-        foreach ($playerGames as $playerGame) {
-            if (isset($stats[$playerGame->getGame()->getId()])) {
-                $playerGame->setStatuses(
-                    $stats[$playerGame->getGame()
-                        ->getId()]
-                );
-            }
-        }
-        return $playerGames;
-    }
-
-    /**
      *
      */
-    public function majRulesOfThree()
+    public function majRulesOfThree(): void
     {
         $group1 = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 2);
         $group2 = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', 9);

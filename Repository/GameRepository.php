@@ -2,7 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use DateTime;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -77,7 +77,7 @@ class GameRepository extends DefaultRepository
      * @return mixed
      * @throws NonUniqueResultException
      */
-    public function getStats()
+    public function getStats(): mixed
     {
         $qb = $this->createQueryBuilder('game')
             ->select('COUNT(game.id)');
@@ -96,7 +96,7 @@ class GameRepository extends DefaultRepository
      *
      * @return Query
      */
-    public function findWithLetter(string $letter, string $locale = 'en')
+    public function findWithLetter(string $letter, string $locale = 'en'): Query
     {
         $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
         $query = $this->createQueryBuilder('g');
@@ -139,7 +139,7 @@ class GameRepository extends DefaultRepository
      * @param int $idSerie
      * @return array
      */
-    public function findSerieGames(int $idSerie)
+    public function findSerieGames(int $idSerie): array
     {
         $query = $this->createQueryBuilder('g');
         $query
@@ -157,7 +157,7 @@ class GameRepository extends DefaultRepository
      * @param $date2
      * @return array
      */
-    public function getNbPostDay($date1, $date2)
+    public function getNbPostDay($date1, $date2): array
     {
         //----- data nbPostDay
         $query = $this->_em->createQuery("
@@ -186,22 +186,20 @@ class GameRepository extends DefaultRepository
 
     /**
      * @param $id
+     * @throws Exception
      */
     public function copy($id)
     {
         $sql = sprintf("call copy_game (%d);", $id);
-        $this->_em->getConnection()->executeUpdate($sql);
+        $this->_em->getConnection()->executeStatement($sql);
     }
 
 
     /**
      * @param $player
      * @return array
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function getStatsFromPlayer($player)
+    public function getStatsFromPlayer($player): array
     {
         $qb = $this->createQueryBuilder('gam')
             ->select('gam.id')
@@ -281,7 +279,7 @@ class GameRepository extends DefaultRepository
     /**
      * @return QueryBuilder
      */
-    private function getCountQueryBuilder()
+    private function getCountQueryBuilder(): QueryBuilder
     {
          return $this->createQueryBuilder('g')
             ->select('COUNT(g.id)');

@@ -26,9 +26,9 @@ class PlayerGameRepository extends DefaultRepository
      * Return data from player with game and platforms
      *
      * @param $player
-     * @return int|mixed|string
+     * @return array
      */
-    public function getFromPlayer($player)
+    public function getFromPlayer($player): array
     {
         $qb = $this->createQueryBuilder('pg')
             ->join('pg.game', 'g')

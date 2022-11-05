@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Service\LostPositionManager;
@@ -12,15 +13,13 @@ use VideoGamesRecords\CoreBundle\Service\PlayerService;
 /**
  * Class PlayerController
  */
-class PlayerController extends DefaultController
+class PlayerController extends AbstractController
 {
     private PlayerService $playerService;
-    private LostPositionManager $lostPositionManager;
 
-    public function __construct(PlayerService $playerService, LostPositionManager $lostPositionManager)
+    public function __construct(PlayerService $playerService)
     {
         $this->playerService = $playerService;
-        $this->lostPositionManager = $lostPositionManager;
     }
 
     /**
@@ -63,7 +62,6 @@ class PlayerController extends DefaultController
     }
 
 
-
     /**
      * @param Player    $player
      * @return mixed
@@ -72,36 +70,5 @@ class PlayerController extends DefaultController
     {
         return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus')
             ->getStatsFromPlayer($player);
-    }
-
-    /**
-     * @param Player    $player
-     * @return mixed
-     */
-    public function gamePlayerChartStatus(Player $player)
-    {
-        return $this->playerService->getGameStats($player);
-    }
-
-    /**
-     * @param Player $player
-     * @return int
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function getNbLostPosition(Player $player): int
-    {
-        return $this->lostPositionManager->getNbLostPosition($player);
-    }
-
-    /**
-     * @param Player $player
-     * @return int
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function getNbNewLostPosition(Player $player): int
-    {
-        return $this->lostPositionManager->getNbNewLostPosition($player);
     }
 }

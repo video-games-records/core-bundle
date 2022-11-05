@@ -19,7 +19,7 @@ class GameDayRepository extends DefaultRepository
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function getMax()
+    public function getMaxDay(): mixed
     {
         $qb = $this->createQueryBuilder('gd')
             ->select('max(gd.day)');

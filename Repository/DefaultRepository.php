@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 
 abstract class DefaultRepository extends ServiceEntityRepository
 {
@@ -18,8 +18,6 @@ abstract class DefaultRepository extends ServiceEntityRepository
 
     /**
      * @param $object
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function save($object)
     {
@@ -27,10 +25,7 @@ abstract class DefaultRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
+
     public function flush()
     {
         $this->_em->flush();

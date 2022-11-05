@@ -23,7 +23,7 @@ class PlayerChartLibRepository extends DefaultRepository
      * @param Group|null $group
      * @return array
      */
-    public function getFormValues(Player $player, Chart $chart = null, Group $group = null)
+    /*public function getFormValues(Player $player, Chart $chart = null, Group $group = null)
     {
         $query = $this->createQueryBuilder('pcl')
             ->join('pcl.libChart', 'lib')
@@ -51,7 +51,7 @@ class PlayerChartLibRepository extends DefaultRepository
 
         foreach ($result as $row) {
             /** @var PlayerChartLib $row */
-            $data['player_' . $row->getLibChart()->getChart()->getId() . '_' . $row->getLibChart()->getIdLibChart()] = $row->getValue();
+            /*$data['player_' . $row->getLibChart()->getChart()->getId() . '_' . $row->getLibChart()->getIdLibChart()] = $row->getValue();
             $values = Score::getValues($row->getLibChart()->getType()->getMask(), $row->getValue());
             $i = 1;
             foreach ($values as $key => $value) {
@@ -60,13 +60,13 @@ class PlayerChartLibRepository extends DefaultRepository
         }
 
         return $data;
-    }
+    }*/
 
     /**
      * @param Group $group
      * @return array
      */
-    public function getTopValues(Group $group)
+    /*public function getTopValues(Group $group)
     {
         $query = $this->getScoreQuery();
 
@@ -78,14 +78,14 @@ class PlayerChartLibRepository extends DefaultRepository
         $query->andWhere('pc.topScore = 1');
 
         return $this->getScores($query);
-    }
+    }*/
 
     /**
      * @param Group  $group
      * @param Player $player
      * @return array
      */
-    public function getPlayerScore(Group $group, Player $player)
+    /*public function getPlayerScore(Group $group, Player $player): array
     {
         $query = $this->getScoreQuery();
 
@@ -98,13 +98,13 @@ class PlayerChartLibRepository extends DefaultRepository
             ->setParameter('player', $player);
 
         return $this->getScores($query);
-    }
+    }*/
 
 
     /**
      * @return QueryBuilder
      */
-    private function getScoreQuery()
+   /* private function getScoreQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('pcl')
             ->join('pcl.libChart', 'lib')
@@ -118,14 +118,14 @@ class PlayerChartLibRepository extends DefaultRepository
             ->addSelect('p.pseudo')
             ->orderBy('lib.idLibChart')
             ->where('pc.player = pcl.player');
-    }
+    }*/
 
 
     /**
-     * @param $query
+     * @param QueryBuilder $query
      * @return array
      */
-    private function getScores(QueryBuilder $query)
+    /*private function getScores(QueryBuilder $query): array
     {
         $result = $query->getQuery()->getArrayResult();
         $list = array();
@@ -140,5 +140,5 @@ class PlayerChartLibRepository extends DefaultRepository
             $list[$row['id']]['values'][] = Score::formatScore($row[0]['value'], $row[0]['libChart']['type']['mask']);
         }
         return $list;
-    }
+    }*/
 }
