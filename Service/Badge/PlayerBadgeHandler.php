@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Service\Badge;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PlayerBadgeUpdater
+class PlayerBadgeHandler
 {
     private EntityManagerInterface $em;
 

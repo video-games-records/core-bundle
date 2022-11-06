@@ -2,20 +2,20 @@
 namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadgeUpdater;
-use VideoGamesRecords\CoreBundle\Service\Badge\TeamMasterBadgeUpdater;
+use VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadgeHandler;
+use VideoGamesRecords\CoreBundle\Service\Badge\TeamMasterBadgeHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
 
 final class GameSubscriber implements EventSubscriberInterface
 {
-    private PlayerMasterBadgeUpdater $playerMasterBadgeUpdater;
-    private TeamMasterBadgeUpdater $teamMasterBadgeUpdater;
+    private PlayerMasterBadgeHandler $playerMasterBadgeHandler;
+    private TeamMasterBadgeHandler $teamMasterBadgeHandler;
 
-    public function __construct(PlayerMasterBadgeUpdater $playerMasterBadgeUpdater, TeamMasterBadgeUpdater $teamMasterBadgeUpdater)
+    public function __construct(PlayerMasterBadgeHandler $playerMasterBadgeHandler, TeamMasterBadgeHandler $teamMasterBadgeHandler)
     {
-        $this->playerMasterBadgeUpdater = $playerMasterBadgeUpdater;
-        $this->teamMasterBadgeUpdater = $teamMasterBadgeUpdater;
+        $this->playerMasterBadgeHandler = $playerMasterBadgeHandler;
+        $this->teamMasterBadgeHandler = $teamMasterBadgeHandler;
     }
 
     public static function getSubscribedEvents(): array
@@ -31,7 +31,7 @@ final class GameSubscriber implements EventSubscriberInterface
      */
     public function playerGamePostMaj(GameEvent $event)
     {
-        $this->playerMasterBadgeUpdater->process($event->getGame());
+        $this->playerMasterBadgeHandler->process($event->getGame());
     }
 
     /**
@@ -39,6 +39,6 @@ final class GameSubscriber implements EventSubscriberInterface
      */
     public function teamGamePostMaj(GameEvent $event)
     {
-        $this->teamMasterBadgeUpdater->process($event->getGame());
+        $this->teamMasterBadgeHandler->process($event->getGame());
     }
 }

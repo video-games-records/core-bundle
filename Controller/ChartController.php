@@ -48,7 +48,7 @@ class ChartController extends DefaultController
         foreach ($charts as $chart) {
             if (count($chart->getPlayerCharts()) == 0) {
                 $playerChart = new PlayerChart();
-                $player = $this->getDoctrine()->getRepository('VideoGamesRecordsCoreBundle:Player')->find($this->getPlayer());
+                $player = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->find($this->getPlayer());
                 $playerChart->setId(-1);
                 $playerChart->setChart($chart);
                 $playerChart->setPlayer($player);

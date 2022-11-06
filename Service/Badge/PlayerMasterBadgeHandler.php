@@ -7,7 +7,7 @@ use Doctrine\ORM\Exception\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGameRankingQuery;
 
-class PlayerMasterBadgeUpdater
+class PlayerMasterBadgeHandler
 {
     private EntityManagerInterface $em;
     private PlayerGameRankingQuery $playerGameRankingQuery;

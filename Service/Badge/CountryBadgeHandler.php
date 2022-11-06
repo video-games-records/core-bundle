@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Country;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Read\CountryRankingQuery;
 
-class CountryBadgeUpdater
+class CountryBadgeHandler
 {
     private EntityManagerInterface $em;
     private CountryRankingQuery $countryRankingQuery;

@@ -4,17 +4,17 @@ namespace VideoGamesRecords\CoreBundle\Command\Badge;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Badge\PlayerBadgeUpdater;
+use VideoGamesRecords\CoreBundle\Service\Badge\PlayerBadgeHandler;
 
 class PlayerBadgeUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:player-badge-update';
 
-    private PlayerBadgeUpdater $playerBadgeUpdater;
+    private PlayerBadgeHandler $playerBadgeHandler;
 
-    public function __construct(PlayerBadgeUpdater $playerBadgeUpdater)
+    public function __construct(PlayerBadgeHandler $playerBadgeHandler)
     {
-        $this->playerBadgeUpdater = $playerBadgeUpdater;
+        $this->playerBadgeHandler = $playerBadgeHandler;
         parent::__construct();
     }
 
@@ -34,7 +34,7 @@ class PlayerBadgeUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->playerBadgeUpdater->process();
+        $this->playerBadgeHandler->process();
         return 0;
     }
 }
