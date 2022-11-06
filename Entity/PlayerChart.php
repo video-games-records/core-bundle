@@ -120,7 +120,7 @@ class PlayerChart implements TimestampableInterface
     private int $pointChart = 0;
 
     /**
-     * @ORM\Column(name="pointPlatform", type="integer", nullable=false)
+     * @ORM\Column(name="pointPlatform", type="integer", nullable=true)
      */
     private ?int $pointPlatform = null;
 
@@ -201,9 +201,9 @@ class PlayerChart implements TimestampableInterface
      * Set id
      *
      * @param integer $id
-     * @return $this
+     * @return PlayerChart
      */
-    public function setId(int $id): Self
+    public function setId(int $id): PlayerChart
     {
         $this->id = $id;
         return $this;
@@ -223,9 +223,9 @@ class PlayerChart implements TimestampableInterface
      * Set rank
      *
      * @param integer $rank
-     * @return $this
+     * @return PlayerChart
      */
-    public function setRank(int $rank): Self
+    public function setRank(int $rank): PlayerChart
     {
         $this->rank = $rank;
         return $this;
@@ -245,9 +245,9 @@ class PlayerChart implements TimestampableInterface
      * Set nbEqual
      *
      * @param integer $nbEqual
-     * @return $this
+     * @return PlayerChart
      */
-    public function setNbEqual(int $nbEqual): Self
+    public function setNbEqual(int $nbEqual): PlayerChart
     {
         $this->nbEqual = $nbEqual;
         return $this;
@@ -266,9 +266,9 @@ class PlayerChart implements TimestampableInterface
     /**
      * Set pointChart
      * @param float $pointChart
-     * @return $this
+     * @return PlayerChart
      */
-    public function setPointChart(float $pointChart): Self
+    public function setPointChart(float $pointChart): PlayerChart
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -287,9 +287,9 @@ class PlayerChart implements TimestampableInterface
     /**
      * Set pointPlatform
      * @param float $pointPlatform
-     * @return $this
+     * @return PlayerChart
      */
-    public function setPointPlatform(float $pointPlatform): Self
+    public function setPointPlatform(float $pointPlatform): PlayerChart
     {
         $this->pointPlatform = $pointPlatform;
         return $this;
@@ -310,9 +310,9 @@ class PlayerChart implements TimestampableInterface
      *
      * @param bool $topScore
      *
-     * @return $this
+     * @return PlayerChart
      */
-    public function setTopScore(bool $topScore): Self
+    public function setTopScore(bool $topScore): PlayerChart
     {
         $this->topScore = $topScore;
         return $this;
@@ -332,9 +332,9 @@ class PlayerChart implements TimestampableInterface
      * Set lastUpdate
      *
      * @param DateTime $lastUpdate
-     * @return $this
+     * @return PlayerChart
      */
-    public function setLastUpdate(DateTime $lastUpdate): Self
+    public function setLastUpdate(DateTime $lastUpdate): PlayerChart
     {
         $this->lastUpdate = $lastUpdate;
 
@@ -354,9 +354,9 @@ class PlayerChart implements TimestampableInterface
     /**
      * Set dateInvestigation
      * @param DateTime|null $dateInvestigation
-     * @return $this
+     * @return PlayerChart
      */
-    public function setDateInvestigation(DateTime $dateInvestigation = null): Self
+    public function setDateInvestigation(DateTime $dateInvestigation = null): PlayerChart
     {
         $this->dateInvestigation = $dateInvestigation;
         return $this;
@@ -375,9 +375,9 @@ class PlayerChart implements TimestampableInterface
     /**
      * Set Chart
      * @param Chart $chart
-     * @return $this
+     * @return PlayerChart
      */
-    public function setChart(Chart $chart): Self
+    public function setChart(Chart $chart): PlayerChart
     {
         $this->chart = $chart;
 
@@ -397,9 +397,9 @@ class PlayerChart implements TimestampableInterface
     /**
      * Set proof
      * @param Proof|null $proof
-     * @return $this
+     * @return PlayerChart
      */
-    public function setProof(Proof $proof = null): Self
+    public function setProof(Proof $proof = null): PlayerChart
     {
         $this->proof = $proof;
 
@@ -420,9 +420,9 @@ class PlayerChart implements TimestampableInterface
     /**
      * Set platform
      * @param Platform|null $platform
-     * @return $this
+     * @return PlayerChart
      */
-    public function setPlatform(Platform $platform = null): Self
+    public function setPlatform(Platform $platform = null): PlayerChart
     {
         $this->platform = $platform;
         return $this;
@@ -442,9 +442,9 @@ class PlayerChart implements TimestampableInterface
     /**
      * Set status
      * @param PlayerChartStatus $status
-     * @return $this
+     * @return PlayerChart
      */
-    public function setStatus(PlayerChartStatus $status): Self
+    public function setStatus(PlayerChartStatus $status): PlayerChart
     {
         $this->status = $status;
 
@@ -463,9 +463,9 @@ class PlayerChart implements TimestampableInterface
 
     /**
      * @param PlayerChartLib $lib
-     * @return $this
+     * @return PlayerChart
      */
-    public function addLib(PlayerChartLib $lib): Self
+    public function addLib(PlayerChartLib $lib): PlayerChart
     {
         $lib->setPlayerChart($this);
         $this->libs[] = $lib;

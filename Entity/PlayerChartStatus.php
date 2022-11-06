@@ -78,9 +78,9 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * Set id
      * @param integer $id
-     * @return $this
+     * @return PlayerChartStatus
      */
-    public function setId(int $id): Self
+    public function setId(int $id): PlayerChartStatus
     {
         $this->id = $id;
         return $this;
@@ -100,14 +100,25 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * Set class
      * @param string $class
-     * @return $this
+     * @return PlayerChartStatus
      */
-    public function setLabel(string $class): Self
+    public function setLabel(string $class): PlayerChartStatus
     {
         $this->class = $class;
 
         return $this;
     }
+
+    /**
+     * @param string $class
+     * @return PlayerChartStatus
+     */
+    public function setClass(string $class): PlayerChartStatus
+    {
+        $this->class = $class;
+        return $this;
+    }
+
 
     /**
      * Get class
@@ -123,9 +134,9 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * Set boolRanking
      * @param integer $boolRanking
-     * @return $this
+     * @return PlayerChartStatus
      */
-    public function setBoolRanking(int $boolRanking): Self
+    public function setBoolRanking(int $boolRanking): PlayerChartStatus
     {
         $this->boolRanking = $boolRanking;
         return $this;
@@ -145,9 +156,9 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * Set boolSendProof
      * @param integer $boolSendProof
-     * @return $this
+     * @return PlayerChartStatus
      */
-    public function setBoolSendProof(int $boolSendProof): Self
+    public function setBoolSendProof(int $boolSendProof): PlayerChartStatus
     {
         $this->boolSendProof = $boolSendProof;
         return $this;
@@ -165,9 +176,9 @@ class PlayerChartStatus implements TranslatableInterface
 
     /**
      * @param string $name
-     * @return $this
+     * @return PlayerChartStatus
      */
-    public function setName(string $name): Self
+    public function setName(string $name): PlayerChartStatus
     {
         $this->translate(null, false)->setName($name);
 
@@ -186,9 +197,9 @@ class PlayerChartStatus implements TranslatableInterface
      * Set sOrder
      *
      * @param integer $sOrder
-     * @return $this
+     * @return PlayerChartStatus
      */
-    public function setSOrder(int $sOrder): Self
+    public function setSOrder(int $sOrder): PlayerChartStatus
     {
         $this->sOrder = $sOrder;
 

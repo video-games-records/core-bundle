@@ -10,28 +10,25 @@ use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use ProjetNormandie\ForumBundle\Manager\ForumManager;
-use VideoGamesRecords\CoreBundle\Service\PlayerService;
 
 class GameListener
 {
     private ForumManager $forumManager;
-    private PlayerService $playerService;
     private bool $majPlayers = false;
 
     /**
      * GameListener constructor.
      * @param ForumManager  $forumManager
-     * @param PlayerService $playerService
      */
-    public function __construct(ForumManager $forumManager, PlayerService $playerService)
+    public function __construct(ForumManager $forumManager)
     {
         $this->forumManager = $forumManager;
-        $this->playerService = $playerService;
     }
 
     /**
-     * @param Game       $game
+     * @param Game               $game
      * @param LifecycleEventArgs $event
+     * @throws ORMException
      */
     public function prePersist(Game $game, LifecycleEventArgs $event)
     {

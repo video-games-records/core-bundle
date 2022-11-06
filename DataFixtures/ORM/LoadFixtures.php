@@ -3,12 +3,12 @@
 namespace VideoGamesRecords\CoreBundle\DataFixtures\ORM;
 
 use DateTime;
-use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\ChartType;
@@ -22,6 +22,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use Exception;
 
+
 /**
  * Defines the sample data to load in the database when running the unit and
  * functional tests. Execute this command to load the data:
@@ -32,7 +33,7 @@ use Exception;
  *
  * @author David Benard <magicbart@gmail.com>
  */
-class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadFixtures extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
@@ -42,14 +43,14 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function load(ObjectManager $manager)
     {
+        $this->loadPlayerChartStatus($manager);
+        $this->loadPlayers($manager);
+        $this->loadChartType($manager);
         $this->loadSeries($manager);
         $this->loadPlatforms($manager);
         $this->loadGames($manager);
         $this->loadGroups($manager);
-        $this->loadChartType($manager);
         $this->loadCharts($manager);
-        $this->loadPlayers($manager);
-        $this->loadPlayerChartStatus($manager);
         $this->loadPlayerChart($manager);
     }
 
@@ -63,21 +64,18 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $list = [
             [
                 'id'        => 1,
-                'languages' => ['fr' => 'Forza Motosport', 'en' => 'Forza Motosport'],
+                'libSerie' => 'Forza Motosport',
             ],
             [
                 'id'        => 2,
-                'languages' => ['fr' => 'Mario Kart', 'en' => 'Mario Kart'],
+                'libSerie' => 'Mario Kart',
             ],
         ];
 
         foreach ($list as $row) {
             $serie = new Serie();
             $serie->setId($row['id']);
-            foreach ($row['languages'] as $locale => $label) {
-                $serie->translate($locale, false)->setName($label);
-            }
-            $serie->mergeNewTranslations();
+            $serie->setLibSerie($row['libSerie']);
             $manager->persist($serie);
             $this->addReference('serie.' . $serie->getId(), $serie);
         }
@@ -107,10 +105,10 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         ];
         foreach ($list as $row) {
             $platform = new Platform();
-            $platform->setIdPlatform($row['idPlatform']);
+            $platform->setId($row['idPlatform']);
             $platform->setLibPlatform($row['libPlatform']);
             $manager->persist($platform);
-            $this->addReference('platform.' . $platform->getIdPlatform(), $platform);
+            $this->addReference('platform.' . $platform->getId(), $platform);
         }
         $manager->flush();
     }
@@ -125,41 +123,49 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $list = [
             [
                 'idGame'    => 1,
-                'languages' => ['fr' => 'Burnout 2', 'en' => 'Burnout 2'],
+                'LibGameEn' => 'Burnout 2',
+                'libGameFr' => 'Burnout 2',
                 'platforms' => [1, 2, 3],
                 'status'    => Game::STATUS_ACTIVE,
             ],
             [
                 'idGame'    => 2,
-                'languages' => ['fr' => 'Mario Kart 8', 'en' => 'Mario Kart 8'],
+                'LibGameEn' => 'Mario Kart 8',
+                'libGameFr' => 'Mario Kart 8',
                 'idSerie'   => 2,
             ],
             [
                 'idGame'    => 3,
-                'languages' => ['fr' => 'Forza Motosport 4', 'en' => 'Forza Motosport 4'],
+                'LibGameEn' => 'Forza Motosport 4',
+                'libGameFr' => 'Forza Motosport 4',
                 'idSerie'   => 1,
             ],
             [
                 'idGame'    => 4,
-                'languages' => ['fr' => 'Forza Motosport 3', 'en' => 'Forza Motosport 3'],
+                'LibGameEn' => 'Forza Motosport 3',
+                'libGameFr' => 'Forza Motosport 3',
                 'idSerie'   => 1,
             ],
             [
                 'idGame'    => 5,
-                'languages' => ['fr' => 'Sega Rallye', 'en' => 'Sega Rallye'],
+                'LibGameEn' => 'Sega Rallye [EN]',
+                'libGameFr' => 'Sega Rallye [FR]',
             ],
             [
                 'idGame'    => 6,
-                'languages' => ['fr' => 'Gran Turismo', 'en' => 'Gran Turismo'],
+                'LibGameEn' => 'Gran Turismo',
+                'libGameFr' => 'Gran Turismo',
                 'platforms' => [2],
             ],
             [
                 'idGame'    => 7,
-                'languages' => ['fr' => 'Jet Set Radio', 'en' => 'Jet Set Radio'],
+                'LibGameEn' => 'Jet Set Radio',
+                'libGameFr' => 'Jet Set Radio',
             ],
             [
                 'idGame'    => 11,
-                'languages' => ['fr' => 'Mario Kart Double Dash', 'en' => 'Mario Kart Double Dash'],
+                'LibGameEn' => 'Mario Kart Double Dash',
+                'libGameFr' => 'Mario Kart Double Dash',
                 'idSerie'   => 2,
                 'platforms' => [1],
                 'status'    => Game::STATUS_ACTIVE,
@@ -169,9 +175,9 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         foreach ($list as $row) {
             $game = new Game();
             $game->setId($row['idGame']);
-            foreach ($row['languages'] as $locale => $label) {
-                $game->translate($locale, false)->setName($label);
-            }
+            $game->setLibGameEn($row['LibGameEn']);
+            $game->setLibGameFr($row['libGameFr']);
+
             if (isset($row['idSerie'])) {
                 $game->setSerie($this->getReference('serie.' . $row['idSerie']));
             }
@@ -183,7 +189,6 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             if (isset($row['status']) && Game::STATUS_ACTIVE === $row['status']) {
                 $game->setStatus(Game::STATUS_ACTIVE);
             }
-            $game->mergeNewTranslations();
             $manager->persist($game);
             $this->addReference('game' . $game->getId(), $game);
         }
@@ -202,28 +207,29 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             [
                 'idGroup'   => 1,
                 'idGame'    => 11,
-                'languages' => ['fr' => 'Meilleur Tour', 'en' => 'Fastest Lap Times'],
+                'LibGroupEn' => 'Meilleur Tour',
+                'libGroupFr' => 'Fastest Lap Times',
             ],
             [
                 'idGroup'   => 2,
                 'idGame'    => 11,
-                'languages' => ['fr' => 'Meilleur Temps', 'en' => 'Fastest Total Times'],
+                'LibGroupEn' => 'Meilleur Temps',
+                'libGroupFr' => 'Fastest Total Times',
             ],
             [
                 'idGroup'   => 3,
                 'idGame'    => 11,
-                'languages' => ['fr' => 'Grand Prix', 'en' => 'GP'],
+                'LibGroupEn' => 'Grand Prix',
+                'libGroupFr' => 'Grand Prix',
             ],
         ];
 
         foreach ($list as $row) {
             $group = new Group();
             $group->setId($row['idGroup']);
-            foreach ($row['languages'] as $locale => $label) {
-                $group->translate($locale, false)->setName($label);
-            }
+            $group->setLibGroupEn($row['LibGroupEn']);
+            $group->setLibGroupFr($row['libGroupFr']);
             $group->setGame($this->getReference('game' . $row['idGame']));
-            $group->mergeNewTranslations();
             $manager->persist($group);
             $this->addReference('group' . $group->getId(), $group);
         }
@@ -286,97 +292,113 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             [
                 'idChart'   => 1,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Baby Park', 'en' => 'Baby Park'],
+                'LibChartEn' => 'Baby Park',
+                'libChartFr' => 'Baby Park',
                 'types'     => [1],
             ],
             [
                 'idChart'   => 2,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Bowser\'s Castle', 'en' => 'Bowser\'s Castle'],
+                'LibChartEn' => 'Bowser\'s Castle',
+                'libChartFr' => 'Bowser\'s Castle',
                 'types'     => [1],
             ],
             [
                 'idChart'   => 3,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Daisy Cruiser', 'en' => 'Daisy Cruiser'],
+                'LibChartEn' => 'Daisy Cruiser',
+                'libChartFr' => 'Daisy Cruiser',
                 'types'     => [2],
             ],
             [
                 'idChart'   => 4,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Dino Dino Jungle', 'en' => 'Dino Dino Jungle'],
+                'LibChartEn' => 'Dino Dino Jungle',
+                'libChartFr' => 'Dino Dino Jungle',
                 'types'     => [3],
             ],
             [
                 'idChart'   => 5,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'DK Mountain', 'en' => 'DK Mountain'],
+                'LibChartEn' => 'DK Mountain',
+                'libChartFr' => 'DK Mountain',
                 'types'     => [1],
             ],
             [
                 'idChart'   => 6,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Dry Dry Desert', 'en' => 'Dry Dry Desert'],
+                'LibChartEn' => 'Dry Dry Desert',
+                'libChartFr' => 'Dry Dry Desert',
                 'types'     => [2],
             ],
             [
                 'idChart'   => 7,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Luigi Circuit', 'en' => 'Luigi Circuit'],
+                'LibChartEn' => 'Luigi Circuit',
+                'libChartFr' => 'Luigi Circuit',
                 'types'     => [1, 2],
             ],
             [
                 'idChart'   => 8,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Mario Circuit', 'en' => 'Mario Circuit'],
+                'LibChartEn' => 'Mario Circuit',
+                'libChartFr' => 'Mario Circuit',
                 'types'     => [1, 3],
             ],
             [
                 'idChart'   => 9,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Mushroom Bridge', 'en' => 'Mushroom Bridge'],
+                'LibChartEn' => 'Mushroom Bridge',
+                'libChartFr' => 'Mushroom Bridge',
                 'types'     => [2, 3],
             ],
             [
                 'idChart'   => 10,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Mushroom City', 'en' => 'Mushroom City'],
+                'LibChartEn' => 'Mushroom City',
+                'libChartFr' => 'Mushroom City',
                 'types'     => [1],
             ],
             [
                 'idChart'   => 11,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Peach Beach', 'en' => 'Peach Beach'],
+                'LibChartEn' => 'Peach Beach',
+                'libChartFr' => 'Peach Beach',
                 'types'     => [1],
             ],
             [
                 'idChart'   => 12,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Rainbow Road', 'en' => 'Rainbow Road'],
+                'LibChartEn' => 'Rainbow Road',
+                'libChartFr' => 'Rainbow Road',
                 'types'     => [1],
             ],
             [
                 'idChart'   => 13,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Sherbet Land', 'en' => 'Sherbet Land'],
+                'LibChartEn' => 'Sherbet Land',
+                'libChartFr' => 'Sherbet Land',
                 'types'     => [1],
             ],
             [
                 'idChart'   => 14,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Waluigi Stadium', 'en' => 'Waluigi Stadium'],
+                'LibChartEn' => 'Waluigi Stadium',
+                'libChartFr' => 'Waluigi Stadium',
                 'types'     => [1],
             ],
             [
                 'idChart'   => 15,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Wario Colosseum', 'en' => 'Wario Colosseum'],
+                'LibChartEn' => 'Wario Colosseum',
+                'libChartFr' => 'Wario Colosseum',
                 'types'     => [3],
             ],
             [
                 'idChart'   => 16,
                 'idGroup'   => 1,
-                'languages' => ['fr' => 'Yoshi Circuit', 'en' => 'Yoshi Circuit'],
+                'LibChartEn' => 'Yoshi Circuit',
+                'libChartFr' => 'Yoshi Circuit',
                 'types'     => [2],
             ],
         ];
@@ -384,11 +406,9 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         foreach ($list as $row) {
             $chart = new Chart();
             $chart->setId($row['idChart']);
-            foreach ($row['languages'] as $locale => $label) {
-                $chart->translate($locale, false)->setName($label);
-            }
+            $chart->setLibChartEn($row['LibChartEn']);
+            $chart->setLibChartFr($row['libChartFr']);
             $chart->setGroup($this->getReference('group' . $row['idGroup']));
-            $chart->mergeNewTranslations();
 
             foreach ($row['types'] as $type) {
                 $chartLib = new ChartLib();
@@ -426,18 +446,18 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
             ],
             [
                 'idPlayer' => 3,
-                'pseudo'   => 'viviengaetan',
+                'pseudo'   => 'flatine',
             ],
         ];
 
         foreach ($list as $row) {
             $player = new Player();
             $player
-                ->setIdPlayer($row['idPlayer'])
+                ->setId($row['idPlayer'])
                 ->setPseudo($row['pseudo']);
 
             $manager->persist($player);
-            $this->addReference('player' . $player->getIdPlayer(), $player);
+            $this->addReference('player' . $player->getId(), $player);
         }
         $manager->flush();
     }
@@ -450,36 +470,43 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $list = [
             [
                 'libStatus' => 'NORMAL',
+                'class'     => 'proof--none',
                 'ranking'   => 1,
                 'proof'     => 0,
             ],
             [
                 'libStatus' => 'DEMAND',
+                'class'     => 'proof--request-pending',
                 'ranking'   => 1,
                 'proof'     => 0,
             ],
             [
                 'libStatus' => 'INVESTIGATION',
+                'class'     => 'proof--request-validated',
                 'ranking'   => 0,
                 'proof'     => 0,
             ],
             [
                 'libStatus' => 'DEMAND_SEND_PROOF',
+                'class'     => 'proof--request-sent',
                 'ranking'   => 1,
                 'proof'     => 1,
             ],
             [
                 'libStatus' => 'NORMAL_SEND_PROOF',
+                'class'     => 'proof--sent',
                 'ranking'   => 1,
                 'proof'     => 1,
             ],
             [
                 'libStatus' => 'PROOVED',
+                'class'     => 'proof--proved',
                 'ranking'   => 1,
                 'proof'     => 1,
             ],
             [
                 'libStatus' => 'NOT_PROOVED',
+                'class'     => 'proof--unproved',
                 'ranking'   => 1,
                 'proof'     => 0,
             ],
@@ -488,13 +515,14 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         foreach ($list as $key => $row) {
             $playerChartStatus = new PlayerChartStatus();
             $playerChartStatus
-                ->setIdStatus($key + 1)
-                ->setLibStatus($row['libStatus'])
+                ->setId($key + 1)
+                ->setName($row['libStatus'])
+                ->setClass($row['class'])
                 ->setBoolRanking($row['ranking'])
                 ->setBoolSendProof($row['proof']);
 
             $manager->persist($playerChartStatus);
-            $this->addReference('playerchartstatus' . $playerChartStatus->getIdStatus(), $playerChartStatus);
+            $this->addReference('playerchartstatus' . $playerChartStatus->getId(), $playerChartStatus);
         }
         $manager->flush();
     }
@@ -537,7 +565,7 @@ class LoadFixtures extends AbstractFixture implements OrderedFixtureInterface, C
 
             foreach ($chart->getLibs() as $lib) {
                 $playerChartLib = new PlayerChartLib();
-                $playerChartLib->setPlayer($this->getReference('player' . $row['idPlayer']));
+                $playerChartLib->setPlayerChart($playerChart);
                 $playerChartLib->setLibChart($lib);
                 $playerChartLib->setValue($row['value']);
                 $manager->persist($playerChartLib);
