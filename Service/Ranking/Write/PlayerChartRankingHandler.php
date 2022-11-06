@@ -8,21 +8,21 @@ use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerChartRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerChartRankingQuery;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerChartRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
-    private PlayerChartRankingSelect $playerChartRankingSelect;
+    private PlayerChartRankingQuery $playerChartRankingQuery;
     private array $players = [];
     private array $games = [];
     private array $groups = [];
 
-    public function __construct(EntityManagerInterface $em, PlayerChartRankingSelect $playerChartRankingSelect)
+    public function __construct(EntityManagerInterface $em, PlayerChartRankingQuery $playerChartRankingQuery)
     {
         $this->em = $em;
-        $this->playerChartRankingSelect = $playerChartRankingSelect;
+        $this->playerChartRankingQuery = $playerChartRankingQuery;
     }
 
     public function handle($mixed): void
@@ -37,7 +37,7 @@ class PlayerChartRankingHandler implements RankingCommandInterface
 
         /** @var Chart $chart */
         $chart       = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getWithChartType($chart);
-        $ranking     = $this->playerChartRankingSelect->getRanking($chart);
+        $ranking     = $this->playerChartRankingQuery->getRanking($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
 
         $topScoreLibValue = '';

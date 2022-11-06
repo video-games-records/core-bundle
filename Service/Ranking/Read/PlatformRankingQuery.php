@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Service\Ranking\Read;
 
 use Doctrine\ORM\Exception\ORMException;
 
-class PlatformRankingSelect extends DefaultRankingSelect
+class PlatformRankingQuery extends DefaultRankingQuery
 {
     /**
      * @throws ORMException

@@ -9,7 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 
-class PlayerChartRankingSelect extends DefaultRankingSelect
+class PlayerChartRankingQuery extends DefaultRankingQuery
 {
     /**
      * @throws ORMException

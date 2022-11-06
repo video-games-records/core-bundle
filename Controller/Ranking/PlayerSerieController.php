@@ -5,18 +5,18 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerSerieRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerSerieRankingQuery;
 
 /**
  * Class PlayerSerieController
  */
 class PlayerSerieController extends AbstractController
 {
-    private PlayerSerieRankingSelect $playerSerieRankingSelect;
+    private PlayerSerieRankingQuery $playerSerieRankingQuery;
 
-    public function __construct(PlayerSerieRankingSelect $playerSerieRankingSelect)
+    public function __construct(PlayerSerieRankingQuery $playerSerieRankingQuery)
     {
-        $this->playerSerieRankingSelect = $playerSerieRankingSelect;
+        $this->playerSerieRankingQuery = $playerSerieRankingQuery;
     }
 
     /**
@@ -26,7 +26,7 @@ class PlayerSerieController extends AbstractController
      */
     public function getRankingPoints(Game $game, Request $request): array
     {
-        return $this->playerSerieRankingSelect->getRankingPoints(
+        return $this->playerSerieRankingQuery->getRankingPoints(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 100),
@@ -43,7 +43,7 @@ class PlayerSerieController extends AbstractController
      */
     public function getRankingMedals(Game $game, Request $request): array
     {
-        return $this->playerSerieRankingSelect->getRankingMedals(
+        return $this->playerSerieRankingQuery->getRankingMedals(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 100),

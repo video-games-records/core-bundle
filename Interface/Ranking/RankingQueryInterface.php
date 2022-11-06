@@ -1,7 +1,7 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Interface;
 
-interface RankingSelectInterface
+interface RankingQueryInterface
 {
     public function getRankingPoints(int $id = null, array $options = []) : array;
 

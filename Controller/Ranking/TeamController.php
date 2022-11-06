@@ -5,18 +5,18 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamRankingQuery;
 
 /**
  * Class TeamController
  */
 class TeamController extends AbstractController
 {
-    private TeamRankingSelect $teamRankingSelect;
+    private TeamRankingQuery $teamRankingQuery;
 
-    public function __construct(TeamRankingSelect $teamRankingSelect)
+    public function __construct(TeamRankingQuery $teamRankingQuery)
     {
-        $this->teamRankingSelect = $teamRankingSelect;
+        $this->teamRankingQuery = $teamRankingQuery;
     }
 
     /**
@@ -26,7 +26,7 @@ class TeamController extends AbstractController
      */
     public function getRankingPointChart(Request $request): array
     {
-        return $this->teamRankingSelect->getRankingPointChart(
+        return $this->teamRankingQuery->getRankingPointChart(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
             ]
@@ -40,7 +40,7 @@ class TeamController extends AbstractController
      */
     public function getRankingPointGame(Request $request): array
     {
-        return $this->teamRankingSelect->getRankingPointGame(
+        return $this->teamRankingQuery->getRankingPointGame(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
             ]
@@ -54,7 +54,7 @@ class TeamController extends AbstractController
      */
     public function getRankingMedals(Request $request): array
     {
-        return $this->teamRankingSelect->getRankingMedals(
+        return $this->teamRankingQuery->getRankingMedals(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
             ]
@@ -68,7 +68,7 @@ class TeamController extends AbstractController
      */
     public function getRankingCup(Request $request): array
     {
-        return $this->teamRankingSelect->getRankingCup(
+        return $this->teamRankingQuery->getRankingCup(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
             ]
@@ -82,7 +82,7 @@ class TeamController extends AbstractController
      */
     public function getRankingBadge(Request $request): array
     {
-        return $this->teamRankingSelect->getRankingBadge(
+        return $this->teamRankingQuery->getRankingBadge(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
             ]

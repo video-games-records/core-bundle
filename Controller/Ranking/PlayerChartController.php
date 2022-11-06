@@ -6,7 +6,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerChartRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerChartRankingQuery;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 
 /**
@@ -14,11 +14,11 @@ use VideoGamesRecords\CoreBundle\Tools\Score;
  */
 class PlayerChartController extends AbstractController
 {
-    private PlayerChartRankingSelect $playerChartRankingSelect;
+    private PlayerChartRankingQuery $playerChartRankingQuery;
 
-    public function __construct(PlayerChartRankingSelect $playerChartRankingSelect)
+    public function __construct(PlayerChartRankingQuery $playerChartRankingQuery)
     {
-        $this->playerChartRankingSelect = $playerChartRankingSelect;
+        $this->playerChartRankingQuery = $playerChartRankingQuery;
     }
 
     /**
@@ -29,7 +29,7 @@ class PlayerChartController extends AbstractController
      */
     public function getRankingPoints(Chart $chart, Request $request): array
     {
-        return $this->playerChartRankingSelect->getRankingPoints(
+        return $this->playerChartRankingQuery->getRankingPoints(
             $chart->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
@@ -47,7 +47,7 @@ class PlayerChartController extends AbstractController
      */
     public function getRanking(Chart $chart, Request $request): array
     {
-        $ranking = $this->playerChartRankingSelect->getRanking(
+        $ranking = $this->playerChartRankingQuery->getRanking(
             $chart,
             [
                 'maxRank' => $request->query->get('maxRank', 100),
@@ -81,7 +81,7 @@ class PlayerChartController extends AbstractController
      */
     public function getRankingDisabled(Chart $chart)
     {
-        $ranking = $this->playerChartRankingSelect->getRankingDisabled($chart);
+        $ranking = $this->playerChartRankingQuery->getRankingDisabled($chart);
 
         for ($i=0; $i<=count($ranking)-1; $i++) {
             foreach ($chart->getLibs() as $lib) {

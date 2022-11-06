@@ -2,18 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Read;
 
-
-use Doctrine\ORM\Exception\ORMException;
-
-class TeamGameRankingSelect extends DefaultRankingSelect
+class TeamGroupRankingQuery extends DefaultRankingQuery
 {
-    /**
-     * @throws ORMException
-     */
     public function getRankingPoints(int $id = null, array $options = []): array
     {
-        $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
-        if (null === $game) {
+        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
+        if (null === $group) {
             return [];
         }
 
@@ -22,13 +16,13 @@ class TeamGameRankingSelect extends DefaultRankingSelect
 
         $query = $this->em->createQueryBuilder()
             ->select('tg')
-            ->from('VideoGamesRecords\CoreBundle\Entity\TeamGame', 'tg')
+            ->from('VideoGamesRecords\CoreBundle\Entity\TeamGroup', 'tg')
             ->join('tg.team', 't')
             ->addSelect('t')
             ->orderBy('tg.rankPointChart');
 
-        $query->where('tg.game = :game')
-            ->setParameter('game', $game);
+        $query->where('tg.group = :group')
+            ->setParameter('group', $group);
 
         if (($maxRank !== null) && ($team !== null)) {
             $query->andWhere('(tg.rankPointChart <= :maxRank OR tg.team = :team)')
@@ -46,8 +40,8 @@ class TeamGameRankingSelect extends DefaultRankingSelect
 
     public function getRankingMedals(int $id = null, array $options = []): array
     {
-        $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($id);
-        if (null === $game) {
+        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
+        if (null === $group) {
             return [];
         }
 
@@ -56,13 +50,13 @@ class TeamGameRankingSelect extends DefaultRankingSelect
 
         $query = $this->em->createQueryBuilder()
             ->select('tg')
-            ->from('VideoGamesRecords\CoreBundle\Entity\TeamGame', 'tg')
+            ->from('VideoGamesRecords\CoreBundle\Entity\TeamGroup', 'tg')
             ->join('tg.team', 't')
             ->addSelect('t')
             ->orderBy('tg.rankMedal');
 
-        $query->where('tg.game = :game')
-            ->setParameter('game', $game);
+        $query->where('tg.group = :group')
+            ->setParameter('group', $group);
 
         if (($maxRank !== null) && ($team !== null)) {
             $query->andWhere('(tg.rankMedal <= :maxRank OR tg.team = :team)')

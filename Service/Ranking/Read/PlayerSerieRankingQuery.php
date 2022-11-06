@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Service\Ranking\Read;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 
-class PlayerSerieRankingSelect extends DefaultRankingSelect
+class PlayerSerieRankingQuery extends DefaultRankingQuery
 {
     public function getRankingPoints(int $id = null, array $options = []): array
     {

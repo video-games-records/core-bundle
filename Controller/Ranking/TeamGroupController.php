@@ -5,18 +5,18 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamGroupRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamGroupRankingQuery;
 
 /**
  * Class TeamGroupController
  */
 class TeamGroupController extends AbstractController
 {
-    private TeamGroupRankingSelect $teamGroupRankingSelect;
+    private TeamGroupRankingQuery $teamGroupRankingQuery;
 
-    public function __construct(TeamGroupRankingSelect $teamGroupRankingSelect)
+    public function __construct(TeamGroupRankingQuery $teamGroupRankingQuery)
     {
-        $this->teamGroupRankingSelect = $teamGroupRankingSelect;
+        $this->teamGroupRankingQuery = $teamGroupRankingQuery;
     }
 
     /**
@@ -26,7 +26,7 @@ class TeamGroupController extends AbstractController
      */
     public function getRankingPoints(Game $game, Request $request): array
     {
-        return $this->teamGroupRankingSelect->getRankingPoints(
+        return $this->teamGroupRankingQuery->getRankingPoints(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
@@ -41,7 +41,7 @@ class TeamGroupController extends AbstractController
      */
     public function getRankingMedals(Game $game, Request $request): array
     {
-        return $this->teamGroupRankingSelect->getRankingMedals(
+        return $this->teamGroupRankingQuery->getRankingMedals(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),

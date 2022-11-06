@@ -6,18 +6,18 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamChartRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamChartRankingQuery;
 
 /**
  * Class TeamChartController
  */
 class TeamChartController extends AbstractController
 {
-    private TeamChartRankingSelect $teamChartRankingSelect;
+    private TeamChartRankingQuery $teamChartRankingQuery;
 
-    public function __construct(TeamChartRankingSelect $teamChartRankingSelect)
+    public function __construct(TeamChartRankingQuery $teamChartRankingQuery)
     {
-        $this->teamChartRankingSelect = $teamChartRankingSelect;
+        $this->teamChartRankingQuery = $teamChartRankingQuery;
     }
 
     /**
@@ -28,7 +28,7 @@ class TeamChartController extends AbstractController
      */
     public function getRankingPoints(Chart $chart, Request $request): array
     {
-        return $this->teamChartRankingSelect->getRankingPoints(
+        return $this->teamChartRankingQuery->getRankingPoints(
             $chart->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),

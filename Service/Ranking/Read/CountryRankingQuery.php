@@ -2,7 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Read;
 
-class CountryRankingSelect extends DefaultRankingSelect
+class CountryRankingQuery extends DefaultRankingQuery
 {
     /**
      * @param int|null $id

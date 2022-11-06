@@ -4,17 +4,17 @@ namespace VideoGamesRecords\CoreBundle\Service\Badge;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Country;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\CountryRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\CountryRankingQuery;
 
 class CountryBadgeUpdater
 {
     private EntityManagerInterface $em;
-    private CountryRankingSelect $countryRankingSelect;
+    private CountryRankingQuery $countryRankingQuery;
 
-    public function __construct(EntityManagerInterface $em, CountryRankingSelect $countryRankingSelect)
+    public function __construct(EntityManagerInterface $em, CountryRankingQuery $countryRankingQuery)
     {
         $this->em = $em;
-        $this->countryRankingSelect = $countryRankingSelect;
+        $this->countryRankingQuery = $countryRankingQuery;
     }
 
     public function process(Country $country): void
@@ -23,7 +23,7 @@ class CountryBadgeUpdater
             return;
         }
 
-        $ranking = $this->countryRankingSelect->getRanking($country->getId(), array('maxRank' => 1));
+        $ranking = $this->countryRankingQuery->getRanking($country->getId(), array('maxRank' => 1));
 
         $players = array();
         foreach ($ranking as $player) {

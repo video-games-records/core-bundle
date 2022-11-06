@@ -6,18 +6,18 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGameRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGameRankingQuery;
 
 /**
  * Class PlayerGameController
  */
 class PlayerGameController extends AbstractController
 {
-    private PlayerGameRankingSelect $playerGameRankingSelect;
+    private PlayerGameRankingQuery $playerGameRankingQuery;
 
-    public function __construct(PlayerGameRankingSelect $playerGameRankingSelect)
+    public function __construct(PlayerGameRankingQuery $playerGameRankingQuery)
     {
-        $this->playerGameRankingSelect = $playerGameRankingSelect;
+        $this->playerGameRankingQuery = $playerGameRankingQuery;
     }
 
     /**
@@ -28,7 +28,7 @@ class PlayerGameController extends AbstractController
      */
     public function getRankingPoints(Game $game, Request $request): array
     {
-        return $this->playerGameRankingSelect->getRankingPoints(
+        return $this->playerGameRankingQuery->getRankingPoints(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
@@ -46,7 +46,7 @@ class PlayerGameController extends AbstractController
      */
     public function getRankingMedals(Game $game, Request $request): array
     {
-        return $this->playerGameRankingSelect->getRankingMedals(
+        return $this->playerGameRankingQuery->getRankingMedals(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),

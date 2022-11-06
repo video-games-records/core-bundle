@@ -10,7 +10,7 @@ use VideoGamesRecords\CoreBundle\DataTransformer\TokenStorageToTeamTransformer;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 
-class DefaultRankingSelect
+class DefaultRankingQuery
 {
     protected EntityManagerInterface $em;
     protected TokenStorageToPlayerTransformer $tokenStorageToPlayerTransformer;

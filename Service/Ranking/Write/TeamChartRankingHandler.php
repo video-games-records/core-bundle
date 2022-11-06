@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamChartRankingSelect;
+use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamChartRankingQuery;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class TeamChartRankingHandler implements RankingCommandInterface
