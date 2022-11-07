@@ -21,24 +21,4 @@ class PlayerGameRepository extends DefaultRepository
     {
         parent::__construct($registry, PlayerGame::class);
     }
-
-    /**
-     * Return data from player with game and platforms
-     *
-     * @param $player
-     * @return array
-     */
-    public function getFromPlayer($player): array
-    {
-        $qb = $this->createQueryBuilder('pg')
-            ->join('pg.game', 'g')
-            ->addSelect('g')
-            ->join('g.platforms', 'p')
-            ->addSelect('p')
-            ->where('pg.player = :player')
-            ->setParameter('player', $player)
-            ->orderBy('g.' . (Locale::getDefault() == 'fr' ? 'libGameFr' : 'libGameEn'), 'ASC');
-
-         return $qb->getQuery()->getResult();
-    }
 }

@@ -194,44 +194,6 @@ class GameRepository extends DefaultRepository
         $this->_em->getConnection()->executeStatement($sql);
     }
 
-
-    /**
-     * @param $player
-     * @return array
-     */
-    public function getStatsFromPlayer($player): array
-    {
-        $qb = $this->createQueryBuilder('gam')
-            ->select('gam.id')
-            ->addSelect('status.id as idStatus')
-            ->addSelect('COUNT(pc) as nb')
-            ->innerJoin('gam.groups', 'grp')
-            ->innerJoin('grp.charts', 'chr')
-            ->innerJoin('chr.playerCharts', 'pc')
-            ->innerJoin('pc.status', 'status')
-            ->where('pc.player = :player')
-            ->setParameter('player', $player)
-            ->groupBy('gam.id')
-            ->addGroupBy('status.id')
-            ->orderBy('gam.id', 'ASC')
-            ->addOrderBy('status.id', 'ASC');
-
-        $list = $qb->getQuery()->getResult(2);
-
-        $games = [];
-        foreach ($list as $row) {
-            $idGame = $row['id'];
-            if (!array_key_exists($idGame, $games)) {
-                $games[$idGame] = [];
-            }
-            $games[$idGame][] = [
-                'status' => $this->_em->find('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', $row['idStatus']),
-                'nb' => $row['nb'],
-            ];
-        }
-        return $games;
-    }
-
     /**
      * @return int|mixed|string
      */

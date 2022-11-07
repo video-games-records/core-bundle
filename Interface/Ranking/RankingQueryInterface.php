@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\Interface;
+namespace VideoGamesRecords\CoreBundle\Interface\Ranking;
 
 interface RankingQueryInterface
 {

@@ -89,34 +89,6 @@ class PlayerRepository extends DefaultRepository
 
 
     /**
-     * Get list who cant send scores
-     */
-    public function getPlayerToDisabled()
-    {
-        $query = $this->createQueryBuilder('p')
-            ->where('(p.nbChartDisabled >= :nbChartDisabled OR (p.nbChart > :nbChart AND p.nbChart/p.nbChartProven * 300 < :percentage))')
-            ->setParameter('nbChartDisabled', 30)
-            ->setParameter('nbChart', 300)
-            ->setParameter('percentage', 3)
-            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 2)');
-        return $query->getQuery()->getResult();
-    }
-
-    /**
-     * Get list that can now send scores
-     */
-    public function getPlayerToEnabled()
-    {
-        $query = $this->createQueryBuilder('p')
-            ->where('(p.nbChartDisabled < :nbChartDisabled AND (p.nbChart > :nbChart AND p.nbChart/p.nbChartProven * 300 >= :percentage))')
-            ->setParameter('nbChartDisabled', 30)
-            ->setParameter('nbChart', 300)
-            ->setParameter('percentage', 3)
-            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = 9)');
-        return $query->getQuery()->getResult();
-    }
-
-    /**
      * @return int|mixed|string
      */
     public function getProofStats()

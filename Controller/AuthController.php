@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use ProjetNormandie\UserBundle\Service\IpManager;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Team;
@@ -9,13 +10,16 @@ use VideoGamesRecords\CoreBundle\Entity\Team;
 class AuthController extends DefaultController
 {
     private IpManager $ipManager;
+    protected EntityManagerInterface $em;
 
     /**
-     * @param IpManager    $ipManager
+     * @param IpManager              $ipManager
+     * @param EntityManagerInterface $em
      */
-    public function __construct(IpManager $ipManager)
+    public function __construct(IpManager $ipManager, EntityManagerInterface $em)
     {
         $this->ipManager = $ipManager;
+        parent::__construct($em);
     }
 
     /**

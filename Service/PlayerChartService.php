@@ -2,17 +2,11 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Exception;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Write\PlayerGameRankingHandler;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Write\PlayerGroupRankingHandler;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Write\PlayerRankingHandler;
 
 class PlayerChartService
 {

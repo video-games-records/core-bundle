@@ -44,21 +44,7 @@ class PlayerChartRepository extends DefaultRepository
     }
 
 
-    /**
-     * @return int|mixed|string
-     */
-    public function getPlayerChartToDesactivate()
-    {
-        $date = new DateTime();
-        $date->sub(new DateInterval('P14D'));
 
-        $query = $this->createQueryBuilder('pc')
-            ->where('pc.status = :idStatus')
-            ->setParameter('idStatus', PlayerChartStatus::ID_STATUS_INVESTIGATION)
-            ->andWhere('pc.dateInvestigation < :date')
-            ->setParameter('date', $date->format('Y-m-d'));
-        return $query->getQuery()->getResult();
-    }
 
 
     /**
