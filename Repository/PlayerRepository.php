@@ -51,29 +51,6 @@ class PlayerRepository extends DefaultRepository
     }
 
     /**
-     * Get data to maj dwh.vgr_player
-     */
-    public function getDataForDwh()
-    {
-        $query = $this->_em->createQuery("
-            SELECT p.id,
-                   p.chartRank0,
-                   p.chartRank1,
-                   p.chartRank2,
-                   p.chartRank3,
-                   p.pointChart,
-                   p.rankPointChart,
-                   p.rankMedal,
-                   p.nbChart,
-                   p.pointGame,
-                   p.rankPointGame                   
-            FROM VideoGamesRecords\CoreBundle\Entity\Player p
-            WHERE p.id <> 0");
-        return $query->getResult();
-    }
-
-
-    /**
      * @return mixed
      * @throws NonUniqueResultException
      */
