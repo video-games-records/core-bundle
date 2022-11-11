@@ -15,9 +15,9 @@ class DwhPlayerProvider
     }
 
     /**
-     * Get data to maj dwh.vgr_player
+     * @return mixed
      */
-    public function getDataForDwh()
+    public function getDataForDwh(): mixed
     {
         $query = $this->em->createQuery(
             "
