@@ -4,8 +4,9 @@ namespace VideoGamesRecords\CoreBundle\Service\Dwh;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use VideoGamesRecords\CoreBundle\Interface\Dwh\DwhTableProviderInterface;
 
-class DwhTeamProvider
+class DwhTeamProvider implements DwhTableProviderInterface
 {
     private EntityManagerInterface $em;
 
@@ -15,9 +16,9 @@ class DwhTeamProvider
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getDataForDwh(): mixed
+    public function getDataForDwh(): array
     {
         $query = $this->em->createQuery("
             SELECT t.id,
