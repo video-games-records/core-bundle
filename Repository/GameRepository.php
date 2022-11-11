@@ -234,6 +234,24 @@ class GameRepository extends DefaultRepository
     }
 
 
+    /**
+     * @param        $game
+     */
+    public function setChartToMajPlayer($game)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
+            ->set('c.statusPlayer', ':status')
+            ->setParameter('status', Chart::STATUS_MAJ)
+            ->where('c.group IN (
+                            SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
+                        WHERE g.game = :game)')
+            ->setParameter('game', $game);
+
+        $query->getQuery()->execute();
+    }
+
+
     /*************************************/
     /************  PRIVATE  **************/
     /*************************************/
@@ -287,23 +305,5 @@ class GameRepository extends DefaultRepository
     {
         $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
         $query->orderBy("g.$column", 'ASC');
-    }
-
-
-    /**
-     * @param        $game
-     */
-    public function setChartToMajPlayer($game)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
-            ->set('c.statusPlayer', ':status')
-            ->setParameter('status', Chart::STATUS_MAJ)
-            ->where('c.group IN (
-                            SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
-                        WHERE g.game = :game)')
-            ->setParameter('game', $game);
-
-        $query->getQuery()->execute();
     }
 }

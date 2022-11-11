@@ -22,7 +22,7 @@ class ChartRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countStatusPlayerMaj()
+    public function countStatusPlayerMaj(): mixed
     {
         $qb = $this->getCountQueryBuilder();
         $this->whereStatusPlayer($qb, Chart::STATUS_MAJ);
@@ -35,7 +35,7 @@ class ChartRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countStatusTeamMaj()
+    public function countStatusTeamMaj(): mixed
     {
         $qb = $this->getCountQueryBuilder();
         $this->whereStatusTeam($qb, Chart::STATUS_MAJ);
@@ -109,7 +109,7 @@ class ChartRepository extends DefaultRepository
      * @param string $locale
      * @return int|mixed|string
      */
-    public function getTopScore($group, $player, string $locale = 'en')
+    public function getTopScore($group, $player, string $locale = 'en'): mixed
     {
         $query = $this->createQueryBuilder('ch')
              ->join('ch.group', 'gr')
@@ -129,18 +129,6 @@ class ChartRepository extends DefaultRepository
         return $query->getQuery()->getResult();
     }
 
-    /**
-     * @param QueryBuilder $query
-     * @param string       $locale
-     */
-    private function setOrder(QueryBuilder $query, string $locale = 'en')
-    {
-        $column = ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
-        $query->orderBy("ch.$column", 'ASC');
-    }
-
-
-
 
     /*************************************/
     /************  PRIVATE  **************/
@@ -149,7 +137,7 @@ class ChartRepository extends DefaultRepository
     /**
      * @return QueryBuilder
      */
-    private function getCountQueryBuilder()
+    private function getCountQueryBuilder(): QueryBuilder
     {
          return $this->createQueryBuilder('c')
             ->select('COUNT(c.id)');
@@ -159,7 +147,7 @@ class ChartRepository extends DefaultRepository
      * @param QueryBuilder $query
      * @param string       $status
      */
-    private function whereStatusPlayer(QueryBuilder $query, string $status)
+    private function whereStatusPlayer(QueryBuilder $query, string $status): void
     {
         $query
             ->andWhere('c.statusPlayer = :status')
@@ -170,10 +158,22 @@ class ChartRepository extends DefaultRepository
      * @param QueryBuilder $query
      * @param string       $status
      */
-    private function whereStatusTeam(QueryBuilder $query, string $status)
+    private function whereStatusTeam(QueryBuilder $query, string $status): void
     {
         $query
             ->andWhere('c.statusTeam = :status')
             ->setParameter('status', $status);
     }
+
+    /**
+     * @param QueryBuilder $query
+     * @param string       $locale
+     * @return void
+     */
+    private function setOrder(QueryBuilder $query, string $locale = 'en'): void
+    {
+        $column = ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
+        $query->orderBy("ch.$column", 'ASC');
+    }
+
 }

@@ -18,7 +18,7 @@ class GameService
      * @param int    $idGame
      * @param string $status
      */
-    public function majChartStatus(int $idGame, string $status = 'MAJ')
+    public function majChartStatus(int $idGame, string $status = 'MAJ'): void
     {
         $game = $this->getGame($idGame);
         if ($game) {

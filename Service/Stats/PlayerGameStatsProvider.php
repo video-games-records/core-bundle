@@ -91,4 +91,3 @@ class PlayerGameStatsProvider implements StatsProviderInterface
         return $games;
     }
 }
-
