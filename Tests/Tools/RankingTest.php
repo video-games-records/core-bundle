@@ -3,8 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Tests\Tools;
 
 use PHPUnit\Framework\TestCase;
-use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\src\Entity\Player;
+use VideoGamesRecords\CoreBundle\src\Tools\Ranking;
 
 class RankingTest extends TestCase
 {
