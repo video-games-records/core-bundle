@@ -27,7 +27,7 @@
         "projet-normandie/article-bundle": "*"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "To be able to load fixtures",
+        "doctrine/doctrine-fixtures-bundle": "*",
         "symfony/framework-bundle": "^5.4"
     },
     "autoload": {
