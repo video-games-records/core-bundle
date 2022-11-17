@@ -23,11 +23,12 @@ class DataService
     /**
      * @throws ORMException
      */
-    public function majUserRecordConnexion()
+    public function majUserRecordConnexion(): void
     {
         $date = new \DateTime();
 
-        $list = $this->userService->getLoggedToday($date);
+        //$list = $this->userService->getLoggedToday($date);
+        $list = [];
         $nb = count($list);
 
         $oDataAllDate = $this->dataRepository->findOneBy(array('category' => 'USER_RECORD_CONNEXION', 'label' => 'DATE', 'version' => 'ALL'));
