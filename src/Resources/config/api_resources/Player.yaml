@@ -1,0 +1,97 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Player:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [player.read.mini, player.user, vgr.user.read, user.status.read]}
+            stats:
+                method: 'GET'
+                path: '/players/stats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::stats'
+            player-ranking-point-chart:
+                method: 'GET'
+                normalization_context: {'groups': [player.read.mini,player.pointChart,player.team,team.read.mini,player.country,country.read]}
+                path: '/players/ranking-point-chart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingPointChart'
+            player-ranking-point-game:
+                method: 'GET'
+                normalization_context: {'groups': [player.read.mini,player.pointGame,player.team,team.read.mini,player.country,country.read]}
+                path: '/players/ranking-point-game'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingPointGame'
+            player-ranking-medal:
+                method: 'GET'
+                normalization_context: {'groups': [player.read.mini,player.medal,player.team,team.read.mini,player.country,country.read]}
+                path: '/players/ranking-medal'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingMedals'
+            player-ranking-cup:
+                method: 'GET'
+                normalization_context: {'groups': [player.read.mini,player.cup,player.team,team.read.mini,player.country,country.read]}
+                path: '/players/ranking-cup'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingCup'
+            player-ranking-badge:
+                method: 'GET'
+                normalization_context: {'groups': [player.read.mini,player.badge,player.team,team.read.mini,player.country,country.read]}
+                path: '/players/ranking-badge'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingBadge'
+            player-ranking-proof:
+                method: 'GET'
+                normalization_context: {'groups': [player.read,player.proof,player.team,team.read.mini,player.country,country.read]}
+                path: '/players/ranking-proof'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingProof'
+            profile:
+                method: 'GET'
+                access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
+                normalization_context: {'groups': [user.profile,player.read.mini,team.read.mini]}
+                path: '/players/profile'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profile'
+            profile-team:
+                method: 'GET'
+                access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
+                normalization_context: {'groups': [team.read.mini, team.leader], 'enable_max_depth':true}
+                path: '/players/profile-team'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profileTeam'
+            profile-player:
+                method: 'GET'
+                access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
+                normalization_context: {'groups': [player.read.mini]}
+                path: '/players/profile-player'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profilePlayer'
+            autocomplete:
+                method: 'GET'
+                normalization_context: {'groups': [player.read.mini]}
+                path: '/players/autocomplete'
+                swagger_context:
+                    parameters:
+                        - name: query
+                          in: query
+                          required: true
+                          type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::autocomplete'
+        itemOperations:
+            get:
+                normalization_context: {'groups': [player.read, player.team, team.read.mini, player.user, vgr.user.read, user.status.read, player.country, country.read, player.cup, player.medal, player.proof, player.badge, player.pointGame, player.pointChart]}
+            put:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
+                denormalization_context: {'groups': [player.put]}
+                normalization_context: {'groups': [player.read.mini, player.team, team.read.mini]}
+            nb-lost-position:
+                method: 'GET'
+                path: '/players/{id}/nb-lost-position'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\LostPositionController::getPlayerNbLostPosition'
+            nb-new-lost-position:
+                method: 'GET'
+                path: '/players/{id}/nb-new-lost-position'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\LostPositionController::getPlayerNbNewLostPosition'
+            can-ask-proof:
+                method: 'GET'
+                path: '/players/{id}/can-ask-proof'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::canAskProof'
+            player-chart-status:
+                method: 'GET'
+                normalization_context: {'groups': [playerChartStatus.read]}
+                path: '/players/{id}/player-chart-statuses'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::playerChartStatus'
+            game-stats:
+                method: 'GET'
+                normalization_context: { 'groups': [playerGame.game, game.stats, playerGame.proof, playerGame.statuses, playerChartStatus.read, game.read.mini, game.platforms, platform.read]}
+                path: '/players/{id}/game-stats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerGameStatsController::load'

@@ -1,17 +1,12 @@
 VideoGamesRecordsCoreBundle
 ===========================
 
-Master
-------
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/?branch=master)
-[![Build Status](https://travis-ci.org/video-games-records/CoreBundle.svg?branch=master)](https://travis-ci.org/video-games-records/CoreBundle)
-
 Develop
 -------
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/video-games-records/CoreBundle/?branch=develop)
-[![Build Status](https://travis-ci.org/video-games-records/CoreBundle.svg?branch=develop)](https://travis-ci.org/video-games-records/CoreBundle)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/video-games-records/core-bundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/video-games-records/core-bundle/?branch=develop)
+[![Build Status](https://scrutinizer-ci.com/g/video-games-records/core-bundle/badges/build.png?b=develop)]()
+
 
 Installation
 ============
@@ -72,7 +67,6 @@ In order to link your User entity to this module you should add the following co
 # Doctrine Configuration - config.yml
 doctrine:
     orm:
-        ...
         resolve_target_entities:
             VideoGamesRecords\CoreBundle\Entity\User\UserInterface: AppBundle\Entity\User
             VideoGamesRecords\CoreBundle\Entity\User\GroupeInterface: AppBundle\Entity\Group

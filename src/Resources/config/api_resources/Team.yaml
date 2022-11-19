@@ -1,0 +1,61 @@
+resources:
+    VideoGamesRecords\CoreBundle\Entity\Team:
+        collectionOperations:
+            post:
+                access_control: 'is_granted("ROLE_PLAYER")'
+                denormalization_context: {'groups': [team.put]}
+                normalization_context: {'groups': [team.profile, team.leader, player.read.mini]}
+            get:
+                method: 'GET'
+                normalization_context: {'groups': [team.read, team.leader, player.read.mini]}
+            team-ranking-point-chart:
+                method: 'GET'
+                normalization_context: {'groups': [team.read.mini, team.rank.pointChart]}
+                path: '/teams/ranking-point-chart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingPointChart'
+            team-ranking-point-game:
+                method: 'GET'
+                normalization_context: {'groups': [team.read.mini, team.rank.pointGame]}
+                path: '/teams/ranking-point-game'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingPointGame'
+            team-ranking-medal:
+                method: 'GET'
+                normalization_context: { 'groups': [ team.read.mini, team.rank.medal ] }
+                path: '/teams/ranking-medal'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingMedals'
+            team-ranking-cup:
+                method: 'GET'
+                normalization_context: { 'groups': [ team.read.mini, team.rank.cup ] }
+                path: '/teams/ranking-cup'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingCup'
+            team-ranking-badge:
+                method: 'GET'
+                normalization_context: {'groups': [team.read.mini, team.rank.badge]}
+                path: '/teams/ranking-badge'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingBadge'
+            upload-avatar:
+                access_control: 'is_granted("ROLE_USER")'
+                method: 'POST'
+                path: '/teams/upload-avatar'
+                consumes:
+                    - application/json
+                swagger_context:
+                    parameters:
+                        -   in: body
+                            name: file
+                            description: Picture encoded in base64
+                            schema:
+                                type: object
+                                required:
+                                    - base64
+                                properties:
+                                    base64:
+                                        type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\TeamController::uploadAvatar'
+        itemOperations:
+            get:
+                normalization_context: {'groups': [team.read, team.leader, player.read.mini], 'enable_max_depth':true}
+            put:
+                access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUser() == user'
+                denormalization_context: {'groups': [team.put]}
+                normalization_context: {'groups': [team.read, team.leader, player.read.mini]}

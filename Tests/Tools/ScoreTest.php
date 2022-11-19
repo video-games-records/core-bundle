@@ -3,7 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Tests\Tools;
 
 use PHPUnit\Framework\TestCase;
-use VideoGamesRecords\CoreBundle\Tools\Score;
+use VideoGamesRecords\CoreBundle\src\Tools\Score;
 
 class ScoreTest extends TestCase
 {
