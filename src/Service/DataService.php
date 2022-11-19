@@ -9,15 +9,9 @@ use VideoGamesRecords\CoreBundle\Repository\DataRepository;
 class DataService
 {
     private DataRepository $dataRepository;
-    private UserService $userService;
 
-    public function __construct(
-        DataRepository $dataRepository,
-        UserService $userService
-    )
-    {
+    public function __construct(DataRepository $dataRepository) {
         $this->dataRepository = $dataRepository;
-        $this->userService = $userService;
     }
 
     /**
