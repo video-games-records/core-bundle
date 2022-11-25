@@ -27,7 +27,8 @@
         "symfony/http-kernel": "^5.4 || ^6.0",
         "video-games-records/dwh-bundle": "dev-master",
         "projet-normandie/article-bundle": "dev-master",
-        "projet-normandie/message-bundle": "dev-master"
+        "projet-normandie/message-bundle": "dev-master",
+        "webmozart/assert": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
