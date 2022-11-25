@@ -115,7 +115,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param integer $id
      * @return Video
      */
-    public function setId(int $id): Self
+    public function setId(int $id): Video
     {
         $this->id = $id;
         return $this;
@@ -133,10 +133,10 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Set boolActive
-     * @param boolean $boolActive
+     * @param bool $boolActive
      * @return Video
      */
-    public function setBoolActive(bool $boolActive): Self
+    public function setBoolActive(bool $boolActive): Video
     {
         $this->boolActive = $boolActive;
 
@@ -146,7 +146,7 @@ class Video implements TimestampableInterface, SluggableInterface
     /**
      * Get boolActive
      *
-     * @return boolean
+     * @return bool
      */
     public function getBoolActive(): bool
     {
@@ -158,7 +158,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param string $type
      * @return Video
      */
-    public function setType(string $type): Self
+    public function setType(string $type): Video
     {
         $this->type = $type;
         return $this;
@@ -180,7 +180,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param string $videoId
      * @return $this
      */
-    public function setVideoId(string $videoId): Self
+    public function setVideoId(string $videoId): Video
     {
         $this->videoId = $videoId;
         return $this;
@@ -201,7 +201,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param string $libVideo
      * @return Video
      */
-    public function setLibVideo(string $libVideo): Self
+    public function setLibVideo(string $libVideo): Video
     {
         $this->libVideo = $libVideo;
 
@@ -223,7 +223,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param string|null $url
      * @return Video
      */
-    public function setUrl(?string $url): Self
+    public function setUrl(?string $url): Video
     {
         $this->url = $url;
         $this->majTypeAndVideoId();
@@ -245,7 +245,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param Game|null $game
      * @return Video
      */
-    public function setGame(Game $game = null): Self
+    public function setGame(Game $game = null): Video
     {
         $this->game = $game;
 
@@ -257,7 +257,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @param integer $nbComment
      * @return $this
      */
-    public function setNbComment(int $nbComment): Self
+    public function setNbComment(int $nbComment): Video
     {
         $this->nbComment = $nbComment;
 

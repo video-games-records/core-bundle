@@ -280,8 +280,6 @@ class Player implements SluggableInterface
     private $lostPositions;
 
     /**
-     * @var boolean
-     *
      * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
      */
     private $boolMaj = false;
@@ -1118,7 +1116,7 @@ class Player implements SluggableInterface
 
     /**
      * Set displayPersonalInfos
-     * @param boolean $displayPersonalInfos
+     * @param bool $displayPersonalInfos
      * @return $this
      */
     public function setDisplayPersonalInfos(bool $displayPersonalInfos)
@@ -1130,7 +1128,7 @@ class Player implements SluggableInterface
 
     /**
      * Get DisplayPersonalInfos
-     * @return boolean
+     * @return bool
      */
     public function getDisplayPersonalInfos()
     {
@@ -1256,7 +1254,7 @@ class Player implements SluggableInterface
     /**
      * Set boolMaj
      *
-     * @param boolean $boolMaj
+     * @param bool $boolMaj
      * @return $this
      */
     public function setBoolMaj(bool $boolMaj)
@@ -1269,7 +1267,7 @@ class Player implements SluggableInterface
     /**
      * Get boolMaj
      *
-     * @return boolean
+     * @return bool
      */
     public function getBoolMaj()
     {

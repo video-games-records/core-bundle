@@ -196,7 +196,7 @@ class Country implements TranslatableInterface
     /**
      * Get boolMaj
      *
-     * @return boolean
+     * @return bool
      */
     public function getBoolMaj(): bool
     {

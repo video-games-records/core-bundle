@@ -395,7 +395,7 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * Set boolDlc
      *
-     * @param boolean $boolDlc
+     * @param bool $boolDlc
      * @return Game
      */
     public function setBoolDlc(bool $boolDlc): Game
@@ -408,7 +408,7 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * Get boolDlc
      *
-     * @return boolean
+     * @return bool
      */
     public function getBoolDlc(): bool
     {
@@ -418,7 +418,7 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * Set boolRanking
      *
-     * @param boolean $boolRanking
+     * @param bool $boolRanking
      * @return Game
      */
     public function setBoolRanking(bool $boolRanking): Game
@@ -431,7 +431,7 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * Get boolRanking
      *
-     * @return boolean
+     * @return bool
      */
     public function getBoolRanking(): bool
     {
