@@ -34,7 +34,7 @@ class Country implements TranslatableInterface
     /**
      * @ORM\Column(name="code_iso_numeric", type="integer", nullable=false)
      */
-    private string $codeIsoNumeric;
+    private int $codeIsoNumeric;
 
     /**
      * @var integer
@@ -100,18 +100,18 @@ class Country implements TranslatableInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCodeIsoNumeric(): string
+    public function getCodeIsoNumeric(): int
     {
         return $this->codeIsoNumeric;
     }
 
     /**
-     * @param string $codeIsoNumeric
+     * @param int $codeIsoNumeric
      * @return Country
      */
-    public function setCodeIsoNumeric(string $codeIsoNumeric): Country
+    public function setCodeIsoNumeric(int $codeIsoNumeric): Country
     {
         $this->codeIsoNumeric = $codeIsoNumeric;
         return $this;
