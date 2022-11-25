@@ -64,10 +64,6 @@ class GroupAdminController extends CRUDController
         /** @var Group $object */
         $object = $this->admin->getSubject();
 
-        if (!$object) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
-        }
-
         if ($object->getGame()->getStatus()->isActive()) {
             $this->addFlash('sonata_flash_error', 'Game is already activated');
             return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));
