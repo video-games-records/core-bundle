@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
+use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 class GameRepository extends DefaultRepository
 {
@@ -28,7 +30,7 @@ class GameRepository extends DefaultRepository
          return $this->createQueryBuilder('game')
              ->select('game.id')
              ->where('game.status = :status')
-             ->setParameter('status', Game::STATUS_ACTIVE)
+             ->setParameter('status', GameStatus::STATUS_ACTIVE)
              ->getQuery()
              ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
@@ -82,7 +84,7 @@ class GameRepository extends DefaultRepository
         $qb = $this->createQueryBuilder('game')
             ->select('COUNT(game.id)');
         $qb->where('game.status = :status')
-            ->setParameter('status', Game::STATUS_ACTIVE);
+            ->setParameter('status', GameStatus::STATUS_ACTIVE);
 
         return $qb->getQuery()
             ->getOneOrNullResult();
@@ -242,7 +244,7 @@ class GameRepository extends DefaultRepository
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
             ->set('c.statusPlayer', ':status')
-            ->setParameter('status', Chart::STATUS_MAJ)
+            ->setParameter('status', ChartStatus::STATUS_MAJ)
             ->where('c.group IN (
                             SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
                         WHERE g.game = :game)')
@@ -273,7 +275,7 @@ class GameRepository extends DefaultRepository
     {
         $query
             ->andWhere('g.status = :status')
-            ->setParameter('status', Game::STATUS_ACTIVE);
+            ->setParameter('status', GameStatus::STATUS_ACTIVE);
     }
 
     /**

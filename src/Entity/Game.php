@@ -17,6 +17,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 /**
  * Game
@@ -64,9 +65,6 @@ class Game implements SluggableInterface, TimestampableInterface
     use TimestampableTrait;
     use SluggableTrait;
 
-    const STATUS_ACTIVE = 'ACTIF';
-    const STATUS_INACTIVE = 'INACTIF';
-
     const ETAT_INIT = 'CREATION';
     const ETAT_CHART = 'RECORD';
     const ETAT_PICTURE = 'IMAGE';
@@ -101,7 +99,7 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private string $status = self::STATUS_INACTIVE;
+    private string $status = GameStatus::STATUS_INACTIVE;
 
     /**
      * @ORM\Column(name="etat", type="string", nullable=false)
@@ -270,7 +268,7 @@ class Game implements SluggableInterface, TimestampableInterface
 
     /**
      * @param string $libGameEn
-     * @return $this
+     * @return Game
      */
     public function setLibGameEn(string $libGameEn): Game
     {
@@ -279,7 +277,7 @@ class Game implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLibGameEn(): ?string
     {
@@ -288,7 +286,7 @@ class Game implements SluggableInterface, TimestampableInterface
 
     /**
      * @param string $libGameFr
-     * @return $this
+     * @return Game
      */
     public function setLibGameFr(string $libGameFr): Game
     {
@@ -297,7 +295,7 @@ class Game implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLibGameFr(): ?string
     {
@@ -309,9 +307,9 @@ class Game implements SluggableInterface, TimestampableInterface
      * Set picture
      *
      * @param string|null $picture
-     * @return $this
+     * @return Game
      */
-    public function setPicture(string $picture = null)
+    public function setPicture(string $picture = null): Game
     {
         $this->picture = $picture;
 
@@ -333,7 +331,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param string $status
      * @return Game
      */
-    public function setStatus(string $status): Self
+    public function setStatus(string $status): Game
     {
         $this->status = $status;
 
@@ -343,11 +341,11 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * Get status
      *
-     * @return string
+     * @return GameStatus
      */
-    public function getStatus(): string
+    public function getStatus(): GameStatus
     {
-        return $this->status;
+        return new GameStatus($this->status);
     }
 
     /**
@@ -356,7 +354,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param string $etat
      * @return Game
      */
-    public function setEtat(string $etat): Self
+    public function setEtat(string $etat): Game
     {
         $this->etat = $etat;
 
@@ -375,9 +373,9 @@ class Game implements SluggableInterface, TimestampableInterface
 
     /**
      * @param DateTime|null $pubishedAt
-     * @return $this
+     * @return Game
      */
-    public function setPublishedAt(DateTime $pubishedAt = null): Self
+    public function setPublishedAt(DateTime $pubishedAt = null): Game
     {
         $this->publishedAt = $pubishedAt;
 
@@ -400,7 +398,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param boolean $boolDlc
      * @return Game
      */
-    public function setBoolDlc(bool $boolDlc): Self
+    public function setBoolDlc(bool $boolDlc): Game
     {
         $this->boolDlc = $boolDlc;
 
@@ -423,7 +421,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param boolean $boolRanking
      * @return Game
      */
-    public function setBoolRanking(bool $boolRanking): Self
+    public function setBoolRanking(bool $boolRanking): Game
     {
         $this->boolRanking = $boolRanking;
 
@@ -446,7 +444,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param integer $nbChart
      * @return Game
      */
-    public function setNbChart(int $nbChart): Self
+    public function setNbChart(int $nbChart): Game
     {
         $this->nbChart = $nbChart;
 
@@ -469,7 +467,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param integer $nbPost
      * @return Game
      */
-    public function setNbPost(int $nbPost): Self
+    public function setNbPost(int $nbPost): Game
     {
         $this->nbPost = $nbPost;
 
@@ -492,7 +490,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param integer $nbPlayer
      * @return Game
      */
-    public function setNbPlayer(int $nbPlayer): Self
+    public function setNbPlayer(int $nbPlayer): Game
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -515,7 +513,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param integer $nbTeam
      * @return Game
      */
-    public function setNbTeam(int $nbTeam): Self
+    public function setNbTeam(int $nbTeam): Game
     {
         $this->nbTeam = $nbTeam;
 
@@ -535,9 +533,9 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * Set Serie
      * @param Serie|null $serie
-     * @return $this
+     * @return Game
      */
-    public function setSerie(Serie $serie = null): Self
+    public function setSerie(Serie $serie = null): Game
     {
         $this->serie = $serie;
 
@@ -560,7 +558,7 @@ class Game implements SluggableInterface, TimestampableInterface
      * @param $badge
      * @return Game
      */
-    public function setBadge($badge = null): Self
+    public function setBadge($badge = null): Game
     {
         $this->badge = $badge;
 
@@ -579,9 +577,9 @@ class Game implements SluggableInterface, TimestampableInterface
 
     /**
      * @param Group $group
-     * @return $this
+     * @return Game
      */
-    public function addGroup(Group $group): Self
+    public function addGroup(Group $group): Game
     {
         $group->setGame($this);
         $this->groups[] = $group;
@@ -622,9 +620,9 @@ class Game implements SluggableInterface, TimestampableInterface
 
     /**
      * @param Platform $platform
-     * @return $this
+     * @return Game
      */
-    public function addPlatform(Platform $platform): Self
+    public function addPlatform(Platform $platform): Game
     {
         $this->platforms[] = $platform;
         return $this;
@@ -664,23 +662,14 @@ class Game implements SluggableInterface, TimestampableInterface
 
     /**
      * @param $forum
-     * @return $this
+     * @return Game
      */
-    public function setForum($forum): Self
+    public function setForum($forum): Game
     {
         $this->forum = $forum;
         return $this;
     }
-    /**
-     * @return array
-     */
-    public static function getStatusChoices(): array
-    {
-        return [
-            self::STATUS_ACTIVE => self::STATUS_ACTIVE,
-            self::STATUS_INACTIVE => self::STATUS_INACTIVE,
-        ];
-    }
+
 
     /**
      * @return array
@@ -719,9 +708,9 @@ class Game implements SluggableInterface, TimestampableInterface
 
     /**
      * @param Rule $rule
-     * @return $this
+     * @return Game
      */
-    public function addRule(Rule $rule): Self
+    public function addRule(Rule $rule): Game
     {
         $this->rules[] = $rule;
         return $this;

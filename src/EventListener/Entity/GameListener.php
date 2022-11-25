@@ -10,6 +10,7 @@ use Doctrine\ORM\ORMException;
 use ProjetNormandie\ForumBundle\Manager\ForumManager;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 class GameListener
 {
@@ -60,12 +61,12 @@ class GameListener
             $this->majPlayers = true;
         }
 
-        if (($game->getStatus() == Game::STATUS_ACTIVE) && ($game->getPublishedAt() == null)) {
+        if ($game->getStatus()->isActive() && ($game->getPublishedAt() == null)) {
             $game->setPublishedAt(new DateTime());
         }
 
         if (array_key_exists('status', $changeSet)) {
-            if (($changeSet['status'][0] == Game::STATUS_INACTIVE) && ($changeSet['status'][1] == Game::STATUS_ACTIVE)) {
+            if (($changeSet['status'][0] == GameStatus::STATUS_INACTIVE) && ($changeSet['status'][1] == GameStatus::STATUS_ACTIVE)) {
                 $game->setEtat(Game::ETAT_END);
             }
         }
