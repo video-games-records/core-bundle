@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 class GameAdmin extends AbstractAdmin
 {
@@ -94,7 +95,7 @@ class GameAdmin extends AbstractAdmin
                 ChoiceType::class,
                 [
                     'label' => 'label.status',
-                    'choices' => Game::getStatusChoices(),
+                    'choices' => GameStatus::getStatusChoices(),
                 ]
             )
             ->add('publishedAt', DateType::class, [
@@ -222,7 +223,7 @@ class GameAdmin extends AbstractAdmin
                 [
                     'label' => 'label.status',
                     'editable' => true,
-                    'choices' => Game::getStatusChoices(),
+                    'choices' => GameStatus::getStatusChoices(),
                 ]
             )
             ->add(
