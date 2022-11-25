@@ -9,6 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class ChartRepository extends DefaultRepository
 {
@@ -25,7 +26,7 @@ class ChartRepository extends DefaultRepository
     public function countStatusPlayerMaj(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereStatusPlayer($qb, Chart::STATUS_MAJ);
+        $this->whereStatusPlayer($qb, ChartStatus::STATUS_MAJ);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -38,7 +39,7 @@ class ChartRepository extends DefaultRepository
     public function countStatusTeamMaj(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereStatusTeam($qb, Chart::STATUS_MAJ);
+        $this->whereStatusTeam($qb, ChartStatus::STATUS_MAJ);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
