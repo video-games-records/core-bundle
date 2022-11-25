@@ -135,7 +135,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
             ->where('c.id = :idChart')
             ->setParameter('idChart', $chart->getId());
 
-        if ($chart->isStatusPlayerNormal()) {
+        if ($chart->getStatusPlayer()->isNormal()) {
             $queryBuilder->orderBy('pc.rank', 'ASC')
                 ->addOrderBy('status.sOrder', 'ASC')
                 ->addOrderBy('pc.lastUpdate', 'ASC');
@@ -154,7 +154,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
             $queryBuilder
                 ->addSelect(sprintf('(%s) as %s', $subQueryBuilder->getQuery()->getDQL(), $key))
                 ->setParameter($key, $lib);
-            if (!$chart->isStatusPlayerNormal()) {
+            if (!$chart->getStatusPlayer()->isNormal()) {
                 $queryBuilder->addOrderBy($key, $lib->getType()->getOrderBy());
             }
         }

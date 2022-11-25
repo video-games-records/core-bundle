@@ -54,7 +54,7 @@ class PlayerChartController extends AbstractController
             ]
         );
 
-        if (!$chart->isStatusPlayerNormal()) {
+        if (!$chart->getStatusPlayer()->isNormal()) {
             $i = 1;
             foreach ($ranking as $row) {
                 $row[0]->setRank($i);
