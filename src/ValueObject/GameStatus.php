@@ -33,11 +33,6 @@ class GameStatus
         return $this->value;
     }
 
-    public function getIndex(): int
-    {
-        return array_search($this->value, self::VALUES);
-    }
-
     public function __toString(): string
     {
         return $this->value;
