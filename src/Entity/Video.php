@@ -232,8 +232,7 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Get url
-     *
-     * @return string
+     * @return string|null
      */
     public function getUrl(): ?string
     {

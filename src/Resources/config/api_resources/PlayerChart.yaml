@@ -26,11 +26,6 @@ resources:
                                   idPlatform:
                                       type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::majPlatform'
-            last:
-                method: 'GET'
-                normalization_context: { 'groups': [ playerChart.read, playerChart.chart, chart.read.mini] }
-                path: '/player_charts-last'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::last'
         itemOperations:
             get:
                 normalization_context: {'groups': [playerChart.read, playerChart.libs, playerChart.player, player.read.mini, playerChart.status, playerChartStatus.read, chart.label.read, playerChartLib.format, playerChart.proof, proof.read, picture.read, video.read]}

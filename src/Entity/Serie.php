@@ -75,13 +75,13 @@ class Serie implements SluggableInterface
     /**
      * @return string
      */
-    public function getLibSerie(): ?string
+    public function getLibSerie(): string
     {
         return $this->libSerie;
     }
 
     /**
-     * Set idSerie
+     * Set id
      * @param integer $id
      * @return $this
      */
@@ -92,11 +92,10 @@ class Serie implements SluggableInterface
     }
 
     /**
-     * Get idSerie
-     *
-     * @return integer
+     * Get id
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

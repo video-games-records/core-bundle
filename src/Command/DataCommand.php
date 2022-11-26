@@ -2,12 +2,11 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Command\Exception;
 use VideoGamesRecords\CoreBundle\Service\DataService;
 
 class DataCommand extends DefaultCommand
@@ -41,16 +40,14 @@ class DataCommand extends DefaultCommand
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
-     * @throws Exception
+     * @throws ORMException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->init($input);
         $function = $input->getArgument('function');
-        switch ($function) {
-            case 'maj-user-record-connexion':
-                $this->dataService->majUserRecordConnexion();
-                break;
+        if ($function == 'maj-user-record-connexion') {
+            $this->dataService->majUserRecordConnexion();
         }
         $this->end($output);
 

@@ -230,15 +230,4 @@ class PlayerChartController extends DefaultController
 
         return $this->getResponse(true, ($this->translator->trans('proof.form.success')));
     }
-
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function last(Request $request)
-    {
-        $locale = $request->getLocale();
-        return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChart')->getLast($locale);
-    }
 }

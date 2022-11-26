@@ -232,9 +232,9 @@ class Game implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         $locale = Locale::getDefault();
         if ($locale == 'fr') {

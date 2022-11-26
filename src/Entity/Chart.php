@@ -130,10 +130,10 @@ class Chart implements SluggableInterface, TimestampableInterface
         return $this->libChartEn;
     }
 
-     /**
-     * @return string
+    /**
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         $locale = Locale::getDefault();
         if ($locale == 'fr') {

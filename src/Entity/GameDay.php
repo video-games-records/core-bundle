@@ -60,21 +60,19 @@ class GameDay
     }
 
     /**
-     * Set idGroup
      * @param integer $id
-     * @return $this
+     * @return GameDay
      */
-    public function setId(int $id): Self
+    public function setId(int $id): GameDay
     {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * Get idGroup
-     * @return integer
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -82,9 +80,9 @@ class GameDay
     /**
      * Set day
      * @param $day
-     * @return $this
+     * @return GameDay
      */
-    public function setDay($day): Self
+    public function setDay($day): GameDay
     {
         $this->day = $day;
         return $this;
@@ -103,9 +101,9 @@ class GameDay
     /**
      * Set Game
      * @param Game $game
-     * @return $this
+     * @return GameDay
      */
-    public function setGame(Game $game): Self
+    public function setGame(Game $game): GameDay
     {
         $this->game = $game;
 

@@ -15,7 +15,7 @@ class GroupListener
      */
     public function prePersist(Group $group, LifecycleEventArgs $event)
     {
-        if ($group->getLibGroupFr() == null) {
+        if (null === $group->getLibGroupFr()) {
             $group->setLibGroupFr($group->getLibGroupEn());
         }
     }
@@ -26,7 +26,7 @@ class GroupListener
      */
     public function preUpdate(Group $group, PreUpdateEventArgs $event)
     {
-        if ($group->getLibGroupFr() == null) {
+        if (null === $group->getLibGroupFr()) {
             $group->setLibGroupFr($group->getLibGroupEn());
         }
     }
