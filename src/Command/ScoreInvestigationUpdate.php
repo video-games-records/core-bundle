@@ -16,7 +16,8 @@ class ScoreInvestigationUpdate extends Command
 
     private ScoreInvestigationHandler $scoreInvestigationHandler;
 
-    public function __construct(ScoreInvestigationHandler $scoreInvestigationHandler) {
+    public function __construct(ScoreInvestigationHandler $scoreInvestigationHandler)
+    {
         $this->scoreInvestigationHandler = $scoreInvestigationHandler;
         parent::__construct();
     }

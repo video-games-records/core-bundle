@@ -21,7 +21,7 @@ class PlayerService
         $this->proofRequestRepository = $proofRequestRepository;
     }
 
-     public function autocomplete($q)
+    public function autocomplete($q)
     {
         return $this->playerRepository->autocomplete($q);
     }
@@ -36,7 +36,7 @@ class PlayerService
     {
         $nb = $this->proofRequestRepository->getNbRequestFromToDay($player);
         if ($nb >= 3) {
-             return false;
+            return false;
         }
         return true;
     }

@@ -20,7 +20,7 @@ class TeamGroup
     /**
      * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
      */
-    private int $rankPointChart =0;
+    private int $rankPointChart = 0;
 
     /**
      * @ORM\Column(name="rankMedal", type="integer", nullable=false)
@@ -68,9 +68,9 @@ class TeamGroup
     /**
      * Set pointChart
      * @param integer $pointChart
-     * @return $this
+     * @return TeamGroup
      */
-    public function setPointChart(int $pointChart): Self
+    public function setPointChart(int $pointChart): TeamGroup
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -89,9 +89,9 @@ class TeamGroup
     /**
      * Set rankPointChart
      * @param integer $rankPointChart
-     * @return $this
+     * @return TeamGroup
      */
-    public function setRankPointChart(int $rankPointChart): Self
+    public function setRankPointChart(int $rankPointChart): TeamGroup
     {
         $this->rankPointChart = $rankPointChart;
         return $this;
@@ -110,9 +110,9 @@ class TeamGroup
     /**
      * Set rankMedal
      * @param integer $rankMedal
-     * @return $this
+     * @return TeamGroup
      */
-    public function setRankMedal(int $rankMedal): Self
+    public function setRankMedal(int $rankMedal): TeamGroup
     {
         $this->rankMedal = $rankMedal;
         return $this;
@@ -131,9 +131,9 @@ class TeamGroup
     /**
      * Set chartRank0
      * @param integer $chartRank0
-     * @return $this
+     * @return TeamGroup
      */
-    public function setChartRank0(int $chartRank0): Self
+    public function setChartRank0(int $chartRank0): TeamGroup
     {
         $this->chartRank0 = $chartRank0;
         return $this;
@@ -152,9 +152,9 @@ class TeamGroup
     /**
      * Set chartRank1
      * @param integer $chartRank1
-     * @return $this
+     * @return TeamGroup
      */
-    public function setChartRank1(int $chartRank1): Self
+    public function setChartRank1(int $chartRank1): TeamGroup
     {
         $this->chartRank1 = $chartRank1;
         return $this;
@@ -173,9 +173,9 @@ class TeamGroup
     /**
      * Set chartRank2
      * @param integer $chartRank2
-     * @return $this
+     * @return TeamGroup
      */
-    public function setChartRank2(int $chartRank2): Self
+    public function setChartRank2(int $chartRank2): TeamGroup
     {
         $this->chartRank2 = $chartRank2;
         return $this;
@@ -194,9 +194,9 @@ class TeamGroup
     /**
      * Set chartRank3
      * @param integer $chartRank3
-     * @return $this
+     * @return TeamGroup
      */
-    public function setChartRank3(int $chartRank3): Self
+    public function setChartRank3(int $chartRank3): TeamGroup
     {
         $this->chartRank3 = $chartRank3;
         return $this;
@@ -215,9 +215,9 @@ class TeamGroup
     /**
      * Set group
      * @param Group|null $group
-     * @return $this
+     * @return TeamGroup
      */
-    public function setGroup(Group $group = null): Self
+    public function setGroup(Group $group = null): TeamGroup
     {
         $this->group = $group;
 
@@ -238,9 +238,9 @@ class TeamGroup
     /**
      * Set team
      * @param Team|null $team
-     * @return $this
+     * @return TeamGroup
      */
-    public function setTeam(Team $team = null): Self
+    public function setTeam(Team $team = null): TeamGroup
     {
         $this->team = $team;
 

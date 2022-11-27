@@ -82,7 +82,7 @@ class PlayerChartListener
         }
     }
 
-     /**
+    /**
      * @param PlayerChart              $playerChart
      * @param LifecycleEventArgs $event
      * @throws ORMException
@@ -124,7 +124,7 @@ class PlayerChartListener
      * @param PlayerChart            $playerChart
      * @param LifecycleEventArgs $event
      */
-    public function preRemove(PlayerChart $playerChart,  LifecycleEventArgs $event): void
+    public function preRemove(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
          // Chart
         $chart = $playerChart->getChart();

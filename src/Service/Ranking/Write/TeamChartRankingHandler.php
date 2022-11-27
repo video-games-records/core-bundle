@@ -24,7 +24,7 @@ class TeamChartRankingHandler implements RankingCommandInterface
     {
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($mixed);
         if (null === $chart) {
-            return ;
+            return;
         }
 
         $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();

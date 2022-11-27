@@ -27,12 +27,12 @@ class GameRepository extends DefaultRepository
      */
     public function getIds() : array
     {
-         return $this->createQueryBuilder('game')
-             ->select('game.id')
-             ->where('game.status = :status')
-             ->setParameter('status', GameStatus::STATUS_ACTIVE)
-             ->getQuery()
-             ->getResult(AbstractQuery::HYDRATE_ARRAY);
+        return $this->createQueryBuilder('game')
+            ->select('game.id')
+            ->where('game.status = :status')
+            ->setParameter('status', GameStatus::STATUS_ACTIVE)
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
     /**
@@ -302,7 +302,7 @@ class GameRepository extends DefaultRepository
      */
     private function getCountQueryBuilder(): QueryBuilder
     {
-         return $this->createQueryBuilder('g')
+        return $this->createQueryBuilder('g')
             ->select('COUNT(g.id)');
     }
 

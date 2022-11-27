@@ -178,7 +178,7 @@ class Ranking
      * @param string $sColNameToForceZero
      * @return array
      */
-    public static function calculateGamePoints(array $aArray, array $aBaseCol, string $sNameNewCol, string $sColNameToForceZero = '')
+    public static function calculateGamePoints(array $aArray, array $aBaseCol, string $sNameNewCol, string $sColNameToForceZero = ''): array
     {
         if (empty($aArray)) {
             return $aArray;

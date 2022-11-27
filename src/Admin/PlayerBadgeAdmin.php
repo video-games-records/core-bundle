@@ -47,7 +47,7 @@ class PlayerBadgeAdmin extends AbstractAdmin
                 'btn_catalogue' => false,
                 'label' => 'label.player',
             ])
-             ->add('badge', ModelListType::class, [
+            ->add('badge', ModelListType::class, [
                 'btn_add' => false,
                 'btn_list' => true,
                 'btn_edit' => false,

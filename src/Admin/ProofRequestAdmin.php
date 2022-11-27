@@ -39,12 +39,12 @@ class ProofRequestAdmin extends AbstractAdmin
         $this->messager = $messager;
     }
 
-    public function setContainer (ContainerInterface $container)
+    public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-     /**
+    /**
      * @return string
      */
     private function getLibGame(): string
@@ -151,19 +151,19 @@ class ProofRequestAdmin extends AbstractAdmin
                 ]
             ])
             ->add('playerChart.player', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property'=>'pseudo'],
+                'label' => 'label.player',
             ])
             ->add('playerRequesting', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player.requesting',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property'=>'pseudo'],
+                'label' => 'label.player.requesting',
             ])
             ->add('playerResponding', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player.responding',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property'=>'pseudo'],
+                'label' => 'label.player.responding',
             ]);
     }
 
@@ -195,7 +195,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     array('fieldName' => 'player'),
                 )
             ])
-             ->add('playerChart.chart.group.game', null, [
+            ->add('playerChart.chart.group.game', null, [
                 'associated_property' =>  $this->getLibGame(),
                 'label' => 'label.name',
                 'sortable' => true,
@@ -267,7 +267,7 @@ class ProofRequestAdmin extends AbstractAdmin
      */
     public function preValidate($object): void
     {
-        $player =  $this->getPlayer();
+        $player = $this->getPlayer();
 
         if ($player) {
             if (($object->getPlayerRequesting()->getId() === $player->getId())
