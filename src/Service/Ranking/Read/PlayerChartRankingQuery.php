@@ -179,7 +179,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
 
         try {
             return $query->getQuery()->getSingleScalarResult();
-        } catch (NoResultException|NonUniqueResultException $e) {
+        } catch (NoResultException | NonUniqueResultException $e) {
             return null;
         }
     }

@@ -76,7 +76,7 @@ class ScoringPlayerRankingHandler
 
     private function getChartsToUpdate()
     {
-         $query = $this->em->createQueryBuilder()
+        $query = $this->em->createQueryBuilder()
             ->select('ch')
             ->from('VideoGamesRecords\CoreBundle\Entity\Chart', 'ch')
             ->join('ch.group', 'gr')

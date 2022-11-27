@@ -150,13 +150,15 @@ class Chart implements SluggableInterface, TimestampableInterface
     public function getCompleteName(string $locale = 'en'): string
     {
         if ($locale == 'fr') {
-            return $this->getGroup()->getGame()->getLibGameFr() . ' - ' .
-            $this->getGroup()->getLibGroupFr()  . ' - ' .
-            $this->getLibChartFr();
+            return $this->getGroup()
+                    ->getGame()
+                    ->getLibGameFr() . ' - ' . $this->getGroup()
+                    ->getLibGroupFr() . ' - ' . $this->getLibChartFr();
         } else {
-            return $this->getGroup()->getGame()->getLibGameEn() . ' - ' .
-            $this->getGroup()->getLibGroupEn()  . ' - ' .
-            $this->getLibChartEn();
+            return $this->getGroup()
+                    ->getGame()
+                    ->getLibGameEn() . ' - ' . $this->getGroup()
+                    ->getLibGroupEn() . ' - ' . $this->getLibChartEn();
         }
     }
 

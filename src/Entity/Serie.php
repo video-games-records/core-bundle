@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Serie
- *
  * @ORM\Table(name="vgr_serie")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
  */
@@ -26,7 +25,6 @@ class Serie implements SluggableInterface
 
     /**
      * @var string
-     *
      * @Assert\Length(max="255")
      * @ORM\Column(name="libSerie", type="string", length=255, nullable=false)
      */
@@ -62,7 +60,7 @@ class Serie implements SluggableInterface
         return $this->libSerie;
     }
 
-      /**
+    /**
      * @param string $libSerie
      * @return $this
      */
@@ -110,7 +108,6 @@ class Serie implements SluggableInterface
 
     /**
      * Returns an array of the fields used to generate the slug.
-     *
      * @return string[]
      */
     public function getSluggableFields(): array

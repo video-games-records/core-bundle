@@ -33,8 +33,8 @@ class Picture
      */
     public function __construct($width, $height, bool $trueColor = true)
     {
-        $width = (int)$width;
-        $height = (int)$height;
+        $width = (int) $width;
+        $height = (int) $height;
 
         if ($trueColor) {
             $this->picture = imagecreatetruecolor($width, $height);

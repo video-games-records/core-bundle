@@ -45,10 +45,10 @@ class GamercardController extends AbstractController
         // Ranking Medals
         $sprite = Picture::loadFile('../Resources/img/sprite.png');
         $gamercard
-            ->copyResized($sprite, 164, 8, 126, 160, 16, 16, 16, 16) //Platinium
-            ->copyResized($sprite, 211, 8, 108, 160, 16, 16, 16, 16)       //Gold
-            ->copyResized($sprite, 258, 8, 92, 160, 16, 16, 16, 16)       //Silver
-            ->copyResized($sprite, 305, 8, 74, 160, 16, 16, 16, 16);      //Bronze
+            ->copyResized($sprite, 164, 8, 126, 160, 16, 16, 16, 16)
+            ->copyResized($sprite, 211, 8, 108, 160, 16, 16, 16, 16)
+            ->copyResized($sprite, 258, 8, 92, 160, 16, 16, 16, 16)
+            ->copyResized($sprite, 305, 8, 74, 160, 16, 16, 16, 16);
 
         $gamercard->getColor('lightBrown');
         $gamercard

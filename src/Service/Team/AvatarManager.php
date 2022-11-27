@@ -27,7 +27,7 @@ class AvatarManager
      */
     public function write(string $filename, string $contents): void
     {
-         $this->vgrCoreStorage->write($this->prefix . $filename, $contents);
+        $this->vgrCoreStorage->write($this->prefix . $filename, $contents);
     }
 
 
@@ -42,7 +42,7 @@ class AvatarManager
         }
 
         $stream = $this->vgrCoreStorage->readStream($path);
-        return new StreamedResponse(function () use ($stream) {
+        return new StreamedResponse(function() use ($stream) {
             fpassthru($stream);
             exit();
         }, 200, ['Content-Type' => $this->getMimeType($path)]);

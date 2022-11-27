@@ -66,9 +66,9 @@ class PlayerChartLib
      * Set id
      *
      * @param integer $id
-     * @return $this
+     * @return PlayerChartLib
      */
-    public function setId(int $id): Self
+    public function setId(int $id): PlayerChartLib
     {
         $this->id = $id;
         return $this;
@@ -76,8 +76,7 @@ class PlayerChartLib
 
     /**
      * Get id
-     *
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -86,8 +85,7 @@ class PlayerChartLib
 
     /**
      * Get value
-     *
-     * @return integer
+     * @return int|null
      */
     public function getValue(): ?int
     {
@@ -97,9 +95,9 @@ class PlayerChartLib
     /**
      * Set value
      * @param int|null $value
-     * @return $this
+     * @return PlayerChartLib
      */
-    public function setValue(int $value = null): Self
+    public function setValue(int $value = null): PlayerChartLib
     {
         $this->value = $value;
         return $this;
@@ -108,9 +106,9 @@ class PlayerChartLib
     /**
      * Set libChart
      * @param ChartLib|null $libChart
-     * @return $this
+     * @return PlayerChartLib
      */
-    public function setLibChart(ChartLib $libChart = null): Self
+    public function setLibChart(ChartLib $libChart = null): PlayerChartLib
     {
         $this->libChart = $libChart;
         return $this;
@@ -130,9 +128,9 @@ class PlayerChartLib
     /**
      * Set player
      * @param PlayerChart $playerChart
-     * @return $this
+     * @return PlayerChartLib
      */
-    public function setPlayerChart(PlayerChart $playerChart): Self
+    public function setPlayerChart(PlayerChart $playerChart): PlayerChartLib
     {
         $this->playerChart = $playerChart;
         return $this;
@@ -164,9 +162,9 @@ class PlayerChartLib
      * Set parseValue
      *
      * @param $parseValue
-     * @return $this
+     * @return PlayerChartLib
      */
-    public function setParseValue($parseValue): Self
+    public function setParseValue($parseValue): PlayerChartLib
     {
         $this->parseValue = $parseValue;
         return $this;
@@ -176,7 +174,7 @@ class PlayerChartLib
     /**
      *
      */
-    public function setParseValueFromValue()
+    public function setParseValueFromValue(): void
     {
         $this->parseValue = Score::getValues(
             $this->getLibChart()
@@ -190,12 +188,12 @@ class PlayerChartLib
     /**
      *
      */
-    public function setValueFromPaseValue()
+    public function setValueFromPaseValue(): void
     {
         if ($this->parseValue == null) {
             $this->value = null;
         } else {
-            $this->value = (int)Score::formToBdd(
+            $this->value = (int) Score::formToBdd(
                 $this->getLibChart()
                     ->getType()
                     ->getMask(),

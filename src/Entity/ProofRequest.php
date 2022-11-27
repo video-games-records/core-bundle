@@ -9,7 +9,6 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Request
- *
  * @ORM\Table(name="vgr_proof_request")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener"})
@@ -34,7 +33,7 @@ class ProofRequest implements TimestampableInterface
      */
     private string $status = self::STATUS_IN_PROGRESS;
 
-     /**
+    /**
      * @ORM\Column(name="response", type="text", nullable=true)
      */
     private ?string $response = null;
@@ -67,7 +66,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * @var Player
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayerResponding", referencedColumnName="id", nullable=true)
@@ -97,7 +95,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get id
-     *
      * @return integer
      */
     public function getId(): ?int
@@ -118,7 +115,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get status
-     *
      * @return string
      */
     public function getStatus(): string
@@ -126,9 +122,8 @@ class ProofRequest implements TimestampableInterface
         return $this->status;
     }
 
-     /**
+    /**
      * Set response
-     *
      * @param string $response
      * @return $this
      */
@@ -140,7 +135,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get response
-     *
      * @return string
      */
     public function getResponse(): ?string
@@ -161,7 +155,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get dateAcceptance
-     *
      * @return DateTime
      */
     public function getDateAcceptance(): ?DateTime
@@ -182,7 +175,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get message
-     *
      * @return string
      */
     public function getMessage(): ?string
@@ -192,7 +184,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set playerCHart
-     *
      * @param PlayerChart $playerChart
      * @return $this
      */
@@ -205,7 +196,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get playerChart
-     *
      * @return PlayerChart
      */
     public function getPlayerChart(): PlayerChart
@@ -215,7 +205,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set playerRequesting
-     *
      * @param Player $playerRequesting
      * @return $this
      */
@@ -228,7 +217,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get playerRequesting
-     *
      * @return Player
      */
     public function getPlayerRequesting(): Player
@@ -238,7 +226,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set playerResponding
-     *
      * @param Player $playerResponding
      * @return $this
      */
@@ -251,7 +238,6 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get playerResponding
-     *
      * @return Player
      */
     public function getPlayerResponding(): ?Player

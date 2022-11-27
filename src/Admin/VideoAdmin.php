@@ -97,9 +97,9 @@ class VideoAdmin extends AbstractAdmin
             ->add('boolActive', null, ['label' => 'label.boolActive'])
             ->add('type', null, ['label' => 'label.type'])
             ->add('player', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'pseudo'],
+                'label' => 'label.player',
             ]);
     }
 
@@ -143,12 +143,11 @@ class VideoAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show
-            ->add('id',null, ['label' => 'label.id'])
-            ->add('boolActive',null, ['label' => 'label.boolActive'])
-            ->add('libVideo',null, ['label' => 'label.name'])
-            ->add('player',null, ['label' => 'label.player'])
-            ->add('game',null, ['label' => 'label.game'])
-            ->add('url',null, ['label' => 'label.url']);
+        $show->add('id', null, ['label' => 'label.id'])
+            ->add('boolActive', null, ['label' => 'label.boolActive'])
+            ->add('libVideo', null, ['label' => 'label.name'])
+            ->add('player', null, ['label' => 'label.player'])
+            ->add('game', null, ['label' => 'label.game'])
+            ->add('url', null, ['label' => 'label.url']);
     }
 }

@@ -14,7 +14,7 @@ class GameOfDayAddCommand extends Command
 
     private GameOfDayManager $gameOfDayManager;
 
-    public function __construct( GameOfDayManager $gameOfDayManager)
+    public function __construct(GameOfDayManager $gameOfDayManager)
     {
         $this->gameOfDayManager = $gameOfDayManager;
         parent::__construct();

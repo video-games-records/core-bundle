@@ -105,7 +105,7 @@ class PlayerChartController extends DefaultController
                 'idplayer' => $idPlayer,
                 'idgame' => $idGame,
             ];
-            $key = $idPlayer . '/' . $idGame . '/'. uniqid() . $this->extensions[$meta['mediatype']];
+            $key = $idPlayer . '/' . $idGame . '/' . uniqid() . $this->extensions[$meta['mediatype']];
 
             $this->s3client->putObject([
                 'Bucket' => $_ENV['AWS_BUCKET_PROOF'],

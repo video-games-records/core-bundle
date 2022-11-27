@@ -9,13 +9,13 @@ class Score
      * @param string $mask
      * @return array
      */
-    public static function parseChartMask(string $mask)
+    public static function parseChartMask(string $mask): array
     {
         $result     = [];
         $arrayParts = explode('|', $mask);
         foreach ($arrayParts as $partOfMask) {
             $arrayLib = explode('~', $partOfMask);
-            $result[] = ['size' => (int)$arrayLib[0], 'suffixe' => $arrayLib[1]];
+            $result[] = ['size' => (int) $arrayLib[0], 'suffixe' => $arrayLib[1]];
         }
 
         return $result;
@@ -27,11 +27,11 @@ class Score
      * @param string|int $value
      * @return array
      */
-    public static function getValues(string $mask, $value)
+    public static function getValues(string $mask, $value): array
     {
         $parse   = self::parseChartMask($mask);
         $negative = 0 === strpos($value, '-');
-        $value = $negative ? (int)substr($value, 1) : $value;
+        $value = $negative ? (int) substr($value, 1) : $value;
         $data    = [];
         $laValue = $value;
         for ($k = count($parse) - 1; $k >= 0; $k--) {
@@ -67,9 +67,9 @@ class Score
      * Transform values to insert database
      * @param string $mask
      * @param array  $values
-     * @return string
+     * @return string|null
      */
-    public static function formToBdd(string $mask, array $values)
+    public static function formToBdd(string $mask, array $values): ?string
     {
         $parse   = self::parseChartMask($mask);
         $nbInput = count($parse);
@@ -111,7 +111,7 @@ class Score
      * @param string $mask
      * @return string
      */
-    public static function formatScore($value, string $mask)
+    public static function formatScore($value, string $mask): string
     {
         $parse = self::parseChartMask($mask);
 

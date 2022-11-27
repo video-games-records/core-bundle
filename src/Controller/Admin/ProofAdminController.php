@@ -27,8 +27,9 @@ class ProofAdminController extends CRUDController
 
         return $this->renderWithExtraParams(
             'VideoGamesRecordsCoreBundle:Admin:proof.stats.html.twig',
-               [
-                   'stats' => $months,
-               ]);
+            [
+               'stats' => $months,
+            ]
+        );
     }
 }

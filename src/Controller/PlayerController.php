@@ -36,9 +36,9 @@ class PlayerController extends AbstractController
      */
     public function stats(): array
     {
-        $playerStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getStats();
-        $gameStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->getStats();
-        $teamStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->getStats();
+        $playerStats = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getStats();
+        $gameStats = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->getStats();
+        $teamStats = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->getStats();
 
         return array(
             'nbPlayer' => $playerStats[1],

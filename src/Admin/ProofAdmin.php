@@ -41,7 +41,7 @@ class ProofAdmin extends AbstractAdmin
         $this->messager = $messager;
     }
 
-    public function setContainer (ContainerInterface $container)
+    public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -80,8 +80,7 @@ class ProofAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query
-            ->innerJoin($query->getRootAliases()[0]  . '.chart', 'chr')
+        $query->innerJoin($query->getRootAliases()[0] . '.chart', 'chr')
             ->addSelect('chr')
             ->innerJoin('chr.group', 'grp')
             ->addSelect('grp')
@@ -162,15 +161,15 @@ class ProofAdmin extends AbstractAdmin
         $filter
             ->add('id', null, ['label' => 'label.id'])
             ->add('player', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player'
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'pseudo'],
+                'label' => 'label.player'
             ])
             ->add('player.pseudo', null, ['label' => 'label.pseudo'])
             ->add('chart.group.game', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>$this->getLibGame()],
-                 'label' => 'label.game'
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => $this->getLibGame()],
+                'label' => 'label.game'
             ])
             ->add('chart.group.game.libGameEn', null, ['label' => 'label.game.en'])
             ->add('chart.group.game.libGameFr', null, ['label' => 'label.game.fr'])
@@ -184,9 +183,9 @@ class ProofAdmin extends AbstractAdmin
             ])
             ->add('playerChart.status', null, ['label' => 'label.playerChart.status'])
             ->add('playerResponding', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player.responding'
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'pseudo'],
+                'label' => 'label.player.responding'
             ]);
     }
 

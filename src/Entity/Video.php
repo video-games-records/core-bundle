@@ -19,7 +19,6 @@ use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
 
 /**
  * Video
- *
  * @ORM\Table(name="vgr_video")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -123,7 +122,6 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Get id
-     *
      * @return integer
      */
     public function getId(): ?int
@@ -145,7 +143,6 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Get boolActive
-     *
      * @return bool
      */
     public function getBoolActive(): bool
@@ -166,7 +163,6 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Get type
-     *
      * @return string
      */
     public function getType(): ?string
@@ -188,7 +184,6 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Get videoId
-     *
      * @return string
      */
     public function getVideoId(): ?string
@@ -210,7 +205,6 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Get libVideo
-     *
      * @return string
      */
     public function getLibVideo(): string
@@ -265,7 +259,6 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Get nbComment
-     *
      * @return integer
      */
     public function getNbComment(): int
@@ -310,7 +303,7 @@ class Video implements TimestampableInterface, SluggableInterface
             $this->setType(self::TYPE_YOUTUBE);
             $explode = explode('=', $this->getUrl());
             $this->setVideoId($explode[1]);
-          } elseif (strpos($this->getUrl(), 'youtu.be')) {
+        } elseif (strpos($this->getUrl(), 'youtu.be')) {
             $this->setType(self::TYPE_YOUTUBE);
             $this->setVideoId(substr($this->getUrl(), strripos($this->getUrl(), '/') + 1, strlen($this->getUrl()) - 1));
         } elseif (strpos($this->getUrl(), 'twitch')) {
@@ -331,7 +324,8 @@ class Video implements TimestampableInterface, SluggableInterface
         if ($this->getType() == self::TYPE_YOUTUBE) {
             return 'https://www.youtube.com/embed/' . $this->getVideoId();
         } elseif ($this->getType() == self::TYPE_TWITCH) {
-            return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getVideoId() . '&parent=' .$_SERVER['SERVER_NAME'];
+            return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getVideoId(
+                ) . '&parent=' . $_SERVER['SERVER_NAME'];
         } else {
             return $this->getUrl();
         }
@@ -339,7 +333,6 @@ class Video implements TimestampableInterface, SluggableInterface
 
     /**
      * Returns an array of the fields used to generate the slug.
-     *
      * @return string[]
      */
     public function getSluggableFields(): array

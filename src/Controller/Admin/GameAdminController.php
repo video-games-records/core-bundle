@@ -32,7 +32,7 @@ class GameAdminController extends CRUDController
         return new RedirectResponse($this->admin->generateUrl('list'));
     }
 
-     /**
+    /**
      * @param $id
      * @return RedirectResponse
      */

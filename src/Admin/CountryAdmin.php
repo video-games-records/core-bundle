@@ -32,7 +32,7 @@ class CountryAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+        $query->leftJoin($query->getRootAliases()[0] . '.translations', 't')
             ->addSelect('t');
         return $query;
     }

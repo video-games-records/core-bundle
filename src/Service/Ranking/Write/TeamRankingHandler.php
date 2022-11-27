@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Event\TeamEvent;
 use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
@@ -27,6 +28,7 @@ class TeamRankingHandler implements RankingCommandInterface
      */
     public function handle($mixed): void
     {
+        /** @var Team $player */
         $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->find($mixed);
         if (null === $team) {
             return;

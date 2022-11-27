@@ -89,7 +89,6 @@ class Player implements SluggableInterface
     private string $avatar = 'default.jpg';
 
     /**
-
      * @ORM\Column(name="gamerCard", type="string", length=50, nullable=true)
      */
     private ?string $gamerCard;

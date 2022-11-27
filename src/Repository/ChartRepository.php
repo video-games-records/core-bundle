@@ -113,7 +113,7 @@ class ChartRepository extends DefaultRepository
     public function getTopScore($group, $player, string $locale = 'en'): mixed
     {
         $query = $this->createQueryBuilder('ch')
-             ->join('ch.group', 'gr')
+            ->join('ch.group', 'gr')
             ->addSelect('gr')
             ->addSelect('pc')
             ->andWhere('ch.group = :group')
@@ -140,7 +140,7 @@ class ChartRepository extends DefaultRepository
      */
     private function getCountQueryBuilder(): QueryBuilder
     {
-         return $this->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
             ->select('COUNT(c.id)');
     }
 

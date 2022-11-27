@@ -8,7 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Badge
- *
  * @ORM\Table(name="vgr_badge")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\BadgeRepository")
  * @ApiResource(attributes={"order"={"type", "value"}})
@@ -17,7 +16,7 @@ class Badge
 {
     const TYPE_CONNEXION = 'Connexion';
     const TYPE_DON = 'Don';
-    const TYPE_FORUM= 'Forum';
+    const TYPE_FORUM = 'Forum';
     const TYPE_INSCRIPTION = 'Inscription';
     const TYPE_MASTER = 'Master';
     const TYPE_PLATFORM = 'Platform';
@@ -87,7 +86,6 @@ class Badge
 
     /**
      * Set id
-     *
      * @param integer $id
      * @return Badge
      */
@@ -99,7 +97,6 @@ class Badge
 
     /**
      * Get id
-     *
      * @return integer
      */
     public function getId(): ?int
@@ -109,7 +106,6 @@ class Badge
 
     /**
      * Set type
-     *
      * @param string $type
      * @return Badge
      */
@@ -122,7 +118,6 @@ class Badge
 
     /**
      * Get type
-     *
      * @return string
      */
     public function getType(): string
@@ -133,7 +128,6 @@ class Badge
 
     /**
      * Set picture
-     *
      * @param string $picture
      * @return Badge
      */
@@ -146,7 +140,6 @@ class Badge
 
     /**
      * Get picture
-     *
      * @return string
      */
     public function getPicture(): ?string
@@ -156,7 +149,6 @@ class Badge
 
     /**
      * Set value
-     *
      * @param integer $value
      * @return Badge
      */
@@ -169,7 +161,6 @@ class Badge
 
     /**
      * Get value
-     *
      * @return integer
      */
     public function getValue(): ?int
@@ -179,7 +170,6 @@ class Badge
 
     /**
      * Set nbPlayer
-     *
      * @param integer $nbPlayer
      * @return Badge
      */
@@ -192,7 +182,6 @@ class Badge
 
     /**
      * Get nbPlayer
-     *
      * @return integer
      */
     public function getNbPlayer(): int
@@ -202,7 +191,6 @@ class Badge
 
     /**
      * Get game
-     *
      * @return Game
      */
     public function getGame(): ?Game
@@ -212,7 +200,6 @@ class Badge
 
     /**
      * Get country
-     *
      * @return Country
      */
     public function getCountry(): ?Country
@@ -222,7 +209,6 @@ class Badge
 
     /**
      * Get platform
-     *
      * @return Platform
      */
     public function getPlatform(): ?Platform
@@ -237,11 +223,14 @@ class Badge
     {
         switch ($this->getType()) {
             case self::TYPE_PLATFORM:
-                return $this->getPlatform()->getLibPlatform();
+                return $this->getPlatform()
+                    ->getLibPlatform();
             case self::TYPE_MASTER:
-                return $this->getGame()->getName();
+                return $this->getGame()
+                    ->getName();
             case self::TYPE_VGR_SPECIAL_COUNTRY:
-                return $this->getCountry()->getName();
+                return $this->getCountry()
+                    ->getName();
             case self::TYPE_VGR_SPECIAL_CUP:
             case self::TYPE_VGR_SPECIAL_MEDALS:
             case self::TYPE_VGR_SPECIAL_LEGEND:
@@ -259,7 +248,7 @@ class Badge
         }
     }
 
-     /**
+    /**
      * @return array
      */
     public static function getTypeChoices(): array

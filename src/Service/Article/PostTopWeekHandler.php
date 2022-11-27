@@ -26,7 +26,7 @@ class PostTopWeekHandler implements PostTopHandlerInterface
         $this->writer = $writer;
     }
 
-     /**
+    /**
      * @param $day
      * @throws Exception
      */

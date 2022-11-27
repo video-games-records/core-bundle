@@ -38,7 +38,7 @@ class DefaultController extends AbstractController
     public function getTeam(): ?Team
     {
         if ($this->getUser() !== null) {
-            $player =  $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
+            $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
                 ->getPlayerFromUser($this->getUser());
             return $player->getTeam();
         }

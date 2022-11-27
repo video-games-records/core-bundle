@@ -10,9 +10,9 @@ class PlayerChartService
     private PlayerChartRepository $playerChartRepository;
 
     public function __construct(
-        GameService $gameService,
-        PlayerChartRepository $playerChartRepository,
-    ) {
+        GameService $gameService, PlayerChartRepository $playerChartRepository,
+    )
+    {
         $this->gameService = $gameService;
         $this->playerChartRepository = $playerChartRepository;
     }
@@ -23,12 +23,11 @@ class PlayerChartService
      * @param $game
      * @param $platform
      */
-    public function majPlatform($player, $game, $platform) {
+    public function majPlatform($player, $game, $platform)
+    {
         // Update platform
         $this->playerChartRepository->majPlatform(
-            $player,
-            $game,
-            $platform
+            $player, $game, $platform
         );
         // Maj all charts ot game
         $this->gameService->majChartStatus($game->getId());

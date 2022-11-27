@@ -3,14 +3,14 @@
 namespace VideoGamesRecords\CoreBundle\Service;
 
 use Doctrine\ORM\ORMException;
-use ProjetNormandie\UserBundle\Service\UserService;
 use VideoGamesRecords\CoreBundle\Repository\DataRepository;
 
 class DataService
 {
     private DataRepository $dataRepository;
 
-    public function __construct(DataRepository $dataRepository) {
+    public function __construct(DataRepository $dataRepository)
+    {
         $this->dataRepository = $dataRepository;
     }
 

@@ -76,9 +76,9 @@ class BadgeAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id',null, ['label' => 'label.id'])
-            ->add('type',null, ['label' => 'label.type'])
-            ->add('picture',null, ['label' => 'label.picture'])
+        $show->add('id', null, ['label' => 'label.id'])
+            ->add('type', null, ['label' => 'label.type'])
+            ->add('picture', null, ['label' => 'label.picture'])
             ->add('value', null, ['label' => 'label.value']);
     }
 }

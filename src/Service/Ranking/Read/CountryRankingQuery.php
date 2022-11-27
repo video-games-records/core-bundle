@@ -9,7 +9,7 @@ class CountryRankingQuery extends DefaultRankingQuery
      * @param array    $options
      * @return array
      */
-     public function getRanking(int $id = null, array $options = []): array
+    public function getRanking(int $id = null, array $options = []): array
     {
         $country = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Country')->find($id);
         if (null === $country) {

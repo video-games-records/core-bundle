@@ -61,6 +61,6 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
             $locale = 'en';
         }
         $queryBuilder->leftJoin('o.translations', 't', 'WITH', "t.locale='$locale'")
-           ->addSelect('t');
+            ->addSelect('t');
     }
 }

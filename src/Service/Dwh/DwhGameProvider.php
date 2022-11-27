@@ -19,7 +19,8 @@ class DwhGameProvider implements DwhTableProviderInterface
      */
     public function getDataForDwh(): array
     {
-        return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->findAll();
+        return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')
+            ->findAll();
     }
 
     /**
@@ -30,7 +31,8 @@ class DwhGameProvider implements DwhTableProviderInterface
     public function getNbPostDay($date1, $date2): array
     {
         //----- data nbPostDay
-        $query = $this->em->createQuery("
+        $query = $this->em->createQuery(
+            "
             SELECT
                  ga.id,
                  COUNT(pc.id) as nb
@@ -39,8 +41,8 @@ class DwhGameProvider implements DwhTableProviderInterface
             JOIN c.group gr
             JOIN gr.game ga
             WHERE pc.lastUpdate BETWEEN :date1 AND :date2
-            GROUP BY ga.id");
-
+            GROUP BY ga.id"
+        );
 
         $query->setParameter('date1', $date1);
         $query->setParameter('date2', $date2);

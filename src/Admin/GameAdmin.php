@@ -41,8 +41,8 @@ class GameAdmin extends AbstractAdmin
     {
         $collection
             ->remove('export')
-            ->add('copy', $this->getRouterIdParameter().'/copy')
-            ->add('maj', $this->getRouterIdParameter().'/maj');
+            ->add('copy', $this->getRouterIdParameter() . '/copy')
+            ->add('maj', $this->getRouterIdParameter() . '/maj');
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -198,8 +198,8 @@ class GameAdmin extends AbstractAdmin
 
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('libGameEn', null, ['label' => 'label.game.en','editable' => true])
-            ->add('libGameFr', null, ['label' => 'label.game.fr','editable' => true])
+            ->add('libGameEn', null, ['label' => 'label.game.en', 'editable' => true])
+            ->add('libGameFr', null, ['label' => 'label.game.fr', 'editable' => true])
             //->add('slug', null, ['label' => 'label.slug'])
             ->add(
                 'picture',
@@ -227,18 +227,16 @@ class GameAdmin extends AbstractAdmin
                 ]
             )
             ->add('_action', 'actions', [
-                'actions' =>
-                    array_merge(
-                        [
-                            'show' => [],
-                            'edit' => [],
-                            'groups' => [
-                                'template' => '@VideoGamesRecordsCore/Admin/game_groups_link.html.twig'
-                            ]
-                        ],
-                        $btns
-                    )
-             ]);
+                'actions' => array_merge(
+                    [
+                        'show' => [],
+                        'edit' => [],
+                        'groups' => [
+                            'template' => '@VideoGamesRecordsCore/Admin/game_groups_link.html.twig'
+                        ]
+                    ], $btns
+                )
+            ]);
     }
 
     /**
