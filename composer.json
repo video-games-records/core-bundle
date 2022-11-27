@@ -13,6 +13,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "ext-gd": "*",
         "a2lix/translation-form-bundle": "*",
         "api-platform/core": "^2.7",
         "aws/aws-sdk-php-symfony": "~2.0",
