@@ -133,10 +133,10 @@ class GamercardController extends AbstractController
         // Add sprites pictures medals
         $sprite = Picture::loadFile('../Resources/img/sprite.png');
         $gamercard
-            ->copyResized($sprite, 78, 59, 126, 160, 16, 16, 16, 16) //Platinium
-            ->copyResized($sprite, 127, 59, 108, 160, 16, 16, 16, 16)       //Gold
-            ->copyResized($sprite, 78, 79, 92, 160, 16, 16, 16, 16)       //Silver
-            ->copyResized($sprite, 127, 79, 74, 160, 16, 16, 16, 16);      //Bronze
+            ->copyResized($sprite, 78, 59, 126, 160, 16, 16, 16, 16)
+            ->copyResized($sprite, 127, 59, 108, 160, 16, 16, 16, 16)
+            ->copyResized($sprite, 78, 79, 92, 160, 16, 16, 16, 16)
+            ->copyResized($sprite, 127, 79, 74, 160, 16, 16, 16, 16);
 
         // Add avatar
         try {

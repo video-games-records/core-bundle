@@ -16,8 +16,7 @@ class PlayerService
     public function __construct(
         PlayerRepository $playerRepository,
         ProofRequestRepository $proofRequestRepository
-    )
-    {
+    ) {
         $this->playerRepository = $playerRepository;
         $this->proofRequestRepository = $proofRequestRepository;
     }

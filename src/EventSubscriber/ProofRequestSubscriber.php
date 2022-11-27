@@ -46,7 +46,7 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
 
         if (($request instanceof ProofRequest) && ($method == Request::METHOD_POST)) {
             $token = $this->tokenStorage->getToken();
-            $player =  $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
+            $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
                 ->getPlayerFromUser($token->getUser());
 
             $nbRequest = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\ProofRequest')->getNbRequestFromToDay($player);

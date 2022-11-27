@@ -180,7 +180,7 @@ class ChartAdmin extends AbstractAdmin
             )
             ->add(
                 'statusTeam',
-                ChoiceFilter::class,[
+                ChoiceFilter::class, [
                     'label' => 'label.chart.statusTeam',
                     'field_type' => ChoiceType::class,
                     'field_options' => [

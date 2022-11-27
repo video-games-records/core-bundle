@@ -17,7 +17,7 @@ class ChartTypeType extends AbstractType
         $builder->add(
                 'type', EntityType::class, [
                     'class' => ChartType::class,
-                    'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('ct')
                             ->orderBy('ct.name', 'ASC');
                     },

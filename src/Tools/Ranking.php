@@ -144,7 +144,7 @@ class Ranking
         $liste[1] = $pointRecord;
 
         for ($i = 2; $i <= $iNbPartcipant; $i++) {
-            $pointRecord = (int)($pointRecord * $nb / 100);
+            $pointRecord = (int) ($pointRecord * $nb / 100);
             $liste[$i] = $pointRecord;
             $compteur++;
 
@@ -178,9 +178,7 @@ class Ranking
      * @param string $sColNameToForceZero
      * @return array
      */
-    public static function calculateGamePoints(
-        array $aArray, array $aBaseCol, string $sNameNewCol, $sColNameToForceZero = ''
-    )
+    public static function calculateGamePoints(array $aArray, array $aBaseCol, string $sNameNewCol, string $sColNameToForceZero = '')
     {
         if (empty($aArray)) {
             return $aArray;
@@ -220,12 +218,12 @@ class Ranking
 
             //If firsts
             if ($aArray[$i][$nameRankCol] == 1) {
-                $aArray[$i][$sNameNewCol] = (int)round($f, 0);
+                $aArray[$i][$sNameNewCol] = (int) round($f, 0);
                 continue;
             }
             //If non equals
             if ($aArray[$i][$nameEqualCol] == 1) {
-                $aArray[$i][$sNameNewCol] = (int)round($aF[$aArray[$i][$nameRankCol]], 0);
+                $aArray[$i][$sNameNewCol] = (int) round($aF[$aArray[$i][$nameRankCol]], 0);
                 continue;
             }
             //If equals (do average of players gives if they weren't tied)
@@ -235,7 +233,7 @@ class Ranking
             }
             $value = round(array_sum($aTiedValues) / count($aTiedValues), 0);
             for ($j = $i, $nb = $i + count($aTiedValues); $j < $nb; ++$j) {
-                $aArray[$i][$sNameNewCol] = (int)$value;
+                $aArray[$i][$sNameNewCol] = (int) $value;
                 $i++;
             }
             $i--;
