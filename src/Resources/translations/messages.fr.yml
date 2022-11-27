@@ -115,7 +115,6 @@ label:
     rules: 'Règles'
     serie: 'Série'
     slug: 'Slug'
-    state: 'Etat'
     stats: 'Stats'
     status: 'Statut'
     status.accepted: 'ACCEPTED'

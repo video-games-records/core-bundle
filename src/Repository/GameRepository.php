@@ -40,10 +40,10 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatCreation(): mixed
+    public function countStatusCreated(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereEtat($qb, Game::ETAT_INIT);
+        $this->whereStatus($qb, GameStatus::STATUS_CREATED);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -53,10 +53,10 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatRecord(): mixed
+    public function countStatusAddPicture(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereEtat($qb, Game::ETAT_CHART);
+        $this->whereStatus($qb, GameStatus::STATUS_ADD_PICTURE);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -66,10 +66,49 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatImage(): mixed
+    public function countStatusAddScore(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereEtat($qb, Game::ETAT_PICTURE);
+        $this->whereStatus($qb, GameStatus::STATUS_ADD_SCORE);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countStatusCompleted(): mixed
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatus($qb, GameStatus::STATUS_COMPLETED);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countStatusActive(): mixed
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatus($qb, GameStatus::STATUS_ACTIVE);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countStatusInactive(): mixed
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatus($qb, GameStatus::STATUS_INACTIVE);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -280,13 +319,13 @@ class GameRepository extends DefaultRepository
 
     /**
      * @param QueryBuilder $query
-     * @param string       $etat
+     * @param string       $status
      */
-    private function whereEtat(QueryBuilder $query, string $etat)
+    private function whereStatus(QueryBuilder $query, string $status)
     {
         $query
-            ->andWhere('g.etat = :etat')
-            ->setParameter('etat', $etat);
+            ->andWhere('g.status = :status')
+            ->setParameter('status', $status);
     }
 
     /**

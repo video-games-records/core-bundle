@@ -29,9 +29,8 @@ class GameListener
     /**
      * @param Game               $game
      * @param LifecycleEventArgs $event
-     * @throws ORMException
      */
-    public function prePersist(Game $game, LifecycleEventArgs $event)
+    public function prePersist(Game $game, LifecycleEventArgs $event): void
     {
         if (null === $game->getLibGameFr()) {
             $game->setLibGameFr($game->getLibGameEn());
@@ -53,7 +52,7 @@ class GameListener
      * @param Game       $game
      * @param PreUpdateEventArgs $event
      */
-    public function preUpdate(Game $game, PreUpdateEventArgs $event)
+    public function preUpdate(Game $game, PreUpdateEventArgs $event): void
     {
         $changeSet = $event->getEntityChangeSet();
 
@@ -65,14 +64,8 @@ class GameListener
             $game->setPublishedAt(new DateTime());
         }
 
-        if (array_key_exists('status', $changeSet)) {
-            if (($changeSet['status'][0] == GameStatus::STATUS_INACTIVE) && ($changeSet['status'][1] == GameStatus::STATUS_ACTIVE)) {
-                $game->setEtat(Game::ETAT_END);
-            }
-        }
-
         if (array_key_exists('picture', $changeSet)) {
-            $game->setEtat(Game::ETAT_PICTURE);
+            $game->setStatus(GameStatus::STATUS_ADD_SCORE);
         }
     }
 
@@ -82,9 +75,9 @@ class GameListener
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function postUpdate(Game $game, LifecycleEventArgs $event)
+    public function postUpdate(Game $game, LifecycleEventArgs $event): void
     {
-        $em = $event->getEntityManager();
+        $em = $event->getObjectManager();
         if ($this->majPlayers) {
             foreach ($game->getPlayerGame() as $playerGame) {
                 $playerGame->getPlayer()->setBoolMaj(true);

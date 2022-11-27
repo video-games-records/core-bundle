@@ -6,10 +6,18 @@ use Webmozart\Assert\Assert;
 
 class GameStatus
 {
-    const STATUS_ACTIVE = 'ACTIF';
-    const STATUS_INACTIVE = 'INACTIF';
+    const STATUS_ACTIVE = 'ACTIVE';
+    const STATUS_INACTIVE = 'INACTIVE';
+    const STATUS_CREATED = 'CREATED';
+    const STATUS_ADD_PICTURE = 'ADD_PICTURE';
+    const STATUS_ADD_SCORE = 'ADD_SCORE';
+    const STATUS_COMPLETED = 'COMPLETED';
 
     public const VALUES = [
+        self::STATUS_CREATED,
+        self::STATUS_ADD_SCORE,
+        self::STATUS_ADD_PICTURE,
+        self::STATUS_COMPLETED,
         self::STATUS_ACTIVE,
         self::STATUS_INACTIVE,
     ];
@@ -51,7 +59,11 @@ class GameStatus
     public static function getStatusChoices(): array
     {
         return [
-            self::STATUS_ACTIVE => self::STATUS_ACTIVE,
+            self::STATUS_CREATED. ' (1)' => self::STATUS_CREATED ,
+            self::STATUS_ADD_SCORE. ' (2)' => self::STATUS_ADD_SCORE ,
+            self::STATUS_ADD_PICTURE . ' (3)' => self::STATUS_ADD_PICTURE,
+            self::STATUS_COMPLETED. ' (4)' => self::STATUS_COMPLETED,
+            self::STATUS_ACTIVE. ' (5)' => self::STATUS_ACTIVE,
             self::STATUS_INACTIVE => self::STATUS_INACTIVE,
         ];
     }

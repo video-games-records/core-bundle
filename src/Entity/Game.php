@@ -65,12 +65,6 @@ class Game implements SluggableInterface, TimestampableInterface
     use TimestampableTrait;
     use SluggableTrait;
 
-    const ETAT_INIT = 'CREATION';
-    const ETAT_CHART = 'RECORD';
-    const ETAT_PICTURE = 'IMAGE';
-    const ETAT_END = 'FINI';
-
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -99,12 +93,7 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private string $status = GameStatus::STATUS_INACTIVE;
-
-    /**
-     * @ORM\Column(name="etat", type="string", nullable=false)
-     */
-    private string $etat = self::ETAT_INIT;
+    private string $status = GameStatus::STATUS_CREATED;
 
     /**
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
@@ -348,28 +337,6 @@ class Game implements SluggableInterface, TimestampableInterface
         return new GameStatus($this->status);
     }
 
-    /**
-     * Set etat
-     *
-     * @param string $etat
-     * @return Game
-     */
-    public function setEtat(string $etat): Game
-    {
-        $this->etat = $etat;
-
-        return $this;
-    }
-
-    /**
-     * Get etat
-     *
-     * @return string
-     */
-    public function getEtat(): string
-    {
-        return $this->etat;
-    }
 
     /**
      * @param DateTime|null $pubishedAt
@@ -668,20 +635,6 @@ class Game implements SluggableInterface, TimestampableInterface
     {
         $this->forum = $forum;
         return $this;
-    }
-
-
-    /**
-     * @return array
-     */
-    public static function getEtatsChoices(): array
-    {
-        return [
-            self::ETAT_INIT => self::ETAT_INIT,
-            self::ETAT_CHART => self::ETAT_CHART,
-            self::ETAT_PICTURE => self::ETAT_PICTURE,
-            self::ETAT_END => self::ETAT_END,
-        ];
     }
 
     /**
