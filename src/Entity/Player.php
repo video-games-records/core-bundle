@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Entity\User\UserInterface;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
 
@@ -69,6 +70,7 @@ class Player implements SluggableInterface
     use SluggableTrait;
     use RankCupTrait;
     use RankMedalTrait;
+    use RankPointBadgeTrait;
     use RankPointChartTrait;
     use RankPointGameTrait;
 
@@ -107,11 +109,6 @@ class Player implements SluggableInterface
     private int $pointVGR = 0;
 
     /**
-     * @ORM\Column(name="pointBadge", type="integer", nullable=false)
-     */
-    private int $pointBadge = 0;
-
-    /**
      * @ORM\Column(name="presentation", type="text", length=65535, nullable=true)
      */
     private ?string $presentation;
@@ -125,11 +122,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="rankProof", type="integer", nullable=true)
      */
     private ?int $rankProof;
-
-    /**
-     * @ORM\Column(name="rankBadge", type="integer", nullable=true)
-     */
-    private ?int $rankBadge;
 
     /**
      * @ORM\Column(name="rankCountry", type="integer", nullable=true)
@@ -387,29 +379,6 @@ class Player implements SluggableInterface
     }
 
     /**
-     * Set pointBadge
-     *
-     * @param integer $pointBadge
-     * @return $this
-     */
-    public function setPointBadge(int $pointBadge)
-    {
-        $this->pointBadge = $pointBadge;
-
-        return $this;
-    }
-
-    /**
-     * Get pointBadge
-     *
-     * @return integer
-     */
-    public function getPointBadge()
-    {
-        return $this->pointBadge;
-    }
-
-    /**
      * Set presentation
      *
      * @param string|null $presentation
@@ -478,28 +447,6 @@ class Player implements SluggableInterface
         return $this->rankProof;
     }
 
-    /**
-     * Set rankBadge
-     *
-     * @param integer $rankBadge
-     * @return Player
-     */
-    public function setRankBadge(int $rankBadge)
-    {
-        $this->rankBadge = $rankBadge;
-
-        return $this;
-    }
-
-    /**
-     * Get rankBadge
-     *
-     * @return integer
-     */
-    public function getRankBadge()
-    {
-        return $this->rankBadge;
-    }
 
     /**
      * Set rankCountry
