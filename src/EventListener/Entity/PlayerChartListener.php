@@ -126,7 +126,7 @@ class PlayerChartListener
      */
     public function preRemove(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
-         // Chart
+        // Chart
         $chart = $playerChart->getChart();
         $chart->setNbPost($chart->getNbPost() - 1);
         $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);

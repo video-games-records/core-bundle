@@ -109,7 +109,7 @@ class PlayerChartRankingHandler implements RankingCommandInterface
             $playerChart
                 ->setNbEqual($nbEqual)
                 ->setRank($rank)
-                ->setPointChart((int)(
+                ->setPointChart((int) (
                     array_sum(
                         array_slice(array_values($pointsChart), $playerChart->getRank() - 1, $playerChart->getNbEqual())
                     ) / $playerChart->getNbEqual()

@@ -9,9 +9,7 @@ class PlayerChartService
     private GameService $gameService;
     private PlayerChartRepository $playerChartRepository;
 
-    public function __construct(
-        GameService $gameService, PlayerChartRepository $playerChartRepository,
-    )
+    public function __construct(GameService $gameService, PlayerChartRepository $playerChartRepository)
     {
         $this->gameService = $gameService;
         $this->playerChartRepository = $playerChartRepository;

@@ -65,9 +65,9 @@ class PlayerBadgeAdmin extends AbstractAdmin
     {
         $filter
             ->add('player', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player'
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property'=>'pseudo'],
+                'label' => 'label.player'
             ])
             ->add('badge.game.libGameFr', null, ['label' => 'label.game.fr'])
             ->add('badge.game.libGameEn', null, ['label' => 'label.game.en'])
