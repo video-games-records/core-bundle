@@ -108,7 +108,7 @@ class TeamRankingHandler implements RankingCommandInterface
             $query->setParameter('rank', $i);
             $row = $query->getOneOrNullResult();
             if ($row) {
-                $data["gameRank$i"] = $row['nb'];
+                $data['gameRank' . $i] = $row['nb'];
             }
         }
 
