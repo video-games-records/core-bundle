@@ -43,11 +43,12 @@ trait RankMedalTrait
 
     /**
      * @param int $rankMedal
-     * @return void
+     * @return $this
      */
-    public function setRankMedal(int $rankMedal): void
+    public function setRankMedal(int $rankMedal): static
     {
         $this->rankMedal = $rankMedal;
+        return $this;
     }
 
     /**
@@ -61,11 +62,12 @@ trait RankMedalTrait
 
     /**
      * @param int $chartRank0
-     * @return void
+     * @return $this
      */
-    public function setChartRank0(int $chartRank0): void
+    public function setChartRank0(int $chartRank0): static
     {
         $this->chartRank0 = $chartRank0;
+        return $this;
     }
 
     /**
@@ -79,11 +81,12 @@ trait RankMedalTrait
 
     /**
      * @param int $chartRank1
-     * @return void
+     * @return $this
      */
-    public function setChartRank1(int $chartRank1): void
+    public function setChartRank1(int $chartRank1): static
     {
         $this->chartRank1 = $chartRank1;
+        return $this;
     }
 
     /**
@@ -97,11 +100,12 @@ trait RankMedalTrait
 
     /**
      * @param int $chartRank2
-     * @return void
+     * @return $this
      */
-    public function setChartRank2(int $chartRank2): void
+    public function setChartRank2(int $chartRank2): static
     {
         $this->chartRank2 = $chartRank2;
+        return $this;
     }
 
     /**
@@ -115,11 +119,12 @@ trait RankMedalTrait
 
     /**
      * @param int $chartRank3
-     * @return void
+     * @return $this
      */
-    public function setChartRank3(int $chartRank3): void
+    public function setChartRank3(int $chartRank3): static
     {
         $this->chartRank3 = $chartRank3;
+        return $this;
     }
 
     /**
@@ -133,11 +138,12 @@ trait RankMedalTrait
 
     /**
      * @param int $chartRank4
-     * @return void
+     * @return $this
      */
-    public function setChartRank4(int $chartRank4): void
+    public function setChartRank4(int $chartRank4): static
     {
         $this->chartRank4 = $chartRank4;
+        return $this;
     }
 
     /**
@@ -151,11 +157,12 @@ trait RankMedalTrait
 
     /**
      * @param int $chartRank5
-     * @return void
+     * @return $this
      */
-    public function setChartRank5(int $chartRank5): void
+    public function setChartRank5(int $chartRank5): static
     {
         $this->chartRank5 = $chartRank5;
+        return $this;
     }
 
     /**

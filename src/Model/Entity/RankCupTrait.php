@@ -33,11 +33,12 @@ trait RankCupTrait
 
     /**
      * @param int $rankCup
-     * @return void
+     * @return $this
      */
-    public function setRankCup(int $rankCup): void
+    public function setRankCup(int $rankCup): static
     {
         $this->rankCup = $rankCup;
+        return $this;
     }
 
     /**
@@ -51,11 +52,12 @@ trait RankCupTrait
 
     /**
      * @param int $gameRank0
-     * @return void
+     * @return $this
      */
-    public function setGameRank0(int $gameRank0): void
+    public function setGameRank0(int $gameRank0): static
     {
         $this->gameRank0 = $gameRank0;
+        return $this;
     }
 
     /**
@@ -69,11 +71,12 @@ trait RankCupTrait
 
     /**
      * @param int $gameRank1
-     * @return void
+     * @return $this
      */
-    public function setGameRank1(int $gameRank1): void
+    public function setGameRank1(int $gameRank1): static
     {
         $this->gameRank1 = $gameRank1;
+        return $this;
     }
 
     /**
@@ -87,11 +90,12 @@ trait RankCupTrait
 
     /**
      * @param int $gameRank2
-     * @return void
+     * @return $this
      */
-    public function setGameRank2(int $gameRank2): void
+    public function setGameRank2(int $gameRank2): static
     {
         $this->gameRank2 = $gameRank2;
+        return $this;
     }
 
     /**
@@ -105,11 +109,12 @@ trait RankCupTrait
 
     /**
      * @param int $gameRank3
-     * @return void
+     * @return $this
      */
-    public function setGameRank3(int $gameRank3): void
+    public function setGameRank3(int $gameRank3): static
     {
         $this->gameRank3 = $gameRank3;
+        return $this;
     }
 
     /**

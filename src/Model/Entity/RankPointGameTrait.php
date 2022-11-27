@@ -18,11 +18,12 @@ trait RankPointGameTrait
 
     /**
      * @param int $rankPointGame
-     * @return void
+     * @return $this
      */
-    public function setRankPointGame(int $rankPointGame): void
+    public function setRankPointGame(int $rankPointGame): static
     {
         $this->rankPointGame = $rankPointGame;
+        return $this;
     }
 
     /**
@@ -37,11 +38,12 @@ trait RankPointGameTrait
 
     /**
      * @param int $pointGame
-     * @return void
+     * @return $this
      */
-    public function setPointGame(int $pointGame): void
+    public function setPointGame(int $pointGame): static
     {
         $this->pointGame = $pointGame;
+        return $this;
     }
 
     /**
