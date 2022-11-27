@@ -19,13 +19,10 @@ trait GameTrait
     /**
      * Set game
      * @param Game|null $game
-     * @return $this
      */
-    public function setGame(?Game $game = null): self
+    public function setGame(?Game $game = null): void
     {
         $this->game = $game;
-
-        return $this;
     }
 
     /**

@@ -17,13 +17,10 @@ trait PlayerTrait
     /**
      * Set player
      * @param Player|null $player
-     * @return $this
      */
-    public function setPlayer(?Player $player = null): self
+    public function setPlayer(?Player $player = null): void
     {
         $this->player = $player;
-
-        return $this;
     }
 
     /**

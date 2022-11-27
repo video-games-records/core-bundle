@@ -14,6 +14,10 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Entity\User\UserInterface;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
 
 /**
  * Player
@@ -63,6 +67,10 @@ use VideoGamesRecords\CoreBundle\Entity\User\UserInterface;
 class Player implements SluggableInterface
 {
     use SluggableTrait;
+    use RankCupTrait;
+    use RankMedalTrait;
+    use RankPointChartTrait;
+    use RankPointGameTrait;
 
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User\UserInterface")
@@ -94,31 +102,6 @@ class Player implements SluggableInterface
     private ?string $gamerCard;
 
     /**
-     * @ORM\Column(name="chartRank0", type="integer", nullable=true)
-     */
-    private int $chartRank0 = 0;
-
-    /**
-     * @ORM\Column(name="chartRank1", type="integer", nullable=true)
-     */
-    private int $chartRank1 = 0;
-
-    /**
-     * @ORM\Column(name="chartRank2", type="integer", nullable=true)
-     */
-    private int $chartRank2 = 0;
-
-    /**
-     * @ORM\Column(name="chartRank3", type="integer", nullable=true)
-     */
-    private int $chartRank3 = 0;
-
-    /**
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
-     */
-    private int $pointChart = 0;
-
-    /**
      * @ORM\Column(name="pointVGR", type="integer", nullable=false)
      */
     private int $pointVGR = 0;
@@ -139,16 +122,6 @@ class Player implements SluggableInterface
     private ?string $collection;
 
     /**
-     * @ORM\Column(name="rankPointChart", type="integer", nullable=true)
-     */
-    private ?int $rankPointChart;
-
-    /**
-     * @ORM\Column(name="rankMedal", type="integer", nullable=true)
-     */
-    private ?int $rankMedal;
-
-    /**
      * @ORM\Column(name="rankProof", type="integer", nullable=true)
      */
     private ?int $rankProof;
@@ -159,34 +132,9 @@ class Player implements SluggableInterface
     private ?int $rankBadge;
 
     /**
-     * @ORM\Column(name="rankCup", type="integer", nullable=true)
-     */
-    private ?int $rankCup;
-
-    /**
      * @ORM\Column(name="rankCountry", type="integer", nullable=true)
      */
     private ?int $rankCountry;
-
-    /**
-     * @ORM\Column(name="gameRank0", type="integer", nullable=true)
-     */
-    private int $gameRank0 = 0;
-
-    /**
-     * @ORM\Column(name="gameRank1", type="integer", nullable=true)
-     */
-    private int $gameRank1 = 0;
-
-    /**
-     * @ORM\Column(name="gameRank2", type="integer", nullable=true)
-     */
-    private int $gameRank2 = 0;
-
-    /**
-     * @ORM\Column(name="gameRank3", type="integer", nullable=true)
-     */
-    private int $gameRank3 = 0;
 
     /**
      * @ORM\Column(name="nbGame", type="integer", nullable=false)
@@ -212,11 +160,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
      */
     private int $nbMasterBadge = 0;
-
-    /**
-     * @ORM\Column(name="pointGame", type="integer", nullable=false)
-     */
-    private int $pointGame = 0;
 
     /**
      * @ORM\Column(name="birthDate", type="date", nullable=true)
@@ -247,11 +190,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="displayPersonalInfos", type="boolean", nullable=false)
      */
     private bool $displayPersonalInfos = false;
-
-    /**
-     * @ORM\Column(name="rankPointGame", type="integer", nullable=true)
-     */
-    private ?int $rankPointGame;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="player")
@@ -424,120 +362,6 @@ class Player implements SluggableInterface
         return $this->gamerCard;
     }
 
-    /**
-     * Set chartRank0
-     *
-     * @param integer $chartRank0
-     * @return $this
-     */
-    public function setChartRank0(int $chartRank0)
-    {
-        $this->chartRank0 = $chartRank0;
-
-        return $this;
-    }
-
-    /**
-     * Get chartRank0
-     *
-     * @return integer
-     */
-    public function getChartRank0()
-    {
-        return $this->chartRank0;
-    }
-
-    /**
-     * Set chartRank1
-     *
-     * @param integer $chartRank1
-     * @return $this
-     */
-    public function setChartRank1(int $chartRank1)
-    {
-        $this->chartRank1 = $chartRank1;
-
-        return $this;
-    }
-
-    /**
-     * Get chartRank1
-     *
-     * @return integer
-     */
-    public function getChartRank1()
-    {
-        return $this->chartRank1;
-    }
-
-    /**
-     * Set chartRank2
-     *
-     * @param integer $chartRank2
-     * @return $this
-     */
-    public function setChartRank2(int $chartRank2)
-    {
-        $this->chartRank2 = $chartRank2;
-
-        return $this;
-    }
-
-    /**
-     * Get chartRank2
-     *
-     * @return integer
-     */
-    public function getChartRank2()
-    {
-        return $this->chartRank2;
-    }
-
-    /**
-     * Set chartRank3
-     *
-     * @param integer $chartRank3
-     * @return $this
-     */
-    public function setChartRank3(int $chartRank3)
-    {
-        $this->chartRank3 = $chartRank3;
-
-        return $this;
-    }
-
-    /**
-     * Get chartRank3
-     *
-     * @return integer
-     */
-    public function getChartRank3()
-    {
-        return $this->chartRank3;
-    }
-
-    /**
-     * Set pointChart
-     *
-     * @param integer $pointChart
-     * @return $this
-     */
-    public function setPointChart(int $pointChart)
-    {
-        $this->pointChart = $pointChart;
-
-        return $this;
-    }
-
-    /**
-     * Get pointChart
-     *
-     * @return integer
-     */
-    public function getPointChart()
-    {
-        return $this->pointChart;
-    }
 
     /**
      * Set pointVGR
@@ -632,52 +456,6 @@ class Player implements SluggableInterface
     }
 
     /**
-     * Set rankPointChart
-     *
-     * @param integer $rankPointChart
-     * @return Player
-     */
-    public function setRankPointChart(int $rankPointChart)
-    {
-        $this->rankPointChart = $rankPointChart;
-
-        return $this;
-    }
-
-    /**
-     * Get rankPointChart
-     *
-     * @return integer
-     */
-    public function getRankPointChart()
-    {
-        return $this->rankPointChart;
-    }
-
-    /**
-     * Set rankMedal
-     *
-     * @param integer $rankMedal
-     * @return Player
-     */
-    public function setRankMedal(int $rankMedal)
-    {
-        $this->rankMedal = $rankMedal;
-
-        return $this;
-    }
-
-    /**
-     * Get rankMedal
-     *
-     * @return integer
-     */
-    public function getRankMedal()
-    {
-        return $this->rankMedal;
-    }
-
-    /**
      * Set rankProof
      *
      * @param integer $rankProof
@@ -724,29 +502,6 @@ class Player implements SluggableInterface
     }
 
     /**
-     * Set rankCup
-     *
-     * @param integer $rankCup
-     * @return Player
-     */
-    public function setRankCup(int $rankCup)
-    {
-        $this->rankCup = $rankCup;
-
-        return $this;
-    }
-
-    /**
-     * Get rankCup
-     *
-     * @return integer
-     */
-    public function getRankCup()
-    {
-        return $this->rankCup;
-    }
-
-    /**
      * Set rankCountry
      *
      * @param integer $rankCountry
@@ -769,97 +524,6 @@ class Player implements SluggableInterface
         return $this->rankCountry;
     }
 
-    /**
-     * Set gameRank0
-     *
-     * @param integer $gameRank0
-     * @return Player
-     */
-    public function setGameRank0(int $gameRank0)
-    {
-        $this->gameRank0 = $gameRank0;
-
-        return $this;
-    }
-
-    /**
-     * Get gameRank0
-     *
-     * @return integer
-     */
-    public function getgameRank0()
-    {
-        return $this->gameRank0;
-    }
-
-    /**
-     * Set gameRank1
-     *
-     * @param integer $gameRank1
-     * @return Player
-     */
-    public function setGameRank1(int $gameRank1)
-    {
-        $this->gameRank1 = $gameRank1;
-
-        return $this;
-    }
-
-    /**
-     * Get gameRank1
-     *
-     * @return integer
-     */
-    public function getGameRank1()
-    {
-        return $this->gameRank1;
-    }
-
-    /**
-     * Set gameRank2
-     *
-     * @param integer $gameRank2
-     * @return Player
-     */
-    public function setGameRank2(int $gameRank2)
-    {
-        $this->gameRank2 = $gameRank2;
-
-        return $this;
-    }
-
-    /**
-     * Get gameRank2
-     *
-     * @return integer
-     */
-    public function getGameRank2()
-    {
-        return $this->gameRank2;
-    }
-
-    /**
-     * Set gameRank3
-     *
-     * @param integer $gameRank3
-     * @return Player
-     */
-    public function setGameRank3(int $gameRank3)
-    {
-        $this->gameRank3 = $gameRank3;
-
-        return $this;
-    }
-
-    /**
-     * Get gameRank3
-     *
-     * @return integer
-     */
-    public function getGameRank3()
-    {
-        return $this->gameRank3;
-    }
 
     /**
      * Set nbGame
@@ -976,51 +640,6 @@ class Player implements SluggableInterface
         return $this->nbMasterBadge;
     }
 
-    /**
-     * Set pointGame
-     *
-     * @param integer $pointGame
-     * @return Player
-     */
-    public function setPointGame(int $pointGame)
-    {
-        $this->pointGame = $pointGame;
-
-        return $this;
-    }
-
-    /**
-     * Get pointGame
-     *
-     * @return integer
-     */
-    public function getPointGame()
-    {
-        return $this->pointGame;
-    }
-
-    /**
-     * Set rankPointGame
-     *
-     * @param integer $rankPointGame
-     * @return Player
-     */
-    public function setRankPointGame(int $rankPointGame)
-    {
-        $this->rankPointGame = $rankPointGame;
-
-        return $this;
-    }
-
-    /**
-     * Get rankPointGame
-     *
-     * @return integer
-     */
-    public function getRankPointGame()
-    {
-        return $this->rankPointGame;
-    }
 
     /**
      * @return string

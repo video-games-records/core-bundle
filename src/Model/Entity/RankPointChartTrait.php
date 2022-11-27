@@ -9,7 +9,7 @@ trait RankPointChartTrait
     /**
      * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
      */
-    private int $rankPointChart = 0;
+    private ?int $rankPointChart = 0;
 
     /**
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
