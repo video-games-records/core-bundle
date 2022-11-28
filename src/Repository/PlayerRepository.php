@@ -50,7 +50,7 @@ class PlayerRepository extends DefaultRepository
      * @return mixed
      * @throws NonUniqueResultException
      */
-    public function getStats()
+    public function getStats(): mixed
     {
         $qb = $this->createQueryBuilder('player')
             ->select('COUNT(player.id), SUM(player.nbChart), SUM(player.nbChartProven)');
