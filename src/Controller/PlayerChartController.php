@@ -3,12 +3,15 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Aws\S3\S3Client;
+use Doctrine\ORM\Exception\ORMException;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
@@ -23,11 +26,12 @@ use VideoGamesRecords\CoreBundle\Service\ScorePlatformManager;
  * Class PlayerChartController
  * @Route("/player-chart")
  */
-class PlayerChartController extends DefaultController
+class PlayerChartController extends AbstractController
 {
     private S3Client $s3client;
     private TranslatorInterface $translator;
     private ScorePlatformManager $scorePlatformManager;
+    private UserToPlayerTransformer $userToPlayerTransformer;
 
     private array $extensions = array(
         'text/plain' => '.txt',
@@ -38,16 +42,19 @@ class PlayerChartController extends DefaultController
     public function __construct(
         S3Client $s3client,
         TranslatorInterface $translator,
-        ScorePlatformManager $scorePlatformManager
+        ScorePlatformManager $scorePlatformManager,
+        UserToPlayerTransformer $userToPlayerTransformer
     ) {
         $this->s3client = $s3client;
         $this->translator = $translator;
         $this->scorePlatformManager = $scorePlatformManager;
+        $this->userToPlayerTransformer = $userToPlayerTransformer;
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws ORMException
      */
     public function majPlatform(Request $request): JsonResponse
     {
@@ -57,7 +64,7 @@ class PlayerChartController extends DefaultController
         $em = $this->getDoctrine()->getManager();
 
         $this->scorePlatformManager->update(
-            $this->getPlayer(),
+            $this->userToPlayerTransformer->transform($this->getUser()),
             $em->getReference(Game::class, $idGame),
             $em->getReference(Platform::class, $idPlatform)
         );
@@ -72,7 +79,9 @@ class PlayerChartController extends DefaultController
      */
     public function sendPicture(PlayerChart $playerChart, Request $request): Response
     {
-        if ($playerChart->getPlayer() != $this->getPlayer()) {
+        $player = $this->userToPlayerTransformer->transform($this->getUser());
+
+        if ($playerChart->getPlayer() !== $player) {
             throw new AccessDeniedException('ACESS DENIED');
         }
         if (!in_array($playerChart->getStatus()->getId(), PlayerChartStatus::getStatusForProving())) {
@@ -153,24 +162,23 @@ class PlayerChartController extends DefaultController
         }
         $em->flush();
 
-        $response = new Response();
-        $response->setContent(json_encode([
+        return new JsonResponse([
             'id' => $id,
             'file' => $file,
-        ]));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        ], 200);
     }
 
     /**
      * @param PlayerChart $playerChart
      * @param Request     $request
      * @return Response
-     * @throws AccessDeniedException
+     * @throws AccessDeniedException|ORMException
      */
     public function sendVideo(PlayerChart $playerChart, Request $request): Response
     {
-        if ($playerChart->getPlayer() != $this->getPlayer()) {
+        $player = $this->userToPlayerTransformer->transform($this->getUser());
+
+        if ($playerChart->getPlayer() !== $player) {
             throw new AccessDeniedException('ACESS DENIED');
         }
         if (!in_array($playerChart->getStatus()->getId(), PlayerChartStatus::getStatusForProving())) {
@@ -196,7 +204,7 @@ class PlayerChartController extends DefaultController
                 //-- Video
                 $video = new Video();
                 $video->setUrl($url);
-                $video->setPlayer($this->getPlayer());
+                $video->setPlayer($player);
                 $video->setGame($playerChart->getChart()->getGroup()->getGame());
                 $video->setLibVideo($playerChart->getChart()->getCompleteName('en'));
                 $em->persist($video);
@@ -223,11 +231,14 @@ class PlayerChartController extends DefaultController
                 );
             }
             $em->flush();
-
         } else {
-            return $this->getResponse(false, $this->translator->trans('video.type_not_found'));
+            return new JsonResponse([
+                'message' => $this->translator->trans('video.type_not_found'),
+            ], 400);
         }
 
-        return $this->getResponse(true, ($this->translator->trans('proof.form.success')));
+        return new JsonResponse([
+            'message' => $this->translator->trans('proof.form.success'),
+        ], 200);
     }
 }
