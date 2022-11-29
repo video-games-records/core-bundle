@@ -12,9 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
-use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
-use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
@@ -30,7 +28,6 @@ class PlayerChartController extends AbstractController
 {
     private S3Client $s3client;
     private TranslatorInterface $translator;
-    private ScorePlatformManager $scorePlatformManager;
     private UserToPlayerTransformer $userToPlayerTransformer;
 
     private array $extensions = array(
@@ -42,33 +39,11 @@ class PlayerChartController extends AbstractController
     public function __construct(
         S3Client $s3client,
         TranslatorInterface $translator,
-        ScorePlatformManager $scorePlatformManager,
         UserToPlayerTransformer $userToPlayerTransformer
     ) {
         $this->s3client = $s3client;
         $this->translator = $translator;
-        $this->scorePlatformManager = $scorePlatformManager;
         $this->userToPlayerTransformer = $userToPlayerTransformer;
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     * @throws ORMException
-     */
-    public function majPlatform(Request $request): JsonResponse
-    {
-        $data = json_decode($request->getContent(), true);
-        $idGame = $data['idGame'];
-        $idPlatform = $data['idPlatform'];
-        $em = $this->getDoctrine()->getManager();
-
-        $this->scorePlatformManager->update(
-            $this->userToPlayerTransformer->transform($this->getUser()),
-            $em->getReference(Game::class, $idGame),
-            $em->getReference(Platform::class, $idPlatform)
-        );
-        return new JsonResponse(['data' => true]);
     }
 
     /**

@@ -25,7 +25,7 @@ resources:
                                       type: integer
                                   idPlatform:
                                       type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::majPlatform'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\ScorePlatformController::update'
         itemOperations:
             get:
                 normalization_context: {'groups': [playerChart.read, playerChart.libs, playerChart.player, player.read.mini, playerChart.status, playerChartStatus.read, chart.label.read, playerChartLib.format, playerChart.proof, proof.read, picture.read, video.read]}
