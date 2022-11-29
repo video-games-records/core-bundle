@@ -49,7 +49,7 @@ final class GameSubscriber implements EventSubscriberInterface
         $this->teamMasterBadgeHandler->process($event->getGame());
     }
 
-     /**
+    /**
      * @param GameEvent $event
      */
     public function majGame(GameEvent $event)

@@ -11,7 +11,7 @@ use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
 class StatsController extends AbstractController
 {
-     protected EntityManagerInterface $em;
+    protected EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {

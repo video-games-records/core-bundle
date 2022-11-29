@@ -16,7 +16,8 @@ class GameAdminController extends CRUDController
 {
     private GameManager $gameManager;
 
-    public function __construct(GameManager $gameManager) {
+    public function __construct(GameManager $gameManager)
+    {
         $this->gameManager = $gameManager;
     }
 
