@@ -17,7 +17,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
-use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
+use VideoGamesRecords\CoreBundle\Service\ScorePlatformManager;
 
 /**
  * Class PlayerChartController
@@ -27,7 +27,7 @@ class PlayerChartController extends DefaultController
 {
     private S3Client $s3client;
     private TranslatorInterface $translator;
-    private PlayerChartService $playerChartService;
+    private ScorePlatformManager $scorePlatformManager;
 
     private array $extensions = array(
         'text/plain' => '.txt',
@@ -38,11 +38,11 @@ class PlayerChartController extends DefaultController
     public function __construct(
         S3Client $s3client,
         TranslatorInterface $translator,
-        PlayerChartService $playerChartService
+        ScorePlatformManager $scorePlatformManager
     ) {
         $this->s3client = $s3client;
         $this->translator = $translator;
-        $this->playerChartService = $playerChartService;
+        $this->scorePlatformManager = $scorePlatformManager;
     }
 
     /**
@@ -56,7 +56,7 @@ class PlayerChartController extends DefaultController
         $idPlatform = $data['idPlatform'];
         $em = $this->getDoctrine()->getManager();
 
-        $this->playerChartService->majPlatform(
+        $this->scorePlatformManager->update(
             $this->getPlayer(),
             $em->getReference(Game::class, $idGame),
             $em->getReference(Platform::class, $idPlatform)

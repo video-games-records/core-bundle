@@ -36,7 +36,6 @@ class DefaultRankingQuery
     protected function getPlayer(): ?Player
     {
         return $this->tokenStorageToPlayerTransformer->transform($this->tokenStorage->getToken());
-
     }
 
     /**

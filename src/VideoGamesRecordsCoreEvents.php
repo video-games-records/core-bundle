@@ -11,4 +11,5 @@ final class VideoGamesRecordsCoreEvents
     public const PLAYER_MAJ_COMPLETED = 'vgr_core.player.maj.completed';
     public const TEAM_MAJ_COMPLETED = 'vgr_core.team.maj.completed';
     public const COUNTRY_MAJ_COMPLETED = 'vgr_core.country.maj.completed';
+    public const SCORE_PLATFORM_UPDATED = 'vgr_core.score.platform.updated';
 }

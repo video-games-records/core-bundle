@@ -256,16 +256,15 @@ class GameRepository extends DefaultRepository
     }
 
     /**
-     * @param        $game
-     * @param string $status
+     * @param game $game
      */
-    public function majChartStatus($game, string $status = 'MAJ')
+    public function maj(Game $game)
     {
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
             ->set('c.statusPlayer', ':status')
             ->set('c.statusTeam', ':status')
-            ->setParameter('status', $status)
+            ->setParameter('status', ChartStatus::STATUS_MAJ)
             ->where('c.group IN (
                             SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
                         WHERE g.game = :game)')
