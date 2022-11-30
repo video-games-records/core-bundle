@@ -55,16 +55,6 @@ resources:
                                     base64:
                                         type: string
                 controller: 'VideoGamesRecords\CoreBundle\Controller\Team\AvatarController::upload'
-            get-avatar:
-                method: 'GET'
-                path: '/teams/{id}/get-avatar'
-                swagger_context:
-                    parameters:
-                        -   name: id
-                            in: path
-                            required: true
-                            type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Team\AvatarController::download'
             put:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUser() == user'
                 denormalization_context: {'groups': [team.put]}
