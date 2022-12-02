@@ -6,7 +6,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use ProjetNormandie\MessageBundle\Service\Messager;
+use ProjetNormandie\MessageBundle\Service\MessagerBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -28,15 +28,15 @@ class ProofRequestAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
-    /** @var Messager */
-    private Messager $messager;
+    /** @var MessagerBuilder */
+    private MessagerBuilder $messagerBuilder;
 
     /** @var ContainerInterface */
     private ContainerInterface $container;
 
-    public function setMessager(Messager $messager): void
+    public function setMessagerBuilder(MessagerBuilder $messagerBuilder): void
     {
-        $this->messager = $messager;
+        $this->messagerBuilder = $messagerBuilder;
     }
 
     public function setContainer(ContainerInterface $container)
@@ -303,6 +303,10 @@ class ProofRequestAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
 
+        $this->messagerBuilder
+            ->setSender($em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0))
+            ->setType('VGR_PROOF_REQUEST');
+
         $setPlayerResponding = false;
 
         // Cant change status final
@@ -319,34 +323,35 @@ class ProofRequestAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messager->send(
-                $this->getTranslator()->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()),
-                sprintf(
-                    $this->getTranslator()->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
-                    $recipient->getUsername(),
-                    $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
-                ),
-                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                $recipient,
-                'VGR_PROOF_REQUEST'
-            );
+            $this->messagerBuilder
+                ->setObject($this->getTranslator()->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()))
+                ->setMessage(
+                    sprintf(
+                        $this->getTranslator()->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $url,
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                    )
+                )
+                ->setRecipient($recipient)
+                ->send();
+
             // Send MP (2)
             $recipient = $object->getPlayerRequesting()->getUser();
-            $this->messager->send(
-                $this->getTranslator()->trans('proof.request.accept.object', array(), null, $recipient->getLocale()),
-                sprintf(
-                    $this->getTranslator()->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
-                    $recipient->getUsername(),
-                    $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                    $object->getPlayerChart()->getPlayer()->getPseudo(),
-                    $object->getResponse()
-                ),
-                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                $recipient,
-                'VGR_PROOF_REQUEST'
-            );
+            $this->messagerBuilder
+                ->setObject($this->getTranslator()->trans('proof.request.accept.object', array(), null, $recipient->getLocale()))
+                ->setMessage(
+                    sprintf(
+                        $this->getTranslator()->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $url,
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                        $object->getPlayerChart()->getPlayer()->getPseudo(),
+                        $object->getResponse()
+                    )
+                )
+                ->setRecipient($recipient)
+                ->send();
         }
 
         // REFUSED
@@ -357,20 +362,20 @@ class ProofRequestAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             $recipient = $object->getPlayerRequesting()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messager->send(
-                $this->getTranslator()->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()),
-                sprintf(
-                    $this->getTranslator()->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
-                    $recipient->getUsername(),
-                    $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                    $object->getPlayerChart()->getPlayer()->getPseudo(),
-                    $object->getResponse()
-                ),
-                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                $recipient,
-                'VGR_PROOF_REQUEST'
-            );
+            $this->messagerBuilder
+                ->setObject($this->getTranslator()->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()))
+                ->setMessage(
+                    sprintf(
+                        $this->getTranslator()->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $url,
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                        $object->getPlayerChart()->getPlayer()->getPseudo(),
+                        $object->getResponse()
+                    )
+                )
+                ->setRecipient($recipient)
+                ->send();
         }
 
         if ($setPlayerResponding) {
