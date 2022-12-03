@@ -6,7 +6,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use ProjetNormandie\MessageBundle\Service\MessagerBuilder;
+use ProjetNormandie\MessageBundle\Service\MessageBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -30,15 +30,15 @@ class ProofAdmin extends AbstractAdmin
 {
     //protected $baseRouteName = 'vgrcorebundle_admin_proof';
 
-    /** @var MessagerBuilder */
-    private MessagerBuilder $messagerBuilder;
+    /** @var MessageBuilder */
+    private MessageBuilder $messageBuilder;
 
     /** @var ContainerInterface */
     private ContainerInterface $container;
 
-    public function setMessagerBuilder(MessagerBuilder $messagerBuilder): void
+    public function setMessageBuilder(MessageBuilder $messageBuilder): void
     {
-        $this->messagerBuilder = $messagerBuilder;
+        $this->messageBuilder = $messageBuilder;
     }
 
     public function setContainer(ContainerInterface $container)
@@ -325,7 +325,7 @@ class ProofAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
 
-        $this->messagerBuilder
+        $this->messageBuilder
             ->setSender($em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0))
             ->setType('VGR_PROOF');
 
@@ -348,7 +348,7 @@ class ProofAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messagerBuilder
+            $this->messageBuilder
                 ->setObject($this->getTranslator()->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()))
                 ->setMessage(
                     sprintf(
@@ -379,7 +379,7 @@ class ProofAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messagerBuilder
+            $this->messageBuilder
                 ->setObject($this->getTranslator()->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()))
                 ->setMessage(
                     sprintf(

@@ -6,7 +6,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use ProjetNormandie\MessageBundle\Service\MessagerBuilder;
+use ProjetNormandie\MessageBundle\Service\MessageBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -28,15 +28,15 @@ class ProofRequestAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
-    /** @var MessagerBuilder */
-    private MessagerBuilder $messagerBuilder;
+    /** @var MessageBuilder */
+    private MessageBuilder $messageBuilder;
 
     /** @var ContainerInterface */
     private ContainerInterface $container;
 
-    public function setMessagerBuilder(MessagerBuilder $messagerBuilder): void
+    public function setMessageBuilder(MessageBuilder $messageBuilder): void
     {
-        $this->messagerBuilder = $messagerBuilder;
+        $this->messageBuilder = $messageBuilder;
     }
 
     public function setContainer(ContainerInterface $container)
@@ -303,7 +303,7 @@ class ProofRequestAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
 
-        $this->messagerBuilder
+        $this->messageBuilder
             ->setSender($em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0))
             ->setType('VGR_PROOF_REQUEST');
 
@@ -323,7 +323,7 @@ class ProofRequestAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messagerBuilder
+            $this->messageBuilder
                 ->setObject($this->getTranslator()->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()))
                 ->setMessage(
                     sprintf(
@@ -338,7 +338,7 @@ class ProofRequestAdmin extends AbstractAdmin
 
             // Send MP (2)
             $recipient = $object->getPlayerRequesting()->getUser();
-            $this->messagerBuilder
+            $this->messageBuilder
                 ->setObject($this->getTranslator()->trans('proof.request.accept.object', array(), null, $recipient->getLocale()))
                 ->setMessage(
                     sprintf(
@@ -362,7 +362,7 @@ class ProofRequestAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             $recipient = $object->getPlayerRequesting()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messagerBuilder
+            $this->messageBuilder
                 ->setObject($this->getTranslator()->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()))
                 ->setMessage(
                     sprintf(
