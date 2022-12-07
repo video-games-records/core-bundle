@@ -23,7 +23,7 @@ class PlayerSerieRankingUpdateCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('vgr-core:player-platform-ranking-update')
+            ->setName('vgr-core:player-serie-ranking-update')
             ->setDescription('Command to update players ranking')
             ->addArgument(
                 'function',
