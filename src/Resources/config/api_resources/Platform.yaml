@@ -8,10 +8,10 @@ resources:
         itemOperations:
             get:
                 normalization_context: {'groups': [platform.read]}
-            player-ranking-point-chart:
+            player-ranking-point:
                 method: 'GET'
                 normalization_context: { 'groups': [ playerPlatform.pointPlatform,playerPlatform.player,player.read.mini,player.team,team.read.mini,player.country,country.read ] }
-                path: '/platforms/{id}/player-ranking-point-platform'
+                path: '/platforms/{id}/player-ranking-point'
                 swagger_context:
                     parameters:
                         -   name: id
@@ -22,4 +22,4 @@ resources:
                             in: query
                             required: false
                             type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerPlatformController::getRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlatformController::getRankingPoints'
