@@ -25,8 +25,9 @@ use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\Interface\MessageTypeInterface;
 
-class ProofAdmin extends AbstractAdmin
+class ProofAdmin extends AbstractAdmin implements MessageTypeInterface
 {
     //protected $baseRouteName = 'vgrcorebundle_admin_proof';
 
@@ -327,7 +328,7 @@ class ProofAdmin extends AbstractAdmin
 
         $this->messageBuilder
             ->setSender($em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0))
-            ->setType('VGR_PROOF');
+            ->setType(self::MESSAGE_TYPE_PROOF);
 
         // Cant change status final (CLOSED & REFUSED)
         if (in_array($originalObject['status'], array(Proof::STATUS_CLOSED, Proof::STATUS_REFUSED), true)) {

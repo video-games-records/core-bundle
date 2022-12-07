@@ -23,8 +23,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
+use VideoGamesRecords\CoreBundle\Interface\MessageTypeInterface;
 
-class ProofRequestAdmin extends AbstractAdmin
+class ProofRequestAdmin extends AbstractAdmin implements MessageTypeInterface
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
@@ -305,7 +306,7 @@ class ProofRequestAdmin extends AbstractAdmin
 
         $this->messageBuilder
             ->setSender($em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0))
-            ->setType('VGR_PROOF_REQUEST');
+            ->setType(self::MESSAGE_TYPE_PROOF_REQUEST);
 
         $setPlayerResponding = false;
 
