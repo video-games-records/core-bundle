@@ -9,7 +9,6 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Proof
- *
  * @ORM\Table(name="vgr_proof")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ProofListener"})
@@ -108,9 +107,9 @@ class Proof implements TimestampableInterface
     /**
      * Set id
      * @param integer $id
-     * @return $this
+     * @return Proof
      */
-    public function setId(int $id): Self
+    public function setId(int $id): Proof
     {
         $this->id = $id;
         return $this;
@@ -118,7 +117,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get id
-     *
      * @return integer
      */
     public function getId(): ?int
@@ -128,11 +126,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set picture
-     *
      * @param Picture $picture
-     * @return $this
+     * @return Proof
      */
-    public function setPicture(Picture $picture): Self
+    public function setPicture(Picture $picture): Proof
     {
         $this->picture = $picture;
         return $this;
@@ -140,7 +137,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get picture
-     *
      * @return Picture
      */
     public function getPicture(): ?Picture
@@ -150,19 +146,17 @@ class Proof implements TimestampableInterface
 
     /**
      * Set video
-     *
      * @param Video $video
-     * @return $this
+     * @return Proof
      */
-    public function setVideo(Video $video): Self
+    public function setVideo(Video $video): Proof
     {
-        $this->video= $video;
+        $this->video = $video;
         return $this;
     }
 
     /**
      * Get video
-     *
      * @return Video
      */
     public function getVideo(): ?Video
@@ -174,9 +168,9 @@ class Proof implements TimestampableInterface
     /**
      * Set status
      * @param string $status
-     * @return $this
+     * @return Proof
      */
-    public function setStatus(string $status): Self
+    public function setStatus(string $status): Proof
     {
         $this->status = $status;
         return $this;
@@ -184,7 +178,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get status
-     *
      * @return string
      */
     public function getStatus(): string
@@ -192,13 +185,12 @@ class Proof implements TimestampableInterface
         return $this->status;
     }
 
-     /**
+    /**
      * Set response
-     *
      * @param string $response
-     * @return $this
+     * @return Proof
      */
-    public function setResponse(string $response): Self
+    public function setResponse(string $response): Proof
     {
         $this->response = $response;
         return $this;
@@ -206,7 +198,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get response
-     *
      * @return string
      */
     public function getResponse(): ?string
@@ -216,11 +207,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set playerResponding
-     *
      * @param Player $playerResponding
-     * @return $this
+     * @return Proof
      */
-    public function setPlayerResponding(Player $playerResponding): Self
+    public function setPlayerResponding(Player $playerResponding): Proof
     {
         $this->playerResponding = $playerResponding;
 
@@ -229,7 +219,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get playerResponding
-     *
      * @return Player
      */
     public function getPlayerResponding(): ?Player
@@ -240,11 +229,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set player
-     *
      * @param Player $player
-     * @return $this
+     * @return Proof
      */
-    public function setPlayer(Player $player): Self
+    public function setPlayer(Player $player): Proof
     {
         $this->player = $player;
 
@@ -253,7 +241,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get player
-     *
      * @return Player
      */
     public function getPlayer(): Player
@@ -263,11 +250,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set chart
-     *
      * @param Chart $chart
-     * @return $this
+     * @return Proof
      */
-    public function setChart(Chart $chart): Self
+    public function setChart(Chart $chart): Proof
     {
         $this->chart = $chart;
 
@@ -276,7 +262,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get chart
-     *
      * @return Chart
      */
     public function getChart(): Chart
@@ -284,13 +269,12 @@ class Proof implements TimestampableInterface
         return $this->chart;
     }
 
-     /**
+    /**
      * Set checkedAt
-     *
      * @param DateTime $checkedAt
-     * @return $this
+     * @return Proof
      */
-    public function setCheckedAt(DateTime $checkedAt): Self
+    public function setCheckedAt(DateTime $checkedAt): Proof
     {
         $this->checkedAt = $checkedAt;
 
@@ -299,7 +283,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get checkedAt
-     *
      * @return DateTime
      */
     public function getCheckedAt(): ?DateTime
@@ -310,7 +293,6 @@ class Proof implements TimestampableInterface
 
     /**
      * Get playerChart
-     *
      * @return PlayerChart
      */
     public function getPlayerChart(): ?PlayerChart

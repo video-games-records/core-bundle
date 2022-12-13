@@ -15,7 +15,7 @@ class ChartListener
      */
     public function prePersist(Chart $chart, LifecycleEventArgs $event)
     {
-        if ($chart->getLibChartFr() == null) {
+        if (null === $chart->getLibChartFr()) {
             $chart->setLibChartFr($chart->getLibChartEn());
         }
     }
@@ -26,7 +26,7 @@ class ChartListener
      */
     public function preUpdate(Chart $chart, PreUpdateEventArgs $event)
     {
-        if ($chart->getLibChartFr() == null) {
+        if (null === $chart->getLibChartFr()) {
             $chart->setLibChartFr($chart->getLibChartEn());
         }
     }

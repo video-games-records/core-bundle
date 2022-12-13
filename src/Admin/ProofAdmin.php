@@ -6,7 +6,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use ProjetNormandie\MessageBundle\Service\Messager;
+use ProjetNormandie\MessageBundle\Service\MessageBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -25,23 +25,24 @@ use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\Interface\MessageTypeInterface;
 
-class ProofAdmin extends AbstractAdmin
+class ProofAdmin extends AbstractAdmin implements MessageTypeInterface
 {
     //protected $baseRouteName = 'vgrcorebundle_admin_proof';
 
-    /** @var Messager */
-    private Messager $messager;
+    /** @var MessageBuilder */
+    private MessageBuilder $messageBuilder;
 
     /** @var ContainerInterface */
     private ContainerInterface $container;
 
-    public function setMessager(Messager $messager)
+    public function setMessageBuilder(MessageBuilder $messageBuilder): void
     {
-        $this->messager = $messager;
+        $this->messageBuilder = $messageBuilder;
     }
 
-    public function setContainer (ContainerInterface $container)
+    public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -80,8 +81,7 @@ class ProofAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query
-            ->innerJoin($query->getRootAliases()[0]  . '.chart', 'chr')
+        $query->innerJoin($query->getRootAliases()[0] . '.chart', 'chr')
             ->addSelect('chr')
             ->innerJoin('chr.group', 'grp')
             ->addSelect('grp')
@@ -162,15 +162,15 @@ class ProofAdmin extends AbstractAdmin
         $filter
             ->add('id', null, ['label' => 'label.id'])
             ->add('player', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player'
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'pseudo'],
+                'label' => 'label.player'
             ])
             ->add('player.pseudo', null, ['label' => 'label.pseudo'])
             ->add('chart.group.game', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>$this->getLibGame()],
-                 'label' => 'label.game'
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => $this->getLibGame()],
+                'label' => 'label.game'
             ])
             ->add('chart.group.game.libGameEn', null, ['label' => 'label.game.en'])
             ->add('chart.group.game.libGameFr', null, ['label' => 'label.game.fr'])
@@ -184,9 +184,9 @@ class ProofAdmin extends AbstractAdmin
             ])
             ->add('playerChart.status', null, ['label' => 'label.playerChart.status'])
             ->add('playerResponding', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player.responding'
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'pseudo'],
+                'label' => 'label.player.responding'
             ]);
     }
 
@@ -326,6 +326,10 @@ class ProofAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
 
+        $this->messageBuilder
+            ->setSender($em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0))
+            ->setType(self::MESSAGE_TYPE_PROOF);
+
         // Cant change status final (CLOSED & REFUSED)
         if (in_array($originalObject['status'], array(Proof::STATUS_CLOSED, Proof::STATUS_REFUSED), true)) {
             $object->setStatus($originalObject['status']);
@@ -345,19 +349,19 @@ class ProofAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messager->send(
-                $this->getTranslator()->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()),
-                sprintf(
-                    $this->getTranslator()->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
-                    $recipient->getUsername(),
-                    $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                    $object->getResponse()
-                ),
-                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                $recipient,
-                'VGR_PROOF'
-            );
+            $this->messageBuilder
+                ->setObject($this->getTranslator()->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()))
+                ->setMessage(
+                    sprintf(
+                         $this->getTranslator()->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $url,
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                        $object->getResponse()
+                    )
+                )
+                ->setRecipient($recipient)
+                ->send();
         }
 
         // REFUSED
@@ -376,19 +380,19 @@ class ProofAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messager->send(
-                $this->getTranslator()->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()),
-                sprintf(
-                    $this->getTranslator()->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
-                    $recipient->getUsername(),
-                    $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                    $object->getResponse()
-                ),
-                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                $recipient,
-                'VGR_PROOF'
-            );
+            $this->messageBuilder
+                ->setObject($this->getTranslator()->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()))
+                ->setMessage(
+                    sprintf(
+                        $this->getTranslator()->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $url,
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                        $object->getResponse()
+                    )
+                )
+                ->setRecipient($recipient)
+                ->send();
         }
 
         // Player Responding

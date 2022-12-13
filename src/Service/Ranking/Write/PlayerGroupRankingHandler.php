@@ -71,7 +71,7 @@ class PlayerGroupRankingHandler implements RankingCommandInterface
             $query->setParameter('rank', $i);
             $result = $query->getResult();
             foreach ($result as $row) {
-                $data["chartRank$i"][$row['id']] = $row['nb'];
+                $data['chartRank' . $i][$row['id']] = $row['nb'];
             }
         }
 

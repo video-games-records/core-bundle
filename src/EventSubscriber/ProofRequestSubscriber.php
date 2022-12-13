@@ -19,14 +19,14 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
     private EntityManagerInterface $em;
     private TranslatorInterface $translator;
 
-    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em,  TranslatorInterface $translator)
+    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $this->tokenStorage = $tokenStorage;
         $this->em = $em;
         $this->translator = $translator;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['setPlayerRequesting', EventPriorities::POST_VALIDATE],
@@ -46,12 +46,12 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
 
         if (($request instanceof ProofRequest) && ($method == Request::METHOD_POST)) {
             $token = $this->tokenStorage->getToken();
-            $player =  $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
+            $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
                 ->getPlayerFromUser($token->getUser());
 
             $nbRequest = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\ProofRequest')->getNbRequestFromToDay($player);
             if ($nbRequest >= $nb) {
-                 throw new PostException(sprintf($this->translator->trans('proof.request.send.refuse'), $nb));
+                throw new PostException(sprintf($this->translator->trans('proof.request.send.refuse'), $nb));
             }
             $request->setPlayerRequesting($player);
         }

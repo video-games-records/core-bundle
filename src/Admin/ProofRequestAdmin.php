@@ -6,7 +6,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use ProjetNormandie\MessageBundle\Service\Messager;
+use ProjetNormandie\MessageBundle\Service\MessageBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -23,28 +23,29 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
+use VideoGamesRecords\CoreBundle\Interface\MessageTypeInterface;
 
-class ProofRequestAdmin extends AbstractAdmin
+class ProofRequestAdmin extends AbstractAdmin implements MessageTypeInterface
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
-    /** @var Messager */
-    private Messager $messager;
+    /** @var MessageBuilder */
+    private MessageBuilder $messageBuilder;
 
     /** @var ContainerInterface */
     private ContainerInterface $container;
 
-    public function setMessager(Messager $messager): void
+    public function setMessageBuilder(MessageBuilder $messageBuilder): void
     {
-        $this->messager = $messager;
+        $this->messageBuilder = $messageBuilder;
     }
 
-    public function setContainer (ContainerInterface $container)
+    public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-     /**
+    /**
      * @return string
      */
     private function getLibGame(): string
@@ -151,19 +152,19 @@ class ProofRequestAdmin extends AbstractAdmin
                 ]
             ])
             ->add('playerChart.player', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property'=>'pseudo'],
+                'label' => 'label.player',
             ])
             ->add('playerRequesting', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player.requesting',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property'=>'pseudo'],
+                'label' => 'label.player.requesting',
             ])
             ->add('playerResponding', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-                 'label' => 'label.player.responding',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property'=>'pseudo'],
+                'label' => 'label.player.responding',
             ]);
     }
 
@@ -195,7 +196,7 @@ class ProofRequestAdmin extends AbstractAdmin
                     array('fieldName' => 'player'),
                 )
             ])
-             ->add('playerChart.chart.group.game', null, [
+            ->add('playerChart.chart.group.game', null, [
                 'associated_property' =>  $this->getLibGame(),
                 'label' => 'label.name',
                 'sortable' => true,
@@ -267,7 +268,7 @@ class ProofRequestAdmin extends AbstractAdmin
      */
     public function preValidate($object): void
     {
-        $player =  $this->getPlayer();
+        $player = $this->getPlayer();
 
         if ($player) {
             if (($object->getPlayerRequesting()->getId() === $player->getId())
@@ -303,6 +304,10 @@ class ProofRequestAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
 
+        $this->messageBuilder
+            ->setSender($em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0))
+            ->setType(self::MESSAGE_TYPE_PROOF_REQUEST);
+
         $setPlayerResponding = false;
 
         // Cant change status final
@@ -319,34 +324,35 @@ class ProofRequestAdmin extends AbstractAdmin
             // Send MP (1)
             $recipient = $object->getPlayerChart()->getPlayer()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messager->send(
-                $this->getTranslator()->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()),
-                sprintf(
-                    $this->getTranslator()->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
-                    $recipient->getUsername(),
-                    $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
-                ),
-                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                $recipient,
-                'VGR_PROOF_REQUEST'
-            );
+            $this->messageBuilder
+                ->setObject($this->getTranslator()->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()))
+                ->setMessage(
+                    sprintf(
+                        $this->getTranslator()->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $url,
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
+                    )
+                )
+                ->setRecipient($recipient)
+                ->send();
+
             // Send MP (2)
             $recipient = $object->getPlayerRequesting()->getUser();
-            $this->messager->send(
-                $this->getTranslator()->trans('proof.request.accept.object', array(), null, $recipient->getLocale()),
-                sprintf(
-                    $this->getTranslator()->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
-                    $recipient->getUsername(),
-                    $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                    $object->getPlayerChart()->getPlayer()->getPseudo(),
-                    $object->getResponse()
-                ),
-                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                $recipient,
-                'VGR_PROOF_REQUEST'
-            );
+            $this->messageBuilder
+                ->setObject($this->getTranslator()->trans('proof.request.accept.object', array(), null, $recipient->getLocale()))
+                ->setMessage(
+                    sprintf(
+                        $this->getTranslator()->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $url,
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                        $object->getPlayerChart()->getPlayer()->getPseudo(),
+                        $object->getResponse()
+                    )
+                )
+                ->setRecipient($recipient)
+                ->send();
         }
 
         // REFUSED
@@ -357,20 +363,20 @@ class ProofRequestAdmin extends AbstractAdmin
             $setPlayerResponding = true;
             $recipient = $object->getPlayerRequesting()->getUser();
             $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messager->send(
-                $this->getTranslator()->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()),
-                sprintf(
-                    $this->getTranslator()->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
-                    $recipient->getUsername(),
-                    $url,
-                    $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                    $object->getPlayerChart()->getPlayer()->getPseudo(),
-                    $object->getResponse()
-                ),
-                $em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0),
-                $recipient,
-                'VGR_PROOF_REQUEST'
-            );
+            $this->messageBuilder
+                ->setObject($this->getTranslator()->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()))
+                ->setMessage(
+                    sprintf(
+                        $this->getTranslator()->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
+                        $recipient->getUsername(),
+                        $url,
+                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
+                        $object->getPlayerChart()->getPlayer()->getPseudo(),
+                        $object->getResponse()
+                    )
+                )
+                ->setRecipient($recipient)
+                ->send();
         }
 
         if ($setPlayerResponding) {

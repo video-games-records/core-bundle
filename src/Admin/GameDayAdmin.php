@@ -72,10 +72,12 @@ class GameDayAdmin extends AbstractAdmin
     {
         $filter
             ->add('day')
-            ->add('game', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'libGameEn'],
-            ]);
+            ->add(
+                'game', ModelFilter::class, [
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'libGameEn'],
+            ]
+            );
     }
 
     /**

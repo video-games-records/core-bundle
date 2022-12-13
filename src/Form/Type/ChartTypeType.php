@@ -14,19 +14,16 @@ class ChartTypeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'type', EntityType::class,
-                [
+        $builder->add(
+                'type', EntityType::class, [
                     'class' => ChartType::class,
-                    'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('ct')
                             ->orderBy('ct.name', 'ASC');
                     },
                     'choice_label' => 'name'
                 ]
             )
-            ->add('submit', SubmitType::class)
-        ;
+            ->add('submit', SubmitType::class);
     }
 }

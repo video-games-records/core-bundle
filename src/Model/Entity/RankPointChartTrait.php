@@ -9,7 +9,7 @@ trait RankPointChartTrait
     /**
      * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
      */
-    private int $rankPointChart = 0;
+    private ?int $rankPointChart = 0;
 
     /**
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
@@ -18,11 +18,12 @@ trait RankPointChartTrait
 
     /**
      * @param int $rankPointChart
-     * @return void
+     * @return $this
      */
-    public function setRankPointChart(int $rankPointChart): void
+    public function setRankPointChart(int $rankPointChart): static
     {
         $this->rankPointChart = $rankPointChart;
+        return $this;
     }
 
     /**
@@ -37,11 +38,12 @@ trait RankPointChartTrait
 
     /**
      * @param int $pointChart
-     * @return void
+     * @return $this
      */
-    public function setPointChart(int $pointChart): void
+    public function setPointChart(int $pointChart): static
     {
         $this->pointChart = $pointChart;
+        return $this;
     }
 
     /**

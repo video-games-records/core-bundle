@@ -136,7 +136,6 @@ class PlayerAdmin extends AbstractAdmin
                 ->add('gameRank1', null, ['label' => 'label.gameRank1'])
                 ->add('gameRank2', null, ['label' => 'label.gameRank2'])
                 ->add('gameRank3', null, ['label' => 'label.gameRank3'])
-           ->end()
-           ;
+            ->end();
     }
 }

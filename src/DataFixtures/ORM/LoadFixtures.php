@@ -21,6 +21,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
+use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 /**
  * Defines the sample data to load in the database when running the unit and
@@ -125,7 +126,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
                 'LibGameEn' => 'Burnout 2',
                 'libGameFr' => 'Burnout 2',
                 'platforms' => [1, 2, 3],
-                'status'    => Game::STATUS_ACTIVE,
+                'status'    => GameStatus::STATUS_ACTIVE,
             ],
             [
                 'idGame'    => 2,
@@ -167,7 +168,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
                 'libGameFr' => 'Mario Kart Double Dash',
                 'idSerie'   => 2,
                 'platforms' => [1],
-                'status'    => Game::STATUS_ACTIVE,
+                'status'    => GameStatus::STATUS_ACTIVE,
             ],
         ];
 
@@ -185,8 +186,8 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
                     $game->addPlatform($this->getReference('platform.' . $id));
                 }
             }
-            if (isset($row['status']) && Game::STATUS_ACTIVE === $row['status']) {
-                $game->setStatus(Game::STATUS_ACTIVE);
+            if (isset($row['status']) && GameStatus::STATUS_ACTIVE === $row['status']) {
+                $game->setStatus(GameStatus::STATUS_ACTIVE);
             }
             $manager->persist($game);
             $this->addReference('game' . $game->getId(), $game);

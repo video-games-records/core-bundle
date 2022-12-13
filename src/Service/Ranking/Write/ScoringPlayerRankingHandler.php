@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class ScoringPlayerRankingHandler
 {
@@ -40,7 +41,7 @@ class ScoringPlayerRankingHandler
         /** @var Chart $chart */
         foreach ($charts as $chart) {
             $this->playerChartRankingHandler->handle($chart->getId());
-            $chart->setStatusPlayer(Chart::STATUS_NORMAL);
+            $chart->setStatusPlayer(ChartStatus::STATUS_NORMAL);
         }
 
         $groups = $this->playerChartRankingHandler->getGroups();
@@ -75,13 +76,13 @@ class ScoringPlayerRankingHandler
 
     private function getChartsToUpdate()
     {
-         $query = $this->em->createQueryBuilder()
+        $query = $this->em->createQueryBuilder()
             ->select('ch')
             ->from('VideoGamesRecords\CoreBundle\Entity\Chart', 'ch')
             ->join('ch.group', 'gr')
             ->addSelect('gr')
             ->andWhere('ch.statusPlayer = :status')
-            ->setParameter('status', Chart::STATUS_MAJ)
+            ->setParameter('status', ChartStatus::STATUS_MAJ)
             ->setMaxResults(100);
 
         return $query->getQuery()->getResult();

@@ -7,16 +7,15 @@ use function VideoGamesRecords\CoreBundle\File\mb_strtolower;
 
 class Picture
 {
-
     protected $picture = null;
 
-    protected $fonts = array();
-    protected $colors = array();
+    protected array $fonts = [];
+    protected array $colors = [];
 
-    protected $activeColor = null;
-    protected $activeFont = null;
+    protected ?string $activeColor = null;
+    protected ?string $activeFont = null;
 
-    protected $mimeTypes = array(
+    protected array $mimeTypes = [
         'bmp' => 'image/bmp',
         'gif' => 'image/gif',
         'jpeg' => 'image/jpeg',
@@ -24,7 +23,7 @@ class Picture
         'png' => 'image/png',
         'wbmp' => 'image/vnd.wap.wbmp',
         'xbm' => 'image/x-xbitmap',
-    );
+    ];
 
     /**
      * Picture constructor.
@@ -32,10 +31,10 @@ class Picture
      * @param      $height
      * @param bool $trueColor
      */
-    public function __construct($width, $height, $trueColor = true)
+    public function __construct($width, $height, bool $trueColor = true)
     {
-        $width = (int)$width;
-        $height = (int)$height;
+        $width = (int) $width;
+        $height = (int) $height;
 
         if ($trueColor) {
             $this->picture = imagecreatetruecolor($width, $height);
@@ -54,9 +53,9 @@ class Picture
 
     /**
      * @param $picture
-     * @return $this
+     * @return Picture
      */
-    public function setPicture($picture)
+    public function setPicture($picture): Picture
     {
         $this->picture = $picture;
         return $this;
@@ -117,10 +116,10 @@ class Picture
     /**
      * @param $name
      * @param $filePath
-     * @return $this
+     * @return Picture
      * @throws Exception
      */
-    public function addFont($name, $filePath)
+    public function addFont($name, $filePath): Picture
     {
         $fontPath = realpath($filePath);
         if ($fontPath === false) {
@@ -136,10 +135,10 @@ class Picture
      * @param      $red
      * @param      $green
      * @param      $blue
-     * @param null $alpha
-     * @return $this
+     * @param      $alpha
+     * @return Picture
      */
-    public function addColor($name, $red, $green, $blue, $alpha = null)
+    public function addColor($name, $red, $green, $blue, $alpha = null): Picture
     {
         $red %= 256;
         $green %= 256;
@@ -165,7 +164,7 @@ class Picture
      * @param null              $dstH
      * @param null              $srcW
      * @param null              $srcH
-     * @return $this
+     * @return Picture
      */
     public function copyResized(
         Picture $pic,
@@ -177,7 +176,7 @@ class Picture
         $dstH = null,
         $srcW = null,
         $srcH = null
-    ) {
+    ): Picture {
         $dstW = is_null($dstW) ? $pic->getWidth() : $dstW;
         $dstH = is_null($dstH) ? $pic->getHeight() : $dstH;
         $srcW = is_null($srcW) ? $pic->getWidth() : $srcW;
@@ -193,10 +192,10 @@ class Picture
      * @param      $xB
      * @param      $yB
      * @param null $color
-     * @return $this
+     * @return Picture
      * @throws Exception
      */
-    public function addRectangle($xA, $yA, $xB, $yB, $color = null)
+    public function addRectangle($xA, $yA, $xB, $yB, $color = null): Picture
     {
         if ($color === null) {
             $color = $this->activeColor;
@@ -216,10 +215,10 @@ class Picture
      * @param int  $angle
      * @param null $color
      * @param null $font
-     * @return $this
+     * @return Picture
      * @throws Exception
      */
-    public function write($message, $size, $x, $y, $angle = 0, $color = null, $font = null)
+    public function write($message, $size, $x, $y, $angle = 0, $color = null, $font = null): Picture
     {
         if ($color === null) {
             $color = $this->activeColor;
@@ -243,7 +242,7 @@ class Picture
      * @return Picture
      * @throws Exception
      */
-    public static function loadFile($file, $keepTrueColor = false)
+    public static function loadFile($file, bool $keepTrueColor = false): Picture
     {
         $file = realpath($file);
         if ($file === false) {

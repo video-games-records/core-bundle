@@ -9,6 +9,7 @@ use Doctrine\ORM\ORMException;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class PlayerChartListener
 {
@@ -28,8 +29,8 @@ class PlayerChartListener
         // Chart
         $chart = $playerChart->getChart();
         $chart->setNbPost($chart->getNbPost() + 1);
-        $chart->setStatusPlayer(Chart::STATUS_MAJ);
-        $chart->setStatusTeam(Chart::STATUS_MAJ);
+        $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
+        $chart->setStatusTeam(ChartStatus::STATUS_MAJ);
 
         // Player
         $player = $playerChart->getPlayer();
@@ -53,7 +54,7 @@ class PlayerChartListener
 
         if (array_key_exists('platform', $this->changeSet)) {
             $chart = $playerChart->getChart();
-            $chart->setStatusPlayer(Chart::STATUS_MAJ);
+            $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
         }
 
         $playerChart->setTopScore(false);
@@ -81,7 +82,7 @@ class PlayerChartListener
         }
     }
 
-     /**
+    /**
      * @param PlayerChart              $playerChart
      * @param LifecycleEventArgs $event
      * @throws ORMException
@@ -92,8 +93,8 @@ class PlayerChartListener
 
         if ((array_key_exists('lastUpdate', $this->changeSet)) || (array_key_exists('status', $this->changeSet))) {
             $chart = $playerChart->getChart();
-            $chart->setStatusPlayer(Chart::STATUS_MAJ);
-            $chart->setStatusTeam(Chart::STATUS_MAJ);
+            $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
+            $chart->setStatusTeam(ChartStatus::STATUS_MAJ);
         }
 
         if (array_key_exists('status', $this->changeSet)) {
@@ -123,13 +124,13 @@ class PlayerChartListener
      * @param PlayerChart            $playerChart
      * @param LifecycleEventArgs $event
      */
-    public function preRemove(PlayerChart $playerChart,  LifecycleEventArgs $event): void
+    public function preRemove(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
-         // Chart
+        // Chart
         $chart = $playerChart->getChart();
         $chart->setNbPost($chart->getNbPost() - 1);
-        $chart->setStatusPlayer(Chart::STATUS_MAJ);
-        $chart->setStatusTeam(Chart::STATUS_MAJ);
+        $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
+        $chart->setStatusTeam(ChartStatus::STATUS_MAJ);
 
         // Player
         $player = $playerChart->getPlayer();

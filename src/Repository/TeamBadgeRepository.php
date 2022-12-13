@@ -33,7 +33,7 @@ class TeamBadgeRepository extends DefaultRepository
     }
 
 
-     /**
+    /**
      * @param array $teams
      * @param Badge $badge
      * @throws Exception

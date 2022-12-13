@@ -54,7 +54,7 @@ class PlayerChartController extends AbstractController
             ]
         );
 
-        if (!$chart->isStatusPlayerNormal()) {
+        if (!$chart->getStatusPlayer()->isNormal()) {
             $i = 1;
             foreach ($ranking as $row) {
                 $row[0]->setRank($i);
@@ -62,7 +62,7 @@ class PlayerChartController extends AbstractController
             }
         }
 
-        for ($i=0; $i<=count($ranking)-1; $i++) {
+        for ($i = 0; $i <= count($ranking) - 1; $i++) {
             foreach ($chart->getLibs() as $lib) {
                 $key = $lib->getIdLibChart();
                 // format value
@@ -79,11 +79,11 @@ class PlayerChartController extends AbstractController
      * @param Chart    $chart
      * @return array
      */
-    public function getRankingDisabled(Chart $chart)
+    public function getRankingDisabled(Chart $chart): array
     {
         $ranking = $this->playerChartRankingQuery->getRankingDisabled($chart);
 
-        for ($i=0; $i<=count($ranking)-1; $i++) {
+        for ($i = 0; $i <= count($ranking) - 1; $i++) {
             foreach ($chart->getLibs() as $lib) {
                 $key = $lib->getIdLibChart();
                 // format value

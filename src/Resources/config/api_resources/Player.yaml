@@ -6,7 +6,7 @@ resources:
             stats:
                 method: 'GET'
                 path: '/players/stats'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::stats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\StatsController::getWebsiteStats'
             player-ranking-point-chart:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.pointChart,player.team,team.read.mini,player.country,country.read]}
@@ -81,15 +81,11 @@ resources:
                 method: 'GET'
                 path: '/players/{id}/nb-new-lost-position'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\LostPositionController::getPlayerNbNewLostPosition'
-            can-ask-proof:
-                method: 'GET'
-                path: '/players/{id}/can-ask-proof'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::canAskProof'
-            player-chart-status:
+            player-chart-stats:
                 method: 'GET'
                 normalization_context: {'groups': [playerChartStatus.read]}
-                path: '/players/{id}/player-chart-statuses'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::playerChartStatus'
+                path: '/players/{id}/player-chart-stats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartStatsController::load'
             game-stats:
                 method: 'GET'
                 normalization_context: { 'groups': [playerGame.game, game.stats, playerGame.proof, playerGame.statuses, playerChartStatus.read, game.read.mini, game.platforms, platform.read]}

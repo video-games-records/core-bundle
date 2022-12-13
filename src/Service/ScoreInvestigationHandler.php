@@ -22,7 +22,9 @@ class ScoreInvestigationHandler
     public function process(): void
     {
         $list = $this->getScoreToDesactivate();
-        $statut = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', PlayerChartStatus::ID_STATUS_NOT_PROOVED);
+        $statut = $this->em->getReference(
+            'VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', PlayerChartStatus::ID_STATUS_NOT_PROOVED
+        );
         /** @var PlayerChart $playerChart */
         foreach ($list as $playerChart) {
             $playerChart->setStatus($statut);
@@ -30,7 +32,7 @@ class ScoreInvestigationHandler
         $this->em->flush();
     }
 
-     /**
+    /**
      * @return array
      */
     private function getScoreToDesactivate(): array
@@ -45,6 +47,7 @@ class ScoreInvestigationHandler
             ->setParameter('idStatus', PlayerChartStatus::ID_STATUS_INVESTIGATION)
             ->andWhere('pc.dateInvestigation < :date')
             ->setParameter('date', $date->format('Y-m-d'));
-        return $query->getQuery()->getResult();
+        return $query->getQuery()
+            ->getResult();
     }
 }

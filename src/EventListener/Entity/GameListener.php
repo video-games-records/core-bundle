@@ -10,6 +10,7 @@ use Doctrine\ORM\ORMException;
 use ProjetNormandie\ForumBundle\Manager\ForumManager;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 class GameListener
 {
@@ -28,11 +29,10 @@ class GameListener
     /**
      * @param Game               $game
      * @param LifecycleEventArgs $event
-     * @throws ORMException
      */
-    public function prePersist(Game $game, LifecycleEventArgs $event)
+    public function prePersist(Game $game, LifecycleEventArgs $event): void
     {
-        if ($game->getLibGameFr() == null) {
+        if (null === $game->getLibGameFr()) {
             $game->setLibGameFr($game->getLibGameEn());
         }
         $forum = $this->forumManager->getForum([
@@ -52,7 +52,7 @@ class GameListener
      * @param Game       $game
      * @param PreUpdateEventArgs $event
      */
-    public function preUpdate(Game $game, PreUpdateEventArgs $event)
+    public function preUpdate(Game $game, PreUpdateEventArgs $event): void
     {
         $changeSet = $event->getEntityChangeSet();
 
@@ -60,18 +60,12 @@ class GameListener
             $this->majPlayers = true;
         }
 
-        if (($game->getStatus() == Game::STATUS_ACTIVE) && ($game->getPublishedAt() == null)) {
+        if ($game->getStatus()->isActive() && ($game->getPublishedAt() == null)) {
             $game->setPublishedAt(new DateTime());
         }
 
-        if (array_key_exists('status', $changeSet)) {
-            if (($changeSet['status'][0] == Game::STATUS_INACTIVE) && ($changeSet['status'][1] == Game::STATUS_ACTIVE)) {
-                $game->setEtat(Game::ETAT_END);
-            }
-        }
-
         if (array_key_exists('picture', $changeSet)) {
-            $game->setEtat(Game::ETAT_PICTURE);
+            $game->setStatus(GameStatus::STATUS_ADD_SCORE);
         }
     }
 
@@ -81,9 +75,9 @@ class GameListener
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function postUpdate(Game $game, LifecycleEventArgs $event)
+    public function postUpdate(Game $game, LifecycleEventArgs $event): void
     {
-        $em = $event->getEntityManager();
+        $em = $event->getObjectManager();
         if ($this->majPlayers) {
             foreach ($game->getPlayerGame() as $playerGame) {
                 $playerGame->getPlayer()->setBoolMaj(true);

@@ -71,7 +71,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
     /**
      * Set id
      * @param integer $id
-     * @return $this
+     * @return Rule
      */
     public function setId(int $id): Rule
     {
@@ -81,10 +81,9 @@ class Rule implements TranslatableInterface, TimestampableInterface
 
     /**
      * Get id
-     *
-     * @return integer
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -93,7 +92,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      * Set namepseudo
      *
      * @param string $name
-     * @return $this
+     * @return Rule
      */
     public function setName(string $name): Rule
     {
@@ -104,8 +103,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
 
     /**
      * Get name
-     *
-     * @return string
+     * @return string|null
      */
     public function getName(): ?string
     {
@@ -116,7 +114,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
      * Set player
      *
      * @param Player $player
-     * @return $this
+     * @return Rule
      */
     public function setPlayer(Player $player): Rule
     {
@@ -127,8 +125,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
 
     /**
      * Get player
-     *
-     * @return Player
+     * @return Player|null
      */
     public function getPlayer(): ?Player
     {
@@ -138,7 +135,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
 
     /**
      * @param string $text
-     * @return $this
+     * @return Rule
      */
     public function setText(string $text): Rule
     {
@@ -148,7 +145,7 @@ class Rule implements TranslatableInterface, TimestampableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getText(): ?string
     {

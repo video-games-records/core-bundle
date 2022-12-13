@@ -13,6 +13,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 /**
  * Chart
@@ -34,11 +35,6 @@ class Chart implements SluggableInterface, TimestampableInterface
 {
     use TimestampableTrait;
     use SluggableTrait;
-
-    const STATUS_NORMAL = 'NORMAL';
-    const STATUS_MAJ = 'MAJ';
-    const STATUS_GO_TO_MAJ = 'goToMAJ';
-    const STATUS_ERROR = 'ERROR';
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -134,10 +130,10 @@ class Chart implements SluggableInterface, TimestampableInterface
         return $this->libChartEn;
     }
 
-     /**
-     * @return string
+    /**
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         $locale = Locale::getDefault();
         if ($locale == 'fr') {
@@ -154,13 +150,15 @@ class Chart implements SluggableInterface, TimestampableInterface
     public function getCompleteName(string $locale = 'en'): string
     {
         if ($locale == 'fr') {
-            return $this->getGroup()->getGame()->getLibGameFr() . ' - ' .
-            $this->getGroup()->getLibGroupFr()  . ' - ' .
-            $this->getLibChartFr();
+            return $this->getGroup()
+                    ->getGame()
+                    ->getLibGameFr() . ' - ' . $this->getGroup()
+                    ->getLibGroupFr() . ' - ' . $this->getLibChartFr();
         } else {
-            return $this->getGroup()->getGame()->getLibGameEn() . ' - ' .
-            $this->getGroup()->getLibGroupEn()  . ' - ' .
-            $this->getLibChartEn();
+            return $this->getGroup()
+                    ->getGame()
+                    ->getLibGameEn() . ' - ' . $this->getGroup()
+                    ->getLibGroupEn() . ' - ' . $this->getLibChartEn();
         }
     }
 
@@ -238,12 +236,13 @@ class Chart implements SluggableInterface, TimestampableInterface
     /**
      * Get statusPlayer
      *
-     * @return string
+     * @return ChartStatus
      */
-    public function getStatusPlayer(): string
+    public function getStatusPlayer(): ChartStatus
     {
-        return $this->statusPlayer;
+        return new ChartStatus($this->statusPlayer);
     }
+
 
     /**
      * Set statusTeam
@@ -260,11 +259,11 @@ class Chart implements SluggableInterface, TimestampableInterface
     /**
      * Get statusTeam
      *
-     * @return string
+     * @return ChartStatus
      */
-    public function getStatusTeam(): string
+    public function getStatusTeam(): ChartStatus
     {
-        return $this->statusTeam;
+        return new ChartStatus($this->statusTeam);
     }
 
     /**
@@ -425,23 +424,6 @@ class Chart implements SluggableInterface, TimestampableInterface
         );
     }
 
-    /**
-     * @return array
-     */
-    public static function getStatusChoices(): array
-    {
-        return [
-            'label.chart.status.normal' => self::STATUS_NORMAL,
-            'label.chart.status.maj' => self::STATUS_MAJ,
-            'label.chart.status.goToMaj' => self::STATUS_GO_TO_MAJ,
-            'label.chart.status.error' => self::STATUS_ERROR,
-        ];
-    }
-
-    public function isStatusPlayerNormal()
-    {
-        return self::STATUS_NORMAL === $this->statusPlayer;
-    }
 
     /**
      * Returns an array of the fields used to generate the slug.

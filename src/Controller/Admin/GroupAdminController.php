@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Form\Type\ChartTypeType;
 
 /**
@@ -61,13 +61,10 @@ class GroupAdminController extends CRUDController
      */
     public function addLibChartAction($id, Request $request)
     {
+        /** @var Group $object */
         $object = $this->admin->getSubject();
 
-        if (!$object) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
-        }
-
-        if ($object->getGame()->getStatus() == Game::STATUS_ACTIVE) {
+        if ($object->getGame()->getStatus()->isActive()) {
             $this->addFlash('sonata_flash_error', 'Game is already activated');
             return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));
         }

@@ -34,7 +34,7 @@ class RuleAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+        $query->leftJoin($query->getRootAliases()[0] . '.translations', 't')
             ->addSelect('t');
         return $query;
     }
@@ -49,7 +49,7 @@ class RuleAdmin extends AbstractAdmin
                 'label' => 'label.name',
                 'required' => true,
             ])
-             ->add(
+            ->add(
                 'player',
                 ModelListType::class,
                 [
@@ -106,7 +106,7 @@ class RuleAdmin extends AbstractAdmin
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('name', null, ['label' => 'label.name'])
-             ->add('player', null, [
+            ->add('player', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'label.player',
             ])

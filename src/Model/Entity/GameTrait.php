@@ -17,14 +17,12 @@ trait GameTrait
     private Game $game;
 
     /**
-     * Set game
      * @param Game|null $game
      * @return $this
      */
-    public function setGame(?Game $game = null): self
+    public function setGame(?Game $game = null): static
     {
         $this->game = $game;
-
         return $this;
     }
 

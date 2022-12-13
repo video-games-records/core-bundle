@@ -23,8 +23,7 @@ class DefaultRankingQuery
         TokenStorageToPlayerTransformer $tokenStorageToPlayerTransformer,
         TokenStorageToTeamTransformer $tokenStorageToTeamTransformer,
         TokenStorageInterface $tokenStorage
-    )
-    {
+    ) {
         $this->em = $em;
         $this->tokenStorageToPlayerTransformer = $tokenStorageToPlayerTransformer;
         $this->tokenStorageToTeamTransformer = $tokenStorageToTeamTransformer;
@@ -37,10 +36,9 @@ class DefaultRankingQuery
     protected function getPlayer(): ?Player
     {
         return $this->tokenStorageToPlayerTransformer->transform($this->tokenStorage->getToken());
-
     }
 
-     /**
+    /**
      * @throws ORMException
      */
     protected function getTeam(): ?Team

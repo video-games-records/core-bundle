@@ -14,7 +14,10 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
 /**
  * Team
  *
@@ -48,6 +51,10 @@ class Team implements SluggableInterface, TimestampableInterface
 {
     use TimestampableTrait;
     use SluggableTrait;
+    use RankCupTrait;
+    use RankMedalTrait;
+    use RankPointGameTrait;
+    use RankPointChartTrait;
 
     const STATUS_OPENED = 'OPENED';
     const STATUS_CLOSED = 'CLOSED';
@@ -132,58 +139,9 @@ class Team implements SluggableInterface, TimestampableInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
-     */
-    private $pointChart = 0;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="pointBadge", type="integer", nullable=false)
      */
     private $pointBadge = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="chartRank0", type="integer", nullable=true)
-     */
-    private $chartRank0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="chartRank1", type="integer", nullable=true)
-     */
-    private $chartRank1;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="chartRank2", type="integer", nullable=true)
-     */
-    private $chartRank2;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="chartRank3", type="integer", nullable=true)
-     */
-    private $chartRank3;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rankPointChart", type="integer", nullable=true)
-     */
-    private $rankPointChart;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rankMedal", type="integer", nullable=true)
-     */
-    private $rankMedal;
 
     /**
      * @var integer
@@ -195,58 +153,9 @@ class Team implements SluggableInterface, TimestampableInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="rankCup", type="integer", nullable=true)
-     */
-    private $rankCup;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="gameRank0", type="integer", nullable=true)
-     */
-    private $gameRank0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="gameRank1", type="integer", nullable=true)
-     */
-    private $gameRank1;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="gameRank2", type="integer", nullable=true)
-     */
-    private $gameRank2;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="gameRank3", type="integer", nullable=true)
-     */
-    private $gameRank3;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
      */
     private $nbMasterBadge = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointGame", type="integer", nullable=false)
-     */
-    private $pointGame = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rankPointGame", type="integer", nullable=true)
-     */
-    private $rankPointGame;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", mappedBy="team")
@@ -512,116 +421,6 @@ class Team implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * Set chartRank0
-     * @param integer $chartRank0
-     * @return Team
-     */
-    public function setChartRank0(int $chartRank0)
-    {
-        $this->chartRank0 = $chartRank0;
-
-        return $this;
-    }
-
-    /**
-     * Get chartRank0
-     *
-     * @return integer
-     */
-    public function getChartRank0()
-    {
-        return $this->chartRank0;
-    }
-
-    /**
-     * Set chartRank1
-     * @param integer $chartRank1
-     * @return Team
-     */
-    public function setChartRank1(int $chartRank1)
-    {
-        $this->chartRank1 = $chartRank1;
-
-        return $this;
-    }
-
-    /**
-     * Get chartRank1
-     *
-     * @return integer
-     */
-    public function getChartRank1()
-    {
-        return $this->chartRank1;
-    }
-
-    /**
-     * Set chartRank2
-     * @param integer $chartRank2
-     * @return Team
-     */
-    public function setChartRank2(int $chartRank2)
-    {
-        $this->chartRank2 = $chartRank2;
-
-        return $this;
-    }
-
-    /**
-     * Get chartRank2
-     *
-     * @return integer
-     */
-    public function getChartRank2()
-    {
-        return $this->chartRank2;
-    }
-
-    /**
-     * Set chartRank3
-     * @param integer $chartRank3
-     * @return Team
-     */
-    public function setChartRank3(int $chartRank3)
-    {
-        $this->chartRank3 = $chartRank3;
-
-        return $this;
-    }
-
-    /**
-     * Get chartRank3
-     *
-     * @return integer
-     */
-    public function getChartRank3()
-    {
-        return $this->chartRank3;
-    }
-
-    /**
-     * Set pointChart
-     * @param integer $pointChart
-     * @return Team
-     */
-    public function setPointChart(int $pointChart)
-    {
-        $this->pointChart = $pointChart;
-
-        return $this;
-    }
-
-    /**
-     * Get pointChart
-     *
-     * @return integer
-     */
-    public function getPointChart()
-    {
-        return $this->pointChart;
-    }
-
-    /**
      * Set pointBadge
      * @param integer $pointBadge
      * @return Team
@@ -641,50 +440,6 @@ class Team implements SluggableInterface, TimestampableInterface
     public function getPointBadge()
     {
         return $this->pointBadge;
-    }
-
-    /**
-     * Set rankPointChart
-     * @param integer $rankPointChart
-     * @return Team
-     */
-    public function setRankPointChart(int $rankPointChart)
-    {
-        $this->rankPointChart = $rankPointChart;
-
-        return $this;
-    }
-
-    /**
-     * Get rankPointChart
-     *
-     * @return integer
-     */
-    public function getRankPointChart()
-    {
-        return $this->rankPointChart;
-    }
-
-    /**
-     * Set rankMedal
-     * @param integer $rankMedal
-     * @return Team
-     */
-    public function setRankMedal(int $rankMedal)
-    {
-        $this->rankMedal = $rankMedal;
-
-        return $this;
-    }
-
-    /**
-     * Get rankMedal
-     *
-     * @return integer
-     */
-    public function getRankMedal()
-    {
-        return $this->rankMedal;
     }
 
     /**
@@ -710,117 +465,6 @@ class Team implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * Set rankCup
-     * @param integer $rankCup
-     * @return Team
-     */
-    public function setRankCup(int $rankCup)
-    {
-        $this->rankCup = $rankCup;
-
-        return $this;
-    }
-
-    /**
-     * Get rankCup
-     *
-     * @return integer
-     */
-    public function getRankCup()
-    {
-        return $this->rankCup;
-    }
-
-    /**
-     * Set gameRank0
-     * @param integer $gameRank0
-     * @return Team
-     */
-    public function setGameRank0(int $gameRank0)
-    {
-        $this->gameRank0 = $gameRank0;
-
-        return $this;
-    }
-
-    /**
-     * Get gameRank0
-     *
-     * @return integer
-     */
-    public function getgameRank0()
-    {
-        return $this->gameRank0;
-    }
-
-    /**
-     * Set gameRank1
-     * @param integer $gameRank1
-     * @return Team
-     */
-    public function setGameRank1(int $gameRank1)
-    {
-        $this->gameRank1 = $gameRank1;
-
-        return $this;
-    }
-
-    /**
-     * Get gameRank1
-     *
-     * @return integer
-     */
-    public function getGameRank1()
-    {
-        return $this->gameRank1;
-    }
-
-    /**
-     * Set gameRank2
-     * @param integer $gameRank2
-     * @return Team
-     */
-    public function setGameRank2(int $gameRank2)
-    {
-        $this->gameRank2 = $gameRank2;
-
-        return $this;
-    }
-
-    /**
-     * Get gameRank2
-     *
-     * @return integer
-     */
-    public function getGameRank2()
-    {
-        return $this->gameRank2;
-    }
-
-    /**
-     * Set gameRank3
-     * @param integer $gameRank3
-     * @return Team
-     */
-    public function setGameRank3(int $gameRank3)
-    {
-        $this->gameRank3 = $gameRank3;
-
-        return $this;
-    }
-
-    /**
-     * Get gameRank3
-     *
-     * @return integer
-     */
-    public function getGameRank3()
-    {
-        return $this->gameRank3;
-    }
-
-
-    /**
      * Set nbMasterBadge
      * @param integer $nbMasterBadge
      * @return Team
@@ -840,50 +484,6 @@ class Team implements SluggableInterface, TimestampableInterface
     public function getNbMasterBadge()
     {
         return $this->nbMasterBadge;
-    }
-
-    /**
-     * Set pointGame
-     * @param integer $pointGame
-     * @return Team
-     */
-    public function setPointGame(int $pointGame)
-    {
-        $this->pointGame = $pointGame;
-
-        return $this;
-    }
-
-    /**
-     * Get pointGame
-     *
-     * @return integer
-     */
-    public function getPointGame()
-    {
-        return $this->pointGame;
-    }
-
-    /**
-     * Set rankPointGame
-     * @param integer $rankPointGame
-     * @return Team
-     */
-    public function setRankPointGame(int $rankPointGame)
-    {
-        $this->rankPointGame = $rankPointGame;
-
-        return $this;
-    }
-
-    /**
-     * Get rankPointGame
-     *
-     * @return integer
-     */
-    public function getRankPointGame()
-    {
-        return $this->rankPointGame;
     }
 
     /**

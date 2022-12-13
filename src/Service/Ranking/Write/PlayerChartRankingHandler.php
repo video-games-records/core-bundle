@@ -29,7 +29,7 @@ class PlayerChartRankingHandler implements RankingCommandInterface
     {
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($mixed);
         if (null === $chart) {
-            return ;
+            return;
         }
 
         $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
@@ -85,8 +85,8 @@ class PlayerChartRankingHandler implements RankingCommandInterface
                 if ($previousLibValue === $libValue) {
                     ++$nbEqual;
                 } else {
-                    $rank             += $nbEqual;
-                    $nbEqual          = 1;
+                    $rank += $nbEqual;
+                    $nbEqual = 1;
                     $playerChartEqual = [];
                 }
 
@@ -109,7 +109,7 @@ class PlayerChartRankingHandler implements RankingCommandInterface
             $playerChart
                 ->setNbEqual($nbEqual)
                 ->setRank($rank)
-                ->setPointChart((int)(
+                ->setPointChart((int) (
                     array_sum(
                         array_slice(array_values($pointsChart), $playerChart->getRank() - 1, $playerChart->getNbEqual())
                     ) / $playerChart->getNbEqual()
@@ -126,7 +126,7 @@ class PlayerChartRankingHandler implements RankingCommandInterface
 
             if ($playerChart->getPlatform() != null) {
                 $idPlatForm = $playerChart->getPlatform()->getId();
-                $playerChart->setPointPlatform((int)(
+                $playerChart->setPointPlatform((int) (
                     array_sum(
                         array_slice(array_values($platforms[$idPlatForm]['points']), $platforms[$idPlatForm]['rank'] - 1, $platforms[$idPlatForm]['nbEqual'])
                     ) / $platforms[$idPlatForm]['nbEqual']

@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 class GameAdmin extends AbstractAdmin
 {
@@ -38,8 +41,8 @@ class GameAdmin extends AbstractAdmin
     {
         $collection
             ->remove('export')
-            ->add('copy', $this->getRouterIdParameter().'/copy')
-            ->add('maj', $this->getRouterIdParameter().'/maj');
+            ->add('copy', $this->getRouterIdParameter() . '/copy')
+            ->add('maj', $this->getRouterIdParameter() . '/maj');
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -94,7 +97,7 @@ class GameAdmin extends AbstractAdmin
                 ChoiceType::class,
                 [
                     'label' => 'label.status',
-                    'choices' => Game::getStatusChoices(),
+                    'choices' => GameStatus::getStatusChoices(),
                 ]
             )
             ->add('publishedAt', DateType::class, [
@@ -102,14 +105,6 @@ class GameAdmin extends AbstractAdmin
                 'required' => false,
                 'years' => range(2004, date('Y'))
             ])
-            ->add(
-                'etat',
-                ChoiceType::class,
-                [
-                    'label' => 'label.state',
-                    'choices' => Game::getEtatsChoices(),
-                ]
-            )
             ->add('boolRanking', CheckboxType::class, [
                 'label' => 'label.boolRanking',
                 'required' => false,
@@ -169,8 +164,14 @@ class GameAdmin extends AbstractAdmin
             ->add('serie', null, ['label' => 'label.serie'])
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('etat', null, ['label' => 'label.state'])
+            ->add('status', ChoiceFilter::class, [
+                'label' => 'label.status',
+                'field_type' => ChoiceType::class,
+                'field_options' => [
+                    'choices' => GameStatus::getStatusChoices(),
+                    'multiple' => false,
+                ]
+            ])
             ->add('boolRanking', null, ['label' => 'label.boolRanking']);
     }
 
@@ -197,8 +198,8 @@ class GameAdmin extends AbstractAdmin
 
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('libGameEn', null, ['label' => 'label.game.en','editable' => true])
-            ->add('libGameFr', null, ['label' => 'label.game.fr','editable' => true])
+            ->add('libGameEn', null, ['label' => 'label.game.en', 'editable' => true])
+            ->add('libGameFr', null, ['label' => 'label.game.fr', 'editable' => true])
             //->add('slug', null, ['label' => 'label.slug'])
             ->add(
                 'picture',
@@ -222,31 +223,20 @@ class GameAdmin extends AbstractAdmin
                 [
                     'label' => 'label.status',
                     'editable' => true,
-                    'choices' => Game::getStatusChoices(),
-                ]
-            )
-            ->add(
-                'etat',
-                'choice',
-                [
-                    'label' => 'label.state',
-                    'editable' => true,
-                    'choices' => Game::getEtatsChoices(),
+                    'choices' => GameStatus::getStatusChoices(),
                 ]
             )
             ->add('_action', 'actions', [
-                'actions' =>
-                    array_merge(
-                        [
-                            'show' => [],
-                            'edit' => [],
-                            'groups' => [
-                                'template' => '@VideoGamesRecordsCore/Admin/game_groups_link.html.twig'
-                            ]
-                        ],
-                        $btns
-                    )
-             ]);
+                'actions' => array_merge(
+                    [
+                        'show' => [],
+                        'edit' => [],
+                        'groups' => [
+                            'template' => '@VideoGamesRecordsCore/Admin/game_groups_link.html.twig'
+                        ]
+                    ], $btns
+                )
+            ]);
     }
 
     /**
@@ -261,7 +251,6 @@ class GameAdmin extends AbstractAdmin
             ->add('picture', null, ['label' => 'label.picture'])
             ->add('badge', null, ['label' => 'label.badge'])
             ->add('status', null, ['label' => 'label.status'])
-            ->add('etat', null, ['label' => 'label.state'])
             ->add('forum', null, ['label' => 'label.forum'])
             ->add('groups', null, ['label' => 'label.groups']);
     }

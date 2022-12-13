@@ -43,11 +43,10 @@ class GroupAdmin extends AbstractAdmin
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-        $collection
-            ->remove('export')
-            ->add('copy', $this->getRouterIdParameter().'/copy')
-            ->add('copy-with-lib-chart', $this->getRouterIdParameter().'/copy-with-lib-chart')
-            ->add('add-lib-chart', $this->getRouterIdParameter().'/add-lib-chart');
+        $collection->remove('export')
+            ->add('copy', $this->getRouterIdParameter() . '/copy')
+            ->add('copy-with-lib-chart', $this->getRouterIdParameter() . '/copy-with-lib-chart')
+            ->add('add-lib-chart', $this->getRouterIdParameter() . '/add-lib-chart');
     }
 
     /**
@@ -79,7 +78,7 @@ class GroupAdmin extends AbstractAdmin
             }
 
             if ($this->getRequest()->getSession()->has('vgrcorebundle_admin_group.idGame')) {
-                $idGame= $this->getRequest()->getSession()->get('vgrcorebundle_admin_group.idGame');
+                $idGame = $this->getRequest()->getSession()->get('vgrcorebundle_admin_group.idGame');
                 $entityManager = $this->getModelManager()
                     ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\Game');
                 $game = $entityManager->getReference('VideoGamesRecords\CoreBundle\Entity\Game', $idGame);
@@ -104,7 +103,7 @@ class GroupAdmin extends AbstractAdmin
             ]);
 
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
-            $btnCalalogue = (bool)$this->isCurrentRoute('create');
+            $btnCalalogue = (bool) $this->isCurrentRoute('create');
             $form->
                 add(
                     'game',
@@ -131,16 +130,14 @@ class GroupAdmin extends AbstractAdmin
 
         $subject = $this->getSubject();
 
-        if (
-        (strpos($this->getRequest()->getPathInfo(), 'videogamesrecords/core/group')
-            ||
-             (
-               ($this->getRequest()->getPathInfo() == '/admin/core/append-form-field-element')
-               &&
-               ($this->getRequest()->query->get('_sonata_admin') == 'sonata.admin.vgr.group')
-            ))
-            && (count($subject->getCharts()) < 50)
-        ) {
+        if ((strpos(
+                    $this->getRequest()
+                        ->getPathInfo(), 'videogamesrecords/core/group'
+                ) || (($this->getRequest()
+                            ->getPathInfo() == '/admin/core/append-form-field-element') && ($this->getRequest(
+                        )->query->get('_sonata_admin') == 'sonata.admin.vgr.group'))) && (count(
+                    $subject->getCharts()
+                ) < 50)) {
             $form->end()
                 ->with('label.charts')
                 ->add(
@@ -182,9 +179,9 @@ class GroupAdmin extends AbstractAdmin
             ->add('libGroupEn', null, ['label' => 'label.name.en'])
             ->add('libGroupFr', null, ['label' => 'label.name.fr'])
             ->add('game', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>$this->getLibGame()],
-                 'label' => 'label.game'
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => $this->getLibGame()],
+                'label' => 'label.game'
             ])
         ;
     }
@@ -211,8 +208,8 @@ class GroupAdmin extends AbstractAdmin
 
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('libGroupEn', null, ['label' => 'label.group.en','editable' => true])
-            ->add('libGroupFr', null, ['label' => 'label.group.fr','editable' => true])
+            ->add('libGroupEn', null, ['label' => 'label.group.en', 'editable' => true])
+            ->add('libGroupFr', null, ['label' => 'label.group.fr', 'editable' => true])
             //->add('slug', null, ['label' => 'label.slug'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),

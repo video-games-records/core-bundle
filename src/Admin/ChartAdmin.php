@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
+use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class ChartAdmin extends AbstractAdmin
 {
@@ -82,7 +83,7 @@ class ChartAdmin extends AbstractAdmin
             ));
 
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
-            $btnCalalogue = (bool)$this->isCurrentRoute('create');
+            $btnCalalogue = $this->isCurrentRoute('create');
             $form->
                 add(
                     'group', ModelListType::class, array_merge(
@@ -114,13 +115,13 @@ class ChartAdmin extends AbstractAdmin
                 ->add(
                     'statusPlayer', ChoiceType::class, array(
                         'label' => 'label.chart.statusPlayer',
-                        'choices' => Chart::getStatusChoices()
+                        'choices' => ChartStatus::getStatusChoices()
                     )
                 )
                 ->add(
                     'statusTeam', ChoiceType::class, array(
                         'label' => 'label.chart.statusTeam',
-                        'choices' => Chart::getStatusChoices()
+                        'choices' => ChartStatus::getStatusChoices()
                     )
                 );
         }
@@ -160,17 +161,16 @@ class ChartAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add($this->getLibChart(), null, ['label' => 'label.name'])
             ->add('group', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>$this->getLibGroup()],
-                 'label' => 'label.group',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => $this->getLibGroup()],
+                'label' => 'label.group',
             ])
             ->add(
-                'statusPlayer',
-                ChoiceFilter::class,[
+                'statusPlayer', ChoiceFilter::class, [
                     'label' => 'label.chart.statusPlayer',
                     'field_type' => ChoiceType::class,
                     'field_options' => [
-                        'choices' => Chart::getStatusChoices(),
+                        'choices' => ChartStatus::getStatusChoices(),
                         'multiple' => true,
                         'expanded' => false,
                         'choice_translation_domain' => true,
@@ -180,11 +180,11 @@ class ChartAdmin extends AbstractAdmin
             )
             ->add(
                 'statusTeam',
-                ChoiceFilter::class,[
+                ChoiceFilter::class, [
                     'label' => 'label.chart.statusTeam',
                     'field_type' => ChoiceType::class,
                     'field_options' => [
-                        'choices' => Chart::getStatusChoices(),
+                        'choices' => ChartStatus::getStatusChoices(),
                         'multiple' => true,
                         'expanded' => false,
                         'choice_translation_domain' => true,
@@ -201,8 +201,8 @@ class ChartAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('libChartEn', null, ['label' => 'label.chart.en','editable' => true])
-            ->add('libChartFr', null, ['label' => 'label.chart.fr','editable' => true])
+            ->add('libChartEn', null, ['label' => 'label.chart.en', 'editable' => true])
+            ->add('libChartFr', null, ['label' => 'label.chart.fr', 'editable' => true])
             //->add('slug', null, ['label' => 'label.slug'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),

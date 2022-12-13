@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
+use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 class GameRepository extends DefaultRepository
 {
@@ -25,12 +27,12 @@ class GameRepository extends DefaultRepository
      */
     public function getIds() : array
     {
-         return $this->createQueryBuilder('game')
-             ->select('game.id')
-             ->where('game.status = :status')
-             ->setParameter('status', Game::STATUS_ACTIVE)
-             ->getQuery()
-             ->getResult(AbstractQuery::HYDRATE_ARRAY);
+        return $this->createQueryBuilder('game')
+            ->select('game.id')
+            ->where('game.status = :status')
+            ->setParameter('status', GameStatus::STATUS_ACTIVE)
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
     /**
@@ -38,10 +40,10 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatCreation(): mixed
+    public function countStatusCreated(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereEtat($qb, Game::ETAT_INIT);
+        $this->whereStatus($qb, GameStatus::STATUS_CREATED);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -51,10 +53,10 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatRecord(): mixed
+    public function countStatusAddPicture(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereEtat($qb, Game::ETAT_CHART);
+        $this->whereStatus($qb, GameStatus::STATUS_ADD_PICTURE);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -64,10 +66,49 @@ class GameRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countEtatImage(): mixed
+    public function countStatusAddScore(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereEtat($qb, Game::ETAT_PICTURE);
+        $this->whereStatus($qb, GameStatus::STATUS_ADD_SCORE);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function countStatusCompleted(): mixed
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatus($qb, GameStatus::STATUS_COMPLETED);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countStatusActive(): mixed
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatus($qb, GameStatus::STATUS_ACTIVE);
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countStatusInactive(): mixed
+    {
+        $qb = $this->getCountQueryBuilder();
+        $this->whereStatus($qb, GameStatus::STATUS_INACTIVE);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -82,7 +123,7 @@ class GameRepository extends DefaultRepository
         $qb = $this->createQueryBuilder('game')
             ->select('COUNT(game.id)');
         $qb->where('game.status = :status')
-            ->setParameter('status', Game::STATUS_ACTIVE);
+            ->setParameter('status', GameStatus::STATUS_ACTIVE);
 
         return $qb->getQuery()
             ->getOneOrNullResult();
@@ -215,16 +256,15 @@ class GameRepository extends DefaultRepository
     }
 
     /**
-     * @param        $game
-     * @param string $status
+     * @param game $game
      */
-    public function majChartStatus($game, string $status = 'MAJ')
+    public function maj(Game $game)
     {
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
             ->set('c.statusPlayer', ':status')
             ->set('c.statusTeam', ':status')
-            ->setParameter('status', $status)
+            ->setParameter('status', ChartStatus::STATUS_MAJ)
             ->where('c.group IN (
                             SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
                         WHERE g.game = :game)')
@@ -242,7 +282,7 @@ class GameRepository extends DefaultRepository
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
             ->set('c.statusPlayer', ':status')
-            ->setParameter('status', Chart::STATUS_MAJ)
+            ->setParameter('status', ChartStatus::STATUS_MAJ)
             ->where('c.group IN (
                             SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
                         WHERE g.game = :game)')
@@ -261,7 +301,7 @@ class GameRepository extends DefaultRepository
      */
     private function getCountQueryBuilder(): QueryBuilder
     {
-         return $this->createQueryBuilder('g')
+        return $this->createQueryBuilder('g')
             ->select('COUNT(g.id)');
     }
 
@@ -273,18 +313,18 @@ class GameRepository extends DefaultRepository
     {
         $query
             ->andWhere('g.status = :status')
-            ->setParameter('status', Game::STATUS_ACTIVE);
+            ->setParameter('status', GameStatus::STATUS_ACTIVE);
     }
 
     /**
      * @param QueryBuilder $query
-     * @param string       $etat
+     * @param string       $status
      */
-    private function whereEtat(QueryBuilder $query, string $etat)
+    private function whereStatus(QueryBuilder $query, string $status)
     {
         $query
-            ->andWhere('g.etat = :etat')
-            ->setParameter('etat', $etat);
+            ->andWhere('g.status = :status')
+            ->setParameter('status', $status);
     }
 
     /**

@@ -14,8 +14,8 @@ use VideoGamesRecords\CoreBundle\Exception\PostException;
 
 final class TeamRequestSubscriber implements EventSubscriberInterface
 {
-    private $em;
-    private $translator;
+    private EntityManagerInterface $em;
+    private TranslatorInterface $translator;
 
     public function __construct(EntityManagerInterface $em, TranslatorInterface $translator)
     {
@@ -23,7 +23,7 @@ final class TeamRequestSubscriber implements EventSubscriberInterface
         $this->translator = $translator;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['validate', EventPriorities::POST_VALIDATE],
@@ -41,7 +41,7 @@ final class TeamRequestSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
 
         if (($requestA instanceof TeamRequest) && ($method == Request::METHOD_POST)) {
-            $requestB =  $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamRequest')
+            $requestB = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamRequest')
                 ->findOneBy(
                     array(
                         'player' => $requestA->getPlayer(),

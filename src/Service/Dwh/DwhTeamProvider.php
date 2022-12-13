@@ -20,7 +20,8 @@ class DwhTeamProvider implements DwhTableProviderInterface
      */
     public function getDataForDwh(): array
     {
-        $query = $this->em->createQuery("
+        $query = $this->em->createQuery(
+            "
             SELECT t.id,
                    t.pointChart,
                    t.pointBadge,
@@ -39,18 +40,20 @@ class DwhTeamProvider implements DwhTableProviderInterface
                    t.nbMasterBadge,
                    t.pointGame,
                    t.rankPointGame                  
-            FROM VideoGamesRecords\CoreBundle\Entity\Team t");
+            FROM VideoGamesRecords\CoreBundle\Entity\Team t"
+        );
         return $query->getResult();
     }
 
-      /**
+    /**
      * @param DateTime $date1
      * @param DateTime $date2
      * @return array
      */
     public function getNbPostDay(DateTime $date1, DateTime $date2): array
     {
-        $query = $this->em->createQuery("
+        $query = $this->em->createQuery(
+            "
             SELECT
                  t.id,
                  COUNT(pc.id) as nb
@@ -58,8 +61,8 @@ class DwhTeamProvider implements DwhTableProviderInterface
             JOIN pc.player p
             JOIN p.team t
             WHERE pc.lastUpdate BETWEEN :date1 AND :date2
-            GROUP BY t.id");
-
+            GROUP BY t.id"
+        );
 
         $query->setParameter('date1', $date1);
         $query->setParameter('date2', $date2);

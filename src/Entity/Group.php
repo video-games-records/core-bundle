@@ -9,9 +9,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use phpDocumentor\Reflection\Types\Boolean;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -114,9 +113,9 @@ class Group implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         $locale = Locale::getDefault();
         if ($locale == 'fr') {
@@ -184,7 +183,7 @@ class Group implements SluggableInterface, TimestampableInterface
 
     /**
      * Set boolDlc
-     * @param boolean $boolDlc
+     * @param bool $boolDlc
      * @return Group
      */
     public function setBoolDlc(bool $boolDlc)
@@ -196,7 +195,7 @@ class Group implements SluggableInterface, TimestampableInterface
 
     /**
      * Get boolDlc
-     * @return boolean
+     * @return bool
      */
     public function getBoolDlc()
     {

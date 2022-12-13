@@ -2,26 +2,24 @@
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\PlayerChartService;
+use VideoGamesRecords\CoreBundle\Service\ScoreInvestigationHandler;
 
-class ScoreInvestigationUpdate extends DefaultCommand
+class ScoreInvestigationUpdate extends Command
 {
     protected static $defaultName = 'vgr-core:score-investigation-update';
 
-    private PlayerChartService $playerChartService;
+    private ScoreInvestigationHandler $scoreInvestigationHandler;
 
-    public function __construct(
-        EntityManagerInterface $em,
-        PlayerChartService $playerChartService
-    ) {
-        $this->playerChartService = $playerChartService;
-        parent::__construct($em);
+    public function __construct(ScoreInvestigationHandler $scoreInvestigationHandler)
+    {
+        $this->scoreInvestigationHandler = $scoreInvestigationHandler;
+        parent::__construct();
     }
 
     protected function configure()
@@ -47,12 +45,7 @@ class ScoreInvestigationUpdate extends DefaultCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->init($input);
-        $function = $input->getArgument('function');
-        if ($function == 'maj-investigation') {
-            $this->playerChartService->majInvestigation();
-        }
-        $this->end($output);
-        return 0;
+        $this->scoreInvestigationHandler->process();
+        return Command::SUCCESS;
     }
 }

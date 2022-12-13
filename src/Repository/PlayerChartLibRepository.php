@@ -103,7 +103,7 @@ class PlayerChartLibRepository extends DefaultRepository
     /**
      * @return QueryBuilder
      */
-   /* private function getScoreQuery(): QueryBuilder
+    /*private function getScoreQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('pcl')
             ->join('pcl.libChart', 'lib')

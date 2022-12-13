@@ -20,7 +20,7 @@ class TeamRepository extends DefaultRepository
      * @return int|mixed|string|null
      * @throws NonUniqueResultException
      */
-    public function getStats()
+    public function getStats(): mixed
     {
         $qb = $this->createQueryBuilder('team')
             ->select('COUNT(team.id)');

@@ -2,64 +2,32 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Service\PlayerService;
+use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 /**
  * Class PlayerController
  */
 class PlayerController extends AbstractController
 {
-    private PlayerService $playerService;
+    private PlayerRepository $playerRepository;
 
-    public function __construct(PlayerService $playerService)
+    public function __construct(PlayerRepository $playerRepository)
     {
-        $this->playerService = $playerService;
+        $this->playerRepository = $playerRepository;
     }
 
     /**
      * @param Request $request
      * @return mixed
      */
-    public function autocomplete(Request $request)
+    public function autocomplete(Request $request): mixed
     {
         $q = $request->query->get('query', null);
-        return $this->playerService->autocomplete($q);
+        return $this->playerRepository->autocomplete($q);
     }
-
-    /**
-     * @return array
-     */
-    public function stats(): array
-    {
-        $playerStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getStats();
-        $gameStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->getStats();
-        $teamStats =  $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->getStats();
-
-        return array(
-            'nbPlayer' => $playerStats[1],
-            'nbChart' => $playerStats[2],
-            'nbChartProven' => $playerStats[3],
-            'nbGame' => $gameStats[1],
-            'nbTeam' => $teamStats[1],
-        );
-    }
-
-    /**
-     * @param Player $player
-     * @return bool
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function canAskProof(Player $player): bool
-    {
-        return $this->playerService->canAskProof($player);
-    }
-
 
     /**
      * @param Player    $player

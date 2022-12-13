@@ -77,7 +77,7 @@ class PlayerChartAdmin extends AbstractAdmin
             ->innerJoin('grp.game', 'game')
             ->addSelect('game');
 
-         return $query;
+        return $query;
     }
 
 
@@ -131,21 +131,27 @@ class PlayerChartAdmin extends AbstractAdmin
         $filter
             ->add('id', null, ['label' => 'label.id'])
             ->add('status', null, ['label' => 'label.status'])
-            ->add('player', ModelFilter::class, [
-                 'label' => 'label.player',
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'pseudo'],
-            ])
-            ->add('chart.group.game', ModelFilter::class, [
-                 'label' => 'label.game',
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'libGameEn'],
-            ])
-            ->add('chart.group', ModelFilter::class, [
-                 'label' => 'label.group',
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'libGroupEn'],
-            ])
+            ->add(
+                'player', ModelFilter::class, [
+                    'label' => 'label.player',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => ['property' => 'pseudo'],
+                ]
+            )
+            ->add(
+                'chart.group.game', ModelFilter::class, [
+                    'label' => 'label.game',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => ['property' => 'libGameEn'],
+                ]
+            )
+            ->add(
+                'chart.group', ModelFilter::class, [
+                    'label' => 'label.group',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => ['property' => 'libGroupEn'],
+                ]
+            )
             ->add('chart.id', null, ['label' => 'label.chart.id'])
             ->add('chart.libChartEn', null, ['label' => 'label.name.en'])
             ->add('chart.libChartFr', null, ['label' => 'label.name.fr']);
