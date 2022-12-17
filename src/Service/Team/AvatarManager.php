@@ -14,12 +14,12 @@ class AvatarManager
         'jpg' => 'image/jpeg'
     );
 
-    private FilesystemOperator $vgrCoreStorage;
+    private FilesystemOperator $appStorage;
 
 
-    public function __construct(FilesystemOperator $vgrCoreStorage)
+    public function __construct(FilesystemOperator $appStorage)
     {
-        $this->vgrCoreStorage = $vgrCoreStorage;
+        $this->appStorage = $appStorage;
     }
 
     /**
@@ -27,7 +27,7 @@ class AvatarManager
      */
     public function write(string $filename, string $contents): void
     {
-        $this->vgrCoreStorage->write($this->prefix . $filename, $contents);
+        $this->appStorage->write($this->prefix . $filename, $contents);
     }
 
 
@@ -37,11 +37,11 @@ class AvatarManager
     public function read(string $filename): StreamedResponse
     {
         $path = $this->prefix . $filename;
-        if (!$this->vgrCoreStorage->fileExists($path)) {
+        if (!$this->appStorage->fileExists($path)) {
             $path = $this->prefix . 'default.png';
         }
 
-        $stream = $this->vgrCoreStorage->readStream($path);
+        $stream = $this->appStorage->readStream($path);
         return new StreamedResponse(function() use ($stream) {
             fpassthru($stream);
             exit();

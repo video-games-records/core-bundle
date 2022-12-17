@@ -19,14 +19,14 @@ use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 class GameController extends AbstractController
 {
     private GameRepository $gameRepository;
-    private FilesystemOperator $vgrCoreStorage;
+    private FilesystemOperator $appStorage;
 
     private string $prefix = 'game/';
 
-    public function __construct(GameRepository $gameRepository, FilesystemOperator $vgrCoreStorage)
+    public function __construct(GameRepository $gameRepository, FilesystemOperator $appStorage)
     {
         $this->gameRepository = $gameRepository;
-        $this->vgrCoreStorage = $vgrCoreStorage;
+        $this->appStorage = $appStorage;
     }
 
     /**
@@ -63,11 +63,11 @@ class GameController extends AbstractController
     public function pictureAction(Game $game): StreamedResponse
     {
         $path = $this->prefix . $game->getPicture();
-        if (!$this->vgrCoreStorage->fileExists($path)) {
+        if (!$this->appStorage->fileExists($path)) {
             $path = $this->prefix . 'default.png';
         }
 
-        $stream = $this->vgrCoreStorage->readStream($path);
+        $stream = $this->appStorage->readStream($path);
         return new StreamedResponse(function() use ($stream) {
             fpassthru($stream);
         }, 200, ['Content-Type' => 'image/png']);

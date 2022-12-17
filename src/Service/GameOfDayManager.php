@@ -2,7 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Service;
 
-use Doctrine\ORM\ORMException;
+use Datetime;
 use VideoGamesRecords\CoreBundle\Entity\GameDay;
 use VideoGamesRecords\CoreBundle\Repository\GameDayRepository;
 use VideoGamesRecords\CoreBundle\Repository\GameRepository;
@@ -20,11 +20,10 @@ class GameOfDayManager
 
     /**
      * @return void
-     * @throws ORMException
      */
     public function add(): void
     {
-        $now = new \Datetime();
+        $now = new Datetime();
         $gameDay = $this->gameDayRepository->findOneBy(array('day' => $now));
         if (!$gameDay) {
             $games = $this->gameRepository->getIds();

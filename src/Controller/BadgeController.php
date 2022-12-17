@@ -16,13 +16,13 @@ use VideoGamesRecords\CoreBundle\Entity\Badge;
  */
 class BadgeController extends AbstractController
 {
-    private FilesystemOperator $vgrCoreStorage;
+    private FilesystemOperator $appStorage;
 
     private string $prefix = 'badge/';
 
-    public function __construct(FilesystemOperator $vgrCoreStorage)
+    public function __construct(FilesystemOperator $appStorage)
     {
-        $this->vgrCoreStorage = $vgrCoreStorage;
+        $this->appStorage = $appStorage;
     }
 
 
@@ -36,11 +36,11 @@ class BadgeController extends AbstractController
     public function pictureAction(Badge $badge): StreamedResponse
     {
         $path = $this->prefix . $badge->getType() . DIRECTORY_SEPARATOR . $badge->getPicture();
-        if (!$this->vgrCoreStorage->fileExists($path)) {
+        if (!$this->appStorage->fileExists($path)) {
             $path = $this->prefix . 'default.gif';
         }
 
-        $stream = $this->vgrCoreStorage->readStream($path);
+        $stream = $this->appStorage->readStream($path);
         return new StreamedResponse(function() use ($stream) {
             fpassthru($stream);
         }, 200, ['Content-Type' => 'image/gif']);

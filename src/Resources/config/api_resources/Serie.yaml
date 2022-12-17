@@ -5,7 +5,7 @@ resources:
                 normalization_context: {'groups': [serie.list]}
         itemOperations:
             get:
-                normalization_context: {'groups': [serie.read]}
+                normalization_context: {'groups': [serie.read, serie.games, game.read.mini]}
             player-ranking-points:
                 method: 'GET'
                 normalization_context: { 'groups': [ playerSerie.pointChart,playerSerie.player,player.read.mini,player.team,team.read.mini,player.country,country.read ] }
