@@ -12,3 +12,6 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
       groups:
         - 'serie.list'
         - 'serie.read'
+    games:
+      groups:
+        - 'serie.games'
