@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\File;
 
 use Exception;
-use function VideoGamesRecords\CoreBundle\File\mb_strtolower;
 
 class Picture
 {
@@ -278,6 +277,29 @@ class Picture
             default:
                 throw new Exception('Unknown extension of file when converting to PHP resource.');
         }
+
+        if ($keepTrueColor) {
+            $oSelf = new self(imagesx($picture), imagesy($picture));
+            $oSrc = new self(imagesx($picture), imagesy($picture));
+            $oSrc->setPicture($picture);
+            $oSelf->copyResized($oSrc, 0, 0);
+            unset($oSrc);
+        } else {
+            $oSelf = new self(imagesx($picture), imagesy($picture));
+            $oSelf->setPicture($picture);
+        }
+        return $oSelf;
+    }
+
+    /**
+     * @param string $data
+     * @param bool $keepTrueColor
+     * @return Picture
+     * @throws Exception
+     */
+    public static function loadFileFromStream(string $data, bool $keepTrueColor = false): Picture
+    {
+        $picture = imagecreatefromstring($data);
 
         if ($keepTrueColor) {
             $oSelf = new self(imagesx($picture), imagesy($picture));
