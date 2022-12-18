@@ -3,12 +3,15 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Exception;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\FilesystemOperator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\File\Picture;
+use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 
 /**
  * Class GamercardController
@@ -17,17 +20,27 @@ use VideoGamesRecords\CoreBundle\File\Picture;
  */
 class GamercardController extends AbstractController
 {
+    private FilesystemOperator $appStorage;
+    private PlayerGameRepository $playerGameRepository;
+
+    private string $prefix = 'user/';
+
+    public function __construct(FilesystemOperator $appStorage, PlayerGameRepository $playerGameRepository)
+    {
+        $this->appStorage = $appStorage;
+        $this->playerGameRepository = $playerGameRepository;
+    }
+
+
     /**
      * @Route("/mini/{id}", name="gamercard_mini", methods={"GET"})
      * @Cache(smaxage="900")
      * @param Player $player
-     * @ParamConverter("player", class="VideoGamesRecordsCoreBundle:Player")
      * @throws Exception
+     * @throws FilesystemException
      */
     public function miniAction(Player $player)
     {
-        $directory = $this->getParameter('videogamesrecords_core.directory.picture');
-
         chdir(__DIR__);
         $gamercard = Picture::loadFile('../Resources/img/gamercard/mini.png', true);
 
@@ -65,11 +78,7 @@ class GamercardController extends AbstractController
         $gamercard->write($rank, $fontSize, 356, 20);
 
         // Add avatar
-        try {
-            $avatar = Picture::loadFile($directory . 'user/' . $player->getAvatar(), true);
-        } catch (Exception $e) {
-            $avatar = Picture::loadFile($directory . 'avatar/default.png', true);
-        }
+        $avatar = Picture::loadFileFromStream($this->getAvatar($player));
         $gamercard->copyResized($avatar, 4, 2, 0, 0, 26, 26);
 
         try {
@@ -84,12 +93,11 @@ class GamercardController extends AbstractController
      * @Route("/classic/{id}", name="gamercard_classic", methods={"GET"})
      * @Cache(smaxage="900")
      * @param Player $player
-     * @ParamConverter("player", class="VideoGamesRecordsCoreBundle:Player")
+     * @throws FilesystemException
      * @throws Exception
      */
     public function classicAction(Player $player)
     {
-        $directory = $this->getParameter('videogamesrecords_core.directory.picture');
         chdir(__DIR__);
 
         $gamercard = new Picture(210, 135);
@@ -139,24 +147,15 @@ class GamercardController extends AbstractController
             ->copyResized($sprite, 127, 79, 74, 160, 16, 16, 16, 16);
 
         // Add avatar
-        try {
-            $avatar = Picture::loadFile($directory . 'user/' . $player->getAvatar(), true);
-        } catch (Exception $e) {
-            $avatar = Picture::loadFile($directory . 'avatar/default.png', true);
-        }
+        $avatar = Picture::loadFileFromStream($this->getAvatar($player));
         $gamercard->copyResized($avatar, 9, 30, 0, 0, 64, 64);
 
-        $playerGames = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->findBy(
-            array(
-                'player' => $player
-            ),
-            array('lastUpdate' => 'DESC'),
-            5
-        );
+        $playerGames = $this->playerGameRepository->findBy( ['player' => $player],['lastUpdate' => 'DESC'],5);
 
         $startX = 9;
         foreach ($playerGames as $playerGame) {
-            $picture = Picture::loadFile($directory . 'badge/' . $playerGame->getGame()->getBadge()->getPicture());
+            $badge = $playerGame->getGame()->getBadge();
+            $picture = Picture::loadFileFromStream('badge' . DIRECTORY_SEPARATOR . $badge->getType() . DIRECTORY_SEPARATOR . $badge->getPicture());
             $gamercard->copyResized($picture, $startX, 99);
             $startX += 38;
         }
@@ -199,5 +198,20 @@ class GamercardController extends AbstractController
     private function numberFormat($value): string
     {
         return number_format($value);
+    }
+
+     /**
+     * @param Player $player
+     * @return string
+     * @throws FilesystemException
+     */
+    public function getAvatar(Player $player): string
+    {
+        $path = $this->prefix . $player->getAvatar();
+        if (!$this->appStorage->fileExists($path)) {
+            $path = $this->prefix . 'default.png';
+        }
+
+        return $this->appStorage->read($path);
     }
 }
