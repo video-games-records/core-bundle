@@ -13,7 +13,6 @@
     ],
     "require": {
         "php": "^8.0",
-        "ext-gd": "*",
         "a2lix/translation-form-bundle": "*",
         "api-platform/core": "^2.7",
         "aws/aws-sdk-php-symfony": "~2.0",
@@ -28,10 +27,10 @@
         "symfony/dependency-injection": "^5.4 || ^6.0",
         "symfony/http-kernel": "^5.4 || ^6.0",
         "symfony/lock": "^5.4 || ^6.0",
-        "video-games-records/dwh-bundle": "dev-master",
-        "projet-normandie/article-bundle": "dev-master",
-        "projet-normandie/forum-bundle": "dev-master",
-        "projet-normandie/message-bundle": "dev-master",
+        "video-games-records/dwh-bundle": "*",
+        "projet-normandie/article-bundle": "*",
+        "projet-normandie/forum-bundle": "*",
+        "projet-normandie/message-bundle": "*",
         "webmozart/assert": "*"
     },
     "require-dev": {
