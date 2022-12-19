@@ -52,6 +52,6 @@ class PlayerRankingUpdateCommand extends Command
     {
         $id = $input->getOption('id');
         $this->playerRankingHandler->handle($id);
-        return 0;
+        return Command::SUCCESS;
     }
 }

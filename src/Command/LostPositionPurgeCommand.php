@@ -37,6 +37,6 @@ class LostPositionPurgeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->lostPositionRepository->purge();
-        return 0;
+        return Command::SUCCESS;
     }
 }

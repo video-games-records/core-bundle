@@ -33,12 +33,11 @@ class GameOfDayAddCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
-     * @throws ORMException
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->gameOfDayManager->add();
-        return 0;
+        return Command::SUCCESS;
     }
 }

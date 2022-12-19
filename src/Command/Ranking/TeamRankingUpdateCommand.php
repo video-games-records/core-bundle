@@ -52,6 +52,6 @@ class TeamRankingUpdateCommand extends Command
     {
         $id = $input->getOption('id');
         $this->teamRankingHandler->handle($id);
-        return 0;
+        return Command::SUCCESS;
     }
 }

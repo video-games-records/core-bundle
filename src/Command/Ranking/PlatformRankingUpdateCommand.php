@@ -58,6 +58,6 @@ class PlatformRankingUpdateCommand extends Command
                 $this->platformRankingHandler->majAll();
                 break;
         }
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -58,6 +58,6 @@ class PlayerSerieRankingUpdateCommand extends Command
                 $this->playerSerieRankingHandler->majAll();
                 break;
         }
-        return 0;
+        return Command::SUCCESS;
     }
 }

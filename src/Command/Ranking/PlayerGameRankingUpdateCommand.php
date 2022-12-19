@@ -42,6 +42,6 @@ class PlayerGameRankingUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->playerGameRankingHandler->handle($input->getOption('id'));
-        return 0;
+        return Command::SUCCESS;
     }
 }
