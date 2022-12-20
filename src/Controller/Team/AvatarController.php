@@ -17,7 +17,7 @@ use VideoGamesRecords\CoreBundle\Service\Team\AvatarManager;
 
 /**
  * Class TeamController
- * @Route("/team")
+ * @Route("/teams")
  */
 class AvatarController extends AbstractController
 {
@@ -77,7 +77,7 @@ class AvatarController extends AbstractController
 
 
     /**
-     * @Route(path="/{id}/picture", requirements={"id": "[1-9]\d*"}, name="vgr_core_team_picture", methods={"GET"})
+     * @Route(path="/{id}/avatar", requirements={"id": "[1-9]\d*"}, name="vgr_core_team_avatar", methods={"GET"})
      * @Cache(smaxage="30")
      * @param Team $team
      * @return StreamedResponse
