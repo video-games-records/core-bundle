@@ -42,6 +42,6 @@ class TeamGameRankingUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->teamGameRankingHandler->handle($input->getOption('id'));
-        return 0;
+        return Command::SUCCESS;
     }
 }

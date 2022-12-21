@@ -104,7 +104,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @ORM\Column(name="logo", type="string", length=30, nullable=false)
      */
-    private $logo = 'default.jpg';
+    private $logo = 'default.png';
 
     /**
      * @var string

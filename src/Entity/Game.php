@@ -337,6 +337,15 @@ class Game implements SluggableInterface, TimestampableInterface
         return new GameStatus($this->status);
     }
 
+     /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatusAsString(): string
+    {
+        return $this->status;
+    }
 
     /**
      * @param DateTime|null $pubishedAt

@@ -32,9 +32,11 @@ class AvatarManager
 
 
     /**
+     * @param string|null $filename
+     * @return StreamedResponse
      * @throws FilesystemException
      */
-    public function read(string $filename): StreamedResponse
+    public function read(?string $filename): StreamedResponse
     {
         $path = $this->prefix . $filename;
         if (!$this->appStorage->fileExists($path)) {

@@ -47,6 +47,6 @@ class ScoringPlayerRankingUpdateCommand extends Command
             $this->scoringPlayerRankingHandler->handle();
             $lock->release();
         }
-        return 0;
+        return Command::SUCCESS;
     }
 }

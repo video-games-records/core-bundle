@@ -58,6 +58,6 @@ class CountryRankingUpdateCommand extends Command
                 $this->countryRankingHandler->majAll();
                 break;
         }
-        return 0;
+        return Command::SUCCESS;
     }
 }
