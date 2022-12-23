@@ -38,10 +38,11 @@ class TeamRequestAdmin extends AbstractAdmin
                 [
                     'data_class' => null,
                     'btn_add' => false,
+                    'btn_edit' => false,
                     'btn_list' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'Leader',
+                    'label' => 'label.team',
                 ]
             )
             ->add(
@@ -50,17 +51,18 @@ class TeamRequestAdmin extends AbstractAdmin
                 [
                     'data_class' => null,
                     'btn_add' => false,
+                    'btn_edit' => false,
                     'btn_list' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'Leader',
+                    'label' => 'label.leader',
                 ]
             )
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'choices' => TeamRequest::getStatusChoices(),
                 ]
             );
@@ -114,15 +116,15 @@ class TeamRequestAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
+            ->add('id', null, ['label' => 'label.id'])
             ->add('team', null, [
                 'associated_property' => 'libTeam',
-                'label' => 'Team',
+                'label' => 'label.team',
             ])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'Player',
+                'label' => 'label.player',
             ])
-            ->add('status');
+            ->add('status', null, ['label' => 'label.status']);
     }
 }
