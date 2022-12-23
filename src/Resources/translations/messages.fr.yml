@@ -57,6 +57,7 @@ label:
     createdAt: 'Créeé le'
     cups: 'Cups'
     dateInvestigation: "Date d'investigation"
+    day: 'Jour'
     game: 'Jeu'
     game.id: 'Jeu [ID]'
     game.en: 'Jeu [EN]'
