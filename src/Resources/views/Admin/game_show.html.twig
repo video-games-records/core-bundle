@@ -41,13 +41,13 @@
                                                     </td>
                                                 {% elseif field_name == 'picture' %}
                                                     <th>Picture</th>
-                                                    <td><img src="{{ picture_url }}/game/{{ object.getPicture() }}" alt="" /></td>
+                                                    <td><img src="/game/{{ object.getId() }}/picture" alt="" /></td>
                                                 {% elseif field_name == 'badge' %}
                                                     <th>Badge</th>
                                                     <td>
                                                     {% if object.getBadge() %}
                                                         <a href="{{ path('vgrcorebundle_admin_badge_show', {'id': object.getBadge().getId()}) }}">
-                                                            <img src="{{ picture_url }}/badge/{{ object.getBadge().getPicture() }}" alt="" />
+                                                            <img src="/badge/{{ object.getBadge().getId() }}/picture" alt="" />
                                                         </a>
                                                     {% endif %}
                                                     </td>
