@@ -100,9 +100,9 @@ class CountryAdmin extends AbstractAdmin
     {
         $show
             ->add('getName', null, ['label' => 'English name'])
-            ->add('codeIso3')
-            ->add('codeIso2')
-            ->add('codeIsoNumeric')
-            ->add('badge');
+            ->add('codeIso3', null, ['label' => 'label.country.iso3'])
+            ->add('codeIso2', null, ['label' => 'label.country.iso2'])
+            ->add('codeIsoNumeric', null, ['label' => 'label.country.isoNumeric'])
+            ->add('badge', null, ['label' => 'label.badge']);
     }
 }
