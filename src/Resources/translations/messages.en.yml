@@ -50,6 +50,7 @@ label:
     chartRank3: 'Bronze'
     charts: 'Records'
     chart.type: 'Chart type'
+    checkedAt: 'Checked At'
     country: 'Country'
     country.iso2: 'ISO ALPHA 2'
     country.iso3: 'ISO ALPHA 2'

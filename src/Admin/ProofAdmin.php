@@ -262,26 +262,26 @@ class ProofAdmin extends AbstractAdmin implements MessageTypeInterface
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('Player', null, ['label' => 'Player'])
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('Player', null, ['label' => 'label.player'])
             ->add('chart.group.game', null, array(
                 'associated_property' => $this->getLibGame(),
-                'label' => 'Game',
+                'label' => 'label.game',
             ))
             ->add('chart.group', null, array(
                 'associated_property' => $this->getLibGroup(),
-                'label' => 'Group',
+                'label' => 'label.group',
             ))
             ->add('chart', null, array(
                 'associated_property' => $this->getLibChart(),
-                'label' => 'Chart',
+                'label' => 'label.chart',
             ))
-            ->add('created_at', 'datetime', ['label' => 'Created At'])
-            ->add('updated_at', 'datetime', ['label' => 'Updated At'])
-            ->add('checkedAt', 'datetime', ['label' => 'Checked At'])
-            ->add('playerChart')
-            ->add('picture')
-            ->add('video')
+            ->add('created_at', 'datetime', ['label' => 'label.createdAt'])
+            ->add('updated_at', 'datetime', ['label' => 'label.updatedAt'])
+            ->add('checkedAt', 'datetime', ['label' => 'label.checkedAt'])
+            ->add('playerChart', null, ['label' => 'label.score'])
+            ->add('picture',null, ['label' => 'label.picture'])
+            ->add('video', null, ['label' => 'label.video'])
             ->add('playerResponding', null, ['label' => 'label.player.responding'])
             ->add('status', null, ['label' => 'label.status']);
     }
