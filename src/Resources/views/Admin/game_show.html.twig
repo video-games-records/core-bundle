@@ -24,7 +24,7 @@
                                             {% if elements[field_name] is defined %}
                                                 {% if field_name == 'id' %}
                                                     <th>Id</th>
-                                                    <td>{{ object.getId() }} <a href="{{ front_url }}/en/{{ object.getUrl }}">{% trans %}link.front.game{% endtrans %}</a></td>
+                                                    <td>{{ object.getId() }} <a href="{{ app_front_url }}/en/{{ object.getUrl }}">{% trans %}link.front.game{% endtrans %}</a></td>
                                                 {% elseif field_name == 'groups' %}
                                                     <th>Groups</th>
                                                     <td>
