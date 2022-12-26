@@ -35,7 +35,7 @@ class PictureController extends AbstractController
         try {
             $result = $this->s3client->getObject(
                 [
-                    'Bucket' => $_ENV['AWS_BUCKET_PROOF'],
+                    'Bucket' => $_ENV['AWS_S3_BUCKET_PROOF'],
                     'Key' => $picture->getPath(),
                 ]
             );

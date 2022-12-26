@@ -62,6 +62,7 @@ class GameAdmin extends AbstractAdmin
             ->add('serie', ModelAutocompleteType::class, [
                 'property' => 'libSerie',
                 'label' => 'label.serie',
+                'required' => false,
             ])
             ->add('libGameEn', TextType::class, [
                 'label' => 'label.name.en',
