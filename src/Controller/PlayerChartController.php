@@ -92,7 +92,7 @@ class PlayerChartController extends AbstractController
             $key = $idPlayer . '/' . $idGame . '/' . uniqid() . $this->extensions[$meta['mediatype']];
 
             $this->s3client->putObject([
-                'Bucket' => $_ENV['AWS_BUCKET_PROOF'],
+                'Bucket' => $_ENV['AWS_S3_BUCKET_PROOF'],
                 'Key'    => $key,
                 'Body'   => $fp,
                 'ACL'    => 'public-read',
