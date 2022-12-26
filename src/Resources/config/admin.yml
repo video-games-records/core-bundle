@@ -27,6 +27,7 @@ services:
                 manager_type: orm
                 group: "group.games"
                 label: "label.game"
+                default: true
         calls:
             - [ setTemplate, ['show', '@@VideoGamesRecordsCore/Admin/game_show.html.twig']]
     sonata.admin.vgr.group:
