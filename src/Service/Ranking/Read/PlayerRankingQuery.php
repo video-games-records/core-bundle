@@ -74,7 +74,7 @@ class PlayerRankingQuery extends DefaultRankingQuery
      */
     private function getRanking(string $column = 'rankPointChart', array $options = []): array
     {
-        $maxRank = $options['maxRank'] ?? null;
+        $maxRank = $options['maxRank'] ?? 100;
         $player = $this->getPlayer();
         $team = !empty($options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
 
@@ -86,9 +86,9 @@ class PlayerRankingQuery extends DefaultRankingQuery
         if ($team !== null) {
             $query->andWhere('(p.team = :team)')
                 ->setParameter('team', $team);
-        } elseif ($player !== null) {
+        } elseif (($maxRank !== null) && ($player !== null)) {
             $query->where("(p.$column <= :maxRank OR p = :player)")
-                ->setParameter('maxRank', 100)
+                ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
         } else {
             $query->where("p.$column <= :maxRank")

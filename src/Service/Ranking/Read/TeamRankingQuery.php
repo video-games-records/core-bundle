@@ -67,7 +67,7 @@ class TeamRankingQuery extends DefaultRankingQuery
      */
     private function getRanking(string $column = 'rankPointChart', array $options = []): array
     {
-        $maxRank = $options['maxRank'] ?? null;
+        $maxRank = $options['maxRank'] ?? 100;
         $team = $this->getTeam();
 
         $query = $this->em->createQueryBuilder()
