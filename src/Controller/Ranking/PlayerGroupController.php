@@ -2,9 +2,11 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGroupRankingQuery;
 
 /**
@@ -20,14 +22,15 @@ class PlayerGroupController extends AbstractController
     }
 
     /**
-     * @param Game    $game
+     * @param Group   $group
      * @param Request $request
      * @return array
+     * @throws ORMException
      */
-    public function getRankingPoints(Game $game, Request $request): array
+    public function getRankingPoints(Group $group, Request $request): array
     {
         return $this->playerGroupRankingQuery->getRankingPoints(
-            $game->getId(),
+            $group->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
                 'idTeam' => $request->query->get('idTeam')
@@ -37,14 +40,14 @@ class PlayerGroupController extends AbstractController
 
 
     /**
-     * @param Game    $game
+     * @param Group   $group
      * @param Request $request
      * @return array
      */
-    public function getRankingMedals(Game $game, Request $request): array
+    public function getRankingMedals(Group $group, Request $request): array
     {
         return $this->playerGroupRankingQuery->getRankingMedals(
-            $game->getId(),
+            $group->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
                 'idTeam' => $request->query->get('idTeam')
