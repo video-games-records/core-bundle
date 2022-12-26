@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Read;
 
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerSerie;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 
 class PlayerSerieRankingQuery extends DefaultRankingQuery
@@ -28,13 +29,14 @@ class PlayerSerieRankingQuery extends DefaultRankingQuery
         $query->where('ps.serie = :serie')
             ->setParameter('serie', $serie);
 
+        /** @var PlayerSerie $row */
         $row = (null !== $player) ? $this->getRow($serie, $player) : null;
 
         if (null !== $maxRank) {
             if (null !== $row) {
                 $query->andWhere('(ps.rankPointChart <= :maxRank OR ps.rankPointChart BETWEEN :min AND :max)')
-                    ->setParameter('min', $row->getRankPoint() - 5)
-                    ->setParameter('max', $row->getRankPoint() + 5);
+                    ->setParameter('min', $row->getRankPointChart() - 5)
+                    ->setParameter('max', $row->getRankPointChart() + 5);
             } else {
                 $query->andWhere('ps.rankPointChart <= :maxRank');
             }
