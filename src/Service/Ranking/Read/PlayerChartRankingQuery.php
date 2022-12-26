@@ -172,7 +172,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
         $query = $this->em->createQueryBuilder()
             ->from('VideoGamesRecords\CoreBundle\Entity\PlayerChart', 'pc')
             ->select('pc.rank')
-            ->where('p.id = :player')
+            ->where('pc.player = :player')
             ->setParameter('player', $player)
             ->andWhere('pc.chart = :chart')
             ->setParameter('chart', $chart);
