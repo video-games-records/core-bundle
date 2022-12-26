@@ -52,7 +52,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::teamRanking'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamChartController::getRankingPoints'
             player-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [
