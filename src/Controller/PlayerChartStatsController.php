@@ -24,7 +24,7 @@ class PlayerChartStatsController extends AbstractController
      * @param Player    $player
      * @return mixed
      */
-    public function playerChartStatus(Player $player): mixed
+    public function load(Player $player): mixed
     {
         return $this->playerChartStatusRepository->getStatsFromPlayer($player);
     }
