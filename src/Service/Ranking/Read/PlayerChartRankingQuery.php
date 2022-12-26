@@ -173,7 +173,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
             ->from('VideoGamesRecords\CoreBundle\Entity\PlayerChart', 'pc')
             ->select('pc.rank')
             ->where('p.id = :player')
-            ->setParameter('pc.player', $player)
+            ->setParameter('player', $player)
             ->andWhere('pc.chart = :chart')
             ->setParameter('chart', $chart);
 
