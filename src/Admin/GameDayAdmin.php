@@ -38,14 +38,14 @@ class GameDayAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $form): void
     {
-        $options = [];
+        $options = ['label' => 'label.day'];
         if (($this->hasRequest()) && ($this->isCurrentRoute('create'))) {
             $em = $this->getModelManager()
                 ->getEntityManager('VideoGamesRecords\CoreBundle\Entity\GameDay');
             $lastDay = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\GameDay')->getMaxDay();
             $date = new \DateTime($lastDay);
             $date->add(new \DateInterval('P1D'));
-            $options = ['data' => $date];
+            $options['data'] = $date;
         }
 
         $form
@@ -53,13 +53,13 @@ class GameDayAdmin extends AbstractAdmin
                 'game',
                 ModelListType::class,
                 [
-                'data_class' => null,
-                'btn_add' => false,
-                'btn_list' => true,
-                'btn_edit' => false,
-                'btn_delete' => false,
-                'btn_catalogue' => true,
-                'label' => 'Game',
+                    'data_class' => null,
+                    'btn_add' => false,
+                    'btn_list' => true,
+                    'btn_edit' => false,
+                    'btn_delete' => false,
+                    'btn_catalogue' => true,
+                    'label' => 'label.game',
                 ]
             )
             ->add('day', null, $options);
@@ -71,12 +71,13 @@ class GameDayAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('day')
+            ->add('day', null, ['label' => 'label.day'])
             ->add(
                 'game', ModelFilter::class, [
-                'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property' => 'libGameEn'],
-            ]
+                    'label' => 'label.game',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => ['property' => 'libGameEn'],
+                ]
             );
     }
 
@@ -86,8 +87,8 @@ class GameDayAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id')
-            ->add('day')
+            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('day', null, ['label' => 'label.day'])
             ->add('game', null, [
                 'associated_property' => 'libGameEn',
                 'label' => 'Game',
@@ -106,8 +107,8 @@ class GameDayAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('day')
-            ->add('game');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('day', null, ['label' => 'label.day'])
+            ->add('game', null, ['label' => 'label.game']);
     }
 }

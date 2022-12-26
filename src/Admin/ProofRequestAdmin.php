@@ -116,7 +116,7 @@ class ProofRequestAdmin extends AbstractAdmin implements MessageTypeInterface
                 ]
             )
             ->add('message', CKEditorType::class, [
-                'label' => 'label.Message',
+                'label' => 'label.message',
                 'required' => true,
                 'attr' => array(
                     'readonly' => true,
@@ -127,7 +127,7 @@ class ProofRequestAdmin extends AbstractAdmin implements MessageTypeInterface
                 ),
             ])
             ->add('response', CKEditorType::class, [
-                'label' => 'label.response',
+                'label' => 'label.proof.response',
                 'required' => false,
                 'config' => array(
                     'height' => '100',

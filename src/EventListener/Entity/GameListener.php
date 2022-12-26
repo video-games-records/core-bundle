@@ -63,10 +63,6 @@ class GameListener
         if ($game->getStatus()->isActive() && ($game->getPublishedAt() == null)) {
             $game->setPublishedAt(new DateTime());
         }
-
-        if (array_key_exists('picture', $changeSet)) {
-            $game->setStatus(GameStatus::STATUS_ADD_SCORE);
-        }
     }
 
     /**

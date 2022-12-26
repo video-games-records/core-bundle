@@ -24,7 +24,7 @@
                                             {% if elements[field_name] is defined %}
                                                 {% if field_name == 'id' %}
                                                     <th>Id</th>
-                                                    <td>{{ object.getId() }} <a href="{{ front_url }}/en/{{ object.getUrl }}">{% trans %}link.front.game{% endtrans %}</a></td>
+                                                    <td>{{ object.getId() }} <a href="{{ app_front_url }}/en/{{ object.getUrl }}">{% trans %}link.front.game{% endtrans %}</a></td>
                                                 {% elseif field_name == 'groups' %}
                                                     <th>Groups</th>
                                                     <td>
@@ -41,13 +41,13 @@
                                                     </td>
                                                 {% elseif field_name == 'picture' %}
                                                     <th>Picture</th>
-                                                    <td><img src="{{ picture_url }}/game/{{ object.getPicture() }}" alt="" /></td>
+                                                    <td><img src="/game/{{ object.getId() }}/picture" alt="" /></td>
                                                 {% elseif field_name == 'badge' %}
                                                     <th>Badge</th>
                                                     <td>
                                                     {% if object.getBadge() %}
                                                         <a href="{{ path('vgrcorebundle_admin_badge_show', {'id': object.getBadge().getId()}) }}">
-                                                            <img src="{{ picture_url }}/badge/{{ object.getBadge().getPicture() }}" alt="" />
+                                                            <img src="/badge/{{ object.getBadge().getId() }}/picture" alt="" />
                                                         </a>
                                                     {% endif %}
                                                     </td>
