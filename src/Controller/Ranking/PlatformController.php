@@ -31,7 +31,7 @@ class PlatformController extends AbstractController
         return $this->platformRankingQuery->getRankingPoints(
             $platform->getId(),
             [
-                'maxRank' => $request->query->get('maxRank', 5),
+                'maxRank' => $request->query->get('maxRank', 100),
             ]
         );
     }
