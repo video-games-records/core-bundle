@@ -33,7 +33,7 @@ class PlayerController extends AbstractController
      * @param Player    $player
      * @return mixed
      */
-    public function playerChartStatus(Player $player)
+    public function playerChartStatus(Player $player): mixed
     {
         return $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus')
             ->getStatsFromPlayer($player);

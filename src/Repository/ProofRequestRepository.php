@@ -19,12 +19,31 @@ class ProofRequestRepository extends DefaultRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function countInProgress()
+    public function countInProgress(): mixed
     {
         $qb = $this->createQueryBuilder('proof')
             ->select('COUNT(proof.id)')
             ->where('proof.status = :status')
             ->setParameter('status', ProofRequest::STATUS_IN_PROGRESS);
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+     /**
+     * @param $player
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countPlayerToDay($player): mixed
+    {
+        $qb = $this->createQueryBuilder('request')
+            ->select('COUNT(request)')
+            ->where('request.playerRequesting = :player')
+            ->setParameter('player', $player)
+            ->andWhere('request.createdAt LIKE :now')
+            ->setParameter('now', date('Y-m-d') . '%');
 
         return $qb->getQuery()
             ->getSingleScalarResult();
