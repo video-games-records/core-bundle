@@ -25,7 +25,7 @@ final class PlatformSubscriber implements EventSubscriberInterface
     /**
      * @param PlatformEvent $event
      */
-    public function playerGamePostMaj(PlatformEvent $event)
+    public function platformPostMaj(PlatformEvent $event)
     {
         $this->platformBadgeHandler->process($event->getPlatform());
     }
