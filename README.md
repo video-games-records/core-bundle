@@ -80,9 +80,4 @@ After resolving the entity you can update your database schema.
 video_games_records_core:
     resource: "@VideoGamesRecordsCoreBundle/Controller/"
     type:     annotation
-    prefix:   /{_locale}/
-    requirements:
-        _locale: '%app_locales%'
-    defaults:
-        _locale: '%locale%'
 ```

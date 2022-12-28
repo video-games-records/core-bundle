@@ -26,11 +26,6 @@ class PlayerRankingUpdateCommand extends Command
         $this
             ->setName('vgr-core:player-ranking-update')
             ->setDescription('Command to update players ranking')
-            ->addArgument(
-                'function',
-                InputArgument::REQUIRED,
-                'Who do you want to do?'
-            )
             ->addOption(
                 'id',
                 null,
