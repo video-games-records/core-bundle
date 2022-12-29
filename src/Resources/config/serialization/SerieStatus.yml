@@ -1,0 +1,6 @@
+VideoGamesRecords\CoreBundle\ValueObject\SerieStatus:
+  attributes:
+    value:
+      groups:
+        - 'serie.list'
+        - 'serie.read'

@@ -2,15 +2,33 @@
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
 /**
  * Serie
  * @ORM\Table(name="vgr_serie")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "status": "exact",
+ *          "libSerie" : "partial",
+ *      }
+ * )
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "libSerie" : "ASC",
+ *     },
+ *     arguments={"orderParameterName"="order"}
+ * )
  */
 class Serie implements SluggableInterface
 {
@@ -30,6 +48,10 @@ class Serie implements SluggableInterface
      */
     private string $libSerie;
 
+        /**
+     * @ORM\Column(name="status", type="string", nullable=false)
+     */
+    private string $status = SerieStatus::STATUS_INACTIVE;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="serie", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -96,6 +118,26 @@ class Serie implements SluggableInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+   /**
+    *
+    */
+    public function setStatus(string $status): Serie
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return SerieStatus
+     */
+    public function getStatus(): SerieStatus
+    {
+        return new SerieStatus($this->status);
     }
 
     /**

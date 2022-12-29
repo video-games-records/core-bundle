@@ -8,7 +8,10 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
 class SerieAdmin extends AbstractAdmin
 {
@@ -30,7 +33,15 @@ class SerieAdmin extends AbstractAdmin
             ->add('libSerie', TextType::class, [
                 'label' => 'label.name',
                 'required' => true,
-            ]);
+            ])
+            ->add(
+                'status',
+                ChoiceType::class,
+                [
+                    'label' => 'label.status',
+                    'choices' => SerieStatus::getStatusChoices(),
+                ]
+            );
     }
 
     /**
@@ -40,7 +51,15 @@ class SerieAdmin extends AbstractAdmin
     {
         $filter
             ->add('id', null, ['label' => 'label.id'])
-            ->add('libSerie', null, ['label' => 'label.name']);
+            ->add('libSerie', null, ['label' => 'label.name'])
+            ->add('status', ChoiceFilter::class, [
+                'label' => 'label.status',
+                'field_type' => ChoiceType::class,
+                'field_options' => [
+                    'choices' => SerieStatus::getStatusChoices(),
+                    'multiple' => false,
+                ]
+            ]);
     }
 
     /**
@@ -50,6 +69,7 @@ class SerieAdmin extends AbstractAdmin
     {
         $list->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('libSerie', null, ['label' => 'label.name'])
+            ->add('status', null, ['label' => 'label.status'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -68,6 +88,7 @@ class SerieAdmin extends AbstractAdmin
     {
         $show
             ->add('libSerie', null, ['label' => 'label.name'])
-            ->add('games', null, ['label' => 'label.games']);
+            ->add('games', null, ['label' => 'label.games'])
+            ->add('status', null, ['label' => 'label.status']);
     }
 }
