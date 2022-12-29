@@ -51,7 +51,7 @@ class SerieStatus
     public static function getStatusChoices(): array
     {
         return [
-            self::STATUS_ACTIVE . self::STATUS_ACTIVE,
+            self::STATUS_ACTIVE => self::STATUS_ACTIVE,
             self::STATUS_INACTIVE => self::STATUS_INACTIVE,
         ];
     }

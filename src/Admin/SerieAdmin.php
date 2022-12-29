@@ -68,6 +68,7 @@ class SerieAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('createdAt', null, ['label' => 'label.createdAt'])
             ->add('libSerie', null, ['label' => 'label.name'])
             ->add('status', null, ['label' => 'label.status'])
             ->add('_action', 'actions', [
@@ -88,6 +89,8 @@ class SerieAdmin extends AbstractAdmin
     {
         $show
             ->add('libSerie', null, ['label' => 'label.name'])
+            ->add('createdAt', null, ['label' => 'label.createdAt'])
+            ->add('updatedAt', null, ['label' => 'label.updatedAt'])
             ->add('games', null, ['label' => 'label.games'])
             ->add('status', null, ['label' => 'label.status']);
     }

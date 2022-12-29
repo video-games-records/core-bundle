@@ -7,7 +7,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
@@ -30,8 +32,9 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class Serie implements SluggableInterface
+class Serie implements SluggableInterface, TimestampableInterface
 {
+    use TimestampableTrait;
     use SluggableTrait;
 
     /**
