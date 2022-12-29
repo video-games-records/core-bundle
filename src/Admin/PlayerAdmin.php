@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\NullFilter;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -68,6 +69,9 @@ class PlayerAdmin extends AbstractAdmin
         $filter
             ->add('id', null, ['label' => 'label.id'])
             ->add('pseudo', null, ['label' => 'label.pseudo'])
+            ->add('twitch', NullFilter::class, ['label' => 'label.twitch_is_null'])
+            ->add('youtube', NullFilter::class, ['label' => 'label.youtube_is_null'])
+            ->add('website', NullFilter::class, ['label' => 'label.website_is_null'])
             ->add('boolMaj', null, ['label' => 'label.boolMaj']);
 
     }
@@ -80,7 +84,8 @@ class PlayerAdmin extends AbstractAdmin
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('pseudo', null, ['label' => 'label.pseudo'])
-            ->add('country', null, ['label' => 'label.country'])
+            ->add('twitch', null, ['label' => 'label.twitch'])
+            ->add('youtube', null, ['label' => 'label.youtube'])
             ->add('slug', null, ['label' => 'label.slug'])
             ->add('_action', 'actions', [
                 'actions' => [

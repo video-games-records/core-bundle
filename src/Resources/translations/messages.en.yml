@@ -132,6 +132,7 @@ label:
     text: 'Text'
     translations: 'Translations'
     twitch: 'Twitch'
+    twitch_is_null: 'Twitch is empty'
     updatedAt: 'Updated At'
     url: 'URL'
     value: 'Value'
@@ -141,7 +142,9 @@ label:
     proof.response: 'Refusal answer'
     proof.status: 'Proof status'
     website: 'Website'
+    website_is_null: 'Website is empty'
     youtube: 'Youtube'
+    youtube_is_null: 'Youtube is empty'
 link:
     front:
         game: 'Link to the game on VGR'
