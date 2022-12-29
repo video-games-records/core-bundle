@@ -30,8 +30,8 @@ class PlatformBadgeHandler
         $ranking = $this->platformRankingQuery->getRankingPoints($platform->getId(), array('maxRank' => 1));
 
         $players = array();
-        foreach ($ranking as $player) {
-            $players[$player->getId()] = 0;
+        foreach ($ranking as $playerPlatform) {
+            $players[$playerPlatform->getPlayer()->getId()] = 0;
         }
 
         $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerBadge')->updateBadge($players, $platform->getBadge());
