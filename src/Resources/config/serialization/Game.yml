@@ -17,7 +17,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     groups:
       groups:
         - 'game.groups'
-    statusAsString:
+    status:
       groups:
         - 'game.read'
     publishedAt:

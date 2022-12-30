@@ -26,13 +26,7 @@ class ScoreInvestigationUpdate extends Command
     {
         $this
             ->setName('vgr-core:score-investigation-update')
-            ->setDescription('Command to check score under investigation')
-            ->addArgument(
-                'function',
-                InputArgument::REQUIRED,
-                'What do you want to do?'
-            )
-        ;
+            ->setDescription('Command to check score under investigation');
         parent::configure();
     }
 

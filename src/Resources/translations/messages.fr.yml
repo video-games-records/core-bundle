@@ -131,6 +131,7 @@ label:
     text: 'Texte'
     translations: 'Traductions'
     twitch: 'Twitch'
+    twitch_is_null: 'Twitch est vide'
     updatedAt: 'Modifié le'
     url: 'URL'
     value: 'Valeur'
@@ -140,7 +141,9 @@ label:
     proof.response: 'Réponse de refus'
     proof.status: 'Statut de la preuve'
     website: 'Website'
+    website_is_null: 'Website est vide'
     youtube: 'Youtube'
+    youtube_is_null: 'Youtube est vide'
 link:
     front:
         game: 'Lien vers ce jeu sur VGR'
