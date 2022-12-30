@@ -71,6 +71,8 @@ class SerieAdmin extends AbstractAdmin
             ->add('createdAt', null, ['label' => 'label.createdAt'])
             ->add('libSerie', null, ['label' => 'label.name'])
             ->add('status', null, ['label' => 'label.status'])
+            ->add('nbGame', null, ['label' => 'label.nbGame'])
+            ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -92,6 +94,8 @@ class SerieAdmin extends AbstractAdmin
             ->add('createdAt', null, ['label' => 'label.createdAt'])
             ->add('updatedAt', null, ['label' => 'label.updatedAt'])
             ->add('games', null, ['label' => 'label.games'])
+            ->add('nbGame', null, ['label' => 'label.nbGame'])
+            ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('status', null, ['label' => 'label.status']);
     }
 }
