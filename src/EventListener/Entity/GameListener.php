@@ -10,20 +10,22 @@ use Doctrine\ORM\ORMException;
 use ProjetNormandie\ForumBundle\Manager\ForumManager;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
+use VideoGamesRecords\CoreBundle\Service\Stats\Write\SerieStatsHandler;
 
 class GameListener
 {
     private ForumManager $forumManager;
     private bool $majPlayers = false;
+    private SerieStatsHandler $serieStatsHandler;
 
     /**
-     * GameListener constructor.
-     * @param ForumManager  $forumManager
+     * @param ForumManager      $forumManager
+     * @param SerieStatsHandler $serieStatsHandler
      */
-    public function __construct(ForumManager $forumManager)
+    public function __construct(ForumManager $forumManager, SerieStatsHandler $serieStatsHandler)
     {
         $this->forumManager = $forumManager;
+        $this->serieStatsHandler = $serieStatsHandler;
     }
 
     /**
@@ -80,5 +82,9 @@ class GameListener
             }
         }
         $em->flush();
+
+        if (null !== $game->getSerie()) {
+            $this->serieStatsHandler->handle($game->getSerie());
+        }
     }
 }
