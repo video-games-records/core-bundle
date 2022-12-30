@@ -16,6 +16,12 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
       groups:
         - 'serie.list'
         - 'serie.read'
+    nbGame:
+      groups:
+        - 'serie.read'
+    nbChart:
+      groups:
+        - 'serie.read'
     status.value:
       groups:
         - 'serie.list'

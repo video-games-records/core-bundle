@@ -51,10 +51,20 @@ class Serie implements SluggableInterface, TimestampableInterface
      */
     private string $libSerie;
 
-        /**
+    /**
      * @ORM\Column(name="status", type="string", nullable=false)
      */
     private string $status = SerieStatus::STATUS_INACTIVE;
+
+    /**
+     * @ORM\Column(name="nbGame", type="integer", nullable=false, options={"default":0})
+     */
+    private int $nbGame = 0;
+
+    /**
+     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
+     */
+    private int $nbChart = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="serie", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -141,6 +151,52 @@ class Serie implements SluggableInterface, TimestampableInterface
     public function getStatus(): SerieStatus
     {
         return new SerieStatus($this->status);
+    }
+
+    /**
+     * Set nbGame
+     *
+     * @param integer $nbGame
+     * @return Serie
+     */
+    public function setNbGame(int $nbGame): Serie
+    {
+        $this->nbGame = $nbGame;
+
+        return $this;
+    }
+
+    /**
+     * Get nbGame
+     *
+     * @return integer
+     */
+    public function getNbGame(): int
+    {
+        return $this->nbGame;
+    }
+
+    /**
+     * Set nbChart
+     *
+     * @param integer $nbChart
+     * @return Serie
+     */
+    public function setNbChart(int $nbChart): Serie
+    {
+        $this->nbChart = $nbChart;
+
+        return $this;
+    }
+
+    /**
+     * Get nbChart
+     *
+     * @return integer
+     */
+    public function getNbChart(): int
+    {
+        return $this->nbChart;
     }
 
     /**
