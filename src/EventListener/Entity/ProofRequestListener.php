@@ -16,9 +16,9 @@ class ProofRequestListener
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function postPersist(ProofRequest $proofRequest, LifecycleEventArgs $event)
+    public function postPersist(ProofRequest $proofRequest, LifecycleEventArgs $event): void
     {
-        $em = $event->getEntityManager();
+        $em = $event->getObjectManager();
         $playerChart = $proofRequest->getPlayerChart();
         $playerChart->setStatus(
             $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_DEMAND)

@@ -16,7 +16,7 @@ class ProofListener
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function postUpdate(proof $proof, LifecycleEventArgs $event)
+    public function postUpdate(proof $proof, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
         if ($proof->getStatus() == Proof::STATUS_CLOSED) {

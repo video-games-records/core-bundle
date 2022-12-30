@@ -12,12 +12,10 @@ class TeamRequestListener
     /**
      * @param TeamRequest        $teamRequest
      * @param LifecycleEventArgs $event
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
-    public function postUpdate(TeamRequest $teamRequest, LifecycleEventArgs $event)
+    public function postUpdate(TeamRequest $teamRequest, LifecycleEventArgs $event): void
     {
-        $em = $event->getEntityManager();
+        $em = $event->getObjectManager();
         if ($teamRequest->getStatus() == TeamRequest::STATUS_ACCEPTED) {
             $player = $teamRequest->getPlayer();
             $player->setTeam($teamRequest->getTeam());

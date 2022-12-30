@@ -12,12 +12,10 @@ class TeamListener
     /**
      * @param Team       $team
      * @param LifecycleEventArgs $event
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
-    public function postPersist(Team $team, LifecycleEventArgs $event)
+    public function postPersist(Team $team, LifecycleEventArgs $event): void
     {
-        $em = $event->getEntityManager();
+        $em = $event->getObjectManager();
         $player = $team->getLeader();
         $player->setTeam($team);
         $em->flush();
