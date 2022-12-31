@@ -16,15 +16,34 @@ class GameStatsHandler
         $this->em = $em;
     }
 
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function handle(Game $game): void
     {
+        $this->majNbChart($game);
+        $this->majNbPost($game);
+        $this->majNbPlayer($game);
+    }
+
+    public function majNbChart(Game $game): void
+    {
         $nbChart = 0;
-        $nbPost = 0;
         foreach ($game->getGroups() as $group) {
             $nbChart += $group->getNbChart();
-            $nbPost += $group->getNbPost();
         }
         $game->setNbChart($nbChart);
+        $this->em->flush();
+    }
+
+     public function majNbPost(Game $game): void
+    {
+        $nbPost = 0;
+        foreach ($game->getGroups() as $group) {
+            $nbPost += $group->getNbPost();
+        }
         $game->setNbPost($nbPost);
         $this->em->flush();
     }

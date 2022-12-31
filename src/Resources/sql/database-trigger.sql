@@ -77,17 +77,6 @@ END //
 delimiter ;
 
 
--- Chart
-delimiter //
-DROP TRIGGER IF EXISTS `vgrChartAfterInsert`//
-CREATE TRIGGER vgrChartAfterInsert AFTER INSERT ON vgr_chart
-FOR EACH ROW
-UPDATE vgr_group
-SET nbChart = (SELECT COUNT(id) FROM vgr_chart WHERE idGroup = NEW.idGroup)
-WHERE id = NEW.idGroup //
-delimiter ;
-
-
 delimiter //
 DROP TRIGGER IF EXISTS `vgrChartAfterUpdate`//
 CREATE TRIGGER vgrChartAfterUpdate AFTER UPDATE ON vgr_chart
@@ -98,18 +87,6 @@ BEGIN
 		SET nbPost = (SELECT SUM(nbPost) FROM vgr_chart WHERE idGroup = NEW.idGroup)
 		WHERE id = NEW.idGroup;
 	END IF;
-END //
-delimiter ;
-
-
-delimiter //
-DROP TRIGGER IF EXISTS `vgrChartAfterDelete`//
-CREATE TRIGGER vgrChartAfterDelete AFTER DELETE ON vgr_chart
-FOR EACH ROW
-BEGIN
-  UPDATE vgr_group
-  SET nbChart = (SELECT COUNT(id) FROM vgr_chart WHERE idGroup = OLD.idGroup)
-  WHERE id = OLD.idGroup;
 END //
 delimiter ;
 

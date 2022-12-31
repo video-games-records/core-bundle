@@ -16,9 +16,25 @@ class GroupStatsHandler
         $this->em = $em;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function handle(Group $group): void
     {
+        $this->majNbChart($group);
+        $this->majNbPost($group);
+        $this->majNbPlayer($group);
+    }
+
+    public function majNbChart(Group $group): void
+    {
         $group->setNbChart(count($group->getCharts()));
+        $this->em->flush();
+    }
+
+    public function majNbPost(Group $group): void
+    {
         $nbPost = 0;
         foreach ($group->getCharts() as $chart) {
             $nbPost += $chart->getNbPost();
