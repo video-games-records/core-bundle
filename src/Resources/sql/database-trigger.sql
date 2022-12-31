@@ -95,10 +95,7 @@ FOR EACH ROW
 BEGIN
 	IF OLD.nbPost != NEW.nbPost	THEN
 		UPDATE vgr_group
-		SET nbPost = (SELECT SUM(nbPost) FROM vgr_chart WHERE idGroup = NEW.idGroup),
-		    nbPlayer = (SELECT COUNT(DISTINCT(a.idPlayer))
-		    			FROM vgr_player_chart a INNER JOIN vgr_chart b ON a.idChart = b.id
-		    			WHERE b.idGroup = NEW.idGroup)
+		SET nbPost = (SELECT SUM(nbPost) FROM vgr_chart WHERE idGroup = NEW.idGroup)
 		WHERE id = NEW.idGroup;
 	END IF;
 END //
@@ -145,15 +142,6 @@ BEGIN
 	IF OLD.nbPost != NEW.nbPost	THEN
 		UPDATE vgr_game
 		SET nbPost = (SELECT SUM(nbPost) FROM vgr_group WHERE idGame = NEW.idGame)
-		WHERE id = NEW.idGame;
-	END IF;
-	IF OLD.nbPlayer != NEW.nbPlayer THEN
-		UPDATE vgr_game
-		SET nbPlayer = (SELECT COUNT(DISTINCT(a.idPlayer))
-		    			FROM vgr_player_chart a
-		    			INNER JOIN vgr_chart b ON a.idChart = b.id
-		    			INNER JOIN vgr_group c ON b.idGroup = c.id
-		    			WHERE c.idGame = NEW.idGame)
 		WHERE id = NEW.idGame;
 	END IF;
 	IF (SELECT COUNT(id) FROM vgr_group WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
