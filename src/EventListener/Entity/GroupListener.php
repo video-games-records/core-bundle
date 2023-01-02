@@ -18,10 +18,6 @@ class GroupListener
         if (null === $group->getLibGroupFr()) {
             $group->setLibGroupFr($group->getLibGroupEn());
         }
-
-        if ($group->getBoolDlc()) {
-            $group->getGame()->setBoolDlc(true);
-        }
     }
 
     /**
@@ -32,34 +28,6 @@ class GroupListener
     {
         if (null === $group->getLibGroupFr()) {
             $group->setLibGroupFr($group->getLibGroupEn());
-        }
-
-        $game = $group->getGame();
-
-        /** @var Group $row */
-        $game->setBoolDlc(false);
-        foreach ($game->getGroups() as $row) {
-            if ($row->getBoolDlc()) {
-                $game->setBoolDlc(true);
-                break;
-            }
-        }
-    }
-
-    /**
-     * @param Group       $group
-     * @param LifecycleEventArgs $event
-     */
-    public function preRemove(Group $group, LifecycleEventArgs $event): void
-    {
-        $game = $group->getGame();
-        /** @var Group $row */
-        $game->setBoolDlc(false);
-        foreach ($game->getGroups() as $row) {
-            if ($row->getBoolDlc() && $row->getId() !== $group->getId()) {
-                $game->setBoolDlc(true);
-                break;
-            }
         }
     }
 }
