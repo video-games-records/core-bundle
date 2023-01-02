@@ -122,6 +122,7 @@ class VideoAdmin extends AbstractAdmin
             ->add('type', null, ['label' => 'label.type'])
             ->add('videoId', null, ['label' => 'label.video.id'])
             ->add('url', null, ['label' => 'label.url'])
+            ->add('nbComment', null, ['label' => 'label.nbComment'])
             ->add(
                 'boolActive',
                 'boolean',
@@ -148,6 +149,7 @@ class VideoAdmin extends AbstractAdmin
             ->add('libVideo', null, ['label' => 'label.name'])
             ->add('player', null, ['label' => 'label.player'])
             ->add('game', null, ['label' => 'label.game'])
-            ->add('url', null, ['label' => 'label.url']);
+            ->add('url', null, ['label' => 'label.url'])
+            ->add('nbComment', null, ['label' => 'label.nbComment']);
     }
 }

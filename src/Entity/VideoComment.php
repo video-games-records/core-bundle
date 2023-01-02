@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Comment
  * @ORM\Table(name="vgr_video_comment")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoCommentRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\VideoCommentListener"})
  * @ApiResource(attributes={"order"={"id"}})
  */
 class VideoComment implements TimestampableInterface
@@ -61,7 +62,7 @@ class VideoComment implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): Self
+    public function setId(int $id): VideoComment
     {
         $this->id = $id;
 
@@ -92,7 +93,7 @@ class VideoComment implements TimestampableInterface
      * @param Video $video
      * @return $this
      */
-    public function setVideo(Video $video): Self
+    public function setVideo(Video $video): VideoComment
     {
         $this->video = $video;
         return $this;
@@ -112,7 +113,7 @@ class VideoComment implements TimestampableInterface
      * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player): Self
+    public function setPlayer(Player $player): VideoComment
     {
         $this->player = $player;
         return $this;
@@ -122,7 +123,7 @@ class VideoComment implements TimestampableInterface
      * @param string $text
      * @return $this
      */
-    public function setText(string $text): Self
+    public function setText(string $text): VideoComment
     {
         $this->text = $text;
 
