@@ -25,6 +25,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *
  * @ORM\Table(name="vgr_player")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerListener"})
  * @ApiResource(attributes={"order"={"pseudo"}})
  * @ApiFilter(
  *     SearchFilter::class,

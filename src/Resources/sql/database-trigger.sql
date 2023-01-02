@@ -87,24 +87,3 @@ BEGIN
     INSERT INTO vgr_player_badge (idPlayer, idBadge) VALUES (NEW.id, 1);
 END //
 delimiter ;
-
-
-delimiter //
-DROP TRIGGER IF EXISTS `vgrPlayerAfterUpdate`//
-CREATE TRIGGER vgrPlayerAfterUpdate AFTER UPDATE ON vgr_player
-FOR EACH ROW
-BEGIN
-  IF OLD.idTeam IS NULL AND NEW.idTeam IS NOT NULL THEN
-    UPDATE vgr_chart
-    SET statusTeam = 'MAJ'
-    WHERE id IN (SELECT idChart FROM vgr_player_chart WHERE idPlayer = OLD.id);
-  END IF;
-
-  IF NEW.idTeam IS NULL AND OLD.idTeam	IS NOT NULL THEN
-    UPDATE vgr_chart
-    SET statusTeam = 'MAJ'
-    WHERE id IN (SELECT idChart FROM vgr_player_chart WHERE idPlayer = OLD.id);
-  END IF;
-END //
-delimiter ;
-

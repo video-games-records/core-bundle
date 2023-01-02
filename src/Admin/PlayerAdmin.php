@@ -50,6 +50,15 @@ class PlayerAdmin extends AbstractAdmin
                 'label' => 'Maj ?',
                 'required' => false,
             ])
+            ->add('team', ModelListType::class, [
+                'data_class' => null,
+                'btn_add' => false,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => false,
+                'label' => 'label.country',
+            ])
             ->add('country', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,
