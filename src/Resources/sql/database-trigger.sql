@@ -77,49 +77,6 @@ END //
 delimiter ;
 
 
--- Group
-delimiter //
-DROP TRIGGER IF EXISTS `vgrGroupAfterInsert`//
-CREATE TRIGGER vgrGroupAfterInsert AFTER INSERT ON vgr_group
-FOR EACH ROW
-BEGIN
-	IF (SELECT COUNT(id) FROM vgr_group WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
-		UPDATE vgr_game SET boolDLC=1 WHERE id = NEW.idGame;
-	ELSE
-		UPDATE vgr_game SET boolDLC=0 WHERE id = NEW.idGame;
-	END IF;
-END //
-delimiter ;
-
-
-delimiter //
-DROP TRIGGER IF EXISTS `vgrGroupAfterUpdate`//
-CREATE TRIGGER vgrGroupAfterUpdate AFTER UPDATE ON vgr_group
-FOR EACH ROW
-BEGIN
-	IF (SELECT COUNT(id) FROM vgr_group WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
-		UPDATE vgr_game SET boolDLC=1 WHERE id = NEW.idGame;
-	ELSE
-		UPDATE vgr_game SET boolDLC=0 WHERE id = NEW.idGame;
-	END IF;
-END //
-delimiter ;
-
-
-delimiter //
-DROP TRIGGER IF EXISTS `vgrGroupAfterDelete`//
-CREATE TRIGGER vgrGroupAfterDelete AFTER DELETE ON vgr_group
-FOR EACH ROW
-BEGIN
-	IF (SELECT COUNT(id) FROM vgr_group WHERE idGame = OLD.idGame AND boolDLC = 1) > 0 THEN
-		UPDATE vgr_game SET boolDLC=1 WHERE id = OLD.idGame;
-	ELSE
-		UPDATE vgr_game SET boolDLC=0 WHERE id = OLD.idGame;
-	END IF;
-END //
-delimiter ;
-
-
 -- Player
 delimiter //
 DROP TRIGGER IF EXISTS `vgrPlayerAfterInsert`//
