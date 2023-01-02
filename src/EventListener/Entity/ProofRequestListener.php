@@ -2,9 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 

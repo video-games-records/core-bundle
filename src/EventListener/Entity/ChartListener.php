@@ -2,14 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
-use VideoGamesRecords\CoreBundle\Service\Stats\Write\GameStatsHandler;
-use VideoGamesRecords\CoreBundle\Service\Stats\Write\GroupStatsHandler;
 
 class ChartListener
 {
