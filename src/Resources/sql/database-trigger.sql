@@ -77,20 +77,6 @@ END //
 delimiter ;
 
 
-delimiter //
-DROP TRIGGER IF EXISTS `vgrChartAfterUpdate`//
-CREATE TRIGGER vgrChartAfterUpdate AFTER UPDATE ON vgr_chart
-FOR EACH ROW
-BEGIN
-	IF OLD.nbPost != NEW.nbPost	THEN
-		UPDATE vgr_group
-		SET nbPost = (SELECT SUM(nbPost) FROM vgr_chart WHERE idGroup = NEW.idGroup)
-		WHERE id = NEW.idGroup;
-	END IF;
-END //
-delimiter ;
-
-
 -- Group
 delimiter //
 DROP TRIGGER IF EXISTS `vgrGroupAfterInsert`//
@@ -111,16 +97,6 @@ DROP TRIGGER IF EXISTS `vgrGroupAfterUpdate`//
 CREATE TRIGGER vgrGroupAfterUpdate AFTER UPDATE ON vgr_group
 FOR EACH ROW
 BEGIN
-	IF OLD.nbChart != NEW.nbChart	THEN
-		UPDATE vgr_game
-		SET nbChart = (SELECT SUM(nbChart) FROM vgr_group WHERE idGame = NEW.idGame)
-		WHERE id = NEW.idGame;
-	END IF;
-	IF OLD.nbPost != NEW.nbPost	THEN
-		UPDATE vgr_game
-		SET nbPost = (SELECT SUM(nbPost) FROM vgr_group WHERE idGame = NEW.idGame)
-		WHERE id = NEW.idGame;
-	END IF;
 	IF (SELECT COUNT(id) FROM vgr_group WHERE idGame = NEW.idGame AND boolDLC = 1) > 0 THEN
 		UPDATE vgr_game SET boolDLC=1 WHERE id = NEW.idGame;
 	ELSE
@@ -152,7 +128,6 @@ CREATE TRIGGER `vgrPlayerAfterInsert` AFTER INSERT ON `vgr_player`
 BEGIN
     -- BADGE INSCRIPTION
     INSERT INTO vgr_player_badge (idPlayer, idBadge) VALUES (NEW.id, 1);
-
 END //
 delimiter ;
 

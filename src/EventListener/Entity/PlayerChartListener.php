@@ -3,11 +3,11 @@
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Service\Stats\Write\GameStatsHandler;
@@ -39,6 +39,14 @@ class PlayerChartListener
         $chart->setNbPost($chart->getNbPost() + 1);
         $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
         $chart->setStatusTeam(ChartStatus::STATUS_MAJ);
+
+        // Group
+        $group = $chart->getGroup();
+        $group->setNbPost($group->getNbPost() + 1);
+
+        // Game
+        $game = $group->getGame();
+        $game->setNbPost($game->getNbPost() + 1);
 
         // Player
         $player = $playerChart->getPlayer();
@@ -153,5 +161,23 @@ class PlayerChartListener
         // Player
         $player = $playerChart->getPlayer();
         $player->setNbChart($player->getNbChart() - 1);
+
+        // Group
+        $group = $chart->getGroup();
+        $group->setNbPost($group->getNbPost() - 1);
+
+        // Game
+        $game = $group->getGame();
+        $game->setNbPost($game->getNbPost() - 1);
+    }
+
+      /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function postRemove(PlayerChart $playerChart, LifecycleEventArgs $event): void
+    {
+        $this->groupStatsHandler->majNbPlayer($playerChart->getChart()->getGroup());
+        $this->gameStatsHandler->majNbPlayer($playerChart->getChart()->getGroup()->getGame());
     }
 }

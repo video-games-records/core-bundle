@@ -13,11 +13,6 @@ use VideoGamesRecords\CoreBundle\Service\Stats\Write\GroupStatsHandler;
 
 class ChartListener
 {
-    public function __construct(
-        private readonly GameStatsHandler $gameStatsHandler,
-        private readonly GroupStatsHandler $groupStatsHandler
-    ) {}
-
     /**
      * @param Chart       $chart
      * @param LifecycleEventArgs $event
@@ -27,14 +22,10 @@ class ChartListener
         if (null === $chart->getLibChartFr()) {
             $chart->setLibChartFr($chart->getLibChartEn());
         }
+        $chart->getGroup()->setNbChart($chart->getGroup()->getNbChart() + 1);
+        $chart->getGroup()->getGame()->setNbChart($chart->getGroup()->getGame()->getNbChart() + 1);
     }
 
-
-    public function postPersist(Chart $chart, LifecycleEventArgs $event): void
-    {
-        $this->groupStatsHandler->majNbChart($chart->getGroup());
-        $this->gameStatsHandler->majNbChart($chart->getGroup()->getGame());
-    }
 
     /**
      * @param Chart       $chart
@@ -47,16 +38,14 @@ class ChartListener
         }
     }
 
+
     /**
-     * @param PlayerChart        $playerChart
+     * @param Chart       $chart
      * @param LifecycleEventArgs $event
-     * @return void
-     * @throws NoResultException
-     * @throws NonUniqueResultException
      */
-    public function postRemove(PlayerChart $playerChart, LifecycleEventArgs $event): void
+    public function preRemove(Chart $chart, LifecycleEventArgs $event): void
     {
-        $this->groupStatsHandler->handle($playerChart->getChart()->getGroup());
-        $this->gameStatsHandler->handle($playerChart->getChart()->getGroup()->getGame());
+        $chart->getGroup()->setNbChart($chart->getGroup()->getNbChart() - 1);
+        $chart->getGroup()->getGame()->setNbChart($chart->getGroup()->getGame()->getNbChart() - 1);
     }
 }
