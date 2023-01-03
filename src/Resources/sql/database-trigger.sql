@@ -1,16 +1,3 @@
--- User
-delimiter //
-DROP TRIGGER IF EXISTS `userAfterInsert`//
-CREATE TRIGGER `userAfterInsert` AFTER INSERT ON `user`
-FOR EACH ROW
-BEGIN
-    -- ROLE PLAYER
-    INSERT INTO user_group (userId, groupId) VALUE (NEW.id, 2);
-    -- Player
-    INSERT INTO vgr_player (id, pseudo, normandie_user_id, slug) values (NEW.id, NEW.username, NEW.id, NEW.slug);
-END //
-delimiter ;
-
 delimiter //
 DROP TRIGGER IF EXISTS `userAfterUpdate`//
 CREATE TRIGGER `userAfterUpdate` AFTER UPDATE ON `user`
@@ -73,17 +60,5 @@ BEGIN
 
 	END IF;
 
-END //
-delimiter ;
-
-
--- Player
-delimiter //
-DROP TRIGGER IF EXISTS `vgrPlayerAfterInsert`//
-CREATE TRIGGER `vgrPlayerAfterInsert` AFTER INSERT ON `vgr_player`
-    FOR EACH ROW
-BEGIN
-    -- BADGE INSCRIPTION
-    INSERT INTO vgr_player_badge (idPlayer, idBadge) VALUES (NEW.id, 1);
 END //
 delimiter ;

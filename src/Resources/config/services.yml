@@ -37,6 +37,13 @@ services:
         public: true
         tags:
             - { name: "sonata.block" }
+    vgr.core.event_listener.register:
+        class: VideoGamesRecords\CoreBundle\EventListener\RegisterListener
+        tags:
+            -   name: 'doctrine.orm.entity_listener'
+                event: 'postPersist'
+                entity: 'ProjetNormandie\UserBundle\Entity\User'
+
 
 
 

@@ -738,7 +738,7 @@ class Player implements SluggableInterface
     /**
      * @return mixed
      */
-    public function getPlayerBadge()
+    public function getPlayerBadge(): mixed
     {
         return $this->playerBadge;
     }
