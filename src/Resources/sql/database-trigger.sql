@@ -1,20 +1,4 @@
 delimiter //
-DROP TRIGGER IF EXISTS `userAfterUpdate`//
-CREATE TRIGGER `userAfterUpdate` AFTER UPDATE ON `user`
-FOR EACH ROW
-BEGIN
-    -- Player
-    UPDATE vgr_player
-    SET
-        pseudo = NEW.username,
-        avatar = NEW.avatar,
-        slug = NEW.slug
-    WHERE normandie_user_id = NEW.id;
-END //
-delimiter ;
-
-
-delimiter //
 DROP TRIGGER IF EXISTS `vgrChartPlayerAfterUpdate`//
 CREATE TRIGGER vgrChartPlayerAfterUpdate AFTER UPDATE ON vgr_player_chart
 FOR EACH ROW
