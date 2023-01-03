@@ -2,8 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 
 class GroupListener

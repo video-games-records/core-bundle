@@ -101,11 +101,6 @@ class Game implements SluggableInterface, TimestampableInterface
     private ?DateTime $publishedAt = null;
 
     /**
-     * @ORM\Column(name="boolDlc", type="boolean", nullable=false, options={"default":0})
-     */
-    private bool $boolDlc = false;
-
-    /**
      * @ORM\Column(name="boolRanking", type="boolean", nullable=true, options={"default":1})
      */
     private bool $boolRanking = true;
@@ -366,29 +361,6 @@ class Game implements SluggableInterface, TimestampableInterface
     public function getPublishedAt(): ?DateTime
     {
         return $this->publishedAt;
-    }
-
-    /**
-     * Set boolDlc
-     *
-     * @param bool $boolDlc
-     * @return Game
-     */
-    public function setBoolDlc(bool $boolDlc): Game
-    {
-        $this->boolDlc = $boolDlc;
-
-        return $this;
-    }
-
-    /**
-     * Get boolDlc
-     *
-     * @return bool
-     */
-    public function getBoolDlc(): bool
-    {
-        return $this->boolDlc;
     }
 
     /**

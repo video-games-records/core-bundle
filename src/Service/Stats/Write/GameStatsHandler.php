@@ -3,6 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Service\Stats\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 
 class GameStatsHandler
@@ -14,16 +16,22 @@ class GameStatsHandler
         $this->em = $em;
     }
 
-    public function handle(Game $game): void
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function majNbPlayer(Game $game): void
     {
-        $nbChart = 0;
-        $nbPost = 0;
-        foreach ($game->getGroups() as $group) {
-            $nbChart += $group->getNbChart();
-            $nbPost += $group->getNbPost();
-        }
-        $game->setNbChart($nbChart);
-        $game->setNbPost($nbPost);
+        $query = $this->em->createQuery("
+            SELECT COUNT(DISTINCT pc.player)
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            JOIN pc.chart c
+            JOIN c.group g
+            WHERE g.game = :game");
+        $query->setParameter('game', $game);
+
+        $nb = $query->getSingleScalarResult();
+        $game->setNbPlayer($nb);
         $this->em->flush();
     }
 }
