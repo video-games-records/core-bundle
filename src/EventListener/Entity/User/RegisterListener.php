@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\EventListener;
+namespace VideoGamesRecords\CoreBundle\EventListener\Entity\User;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use ProjetNormandie\UserBundle\Entity\User;
