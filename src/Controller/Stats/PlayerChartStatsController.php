@@ -1,12 +1,10 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Stats;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
-use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 /**
  * Class PlayerController
