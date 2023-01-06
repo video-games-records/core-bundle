@@ -81,6 +81,7 @@ class PlayerRankingQuery extends DefaultRankingQuery
         $query = $this->em->createQueryBuilder()
             ->select('p')
             ->from('VideoGamesRecords\CoreBundle\Entity\Player', 'p')
+            ->where("p.$column IS NOT NULL")
             ->orderBy("p.$column");
 
         if ($team !== null) {
@@ -91,7 +92,7 @@ class PlayerRankingQuery extends DefaultRankingQuery
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
         } else {
-            $query->where("p.$column <= :maxRank")
+            $query->andWhere("p.$column <= :maxRank")
                 ->setParameter('maxRank', $maxRank);
         }
         return $query->getQuery()->getResult();

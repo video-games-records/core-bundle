@@ -16,11 +16,11 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
+
 /**
- * Team
- *
  * @ORM\Table(name="vgr_team")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener"})
@@ -53,6 +53,7 @@ class Team implements SluggableInterface, TimestampableInterface
     use SluggableTrait;
     use RankCupTrait;
     use RankMedalTrait;
+    use RankPointBadgeTrait;
     use RankPointGameTrait;
     use RankPointChartTrait;
 
@@ -135,20 +136,6 @@ class Team implements SluggableInterface, TimestampableInterface
      * @ORM\Column(name="nbGame", type="integer", nullable=false)
      */
     private $nbGame = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointBadge", type="integer", nullable=false)
-     */
-    private $pointBadge = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="rankBadge", type="integer", nullable=true)
-     */
-    private $rankBadge;
 
     /**
      * @var integer
@@ -420,49 +407,6 @@ class Team implements SluggableInterface, TimestampableInterface
         return $this->nbGame;
     }
 
-    /**
-     * Set pointBadge
-     * @param integer $pointBadge
-     * @return Team
-     */
-    public function setPointBadge(int $pointBadge)
-    {
-        $this->pointBadge = $pointBadge;
-
-        return $this;
-    }
-
-    /**
-     * Get pointBadge
-     *
-     * @return integer
-     */
-    public function getPointBadge()
-    {
-        return $this->pointBadge;
-    }
-
-    /**
-     * Set rankBadge
-     * @param integer $rankBadge
-     * @return Team
-     */
-    public function setRankBadge(int $rankBadge)
-    {
-        $this->rankBadge = $rankBadge;
-
-        return $this;
-    }
-
-    /**
-     * Get rankBadge
-     *
-     * @return integer
-     */
-    public function getRankBadge()
-    {
-        return $this->rankBadge;
-    }
 
     /**
      * Set nbMasterBadge

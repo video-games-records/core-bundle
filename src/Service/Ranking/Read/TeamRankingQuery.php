@@ -73,7 +73,7 @@ class TeamRankingQuery extends DefaultRankingQuery
         $query = $this->em->createQueryBuilder()
             ->select('t')
             ->from('VideoGamesRecords\CoreBundle\Entity\Team', 't')
-            ->where("(t.$column != 0)")
+            ->where("t.$column IS NOT NULL")
             ->orderBy("t.$column");
 
         if ($team !== null) {
