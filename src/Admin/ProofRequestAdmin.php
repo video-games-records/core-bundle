@@ -305,7 +305,7 @@ class ProofRequestAdmin extends AbstractAdmin implements MessageTypeInterface
         $player = $this->getPlayer();
 
         $this->messageBuilder
-            ->setSender($em->getReference('VideoGamesRecords\CoreBundle\Entity\User\UserInterface', 0))
+            ->setSender($em->getReference('ProjetNormandie\UserBundle\Entity\User', 0))
             ->setType(self::MESSAGE_TYPE_PROOF_REQUEST);
 
         $setPlayerResponding = false;

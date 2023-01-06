@@ -63,16 +63,7 @@ In order to link your User entity to this module you should add the following co
 
 [Official documentation](http://symfony.com/doc/current/cookbook/doctrine/resolve_target_entity.html)
 
-```yaml
-# Doctrine Configuration - config.yml
-doctrine:
-    orm:
-        resolve_target_entities:
-            VideoGamesRecords\CoreBundle\Entity\User\UserInterface: AppBundle\Entity\User
-            VideoGamesRecords\CoreBundle\Entity\User\GroupeInterface: AppBundle\Entity\Group
-```
 
-After resolving the entity you can update your database schema.
 
 ### Routing
 

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Entity\User\UserInterface;
+use ProjetNormandie\UserBundle\Entity\User;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
@@ -76,7 +76,7 @@ class Player implements SluggableInterface
     use RankPointGameTrait;
 
     /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\User\UserInterface")
+     * @ORM\OneToOne(targetEntity="ProjetNormandie\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
      */
     private $user;
@@ -702,7 +702,7 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @return UserInterface
+     * @return User
      */
     public function getUser()
     {
