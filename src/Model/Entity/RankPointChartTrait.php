@@ -9,7 +9,7 @@ trait RankPointChartTrait
     /**
      * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
      */
-    private ?int $rankPointChart = 0;
+    private ?int $rankPointChart;
 
     /**
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
@@ -28,9 +28,9 @@ trait RankPointChartTrait
 
     /**
      * Get rankPointChart
-     * @return integer
+     * @return int|null
      */
-    public function getRankPointChart(): int
+    public function getRankPointChart(): ?int
     {
         return $this->rankPointChart;
     }

@@ -9,7 +9,7 @@ trait RankPointBadgeTrait
     /**
      * @ORM\Column(name="rankBadge", type="integer", nullable=false)
      */
-    private int $rankBadge = 0;
+    private ?int $rankBadge;
 
     /**
      * @ORM\Column(name="pointBadge", type="integer", nullable=false)
@@ -28,9 +28,9 @@ trait RankPointBadgeTrait
 
     /**
      * Get rankBadge
-     * @return integer
+     * @return int|null
      */
-    public function getRankBadge(): int
+    public function getRankBadge(): ?int
     {
         return $this->rankBadge;
     }
