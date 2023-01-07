@@ -9,7 +9,7 @@ trait RankPointGameTrait
     /**
      * @ORM\Column(name="rankPointGame", type="integer", nullable=false)
      */
-    private ?int $rankPointGame = 0;
+    private ?int $rankPointGame;
 
     /**
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
@@ -28,9 +28,9 @@ trait RankPointGameTrait
 
     /**
      * Get rankPointGame
-     * @return integer
+     * @return int|null
      */
-    public function getRankPointGame(): int
+    public function getRankPointGame(): ?int
     {
         return $this->rankPointGame;
     }

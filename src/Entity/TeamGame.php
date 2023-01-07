@@ -46,6 +46,7 @@ use Doctrine\ORM\Mapping as ORM;
  *          "chartRank2": "DESC",
  *          "chartRank3": "DESC",
  *          "pointGame": "DESC",
+ *          "nbEqual": "ASC",
  *          "game.libGameEn" : "ASC",
  *          "game.libGameFr" : "ASC",
  *     },
@@ -122,7 +123,7 @@ class TeamGame
      * @param integer $pointGame
      * @return $this
      */
-    public function setPointGame(int $pointGame): Self
+    public function setPointGame(int $pointGame): TeamGame
     {
         $this->pointGame = $pointGame;
         return $this;
@@ -143,7 +144,7 @@ class TeamGame
      * @param float $pointChart
      * @return $this
      */
-    public function setPointChart(float $pointChart): Self
+    public function setPointChart(float $pointChart): TeamGame
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -164,7 +165,7 @@ class TeamGame
      * @param integer $rankPointChart
      * @return $this
      */
-    public function setRankPointChart(int $rankPointChart): Self
+    public function setRankPointChart(int $rankPointChart): TeamGame
     {
         $this->rankPointChart = $rankPointChart;
         return $this;
@@ -185,7 +186,7 @@ class TeamGame
      * @param integer $rankMedal
      * @return $this
      */
-    public function setRankMedal(int $rankMedal): Self
+    public function setRankMedal(int $rankMedal): TeamGame
     {
         $this->rankMedal = $rankMedal;
         return $this;
@@ -206,7 +207,7 @@ class TeamGame
      * @param integer $chartRank0
      * @return $this
      */
-    public function setChartRank0(int $chartRank0): Self
+    public function setChartRank0(int $chartRank0): TeamGame
     {
         $this->chartRank0 = $chartRank0;
         return $this;
@@ -227,7 +228,7 @@ class TeamGame
      * @param integer $chartRank1
      * @return $this
      */
-    public function setChartRank1(int $chartRank1): Self
+    public function setChartRank1(int $chartRank1): TeamGame
     {
         $this->chartRank1 = $chartRank1;
         return $this;
@@ -248,7 +249,7 @@ class TeamGame
      * @param integer $chartRank2
      * @return $this
      */
-    public function setChartRank2(int $chartRank2): Self
+    public function setChartRank2(int $chartRank2): TeamGame
     {
         $this->chartRank2 = $chartRank2;
         return $this;
@@ -269,7 +270,7 @@ class TeamGame
      * @param integer $chartRank3
      * @return $this
      */
-    public function setChartRank3(int $chartRank3): Self
+    public function setChartRank3(int $chartRank3): TeamGame
     {
         $this->chartRank3 = $chartRank3;
         return $this;
@@ -290,7 +291,7 @@ class TeamGame
      * @param integer $nbEqual
      * @return $this
      */
-    public function setNbEqual(int $nbEqual): Self
+    public function setNbEqual(int $nbEqual): TeamGame
     {
         $this->nbEqual = $nbEqual;
         return $this;
@@ -311,7 +312,7 @@ class TeamGame
      * @param Game $game
      * @return $this
      */
-    public function setGame(Game $game): Self
+    public function setGame(Game $game): TeamGame
     {
         $this->game = $game;
 
@@ -334,7 +335,7 @@ class TeamGame
      * @param Team $team
      * @return $this
      */
-    public function setTeam(Team $team): Self
+    public function setTeam(Team $team): TeamGame
     {
         $this->team = $team;
 

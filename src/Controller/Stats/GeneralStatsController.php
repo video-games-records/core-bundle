@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Stats;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -9,7 +9,7 @@ use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
-class StatsController extends AbstractController
+class GeneralStatsController extends AbstractController
 {
     protected EntityManagerInterface $em;
 

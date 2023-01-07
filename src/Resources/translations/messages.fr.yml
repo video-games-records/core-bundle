@@ -105,7 +105,7 @@ label:
     pointChart: 'Record Points'
     pointGame: 'Game Points'
     pointBadge: 'Badge Points'
-    pseudo: 'Peudo'
+    pseudo: 'Pseudo'
     publishedAt: 'Publié le'
     ranking: 'Ranlking'
     rankPointChart: 'rankPointChart'

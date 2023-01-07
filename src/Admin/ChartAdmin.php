@@ -34,6 +34,12 @@ class ChartAdmin extends AbstractAdmin
         return ($locale == 'fr') ? 'libGroupFr' : 'libGroupEn';
     }
 
+    private function getLibGame(): string
+    {
+        $locale = Locale::getDefault();
+        return ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
+    }
+
     /**
      * @return string
      */
@@ -164,6 +170,11 @@ class ChartAdmin extends AbstractAdmin
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => $this->getLibGroup()],
                 'label' => 'label.group',
+            ])
+            ->add('group.game', ModelFilter::class, [
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => $this->getLibGame()],
+                'label' => 'label.game',
             ])
             ->add(
                 'statusPlayer', ChoiceFilter::class, [

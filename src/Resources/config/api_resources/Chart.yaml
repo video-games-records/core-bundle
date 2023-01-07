@@ -7,37 +7,28 @@ resources:
         collectionOperations:
             get:
                 normalization_context: {'groups': [chart.list], 'enable_max_depth':true}
-            with-player-chart:
-                method: 'GET'
-                normalization_context: {'groups': [chart.read, chart.group, group.read.mini, chart.libs, chartLib.read, chart.playerCharts, playerChart.read, playerChart.chart, playerChart.player, playerChart.libs, playerChart.status, playerChartStatus.read, playerChart.platform], 'enable_max_depth':true}
-                access_control: 'is_granted("ROLE_PLAYER")'
-                path: '/charts/with-player-chart'
-                swagger_context:
-                    parameters:
-                        - name: id
-                          in: path
-                          required: true
-                          type: integer
-                        - name: idGame
-                          in: query
-                          required: false
-                          type: integer
-                        - name: idGroup
-                          in: query
-                          required: false
-                          type: integer
-                        - name: idChart
-                          in: query
-                          required: false
-                          type: integer
-                        - name: libChart
-                          in: query
-                          required: false
-                          type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\ChartController::charts'
         itemOperations:
             get:
                 normalization_context: {'groups': [chart.read, chart.libs, chartLib.read]}
+            form-data:
+                method: 'GET'
+                normalization_context:
+                    groups: [ chart.read, chart.group, group.read.mini, chart.libs, chartLib.read, chart.playerCharts, playerChart.read, playerChart.chart, playerChart.player, playerChart.libs, playerChart.status, playerChartStatus.read, playerChart.platform ]
+                    enable_max_depth': true
+                    subresource_operation_name: ''
+                access_control: 'is_granted("ROLE_PLAYER")'
+                path: '/charts/{id}/form-data'
+                swagger_context:
+                    parameters:
+                        -   name: id
+                            in: path
+                            required: true
+                            type: integer
+                        -   name: libChart
+                            in: query
+                            required: false
+                            type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\FormDataController::loadChart'
             team-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [teamChart.pointChart, teamChart.team, team.read.mini]}

@@ -22,8 +22,8 @@ class RolePlayerManager
      */
     public function majRulesOfThree(): void
     {
-        $group1 = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', self::GROUP_PLAYER_ID);
-        $group2 = $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\User\GroupInterface', self::GROUP_PLAYER_DISABLED_AUTO_ID);
+        $group1 = $this->em->getReference('ProjetNormandie\UserBundle\Entity\Group', self::GROUP_PLAYER_ID);
+        $group2 = $this->em->getReference('ProjetNormandie\UserBundle\Entity\Group', self::GROUP_PLAYER_DISABLED_AUTO_ID);
 
         $players = $this->getPlayerToDisabled();
         foreach ($players as $player) {
@@ -55,7 +55,7 @@ class RolePlayerManager
             ->setParameter('nbChartDisabled', 30)
             ->setParameter('nbChart', 300)
             ->setParameter('percentage', 3)
-            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = :idGroup)')
+            ->andWhere('p.user IN (SELECT u FROM ProjetNormandie\UserBundle\Entity\User u join u.groups g WHERE g.id = :idGroup)')
             ->setParameter('idGroup', self::GROUP_PLAYER_ID);
         return $query->getQuery()->getResult();
     }
@@ -72,7 +72,7 @@ class RolePlayerManager
             ->setParameter('nbChartDisabled', 30)
             ->setParameter('nbChart', 300)
             ->setParameter('percentage', 3)
-            ->andWhere('p.user IN (SELECT u FROM VideoGamesRecords\CoreBundle\Entity\User\UserInterface u join u.groups g WHERE g.id = :idGroup)')
+            ->andWhere('p.user IN (SELECT u FROM ProjetNormandie\UserBundle\Entity\User u join u.groups g WHERE g.id = :idGroup)')
             ->setParameter('idGroup', self::GROUP_PLAYER_DISABLED_AUTO_ID);
         return $query->getQuery()->getResult();
     }

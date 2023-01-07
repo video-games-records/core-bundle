@@ -9,7 +9,7 @@ trait RankMedalTrait
     /**
      * @ORM\Column(name="rankMedal", type="integer", nullable=false)
      */
-    private int $rankMedal = 0;
+    private ?int $rankMedal;
 
     /**
      * @ORM\Column(name="chartRank0", type="integer", nullable=false)
@@ -53,9 +53,9 @@ trait RankMedalTrait
 
     /**
      * Get rankMedal
-     * @return integer
+     * @return int|null
      */
-    public function getRankMedal(): int
+    public function getRankMedal(): ?int
     {
         return $this->rankMedal;
     }

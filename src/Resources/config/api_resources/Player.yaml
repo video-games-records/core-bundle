@@ -6,7 +6,7 @@ resources:
             stats:
                 method: 'GET'
                 path: '/players/stats'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\StatsController::getWebsiteStats'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Stats\GeneralStatsController::getWebsiteStats'
             player-ranking-point-chart:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.pointChart,player.team,team.read.mini,player.country,country.read]}
@@ -89,9 +89,9 @@ resources:
                 method: 'GET'
                 normalization_context: {'groups': [playerChartStatus.read]}
                 path: '/players/{id}/player-chart-stats'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartStatsController::load'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Stats\PlayerChartStatsController::load'
             game-stats:
                 method: 'GET'
                 normalization_context: { 'groups': [playerGame.game, game.stats, playerGame.proof, playerGame.statuses, playerChartStatus.read, game.read.mini, game.platforms, platform.read]}
                 path: '/players/{id}/game-stats'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerGameStatsController::load'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Stats\PlayerGameStatsController::load'

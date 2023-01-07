@@ -11,7 +11,7 @@ use Twig\Environment;
 
 class ProofGamesBlockService extends AbstractBlockService
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(Environment $templating, EntityManagerInterface $entityManager)
     {
@@ -22,7 +22,7 @@ class ProofGamesBlockService extends AbstractBlockService
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'Proof Games Block';
     }
