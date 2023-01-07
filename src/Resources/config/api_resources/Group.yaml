@@ -12,6 +12,22 @@ resources:
         itemOperations:
             get:
                 normalization_context: {'groups': [group.read]}
+            form-data:
+                method: 'GET'
+                normalization_context: { 'groups': [ chart.read, chart.group, group.read.mini, chart.libs, chartLib.read, chart.playerCharts, playerChart.read, playerChart.chart, playerChart.player, playerChart.libs, playerChart.status, playerChartStatus.read, playerChart.platform ], 'enable_max_depth': true }
+                access_control: 'is_granted("ROLE_PLAYER")'
+                path: '/groups/{id}/form-data'
+                swagger_context:
+                    parameters:
+                        -   name: id
+                            in: path
+                            required: true
+                            type: integer
+                        -   name: libChart
+                            in: query
+                            required: false
+                            type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\FormDataController::loadGroup'
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [playerGroup.pointChart,playerGroup.player,player.read.mini,player.team,team.read.mini,player.country,country.read]}

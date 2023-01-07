@@ -84,17 +84,17 @@ class ChartRepository extends DefaultRepository
 
         $this->setOrder($query, $locale);
 
-        if ($search['idGame'] != null) {
-            $query->andWhere('ga.id = :idGame')
-                ->setParameter('idGame', $search['idGame']);
+        if (isset($search['game'])) {
+            $query->andWhere('gr.game = :game')
+                ->setParameter('game', $search['game']);
         }
-        if ($search['idGroup'] != null) {
-            $query->andWhere('gr.id = :idGroup')
-                ->setParameter('idGroup', $search['idGroup']);
+        if (isset($search['group'])) {
+            $query->andWhere('ch.group = :group')
+                ->setParameter('group', $search['group']);
         }
-        if ($search['idChart'] != null) {
-            $query->andWhere('ch.id = :idChart')
-                ->setParameter('idChart', $search['idChart']);
+        if (isset($search['chart'])) {
+            $query->andWhere('ch = :chart')
+                ->setParameter('chart', $search['chart']);
         }
         $query = $query->getQuery()
             ->setFirstResult($firstResult)
@@ -102,34 +102,6 @@ class ChartRepository extends DefaultRepository
         $doctrinePaginator = new DoctrinePaginator($query);
         return new Paginator($doctrinePaginator);
     }
-
-
-    /**
-     * @param        $group
-     * @param        $player
-     * @param string $locale
-     * @return int|mixed|string
-     */
-    public function getTopScore($group, $player, string $locale = 'en'): mixed
-    {
-        $query = $this->createQueryBuilder('ch')
-            ->join('ch.group', 'gr')
-            ->addSelect('gr')
-            ->addSelect('pc')
-            ->andWhere('ch.group = :group')
-            ->setParameter('group', $group);
-
-        $this->setOrder($query, $locale);
-
-        if ($player !== null) {
-            $query->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.rank = 1 OR pc.player = :player')
-                ->setParameter('player', $player);
-        } else {
-            $query->leftJoin('ch.playerCharts', 'pc', 'WITH', 'pc.rank = 1');
-        }
-        return $query->getQuery()->getResult();
-    }
-
 
     /*************************************/
     /************  PRIVATE  **************/
