@@ -9,7 +9,7 @@ use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
-class StatsController extends AbstractController
+class GeneralStatsController extends AbstractController
 {
     protected EntityManagerInterface $em;
 
