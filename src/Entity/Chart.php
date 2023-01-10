@@ -85,7 +85,7 @@ class Chart implements SluggableInterface, TimestampableInterface
     private Collection $libs;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart")
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart", fetch="EXTRA_LAZY")
      */
     private Collection $playerCharts;
 
@@ -123,7 +123,7 @@ class Chart implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDefaultName(): ?string
     {
