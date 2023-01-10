@@ -207,10 +207,10 @@ class Proof implements TimestampableInterface
 
     /**
      * Set playerResponding
-     * @param Player $playerResponding
+     * @param Player|null $playerResponding
      * @return Proof
      */
-    public function setPlayerResponding(Player $playerResponding): Proof
+    public function setPlayerResponding(Player $playerResponding = null): Proof
     {
         $this->playerResponding = $playerResponding;
 

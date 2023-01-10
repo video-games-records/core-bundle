@@ -225,10 +225,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set playerResponding
-     * @param Player $playerResponding
+     * @param Player|null $playerResponding
      * @return $this
      */
-    public function setPlayerResponding(Player $playerResponding): self
+    public function setPlayerResponding(Player $playerResponding = null): self
     {
         $this->playerResponding = $playerResponding;
 
