@@ -219,7 +219,7 @@ class Proof implements TimestampableInterface
 
     /**
      * Get playerResponding
-     * @return Player
+     * @return Player|null
      */
     public function getPlayerResponding(): ?Player
     {
