@@ -3,6 +3,7 @@ namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Lock\LockFactory;
@@ -26,6 +27,11 @@ class ScoringPlayerRankingUpdateCommand extends Command
         $this
             ->setName('vgr-core:scoring-player-ranking-update')
             ->setDescription('Command to update all players rankings after scroring')
+            ->addArgument(
+                'release',
+                InputArgument::OPTIONAL,
+                'Who do you want to do?'
+            )
         ;
         parent::configure();
     }
@@ -42,6 +48,11 @@ class ScoringPlayerRankingUpdateCommand extends Command
         $factory = new LockFactory($store);
 
         $lock = $factory->createLock(self::$defaultName);
+
+        $release = $input->getArgument('release');
+        if ($release) {
+            $lock->release();
+        }
 
         if ($lock->acquire()) {
             $this->scoringPlayerRankingHandler->handle();
