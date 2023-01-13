@@ -57,6 +57,8 @@ class ScoringTeamRankingUpdateCommand extends Command
         if ($lock->acquire()) {
             $this->scoringTeamRankingHandler->handle();
             $lock->release();
+        } else {
+            echo self::$defaultName . " IS LOCKED\n";
         }
         return Command::SUCCESS;
     }
