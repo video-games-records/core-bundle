@@ -164,7 +164,7 @@ class TeamRankingHandler implements RankingCommandInterface
     private function majRankPointChart(): void
     {
         $teams = $this->getTeamRepository()->findBy(array(), array('pointChart' => 'DESC'));
-        Ranking::addObjectRank($teams, 'rankPointChart', array('pointChart'));
+        Ranking::addObjectRank($teams);
         $this->em->flush();
     }
 

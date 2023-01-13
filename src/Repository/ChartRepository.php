@@ -45,24 +45,6 @@ class ChartRepository extends DefaultRepository
     }
 
     /**
-     * @param $id
-     * @return Chart
-     * @throws NonUniqueResultException
-     */
-    public function getWithChartType($id): Chart
-    {
-        $query = $this->createQueryBuilder('c')
-            ->join('c.libs', 'lib')
-            ->addSelect('lib')
-            ->join('lib.type', 'type')
-            ->addSelect('type')
-            ->where('c.id = :idChart')
-            ->setParameter('idChart', $id);
-
-        return $query->getQuery()->getOneOrNullResult();
-    }
-
-    /**
      * @param int    $page
      * @param null   $player
      * @param array  $search

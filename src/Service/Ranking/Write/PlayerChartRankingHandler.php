@@ -27,6 +27,7 @@ class PlayerChartRankingHandler implements RankingCommandInterface
 
     public function handle($mixed): void
     {
+        /** @var Chart $chart */
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($mixed);
         if (null === $chart) {
             return;
@@ -35,8 +36,6 @@ class PlayerChartRankingHandler implements RankingCommandInterface
         $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
         $this->games[$chart->getGroup()->getGame()->getId()] = $chart->getGroup()->getGame();
 
-        /** @var Chart $chart */
-        $chart       = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->getWithChartType($chart);
         $ranking     = $this->playerChartRankingQuery->getRanking($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
 

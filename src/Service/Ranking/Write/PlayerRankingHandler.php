@@ -161,24 +161,22 @@ class PlayerRankingHandler implements RankingCommandInterface
         $this->majRankPointGame();
         $this->majRankMedal();
         $this->majRankCup();
-        $this->majRankProof();
-        $this->majRankBadge();
     }
 
     /**
      * @return void
      */
-    private function majRankPointChart(): void
+    public function majRankPointChart(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('pointChart' => 'DESC'));
-        Ranking::addObjectRank($players, 'rankPointChart', array('pointChart'));
+        Ranking::addObjectRank($players);
         $this->em->flush();
     }
 
     /**
      * @return void
      */
-    private function majRankMedal(): void
+    public function majRankMedal(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC'));
         Ranking::addObjectRank($players, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
@@ -188,7 +186,7 @@ class PlayerRankingHandler implements RankingCommandInterface
     /**
      * @return void
      */
-    private function majRankPointGame(): void
+    public function majRankPointGame(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('pointGame' => 'DESC'));
         Ranking::addObjectRank($players, 'rankPointGame', array('pointGame'));
@@ -198,7 +196,7 @@ class PlayerRankingHandler implements RankingCommandInterface
     /**
      * @return void
      */
-    private function majRankCup(): void
+    public function majRankCup(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
         Ranking::addObjectRank($players, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
@@ -208,7 +206,7 @@ class PlayerRankingHandler implements RankingCommandInterface
     /**
      * @return void
      */
-    private function majRankProof(): void
+    public function majRankProof(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('nbChartProven' => 'DESC'));
         Ranking::addObjectRank($players, 'rankProof', array('nbChartProven'));
@@ -218,7 +216,7 @@ class PlayerRankingHandler implements RankingCommandInterface
     /**
      * @return void
      */
-    private function majRankBadge(): void
+    public function majRankBadge(): void
     {
         $players = $this->getPlayerRepository()->findBy(array(), array('pointBadge' => 'DESC', 'nbMasterBadge' => 'DESC'));
         Ranking::addObjectRank($players, 'rankBadge', array('pointBadge', 'nbMasterBadge'));

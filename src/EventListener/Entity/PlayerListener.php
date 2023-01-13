@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -29,16 +30,14 @@ class PlayerListener
      * @param Player             $player
      * @param LifecycleEventArgs $event
      * @return void
+     * @throws Exception
      */
     public function postUpdate(Player $player, LifecycleEventArgs $event): void
     {
-        $em = $event->getObjectManager();
-
         if (array_key_exists('team', $this->changeSet)) {
+            $em = $event->getObjectManager();
             $this->updateChartStatusHandler->playerMajStatusTeam($player);
+            $em->flush();
         }
-
-        $em->flush();
     }
-
 }
