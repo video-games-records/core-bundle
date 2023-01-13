@@ -39,7 +39,7 @@ class ChartLib implements TimestampableInterface
     private Chart $chart;
 
     /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartType")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartType", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idType", referencedColumnName="idType")
      * })
@@ -52,7 +52,7 @@ class ChartLib implements TimestampableInterface
      * @param string|null $name
      * @return $this
      */
-    public function setName(string $name = null): Self
+    public function setName(string $name = null): ChartLib
     {
         $this->name = $name;
         return $this;
@@ -84,7 +84,7 @@ class ChartLib implements TimestampableInterface
      * @param int $idLibChart
      * @return $this
      */
-    public function setIdLibChart(int $idLibChart): Self
+    public function setIdLibChart(int $idLibChart): ChartLib
     {
         $this->idLibChart = $idLibChart;
 
@@ -96,7 +96,7 @@ class ChartLib implements TimestampableInterface
      * @param Chart $chart
      * @return $this
      */
-    public function setChart(Chart $chart): Self
+    public function setChart(Chart $chart): ChartLib
     {
         $this->chart = $chart;
         return $this;

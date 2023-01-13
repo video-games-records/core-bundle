@@ -81,6 +81,8 @@ class ScoringTeamRankingHandler
             ->from('VideoGamesRecords\CoreBundle\Entity\Chart', 'ch')
             ->join('ch.group', 'gr')
             ->addSelect('gr')
+            ->where('ch.statusPlayer = :status')
+            ->setParameter('status', ChartStatus::STATUS_NORMAL)
             ->andWhere('ch.statusTeam = :status')
             ->setParameter('status', ChartStatus::STATUS_MAJ)
             ->setMaxResults(100);

@@ -58,14 +58,12 @@ class ScoringPlayerRankingHandler
             $this->playerGameRankingHandler->handle($game->getId());
         }
 
-        /** @var Player $player */
         foreach ($players as $player) {
             $this->playerRankingHandler->handle($player->getId());
         }
 
         $this->playerRankingHandler->majRank();
 
-        $this->em->flush();
         echo sprintf("%d charts updated\n", count($charts));
         echo sprintf("%d groups updated\n", count($groups));
         echo sprintf("%d games updated\n", count($games));
@@ -81,9 +79,9 @@ class ScoringPlayerRankingHandler
             ->from('VideoGamesRecords\CoreBundle\Entity\Chart', 'ch')
             ->join('ch.group', 'gr')
             ->addSelect('gr')
-            ->andWhere('ch.statusPlayer = :status')
+            ->where('ch.statusPlayer = :status')
             ->setParameter('status', ChartStatus::STATUS_MAJ)
-            ->setMaxResults(100);
+            ->setMaxResults(1);
 
         return $query->getQuery()->getResult();
     }

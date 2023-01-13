@@ -3,7 +3,7 @@ resources:
         collectionOperations:
             get: ~
             send-picture:
-                access_control: 'is_granted("ROLE_USER")'
+                access_control: 'is_granted("ROLE_PLAYER")'
                 method: 'POST'
                 path: '/player-charts/{id}/send-picture'
                 consumes:
@@ -26,7 +26,7 @@ resources:
                                       type: string
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChartController::sendPicture'
             send-video:
-                access_control: 'is_granted("ROLE_USER")'
+                access_control: 'is_granted("ROLE_PLAYER")'
                 method: 'POST'
                 path: '/player-charts/{id}/send-video'
                 consumes:

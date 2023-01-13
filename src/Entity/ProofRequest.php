@@ -65,7 +65,6 @@ class ProofRequest implements TimestampableInterface
     private Player $playerRequesting;
 
     /**
-     * @var Player
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayerResponding", referencedColumnName="id", nullable=true)
@@ -226,10 +225,10 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Set playerResponding
-     * @param Player $playerResponding
+     * @param Player|null $playerResponding
      * @return $this
      */
-    public function setPlayerResponding(Player $playerResponding): self
+    public function setPlayerResponding(Player $playerResponding = null): self
     {
         $this->playerResponding = $playerResponding;
 
@@ -238,7 +237,7 @@ class ProofRequest implements TimestampableInterface
 
     /**
      * Get playerResponding
-     * @return Player
+     * @return Player|null
      */
     public function getPlayerResponding(): ?Player
     {
