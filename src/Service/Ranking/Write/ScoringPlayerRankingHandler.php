@@ -81,7 +81,7 @@ class ScoringPlayerRankingHandler
             ->addSelect('gr')
             ->where('ch.statusPlayer = :status')
             ->setParameter('status', ChartStatus::STATUS_MAJ)
-            ->setMaxResults(1);
+            ->setMaxResults(100);
 
         return $query->getQuery()->getResult();
     }

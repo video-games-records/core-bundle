@@ -27,11 +27,6 @@ class ScoringPlayerRankingUpdateCommand extends Command
         $this
             ->setName('vgr-core:scoring-player-ranking-update')
             ->setDescription('Command to update all players rankings after scroring')
-            ->addArgument(
-                'release',
-                InputArgument::OPTIONAL,
-                'Who do you want to do?'
-            )
         ;
         parent::configure();
     }
@@ -48,12 +43,6 @@ class ScoringPlayerRankingUpdateCommand extends Command
         $factory = new LockFactory($store);
 
         $lock = $factory->createLock(self::$defaultName);
-
-        $release = $input->getArgument('release');
-        if ($release) {
-             echo self::$defaultName . " IS RELEASED\n";
-             $lock->release();
-        }
 
         if ($lock->acquire()) {
             $this->scoringPlayerRankingHandler->handle();
