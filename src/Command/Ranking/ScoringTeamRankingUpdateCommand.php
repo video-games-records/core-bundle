@@ -51,7 +51,8 @@ class ScoringTeamRankingUpdateCommand extends Command
 
         $release = $input->getArgument('release');
         if ($release) {
-            $lock->release();
+             echo self::$defaultName . " IS RELEASED\n";
+             $lock->release();
         }
 
         if ($lock->acquire()) {
