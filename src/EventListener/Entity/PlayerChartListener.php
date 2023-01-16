@@ -171,7 +171,7 @@ class PlayerChartListener
         $game->setNbPost($game->getNbPost() - 1);
     }
 
-      /**
+    /**
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
