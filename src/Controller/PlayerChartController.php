@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 use Aws\S3\S3Client;
 use Doctrine\ORM\Exception\ORMException;
 use Exception;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
-use VideoGamesRecords\CoreBundle\Service\ScorePlatformManager;
+
 
 /**
  * Class PlayerChartController
@@ -146,10 +147,10 @@ class PlayerChartController extends AbstractController
     /**
      * @param PlayerChart $playerChart
      * @param Request     $request
-     * @return Response
+     * @return Proof
      * @throws AccessDeniedException|ORMException
      */
-    public function sendVideo(PlayerChart $playerChart, Request $request): Response
+    public function sendVideo(PlayerChart $playerChart, Request $request): Proof
     {
         $player = $this->userToPlayerTransformer->transform($this->getUser());
 
@@ -207,13 +208,9 @@ class PlayerChartController extends AbstractController
             }
             $em->flush();
         } else {
-            return new JsonResponse([
-                'message' => $this->translator->trans('video.type_not_found'),
-            ], 400);
+            throw new BadRequestException($this->translator->trans('video.type_not_found'));
         }
 
-        return new JsonResponse([
-            'message' => $this->translator->trans('proof.form.success'),
-        ], 200);
+        return $proof;
     }
 }
