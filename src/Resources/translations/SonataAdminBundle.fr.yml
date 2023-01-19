@@ -1,7 +1,7 @@
 group:
     badge: 'Badges'
-    games: 'Games'
-    proofs: 'Proofs'
+    games: 'Jeux'
+    proofs: 'Preuves'
     scores: 'Scores'
-    players: 'Players'
-    others: 'Others'
+    players: 'Joueurs'
+    others: 'Autres'
