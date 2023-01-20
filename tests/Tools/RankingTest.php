@@ -3,8 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Tests\Tools;
 
 use PHPUnit\Framework\TestCase;
-use VideoGamesRecords\CoreBundle\src\Entity\Player;
-use VideoGamesRecords\CoreBundle\src\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class RankingTest extends TestCase
 {
@@ -57,7 +57,7 @@ class RankingTest extends TestCase
     {
         $list = Ranking::addObjectRank($list, 'rankPointChart', ['pointChart']);
         foreach ($list as $key => $ranking) {
-            $this->assertSame($expected[$key]['rank'], $ranking->getRankPointChart());
+            $this->assertSame($expected[$key]['rank'], $ranking->getRank());
         }
     }
 
