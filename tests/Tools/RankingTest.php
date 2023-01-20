@@ -57,7 +57,7 @@ class RankingTest extends TestCase
     {
         $list = Ranking::addObjectRank($list, 'rankPointChart', ['pointChart']);
         foreach ($list as $key => $ranking) {
-            $this->assertSame($expected[$key]['rank'], $ranking->getRank());
+            $this->assertSame($expected[$key]['rank'], $ranking->getRankPointChart());
         }
     }
 

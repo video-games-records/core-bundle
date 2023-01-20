@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="./Tests/autoload.php" colors="true">
+<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="vendor/autoload.php"
+>
+    <php>
+        <env name="KERNEL_CLASS" value="VideoGamesRecords\CoreBundle\Tests\Kernel" />
+        <server name="APP_ENV" value="test" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
+        <env name="SHELL_VERBOSITY" value="1" />
+
+        <!-- ###+ symfony/framework-bundle ### -->
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_SECRET" value="84c13af6518079b7da0984d80ed58258"/>
+        <!-- ###- symfony/framework-bundle ### -->
+
+        <!-- ###+ aws/aws-sdk-php-symfony ### -->
+        <env name="AWS_KEY" value="not-a-real-key"/>
+        <env name="AWS_SECRET" value="@@not-a-real-secret"/>
+        <!-- ###- aws/aws-sdk-php-symfony ### -->
+
+        <!-- ###+ doctrine/doctrine-bundle ### -->
+        <!-- DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8&charset=utf8mb4" -->
+        <!-- ###- doctrine/doctrine-bundle ### -->
+
+        <!-- ###+ symfony/lock ### -->
+        <!-- Choose one of the stores below -->
+        <env name="LOCK_DSN" value="flock"/>
+        <!-- ###- symfony/lock ### -->
+    </php>
+
     <testsuites>
-        <testsuite name="VideoGamesRecords Bundle test suite">
-            <directory suffix="Test.php">./Tests</directory>
+        <testsuite name="VGR Core Bundle Test Suite">
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
-        <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
 </phpunit>
