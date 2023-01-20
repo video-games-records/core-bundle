@@ -50,8 +50,16 @@ class TeamRankingUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $id = $input->getOption('id');
-        $this->teamRankingHandler->handle($id);
+        $function = $input->getArgument('function');
+        switch ($function) {
+            case 'maj':
+                $id = $input->getOption('id');
+                $this->teamRankingHandler->handle($id);
+                break;
+            case 'maj-all':
+                $this->teamRankingHandler->majAll();
+                break;
+        }
         return Command::SUCCESS;
     }
 }

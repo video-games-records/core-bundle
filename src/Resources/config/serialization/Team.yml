@@ -43,6 +43,9 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     rankPointChart:
       groups:
         - 'team.rank.pointChart'
+    averageChartRank:
+      groups:
+        - 'player.pointChart'
     pointChart:
       groups:
         - 'team.rank.pointChart'
@@ -71,6 +74,9 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       groups:
         - 'team.rank.medal'
     rankCup:
+      groups:
+        - 'team.rank.cup'
+    averageGameRank:
       groups:
         - 'team.rank.cup'
     gameRank0:

@@ -23,6 +23,19 @@ class PlayerRankingHandler implements RankingCommandInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    public function majAll()
+    {
+        $query = $this->em->createQuery("
+            SELECT p
+            FROM VideoGamesRecords\CoreBundle\Entity\Player p
+            WHERE p.nbChart > 0"
+        );
+        $players = $query->getResult();
+        foreach ($players as $player) {
+            $this->handle($player->getId());
+        }
+    }
+
     /**
      * @throws NonUniqueResultException
      */
@@ -33,10 +46,15 @@ class PlayerRankingHandler implements RankingCommandInterface
         if (null === $player) {
             return;
         }
-        
+        if ($player->getId() == 0) {
+            return;
+        }
+
+        echo $player->getId() . "\n";
         $query = $this->em->createQuery("
             SELECT
                  p.id,
+                 round(AVG(pg.rankPointChart),2) as averageGameRank,
                  SUM(pg.chartRank0) as chartRank0,
                  SUM(pg.chartRank1) as chartRank1,
                  SUM(pg.chartRank2) as chartRank2,
@@ -55,6 +73,7 @@ class PlayerRankingHandler implements RankingCommandInterface
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
 
+        $player->setAverageGameRank($row['averageGameRank']);
         $player->setChartRank0($row['chartRank0']);
         $player->setChartRank1($row['chartRank1']);
         $player->setChartRank2($row['chartRank2']);

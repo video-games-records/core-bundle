@@ -14,6 +14,8 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use ProjetNormandie\UserBundle\Entity\User;
+use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
@@ -74,6 +76,8 @@ class Player implements SluggableInterface
     use RankPointBadgeTrait;
     use RankPointChartTrait;
     use RankPointGameTrait;
+    use AverageChartRankTrait;
+    use AverageGameRankTrait;
 
     /**
      * @ORM\OneToOne(targetEntity="ProjetNormandie\UserBundle\Entity\User")

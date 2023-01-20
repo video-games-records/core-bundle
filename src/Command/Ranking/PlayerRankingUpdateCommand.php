@@ -26,6 +26,11 @@ class PlayerRankingUpdateCommand extends Command
         $this
             ->setName('vgr-core:player-ranking-update')
             ->setDescription('Command to update players ranking')
+            ->addArgument(
+                'function',
+                InputArgument::REQUIRED,
+                'Who do you want to do?'
+            )
             ->addOption(
                 'id',
                 null,
@@ -45,8 +50,16 @@ class PlayerRankingUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $id = $input->getOption('id');
-        $this->playerRankingHandler->handle($id);
+        $function = $input->getArgument('function');
+        switch ($function) {
+            case 'maj':
+                $id = $input->getOption('id');
+                $this->playerRankingHandler->handle($id);
+                break;
+            case 'maj-all':
+                $this->playerRankingHandler->majAll();
+                break;
+        }
         return Command::SUCCESS;
     }
 }
