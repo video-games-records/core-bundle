@@ -144,6 +144,11 @@ class Player implements SluggableInterface
     private int $nbChart = 0;
 
     /**
+     * @ORM\Column(name="nbChartMax", type="integer", nullable=false)
+     */
+    private int $nbChartMax = 0;
+
+    /**
      * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
      */
     private int $nbChartProven = 0;
@@ -516,6 +521,29 @@ class Player implements SluggableInterface
     public function getNbChart(): int
     {
         return $this->nbChart;
+    }
+
+    /**
+     * Set nbChartMax
+     *
+     * @param integer $nbChartMax
+     * @return Player
+     */
+    public function setNbChartMax(int $nbChartMax): static
+    {
+        $this->nbChartMax = $nbChartMax;
+
+        return $this;
+    }
+
+    /**
+     * Get nbChartMax
+     *
+     * @return integer
+     */
+    public function getNbChartMax(): int
+    {
+        return $this->nbChartMax;
     }
 
     /**

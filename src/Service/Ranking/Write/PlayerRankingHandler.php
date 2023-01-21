@@ -50,10 +50,10 @@ class PlayerRankingHandler implements RankingCommandInterface
             return;
         }
 
-        echo $player->getId() . "\n";
         $query = $this->em->createQuery("
             SELECT
                  p.id,
+                 SUM(g.nbChart) as nbChartMax,
                  round(AVG(pg.rankPointChart),2) as averageGameRank,
                  SUM(pg.chartRank0) as chartRank0,
                  SUM(pg.chartRank1) as chartRank1,
@@ -73,6 +73,7 @@ class PlayerRankingHandler implements RankingCommandInterface
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
 
+        $player->setNbChartMax($row['nbChartMax']);
         $player->setAverageGameRank($row['averageGameRank']);
         $player->setChartRank0($row['chartRank0']);
         $player->setChartRank1($row['chartRank1']);
