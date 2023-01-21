@@ -25,13 +25,13 @@
         "symfony/config": "^5.4 || ^6.0",
         "symfony/console": "^5.4 || ^6.0",
         "symfony/dependency-injection": "^5.4 || ^6.0",
-        "symfony/http-kernel": "^5.4 || ^6.0",
+        "symfony/http-kernel": "^5.4",
         "symfony/lock": "^5.4 || ^6.0",
-        "video-games-records/dwh-bundle": "*",
-        "projet-normandie/article-bundle": "*",
-        "projet-normandie/forum-bundle": "*",
-        "projet-normandie/message-bundle": "*",
-        "projet-normandie/user-bundle": "*",
+        "video-games-records/dwh-bundle": "dev-master",
+        "projet-normandie/article-bundle": "dev-master",
+        "projet-normandie/forum-bundle": "dev-master",
+        "projet-normandie/message-bundle": "dev-master",
+        "projet-normandie/user-bundle": "dev-master",
         "webmozart/assert": "*"
     },
     "require-dev": {
@@ -39,13 +39,12 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-symfony": "^1.2",
-        "symfony/browser-kit": "^5.4",
-        "symfony/console": "^5.4",
-        "symfony/dotenv": "^5.4",
+        "symfony/browser-kit": "^5.4 || ^6.0",
+        "symfony/dotenv": "^5.4 || ^6.0",
         "symfony/flex": "^1.19",
-        "symfony/framework-bundle": "^5.4",
+        "symfony/framework-bundle": "^5.4 || ^6.0",
         "symfony/phpunit-bridge": "^6.1",
-        "symfony/runtime": "^5.4"
+        "symfony/runtime": "^5.4 || ^6.0"
     },
     "autoload": {
         "psr-4": { "VideoGamesRecords\\CoreBundle\\": "src/" }
@@ -59,6 +58,11 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     }
 }
