@@ -46,6 +46,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     nbChartMax:
       groups:
         - 'player.pointChart'
+    nbChartWithPlatform:
+      groups:
+        - 'player.pointChart'
     nbChartProven:
       groups:
         - 'player.pointChart'

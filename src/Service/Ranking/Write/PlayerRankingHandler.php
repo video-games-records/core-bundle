@@ -165,6 +165,17 @@ class PlayerRankingHandler implements RankingCommandInterface
             $player->setPointBadge($row['pointBadge']);
         }
 
+        // 4 nbChartWithPlatform
+        $query = $this->em->createQuery("
+            SELECT COUNT(pc) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            WHERE pc.player = :player
+            AND pc.platform IS NOT NULL");
+        $query->setParameter('player', $player);
+
+        $nb = $query->getSingleScalarResult();
+        $player->setNbChartWithPlatform($nb);
+
         $this->em->persist($player);
         $this->em->flush();
 
