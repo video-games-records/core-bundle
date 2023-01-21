@@ -23,12 +23,25 @@ class TeamRankingHandler implements RankingCommandInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    public function majAll()
+    {
+        $query = $this->em->createQuery("
+            SELECT p
+            FROM VideoGamesRecords\CoreBundle\Entity\Team p
+            WHERE p.nbGame > 0"
+        );
+        $teams = $query->getResult();
+        foreach ($teams as $team) {
+            $this->handle($team->getId());
+        }
+    }
+
     /**
      * @throws NonUniqueResultException
      */
     public function handle($mixed): void
     {
-        /** @var Team $player */
+        /** @var Team $team */
         $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->find($mixed);
         if (null === $team) {
             return;
@@ -37,6 +50,7 @@ class TeamRankingHandler implements RankingCommandInterface
         $query = $this->em->createQuery("
             SELECT
                  t.id,
+                 round(AVG(tg.rankPointChart),2) as averageGameRank,
                  SUM(tg.chartRank0) as chartRank0,
                  SUM(tg.chartRank1) as chartRank1,
                  SUM(tg.chartRank2) as chartRank2,
@@ -54,6 +68,7 @@ class TeamRankingHandler implements RankingCommandInterface
         if ($result) {
             $row = $result[0];
 
+            $team->setAverageGameRank($row['averageGameRank']);
             $team->setChartRank0($row['chartRank0']);
             $team->setChartRank1($row['chartRank1']);
             $team->setChartRank2($row['chartRank2']);

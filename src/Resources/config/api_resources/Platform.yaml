@@ -5,6 +5,17 @@ resources:
         collectionOperations:
             get:
                 normalization_context: {'groups': [platform.read]}
+            autocomplete:
+                method: 'GET'
+                normalization_context: { 'groups': [ platform.read ] }
+                path: '/platforms/autocomplete'
+                swagger_context:
+                    parameters:
+                        -   name: query
+                            in: query
+                            required: true
+                            type: string
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlatformController::autocomplete'
         itemOperations:
             get:
                 normalization_context: {'groups': [platform.read]}

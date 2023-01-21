@@ -14,6 +14,8 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use ProjetNormandie\UserBundle\Entity\User;
+use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
@@ -74,6 +76,8 @@ class Player implements SluggableInterface
     use RankPointBadgeTrait;
     use RankPointChartTrait;
     use RankPointGameTrait;
+    use AverageChartRankTrait;
+    use AverageGameRankTrait;
 
     /**
      * @ORM\OneToOne(targetEntity="ProjetNormandie\UserBundle\Entity\User")
@@ -138,6 +142,16 @@ class Player implements SluggableInterface
      * @ORM\Column(name="nbChart", type="integer", nullable=false)
      */
     private int $nbChart = 0;
+
+    /**
+     * @ORM\Column(name="nbChartMax", type="integer", nullable=false)
+     */
+    private int $nbChartMax = 0;
+
+    /**
+     * @ORM\Column(name="nbChartWithPlatform", type="integer", nullable=false)
+     */
+    private int $nbChartWithPlatform = 0;
 
     /**
      * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
@@ -512,6 +526,52 @@ class Player implements SluggableInterface
     public function getNbChart(): int
     {
         return $this->nbChart;
+    }
+
+    /**
+     * Set nbChartMax
+     *
+     * @param integer $nbChartMax
+     * @return Player
+     */
+    public function setNbChartMax(int $nbChartMax): static
+    {
+        $this->nbChartMax = $nbChartMax;
+
+        return $this;
+    }
+
+    /**
+     * Get nbChartMax
+     *
+     * @return integer
+     */
+    public function getNbChartMax(): int
+    {
+        return $this->nbChartMax;
+    }
+
+     /**
+     * Set nbChartWithPlatform
+     *
+     * @param integer $nbChartWithPlatform
+     * @return Player
+     */
+    public function setNbChartWithPlatform(int $nbChartWithPlatform): static
+    {
+        $this->nbChartWithPlatform = $nbChartWithPlatform;
+
+        return $this;
+    }
+
+    /**
+     * Get nbChartWithPlatform
+     *
+     * @return integer
+     */
+    public function getNbChartWithPlatform(): int
+    {
+        return $this->nbChartWithPlatform;
     }
 
     /**

@@ -219,6 +219,10 @@ class ChartAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibGroup(),
                 'label' => 'label.group',
             ))
+             ->add('group.game', null, array(
+                'associated_property' => $this->getLibGame(),
+                'label' => 'label.game',
+            ))
             ->add(
                 'libs',
                 null,

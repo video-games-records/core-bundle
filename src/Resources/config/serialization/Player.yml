@@ -36,10 +36,19 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     rankPointChart:
       groups:
         - 'player.pointChart'
+    averageChartRank:
+      groups:
+        - 'player.pointChart'
     nbChart:
       groups:
         - 'player.pointChart'
         - 'player.proof'
+    nbChartMax:
+      groups:
+        - 'player.pointChart'
+    nbChartWithPlatform:
+      groups:
+        - 'player.pointChart'
     nbChartProven:
       groups:
         - 'player.pointChart'
@@ -76,6 +85,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.medal'
     rankCup:
+      groups:
+        - 'player.cup'
+    averageGameRank:
       groups:
         - 'player.cup'
     gameRank0:

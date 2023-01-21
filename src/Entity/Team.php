@@ -14,6 +14,8 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
@@ -56,6 +58,8 @@ class Team implements SluggableInterface, TimestampableInterface
     use RankPointBadgeTrait;
     use RankPointGameTrait;
     use RankPointChartTrait;
+    use AverageChartRankTrait;
+    use AverageGameRankTrait;
 
     const STATUS_OPENED = 'OPENED';
     const STATUS_CLOSED = 'CLOSED';

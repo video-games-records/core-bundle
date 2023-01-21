@@ -3,7 +3,6 @@
 namespace VideoGamesRecords\CoreBundle\Controller\Team;
 
 use League\Flysystem\FilesystemException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -78,13 +77,15 @@ class AvatarController extends AbstractController
 
     /**
      * @Route(path="/{id}/avatar", requirements={"id": "[1-9]\d*"}, name="vgr_core_team_avatar", methods={"GET"})
-     * @Cache(smaxage="30")
      * @param Team $team
      * @return StreamedResponse
      * @throws FilesystemException
      */
     public function download(Team $team): StreamedResponse
     {
-        return $this->avatarManager->read($team->getLogo());
+        $response = $this->avatarManager->read($team->getLogo());
+        $response->setPublic();
+        $response->setMaxAge(3600);
+        return $response;
     }
 }

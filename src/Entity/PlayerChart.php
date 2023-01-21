@@ -33,6 +33,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
  *          "chart": "exact",
  *          "chart.group": "exact",
  *          "chart.group.game": "exact",
+ *          "chart.group.game.platforms": "exact",
  *          "rank": "exact",
  *          "nbEqual": "exact",
  *          "chart.libChartEn" : "partial",

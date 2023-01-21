@@ -149,8 +149,6 @@ link:
         game: 'Lien vers ce jeu sur VGR'
         chart: 'Lien vers ce record sur VGR'
 proof:
-    form:
-        success: 'La preuve a bien été chargée'
     request:
         confirm:
             object: 'Demande de preuve'

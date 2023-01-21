@@ -23,6 +23,19 @@ class PlayerRankingHandler implements RankingCommandInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    public function majAll()
+    {
+        $query = $this->em->createQuery("
+            SELECT p
+            FROM VideoGamesRecords\CoreBundle\Entity\Player p
+            WHERE p.nbChart > 0"
+        );
+        $players = $query->getResult();
+        foreach ($players as $player) {
+            $this->handle($player->getId());
+        }
+    }
+
     /**
      * @throws NonUniqueResultException
      */
@@ -33,10 +46,15 @@ class PlayerRankingHandler implements RankingCommandInterface
         if (null === $player) {
             return;
         }
-        
+        if ($player->getId() == 0) {
+            return;
+        }
+
         $query = $this->em->createQuery("
             SELECT
                  p.id,
+                 SUM(g.nbChart) as nbChartMax,
+                 round(AVG(pg.rankPointChart),2) as averageGameRank,
                  SUM(pg.chartRank0) as chartRank0,
                  SUM(pg.chartRank1) as chartRank1,
                  SUM(pg.chartRank2) as chartRank2,
@@ -55,6 +73,8 @@ class PlayerRankingHandler implements RankingCommandInterface
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
 
+        $player->setNbChartMax($row['nbChartMax']);
+        $player->setAverageGameRank($row['averageGameRank']);
         $player->setChartRank0($row['chartRank0']);
         $player->setChartRank1($row['chartRank1']);
         $player->setChartRank2($row['chartRank2']);
@@ -144,6 +164,17 @@ class PlayerRankingHandler implements RankingCommandInterface
             $player->setNbMasterBadge($row['nbMasterBadge']);
             $player->setPointBadge($row['pointBadge']);
         }
+
+        // 4 nbChartWithPlatform
+        $query = $this->em->createQuery("
+            SELECT COUNT(pc) as nb
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            WHERE pc.player = :player
+            AND pc.platform IS NOT NULL");
+        $query->setParameter('player', $player);
+
+        $nb = $query->getSingleScalarResult();
+        $player->setNbChartWithPlatform($nb);
 
         $this->em->persist($player);
         $this->em->flush();
