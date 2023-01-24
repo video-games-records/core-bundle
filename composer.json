@@ -44,7 +44,8 @@
         "symfony/flex": "^1.19",
         "symfony/framework-bundle": "^5.4",
         "symfony/phpunit-bridge": "^6.1",
-        "symfony/runtime": "^5.4"
+        "symfony/runtime": "^5.4",
+        "symfony/yaml": "^5.4"
     },
     "autoload": {
         "psr-4": { "VideoGamesRecords\\CoreBundle\\": "src/" }
