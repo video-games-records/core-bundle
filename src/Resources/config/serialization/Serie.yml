@@ -4,14 +4,17 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
       groups:
         - 'serie.list'
         - 'serie.read'
+        - 'serie.read.mini'
     name:
       groups:
         - 'serie.list'
         - 'serie.read'
+        - 'serie.read.mini'
     slug:
       groups:
         - 'serie.list'
         - 'serie.read'
+        - 'serie.read.mini'
     status:
       groups:
         - 'serie.list'

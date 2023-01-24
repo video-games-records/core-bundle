@@ -30,7 +30,7 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::autocomplete'
         itemOperations:
             get:
-                normalization_context: {'groups': [game.read, game.platforms, platform.read]}
+                normalization_context: {'groups': [game.read, game.platforms, platform.read, game.serie, serie.read.mini]}
             form-data:
                 method: 'GET'
                 normalization_context: { 'groups': [ chart.read, chart.group, group.read.mini, chart.libs, chartLib.read, chart.playerCharts, playerChart.read, playerChart.chart, playerChart.player, playerChart.libs, playerChart.status, playerChartStatus.read, playerChart.platform ], 'enable_max_depth': true }

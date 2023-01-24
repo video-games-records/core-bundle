@@ -23,8 +23,6 @@ class GamercardController extends AbstractController
     private FilesystemOperator $appStorage;
     private PlayerGameRepository $playerGameRepository;
 
-    private string $prefix = 'user/';
-
     public function __construct(FilesystemOperator $appStorage, PlayerGameRepository $playerGameRepository)
     {
         $this->appStorage = $appStorage;
@@ -33,7 +31,8 @@ class GamercardController extends AbstractController
 
 
     /**
-     * @Route("/mini/{id}", name="gamercard_mini", methods={"GET"})
+     * @Route("/mini/{id}", name="gamercard_mini_1", methods={"GET"})
+     * @Route("/{id}/mini", name="gamercard_mini_2", methods={"GET"})
      * @Cache(smaxage="900")
      * @param Player $player
      * @throws Exception
@@ -90,7 +89,8 @@ class GamercardController extends AbstractController
     }
 
     /**
-     * @Route("/classic/{id}", name="gamercard_classic", methods={"GET"})
+     * @Route("/{id}/classic", name="gamercard_classic_1", methods={"GET"})
+     * @Route("/classic/{id}", name="gamercard_classic_2", methods={"GET"})
      * @Cache(smaxage="900")
      * @param Player $player
      * @throws FilesystemException
@@ -154,12 +154,10 @@ class GamercardController extends AbstractController
 
         $startX = 9;
         foreach ($playerGames as $playerGame) {
-            $badge = $playerGame->getGame()->getBadge();
-            $picture = Picture::loadFileFromStream('badge' . DIRECTORY_SEPARATOR . $badge->getType() . DIRECTORY_SEPARATOR . $badge->getPicture());
+            $picture = Picture::loadFileFromStream($this->getBadge($playerGame->getGame()->getBadge()));
             $gamercard->copyResized($picture, $startX, 99);
             $startX += 38;
         }
-
 
         try {
             $gamercard->downloadPicture('png', 'VGR-GamerCard-Classic-' . $player->getSlug() . '.png');
@@ -200,18 +198,32 @@ class GamercardController extends AbstractController
         return number_format($value);
     }
 
-     /**
+    /**
      * @param Player $player
      * @return string
      * @throws FilesystemException
      */
     public function getAvatar(Player $player): string
     {
-        $path = $this->prefix . $player->getAvatar();
+        $path = 'user' . DIRECTORY_SEPARATOR . $player->getAvatar();
         if (!$this->appStorage->fileExists($path)) {
-            $path = $this->prefix . 'default.png';
+            $path = 'user' . DIRECTORY_SEPARATOR . 'default.png';
         }
+        return $this->appStorage->read($path);
+    }
 
+
+    /**
+     * @param Badge $badge
+     * @return string
+     * @throws FilesystemException
+     */
+    public function getBadge(Badge $badge): string
+    {
+        $path = 'badge' . DIRECTORY_SEPARATOR . $badge->getType() . DIRECTORY_SEPARATOR . $badge->getPicture();
+        if (!$this->appStorage->fileExists($path)) {
+            $path = 'badge' . DIRECTORY_SEPARATOR . 'default.gif';
+        }
         return $this->appStorage->read($path);
     }
 }

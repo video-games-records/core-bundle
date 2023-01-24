@@ -49,7 +49,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
         - 'game.stats'
     serie:
       groups:
-        - 'game.read'
+        - 'game.serie'
     badge:
       groups: []
     platforms:
