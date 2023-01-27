@@ -9,7 +9,6 @@
 >
     <php>
         <env name="KERNEL_CLASS" value="VideoGamesRecords\CoreBundle\Tests\Kernel" />
-        <server name="APP_ENV" value="test" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
         <env name="SHELL_VERBOSITY" value="1" />
 
@@ -24,7 +23,7 @@
         <!-- ###- aws/aws-sdk-php-symfony ### -->
 
         <!-- ###+ doctrine/doctrine-bundle ### -->
-        <!-- DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8&charset=utf8mb4" -->
+        <env name="DATABASE_URL=" value="mysql://vgr:vgr@127.0.0.1:3306/test_vgr" />
         <!-- ###- doctrine/doctrine-bundle ### -->
 
         <!-- ###+ symfony/lock ### -->

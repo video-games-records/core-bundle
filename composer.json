@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^7.4 || ^8.0",
         "a2lix/translation-form-bundle": "*",
         "api-platform/core": "^2.7",
         "aws/aws-sdk-php-symfony": "~2.0",
@@ -22,16 +22,16 @@
         "league/flysystem-bundle": "^3.0",
         "sonata-project/admin-bundle": "*",
         "sonata-project/doctrine-orm-admin-bundle": "*",
-        "symfony/config": "^5.4 || ^6.0",
-        "symfony/console": "^5.4 || ^6.0",
-        "symfony/dependency-injection": "^5.4 || ^6.0",
-        "symfony/http-kernel": "^5.4 || ^6.0",
-        "symfony/lock": "^5.4 || ^6.0",
-        "video-games-records/dwh-bundle": "*",
-        "projet-normandie/article-bundle": "*",
-        "projet-normandie/forum-bundle": "*",
-        "projet-normandie/message-bundle": "*",
-        "projet-normandie/user-bundle": "*",
+        "symfony/config": "^5.4",
+        "symfony/console": "^5.4",
+        "symfony/dependency-injection": "^5.4",
+        "symfony/http-kernel": "^5.4",
+        "symfony/lock": "^5.4",
+        "video-games-records/dwh-bundle": "dev-master",
+        "projet-normandie/article-bundle": "dev-master",
+        "projet-normandie/forum-bundle": "dev-master",
+        "projet-normandie/message-bundle": "dev-master",
+        "projet-normandie/user-bundle": "dev-master",
         "webmozart/assert": "*"
     },
     "require-dev": {
@@ -40,25 +40,38 @@
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-symfony": "^1.2",
         "symfony/browser-kit": "^5.4",
-        "symfony/console": "^5.4",
         "symfony/dotenv": "^5.4",
         "symfony/flex": "^1.19",
         "symfony/framework-bundle": "^5.4",
         "symfony/phpunit-bridge": "^6.1",
-        "symfony/runtime": "^5.4"
+        "symfony/runtime": "^5.4",
+        "symfony/yaml": "^5.4"
     },
     "autoload": {
         "psr-4": { "VideoGamesRecords\\CoreBundle\\": "src/" }
     },
     "autoload-dev": {
-          "psr-4": {
-              "VideoGamesRecords\\CoreBundle\\Tests\\": "tests/"
-          }
-      },
+        "psr-4": {
+            "VideoGamesRecords\\CoreBundle\\Tests\\": "tests/"
+        }
+    },
     "config": {
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
-    }
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "5.4.*"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

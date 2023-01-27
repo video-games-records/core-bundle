@@ -11,6 +11,9 @@ use VideoGamesRecords\CoreBundle\Entity\Player;
 
 class PlayerChartRankingQuery extends DefaultRankingQuery
 {
+    const ORDER_BY_RANK = 'RANK';
+    const ORDER_BY_SCORE = 'SCORE';
+
     /**
      * @throws ORMException
      */
@@ -68,7 +71,8 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
         $maxRank = $options['maxRank'] ?? null;
         $player = $this->getPlayer();
 
-        $queryBuilder = $this->getRankingBaseQuery($chart);
+        $orderBy = $chart->getStatusPlayer()->isNormal() ? self::ORDER_BY_RANK : self::ORDER_BY_SCORE;
+        $queryBuilder = $this->getRankingBaseQuery($chart, $orderBy);
         $queryBuilder->andWhere('status.boolRanking = 1');
 
         if (null !== $maxRank && null !== $player) {
@@ -110,7 +114,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
      */
     public function getRankingDisabled(Chart $chart): array
     {
-        $queryBuilder = $this->getRankingBaseQuery($chart);
+        $queryBuilder = $this->getRankingBaseQuery($chart,  self::ORDER_BY_SCORE);
         $queryBuilder
             ->andWhere('status.boolRanking = 0');
 
@@ -118,11 +122,11 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
     }
 
     /**
-     * @param Chart $chart
-     *
+     * @param Chart  $chart
+     * @param string $orderBy
      * @return QueryBuilder
      */
-    private function getRankingBaseQuery(Chart $chart): QueryBuilder
+    private function getRankingBaseQuery(Chart $chart, string $orderBy = self::ORDER_BY_RANK): QueryBuilder
     {
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('pc')
@@ -135,7 +139,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
             ->where('c.id = :idChart')
             ->setParameter('idChart', $chart->getId());
 
-        if ($chart->getStatusPlayer()->isNormal()) {
+        if (self::ORDER_BY_RANK === $orderBy) {
             $queryBuilder->orderBy('pc.rank', 'ASC')
                 ->addOrderBy('status.sOrder', 'ASC')
                 ->addOrderBy('pc.lastUpdate', 'ASC');
@@ -154,7 +158,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
             $queryBuilder
                 ->addSelect(sprintf('(%s) as %s', $subQueryBuilder->getQuery()->getDQL(), $key))
                 ->setParameter($key, $lib);
-            if (!$chart->getStatusPlayer()->isNormal()) {
+            if (self::ORDER_BY_SCORE === $orderBy) {
                 $queryBuilder->addOrderBy($key, $lib->getType()->getOrderBy());
             }
         }
