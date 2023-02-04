@@ -30,6 +30,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
  *     properties={
  *          "libVideo": "partial",
  *          "game": "exact",
+ *          "player": "exact"
  *      }
  * )
  * @DoctrineAssert\UniqueEntity(fields={"url"})
