@@ -31,7 +31,7 @@ class GeneralStatsController extends AbstractController
         $gameRepository = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game');
 
         /** @var TeamRepository $teamRepository */
-        $teamRepository = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player');
+        $teamRepository = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team');
 
         $playerStats = $playerRepository->getStats();
         $gameStats = $gameRepository->getStats();
