@@ -1,0 +1,9 @@
+parameters:
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    bootstrapFiles:
+        - vendor/autoload.php
+    #checkMissingCallableSignature: true
+    level: 5
+    paths:
+        - src
