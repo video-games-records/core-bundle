@@ -29,7 +29,8 @@ class PlayerController extends AbstractController
         return $this->playerRankingQuery->getRankingPointChart(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'idTeam' => $request->query->get('idTeam')
+                'idTeam' => $request->query->get('idTeam'),
+                'limit' => $request->query->get('limit')
             ]
         );
     }
@@ -44,7 +45,8 @@ class PlayerController extends AbstractController
         return $this->playerRankingQuery->getRankingPointGame(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'idTeam' => $request->query->get('idTeam')
+                'idTeam' => $request->query->get('idTeam'),
+                'limit' => $request->query->get('limit')
             ]
         );
     }
@@ -59,7 +61,8 @@ class PlayerController extends AbstractController
         return $this->playerRankingQuery->getRankingMedals(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'idTeam' => $request->query->get('idTeam')
+                'idTeam' => $request->query->get('idTeam'),
+                'limit' => $request->query->get('limit')
             ]
         );
     }
@@ -74,7 +77,8 @@ class PlayerController extends AbstractController
         return $this->playerRankingQuery->getRankingBadge(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'idTeam' => $request->query->get('idTeam')
+                'idTeam' => $request->query->get('idTeam'),
+                'limit' => $request->query->get('limit')
             ]
         );
     }
@@ -89,7 +93,8 @@ class PlayerController extends AbstractController
         return $this->playerRankingQuery->getRankingCup(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'idTeam' => $request->query->get('idTeam')
+                'idTeam' => $request->query->get('idTeam'),
+                'limit' => $request->query->get('limit')
             ]
         );
     }
@@ -104,7 +109,8 @@ class PlayerController extends AbstractController
         return $this->playerRankingQuery->getRankingProof(
             [
                 'maxRank' => $request->query->get('maxRank', 5),
-                'idTeam' => $request->query->get('idTeam')
+                'idTeam' => $request->query->get('idTeam'),
+                'limit' => $request->query->get('limit')
             ]
         );
     }
