@@ -32,6 +32,13 @@ services:
             - '@VideoGamesRecords\CoreBundle\Service\UpdateChartStatusHandler'
         tags:
             - { name: doctrine.orm.entity_listener }
+    vgr.core.event.entity.team:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener
+        arguments:
+            - '@security.helper'
+            - '@VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer'
+        tags:
+            - { name: doctrine.orm.entity_listener }
     admin.block.service.proof.games:
         class: VideoGamesRecords\CoreBundle\Block\Service\ProofGamesBlockService
         public: true

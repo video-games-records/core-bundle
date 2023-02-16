@@ -46,7 +46,7 @@ resources:
             profile-team:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
-                normalization_context: {'groups': [team.read.mini, team.leader], 'enable_max_depth':true}
+                normalization_context: {'groups': [team.read, team.leader], 'enable_max_depth':true}
                 path: '/players/profile-team'
                 controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profileTeam'
             profile-player:

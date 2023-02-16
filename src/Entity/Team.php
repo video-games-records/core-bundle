@@ -67,22 +67,18 @@ class Team implements SluggableInterface, TimestampableInterface
     const NUM_ITEMS = 20;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Length(min="5", max="50")
      * @ORM\Column(name="libTeam", type="string", length=50, nullable=false)
      */
-    private $libTeam;
+    private string $libTeam;
 
     /**
      * @var string
@@ -91,78 +87,63 @@ class Team implements SluggableInterface, TimestampableInterface
      * @Assert\Length(min="2", max="4")
      * @ORM\Column(name="tag", type="string", length=10, nullable=false)
      */
-    private $tag;
+    private string $tag;
 
     /**
-     * @var string
-     *
      * @Assert\Length(max="255")
      * @Assert\Url(
      *    protocols = {"http", "https"}
      * )
      * @ORM\Column(name="siteWeb", type="string", length=255, nullable=true)
      */
-    private $siteWeb;
+    private ?string $siteWeb;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="logo", type="string", length=30, nullable=false)
      */
-    private $logo = 'default.png';
+    private string $logo = 'default.png';
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="commentaire", type="text", nullable=true)
+     * @ORM\Column(name="presentation", type="text", nullable=true)
      */
-    private $commentaire;
+    private ?string $presentation;
 
     /**
-     * @var string
-     *
      * @Assert\Choice({"CLOSED", "OPENED"})
-     *
      * @ORM\Column(name="status", type="string", nullable=false)
      */
-    private $status = self::STATUS_CLOSED;
+    private string $status = self::STATUS_CLOSED;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbPlayer", type="integer", nullable=false)
      */
-    private $nbPlayer = 0;
+    private int $nbPlayer = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbGame", type="integer", nullable=false)
      */
-    private $nbGame = 0;
+    private int $nbGame = 0;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
      */
-    private $nbMasterBadge = 0;
+    private int $nbMasterBadge = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", mappedBy="team")
      * @ORM\OrderBy({"pseudo" = "ASC"})
      */
-    private $players;
+    private Collection $players;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\TeamGame", mappedBy="team")
      */
-    private $teamGame;
+    private Collection $teamGame;
 
     /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\TeamBadge", mappedBy="team")
      */
-    private $teamBadge;
+    private Collection $teamBadge;
 
     /**
      * @var Player
@@ -173,7 +154,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *   @ORM\JoinColumn(name="idLeader", referencedColumnName="id")
      * })
      */
-    private $leader;
+    private Player $leader;
 
     /**
      * Constructor
@@ -182,6 +163,7 @@ class Team implements SluggableInterface, TimestampableInterface
     {
         $this->players = new ArrayCollection();
         $this->teamGame = new ArrayCollection();
+        $this->teamBadge = new ArrayCollection();
     }
 
     /**
@@ -198,7 +180,7 @@ class Team implements SluggableInterface, TimestampableInterface
      * @param integer $id
      * @return Team
      */
-    public function setId(int $id)
+    public function setId(int $id): Team
     {
         $this->id = $id;
         return $this;
@@ -209,7 +191,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -219,7 +201,7 @@ class Team implements SluggableInterface, TimestampableInterface
      * @param string $libTeam
      * @return Team
      */
-    public function setLibTeam(string $libTeam)
+    public function setLibTeam(string $libTeam): Team
     {
         $this->libTeam = $libTeam;
 
@@ -231,7 +213,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getLibTeam()
+    public function getLibTeam(): string
     {
         return $this->libTeam;
     }
@@ -241,7 +223,7 @@ class Team implements SluggableInterface, TimestampableInterface
      * @param string $tag
      * @return Team
      */
-    public function setTag(string $tag)
+    public function setTag(string $tag): Team
     {
         $this->tag = $tag;
 
@@ -253,17 +235,17 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getTag()
+    public function getTag(): string
     {
         return $this->tag;
     }
 
     /**
      * Set leader
-     * @param Player|null $leader
+     * @param Player $leader
      * @return Team
      */
-    public function setLeader(Player $leader = null)
+    public function setLeader(Player $leader): Team
     {
         $this->leader = $leader;
 
@@ -274,17 +256,17 @@ class Team implements SluggableInterface, TimestampableInterface
      * Get leader
      * @return Player
      */
-    public function getLeader()
+    public function getLeader(): Player
     {
         return $this->leader;
     }
 
     /**
      * Set siteWeb
-     * @param string $siteWeb
+     * @param string|null $siteWeb
      * @return Team
      */
-    public function setSiteWeb(string $siteWeb)
+    public function setSiteWeb(?string $siteWeb): Team
     {
         $this->siteWeb = $siteWeb;
 
@@ -296,7 +278,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getSiteWeb()
+    public function getSiteWeb(): ?string
     {
         return $this->siteWeb;
     }
@@ -318,31 +300,31 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getLogo()
+    public function getLogo(): string
     {
         return $this->logo;
     }
 
     /**
-     * Set commentaire
-     * @param string $commentaire
+     * Set presentation
+     * @param string $presentation
      * @return Team
      */
-    public function setCommentaire(string $commentaire)
+    public function setPresentation(string $presentation): Team
     {
-        $this->commentaire = $commentaire;
+        $this->presentation = $presentation;
 
         return $this;
     }
 
     /**
-     * Get commentaire
+     * Get presentation
      *
      * @return string
      */
-    public function getCommentaire()
+    public function getPresentation(): ?string
     {
-        return $this->commentaire;
+        return $this->presentation;
     }
 
     /**
@@ -350,7 +332,7 @@ class Team implements SluggableInterface, TimestampableInterface
      * @param string $status
      * @return Team
      */
-    public function setStatus(string $status)
+    public function setStatus(string $status): Team
     {
         $this->status = $status;
 
@@ -362,7 +344,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -372,7 +354,7 @@ class Team implements SluggableInterface, TimestampableInterface
      * @param integer $nbPlayer
      * @return Team
      */
-    public function setNbPlayer(int $nbPlayer)
+    public function setNbPlayer(int $nbPlayer): Team
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -384,7 +366,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getNbPlayer()
+    public function getNbPlayer(): int
     {
         return $this->nbPlayer;
     }
@@ -394,7 +376,7 @@ class Team implements SluggableInterface, TimestampableInterface
      * @param integer $nbGame
      * @return Team
      */
-    public function setNbGame(int $nbGame)
+    public function setNbGame(int $nbGame): Team
     {
         $this->nbGame = $nbGame;
 
@@ -406,7 +388,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getNbGame()
+    public function getNbGame(): int
     {
         return $this->nbGame;
     }
@@ -417,7 +399,7 @@ class Team implements SluggableInterface, TimestampableInterface
      * @param integer $nbMasterBadge
      * @return Team
      */
-    public function setNbMasterBadge(int $nbMasterBadge)
+    public function setNbMasterBadge(int $nbMasterBadge): Team
     {
         $this->nbMasterBadge = $nbMasterBadge;
 
@@ -429,7 +411,7 @@ class Team implements SluggableInterface, TimestampableInterface
      *
      * @return integer
      */
-    public function getNbMasterBadge()
+    public function getNbMasterBadge(): int
     {
         return $this->nbMasterBadge;
     }
@@ -451,9 +433,9 @@ class Team implements SluggableInterface, TimestampableInterface
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getTeamBadge()
+    public function getTeamBadge(): Collection
     {
         return $this->teamBadge;
     }
@@ -477,7 +459,7 @@ class Team implements SluggableInterface, TimestampableInterface
     /**
      * @return array
      */
-    public static function getStatusChoices()
+    public static function getStatusChoices(): array
     {
         return [
             self::STATUS_CLOSED => self::STATUS_CLOSED,
