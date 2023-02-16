@@ -222,7 +222,7 @@ class GameAdmin extends AbstractAdmin
                 [
                     'label' => 'label.status',
                     'editable' => true,
-                    'choices' => GameStatus::getStatusChoices(),
+                    'choices' => GameStatus::getReverseStatusChoices(),
                 ]
             )
             ->add('_action', 'actions', [

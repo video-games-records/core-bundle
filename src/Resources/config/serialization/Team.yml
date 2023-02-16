@@ -10,6 +10,10 @@ VideoGamesRecords\CoreBundle\Entity\Team:
         - 'team.read'
         - 'team.read.mini'
         - 'team.put'
+    presentation:
+      groups:
+        - 'team.read'
+        - 'team.put'
     slug:
       groups:
         - 'team.read'
