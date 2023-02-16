@@ -67,4 +67,16 @@ class GameStatus
             self::STATUS_INACTIVE => self::STATUS_INACTIVE,
         ];
     }
+
+    public static function getReverseStatusChoices(): array
+    {
+        return [
+            self::STATUS_CREATED => self::STATUS_CREATED . ' (1)',
+            self::STATUS_ADD_SCORE => self::STATUS_ADD_SCORE . ' (2)',
+            self::STATUS_ADD_PICTURE => self::STATUS_ADD_PICTURE. ' (3)',
+            self::STATUS_COMPLETED => self::STATUS_COMPLETED . ' (4)',
+            self::STATUS_ACTIVE => self::STATUS_ACTIVE . ' (5)',
+            self::STATUS_INACTIVE => self::STATUS_INACTIVE,
+        ];
+    }
 }
