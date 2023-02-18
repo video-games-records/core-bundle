@@ -59,6 +59,7 @@ label:
     cups: 'Cups'
     dateInvestigation: 'Investiagtion date'
     day: 'Day'
+    downloadUrl: 'Download URL'
     game: 'Game'
     game.id: 'Game [ID]'
     game.en: 'Game [EN]'

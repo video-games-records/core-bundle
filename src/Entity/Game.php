@@ -91,6 +91,12 @@ class Game implements SluggableInterface, TimestampableInterface
     private ?string $picture;
 
     /**
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="downloadUrl", type="string", length=255, nullable=true)
+     */
+    private ?string $downloadUrl;
+
+    /**
      * @ORM\Column(name="status", type="string", nullable=false)
      */
     private string $status = GameStatus::STATUS_CREATED;
@@ -307,6 +313,28 @@ class Game implements SluggableInterface, TimestampableInterface
     public function getPicture(): ?string
     {
         return $this->picture;
+    }
+
+    /**
+     * Set downloadurl
+     *
+     * @param string|null $downloadUrl
+     * @return Game
+     */
+    public function setDownloadUrl(string $downloadUrl = null): Game
+    {
+        $this->downloadUrl = $downloadUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get downloadUrl
+     * @return string|null
+     */
+    public function getDownloadUrl(): ?string
+    {
+        return $this->downloadUrl;
     }
 
     /**

@@ -14,6 +14,9 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game.read'
         - 'game.read.mini'
+    downloadUrl:
+      groups:
+        - 'game.read'
     groups:
       groups:
         - 'game.groups'
