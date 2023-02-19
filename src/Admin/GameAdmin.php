@@ -91,6 +91,10 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'label.picture',
                 'required' => false,
             ])
+            ->add('downloadUrl', TextType::class, [
+                'label' => 'label.downloadUrl',
+                'required' => false,
+            ])
             ->add(
                 'status',
                 ChoiceType::class,
