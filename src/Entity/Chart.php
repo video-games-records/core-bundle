@@ -85,6 +85,11 @@ class Chart implements SluggableInterface, TimestampableInterface
     private Collection $libs;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $proofs;
+
+    /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart", fetch="EXTRA_LAZY")
      */
     private Collection $playerCharts;
@@ -112,6 +117,7 @@ class Chart implements SluggableInterface, TimestampableInterface
         $this->libs = new ArrayCollection();
         $this->playerCharts = new ArrayCollection();
         $this->lostPositions = new ArrayCollection();
+        $this->proofs = new ArrayCollection();
     }
 
     /**
@@ -280,6 +286,14 @@ class Chart implements SluggableInterface, TimestampableInterface
     public function getLostPositions(): Collection
     {
         return $this->lostPositions;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getProofs(): Collection
+    {
+        return $this->proofs;
     }
 
     /**
