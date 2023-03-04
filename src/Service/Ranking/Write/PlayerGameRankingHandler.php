@@ -98,8 +98,6 @@ class PlayerGameRankingHandler implements RankingCommandInterface
             $list[] = $row;
         }
 
-        $game->setNbChart(count($list));
-
         //----- add some data
         $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);
         $list = Ranking::calculateGamePoints($list, ['rankPointChart', 'nbEqual'], 'pointGame', 'pointChart');
