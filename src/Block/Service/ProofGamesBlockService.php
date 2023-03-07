@@ -2,20 +2,20 @@
 
 namespace VideoGamesRecords\CoreBundle\Block\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+use VideoGamesRecords\CoreBundle\Service\Proof\ProofInProgressProvider;
 
 class ProofGamesBlockService extends AbstractBlockService
 {
-    private EntityManagerInterface $entityManager;
+    private ProofInProgressProvider $proofInProgressProvider;
 
-    public function __construct(Environment $templating, EntityManagerInterface $entityManager)
+    public function __construct(Environment $templating, ProofInProgressProvider $proofInProgressProvider)
     {
-        $this->entityManager = $entityManager;
+        $this->proofInProgressProvider = $proofInProgressProvider;
         parent::__construct($templating);
     }
 
@@ -38,7 +38,7 @@ class ProofGamesBlockService extends AbstractBlockService
         Response $response = null
     ): Response {
         $settings = $blockContext->getSettings();
-        $games = $this->entityManager->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->getNbProofInProgress();
+        $games = $this->proofInProgressProvider->loadByGame();
 
         return $this->renderResponse(
             '@VideoGamesRecordsCore/Admin/Block/proof.games.html.twig',
