@@ -55,7 +55,7 @@ class GameController extends AbstractController
 
     /**
      * @Route(path="/{id}/picture", requirements={"id": "[1-9]\d*"}, name="vgr_core_game_picture", methods={"GET"})
-     * @Cache(smaxage="30")
+     * @Cache(smaxage="2592000")
      * @param Game $game
      * @return StreamedResponse
      * @throws FilesystemException

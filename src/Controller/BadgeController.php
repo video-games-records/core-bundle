@@ -28,7 +28,7 @@ class BadgeController extends AbstractController
 
     /**
      * @Route(path="/{id}/picture", requirements={"id": "[1-9]\d*"}, name="vgr_core_badge_picture", methods={"GET"})
-     * @Cache(smaxage="30")
+     * @Cache(smaxage="2592000")
      * @param Badge $badge
      * @return StreamedResponse
      * @throws FilesystemException
