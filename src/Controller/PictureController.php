@@ -26,7 +26,7 @@ class PictureController extends AbstractController
 
     /**
      * @Route(path="/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_core_picture_index", methods={"GET"})
-     * @Cache(smaxage="10")
+     * @Cache(expires="+30 days")
      * @param Picture $picture
      * @throws Exception
      */
