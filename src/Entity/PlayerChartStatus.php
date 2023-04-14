@@ -40,17 +40,17 @@ class PlayerChartStatus implements TranslatableInterface
     private string $class;
 
     /**
-     * @ORM\Column(name="boolRanking", type="integer", nullable=false)
+     * @ORM\Column(name="boolRanking", type="boolean", nullable=false, options={"default" : true})
      */
-    private int $boolRanking = 0;
+    private bool $boolRanking = true;
 
     /**
-     * @ORM\Column(name="boolSendProof", type="integer", nullable=false)
+     * @ORM\Column(name="boolSendProof", type="boolean", nullable=false, options={"default" : false})
      */
-    private int $boolSendProof = 0;
+    private bool $boolSendProof = false;
 
     /**
-     * @ORM\Column(name="sOrder", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="sOrder", type="smallint", nullable=false, options={"default" : 0})
      */
     private int $sOrder = 0;
 
@@ -133,10 +133,10 @@ class PlayerChartStatus implements TranslatableInterface
 
     /**
      * Set boolRanking
-     * @param integer $boolRanking
+     * @param bool $boolRanking
      * @return PlayerChartStatus
      */
-    public function setBoolRanking(int $boolRanking): PlayerChartStatus
+    public function setBoolRanking(bool $boolRanking): PlayerChartStatus
     {
         $this->boolRanking = $boolRanking;
         return $this;
@@ -145,9 +145,9 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * Get boolRanking
      *
-     * @return integer
+     * @return bool
      */
-    public function getBoolRanking(): int
+    public function getBoolRanking(): bool
     {
         return $this->boolRanking;
     }
@@ -155,10 +155,10 @@ class PlayerChartStatus implements TranslatableInterface
 
     /**
      * Set boolSendProof
-     * @param integer $boolSendProof
+     * @param bool $boolSendProof
      * @return PlayerChartStatus
      */
-    public function setBoolSendProof(int $boolSendProof): PlayerChartStatus
+    public function setBoolSendProof(bool $boolSendProof): PlayerChartStatus
     {
         $this->boolSendProof = $boolSendProof;
         return $this;
@@ -167,9 +167,9 @@ class PlayerChartStatus implements TranslatableInterface
     /**
      * Get boolSendProof
      *
-     * @return integer
+     * @return bool
      */
-    public function getBoolSendProof(): int
+    public function getBoolSendProof(): bool
     {
         return $this->boolSendProof;
     }

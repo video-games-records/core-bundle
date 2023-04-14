@@ -48,7 +48,7 @@ class Proof implements TimestampableInterface
     private ?Video $video = null;
 
     /**
-     * @ORM\Column(name="status", type="string", nullable=false)
+     * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
     private string $status = self::STATUS_IN_PROGRESS;
 

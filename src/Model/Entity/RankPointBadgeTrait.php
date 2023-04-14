@@ -7,12 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 trait RankPointBadgeTrait
 {
     /**
-     * @ORM\Column(name="rankBadge", type="integer", nullable=false)
+     * @ORM\Column(name="rankBadge", type="integer", nullable=false, options={"default" : 0})
      */
-    private ?int $rankBadge;
+    private int $rankBadge;
 
     /**
-     * @ORM\Column(name="pointBadge", type="integer", nullable=false)
+     * @ORM\Column(name="pointBadge", type="integer", nullable=false, options={"default" : 0})
      */
     private int $pointBadge = 0;
 
@@ -28,9 +28,9 @@ trait RankPointBadgeTrait
 
     /**
      * Get rankBadge
-     * @return int|null
+     * @return int
      */
-    public function getRankBadge(): ?int
+    public function getRankBadge(): int
     {
         return $this->rankBadge;
     }

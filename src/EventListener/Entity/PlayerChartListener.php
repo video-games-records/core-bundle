@@ -59,8 +59,8 @@ class PlayerChartListener
      */
     public function postPersist(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
-        $this->groupStatsHandler->majNbPlayer($playerChart->getChart()->getGroup());
-        $this->gameStatsHandler->majNbPlayer($playerChart->getChart()->getGroup()->getGame());
+        //$this->groupStatsHandler->majNbPlayer($playerChart->getChart()->getGroup());
+        //$this->gameStatsHandler->majNbPlayer($playerChart->getChart()->getGroup()->getGame());
     }
 
     /**

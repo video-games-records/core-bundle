@@ -109,7 +109,7 @@ class Player implements SluggableInterface
     private ?string $gamerCard;
 
     /**
-     * @ORM\Column(name="pointVGR", type="integer", nullable=false)
+     * @ORM\Column(name="pointVGR", type="integer", nullable=false, options={"default" : 0})
      */
     private int $pointVGR = 0;
 
@@ -124,47 +124,47 @@ class Player implements SluggableInterface
     private ?string $collection;
 
     /**
-     * @ORM\Column(name="rankProof", type="integer", nullable=true)
+     * @ORM\Column(name="rankProof", type="integer", nullable=false, options={"default" : 0})
      */
-    private ?int $rankProof;
+    private int $rankProof;
 
     /**
-     * @ORM\Column(name="rankCountry", type="integer", nullable=true)
+     * @ORM\Column(name="rankCountry", type="integer", nullable=false, options={"default" : 0})
      */
-    private ?int $rankCountry;
+    private int $rankCountry;
 
     /**
-     * @ORM\Column(name="nbGame", type="integer", nullable=false)
+     * @ORM\Column(name="nbGame", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbGame = 0;
 
     /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false)
+     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbChart = 0;
 
     /**
-     * @ORM\Column(name="nbChartMax", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartMax", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbChartMax = 0;
 
     /**
-     * @ORM\Column(name="nbChartWithPlatform", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartWithPlatform", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbChartWithPlatform = 0;
 
     /**
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartProven", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbChartProven = 0;
 
     /**
-     * @ORM\Column(name="nbChartDisabled", type="integer", nullable=false)
+     * @ORM\Column(name="nbChartDisabled", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbChartDisabled = 0;
 
     /**
-     * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
+     * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbMasterBadge = 0;
 
@@ -189,7 +189,7 @@ class Player implements SluggableInterface
     protected ?string $twitch;
 
     /**
-     * @ORM\Column(name="gender", type="string", length=1, nullable=false)
+     * @ORM\Column(name="gender", type="string", length=1, nullable=false, options={"default" : "I"}))
      */
     protected string $gender = 'I';
 
@@ -229,14 +229,12 @@ class Player implements SluggableInterface
     private $boolMaj = false;
 
     /**
-     * @var Team
-     *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * })
      */
-    private $team;
+    private ?Team $team;
 
     /**
      * @var Country

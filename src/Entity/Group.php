@@ -17,7 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Group
  *
- * @ORM\Table(name="vgr_group")
+ * @ORM\Table(
+ *     name="vgr_group",
+ *     indexes={
+ *         @ORM\Index(name="idx_libGroupFr", columns={"libGroupFr"}),
+ *         @ORM\Index(name="idx_libGroupEn", columns={"libGroupEn"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GroupRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\GroupListener"})
  * @ApiFilter(
@@ -60,17 +66,17 @@ class Group implements SluggableInterface, TimestampableInterface
     private bool $boolDlc = false;
 
     /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false)
+     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbChart = 0;
 
     /**
-     * @ORM\Column(name="nbPost", type="integer", nullable=false)
+     * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbPost = 0;
 
     /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=false)
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbPlayer = 0;
 

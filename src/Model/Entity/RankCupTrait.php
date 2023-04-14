@@ -7,27 +7,27 @@ use Doctrine\ORM\Mapping as ORM;
 trait RankCupTrait
 {
     /**
-     * @ORM\Column(name="rankCup", type="integer", nullable=true)
+     * @ORM\Column(name="rankCup", type="integer", nullable=false, options={"default" : 0})
      */
-    private ?int $rankCup = null;
+    private int $rankCup = 0;
 
     /**
-     * @ORM\Column(name="gameRank0", type="integer", nullable=true)
+     * @ORM\Column(name="gameRank0", type="integer", nullable=false, options={"default" : 0})
      */
     private int $gameRank0 = 0;
 
     /**
-     * @ORM\Column(name="gameRank1", type="integer", nullable=false)
+     * @ORM\Column(name="gameRank1", type="integer", nullable=false, options={"default" : 0})
      */
     private int $gameRank1 = 0;
 
     /**
-     * @ORM\Column(name="gameRank2", type="integer", nullable=false)
+     * @ORM\Column(name="gameRank2", type="integer", nullable=false, options={"default" : 0})
      */
     private int $gameRank2 = 0;
 
     /**
-     * @ORM\Column(name="gameRank3", type="integer", nullable=false)
+     * @ORM\Column(name="gameRank3", type="integer", nullable=false, options={"default" : 0})
      */
     private int $gameRank3 = 0;
 
@@ -43,9 +43,9 @@ trait RankCupTrait
 
     /**
      * Get rankCup
-     * @return int|null
+     * @return int
      */
-    public function getRankCup(): ?int
+    public function getRankCup(): int
     {
         return $this->rankCup;
     }

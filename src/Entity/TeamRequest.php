@@ -40,14 +40,14 @@ class TeamRequest implements TimestampableInterface
     private ?int $id = null;
 
     /**
-     * @ORM\Column(name="status", type="string", nullable=false)
+     * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
     private string $status = self::STATUS_ACTIVE;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Team $team;
@@ -55,7 +55,7 @@ class TeamRequest implements TimestampableInterface
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Player $player;

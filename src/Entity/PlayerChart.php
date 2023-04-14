@@ -20,7 +20,18 @@ use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
 /**
  * PlayerChart
  *
- * @ORM\Table(name="vgr_player_chart")
+ * @ORM\Table(
+ *     name="vgr_player_chart",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="unq_player_chart", columns={"idPlayer", "idChart"})
+ *     },
+ *     indexes={
+ *         @ORM\Index(name="idx_rank", columns={"rank"}),
+ *         @ORM\Index(name="idx_point_chart", columns={"pointChart"}),
+ *         @ORM\Index(name="idx_top_score", columns={"isTopScore"}),
+ *         @ORM\Index(name="idx_last_update_player", columns={"lastUpdate", "idPlayer"})
+ *     }
+ * )
  * @DoctrineAssert\UniqueEntity(fields={"chart", "player"}, message="A score already exists for the couple player / chart")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener"})
@@ -111,19 +122,19 @@ class PlayerChart implements TimestampableInterface
     private ?int $rank = null;
 
     /**
-     * @ORM\Column(name="nbEqual", type="integer", nullable=false)
+     * @ORM\Column(name="nbEqual", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbEqual = 0;
 
     /**
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
+     * @ORM\Column(name="pointChart", type="integer", nullable=false, options={"default" : 0})
      */
     private int $pointChart = 0;
 
     /**
-     * @ORM\Column(name="pointPlatform", type="integer", nullable=true)
+     * @ORM\Column(name="pointPlatform", type="integer", nullable=false, options={"default" : 0})
      */
-    private ?int $pointPlatform = null;
+    private int $pointPlatform = 0;
 
     /**
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
@@ -143,7 +154,7 @@ class PlayerChart implements TimestampableInterface
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Chart $chart;
@@ -151,7 +162,7 @@ class PlayerChart implements TimestampableInterface
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", inversedBy="playerChart")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idProof", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idProof", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * })
      */
     private ?Proof $proof = null;
@@ -162,7 +173,7 @@ class PlayerChart implements TimestampableInterface
      *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })
      */
-    private ?PlayerChartStatus $status = null;
+    private PlayerChartStatus $status;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform")
@@ -457,7 +468,7 @@ class PlayerChart implements TimestampableInterface
      *
      * @return PlayerChartStatus
      */
-    public function getStatus(): ?PlayerChartStatus
+    public function getStatus(): PlayerChartStatus
     {
         return $this->status;
     }

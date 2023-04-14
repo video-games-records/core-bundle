@@ -96,7 +96,7 @@ class TeamGame
     private int $chartRank3;
 
     /**
-     * @ORM\Column(name="nbEqual", type="integer", nullable=false)
+     * @ORM\Column(name="nbEqual", type="integer", nullable=false, options={"default" : 1})
      */
     private int $nbEqual = 0;
 
@@ -104,7 +104,7 @@ class TeamGame
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="teamGame")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Team $team;
@@ -113,7 +113,7 @@ class TeamGame
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Game $game;

@@ -8,7 +8,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Badge
- * @ORM\Table(name="vgr_badge")
+ * @ORM\Table(
+ *     name="vgr_badge",
+ *     indexes={
+ *         @ORM\Index(name="idx_type", columns={"type"}),
+ *         @ORM\Index(name="idx_value", columns={"value"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\BadgeRepository")
  * @ApiResource(attributes={"order"={"type", "value"}})
  */
@@ -46,17 +52,17 @@ class Badge
 
     /**
      * @Assert\Length(max="100")
-     * @ORM\Column(name="picture", type="string", length=50, nullable=false)
+     * @ORM\Column(name="picture", type="string", length=100, nullable=false, options={"default" : "default.gif"})
      */
     private string $picture;
 
     /**
-     * @ORM\Column(name="value", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="value", type="integer", nullable=false, options={"default":0})
      */
     private ?int $value = null;
 
     /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default":0})
      */
     private int $nbPlayer = 0;
 

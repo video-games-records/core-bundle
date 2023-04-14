@@ -30,7 +30,7 @@ class VideoComment implements TimestampableInterface
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video", inversedBy="comments")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idVideo", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idVideo", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Video $video;
@@ -39,7 +39,7 @@ class VideoComment implements TimestampableInterface
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Player $player;

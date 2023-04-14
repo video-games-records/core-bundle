@@ -32,6 +32,5 @@ class GameStatsHandler
 
         $nb = $query->getSingleScalarResult();
         $game->setNbPlayer($nb);
-        $this->em->flush();
     }
 }

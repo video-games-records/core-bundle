@@ -48,7 +48,7 @@ class TeamChart
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Team $team;
@@ -59,17 +59,17 @@ class TeamChart
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Chart $chart;
 
     /**
      * Set pointChart
-     * @param float $pointChart
+     * @param int $pointChart
      * @return $this
      */
-    public function setPointChart(float $pointChart): Self
+    public function setPointChart(int $pointChart): Self
     {
         $this->pointChart = $pointChart;
         return $this;

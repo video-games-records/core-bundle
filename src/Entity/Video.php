@@ -18,8 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
 
 /**
- * Video
- * @ORM\Table(name="vgr_video")
+ * @ORM\Table(
+ *     name="vgr_video",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="unq_video", columns={"type", "videoId"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ApiResource(attributes={"order"={"id": "DESC"}})
@@ -59,13 +63,13 @@ class Video implements TimestampableInterface, SluggableInterface
     private bool $boolActive = true;
 
     /**
-     * @ORM\Column(name="type", type="string", nullable=true)
+     * @ORM\Column(name="type", type="string", length=30, nullable=false)
      */
     private ?string $type = self::TYPE_YOUTUBE;
 
     /**
      * @Assert\NotNull(message="video.videoId.not_null")
-     * @ORM\Column(name="videoId", type="string", nullable=true)
+     * @ORM\Column(name="videoId", type="string", length=50, nullable=true)
      */
     private ?string $videoId = null;
 
@@ -92,7 +96,7 @@ class Video implements TimestampableInterface, SluggableInterface
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="videos")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * })
      */
     private ?Game $game;
