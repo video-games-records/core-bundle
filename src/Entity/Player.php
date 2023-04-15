@@ -99,7 +99,7 @@ class Player implements SluggableInterface
     private string $pseudo;
 
     /**
-     * @ORM\Column(name="avatar", type="string", length=100, nullable=false)
+     * @ORM\Column(name="avatar", type="string", length=100, nullable=false, options={"default":"default.jpg"})
      */
     private string $avatar = 'default.jpg';
 
