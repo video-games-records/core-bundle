@@ -7,37 +7,37 @@ use Doctrine\ORM\Mapping as ORM;
 trait RankMedalTrait
 {
     /**
-     * @ORM\Column(name="rankMedal", type="integer", nullable=false)
+     * @ORM\Column(name="rankMedal", type="integer", nullable=false, options={"default" : 0})
      */
-    private ?int $rankMedal;
+    private int $rankMedal;
 
     /**
-     * @ORM\Column(name="chartRank0", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank0", type="integer", nullable=false, options={"default" : 0})
      */
     private int $chartRank0 = 0;
 
     /**
-     * @ORM\Column(name="chartRank1", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank1", type="integer", nullable=false, options={"default" : 0})
      */
     private int $chartRank1 = 0;
 
     /**
-     * @ORM\Column(name="chartRank2", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank2", type="integer", nullable=false, options={"default" : 0})
      */
     private int $chartRank2 = 0;
 
     /**
-     * @ORM\Column(name="chartRank3", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank3", type="integer", nullable=false, options={"default" : 0})
      */
     private int $chartRank3 = 0;
 
     /**
-     * @ORM\Column(name="chartRank4", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank4", type="integer", nullable=false, options={"default" : 0})
      */
     private int $chartRank4 = 0;
 
     /**
-     * @ORM\Column(name="chartRank5", type="integer", nullable=false)
+     * @ORM\Column(name="chartRank5", type="integer", nullable=false, options={"default" : 0})
      */
     private int $chartRank5 = 0;
 
@@ -53,9 +53,9 @@ trait RankMedalTrait
 
     /**
      * Get rankMedal
-     * @return int|null
+     * @return int
      */
-    public function getRankMedal(): ?int
+    public function getRankMedal(): int
     {
         return $this->rankMedal;
     }

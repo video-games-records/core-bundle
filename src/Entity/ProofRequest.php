@@ -29,7 +29,7 @@ class ProofRequest implements TimestampableInterface
     private ?int $id = null;
 
     /**
-     * @ORM\Column(name="status", type="string", nullable=false)
+     * @ORM\Column(name="status", type="string", length=50, nullable=false)
      */
     private string $status = self::STATUS_IN_PROGRESS;
 

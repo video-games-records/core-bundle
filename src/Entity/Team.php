@@ -110,22 +110,22 @@ class Team implements SluggableInterface, TimestampableInterface
 
     /**
      * @Assert\Choice({"CLOSED", "OPENED"})
-     * @ORM\Column(name="status", type="string", nullable=false)
+     * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
     private string $status = self::STATUS_CLOSED;
 
     /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=false)
+     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbPlayer = 0;
 
     /**
-     * @ORM\Column(name="nbGame", type="integer", nullable=false)
+     * @ORM\Column(name="nbGame", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbGame = 0;
 
     /**
-     * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false)
+     * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbMasterBadge = 0;
 
@@ -151,7 +151,7 @@ class Team implements SluggableInterface, TimestampableInterface
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idLeader", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idLeader", referencedColumnName="id", nullable=false)
      * })
      */
     private Player $leader;

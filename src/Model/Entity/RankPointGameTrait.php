@@ -7,12 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 trait RankPointGameTrait
 {
     /**
-     * @ORM\Column(name="rankPointGame", type="integer", nullable=false)
+     * @ORM\Column(name="rankPointGame", type="integer", nullable=false, options={"default" : 0})
      */
-    private ?int $rankPointGame;
+    private int $rankPointGame;
 
     /**
-     * @ORM\Column(name="pointGame", type="integer", nullable=false)
+     * @ORM\Column(name="pointGame", type="integer", nullable=false, options={"default" : 0})
      */
     private int $pointGame = 0;
 
@@ -28,9 +28,9 @@ trait RankPointGameTrait
 
     /**
      * Get rankPointGame
-     * @return int|null
+     * @return int
      */
-    public function getRankPointGame(): ?int
+    public function getRankPointGame(): int
     {
         return $this->rankPointGame;
     }

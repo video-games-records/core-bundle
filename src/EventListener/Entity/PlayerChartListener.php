@@ -59,8 +59,8 @@ class PlayerChartListener
      */
     public function postPersist(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
-        $this->groupStatsHandler->majNbPlayer($playerChart->getChart()->getGroup());
-        $this->gameStatsHandler->majNbPlayer($playerChart->getChart()->getGroup()->getGame());
+        //$this->groupStatsHandler->majNbPlayer($playerChart->getChart()->getGroup());
+        //$this->gameStatsHandler->majNbPlayer($playerChart->getChart()->getGroup()->getGame());
     }
 
     /**
@@ -169,15 +169,5 @@ class PlayerChartListener
         // Game
         $game = $group->getGame();
         $game->setNbPost($game->getNbPost() - 1);
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     * @throws NoResultException
-     */
-    public function postRemove(PlayerChart $playerChart, LifecycleEventArgs $event): void
-    {
-        $this->groupStatsHandler->majNbPlayer($playerChart->getChart()->getGroup());
-        $this->gameStatsHandler->majNbPlayer($playerChart->getChart()->getGroup()->getGame());
     }
 }

@@ -9,7 +9,12 @@ use VideoGamesRecords\CoreBundle\Tools\Score;
 /**
  * PlayerChartLib
  *
- * @ORM\Table(name="vgr_player_chartlib")
+ * @ORM\Table(
+ *     name="vgr_player_chartlib",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="unq_playerchart_chartlib", columns={"idPlayerChart", "idLibChart"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartLibRepository")
  */
 class PlayerChartLib
@@ -27,7 +32,7 @@ class PlayerChartLib
      * @Assert\NotNull
      * @Assert\NotBlank
      *
-     * @ORM\Column(name="value", type="integer", nullable=false)
+     * @ORM\Column(name="value", type="bigint", nullable=false)
      */
     private ?int $value = null;
 
@@ -35,7 +40,7 @@ class PlayerChartLib
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idLibChart", referencedColumnName="idLibChart")
+     *   @ORM\JoinColumn(name="idLibChart", referencedColumnName="idLibChart", nullable=false)
      * })
      */
     private ChartLib $libChart;
@@ -44,7 +49,7 @@ class PlayerChartLib
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", inversedBy="libs")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private playerChart $playerChart;

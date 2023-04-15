@@ -3,23 +3,13 @@
 namespace VideoGamesRecords\CoreBundle\Tests\Api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\DataFixtures\ORM\LoadFixtures;
 
 class GamesTest extends ApiTestCase
 {
-    protected LoadFixtures $loadFixtures;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->entityManager = self::getContainer()->get(EntityManagerInterface::class);
-    }
-
     public function testGetCollection(): void
     {
-        $this->loadFixtures->load();
+        //$this->loadFixtures->load();
 
         // The client implements Symfony HttpClient's `HttpClientInterface`, and the response `ResponseInterface`
         $response = static::createClient()->request('GET', '/games');

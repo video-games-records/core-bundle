@@ -11,16 +11,16 @@ trait GameTrait
      *
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
      * })
      */
     private Game $game;
 
     /**
-     * @param Game|null $game
+     * @param Game $game
      * @return $this
      */
-    public function setGame(?Game $game = null): static
+    public function setGame(Game $game): static
     {
         $this->game = $game;
         return $this;

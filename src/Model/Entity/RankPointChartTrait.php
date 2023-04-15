@@ -7,12 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 trait RankPointChartTrait
 {
     /**
-     * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
+     * @ORM\Column(name="rankPointChart", type="integer", nullable=false, options={"default" : 0})
      */
-    private ?int $rankPointChart;
+    private int $rankPointChart;
 
     /**
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
+     * @ORM\Column(name="pointChart", type="integer", nullable=false, options={"default" : 0})
      */
     private int $pointChart = 0;
 
@@ -28,9 +28,9 @@ trait RankPointChartTrait
 
     /**
      * Get rankPointChart
-     * @return int|null
+     * @return int
      */
-    public function getRankPointChart(): ?int
+    public function getRankPointChart(): int
     {
         return $this->rankPointChart;
     }

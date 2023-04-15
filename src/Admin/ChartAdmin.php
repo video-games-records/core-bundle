@@ -230,7 +230,7 @@ class ChartAdmin extends AbstractAdmin
                     'label' => 'label.libs',
                 ]
             )
-            ->add('updated_at', 'datetime', ['label' => 'label.updatedAt'])
+            ->add('createdAt', 'datetime', ['label' => 'label.createdAt'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -250,6 +250,8 @@ class ChartAdmin extends AbstractAdmin
             ->add('libChartFr', null, ['label' => 'label.name.fr'])
             ->add('statusPlayer', null, ['label' => 'label.chart.statusPlayer'])
             ->add('statusTeam', null, ['label' => 'label.chart.statusTeam'])
+            ->add('createdAt', null, ['label' => 'label.createdAt'])
+            ->add('updatedAt', null, ['label' => 'label.updatedAt'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),
                 'label' => 'label.group',

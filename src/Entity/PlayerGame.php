@@ -64,7 +64,7 @@ class PlayerGame
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerGame")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Player $player;
@@ -73,7 +73,7 @@ class PlayerGame
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER", inversedBy="playerGame")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Game $game;
@@ -158,7 +158,7 @@ class PlayerGame
     private int $pointGame = 0;
 
     /**
-     * @ORM\Column(name="nbEqual", type="integer", nullable=false)
+     * @ORM\Column(name="nbEqual", type="integer", nullable=false, options={"default" : 1})
      */
     private int $nbEqual = 1;
 

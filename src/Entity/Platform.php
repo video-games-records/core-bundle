@@ -50,7 +50,7 @@ class Platform implements SluggableInterface
     private string $picture = 'bt_default.png';
 
     /**
-     * @ORM\Column(name="status", type="string", nullable=false)
+     * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
     private string $status = 'INACTIF';
 

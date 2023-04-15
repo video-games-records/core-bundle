@@ -22,7 +22,14 @@ use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 /**
  * Game
  *
- * @ORM\Table(name="vgr_game")
+ * @ORM\Table(
+ *     name="vgr_game",
+ *     indexes={
+ *         @ORM\Index(name="idx_libGameFr", columns={"libGameFr"}),
+ *         @ORM\Index(name="idx_libGameEn", columns={"libGameEn"}),
+ *         @ORM\Index(name="idx_status", columns={"status"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener"})
  * @ApiFilter(
@@ -97,7 +104,7 @@ class Game implements SluggableInterface, TimestampableInterface
     private ?string $downloadUrl;
 
     /**
-     * @ORM\Column(name="status", type="string", nullable=false)
+     * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
     private string $status = GameStatus::STATUS_CREATED;
 
@@ -107,7 +114,7 @@ class Game implements SluggableInterface, TimestampableInterface
     private ?DateTime $publishedAt = null;
 
     /**
-     * @ORM\Column(name="boolRanking", type="boolean", nullable=true, options={"default":1})
+     * @ORM\Column(name="boolRanking", type="boolean", nullable=false, options={"default":1})
      */
     private bool $boolRanking = true;
 
@@ -143,7 +150,7 @@ class Game implements SluggableInterface, TimestampableInterface
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game",cascade={"persist"}))
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * })
      */
     private ?Badge $badge;

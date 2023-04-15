@@ -2,13 +2,16 @@
 
 namespace VideoGamesRecords\CoreBundle\Tests;
 
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreBundle;
+use ProjetNormandie\UserBundle\ProjetNormandieUserBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 
 class Kernel extends BaseKernel
 {
@@ -26,6 +29,9 @@ class Kernel extends BaseKernel
         return [
             new FrameworkBundle(),
             new VideoGamesRecordsCoreBundle(),
+            new ProjetNormandieUserBundle(),
+            new DoctrineBundle(),
+            new SecurityBundle()
         ];
     }
 

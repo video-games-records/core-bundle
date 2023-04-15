@@ -33,6 +33,5 @@ class GroupStatsHandler
 
         $nb = $query->getSingleScalarResult();
         $group->setNbPlayer($nb);
-        $this->em->flush();
     }
 }

@@ -18,7 +18,15 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 /**
  * Chart
  *
- * @ORM\Table(name="vgr_chart")
+ * @ORM\Table(
+ *     name="vgr_chart",
+ *     indexes={
+ *         @ORM\Index(name="idx_libChartFr", columns={"libChartFr"}),
+ *         @ORM\Index(name="idx_libChartEn", columns={"libChartEn"}),
+ *         @ORM\Index(name="idx_status_player", columns={"statusPlayer"}),
+ *         @ORM\Index(name="idx_status_team", columns={"statusTeam"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener"})
  * @ApiFilter(
@@ -56,17 +64,17 @@ class Chart implements SluggableInterface, TimestampableInterface
     private ?string $libChartFr = null;
 
     /**
-     * @ORM\Column(name="statusPlayer", type="string", nullable=false)
+     * @ORM\Column(name="statusPlayer", type="string", length=30, nullable=false)
      */
     private string $statusPlayer = 'NORMAL';
 
     /**
-     * @ORM\Column(name="statusTeam", type="string", nullable=false)
+     * @ORM\Column(name="statusTeam", type="string", length=30, nullable=false)
      */
     private string $statusTeam = 'NORMAL';
 
     /**
-     * @ORM\Column(name="nbPost", type="integer", nullable=false)
+     * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbPost = 0;
 

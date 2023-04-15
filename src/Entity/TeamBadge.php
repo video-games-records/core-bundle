@@ -70,7 +70,7 @@ class TeamBadge implements TimestampableInterface
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="teamBadge")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Team $team;
@@ -78,7 +78,7 @@ class TeamBadge implements TimestampableInterface
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Badge $badge;
