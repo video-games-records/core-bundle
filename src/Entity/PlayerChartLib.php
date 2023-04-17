@@ -34,7 +34,7 @@ class PlayerChartLib
      *
      * @ORM\Column(name="value", type="bigint", nullable=false)
      */
-    private ?int $value = null;
+    private string $value;
 
 
     /**
@@ -90,21 +90,21 @@ class PlayerChartLib
 
     /**
      * Get value
-     * @return int|null
+     * @return string
      */
-    public function getValue(): ?int
+    public function getValue(): string
     {
         return $this->value;
     }
 
     /**
      * Set value
-     * @param int|null $value
+     * @param $value
      * @return PlayerChartLib
      */
-    public function setValue(int $value = null): PlayerChartLib
+    public function setValue($value = null): PlayerChartLib
     {
-        $this->value = $value;
+        $this->value = (string) $value;
         return $this;
     }
 
