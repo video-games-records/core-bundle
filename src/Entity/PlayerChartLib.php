@@ -104,7 +104,10 @@ class PlayerChartLib
      */
     public function setValue($value = null): PlayerChartLib
     {
-        $this->value = (string) $value;
+        if ($value !=null) {
+            $this->value = (string) $value;
+        }
+
         return $this;
     }
 
@@ -185,7 +188,7 @@ class PlayerChartLib
             $this->getLibChart()
                 ->getType()
                 ->getMask(),
-            $this->value
+            $this->value ?? null
         );
     }
 
@@ -198,7 +201,7 @@ class PlayerChartLib
         if ($this->parseValue == null) {
             $this->value = null;
         } else {
-            $this->value = (int) Score::formToBdd(
+            $this->value = (string) Score::formToBdd(
                 $this->getLibChart()
                     ->getType()
                     ->getMask(),
