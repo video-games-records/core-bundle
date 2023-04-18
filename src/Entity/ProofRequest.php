@@ -51,7 +51,7 @@ class ProofRequest implements TimestampableInterface
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private PlayerChart $playerChart;
