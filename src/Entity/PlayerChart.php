@@ -12,8 +12,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
 
@@ -104,10 +103,10 @@ use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class PlayerChart implements TimestampableInterface
+class PlayerChart
 {
-    use TimestampableTrait;
-    use PlayerTrait;
+     use PlayerTrait;
+     use TimestampableEntity;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -192,6 +191,7 @@ class PlayerChart implements TimestampableInterface
      * )
      */
     private Collection $libs;
+
 
     /**
      * Constructor
