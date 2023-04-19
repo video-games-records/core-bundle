@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-use ProjetNormandie\UserBundle\Entity\User;
+use VideoGamesRecords\CoreBundle\Entity\UserInterface;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
@@ -25,7 +25,14 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
 /**
  * Player
  *
- * @ORM\Table(name="vgr_player")
+* @ORM\Table(
+ *     name="vgr_player",
+ *     indexes={
+ *         @ORM\Index(name="idx_pointGame", columns={"pointGame"}),
+ *         @ORM\Index(name="idx_chartRank", columns={"chartRank0", "chartRank1", "chartRank2", "chartRank3"}),
+ *         @ORM\Index(name="idx_gameRank", columns={"gameRank0", "gameRank1", "gameRank2", "gameRank3"}),
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerListener"})
  * @ApiResource(attributes={"order"={"pseudo"}})
@@ -80,7 +87,7 @@ class Player implements SluggableInterface
     use AverageGameRankTrait;
 
     /**
-     * @ORM\OneToOne(targetEntity="ProjetNormandie\UserBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\UserInterface")
      * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
      */
     private $user;
@@ -126,12 +133,12 @@ class Player implements SluggableInterface
     /**
      * @ORM\Column(name="rankProof", type="integer", nullable=false, options={"default" : 0})
      */
-    private int $rankProof;
+    private int $rankProof = 0;
 
     /**
      * @ORM\Column(name="rankCountry", type="integer", nullable=false, options={"default" : 0})
      */
-    private int $rankCountry;
+    private int $rankCountry = 0;
 
     /**
      * @ORM\Column(name="nbGame", type="integer", nullable=false, options={"default" : 0})
@@ -755,9 +762,9 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @return User
+     * @return UserInterface
      */
-    public function getUser(): User
+    public function getUser()
     {
         return $this->user;
     }

@@ -9,7 +9,7 @@ trait RankPointGameTrait
     /**
      * @ORM\Column(name="rankPointGame", type="integer", nullable=false, options={"default" : 0})
      */
-    private int $rankPointGame;
+    private int $rankPointGame = 0;
 
     /**
      * @ORM\Column(name="pointGame", type="integer", nullable=false, options={"default" : 0})
