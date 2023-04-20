@@ -25,7 +25,6 @@
         "symfony/dependency-injection": "^5.4",
         "symfony/http-kernel": "^5.4",
         "symfony/lock": "^5.4",
-        "projet-normandie/message-bundle": "dev-master",
         "webmozart/assert": "*"
     },
     "require-dev": {

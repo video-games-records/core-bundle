@@ -2,11 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use ProjetNormandie\MessageBundle\Service\MessageBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -22,25 +20,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
-use VideoGamesRecords\CoreBundle\Interface\MessageTypeInterface;
 
-class ProofAdmin extends AbstractAdmin implements MessageTypeInterface
+class ProofAdmin extends AbstractAdmin
 {
-    //protected $baseRouteName = 'vgrcorebundle_admin_proof';
-
-    /** @var MessageBuilder */
-    private MessageBuilder $messageBuilder;
+    protected $baseRouteName = 'vgrcorebundle_admin_proof';
 
     /** @var ContainerInterface */
     private ContainerInterface $container;
-
-    public function setMessageBuilder(MessageBuilder $messageBuilder): void
-    {
-        $this->messageBuilder = $messageBuilder;
-    }
 
     public function setContainer(ContainerInterface $container)
     {
@@ -324,81 +311,15 @@ class ProofAdmin extends AbstractAdmin implements MessageTypeInterface
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
-        $player = $this->getPlayer();
-
-        $this->messageBuilder
-            ->setSender($em->getReference('ProjetNormandie\UserBundle\Entity\User', 0))
-            ->setType(self::MESSAGE_TYPE_PROOF);
 
         // Cant change status final (CLOSED & REFUSED)
         if (in_array($originalObject['status'], array(Proof::STATUS_CLOSED, Proof::STATUS_REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
 
-        $setPlayerResponding = false;
+
         if ($object->getPlayerChart() == null) {
-            $setPlayerResponding = true;
             $object->setStatus(Proof::STATUS_CLOSED);
-        }
-
-        // ACCEPTED
-        if ($originalObject['status'] === Proof::STATUS_IN_PROGRESS && $object->getStatus() === Proof::STATUS_ACCEPTED) {
-            /** @var PlayerChart $playerChart */
-            $object->getPlayerChart()->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_PROOVED));
-            $setPlayerResponding = true;
-            // Send MP (1)
-            $recipient = $object->getPlayerChart()->getPlayer()->getUser();
-            $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messageBuilder
-                ->setObject($this->getTranslator()->trans('proof.proof.accept.object', array(), null, $recipient->getLocale()))
-                ->setMessage(
-                    sprintf(
-                         $this->getTranslator()->trans('proof.proof.accept.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                        $object->getResponse()
-                    )
-                )
-                ->setRecipient($recipient)
-                ->send();
-        }
-
-        // REFUSED
-        if (in_array($originalObject['status'], array(Proof::STATUS_IN_PROGRESS, Proof::STATUS_ACCEPTED)) && $object->getStatus() === Proof::STATUS_REFUSED) {
-            /** @var PlayerChart $playerChart */
-            $playerChart = $object->getPlayerChart();
-            if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
-                $playerChart->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL));
-            } else {
-                $idStatus = ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
-                    ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
-                $playerChart
-                    ->setStatus($em->getReference(PlayerChartStatus::class, $idStatus));
-            }
-            $setPlayerResponding = true;
-            // Send MP (1)
-            $recipient = $object->getPlayerChart()->getPlayer()->getUser();
-            $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messageBuilder
-                ->setObject($this->getTranslator()->trans('proof.proof.refuse.object', array(), null, $recipient->getLocale()))
-                ->setMessage(
-                    sprintf(
-                        $this->getTranslator()->trans('proof.proof.refuse.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                        $object->getResponse()
-                    )
-                )
-                ->setRecipient($recipient)
-                ->send();
-        }
-
-        // Player Responding
-        if ($setPlayerResponding) {
-            $object->setPlayerResponding($player);
-            $object->setCheckedAt(new DateTime());
         }
     }
 
