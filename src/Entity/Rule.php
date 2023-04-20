@@ -5,9 +5,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,10 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="vgr_rule")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\RuleRepository")
  */
-class Rule implements TranslatableInterface, TimestampableInterface
+class Rule implements TranslatableInterface
 {
     use TranslatableTrait;
-    use TimestampableTrait;
+    use TimestampableEntity;
 
     /**
      * @ORM\Column(name="id", type="integer")

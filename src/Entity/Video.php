@@ -10,9 +10,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
@@ -40,9 +39,9 @@ use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
  * @DoctrineAssert\UniqueEntity(fields={"url"})
  * @DoctrineAssert\UniqueEntity(fields={"type", "videoId"})
  */
-class Video implements TimestampableInterface, SluggableInterface
+class Video implements SluggableInterface
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
     use SluggableTrait;
     use PlayerTrait;
 

@@ -6,8 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * LostPosition
@@ -17,9 +16,9 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @ApiResource(attributes={"order"={"id": "DESC"}, "pagination_items_per_page"=20})
  * @ApiFilter(SearchFilter::class, properties={"player": "exact", "chart.group.game": "exact"})
  */
-class LostPosition implements TimestampableInterface
+class LostPosition
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
 
     /**
      * @ORM\Column(name="id", type="integer")

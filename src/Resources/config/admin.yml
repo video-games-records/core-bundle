@@ -79,7 +79,6 @@ services:
                 label: "label.request"
         calls:
             - [ setTemplate, ['edit', '@@VideoGamesRecordsCore/Admin/proof_request_edit.html.twig']]
-            - [ setMessageBuilder, ['@ProjetNormandie\MessageBundle\Service\MessageBuilder']]
             - [ setContainer, ['@service_container']]
     sonata.admin.vgr.proof.proof:
         class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
@@ -94,7 +93,6 @@ services:
         calls:
             - [ setTemplate, ['show', '@@VideoGamesRecordsCore/Admin/proof_show.html.twig']]
             - [ setTemplate, ['edit', '@@VideoGamesRecordsCore/Admin/proof_edit.html.twig']]
-            - [ setMessageBuilder, ['@ProjetNormandie\MessageBundle\Service\MessageBuilder']]
             - [ setContainer, ['@service_container']]
     sonata.admin.vgr.proof.picture:
         class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin

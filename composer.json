@@ -25,11 +25,6 @@
         "symfony/dependency-injection": "^5.4",
         "symfony/http-kernel": "^5.4",
         "symfony/lock": "^5.4",
-        "video-games-records/dwh-bundle": "dev-master",
-        "projet-normandie/article-bundle": "dev-master",
-        "projet-normandie/forum-bundle": "dev-master",
-        "projet-normandie/message-bundle": "dev-master",
-        "projet-normandie/user-bundle": "dev-master",
         "webmozart/assert": "*"
     },
     "require-dev": {

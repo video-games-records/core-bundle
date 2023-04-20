@@ -21,24 +21,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
-use VideoGamesRecords\CoreBundle\Interface\MessageTypeInterface;
 
-class ProofRequestAdmin extends AbstractAdmin implements MessageTypeInterface
+class ProofRequestAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
-    /** @var MessageBuilder */
-    private MessageBuilder $messageBuilder;
 
     /** @var ContainerInterface */
     private ContainerInterface $container;
 
-    public function setMessageBuilder(MessageBuilder $messageBuilder): void
-    {
-        $this->messageBuilder = $messageBuilder;
-    }
 
     public function setContainer(ContainerInterface $container)
     {
@@ -304,9 +296,7 @@ class ProofRequestAdmin extends AbstractAdmin implements MessageTypeInterface
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
         $player = $this->getPlayer();
 
-        $this->messageBuilder
-            ->setSender($em->getReference('ProjetNormandie\UserBundle\Entity\User', 0))
-            ->setType(self::MESSAGE_TYPE_PROOF_REQUEST);
+
 
         $setPlayerResponding = false;
 
@@ -315,74 +305,7 @@ class ProofRequestAdmin extends AbstractAdmin implements MessageTypeInterface
             $object->setStatus($originalObject['status']);
         }
 
-        // ACCEPTED
-        if ($originalObject['status'] === ProofRequest::STATUS_IN_PROGRESS && $object->getStatus() === ProofRequest::STATUS_ACCEPTED) {
-            $object->getPlayerChart()->setStatus(
-                $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_INVESTIGATION)
-            );
-            $setPlayerResponding = true;
-            // Send MP (1)
-            $recipient = $object->getPlayerChart()->getPlayer()->getUser();
-            $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messageBuilder
-                ->setObject($this->getTranslator()->trans('proof.request.confirm.object', array(), null, $recipient->getLocale()))
-                ->setMessage(
-                    sprintf(
-                        $this->getTranslator()->trans('proof.request.confirm.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale())
-                    )
-                )
-                ->setRecipient($recipient)
-                ->send();
 
-            // Send MP (2)
-            $recipient = $object->getPlayerRequesting()->getUser();
-            $this->messageBuilder
-                ->setObject($this->getTranslator()->trans('proof.request.accept.object', array(), null, $recipient->getLocale()))
-                ->setMessage(
-                    sprintf(
-                        $this->getTranslator()->trans('proof.request.accept.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                        $object->getPlayerChart()->getPlayer()->getPseudo(),
-                        $object->getResponse()
-                    )
-                )
-                ->setRecipient($recipient)
-                ->send();
-        }
-
-        // REFUSED
-        if ($originalObject['status'] === ProofRequest::STATUS_IN_PROGRESS && $object->getStatus() === ProofRequest::STATUS_REFUSED) {
-            $object->getPlayerChart()->setStatus(
-                $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
-            );
-            $setPlayerResponding = true;
-            $recipient = $object->getPlayerRequesting()->getUser();
-            $url = '/' . $recipient->getLocale() . '/' . $object->getPlayerChart()->getUrl();
-            $this->messageBuilder
-                ->setObject($this->getTranslator()->trans('proof.request.refuse.object', array(), null, $recipient->getLocale()))
-                ->setMessage(
-                    sprintf(
-                        $this->getTranslator()->trans('proof.request.refuse.message', array(), null, $recipient->getLocale()),
-                        $recipient->getUsername(),
-                        $url,
-                        $object->getPlayerChart()->getChart()->getCompleteName($recipient->getLocale()),
-                        $object->getPlayerChart()->getPlayer()->getPseudo(),
-                        $object->getResponse()
-                    )
-                )
-                ->setRecipient($recipient)
-                ->send();
-        }
-
-        if ($setPlayerResponding) {
-            $object->setPlayerResponding($player);
-            $object->setDateAcceptance(new DateTime());
-        }
     }
 
     /**

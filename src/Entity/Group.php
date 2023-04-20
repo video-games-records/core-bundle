@@ -8,8 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -36,9 +35,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class Group implements SluggableInterface, TimestampableInterface
+class Group implements SluggableInterface
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
     use SluggableTrait;
 
     /**

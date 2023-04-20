@@ -9,7 +9,7 @@ trait RankPointBadgeTrait
     /**
      * @ORM\Column(name="rankBadge", type="integer", nullable=false, options={"default" : 0})
      */
-    private int $rankBadge;
+    private int $rankBadge = 0;
 
     /**
      * @ORM\Column(name="pointBadge", type="integer", nullable=false, options={"default" : 0})

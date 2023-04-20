@@ -8,9 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
@@ -39,9 +38,9 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class Chart implements SluggableInterface, TimestampableInterface
+class Chart implements SluggableInterface
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
     use SluggableTrait;
 
     /**
@@ -64,12 +63,12 @@ class Chart implements SluggableInterface, TimestampableInterface
     private ?string $libChartFr = null;
 
     /**
-     * @ORM\Column(name="statusPlayer", type="string", length=30, nullable=false)
+     * @ORM\Column(name="statusPlayer", type="string", length=30, nullable=false, options={"default" : "NORMAL"}))
      */
     private string $statusPlayer = 'NORMAL';
 
     /**
-     * @ORM\Column(name="statusTeam", type="string", length=30, nullable=false)
+     * @ORM\Column(name="statusTeam", type="string", length=30, nullable=false, options={"default" : "NORMAL"}))
      */
     private string $statusTeam = 'NORMAL';
 

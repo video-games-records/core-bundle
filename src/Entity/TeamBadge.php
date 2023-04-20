@@ -10,8 +10,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * TeamBadge
@@ -46,9 +45,9 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class TeamBadge implements TimestampableInterface
+class TeamBadge
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
 
     /**
      * @ORM\Column(name="id", type="integer")

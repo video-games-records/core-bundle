@@ -4,8 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,9 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\VideoCommentListener"})
  * @ApiResource(attributes={"order"={"id"}})
  */
-class VideoComment implements TimestampableInterface
+class VideoComment
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
 
     /**
      * @ORM\Column(name="id", type="integer")

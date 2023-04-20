@@ -9,7 +9,7 @@ trait RankMedalTrait
     /**
      * @ORM\Column(name="rankMedal", type="integer", nullable=false, options={"default" : 0})
      */
-    private int $rankMedal;
+    private int $rankMedal = 0;
 
     /**
      * @ORM\Column(name="chartRank0", type="integer", nullable=false, options={"default" : 0})
