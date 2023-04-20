@@ -64,12 +64,12 @@ class Chart implements SluggableInterface, TimestampableInterface
     private ?string $libChartFr = null;
 
     /**
-     * @ORM\Column(name="statusPlayer", type="string", length=30, nullable=false)
+     * @ORM\Column(name="statusPlayer", type="string", length=30, nullable=false, options={"default" : "NORMAL"}))
      */
     private string $statusPlayer = 'NORMAL';
 
     /**
-     * @ORM\Column(name="statusTeam", type="string", length=30, nullable=false)
+     * @ORM\Column(name="statusTeam", type="string", length=30, nullable=false, options={"default" : "NORMAL"}))
      */
     private string $statusTeam = 'NORMAL';
 
