@@ -5,8 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * TeamRequest
@@ -23,9 +22,9 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  *      }
  * )
  */
-class TeamRequest implements TimestampableInterface
+class TeamRequest
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
 
     const STATUS_ACTIVE = 'ACTIVE';
     const STATUS_ACCEPTED = 'ACCEPTED';

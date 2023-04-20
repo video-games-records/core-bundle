@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Request
@@ -13,9 +13,9 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener"})
  */
-class ProofRequest implements TimestampableInterface
+class ProofRequest
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
 
     const STATUS_IN_PROGRESS = 'IN PROGRESS';
     const STATUS_REFUSED = 'REFUSED';

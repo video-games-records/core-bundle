@@ -10,9 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
@@ -49,9 +48,9 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
  *     }
  * )
  */
-class Team implements SluggableInterface, TimestampableInterface
+class Team implements SluggableInterface
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
     use SluggableTrait;
     use RankCupTrait;
     use RankMedalTrait;
