@@ -24,6 +24,13 @@ class SerieAdmin extends AbstractAdmin
             ->remove('export');
     }
 
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues['_page'] = 1;
+        $sortValues['_sort_order'] = 'ASC';
+        $sortValues['_sort_by'] = 'libSerie';
+    }
+
     /**
      * @param FormMapper $form
      */
