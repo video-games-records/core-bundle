@@ -8,6 +8,8 @@ services:
                 manager_type: orm
                 group: "group.games"
                 label: "label.platform"
+        calls:
+            - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/platform_show.html.twig' ] ]
     sonata.admin.vgr.serie:
         class: VideoGamesRecords\CoreBundle\Admin\SerieAdmin
         tags:
