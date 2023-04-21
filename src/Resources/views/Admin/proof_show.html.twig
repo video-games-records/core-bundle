@@ -61,6 +61,11 @@
                                                         <td>
                                                             <a target="_blank" href="{{ app_front_url }}/en/{{ object.getPlayerChart().getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
                                                         </td>
+                                                        </tr><tr>
+                                                        <th>Ranking</th>
+                                                        <td>
+                                                            {{ object.getPlayerChart().getRank() }} / {{ object.getPlayerChart().getChart().getNbPost() }}
+                                                        </td>
                                                     {%  else %}
                                                         <th>PlayerChart</th>
                                                         <td>NO PLAYER CHART</td>
