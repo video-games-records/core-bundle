@@ -3,10 +3,10 @@
 namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Entity\Team;
 
-class AuthController extends DefaultController
+class AuthController extends AbstractController
 {
     protected EntityManagerInterface $em;
 
@@ -15,7 +15,7 @@ class AuthController extends DefaultController
      */
     public function __construct(EntityManagerInterface $em)
     {
-        parent::__construct($em);
+        $this->em = $em;
     }
 
     /**
@@ -26,7 +26,7 @@ class AuthController extends DefaultController
         return array(
             $this->getUser()->getRoles(),
             $this->getUser(),
-            $this->getPlayer()
+            $this->profilePlayer()
         );
     }
 
@@ -35,14 +35,10 @@ class AuthController extends DefaultController
      */
     public function profilePlayer(): ?Player
     {
-        return $this->getPlayer();
-    }
-
-    /**
-     * @return Team|null
-     */
-    public function profileTeam(): ?Team
-    {
-        return $this->getTeam();
+        if ($this->getUser() !== null) {
+            return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
+                ->getPlayerFromUser($this->getUser());
+        }
+        return null;
     }
 }
