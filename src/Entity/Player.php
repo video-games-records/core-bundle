@@ -86,11 +86,10 @@ class Player implements SluggableInterface
     use AverageChartRankTrait;
     use AverageGameRankTrait;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\UserInterface")
-     * @ORM\JoinColumn(name="normandie_user_id", referencedColumnName="id")
+     /**
+     * @ORM\Column(name="user_id", type="integer")
      */
-    private $user;
+    private $user_id;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -288,7 +287,7 @@ class Player implements SluggableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): static
+    public function setId(int $id): Player
     {
         $this->id = $id;
         return $this;
@@ -310,7 +309,7 @@ class Player implements SluggableInterface
      * @param string $pseudo
      * @return $this
      */
-    public function setPseudo(string $pseudo): static
+    public function setPseudo(string $pseudo): Player
     {
         $this->pseudo = $pseudo;
 
@@ -333,7 +332,7 @@ class Player implements SluggableInterface
      * @param string $avatar
      * @return $this
      */
-    public function setAvatar(string $avatar): static
+    public function setAvatar(string $avatar): Player
     {
         $this->avatar = $avatar;
 
@@ -356,7 +355,7 @@ class Player implements SluggableInterface
      * @param string $gamerCard
      * @return $this
      */
-    public function setGamerCard(string $gamerCard): static
+    public function setGamerCard(string $gamerCard): Player
     {
         $this->gamerCard = $gamerCard;
 
@@ -379,7 +378,7 @@ class Player implements SluggableInterface
      * @param integer $pointVGR
      * @return $this
      */
-    public function setPointVGR(int $pointVGR): static
+    public function setPointVGR(int $pointVGR): Player
     {
         $this->pointVGR = $pointVGR;
 
@@ -402,7 +401,7 @@ class Player implements SluggableInterface
      * @param string|null $presentation
      * @return $this
      */
-    public function setPresentation(string $presentation = null): static
+    public function setPresentation(string $presentation = null): Player
     {
         $this->presentation = $presentation;
 
@@ -424,7 +423,7 @@ class Player implements SluggableInterface
      * @param string|null $collection
      * @return Player
      */
-    public function setCollection(string $collection = null): static
+    public function setCollection(string $collection = null): Player
     {
         $this->collection = $collection;
 
@@ -446,7 +445,7 @@ class Player implements SluggableInterface
      * @param integer $rankProof
      * @return Player
      */
-    public function setRankProof(int $rankProof): static
+    public function setRankProof(int $rankProof): Player
     {
         $this->rankProof = $rankProof;
 
@@ -469,7 +468,7 @@ class Player implements SluggableInterface
      * @param integer $rankCountry
      * @return Player
      */
-    public function setRankCountry(int $rankCountry): static
+    public function setRankCountry(int $rankCountry): Player
     {
         $this->rankCountry = $rankCountry;
 
@@ -492,7 +491,7 @@ class Player implements SluggableInterface
      * @param integer $nbGame
      * @return Player
      */
-    public function setNbGame(int $nbGame): static
+    public function setNbGame(int $nbGame): Player
     {
         $this->nbGame = $nbGame;
 
@@ -515,7 +514,7 @@ class Player implements SluggableInterface
      * @param integer $nbChart
      * @return Player
      */
-    public function setNbChart(int $nbChart): static
+    public function setNbChart(int $nbChart): Player
     {
         $this->nbChart = $nbChart;
 
@@ -538,7 +537,7 @@ class Player implements SluggableInterface
      * @param integer $nbChartMax
      * @return Player
      */
-    public function setNbChartMax(int $nbChartMax): static
+    public function setNbChartMax(int $nbChartMax): Player
     {
         $this->nbChartMax = $nbChartMax;
 
@@ -561,7 +560,7 @@ class Player implements SluggableInterface
      * @param integer $nbChartWithPlatform
      * @return Player
      */
-    public function setNbChartWithPlatform(int $nbChartWithPlatform): static
+    public function setNbChartWithPlatform(int $nbChartWithPlatform): Player
     {
         $this->nbChartWithPlatform = $nbChartWithPlatform;
 
@@ -584,7 +583,7 @@ class Player implements SluggableInterface
      * @param integer $nbChartProven
      * @return Player
      */
-    public function setNbChartProven(int $nbChartProven): static
+    public function setNbChartProven(int $nbChartProven): Player
     {
         $this->nbChartProven = $nbChartProven;
 
@@ -607,7 +606,7 @@ class Player implements SluggableInterface
      * @param integer $nbChartDisabled
      * @return Player
      */
-    public function setNbChartDisabled(int $nbChartDisabled): static
+    public function setNbChartDisabled(int $nbChartDisabled): Player
     {
         $this->nbChartDisabled = $nbChartDisabled;
 
@@ -630,7 +629,7 @@ class Player implements SluggableInterface
      * @param integer $nbMasterBadge
      * @return Player
      */
-    public function setNbMasterBadge(int $nbMasterBadge): static
+    public function setNbMasterBadge(int $nbMasterBadge): Player
     {
         $this->nbMasterBadge = $nbMasterBadge;
 
@@ -660,7 +659,7 @@ class Player implements SluggableInterface
      * @param string|null $website
      * @return $this
      */
-    public function setWebsite(string $website = null): static
+    public function setWebsite(string $website = null): Player
     {
         $this->website = $website;
         return $this;
@@ -678,7 +677,7 @@ class Player implements SluggableInterface
      * @param string|null $youtube
      * @return $this
      */
-    public function setYoutube(string $youtube = null): static
+    public function setYoutube(string $youtube = null): Player
     {
         $this->youtube = $youtube;
         return $this;
@@ -696,7 +695,7 @@ class Player implements SluggableInterface
      * @param string|null $twitch
      * @return $this
      */
-    public function setTwitch(string $twitch = null): static
+    public function setTwitch(string $twitch = null): Player
     {
         $this->twitch = $twitch;
         return $this;
@@ -715,7 +714,7 @@ class Player implements SluggableInterface
      * @param DateTime|null $birthDate
      * @return $this
      */
-    public function setBirthDate(DateTime $birthDate = null): static
+    public function setBirthDate(DateTime $birthDate = null): Player
     {
         $this->birthDate = $birthDate;
         return $this;
@@ -733,7 +732,7 @@ class Player implements SluggableInterface
      * @param string $gender
      * @return $this
      */
-    public function setGender(string $gender): static
+    public function setGender(string $gender): Player
     {
         $this->gender = $gender;
         return $this;
@@ -744,7 +743,7 @@ class Player implements SluggableInterface
      * @param bool $displayPersonalInfos
      * @return $this
      */
-    public function setDisplayPersonalInfos(bool $displayPersonalInfos): static
+    public function setDisplayPersonalInfos(bool $displayPersonalInfos): Player
     {
         $this->displayPersonalInfos = $displayPersonalInfos;
 
@@ -761,20 +760,20 @@ class Player implements SluggableInterface
     }
 
     /**
-     * @return UserInterface
+     * @return int
      */
-    public function getUser()
+    public function getUserId()
     {
-        return $this->user;
+        return $this->user_id;
     }
 
     /**
-     * @param $user
+     * @param $userId
      * @return Player
      */
-    public function setUser($user): static
+    public function setUserId($userId): Player
     {
-        $this->user = $user;
+        $this->user_id = $userId;
         return $this;
     }
 
@@ -807,7 +806,7 @@ class Player implements SluggableInterface
      * @param Team|null $team
      * @return $this
      */
-    public function setTeam(Team $team = null): static
+    public function setTeam(Team $team = null): Player
     {
         $this->team = $team;
 
@@ -835,7 +834,7 @@ class Player implements SluggableInterface
      * @param $country
      * @return Player
      */
-    public function setCountry($country): static
+    public function setCountry($country): Player
     {
         $this->country = $country;
         return $this;
@@ -862,7 +861,7 @@ class Player implements SluggableInterface
      * @param DateTime|null $lastDisplayLostPosition
      * @return $this
      */
-    public function setLastDisplayLostPosition(DateTime $lastDisplayLostPosition = null): static
+    public function setLastDisplayLostPosition(DateTime $lastDisplayLostPosition = null): Player
     {
         $this->lastDisplayLostPosition = $lastDisplayLostPosition;
         return $this;
@@ -874,7 +873,7 @@ class Player implements SluggableInterface
      * @param bool $boolMaj
      * @return $this
      */
-    public function setBoolMaj(bool $boolMaj): static
+    public function setBoolMaj(bool $boolMaj): Player
     {
         $this->boolMaj = $boolMaj;
 

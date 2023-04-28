@@ -315,6 +315,6 @@ class ProofRequestAdmin extends AbstractAdmin
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
-        return $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getPlayerFromUser($user);
+        return $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getPlayerFromUserId($user->getId());
     }
 }

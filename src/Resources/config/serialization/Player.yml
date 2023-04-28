@@ -4,7 +4,6 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.read'
         - 'player.read.mini'
-        - 'user.profile'
         - 'player.put'
     pseudo:
       groups:

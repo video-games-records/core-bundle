@@ -2,42 +2,29 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
 class AuthController extends AbstractController
 {
-    protected EntityManagerInterface $em;
+    protected PlayerRepository $playerRepository;
 
     /**
-     * @param EntityManagerInterface $em
+     * @param PlayerRepository $playerRepository
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(PlayerRepository $playerRepository)
     {
-        $this->em = $em;
+        $this->playerRepository = $playerRepository;
     }
 
-    /**
-     * @return array
-     */
-    public function profile(): array
-    {
-        return array(
-            $this->getUser()->getRoles(),
-            $this->getUser(),
-            $this->profilePlayer()
-        );
-    }
 
     /**
-     * @return Player|null
+     * @return null
      */
-    public function profilePlayer(): ?Player
+    public function profile()
     {
         if ($this->getUser() !== null) {
-            return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
-                ->getPlayerFromUser($this->getUser());
+            return $this->playerRepository->getPlayerFromUserId($this->getUser()->getId());
         }
         return null;
     }
