@@ -19,8 +19,8 @@ class PlayerBadgeHandler
      */
     public function process(): void
     {
-        $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge)
-        SELECT vgr_player.id,vgr_badge.id
+        $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
+        SELECT vgr_player.id,vgr_badge.id, NOW(), NOW()
         FROM vgr_player,user,vgr_badge
         WHERE type = '%s'
         AND value <= user.%s
@@ -30,8 +30,8 @@ class PlayerBadgeHandler
         $this->em->getConnection()->executeQuery(sprintf($sql, 'Connexion', 'nbConnexion'));
         $this->em->getConnection()->executeQuery(sprintf($sql, 'Forum', 'nbForumMessage'));
 
-        $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge)
-        SELECT vgr_player.id,vgr_badge.id
+        $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
+        SELECT vgr_player.id,vgr_badge.id, NOW(), NOW()
         FROM vgr_player,vgr_badge
         WHERE type = '%s'
         AND value <= vgr_player.%s
