@@ -2,7 +2,7 @@ resources:
     VideoGamesRecords\CoreBundle\Entity\Player:
         collectionOperations:
             get:
-                normalization_context: {'groups': [player.read.mini, player.user, vgr.user.read, user.status.read]}
+                normalization_context: {'groups': [player.read.mini]}
             stats:
                 method: 'GET'
                 path: '/players/stats'
@@ -56,7 +56,7 @@ resources:
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::autocomplete'
         itemOperations:
             get:
-                normalization_context: {'groups': [player.read, player.team, team.read.mini, player.user, vgr.user.read, user.status.read, player.country, country.read, player.cup, player.medal, player.proof, player.badge, player.pointGame, player.pointChart]}
+                normalization_context: {'groups': [player.read, player.team, team.read.mini, player.country, country.read, player.cup, player.medal, player.proof, player.badge, player.pointGame, player.pointChart]}
             put:
                 access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
                 denormalization_context: {'groups': [player.put]}
