@@ -7,5 +7,5 @@ resources:
             get:
                 normalization_context: {'groups': [lostPosition.read]}
             delete:
-                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUserId() == user.getId()'
                 denormalization_context: {'groups': [lostPosition.delete]}
