@@ -2,52 +2,30 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use ProjetNormandie\UserBundle\Service\IpManager;
-use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Entity\Team;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
-class AuthController extends DefaultController
+class AuthController extends AbstractController
 {
-    private IpManager $ipManager;
-    protected EntityManagerInterface $em;
+    protected PlayerRepository $playerRepository;
 
     /**
-     * @param IpManager              $ipManager
-     * @param EntityManagerInterface $em
+     * @param PlayerRepository $playerRepository
      */
-    public function __construct(IpManager $ipManager, EntityManagerInterface $em)
+    public function __construct(PlayerRepository $playerRepository)
     {
-        $this->ipManager = $ipManager;
-        parent::__construct($em);
+        $this->playerRepository = $playerRepository;
     }
 
-    /**
-     * @return array
-     */
-    public function profile(): array
-    {
-        $this->ipManager->majUserIp($this->getUser());
-        return array(
-            $this->getUser()->getRoles(),
-            $this->getUser(),
-            $this->getPlayer()
-        );
-    }
 
     /**
-     * @return Player|null
+     * @return null
      */
-    public function profilePlayer(): ?Player
+    public function profile()
     {
-        return $this->getPlayer();
-    }
-
-    /**
-     * @return Team|null
-     */
-    public function profileTeam(): ?Team
-    {
-        return $this->getTeam();
+        if ($this->getUser() !== null) {
+            return $this->playerRepository->getPlayerFromUserId($this->getUser()->getId());
+        }
+        return null;
     }
 }

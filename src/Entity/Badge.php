@@ -59,7 +59,7 @@ class Badge
     /**
      * @ORM\Column(name="value", type="integer", nullable=false, options={"default":0})
      */
-    private ?int $value = null;
+    private int $value = 0;
 
     /**
      * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default":0})

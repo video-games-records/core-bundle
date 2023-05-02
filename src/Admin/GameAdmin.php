@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -164,7 +165,11 @@ class GameAdmin extends AbstractAdmin
     {
         $filter
             ->add('id', null, ['label' => 'label.id'])
-            ->add('serie', null, ['label' => 'label.serie'])
+            ->add('serie', ModelFilter::class, [
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'libSerie'],
+                'label' => 'label.serie'
+            ])
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
             ->add('status', ChoiceFilter::class, [

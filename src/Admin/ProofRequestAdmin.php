@@ -6,7 +6,6 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use ProjetNormandie\MessageBundle\Service\MessageBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -316,6 +315,6 @@ class ProofRequestAdmin extends AbstractAdmin
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
-        return $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getPlayerFromUser($user);
+        return $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getPlayerFromUserId($user->getId());
     }
 }

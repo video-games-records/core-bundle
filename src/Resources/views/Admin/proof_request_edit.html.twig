@@ -40,6 +40,11 @@
                                         {{ lib }}
                                     {% endfor %}
                                 </td>
+                                </tr><tr>
+                                <th>Ranking</th>
+                                <td>
+                                    {{ object.getPlayerChart().getRank() }} / {{ object.getPlayerChart().getChart().getNbPost() }}
+                                </td>
                             {%  else %}
                                 <th>PlayerChart</th>
                                 <td>NO PLAYER CHART</td>

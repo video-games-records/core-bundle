@@ -33,6 +33,7 @@ class PlayerRepository extends DefaultRepository
     /**
      * @param $user
      * @return mixed|Player
+     * @deprecated Use getPlayerFromUserId instead
      * @throws NonUniqueResultException
      * @throws ORMException
      */
@@ -41,6 +42,16 @@ class PlayerRepository extends DefaultRepository
         $qb = $this->createQueryBuilder('player')
             ->where('player.user = :userId')
             ->setParameter('userId', $user->getId())
+            ->addSelect('team')->leftJoin('player.team', 'team');
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function getPlayerFromUserId(int $userId)
+    {
+        $qb = $this->createQueryBuilder('player')
+            ->where('player.user_id = :userId')
+            ->setParameter('userId', $userId)
             ->addSelect('team')->leftJoin('player.team', 'team');
 
         return $qb->getQuery()->getOneOrNullResult();

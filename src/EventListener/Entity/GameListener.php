@@ -3,46 +3,36 @@
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use ProjetNormandie\ForumBundle\Manager\ForumManager;
+use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\Stats\Write\SerieStatsHandler;
 
 class GameListener
 {
-    private ForumManager $forumManager;
     private bool $majPlayers = false;
     private SerieStatsHandler $serieStatsHandler;
 
     /**
-     * @param ForumManager      $forumManager
      * @param SerieStatsHandler $serieStatsHandler
      */
-    public function __construct(ForumManager $forumManager, SerieStatsHandler $serieStatsHandler)
+    public function __construct(SerieStatsHandler $serieStatsHandler)
     {
-        $this->forumManager = $forumManager;
         $this->serieStatsHandler = $serieStatsHandler;
     }
 
     /**
-     * @param Game               $game
-     * @param LifecycleEventArgs $event
+     * @param Game                   $game
+     * @param BaseLifecycleEventArgs $event
      */
-    public function prePersist(Game $game, LifecycleEventArgs $event): void
+    public function prePersist(Game $game, BaseLifecycleEventArgs $event): void
     {
         if (null === $game->getLibGameFr()) {
             $game->setLibGameFr($game->getLibGameEn());
         }
-        $forum = $this->forumManager->getForum([
-            'libForum' => $game->getLibGameEn(),
-            'libForumFr' => $game->getLibGameFr(),
-            'parent' => 10953
-        ]);
-        $game->setForum($forum);
 
         $badge = new Badge();
         $badge->setType('Master');
@@ -51,7 +41,7 @@ class GameListener
     }
 
     /**
-     * @param Game       $game
+     * @param Game               $game
      * @param PreUpdateEventArgs $event
      */
     public function preUpdate(Game $game, PreUpdateEventArgs $event): void
@@ -68,12 +58,12 @@ class GameListener
     }
 
     /**
-     * @param Game               $game
-     * @param LifecycleEventArgs $event
+     * @param Game                   $game
+     * @param BaseLifecycleEventArgs $event
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function postUpdate(Game $game, LifecycleEventArgs $event): void
+    public function postUpdate(Game $game, BaseLifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
         if ($this->majPlayers) {
