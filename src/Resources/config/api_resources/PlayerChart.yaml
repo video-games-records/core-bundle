@@ -32,5 +32,5 @@ resources:
             put:
                 denormalization_context: {'groups': [playerChart.write, playerChart.put]}
                 normalization_context: {'groups': [playerChart.read, playerChart.status, playerChartStatus.read, playerChart.platform]}
-                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUser() == user'
+                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUserId() == user.getId()'
                 _api_receive: true
