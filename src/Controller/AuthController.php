@@ -24,7 +24,7 @@ class AuthController extends AbstractController
     public function profile()
     {
         if ($this->getUser() !== null) {
-            return $this->playerRepository->getPlayerFromUserId($this->getUser()->getId());
+            return $this->playerRepository->getPlayerFromUser($this->getUser());
         }
         return null;
     }

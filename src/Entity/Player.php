@@ -55,7 +55,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *              "country.read",
  *              "player.pointChart",
  *              "player.medal",
- *              "player.user",
+ *              "player.user_id",
  *              "vgr.user.read",
  *              "team.read.mini",
  *              "user.status.read",
