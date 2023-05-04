@@ -67,10 +67,10 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *     properties={
  *          "id":"ASC",
  *          "pseudo" : "ASC",
- *          "user.createdAt": "DESC",
- *          "user.nbConnexion": "DESC",
- *          "user.lastLogin": "DESC",
- *          "user.nbForumMessage": "DESC"
+ *          "createdAt": "DESC",
+ *          "nbConnexion": "DESC",
+ *          "lastLogin": "DESC",
+ *          "nbForumMessage": "DESC"
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
