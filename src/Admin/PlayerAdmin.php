@@ -46,6 +46,7 @@ class PlayerAdmin extends AbstractAdmin
                     'readonly' => true,
                 ]
             ])
+            ->add('status', null, ['label' => 'label.status'])
             ->add('boolMaj', CheckboxType::class, [
                 'label' => 'Maj ?',
                 'required' => false,
@@ -78,6 +79,7 @@ class PlayerAdmin extends AbstractAdmin
         $filter
             ->add('id', null, ['label' => 'label.id'])
             ->add('pseudo', null, ['label' => 'label.pseudo'])
+            ->add('status', null, ['label' => 'label.status'])
             ->add('twitch', NullFilter::class, ['label' => 'label.twitch_is_null'])
             ->add('youtube', NullFilter::class, ['label' => 'label.youtube_is_null'])
             ->add('website', NullFilter::class, ['label' => 'label.website_is_null'])
@@ -93,6 +95,7 @@ class PlayerAdmin extends AbstractAdmin
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('pseudo', null, ['label' => 'label.pseudo'])
+            ->add('status', null, ['label' => 'label.status'])
             ->add('twitch', null, ['label' => 'label.twitch'])
             ->add('youtube', null, ['label' => 'label.youtube'])
             ->add('slug', null, ['label' => 'label.slug'])
@@ -113,6 +116,7 @@ class PlayerAdmin extends AbstractAdmin
             ->with('Player', ['class' => 'col-md-6', 'label' => 'label.player'])
                 ->add('id', null, ['label' => 'label.id'])
                 ->add('pseudo', null, ['label' => 'label.pseudo'])
+                ->add('status', null, ['label' => 'label.status'])
                 ->add('country', null, ['label' => 'label.country'])
                 ->add('team', null, ['label' => 'label.team'])
                 ->add('website', null, ['label' => 'label.website'])

@@ -1,0 +1,11 @@
+VideoGamesRecords\CoreBundle\Entity\PlayerStatus:
+  attributes:
+    id:
+      groups:
+        - 'player.status.read'
+    class:
+      groups:
+        - 'player.status.read'
+    name:
+      groups:
+        - 'player.status.read'

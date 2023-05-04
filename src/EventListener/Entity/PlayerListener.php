@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Service\UpdateChartStatusHandler;
@@ -17,6 +18,16 @@ class PlayerListener
      ) {}
 
 
+    /**
+     * @param Player                                 $player
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $event
+     * @throws ORMException
+     */
+    public function prePersist(Player $player, LifecycleEventArgs $event)
+    {
+        $em = $event->getObjectManager();
+        $player->setStatus($em->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerStatus', 1));
+    }
      /**
      * @param Player $player
      * @param PreUpdateEventArgs $event

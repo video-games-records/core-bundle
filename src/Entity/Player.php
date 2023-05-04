@@ -10,10 +10,10 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Entity\UserInterface;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
@@ -56,9 +56,9 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *              "player.pointChart",
  *              "player.medal",
  *              "player.user_id",
- *              "vgr.user.read",
  *              "team.read.mini",
- *              "user.status.read",
+ *              "player.status",
+ *              "player.status.read"
  *          }
  *     }
  * )
@@ -67,16 +67,17 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *     properties={
  *          "id":"ASC",
  *          "pseudo" : "ASC",
- *          "user.createdAt": "DESC",
- *          "user.nbConnexion": "DESC",
- *          "user.lastLogin": "DESC",
- *          "user.nbForumMessage": "DESC"
+ *          "createdAt": "DESC",
+ *          "nbConnexion": "DESC",
+ *          "lastLogin": "DESC",
+ *          "nbForumMessage": "DESC"
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
  */
 class Player implements SluggableInterface
 {
+    use TimestampableEntity;
     use SluggableTrait;
     use RankCupTrait;
     use RankMedalTrait;
@@ -199,6 +200,16 @@ class Player implements SluggableInterface
     protected string $gender = 'I';
 
     /**
+     * @ORM\Column(name="last_login",type="datetime", nullable=true)
+     */
+    protected ?DateTime $lastLogin = null;
+
+    /**
+     * @ORM\Column(name="nbConnexion", type="integer", nullable=false)
+     */
+    protected int $nbConnexion = 0;
+
+    /**
      * @ORM\Column(name="displayPersonalInfos", type="boolean", nullable=false)
      */
     private bool $displayPersonalInfos = false;
@@ -272,6 +283,15 @@ class Player implements SluggableInterface
      * @ORM\Column(name="lastDisplayLostPosition", type="datetime", nullable=true)
      */
     protected $lastDisplayLostPosition;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerStatus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
+     * })
+     */
+    private $status;
+
 
     /**
      * @return string
@@ -760,6 +780,24 @@ class Player implements SluggableInterface
     }
 
     /**
+     * @return DateTime|null
+     */
+    public function getLastLogin(): ?DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param DateTime|null $time
+     * @return Player
+     */
+    public function setLastLogin(DateTime $time = null) : Player
+    {
+        $this->lastLogin = $time;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getUserId()
@@ -888,6 +926,44 @@ class Player implements SluggableInterface
     public function getBoolMaj(): bool
     {
         return $this->boolMaj;
+    }
+
+    /**
+     * Set status
+     * @param PlayerStatus $status
+     * @return Player
+     */
+    public function setStatus(PlayerStatus $status): Player
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Get status
+     * @return PlayerStatus
+     */
+    public function getStatus(): PlayerStatus
+    {
+        return $this->status;
+    }
+
+     /**
+     * @return int
+     */
+    public function getNbConnexion(): int
+    {
+        return $this->nbConnexion;
+    }
+
+    /**
+     * @param int $nbConnexion
+     * @return Player
+     */
+    public function setNbConnexion(int $nbConnexion): Player
+    {
+        $this->nbConnexion = $nbConnexion;
+        return $this;
     }
 
     /**
