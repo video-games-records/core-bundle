@@ -14,7 +14,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Entity\UserInterface;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
@@ -199,6 +198,16 @@ class Player implements SluggableInterface
      * @ORM\Column(name="gender", type="string", length=1, nullable=false, options={"default" : "I"}))
      */
     protected string $gender = 'I';
+
+    /**
+     * @ORM\Column(name="last_login",type="datetime", nullable=true)
+     */
+    protected ?DateTime $lastLogin = null;
+
+    /**
+     * @ORM\Column(name="nbConnexion", type="integer", nullable=false)
+     */
+    protected int $nbConnexion = 0;
 
     /**
      * @ORM\Column(name="displayPersonalInfos", type="boolean", nullable=false)
@@ -771,6 +780,24 @@ class Player implements SluggableInterface
     }
 
     /**
+     * @return DateTime|null
+     */
+    public function getLastLogin(): ?DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param DateTime|null $time
+     * @return Player
+     */
+    public function setLastLogin(DateTime $time = null) : Player
+    {
+        $this->lastLogin = $time;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getUserId()
@@ -919,6 +946,24 @@ class Player implements SluggableInterface
     public function getStatus(): PlayerStatus
     {
         return $this->status;
+    }
+
+     /**
+     * @return int
+     */
+    public function getNbConnexion(): int
+    {
+        return $this->nbConnexion;
+    }
+
+    /**
+     * @param int $nbConnexion
+     * @return Player
+     */
+    public function setNbConnexion(int $nbConnexion): Player
+    {
+        $this->nbConnexion = $nbConnexion;
+        return $this;
     }
 
     /**
