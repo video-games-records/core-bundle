@@ -10,6 +10,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -77,6 +78,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  */
 class Player implements SluggableInterface
 {
+    use TimestampableEntity;
     use SluggableTrait;
     use RankCupTrait;
     use RankMedalTrait;
