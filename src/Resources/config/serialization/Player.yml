@@ -21,9 +21,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.read'
         - 'player.read.mini'
-    user:
+    status:
       groups:
-        - 'player.user'
+        - 'player.status'
     avatar:
       groups:
         - 'player.read'

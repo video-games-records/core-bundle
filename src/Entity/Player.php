@@ -56,9 +56,9 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *              "player.pointChart",
  *              "player.medal",
  *              "player.user_id",
- *              "vgr.user.read",
  *              "team.read.mini",
- *              "user.status.read",
+ *              "player.status",
+ *              "player.status.read"
  *          }
  *     }
  * )
@@ -272,6 +272,15 @@ class Player implements SluggableInterface
      * @ORM\Column(name="lastDisplayLostPosition", type="datetime", nullable=true)
      */
     protected $lastDisplayLostPosition;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerStatus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
+     * })
+     */
+    private $status;
+
 
     /**
      * @return string
@@ -888,6 +897,26 @@ class Player implements SluggableInterface
     public function getBoolMaj(): bool
     {
         return $this->boolMaj;
+    }
+
+    /**
+     * Set status
+     * @param PlayerStatus $status
+     * @return Player
+     */
+    public function setStatus(PlayerStatus $status): Player
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Get status
+     * @return PlayerStatus
+     */
+    public function getStatus(): PlayerStatus
+    {
+        return $this->status;
     }
 
     /**
