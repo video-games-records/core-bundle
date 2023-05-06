@@ -9,21 +9,34 @@ class Picture
 {
     protected $picture = null;
 
+    protected array $mimeTypes = [
+        'bmp'  => 'image/bmp',
+        'gif'  => 'image/gif',
+        'jpeg' => 'image/jpeg',
+        'jpg'  => 'image/jpeg',
+        'png'  => 'image/png',
+        'wbmp' => 'image/vnd.wap.wbmp',
+        'xbm'  => 'image/x-xbitmap',
+    ];
+
+    private const EXTENSIONS = [
+        'gd'   => ['generate' => 'imagegd', 'create' => 'imagecreatefromgd'],
+        'gd2'  => ['generate' => 'imagegd2', 'create' => 'imagecreatefromgd2'],
+        'gif'  => ['generate' => 'imagegif', 'create' => 'imagecreatefromgif'],
+        'jpeg' => ['generate' => 'imagejpeg', 'create' => 'imagecreatefromjpeg'],
+        'jpg'  => ['generate' => 'imagejpeg', 'create' => 'imagecreatefromjpeg'],
+        'png'  => ['generate' => 'imagepng', 'create' => 'imagecreatefrompng'],
+        'wbmp' => ['generate' => 'imagewbmp', 'create' => 'imagecreatefromwbmp'],
+        'bmp'  => ['generate' => 'imagewbmp', 'create' => 'imagecreatefromwbmp'],
+        'xbm'  => ['generate' => 'imagexbm', 'create' => 'imagecreatefromxbm']
+    ];
+
     protected array $fonts = [];
     protected array $colors = [];
 
     protected ?string $activeColor = null;
     protected ?string $activeFont = null;
 
-    protected array $mimeTypes = [
-        'bmp' => 'image/bmp',
-        'gif' => 'image/gif',
-        'jpeg' => 'image/jpeg',
-        'jpg' => 'image/jpeg',
-        'png' => 'image/png',
-        'wbmp' => 'image/vnd.wap.wbmp',
-        'xbm' => 'image/x-xbitmap',
-    ];
 
     /**
      * Picture constructor.
@@ -44,11 +57,11 @@ class Picture
     }
 
     /**
-     * @param bool          $keepTrueColor
-     * @param GdImage|bool $picture
+     * @param bool    $keepTrueColor
+     * @param GdImage $picture
      * @return self
      */
-    public static function extracted(bool $keepTrueColor, GdImage|bool $picture): Picture
+    public static function create(bool $keepTrueColor, GdImage $picture): Picture
     {
         $oSelf = new self(imagesx($picture), imagesy($picture));
         if ($keepTrueColor) {
@@ -81,17 +94,17 @@ class Picture
     }
 
     /**
-     * @return false|int
+     * @return int
      */
-    public function getWidth()
+    public function getWidth():int
     {
         return imagesx($this->picture);
     }
 
     /**
-     * @return false|int
+     * @return int
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return imagesy($this->picture);
     }
@@ -109,7 +122,7 @@ class Picture
      * @return mixed
      * @throws Exception
      */
-    public function getColor($name)
+    public function getColor($name): mixed
     {
         if (!isset($this->colors[$name])) {
             throw new Exception('Unknown color ' . $name . '.');
@@ -123,7 +136,7 @@ class Picture
      * @return mixed
      * @throws Exception
      */
-    public function getFont($name)
+    public function getFont($name): mixed
     {
         if (!isset($this->fonts[$name])) {
             throw new Exception('Unknown font ' . $name . '.');
@@ -237,7 +250,7 @@ class Picture
      * @return Picture
      * @throws Exception
      */
-    public function write($message, $size, $x, $y, $angle = 0, $color = null, $font = null): Picture
+    public function write($message, $size, $x, $y, int $angle = 0, $color = null, $font = null): Picture
     {
         if ($color === null) {
             $color = $this->activeColor;
@@ -268,37 +281,16 @@ class Picture
             throw new Exception('Unable to load picture file. The file does not exists.');
         }
 
-        $sExtension = mb_strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        $extension = mb_strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
-        switch ($sExtension) {
-            case 'gd':
-                $picture = imagecreatefromgd($file);
-                break;
-            case 'gd2':
-                $picture = imagecreatefromgd2($file);
-                break;
-            case 'gif':
-                $picture = imagecreatefromgif($file);
-                break;
-            case 'jpeg':
-            case 'jpg':
-                $picture = imagecreatefromjpeg($file);
-                break;
-            case 'png':
-                $picture = imagecreatefrompng($file);
-                break;
-            case 'wbmp':
-            case 'bmp':
-                $picture = imagecreatefromwbmp($file);
-                break;
-            case 'xbm':
-                $picture = imagecreatefromxbm($file);
-                break;
-            default:
-                throw new Exception('Unknown extension of file when converting to PHP resource.');
+        if (!array_key_exists($extension, self::EXTENSIONS)) {
+            throw new Exception('Unknown extension of file when converting to PHP resource.');
         }
 
-        return self::extracted($keepTrueColor, $picture);
+        $method = self::getCreateMethod($extension);
+        $picture = $method($file);
+
+        return self::create($keepTrueColor, $picture);
     }
 
     /**
@@ -311,7 +303,7 @@ class Picture
     {
         $picture = imagecreatefromstring($data);
 
-        return self::extracted($keepTrueColor, $picture);
+        return self::create($keepTrueColor, $picture);
     }
 
     /**
@@ -331,7 +323,7 @@ class Picture
      */
     public function showPicture($type)
     {
-        $method = $this->getMethod($type);
+        $method = $this->getGererateMethod($type);
         $contentType = $this->getMimeType($type);
 
         header('Content-Type: ' . $contentType);
@@ -347,7 +339,7 @@ class Picture
     public function savePicture($filename): static
     {
         $sExtension = pathinfo($filename, PATHINFO_EXTENSION);
-        $method = $this->getMethod($sExtension);
+        $method = $this->getGererateMethod($sExtension);
 
         $method($this->picture, $filename);
         return $this;
@@ -358,36 +350,25 @@ class Picture
      * @return string
      * @throws Exception
      */
-    protected function getMethod($type): string
+    protected function getGererateMethod($type): string
     {
-        switch ($type) {
-            case 'gd':
-                $method = 'imagegd';
-                break;
-            case 'gd2':
-                $method = 'imagegd2';
-                break;
-            case 'gif':
-                $method = 'imagegif';
-                break;
-            case 'jpeg':
-            case 'jpg':
-                $method = 'imagejpeg';
-                break;
-            case 'png':
-                $method = 'imagepng';
-                break;
-            case 'wbmp':
-            case 'bmp':
-                $method = 'imagewbmp';
-                break;
-            case 'xbm':
-                $method = 'imagexbm';
-                break;
-            default:
-                throw new Exception('Unknown picture type.');
+        if (!array_key_exists($type, self::EXTENSIONS)) {
+            throw new Exception('Unknown picture type.');
         }
-        return $method;
+        return self::EXTENSIONS[$type]['generate'];
+    }
+
+    /**
+     * @param $type
+     * @return string
+     * @throws Exception
+     */
+    protected static function getCreateMethod($type): string
+    {
+        if (!array_key_exists($type, self::EXTENSIONS)) {
+            throw new Exception('Unknown picture type.');
+        }
+        return self::EXTENSIONS[$type]['create'];
     }
 
     /**
