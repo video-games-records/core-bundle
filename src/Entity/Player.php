@@ -94,7 +94,7 @@ class Player implements SluggableInterface
     /**
      * @ORM\Column(name="user_id", type="integer")
      */
-    private $user_id;
+    private int $user_id;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -117,7 +117,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="gamerCard", type="string", length=50, nullable=true)
      */
     private ?string $gamerCard;
-
 
     /**
      * @ORM\Column(name="rankProof", type="integer", nullable=false, options={"default" : 0})
@@ -175,34 +174,9 @@ class Player implements SluggableInterface
     protected int $nbConnexion = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="player")
-     */
-    private $playerPlatform;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="player")
-     */
-    private $playerGame;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGroup", mappedBy="player")
-     */
-    private $playerGroup;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerBadge", mappedBy="player")
-     */
-    private $playerBadge;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="player")
-     */
-    private $lostPositions;
-
-    /**
      * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
      */
-    private $boolMaj = false;
+    private bool $boolMaj = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
@@ -213,25 +187,9 @@ class Player implements SluggableInterface
     private ?Team $team;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="player")
-     */
-    private $proofs;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="playerResponding")
-     */
-    private $proofRespondings;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Rule", mappedBy="player")
-     */
-    private $rules;
-
-    /**
-     * @var DateTime
      * @ORM\Column(name="lastDisplayLostPosition", type="datetime", nullable=true)
      */
-    protected $lastDisplayLostPosition;
+    protected ?DateTime $lastDisplayLostPosition;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerStatus")
@@ -239,7 +197,7 @@ class Player implements SluggableInterface
      *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })
      */
-    private $status;
+    private PlayerStatus $status;
 
 
     /**
@@ -264,8 +222,7 @@ class Player implements SluggableInterface
 
     /**
      * Get id
-     *
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -571,7 +528,7 @@ class Player implements SluggableInterface
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -586,29 +543,6 @@ class Player implements SluggableInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPlayerPlatform()
-    {
-        return $this->playerPlatform;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPlayerGame()
-    {
-        return $this->playerGame;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPlayerBadge(): mixed
-    {
-        return $this->playerBadge;
-    }
 
     /**
      * Set Team
@@ -629,15 +563,6 @@ class Player implements SluggableInterface
     public function getTeam(): ?Team
     {
         return $this->team;
-    }
-
-
-    /**
-     * @return Collection
-     */
-    public function getLostPositions(): Collection
-    {
-        return $this->lostPositions;
     }
 
     /**

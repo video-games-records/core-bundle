@@ -14,7 +14,7 @@ class PlayerPlatform
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerPlatform")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
@@ -23,7 +23,7 @@ class PlayerPlatform
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform", fetch="EAGER", inversedBy="playerPlatform")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="id", nullable=false)
      * })

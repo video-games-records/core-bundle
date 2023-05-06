@@ -102,11 +102,6 @@ class Chart implements SluggableInterface
     private Collection $playerCharts;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="chart")
-     */
-    private Collection $lostPositions;
-
-    /**
      * Shortcut to playerChart.rank = 1
      */
     private ?PlayerChart $playerChart1 = null;
@@ -123,8 +118,6 @@ class Chart implements SluggableInterface
     {
         $this->libs = new ArrayCollection();
         $this->playerCharts = new ArrayCollection();
-        $this->lostPositions = new ArrayCollection();
-        $this->proofs = new ArrayCollection();
     }
 
     /**
@@ -287,21 +280,6 @@ class Chart implements SluggableInterface
         return $this->playerCharts;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getLostPositions(): Collection
-    {
-        return $this->lostPositions;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getProofs(): Collection
-    {
-        return $this->proofs;
-    }
 
     /**
      * @param ArrayCollection|PlayerChart[] $playerCharts

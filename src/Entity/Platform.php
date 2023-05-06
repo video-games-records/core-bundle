@@ -64,10 +64,6 @@ class Platform implements SluggableInterface
      */
     private $games;
 
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="platform")
-     */
-    private $playerPlatform;
 
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="platform",cascade={"persist"}))
