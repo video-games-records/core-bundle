@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
 
 /**
  * Badge
@@ -20,6 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Badge
 {
+    use NbPlayerTrait;
+
     const TYPE_CONNEXION = 'Connexion';
     const TYPE_DON = 'Don';
     const TYPE_FORUM = 'Forum';
@@ -60,11 +63,6 @@ class Badge
      * @ORM\Column(name="value", type="integer", nullable=false, options={"default":0})
      */
     private int $value = 0;
-
-    /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default":0})
-     */
-    private int $nbPlayer = 0;
 
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="badge")
@@ -172,27 +170,6 @@ class Badge
     public function getValue(): ?int
     {
         return $this->value;
-    }
-
-    /**
-     * Set nbPlayer
-     * @param integer $nbPlayer
-     * @return Badge
-     */
-    public function setNbPlayer(int $nbPlayer): Badge
-    {
-        $this->nbPlayer = $nbPlayer;
-
-        return $this;
-    }
-
-    /**
-     * Get nbPlayer
-     * @return integer
-     */
-    public function getNbPlayer(): int
-    {
-        return $this->nbPlayer;
     }
 
     /**

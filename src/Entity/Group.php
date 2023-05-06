@@ -13,6 +13,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbPostTrait;
 
 /**
@@ -43,6 +44,7 @@ class Group implements SluggableInterface
     use SluggableTrait;
     use NbChartTrait;
     use NbPostTrait;
+    use NbPlayerTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -68,10 +70,6 @@ class Group implements SluggableInterface
      */
     private bool $boolDlc = false;
 
-    /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbPlayer = 0;
 
     /**
      * @Assert\NotNull
@@ -201,26 +199,6 @@ class Group implements SluggableInterface
         return $this->boolDlc;
     }
 
-    /**
-     * Set nbPlayer
-     * @param integer $nbPlayer
-     * @return $this
-     */
-    public function setNbPlayer(int $nbPlayer): Group
-    {
-        $this->nbPlayer = $nbPlayer;
-
-        return $this;
-    }
-
-    /**
-     * Get nbPlayer
-     * @return integer
-     */
-    public function getNbPlayer(): int
-    {
-        return $this->nbPlayer;
-    }
 
     /**
      * Set Game
