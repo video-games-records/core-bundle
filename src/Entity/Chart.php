@@ -92,11 +92,6 @@ class Chart implements SluggableInterface
     private Collection $libs;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private Collection $proofs;
-
-    /**
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart", fetch="EXTRA_LAZY")
      */
     private Collection $playerCharts;
@@ -183,8 +178,7 @@ class Chart implements SluggableInterface
 
     /**
      * Get idChart
-     *
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -202,7 +196,7 @@ class Chart implements SluggableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLibChartEn(): ?string
     {
@@ -220,7 +214,7 @@ class Chart implements SluggableInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLibChartFr(): ?string
     {
@@ -285,7 +279,7 @@ class Chart implements SluggableInterface
      * @param ArrayCollection|PlayerChart[] $playerCharts
      * @return Chart
      */
-    public function setPlayerCharts($playerCharts): self
+    public function setPlayerCharts(array|ArrayCollection $playerCharts): self
     {
         $this->playerCharts = $playerCharts;
 
@@ -309,7 +303,7 @@ class Chart implements SluggableInterface
      * @param integer $nbPost
      * @return Chart
      */
-    public function setNbPost(int $nbPost)
+    public function setNbPost(int $nbPost): Chart
     {
         $this->nbPost = $nbPost;
         return $this;
@@ -320,7 +314,7 @@ class Chart implements SluggableInterface
      *
      * @return integer
      */
-    public function getNbPost()
+    public function getNbPost(): int
     {
         return $this->nbPost;
     }
@@ -330,7 +324,7 @@ class Chart implements SluggableInterface
      * @param Group|null $group
      * @return Chart
      */
-    public function setGroup(Group $group = null)
+    public function setGroup(Group $group = null): Chart
     {
         $this->group = $group;
 
@@ -342,7 +336,7 @@ class Chart implements SluggableInterface
      *
      * @return Group
      */
-    public function getGroup()
+    public function getGroup(): Group
     {
         return $this->group;
     }
@@ -351,7 +345,7 @@ class Chart implements SluggableInterface
      * @param ChartLib $lib
      * @return $this
      */
-    public function addLib(ChartLib $lib)
+    public function addLib(ChartLib $lib): Chart
     {
         $lib->setChart($this);
         $this->libs[] = $lib;
@@ -361,7 +355,7 @@ class Chart implements SluggableInterface
     /**
      * @param ChartLib $lib
      */
-    public function removeLib(ChartLib $lib)
+    public function removeLib(ChartLib $lib): void
     {
         $this->libs->removeElement($lib);
     }
@@ -378,7 +372,7 @@ class Chart implements SluggableInterface
     /**
      * @param PlayerChart|null $playerChart1
      */
-    public function setPlayerChart1(?PlayerChart $playerChart1)
+    public function setPlayerChart1(?PlayerChart $playerChart1): void
     {
         $this->playerChart1 = $playerChart1;
     }
@@ -394,7 +388,7 @@ class Chart implements SluggableInterface
     /**
      * @param PlayerChart|null $playerChartP
      */
-    public function setPlayerChartP(?PlayerChart $playerChartP)
+    public function setPlayerChartP(?PlayerChart $playerChartP): void
     {
         $this->playerChartP = $playerChartP;
     }
