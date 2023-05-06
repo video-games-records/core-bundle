@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 /**
  * PlayerStatus
  *
- * @ORM\Table(name="player_status")
+ * @ORM\Table(name="vgr_player_status")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerStatusRepository")
  */
 class PlayerStatus implements TranslatableInterface
