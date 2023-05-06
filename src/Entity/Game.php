@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbPostTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbTeamTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 /**
@@ -76,6 +77,7 @@ class Game implements SluggableInterface
     use NbChartTrait;
     use NbPostTrait;
     use NbPlayerTrait;
+    use NbTeamTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
