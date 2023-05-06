@@ -66,7 +66,7 @@ class Serie implements SluggableInterface
      */
     private Collection $games;
 
-     /**
+    /**
      * Constructor
      */
     public function __construct()
