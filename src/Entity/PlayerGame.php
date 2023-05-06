@@ -9,6 +9,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
 
 /**
  * PlayerGame
@@ -62,6 +63,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 class PlayerGame
 {
     use NbChartTrait;
+    use NbEqualTrait;
 
     /**
      * @ORM\Id
@@ -154,11 +156,6 @@ class PlayerGame
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
     private int $pointGame = 0;
-
-    /**
-     * @ORM\Column(name="nbEqual", type="integer", nullable=false, options={"default" : 1})
-     */
-    private int $nbEqual = 1;
 
     /**
      * @ORM\Column(name="lastUpdate", type="datetime", nullable=false)
@@ -529,27 +526,6 @@ class PlayerGame
     public function getPlayer(): Player
     {
         return $this->player;
-    }
-
-    /**
-     * Set nbEqual
-     * @param integer $nbEqual
-     * @return $this
-     */
-    public function setNbEqual(int $nbEqual): Self
-    {
-        $this->nbEqual = $nbEqual;
-        return $this;
-    }
-
-    /**
-     * Get nbEqual
-     *
-     * @return integer
-     */
-    public function getNbEqual(): int
-    {
-        return $this->nbEqual;
     }
 
     /**

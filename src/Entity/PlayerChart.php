@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
 
 /**
@@ -107,6 +108,7 @@ class PlayerChart
 {
     use PlayerTrait;
     use TimestampableEntity;
+    use NbEqualTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -119,11 +121,6 @@ class PlayerChart
      * @ORM\Column(name="`rank`", type="integer", nullable=true)
      */
     private ?int $rank = null;
-
-    /**
-     * @ORM\Column(name="nbEqual", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbEqual = 0;
 
     /**
      * @ORM\Column(name="pointChart", type="integer", nullable=false, options={"default" : 0})
@@ -253,27 +250,6 @@ class PlayerChart
         return $this->rank;
     }
 
-    /**
-     * Set nbEqual
-     *
-     * @param integer $nbEqual
-     * @return PlayerChart
-     */
-    public function setNbEqual(int $nbEqual): PlayerChart
-    {
-        $this->nbEqual = $nbEqual;
-        return $this;
-    }
-
-    /**
-     * Get nbEqual
-     *
-     * @return integer
-     */
-    public function getNbEqual(): int
-    {
-        return $this->nbEqual;
-    }
 
     /**
      * Set pointChart

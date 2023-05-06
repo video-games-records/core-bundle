@@ -7,6 +7,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
 
 /**
  * TeamGame
@@ -55,6 +56,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TeamGame
 {
+    use NbEqualTrait;
+
     /**
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
@@ -94,11 +97,6 @@ class TeamGame
      * @ORM\Column(name="chartRank3", type="integer", nullable=false)
      */
     private int $chartRank3;
-
-    /**
-     * @ORM\Column(name="nbEqual", type="integer", nullable=false, options={"default" : 1})
-     */
-    private int $nbEqual = 0;
 
     /**
      * @ORM\Id
@@ -286,26 +284,6 @@ class TeamGame
         return $this->chartRank3;
     }
 
-    /**
-     * Set nbEqual
-     * @param integer $nbEqual
-     * @return $this
-     */
-    public function setNbEqual(int $nbEqual): TeamGame
-    {
-        $this->nbEqual = $nbEqual;
-        return $this;
-    }
-
-    /**
-     * Get nbEqual
-     *
-     * @return integer
-     */
-    public function getNbEqual(): int
-    {
-        return $this->nbEqual;
-    }
 
     /**
      * Set game
