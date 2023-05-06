@@ -24,6 +24,7 @@
         "symfony/config": "^5.4",
         "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
+        "symfony/framework-bundle": "5.4.*",
         "symfony/http-kernel": "^5.4",
         "symfony/lock": "^5.4",
         "webmozart/assert": "*"
