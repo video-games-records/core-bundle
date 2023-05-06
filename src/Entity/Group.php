@@ -12,6 +12,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 
 /**
  * Group
@@ -39,6 +40,7 @@ class Group implements SluggableInterface
 {
     use TimestampableEntity;
     use SluggableTrait;
+    use NbChartTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -63,11 +65,6 @@ class Group implements SluggableInterface
      * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
      */
     private bool $boolDlc = false;
-
-    /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbChart = 0;
 
     /**
      * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default" : 0})
@@ -205,27 +202,6 @@ class Group implements SluggableInterface
     public function getBoolDlc(): bool
     {
         return $this->boolDlc;
-    }
-
-    /**
-     * Set nbChart
-     * @param integer $nbChart
-     * @return $this
-     */
-    public function setNbChart(int $nbChart): Group
-    {
-        $this->nbChart = $nbChart;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     * @return integer
-     */
-    public function getNbChart(): int
-    {
-        return $this->nbChart;
     }
 
     /**

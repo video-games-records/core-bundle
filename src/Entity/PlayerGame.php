@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 
 /**
  * PlayerGame
@@ -60,6 +61,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PlayerGame
 {
+    use NbChartTrait;
+
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
@@ -131,11 +134,6 @@ class PlayerGame
      * @ORM\Column(name="pointChartWithoutDlc", type="integer", nullable=false)
      */
     private int $pointChartWithoutDlc = 0;
-
-    /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false)
-     */
-    private int $nbChart = 0;
 
     /**
      * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
@@ -379,27 +377,6 @@ class PlayerGame
     public function getPointChartWithoutDlc(): int
     {
         return $this->pointChartWithoutDlc;
-    }
-
-    /**
-     * Set nbChart
-     * @param integer $nbChart
-     * @return $this
-     */
-    public function setNbChart(int $nbChart): Self
-    {
-        $this->nbChart = $nbChart;
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     *
-     * @return integer
-     */
-    public function getNbChart(): int
-    {
-        return $this->nbChart;
     }
 
 

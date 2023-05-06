@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 
 /**
  * PlayerPlatform
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PlayerPlatform
 {
+    use NbChartTrait;
+
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
@@ -39,11 +42,6 @@ class PlayerPlatform
      * @ORM\Column(name="pointPlatform", type="integer", nullable=false)
      */
     private int $pointPlatform = 0;
-
-    /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false)
-     */
-    private int $nbChart = 0;
 
     /**
      * Set rankPointPlatform
@@ -85,27 +83,6 @@ class PlayerPlatform
     public function getPointPlatform(): int
     {
         return $this->pointPlatform;
-    }
-
-    /**
-     * Set nbChart
-     * @param integer $nbChart
-     * @return $this
-     */
-    public function setNbChart(int $nbChart): self
-    {
-        $this->nbChart = $nbChart;
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     *
-     * @return integer
-     */
-    public function getNbChart(): int
-    {
-        return $this->nbChart;
     }
 
 

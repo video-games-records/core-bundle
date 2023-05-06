@@ -16,6 +16,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 /**
@@ -70,6 +71,7 @@ class Game implements SluggableInterface
 {
     use TimestampableEntity;
     use SluggableTrait;
+    use NbChartTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -116,11 +118,6 @@ class Game implements SluggableInterface
      * @ORM\Column(name="boolRanking", type="boolean", nullable=false, options={"default":1})
      */
     private bool $boolRanking = true;
-
-    /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
-     */
-    private int $nbChart = 0;
 
     /**
      * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default":0})
@@ -404,28 +401,6 @@ class Game implements SluggableInterface
         return $this->boolRanking;
     }
 
-    /**
-     * Set nbChart
-     *
-     * @param integer $nbChart
-     * @return Game
-     */
-    public function setNbChart(int $nbChart): Game
-    {
-        $this->nbChart = $nbChart;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     *
-     * @return integer
-     */
-    public function getNbChart(): int
-    {
-        return $this->nbChart;
-    }
 
     /**
      * Set nbPost
