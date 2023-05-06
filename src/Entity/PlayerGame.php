@@ -13,6 +13,8 @@ use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
 
 /**
  * PlayerGame
@@ -70,6 +72,8 @@ class PlayerGame
     use NbChartProvenTrait;
     use NbChartProvenWithoutDlcTrait;
     use NbEqualTrait;
+    use RankMedalTrait;
+    use RankPointChartTrait;
 
     /**
      * @ORM\Id
@@ -88,53 +92,6 @@ class PlayerGame
      * })
      */
     private Game $game;
-
-    /**
-     * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
-     */
-    private int $rankPointChart = 0;
-
-    /**
-     * @ORM\Column(name="rankMedal", type="integer", nullable=false)
-     */
-    private int $rankMedal = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="chartRank0", type="integer", nullable=false)
-     */
-    private int $chartRank0 = 0;
-
-    /**
-     * @ORM\Column(name="chartRank1", type="integer", nullable=false)
-     */
-    private int $chartRank1 = 0;
-
-    /**
-     * @ORM\Column(name="chartRank2", type="integer", nullable=false)
-     */
-    private int $chartRank2 = 0;
-
-    /**
-     * @ORM\Column(name="chartRank3", type="integer", nullable=false)
-     */
-    private int $chartRank3 = 0;
-
-    /**
-     * @ORM\Column(name="chartRank4", type="integer", nullable=false)
-     */
-    private int $chartRank4 = 0;
-
-    /**
-     * @ORM\Column(name="chartRank5", type="integer", nullable=false)
-     */
-    private int $chartRank5 = 0;
-
-    /**
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
-     */
-    private int $pointChart = 0;
 
     /**
      * @var integer
@@ -156,195 +113,6 @@ class PlayerGame
 
     private $statuses;
 
-    /**
-     * Set rankPointChart
-     * @param integer $rankPointChart
-     * @return $this
-     */
-    public function setRankPointChart(int $rankPointChart): Self
-    {
-        $this->rankPointChart = $rankPointChart;
-        return $this;
-    }
-
-    /**
-     * Get rankPointChart
-     *
-     * @return integer
-     */
-    public function getRankPointChart(): int
-    {
-        return $this->rankPointChart;
-    }
-
-
-    /**
-     * Set rankMedal
-     * @param integer $rankMedal
-     * @return $this
-     */
-    public function setRankMedal(int $rankMedal): Self
-    {
-        $this->rankMedal = $rankMedal;
-        return $this;
-    }
-
-    /**
-     * Get rankMedal
-     *
-     * @return integer
-     */
-    public function getRankMedal(): int
-    {
-        return $this->rankMedal;
-    }
-
-    /**
-     * Set chartRank0
-     * @param integer $chartRank0
-     * @return $this
-     */
-    public function setChartRank0(int $chartRank0): Self
-    {
-        $this->chartRank0 = $chartRank0;
-        return $this;
-    }
-
-    /**
-     * Get chartRank0
-     *
-     * @return integer
-     */
-    public function getChartRank0(): int
-    {
-        return $this->chartRank0;
-    }
-
-    /**
-     * Set chartRank1
-     * @param integer $chartRank1
-     * @return $this
-     */
-    public function setChartRank1(int $chartRank1): Self
-    {
-        $this->chartRank1 = $chartRank1;
-        return $this;
-    }
-
-    /**
-     * Get chartRank1
-     *
-     * @return integer
-     */
-    public function getChartRank1(): int
-    {
-        return $this->chartRank1;
-    }
-
-    /**
-     * Set chartRank2
-     * @param integer $chartRank2
-     * @return $this
-     */
-    public function setChartRank2(int $chartRank2): Self
-    {
-        $this->chartRank2 = $chartRank2;
-        return $this;
-    }
-
-    /**
-     * Get chartRank2
-     *
-     * @return integer
-     */
-    public function getChartRank2(): int
-    {
-        return $this->chartRank2;
-    }
-
-    /**
-     * Set chartRank3
-     * @param integer $chartRank3
-     * @return $this
-     */
-    public function setChartRank3(int $chartRank3): Self
-    {
-        $this->chartRank3 = $chartRank3;
-        return $this;
-    }
-
-    /**
-     * Get chartRank3
-     *
-     * @return integer
-     */
-    public function getChartRank3(): int
-    {
-        return $this->chartRank3;
-    }
-
-    /**
-     * Set chartRank4
-     * @param integer $chartRank4
-     * @return $this
-     */
-    public function setChartRank4(int $chartRank4): Self
-    {
-        $this->chartRank4 = $chartRank4;
-        return $this;
-    }
-
-    /**
-     * Get chartRank4
-     *
-     * @return integer
-     */
-    public function getChartRank4(): int
-    {
-        return $this->chartRank4;
-    }
-
-    /**
-     * Set chartRank5
-     * @param integer $chartRank5
-     * @return $this
-     */
-    public function setChartRank5(int $chartRank5): Self
-    {
-        $this->chartRank5 = $chartRank5;
-        return $this;
-    }
-
-    /**
-     * Get chartRank5
-     *
-     * @return integer
-     */
-    public function getChartRank5(): int
-    {
-        return $this->chartRank5;
-    }
-
-    /**
-     * Set pointChart
-     * @param integer $pointChart
-     * @return $this
-     */
-    public function setPointChart(int $pointChart): Self
-    {
-        $this->pointChart = $pointChart;
-        return $this;
-    }
-
-    /**
-     * Get pointChart
-     *
-     * @return integer
-     */
-    public function getPointChart(): int
-    {
-        return $this->pointChart;
-    }
 
     /**
      * Set pointChartWithoutDlc
