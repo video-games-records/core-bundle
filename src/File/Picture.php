@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\File;
 
 use Exception;
+use GdImage;
 
 class Picture
 {
@@ -40,6 +41,25 @@ class Picture
         } else {
             $this->picture = imagecreate($width, $height);
         }
+    }
+
+    /**
+     * @param bool          $keepTrueColor
+     * @param GdImage|bool $picture
+     * @return self
+     */
+    public static function extracted(bool $keepTrueColor, GdImage|bool $picture): Picture
+    {
+        $oSelf = new self(imagesx($picture), imagesy($picture));
+        if ($keepTrueColor) {
+            $oSrc = new self(imagesx($picture), imagesy($picture));
+            $oSrc->setPicture($picture);
+            $oSelf->copyResized($oSrc, 0, 0);
+            unset($oSrc);
+        } else {
+            $oSelf->setPicture($picture);
+        }
+        return $oSelf;
     }
 
     /**
@@ -278,17 +298,7 @@ class Picture
                 throw new Exception('Unknown extension of file when converting to PHP resource.');
         }
 
-        if ($keepTrueColor) {
-            $oSelf = new self(imagesx($picture), imagesy($picture));
-            $oSrc = new self(imagesx($picture), imagesy($picture));
-            $oSrc->setPicture($picture);
-            $oSelf->copyResized($oSrc, 0, 0);
-            unset($oSrc);
-        } else {
-            $oSelf = new self(imagesx($picture), imagesy($picture));
-            $oSelf->setPicture($picture);
-        }
-        return $oSelf;
+        return self::extracted($keepTrueColor, $picture);
     }
 
     /**
@@ -301,31 +311,17 @@ class Picture
     {
         $picture = imagecreatefromstring($data);
 
-        if ($keepTrueColor) {
-            $oSelf = new self(imagesx($picture), imagesy($picture));
-            $oSrc = new self(imagesx($picture), imagesy($picture));
-            $oSrc->setPicture($picture);
-            $oSelf->copyResized($oSrc, 0, 0);
-            unset($oSrc);
-        } else {
-            $oSelf = new self(imagesx($picture), imagesy($picture));
-            $oSelf->setPicture($picture);
-        }
-        return $oSelf;
+        return self::extracted($keepTrueColor, $picture);
     }
 
     /**
-     * @param      $type
-     * @param null $filename
+     * @param        $type
+     * @param string $filename
      * @throws Exception
      */
-    public function downloadPicture($type, $filename = null)
+    public function downloadPicture($type, string $filename): void
     {
-        if ($filename !== null) {
-            header('Content-Disposition: "attachement"; filename="' . $filename . '"');
-        } else {
-            header('Content-Disposition: "attachement"');
-        }
+        header('Content-Disposition: "attachement"; filename="' . $filename . '"');
         $this->showPicture($type);
     }
 
@@ -348,7 +344,7 @@ class Picture
      * @return $this
      * @throws Exception
      */
-    public function savePicture($filename)
+    public function savePicture($filename): static
     {
         $sExtension = pathinfo($filename, PATHINFO_EXTENSION);
         $method = $this->getMethod($sExtension);
@@ -362,7 +358,7 @@ class Picture
      * @return string
      * @throws Exception
      */
-    protected function getMethod($type)
+    protected function getMethod($type): string
     {
         switch ($type) {
             case 'gd':
@@ -398,7 +394,7 @@ class Picture
      * @param $extension
      * @return mixed|string
      */
-    public function getMimeType($extension)
+    public function getMimeType($extension): mixed
     {
         if (!isset($this->mimeTypes[$extension])) {
             return 'application/octet-stream';
