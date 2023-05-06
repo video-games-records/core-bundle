@@ -14,9 +14,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\Player\GetPlayerTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerMethodsTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\Player\SetPlayerTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
 
