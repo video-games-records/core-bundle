@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
 
@@ -18,6 +19,7 @@ class PlayerSerie
     use RankMedalTrait;
     use RankPointChartTrait;
     use NbChartTrait;
+    use NbGameTrait;
 
     /**
      * @ORM\Id
@@ -71,13 +73,6 @@ class PlayerSerie
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
     private $pointGame;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbGame", type="integer", nullable=false)
-     */
-    private $nbGame;
 
 
     /**
@@ -185,28 +180,6 @@ class PlayerSerie
     public function getPointGame()
     {
         return $this->pointGame;
-    }
-
-
-    /**
-     * Set nbGame
-     * @param integer $nbGame
-     * @return PlayerSerie
-     */
-    public function setNbGame(int $nbGame)
-    {
-        $this->nbGame = $nbGame;
-        return $this;
-    }
-
-    /**
-     * Get nbGame
-     *
-     * @return integer
-     */
-    public function getNbGame()
-    {
-        return $this->nbGame;
     }
 
 

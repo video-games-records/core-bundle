@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerCommunicationDataTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerPersonalDataTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
@@ -92,6 +93,7 @@ class Player implements SluggableInterface
     use PlayerCommunicationDataTrait;
     use PlayerPersonalDataTrait;
     use NbChartTrait;
+    use NbGameTrait;
 
     /**
      * @ORM\Column(name="user_id", type="integer")
@@ -129,11 +131,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="rankCountry", type="integer", nullable=false, options={"default" : 0})
      */
     private int $rankCountry = 0;
-
-    /**
-     * @ORM\Column(name="nbGame", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbGame = 0;
 
     /**
      * @ORM\Column(name="nbChartMax", type="integer", nullable=false, options={"default" : 0})
@@ -339,30 +336,6 @@ class Player implements SluggableInterface
     public function getRankCountry(): ?int
     {
         return $this->rankCountry;
-    }
-
-
-    /**
-     * Set nbGame
-     *
-     * @param integer $nbGame
-     * @return Player
-     */
-    public function setNbGame(int $nbGame): Player
-    {
-        $this->nbGame = $nbGame;
-
-        return $this;
-    }
-
-    /**
-     * Get nbGame
-     *
-     * @return integer
-     */
-    public function getNbGame(): int
-    {
-        return $this->nbGame;
     }
 
     /**
