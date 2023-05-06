@@ -114,7 +114,7 @@ class PlayerChartRankingQuery extends DefaultRankingQuery
      */
     public function getRankingDisabled(Chart $chart): array
     {
-        $queryBuilder = $this->getRankingBaseQuery($chart,  self::ORDER_BY_SCORE);
+        $queryBuilder = $this->getRankingBaseQuery($chart, self::ORDER_BY_SCORE);
         $queryBuilder
             ->andWhere('status.boolRanking = 0');
 

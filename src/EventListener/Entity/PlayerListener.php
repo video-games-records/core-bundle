@@ -15,7 +15,7 @@ class PlayerListener
 
     public function __construct(
         private readonly UpdateChartStatusHandler $updateChartStatusHandler
-     ) {}
+    ) {}
 
 
     /**
@@ -28,7 +28,8 @@ class PlayerListener
         $em = $event->getObjectManager();
         $player->setStatus($em->getReference('VideoGamesRecords\CoreBundle\Entity\PlayerStatus', 1));
     }
-     /**
+
+    /**
      * @param Player $player
      * @param PreUpdateEventArgs $event
      */

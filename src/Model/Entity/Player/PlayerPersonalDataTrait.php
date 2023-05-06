@@ -42,7 +42,7 @@ trait PlayerPersonalDataTrait
     private bool $displayPersonalInfos = false;
 
 
-     /**
+    /**
      * Set presentation
      *
      * @param string|null $presentation
@@ -96,8 +96,7 @@ trait PlayerPersonalDataTrait
         return $this;
     }
 
-
-     /**
+    /**
      * @return DateTime|null
      */
     public function getBirthDate(): ?DateTime
@@ -122,7 +121,6 @@ trait PlayerPersonalDataTrait
     {
         return $this->gender;
     }
-
 
 
     /**
@@ -157,14 +155,11 @@ trait PlayerPersonalDataTrait
         return $this;
     }
 
-      /**
+    /**
      * @return Country|null
      */
     public function getCountry(): ?Country
     {
         return $this->country;
     }
-
-
-
 }

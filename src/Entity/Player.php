@@ -91,7 +91,7 @@ class Player implements SluggableInterface
     use PlayerCommunicationDataTrait;
     use PlayerPersonalDataTrait;
 
-     /**
+    /**
      * @ORM\Column(name="user_id", type="integer")
      */
     private $user_id;
@@ -457,7 +457,7 @@ class Player implements SluggableInterface
         return $this->nbChartMax;
     }
 
-     /**
+    /**
      * Set nbChartWithPlatform
      *
      * @param integer $nbChartWithPlatform
@@ -702,7 +702,7 @@ class Player implements SluggableInterface
         return $this->status;
     }
 
-     /**
+    /**
      * @return int
      */
     public function getNbConnexion(): int

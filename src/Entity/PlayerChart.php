@@ -105,8 +105,8 @@ use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
  */
 class PlayerChart
 {
-     use PlayerTrait;
-     use TimestampableEntity;
+    use PlayerTrait;
+    use TimestampableEntity;
 
     /**
      * @ORM\Column(name="id", type="integer")

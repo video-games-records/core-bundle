@@ -104,7 +104,7 @@ class PlayerChartLib
      */
     public function setValue($value = null): PlayerChartLib
     {
-        if ($value !=null) {
+        if ($value != null) {
             $this->value = (string) $value;
         }
 
