@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
@@ -21,6 +22,7 @@ class PlayerSerie
     use RankMedalTrait;
     use RankPointChartTrait;
     use NbChartTrait;
+    use NbChartWithoutDlcTrait;
     use NbChartProvenTrait;
     use NbChartProvenWithoutDlcTrait;
     use NbGameTrait;
@@ -53,13 +55,6 @@ class PlayerSerie
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbChartWithoutDlc", type="integer", nullable=false)
-     */
-    private $nbChartWithoutDlc;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
     private $pointGame;
@@ -84,28 +79,6 @@ class PlayerSerie
     public function getPointChartWithoutDlc()
     {
         return $this->pointChartWithoutDlc;
-    }
-
-
-    /**
-     * Set nbChartWithoutDlc
-     * @param integer $nbChartWithoutDlc
-     * @return PlayerSerie
-     */
-    public function setNbChartWithoutDlc(int $nbChartWithoutDlc)
-    {
-        $this->nbChartWithoutDlc = $nbChartWithoutDlc;
-        return $this;
-    }
-
-    /**
-     * Get nbChartWithoutDlc
-     *
-     * @return integer
-     */
-    public function getNbChartWithoutDlc()
-    {
-        return $this->nbChartWithoutDlc;
     }
 
     /**
