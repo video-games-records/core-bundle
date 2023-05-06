@@ -12,6 +12,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbPostTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 /**
@@ -42,6 +43,7 @@ class Chart implements SluggableInterface
 {
     use TimestampableEntity;
     use SluggableTrait;
+    use NbPostTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -71,11 +73,6 @@ class Chart implements SluggableInterface
      * @ORM\Column(name="statusTeam", type="string", length=30, nullable=false, options={"default" : "NORMAL"}))
      */
     private string $statusTeam = 'NORMAL';
-
-    /**
-     * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbPost = 0;
 
     /**
      * @Assert\NotNull
@@ -295,28 +292,6 @@ class Chart implements SluggableInterface
         $this->playerCharts->add($playerChart);
 
         return $this;
-    }
-
-    /**
-     * Set nbPost
-     *
-     * @param integer $nbPost
-     * @return Chart
-     */
-    public function setNbPost(int $nbPost): Chart
-    {
-        $this->nbPost = $nbPost;
-        return $this;
-    }
-
-    /**
-     * Get nbPost
-     *
-     * @return integer
-     */
-    public function getNbPost(): int
-    {
-        return $this->nbPost;
     }
 
     /**
