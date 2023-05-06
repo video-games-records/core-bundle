@@ -21,7 +21,8 @@ class PlayerChartListener
     public function __construct(
         private readonly GameStatsHandler $gameStatsHandler,
         private readonly GroupStatsHandler $groupStatsHandler
-    ) {}
+    ) {
+    }
 
     /**
      * @param PlayerChart        $playerChart

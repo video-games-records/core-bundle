@@ -267,7 +267,7 @@ class ProofAdmin extends AbstractAdmin
             ->add('updated_at', 'datetime', ['label' => 'label.updatedAt'])
             ->add('checkedAt', 'datetime', ['label' => 'label.checkedAt'])
             ->add('playerChart', null, ['label' => 'label.score'])
-            ->add('picture',null, ['label' => 'label.picture'])
+            ->add('picture', null, ['label' => 'label.picture'])
             ->add('video', null, ['label' => 'label.video'])
             ->add('playerResponding', null, ['label' => 'label.player.responding'])
             ->add('status', null, ['label' => 'label.status']);

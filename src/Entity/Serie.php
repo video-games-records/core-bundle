@@ -132,9 +132,11 @@ class Serie implements SluggableInterface
         return $this->id;
     }
 
-   /**
-    *
-    */
+    /**
+     * Set status
+     * @param string $status
+     * @return $this
+     */
     public function setStatus(string $status): Serie
     {
         $this->status = $status;

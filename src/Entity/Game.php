@@ -366,7 +366,7 @@ class Game implements SluggableInterface
         return new GameStatus($this->status);
     }
 
-     /**
+    /**
      * Get status
      *
      * @return string

@@ -30,7 +30,7 @@ class ProofRequestRepository extends DefaultRepository
             ->getSingleScalarResult();
     }
 
-     /**
+    /**
      * @param $player
      * @return mixed
      * @throws NoResultException
