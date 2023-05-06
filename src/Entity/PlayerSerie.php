@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
@@ -21,6 +22,7 @@ class PlayerSerie
     use RankPointChartTrait;
     use NbChartTrait;
     use NbChartProvenTrait;
+    use NbChartProvenWithoutDlcTrait;
     use NbGameTrait;
 
     /**
@@ -54,13 +56,6 @@ class PlayerSerie
      * @ORM\Column(name="nbChartWithoutDlc", type="integer", nullable=false)
      */
     private $nbChartWithoutDlc;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbChartProvenWithoutDlc", type="integer", nullable=false)
-     */
-    private $nbChartProvenWithoutDlc;
 
     /**
      * @var integer
@@ -111,28 +106,6 @@ class PlayerSerie
     public function getNbChartWithoutDlc()
     {
         return $this->nbChartWithoutDlc;
-    }
-
-
-    /**
-     * Set nbChartProvenWithoutDlc
-     * @param integer $nbChartProvenWithoutDlc
-     * @return PlayerSerie
-     */
-    public function setNbChartProvenWithoutDlc(int $nbChartProvenWithoutDlc)
-    {
-        $this->nbChartProvenWithoutDlc = $nbChartProvenWithoutDlc;
-        return $this;
-    }
-
-    /**
-     * Get nbChartProvenWithoutDlc
-     *
-     * @return integer
-     */
-    public function getNbChartProvenWithoutDlc()
-    {
-        return $this->nbChartProvenWithoutDlc;
     }
 
     /**
