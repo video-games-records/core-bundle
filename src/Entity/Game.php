@@ -124,12 +124,6 @@ class Game implements SluggableInterface
     private bool $boolRanking = true;
 
     /**
-     * @ORM\Column(name="nbTeam", type="integer", nullable=false, options={"default":0})
-     */
-    private int $nbTeam = 0;
-
-
-    /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", inversedBy="games")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id")
@@ -395,29 +389,6 @@ class Game implements SluggableInterface
         return $this->boolRanking;
     }
 
-
-    /**
-     * Set nbTeam
-     *
-     * @param integer $nbTeam
-     * @return Game
-     */
-    public function setNbTeam(int $nbTeam): Game
-    {
-        $this->nbTeam = $nbTeam;
-
-        return $this;
-    }
-
-    /**
-     * Get nbTeam
-     *
-     * @return integer
-     */
-    public function getNbTeam(): int
-    {
-        return $this->nbTeam;
-    }
 
     /**
      * Set Serie
