@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
 
@@ -63,6 +64,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
 class PlayerGame
 {
     use NbChartTrait;
+    use NbChartProvenTrait;
     use NbEqualTrait;
 
     /**
@@ -136,11 +138,6 @@ class PlayerGame
      * @ORM\Column(name="pointChartWithoutDlc", type="integer", nullable=false)
      */
     private int $pointChartWithoutDlc = 0;
-
-    /**
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
-     */
-    private int $nbChartProven = 0;
 
     /**
      * @ORM\Column(name="nbChartWithoutDlc", type="integer", nullable=false)
@@ -376,27 +373,6 @@ class PlayerGame
         return $this->pointChartWithoutDlc;
     }
 
-
-    /**
-     * Set nbChartProven
-     * @param integer $nbChartProven
-     * @return $this
-     */
-    public function setNbChartProven(int $nbChartProven): Self
-    {
-        $this->nbChartProven = $nbChartProven;
-        return $this;
-    }
-
-    /**
-     * Get nbChartProven
-     *
-     * @return integer
-     */
-    public function getNbChartProven(): int
-    {
-        return $this->nbChartProven;
-    }
 
     /**
      * Set nbChartWithoutDlc

@@ -16,6 +16,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerCommunicationDataTrait;
@@ -93,6 +94,7 @@ class Player implements SluggableInterface
     use PlayerCommunicationDataTrait;
     use PlayerPersonalDataTrait;
     use NbChartTrait;
+    use NbChartProvenTrait;
     use NbGameTrait;
 
     /**
@@ -141,11 +143,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="nbChartWithPlatform", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbChartWithPlatform = 0;
-
-    /**
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbChartProven = 0;
 
     /**
      * @ORM\Column(name="nbChartDisabled", type="integer", nullable=false, options={"default" : 0})
@@ -382,29 +379,6 @@ class Player implements SluggableInterface
     public function getNbChartWithPlatform(): int
     {
         return $this->nbChartWithPlatform;
-    }
-
-    /**
-     * Set nbChartProven
-     *
-     * @param integer $nbChartProven
-     * @return Player
-     */
-    public function setNbChartProven(int $nbChartProven): Player
-    {
-        $this->nbChartProven = $nbChartProven;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChartProven
-     *
-     * @return integer
-     */
-    public function getNbChartProven(): int
-    {
-        return $this->nbChartProven;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
@@ -19,6 +20,7 @@ class PlayerSerie
     use RankMedalTrait;
     use RankPointChartTrait;
     use NbChartTrait;
+    use NbChartProvenTrait;
     use NbGameTrait;
 
     /**
@@ -45,13 +47,6 @@ class PlayerSerie
      * @ORM\Column(name="pointChartWithoutDlc", type="integer", nullable=false)
      */
     private $pointChartWithoutDlc;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
-     */
-    private $nbChartProven;
 
     /**
      * @var integer
@@ -96,27 +91,6 @@ class PlayerSerie
         return $this->pointChartWithoutDlc;
     }
 
-
-    /**
-     * Set nbChartProven
-     * @param integer $nbChartProven
-     * @return PlayerSerie
-     */
-    public function setNbChartProven(int $nbChartProven)
-    {
-        $this->nbChartProven = $nbChartProven;
-        return $this;
-    }
-
-    /**
-     * Get nbChartProven
-     *
-     * @return integer
-     */
-    public function getNbChartProven()
-    {
-        return $this->nbChartProven;
-    }
 
     /**
      * Set nbChartWithoutDlc

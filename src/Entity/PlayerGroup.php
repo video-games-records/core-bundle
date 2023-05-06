@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 
 /**
@@ -15,6 +16,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 class PlayerGroup
 {
     use NbChartTrait;
+    use NbChartProvenTrait;
 
     /**
      * @ORM\Id
@@ -78,11 +80,6 @@ class PlayerGroup
      * @ORM\Column(name="pointChart", type="integer", nullable=false)
      */
     private int $pointChart;
-
-    /**
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
-     */
-    private int $nbChartProven;
 
     /**
      * @ORM\Column(name="lastUpdate", type="datetime", nullable=true)
@@ -278,26 +275,6 @@ class PlayerGroup
         return $this->pointChart;
     }
 
-    /**
-     * Set nbChartProven
-     * @param integer $nbChartProven
-     * @return $this
-     */
-    public function setNbChartProven(int $nbChartProven): Self
-    {
-        $this->nbChartProven = $nbChartProven;
-        return $this;
-    }
-
-    /**
-     * Get nbChartProven
-     *
-     * @return integer
-     */
-    public function getNbChartProven(): int
-    {
-        return $this->nbChartProven;
-    }
 
     /**
      * Set lastUpdate
