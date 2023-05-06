@@ -160,17 +160,6 @@ class Game implements SluggableInterface
     private Collection $groups;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameDay", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $days;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $videos;
-
-    /**
      * @ORM\ManyToMany(targetEntity="Platform", inversedBy="games")
      * @ORM\JoinTable(name="vgr_game_platform",
      *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
@@ -178,7 +167,7 @@ class Game implements SluggableInterface
      *      )
      * @ORM\OrderBy({"libPlatform" = "ASC"})
      */
-    private $platforms;
+    private Collection $platforms;
 
 
     /**
@@ -194,7 +183,7 @@ class Game implements SluggableInterface
      *      inverseJoinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")}
      *      )
      */
-    private $rules;
+    private Collection $rules;
 
 
     /**
@@ -385,8 +374,7 @@ class Game implements SluggableInterface
 
     /**
      * Get publishedAt
-     *
-     * @return DateTime
+     * @return DateTime|null
      */
     public function getPublishedAt(): ?DateTime
     {
@@ -545,8 +533,7 @@ class Game implements SluggableInterface
 
     /**
      * Get idBadge
-     *
-     * @return Badge
+     * @return Badge|null
      */
     public function getBadge(): ?Badge
     {
@@ -581,22 +568,6 @@ class Game implements SluggableInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getDays()
-    {
-        return $this->days;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVideos()
-    {
-        return $this->videos;
-    }
-
-    /**
      * @param Platform $platform
      * @return Game
      */
@@ -622,13 +593,6 @@ class Game implements SluggableInterface
         return $this->platforms;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPlayerGame()
-    {
-        return $this->playerGame;
-    }
 
     /**
      * @return ForumInterface
