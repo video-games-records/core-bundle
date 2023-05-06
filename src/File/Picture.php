@@ -5,31 +5,9 @@ namespace VideoGamesRecords\CoreBundle\File;
 use Exception;
 use GdImage;
 
-class Picture
+class Picture implements PictureInterface
 {
-    protected $picture = null;
-
-    protected array $mimeTypes = [
-        'bmp'  => 'image/bmp',
-        'gif'  => 'image/gif',
-        'jpeg' => 'image/jpeg',
-        'jpg'  => 'image/jpeg',
-        'png'  => 'image/png',
-        'wbmp' => 'image/vnd.wap.wbmp',
-        'xbm'  => 'image/x-xbitmap',
-    ];
-
-    private const EXTENSIONS = [
-        'gd'   => ['generate' => 'imagegd', 'create' => 'imagecreatefromgd'],
-        'gd2'  => ['generate' => 'imagegd2', 'create' => 'imagecreatefromgd2'],
-        'gif'  => ['generate' => 'imagegif', 'create' => 'imagecreatefromgif'],
-        'jpeg' => ['generate' => 'imagejpeg', 'create' => 'imagecreatefromjpeg'],
-        'jpg'  => ['generate' => 'imagejpeg', 'create' => 'imagecreatefromjpeg'],
-        'png'  => ['generate' => 'imagepng', 'create' => 'imagecreatefrompng'],
-        'wbmp' => ['generate' => 'imagewbmp', 'create' => 'imagecreatefromwbmp'],
-        'bmp'  => ['generate' => 'imagewbmp', 'create' => 'imagecreatefromwbmp'],
-        'xbm'  => ['generate' => 'imagexbm', 'create' => 'imagecreatefromxbm']
-    ];
+    protected $image = null;
 
     protected array $fonts = [];
     protected array $colors = [];
@@ -42,36 +20,25 @@ class Picture
      * Picture constructor.
      * @param      $width
      * @param      $height
-     * @param bool $trueColor
      */
-    public function __construct($width, $height, bool $trueColor = true)
+    public function __construct($width, $height)
     {
         $width = (int) $width;
         $height = (int) $height;
 
-        if ($trueColor) {
-            $this->picture = imagecreatetruecolor($width, $height);
-        } else {
-            $this->picture = imagecreate($width, $height);
-        }
+        $this->image = imagecreatetruecolor($width, $height);
     }
 
     /**
-     * @param bool    $keepTrueColor
-     * @param GdImage $picture
-     * @return self
+     * @return $this
      */
-    public static function create(bool $keepTrueColor, GdImage $picture): Picture
+    public static function create(GdImage $image): Picture
     {
-        $oSelf = new self(imagesx($picture), imagesy($picture));
-        if ($keepTrueColor) {
-            $oSrc = new self(imagesx($picture), imagesy($picture));
-            $oSrc->setPicture($picture);
-            $oSelf->copyResized($oSrc, 0, 0);
-            unset($oSrc);
-        } else {
-            $oSelf->setPicture($picture);
-        }
+        $oSelf = new self(imagesx($image), imagesy($image));
+        $oSrc = new self(imagesx($image), imagesy($image));
+        $oSrc->setImage($image);
+        $oSelf->copyResized($oSrc, 0, 0);
+        unset($oSrc);
         return $oSelf;
     }
 
@@ -80,16 +47,16 @@ class Picture
      */
     public function __destruct()
     {
-        imagedestroy($this->picture);
+        imagedestroy($this->image);
     }
 
     /**
-     * @param $picture
-     * @return Picture
+     * @param $image
+     * @return $this
      */
-    public function setPicture($picture): Picture
+    public function setImage($image): Picture
     {
-        $this->picture = $picture;
+        $this->image = $image;
         return $this;
     }
 
@@ -98,7 +65,7 @@ class Picture
      */
     public function getWidth():int
     {
-        return imagesx($this->picture);
+        return imagesx($this->image);
     }
 
     /**
@@ -106,15 +73,15 @@ class Picture
      */
     public function getHeight(): int
     {
-        return imagesy($this->picture);
+        return imagesy($this->image);
     }
 
     /**
      * @return false|resource|null
      */
-    public function getPicture()
+    public function getImage()
     {
-        return $this->picture;
+        return $this->image;
     }
 
     /**
@@ -177,9 +144,9 @@ class Picture
         $blue %= 256;
         if ($alpha !== null) {
             $alpha %= 128;
-            $color = imagecolorallocatealpha($this->picture, $red, $green, $blue, $alpha);
+            $color = imagecolorallocatealpha($this->image, $red, $green, $blue, $alpha);
         } else {
-            $color = imagecolorallocate($this->picture, $red, $green, $blue);
+            $color = imagecolorallocate($this->image, $red, $green, $blue);
         }
         $this->colors[$name] = $color;
         $this->activeColor = $color;
@@ -214,7 +181,7 @@ class Picture
         $srcW = is_null($srcW) ? $pic->getWidth() : $srcW;
         $srcH = is_null($srcH) ? $pic->getHeight() : $srcH;
 
-        imagecopyresized($this->picture, $pic->getPicture(), $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH);
+        imagecopyresized($this->image, $pic->getImage(), $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH);
         return $this;
     }
 
@@ -235,7 +202,7 @@ class Picture
                 throw new Exception('No active color defined.');
             }
         }
-        imagefilledrectangle($this->picture, $xA, $yA, $xB, $yB, $color);
+        imagefilledrectangle($this->image, $xA, $yA, $xB, $yB, $color);
         return $this;
     }
 
@@ -264,47 +231,10 @@ class Picture
                 throw new Exception('No active font defined.');
             }
         }
-        imagettftext($this->picture, $size, $angle, $x, $y, $color, $font, $message);
+        imagettftext($this->image, $size, $angle, $x, $y, $color, $font, $message);
         return $this;
     }
 
-    /**
-     * @param      $file
-     * @param bool $keepTrueColor
-     * @return Picture
-     * @throws Exception
-     */
-    public static function loadFile($file, bool $keepTrueColor = false): Picture
-    {
-        $file = realpath($file);
-        if ($file === false) {
-            throw new Exception('Unable to load picture file. The file does not exists.');
-        }
-
-        $extension = mb_strtolower(pathinfo($file, PATHINFO_EXTENSION));
-
-        if (!array_key_exists($extension, self::EXTENSIONS)) {
-            throw new Exception('Unknown extension of file when converting to PHP resource.');
-        }
-
-        $method = self::getCreateMethod($extension);
-        $picture = $method($file);
-
-        return self::create($keepTrueColor, $picture);
-    }
-
-    /**
-     * @param string $data
-     * @param bool $keepTrueColor
-     * @return Picture
-     * @throws Exception
-     */
-    public static function loadFileFromStream(string $data, bool $keepTrueColor = false): Picture
-    {
-        $picture = imagecreatefromstring($data);
-
-        return self::create($keepTrueColor, $picture);
-    }
 
     /**
      * @param        $type
@@ -323,11 +253,11 @@ class Picture
      */
     public function showPicture($type)
     {
-        $method = $this->getGererateMethod($type);
-        $contentType = $this->getMimeType($type);
+        $method = self::getGererateMethod($type);
+        $contentType = self::getMimeType($type);
 
         header('Content-Type: ' . $contentType);
-        $method($this->picture);
+        $method($this->image);
         exit;
     }
 
@@ -341,7 +271,7 @@ class Picture
         $sExtension = pathinfo($filename, PATHINFO_EXTENSION);
         $method = $this->getGererateMethod($sExtension);
 
-        $method($this->picture, $filename);
+        $method($this->image, $filename);
         return $this;
     }
 
@@ -350,7 +280,7 @@ class Picture
      * @return string
      * @throws Exception
      */
-    protected function getGererateMethod($type): string
+    protected static function getGererateMethod($type): string
     {
         if (!array_key_exists($type, self::EXTENSIONS)) {
             throw new Exception('Unknown picture type.');
@@ -363,7 +293,7 @@ class Picture
      * @return string
      * @throws Exception
      */
-    protected static function getCreateMethod($type): string
+    public static function getCreateMethod($type): string
     {
         if (!array_key_exists($type, self::EXTENSIONS)) {
             throw new Exception('Unknown picture type.');
@@ -373,13 +303,13 @@ class Picture
 
     /**
      * @param $extension
-     * @return mixed|string
+     * @return string
      */
-    public function getMimeType($extension): mixed
+    public static function getMimeType($extension): string
     {
-        if (!isset($this->mimeTypes[$extension])) {
+        if (!isset(self::MIME_TYPES[$extension])) {
             return 'application/octet-stream';
         }
-        return $this->mimeTypes[$extension];
+        return self::MIME_TYPES[$extension];
     }
 }
