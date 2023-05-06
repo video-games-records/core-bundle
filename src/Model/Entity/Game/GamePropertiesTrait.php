@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Model\Entity\Game;
 
 use Doctrine\ORM\Mapping as ORM;
