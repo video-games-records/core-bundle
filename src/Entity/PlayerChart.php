@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerTrait;
 
 /**
  * PlayerChart

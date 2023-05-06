@@ -8,11 +8,15 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\Game\GameMethodsTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\GetPlayerTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerMethodsTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\SetPlayerTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
 
@@ -74,6 +78,8 @@ class PlayerGame
     use NbEqualTrait;
     use RankMedalTrait;
     use RankPointChartTrait;
+    use PlayerMethodsTrait;
+    use GameMethodsTrait;
 
     /**
      * @ORM\Id
@@ -119,7 +125,7 @@ class PlayerGame
      * @param integer $pointChartWithoutDlc
      * @return $this
      */
-    public function setPointChartWithoutDlc(int $pointChartWithoutDlc): Self
+    public function setPointChartWithoutDlc(int $pointChartWithoutDlc): static
     {
         $this->pointChartWithoutDlc = $pointChartWithoutDlc;
         return $this;
@@ -141,7 +147,7 @@ class PlayerGame
      * @param integer $pointGame
      * @return $this
      */
-    public function setPointGame(int $pointGame): Self
+    public function setPointGame(int $pointGame): static
     {
         $this->pointGame = $pointGame;
         return $this;
@@ -158,23 +164,11 @@ class PlayerGame
     }
 
     /**
-     * Set game
-     * @param Game $game
-     * @return $this
-     */
-    public function setGame(Game $game): Self
-    {
-        $this->game = $game;
-
-        return $this;
-    }
-
-    /**
      * Set lastUpdate
      * @param DateTime $lastUpdate
      * @return $this
      */
-    public function setLastUpdate(DateTime $lastUpdate): Self
+    public function setLastUpdate(DateTime $lastUpdate): static
     {
         $this->lastUpdate = $lastUpdate;
 
@@ -189,39 +183,6 @@ class PlayerGame
     public function getLastUpdate(): DateTime
     {
         return $this->lastUpdate;
-    }
-
-    /**
-     * Get game
-     *
-     * @return Game
-     */
-    public function getGame(): Game
-    {
-        return $this->game;
-    }
-
-
-    /**
-     * Set player
-     * @param Player $player
-     * @return $this
-     */
-    public function setPlayer(Player $player): Self
-    {
-        $this->player = $player;
-
-        return $this;
-    }
-
-    /**
-     * Get player
-     *
-     * @return Player
-     */
-    public function getPlayer(): Player
-    {
-        return $this->player;
     }
 
     /**

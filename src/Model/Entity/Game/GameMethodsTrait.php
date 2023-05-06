@@ -1,21 +1,11 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Model\Entity;
+namespace VideoGamesRecords\CoreBundle\Model\Entity\Game;
 
 use VideoGamesRecords\CoreBundle\Entity\Game;
 
-trait GameTrait
+trait GameMethodsTrait
 {
-    /**
-     * @var Game
-     *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false)
-     * })
-     */
-    private Game $game;
-
     /**
      * @param Game $game
      * @return $this
