@@ -57,7 +57,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *              "player.medal",
  *              "player.user_id",
  *              "team.read.mini",
- *              "player.status",
+ *            "player.status",
  *              "player.status.read"
  *          }
  *     }
@@ -113,11 +113,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="gamerCard", type="string", length=50, nullable=true)
      */
     private ?string $gamerCard;
-
-    /**
-     * @ORM\Column(name="pointVGR", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $pointVGR = 0;
 
     /**
      * @ORM\Column(name="presentation", type="text", length=65535, nullable=true)
@@ -389,30 +384,6 @@ class Player implements SluggableInterface
     public function getGamerCard(): ?string
     {
         return $this->gamerCard;
-    }
-
-
-    /**
-     * Set pointVGR
-     *
-     * @param integer $pointVGR
-     * @return $this
-     */
-    public function setPointVGR(int $pointVGR): Player
-    {
-        $this->pointVGR = $pointVGR;
-
-        return $this;
-    }
-
-    /**
-     * Get pointVGR
-     *
-     * @return integer
-     */
-    public function getPointVGR(): int
-    {
-        return $this->pointVGR;
     }
 
     /**
