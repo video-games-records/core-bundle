@@ -114,12 +114,4 @@ class PlayerGroup
     {
         return $this->player;
     }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function preInsert()
-    {
-        $this->setRankMedal(0);
-    }
 }
