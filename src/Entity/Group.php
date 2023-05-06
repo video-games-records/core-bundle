@@ -133,7 +133,7 @@ class Group implements SluggableInterface
     /**
      * Set idGroup
      * @param integer $id
-     * @return Group
+     * @return $this
      */
     public function setId(int $id)
     {
@@ -189,9 +189,9 @@ class Group implements SluggableInterface
     /**
      * Set boolDlc
      * @param bool $boolDlc
-     * @return Group
+     * @return $this
      */
-    public function setBoolDlc(bool $boolDlc)
+    public function setBoolDlc(bool $boolDlc): Group
     {
         $this->boolDlc = $boolDlc;
 
@@ -202,7 +202,7 @@ class Group implements SluggableInterface
      * Get boolDlc
      * @return bool
      */
-    public function getBoolDlc()
+    public function getBoolDlc(): bool
     {
         return $this->boolDlc;
     }
@@ -210,9 +210,9 @@ class Group implements SluggableInterface
     /**
      * Set nbChart
      * @param integer $nbChart
-     * @return Group
+     * @return $this
      */
-    public function setNbChart(int $nbChart)
+    public function setNbChart(int $nbChart): Group
     {
         $this->nbChart = $nbChart;
 
@@ -223,7 +223,7 @@ class Group implements SluggableInterface
      * Get nbChart
      * @return integer
      */
-    public function getNbChart()
+    public function getNbChart(): int
     {
         return $this->nbChart;
     }
@@ -231,9 +231,9 @@ class Group implements SluggableInterface
     /**
      * Set nbPost
      * @param integer $nbPost
-     * @return Group
+     * @return $this
      */
-    public function setNbPost(int $nbPost)
+    public function setNbPost(int $nbPost): Group
     {
         $this->nbPost = $nbPost;
 
@@ -244,7 +244,7 @@ class Group implements SluggableInterface
      * Get nbPost
      * @return integer
      */
-    public function getNbPost()
+    public function getNbPost(): int
     {
         return $this->nbPost;
     }
@@ -252,9 +252,9 @@ class Group implements SluggableInterface
     /**
      * Set nbPlayer
      * @param integer $nbPlayer
-     * @return Group
+     * @return $this
      */
-    public function setNbPlayer(int $nbPlayer)
+    public function setNbPlayer(int $nbPlayer): Group
     {
         $this->nbPlayer = $nbPlayer;
 
@@ -265,7 +265,7 @@ class Group implements SluggableInterface
      * Get nbPlayer
      * @return integer
      */
-    public function getNbPlayer()
+    public function getNbPlayer(): int
     {
         return $this->nbPlayer;
     }
@@ -275,7 +275,7 @@ class Group implements SluggableInterface
      * @param Game|null $game
      * @return $this
      */
-    public function setGame(Game $game = null)
+    public function setGame(Game $game = null): Group
     {
         $this->game = $game;
 
@@ -286,7 +286,7 @@ class Group implements SluggableInterface
      * Get game
      * @return Game
      */
-    public function getGame()
+    public function getGame(): Game
     {
         return $this->game;
     }
@@ -295,7 +295,7 @@ class Group implements SluggableInterface
      * @param Chart $chart
      * @return $this
      */
-    public function addChart(Chart $chart)
+    public function addChart(Chart $chart): Group
     {
         $this->charts[] = $chart;
         return $this;
@@ -304,7 +304,7 @@ class Group implements SluggableInterface
     /**
      * @param Chart $chart
      */
-    public function removeChart(Chart $chart)
+    public function removeChart(Chart $chart): void
     {
         $this->charts->removeElement($chart);
     }
