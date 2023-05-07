@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
 
 /**
@@ -19,26 +20,9 @@ use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\BadgeRepository")
  * @ApiResource(attributes={"order"={"type", "value"}})
  */
-class Badge
+class Badge implements BadgeInterface
 {
     use NbPlayerTrait;
-
-    const TYPE_CONNEXION = 'Connexion';
-    const TYPE_DON = 'Don';
-    const TYPE_FORUM = 'Forum';
-    const TYPE_INSCRIPTION = 'Inscription';
-    const TYPE_MASTER = 'Master';
-    const TYPE_PLATFORM = 'Platform';
-    const TYPE_SPECIAL_WEBMASTER = 'SpecialWebmaster';
-    const TYPE_VGR_CHART = 'VgrChart';
-    const TYPE_VGR_PROOF = 'VgrProof';
-    const TYPE_VGR_SPECIAL_COUNTRY = 'VgrSpecialCountry';
-    const TYPE_VGR_SPECIAL_CUP = 'VgrSpecialCup';
-    const TYPE_VGR_SPECIAL_LEGEND = 'VgrSpecialLegend';
-    const TYPE_VGR_SPECIAL_MEDALS = 'VgrSpecialMedals';
-    const TYPE_VGR_SPECIAL_POINTS = 'VgrSpecialPoints';
-    const TYPE_TWITCH = 'Twitch';
-
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -165,16 +149,16 @@ class Badge
 
     /**
      * Get value
-     * @return integer
+     * @return int
      */
-    public function getValue(): ?int
+    public function getValue(): int
     {
         return $this->value;
     }
 
     /**
      * Get game
-     * @return Game
+     * @return Game|null
      */
     public function getGame(): ?Game
     {
@@ -183,7 +167,7 @@ class Badge
 
     /**
      * Get country
-     * @return Country
+     * @return Country|null
      */
     public function getCountry(): ?Country
     {
@@ -192,44 +176,13 @@ class Badge
 
     /**
      * Get platform
-     * @return Platform
+     * @return Platform|null
      */
     public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle(): ?string
-    {
-        switch ($this->getType()) {
-            case self::TYPE_PLATFORM:
-                return $this->getPlatform()
-                    ->getLibPlatform();
-            case self::TYPE_MASTER:
-                return $this->getGame()
-                    ->getName();
-            case self::TYPE_VGR_SPECIAL_COUNTRY:
-                return $this->getCountry()
-                    ->getName();
-            case self::TYPE_VGR_SPECIAL_CUP:
-            case self::TYPE_VGR_SPECIAL_MEDALS:
-            case self::TYPE_VGR_SPECIAL_LEGEND:
-            case self::TYPE_VGR_SPECIAL_POINTS:
-                return $this->getType() . ' ' . $this->getValue();
-            case self::TYPE_FORUM:
-            case self::TYPE_CONNEXION:
-            case self::TYPE_DON:
-            case self::TYPE_TWITCH:
-            case self::TYPE_VGR_CHART:
-            case self::TYPE_VGR_PROOF:
-                return $this->getValue() . ' ' . $this->getType();
-            default:
-                return $this->getType();
-        }
-    }
 
     /**
      * @return array
@@ -237,21 +190,21 @@ class Badge
     public static function getTypeChoices(): array
     {
         return [
-            self::TYPE_CONNEXION => self::TYPE_CONNEXION,
-            self::TYPE_DON => self::TYPE_DON,
-            self::TYPE_FORUM => self::TYPE_FORUM,
-            self::TYPE_INSCRIPTION => self::TYPE_INSCRIPTION,
-            self::TYPE_MASTER => self::TYPE_MASTER,
-            self::TYPE_PLATFORM => self::TYPE_PLATFORM,
-            self::TYPE_SPECIAL_WEBMASTER => self::TYPE_SPECIAL_WEBMASTER,
-            self::TYPE_TWITCH => self::TYPE_TWITCH,
-            self::TYPE_VGR_CHART => self::TYPE_VGR_CHART,
-            self::TYPE_VGR_PROOF => self::TYPE_VGR_PROOF,
-            self::TYPE_VGR_SPECIAL_COUNTRY => self::TYPE_VGR_SPECIAL_COUNTRY,
-            self::TYPE_VGR_SPECIAL_CUP => self::TYPE_VGR_SPECIAL_CUP,
-            self::TYPE_VGR_SPECIAL_LEGEND => self::TYPE_VGR_SPECIAL_LEGEND,
-            self::TYPE_VGR_SPECIAL_MEDALS => self::TYPE_VGR_SPECIAL_MEDALS,
-            self::TYPE_VGR_SPECIAL_POINTS => self::TYPE_VGR_SPECIAL_POINTS,
+            self::TYPE_CONNEXION                => self::TYPE_CONNEXION,
+            self::TYPE_DON                      => self::TYPE_DON,
+            self::TYPE_FORUM                    => self::TYPE_FORUM,
+            self::TYPE_INSCRIPTION              => self::TYPE_INSCRIPTION,
+            self::TYPE_MASTER                   => self::TYPE_MASTER,
+            self::TYPE_PLATFORM                 => self::TYPE_PLATFORM,
+            self::TYPE_SPECIAL_WEBMASTER        => self::TYPE_SPECIAL_WEBMASTER,
+            self::TYPE_TWITCH                   => self::TYPE_TWITCH,
+            self::TYPE_VGR_CHART                => self::TYPE_VGR_CHART,
+            self::TYPE_VGR_PROOF                => self::TYPE_VGR_PROOF,
+            self::TYPE_VGR_SPECIAL_COUNTRY      => self::TYPE_VGR_SPECIAL_COUNTRY,
+            self::TYPE_VGR_SPECIAL_CUP          => self::TYPE_VGR_SPECIAL_CUP,
+            self::TYPE_VGR_SPECIAL_LEGEND       => self::TYPE_VGR_SPECIAL_LEGEND,
+            self::TYPE_VGR_SPECIAL_MEDALS       => self::TYPE_VGR_SPECIAL_MEDALS,
+            self::TYPE_VGR_SPECIAL_POINTS       => self::TYPE_VGR_SPECIAL_POINTS,
         ];
     }
 

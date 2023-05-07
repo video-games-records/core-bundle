@@ -200,3 +200,23 @@ avatar:
 
 video:
     type_not_found: "Only URL from youtube and twitch"
+
+badge:
+    title:
+        Forum: 'messages sent on forum'
+        Inscription: 'Register'
+        Connexion: 'connections'
+        Don: 'euros donated'
+        VgrChart: 'submitted scores'
+        VgrProof: 'proofs sent'
+        SpecialWebmaster: 'Special Webmaster'
+        VgrSpecialLegend: 'Special Legend of the year'
+        VgrSpecialMedals: 'Special Medals of the year'
+        VgrSpecialCup: 'Special Cup of the year'
+        VgrSpecialPoints: 'Special Point of the year'
+        VgrSpecialCountry: 'Special Country'
+        Master: 'Master Badge'
+        Platform: 'Badge Platform'
+        Twitch: 'Badge Twitch'
+    earnedOn: 'earned on'
+

@@ -200,3 +200,23 @@ avatar:
 
 video:
     type_not_found: "Impossible de déterminer l'origine de la vidéo"
+
+badge:
+    title:
+        Forum: 'messages envoyés sur le forum'
+        Inscription: 'Inscription'
+        Connexion: 'connexions'
+        Don: 'euros donnés'
+        VgrChart: 'scores envoyés'
+        VgrProof: 'preuves envoyées'
+        SpecialWebmaster: 'Spécial Webmaster'
+        VgrSpecialLegend: 'Spécial Légende de l’année'
+        VgrSpecialMedals: 'Spécial Médailles de l’année'
+        VgrSpecialCup: 'Spécial Coupe de l’année'
+        VgrSpecialPoints: 'Spécial Point de l’année'
+        VgrSpecialCountry: 'Spécial Pays'
+        Master: 'Badge Master'
+        Platform: 'Badge Platform'
+        Twitch: 'Badge Twitch'
+    earnedOn: 'obtenu le'
+

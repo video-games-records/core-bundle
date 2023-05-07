@@ -11,6 +11,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 
 /**
  * PlayerGame
@@ -45,7 +46,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class PlayerBadge
+class PlayerBadge implements BadgeInterface
 {
     use TimestampableEntity;
 
@@ -195,6 +196,25 @@ class PlayerBadge
     public function getPlayer(): Player
     {
         return $this->player;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        $badge = $this->getBadge();
+        return match (self::TITLES[$badge->getType()]) {
+            self::TITLE_PLATFORM => $badge->getPlatform()
+                ->getLibPlatform(),
+            self::TITLE_GAME => $badge->getGame()
+                ->getName(),
+            self::TITLE_COUNTRY => $badge->getCountry()
+                ->getName(),
+            self::TITLE_TYPE_VALUE => $badge->getType() . ' ' . $badge->getValue(),
+            self::TITLE_VALUE_TYPE => $badge->getValue() . ' trad' . $badge->getType(),
+            default => $badge->getType(),
+        };
     }
 
     public function __toString(): string
