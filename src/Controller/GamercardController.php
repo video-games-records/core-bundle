@@ -10,9 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\File\Creator\FilePictureCreator;
-use VideoGamesRecords\CoreBundle\File\Creator\StreamPictureCreator;
 use VideoGamesRecords\CoreBundle\File\Picture;
+use VideoGamesRecords\CoreBundle\File\PictureCreatorFactory;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 
 /**
@@ -25,20 +24,13 @@ class GamercardController extends AbstractController
     private FilesystemOperator $appStorage;
     private PlayerGameRepository $playerGameRepository;
 
-    private FilePictureCreator $filePictureCreator;
-
-    private StreamPictureCreator $streamPictureCreator;
 
     public function __construct(
         FilesystemOperator $appStorage,
-        PlayerGameRepository $playerGameRepository,
-        FilePictureCreator $filePictureCreator,
-        StreamPictureCreator $streamPictureCreator
+        PlayerGameRepository $playerGameRepository
     ) {
         $this->appStorage = $appStorage;
         $this->playerGameRepository = $playerGameRepository;
-        $this->filePictureCreator = $filePictureCreator;
-        $this->streamPictureCreator = $streamPictureCreator;
     }
 
 
@@ -53,7 +45,7 @@ class GamercardController extends AbstractController
     public function miniAction(Player $player)
     {
         chdir(__DIR__);
-        $gamercard = $this->filePictureCreator->createPicture('../Resources/img/gamercard/mini.png');
+        $gamercard = PictureCreatorFactory::fromFile('../Resources/img/gamercard/mini.png');
 
         // Ranking Points
         $fontSize = 8;
@@ -67,7 +59,7 @@ class GamercardController extends AbstractController
 
 
         // Ranking Medals
-        $sprite = $this->filePictureCreator->createPicture('../Resources/img/sprite.png');
+        $sprite = PictureCreatorFactory::fromFile('../Resources/img/sprite.png');
         $gamercard
             ->copyResized($sprite, 164, 8, 126, 160, 16, 16, 16, 16)
             ->copyResized($sprite, 211, 8, 108, 160, 16, 16, 16, 16)
@@ -89,7 +81,7 @@ class GamercardController extends AbstractController
         $gamercard->write($rank, $fontSize, 356, 20);
 
         // Add avatar
-        $avatar = $this->streamPictureCreator->createPicture($this->getAvatar($player));
+        $avatar = PictureCreatorFactory::fromStream($this->getAvatar($player));
         $gamercard->copyResized($avatar, 4, 2, 0, 0, 26, 26);
 
         try {
@@ -151,7 +143,7 @@ class GamercardController extends AbstractController
             ->write($pointGame, $fontSize, 82, 45);
 
         // Add sprites pictures medals
-        $sprite = $this->filePictureCreator->createPicture('../Resources/img/sprite.png');
+        $sprite = PictureCreatorFactory::fromFile('../Resources/img/sprite.png');
         $gamercard
             ->copyResized($sprite, 78, 59, 126, 160, 16, 16, 16, 16)
             ->copyResized($sprite, 127, 59, 108, 160, 16, 16, 16, 16)
@@ -159,14 +151,14 @@ class GamercardController extends AbstractController
             ->copyResized($sprite, 127, 79, 74, 160, 16, 16, 16, 16);
 
         // Add avatar
-        $avatar = $this->streamPictureCreator->createPicture($this->getAvatar($player));
+        $avatar = PictureCreatorFactory::fromStream($this->getAvatar($player));
         $gamercard->copyResized($avatar, 9, 30, 0, 0, 64, 64);
 
         $playerGames = $this->playerGameRepository->findBy(['player' => $player], ['lastUpdate' => 'DESC'],5);
 
         $startX = 9;
         foreach ($playerGames as $playerGame) {
-            $picture = $this->streamPictureCreator->createPicture($this->getBadge($playerGame->getGame()->getBadge()));
+            $picture = PictureCreatorFactory::fromStream($this->getBadge($playerGame->getGame()->getBadge()));
             $gamercard->copyResized($picture, $startX, 99);
             $startX += 38;
         }

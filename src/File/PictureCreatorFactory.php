@@ -1,15 +1,15 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\File\Creator;
+namespace VideoGamesRecords\CoreBundle\File;
 
 use Exception;
-use VideoGamesRecords\CoreBundle\File\Picture;
+use VideoGamesRecords\CoreBundle\Contracts\PictureInterface;
 
-class FilePictureCreator extends AbstractCreator
+class PictureCreatorFactory implements PictureInterface
 {
-    public function createPicture($data): Picture
+    public static function fromFile(string $path): Picture
     {
-        $file = realpath($data);
+        $file = realpath($path);
         if ($file === false) {
             throw new Exception('Unable to load picture file. The file does not exists.');
         }
@@ -22,6 +22,13 @@ class FilePictureCreator extends AbstractCreator
 
         $method = Picture::getCreateMethod($extension);
         $picture = $method($file);
+
+        return Picture::create($picture);
+    }
+
+    public static function fromStream(string $stream): Picture
+    {
+        $picture = imagecreatefromstring($stream);
 
         return Picture::create($picture);
     }

@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\File;
 
 use Exception;
 use GdImage;
+use VideoGamesRecords\CoreBundle\Contracts\PictureInterface;
 
 class Picture implements PictureInterface
 {
@@ -30,7 +31,8 @@ class Picture implements PictureInterface
     }
 
     /**
-     * @return $this
+     * @param GdImage $image
+     * @return Picture
      */
     public static function create(GdImage $image): Picture
     {
@@ -77,9 +79,9 @@ class Picture implements PictureInterface
     }
 
     /**
-     * @return false|resource|null
+     * @return GdImage|null
      */
-    public function getImage()
+    public function getImage(): ?GdImage
     {
         return $this->image;
     }

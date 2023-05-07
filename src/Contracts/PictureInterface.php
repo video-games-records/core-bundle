@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\File;
+namespace VideoGamesRecords\CoreBundle\Contracts;
 
 interface PictureInterface
 {
