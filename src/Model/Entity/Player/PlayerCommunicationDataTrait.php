@@ -2,6 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\Model\Entity\Player;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait PlayerCommunicationDataTrait
 {
     /**
@@ -19,7 +21,7 @@ trait PlayerCommunicationDataTrait
      */
     protected ?string $twitch;
 
-      public function getWebsite(): ?string
+    public function getWebsite(): ?string
     {
         return $this->website;
     }

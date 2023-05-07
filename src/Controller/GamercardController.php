@@ -154,7 +154,7 @@ class GamercardController extends AbstractController
         $avatar = PictureCreatorFactory::fromStream($this->getAvatar($player));
         $gamercard->copyResized($avatar, 9, 30, 0, 0, 64, 64);
 
-        $playerGames = $this->playerGameRepository->findBy(['player' => $player], ['lastUpdate' => 'DESC'],5);
+        $playerGames = $this->playerGameRepository->findBy(['player' => $player], ['lastUpdate' => 'DESC'], 5);
 
         $startX = 9;
         foreach ($playerGames as $playerGame) {

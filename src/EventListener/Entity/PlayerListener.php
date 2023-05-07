@@ -15,7 +15,9 @@ class PlayerListener
 
     public function __construct(
         private readonly UpdateChartStatusHandler $updateChartStatusHandler
-    ) {}
+    ) {
+
+    }
 
 
     /**
