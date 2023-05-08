@@ -39,7 +39,6 @@ class GameAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
-            ->remove('export')
             ->add('copy', $this->getRouterIdParameter() . '/copy')
             ->add('maj', $this->getRouterIdParameter() . '/maj');
     }
@@ -49,6 +48,11 @@ class GameAdmin extends AbstractAdmin
         $sortValues['_page'] = 1;
         $sortValues['_sort_order'] = 'DESC';
         $sortValues['_sort_by'] = 'id';
+    }
+
+    protected function configureExportFields(): array
+    {
+        return ['id', 'libGameEn', 'libGameFr', 'status','picture', 'platforms'];
     }
 
 
