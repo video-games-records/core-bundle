@@ -36,7 +36,7 @@ final class PlayerBadgeSetTitleSubscriber implements EventSubscriberInterface, B
         $method = $event->getRequest()->getMethod();
 
         if ($method == Request::METHOD_GET && is_array($data) && $data[0] instanceof PlayerBadge) {
-            foreach($data as $playerBadge) {
+            foreach ($data as $playerBadge) {
                 $playerBadge->setTitle($this->getTitle($playerBadge));
             }
         }
