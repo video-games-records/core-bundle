@@ -11,6 +11,7 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use phpDocumentor\Reflection\Types\Static_;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 
 /**
@@ -83,13 +84,15 @@ class PlayerBadge implements BadgeInterface
      */
     private Badge $badge;
 
+    private string $title = '';
+
     /**
      * Set id
      *
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): Self
+    public function setId(int $id): static
     {
         $this->id = $id;
 
@@ -112,7 +115,7 @@ class PlayerBadge implements BadgeInterface
      * @param DateTime $ended_at
      * @return $this
      */
-    public function setEndedAt(DateTime $ended_at): Self
+    public function setEndedAt(DateTime $ended_at): static
     {
         $this->ended_at = $ended_at;
 
@@ -135,7 +138,7 @@ class PlayerBadge implements BadgeInterface
      * @param integer $mbOrder
      * @return $this
      */
-    public function setMbOrder(int $mbOrder): Self
+    public function setMbOrder(int $mbOrder): static
     {
         $this->mbOrder = $mbOrder;
 
@@ -158,7 +161,7 @@ class PlayerBadge implements BadgeInterface
      * @param Badge $badge
      * @return $this
      */
-    public function setBadge(Badge $badge): Self
+    public function setBadge(Badge $badge): static
     {
         $this->badge = $badge;
 
@@ -181,7 +184,7 @@ class PlayerBadge implements BadgeInterface
      * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player): Self
+    public function setPlayer(Player $player): static
     {
         $this->player = $player;
 
@@ -198,23 +201,18 @@ class PlayerBadge implements BadgeInterface
         return $this->player;
     }
 
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
+        return $this;
+    }
+
     /**
      * @return string
      */
     public function getTitle(): string
     {
-        $badge = $this->getBadge();
-        return match (self::TITLES[$badge->getType()]) {
-            self::TITLE_PLATFORM => $badge->getPlatform()
-                ->getLibPlatform(),
-            self::TITLE_GAME => $badge->getGame()
-                ->getName(),
-            self::TITLE_COUNTRY => $badge->getCountry()
-                ->getName(),
-            self::TITLE_TYPE_VALUE => $badge->getType() . ' ' . $badge->getValue(),
-            self::TITLE_VALUE_TYPE => $badge->getValue() . ' trad' . $badge->getType(),
-            default => $badge->getType(),
-        };
+        return $this->title;
     }
 
     public function __toString(): string
