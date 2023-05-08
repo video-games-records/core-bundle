@@ -57,7 +57,12 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
             $player = $this->tokenStorageToPlayerTransformer->transform($this->tokenStorage->getToken());
 
             if (false === $this->canAskProofProvider->load($player)) {
-                 throw new PostException(sprintf($this->translator->trans('proof.request.send.refuse'), CanAskProofProvider::MAX_REQUEST_DAY));
+                throw new PostException(
+                    sprintf(
+                        $this->translator->trans('proof.request.send.refuse'),
+                        CanAskProofProvider::MAX_REQUEST_DAY
+                    )
+                );
             }
 
             $request->setPlayerRequesting($player);

@@ -28,7 +28,8 @@ class FormDataController extends AbstractController
     private EntityManagerInterface $em;
     private $game;
 
-    public function __construct(UserToPlayerTransformer $userToPlayerTransformer, EntityManagerInterface $em) {
+    public function __construct(UserToPlayerTransformer $userToPlayerTransformer, EntityManagerInterface $em)
+    {
         $this->userToPlayerTransformer = $userToPlayerTransformer;
         $this->em = $em;
     }

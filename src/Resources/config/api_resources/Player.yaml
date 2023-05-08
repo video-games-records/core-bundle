@@ -58,7 +58,7 @@ resources:
             get:
                 normalization_context: {'groups': [player.read, player.status, player.status.read, player.team, team.read.mini, player.country, country.read, player.cup, player.medal, player.proof, player.badge, player.pointGame, player.pointChart]}
             put:
-                access_control: 'is_granted("ROLE_PLAYER") and object.getUser() == user'
+                access_control: 'is_granted("ROLE_PLAYER") and object.getUserId() == user.getId()'
                 denormalization_context: {'groups': [player.put]}
                 normalization_context: {'groups': [player.read.mini, player.team, team.read.mini]}
             nb-lost-position:

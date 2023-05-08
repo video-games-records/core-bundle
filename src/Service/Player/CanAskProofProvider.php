@@ -12,7 +12,8 @@ class CanAskProofProvider
     public const MAX_REQUEST_DAY = 5;
     private ProofRequestRepository $proofRequestRepository;
 
-    public function __construct(ProofRequestRepository $proofRequestRepository) {
+    public function __construct(ProofRequestRepository $proofRequestRepository)
+    {
         $this->proofRequestRepository = $proofRequestRepository;
     }
 

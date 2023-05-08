@@ -15,6 +15,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
@@ -59,6 +61,8 @@ class Team implements SluggableInterface
     use RankPointChartTrait;
     use AverageChartRankTrait;
     use AverageGameRankTrait;
+    use NbPlayerTrait;
+    use NbGameTrait;
 
     const STATUS_OPENED = 'OPENED';
     const STATUS_CLOSED = 'CLOSED';
@@ -112,16 +116,6 @@ class Team implements SluggableInterface
      * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
     private string $status = self::STATUS_CLOSED;
-
-    /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbPlayer = 0;
-
-    /**
-     * @ORM\Column(name="nbGame", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbGame = 0;
 
     /**
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false, options={"default" : 0})
@@ -347,51 +341,6 @@ class Team implements SluggableInterface
     {
         return $this->status;
     }
-
-    /**
-     * Set nbPlayer
-     * @param integer $nbPlayer
-     * @return Team
-     */
-    public function setNbPlayer(int $nbPlayer): Team
-    {
-        $this->nbPlayer = $nbPlayer;
-
-        return $this;
-    }
-
-    /**
-     * Get nbPlayer
-     *
-     * @return integer
-     */
-    public function getNbPlayer(): int
-    {
-        return $this->nbPlayer;
-    }
-
-    /**
-     * Set nbGame
-     * @param integer $nbGame
-     * @return Team
-     */
-    public function setNbGame(int $nbGame): Team
-    {
-        $this->nbGame = $nbGame;
-
-        return $this;
-    }
-
-    /**
-     * Get nbGame
-     *
-     * @return integer
-     */
-    public function getNbGame(): int
-    {
-        return $this->nbGame;
-    }
-
 
     /**
      * Set nbMasterBadge

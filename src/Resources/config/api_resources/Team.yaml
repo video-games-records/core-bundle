@@ -37,7 +37,7 @@ resources:
             get:
                 normalization_context: {'groups': [team.read, team.leader, player.read.mini], 'enable_max_depth':true}
             upload-avatar:
-                access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUser() == user'
+                access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUserId() == user.getId()'
                 method: 'POST'
                 path: '/teams/{id}/upload-avatar'
                 consumes:
@@ -56,6 +56,6 @@ resources:
                                         type: string
                 controller: 'VideoGamesRecords\CoreBundle\Controller\Team\AvatarController::upload'
             put:
-                access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUser() == user'
+                access_control: 'is_granted("ROLE_PLAYER") and object.getLeader().getUserId() == user.getId()'
                 denormalization_context: {'groups': [team.put]}
                 normalization_context: {'groups': [team.read, team.leader, player.read.mini]}

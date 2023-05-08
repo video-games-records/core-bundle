@@ -3,6 +3,11 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenWithoutDlcTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartWithoutDlcTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
 
@@ -16,6 +21,11 @@ class PlayerSerie
 {
     use RankMedalTrait;
     use RankPointChartTrait;
+    use NbChartTrait;
+    use NbChartWithoutDlcTrait;
+    use NbChartProvenTrait;
+    use NbChartProvenWithoutDlcTrait;
+    use NbGameTrait;
 
     /**
      * @ORM\Id
@@ -45,44 +55,9 @@ class PlayerSerie
     /**
      * @var integer
      *
-     * @ORM\Column(name="nbChart", type="integer", nullable=false)
-     */
-    private $nbChart;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false)
-     */
-    private $nbChartProven;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbChartWithoutDlc", type="integer", nullable=false)
-     */
-    private $nbChartWithoutDlc;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbChartProvenWithoutDlc", type="integer", nullable=false)
-     */
-    private $nbChartProvenWithoutDlc;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="pointGame", type="integer", nullable=false)
      */
     private $pointGame;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="nbGame", type="integer", nullable=false)
-     */
-    private $nbGame;
 
 
     /**
@@ -106,93 +81,6 @@ class PlayerSerie
         return $this->pointChartWithoutDlc;
     }
 
-
-    /**
-     * Set nbChart
-     * @param integer $nbChart
-     * @return PlayerSerie
-     */
-    public function setNbChart(int $nbChart)
-    {
-        $this->nbChart = $nbChart;
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     *
-     * @return integer
-     */
-    public function getNbChart()
-    {
-        return $this->nbChart;
-    }
-
-
-    /**
-     * Set nbChartProven
-     * @param integer $nbChartProven
-     * @return PlayerSerie
-     */
-    public function setNbChartProven(int $nbChartProven)
-    {
-        $this->nbChartProven = $nbChartProven;
-        return $this;
-    }
-
-    /**
-     * Get nbChartProven
-     *
-     * @return integer
-     */
-    public function getNbChartProven()
-    {
-        return $this->nbChartProven;
-    }
-
-    /**
-     * Set nbChartWithoutDlc
-     * @param integer $nbChartWithoutDlc
-     * @return PlayerSerie
-     */
-    public function setNbChartWithoutDlc(int $nbChartWithoutDlc)
-    {
-        $this->nbChartWithoutDlc = $nbChartWithoutDlc;
-        return $this;
-    }
-
-    /**
-     * Get nbChartWithoutDlc
-     *
-     * @return integer
-     */
-    public function getNbChartWithoutDlc()
-    {
-        return $this->nbChartWithoutDlc;
-    }
-
-
-    /**
-     * Set nbChartProvenWithoutDlc
-     * @param integer $nbChartProvenWithoutDlc
-     * @return PlayerSerie
-     */
-    public function setNbChartProvenWithoutDlc(int $nbChartProvenWithoutDlc)
-    {
-        $this->nbChartProvenWithoutDlc = $nbChartProvenWithoutDlc;
-        return $this;
-    }
-
-    /**
-     * Get nbChartProvenWithoutDlc
-     *
-     * @return integer
-     */
-    public function getNbChartProvenWithoutDlc()
-    {
-        return $this->nbChartProvenWithoutDlc;
-    }
-
     /**
      * Set pointGame
      * @param integer $pointGame
@@ -212,28 +100,6 @@ class PlayerSerie
     public function getPointGame()
     {
         return $this->pointGame;
-    }
-
-
-    /**
-     * Set nbGame
-     * @param integer $nbGame
-     * @return PlayerSerie
-     */
-    public function setNbGame(int $nbGame)
-    {
-        $this->nbGame = $nbGame;
-        return $this;
-    }
-
-    /**
-     * Get nbGame
-     *
-     * @return integer
-     */
-    public function getNbGame()
-    {
-        return $this->nbGame;
     }
 
 

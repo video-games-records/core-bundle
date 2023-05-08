@@ -12,6 +12,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbPostTrait;
 
 /**
  * Group
@@ -39,6 +42,9 @@ class Group implements SluggableInterface
 {
     use TimestampableEntity;
     use SluggableTrait;
+    use NbChartTrait;
+    use NbPostTrait;
+    use NbPlayerTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -64,20 +70,6 @@ class Group implements SluggableInterface
      */
     private bool $boolDlc = false;
 
-    /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbChart = 0;
-
-    /**
-     * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbPost = 0;
-
-    /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbPlayer = 0;
 
     /**
      * @Assert\NotNull
@@ -133,7 +125,7 @@ class Group implements SluggableInterface
     /**
      * Set idGroup
      * @param integer $id
-     * @return Group
+     * @return $this
      */
     public function setId(int $id)
     {
@@ -189,9 +181,9 @@ class Group implements SluggableInterface
     /**
      * Set boolDlc
      * @param bool $boolDlc
-     * @return Group
+     * @return $this
      */
-    public function setBoolDlc(bool $boolDlc)
+    public function setBoolDlc(bool $boolDlc): Group
     {
         $this->boolDlc = $boolDlc;
 
@@ -202,80 +194,18 @@ class Group implements SluggableInterface
      * Get boolDlc
      * @return bool
      */
-    public function getBoolDlc()
+    public function getBoolDlc(): bool
     {
         return $this->boolDlc;
     }
 
-    /**
-     * Set nbChart
-     * @param integer $nbChart
-     * @return Group
-     */
-    public function setNbChart(int $nbChart)
-    {
-        $this->nbChart = $nbChart;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     * @return integer
-     */
-    public function getNbChart()
-    {
-        return $this->nbChart;
-    }
-
-    /**
-     * Set nbPost
-     * @param integer $nbPost
-     * @return Group
-     */
-    public function setNbPost(int $nbPost)
-    {
-        $this->nbPost = $nbPost;
-
-        return $this;
-    }
-
-    /**
-     * Get nbPost
-     * @return integer
-     */
-    public function getNbPost()
-    {
-        return $this->nbPost;
-    }
-
-    /**
-     * Set nbPlayer
-     * @param integer $nbPlayer
-     * @return Group
-     */
-    public function setNbPlayer(int $nbPlayer)
-    {
-        $this->nbPlayer = $nbPlayer;
-
-        return $this;
-    }
-
-    /**
-     * Get nbPlayer
-     * @return integer
-     */
-    public function getNbPlayer()
-    {
-        return $this->nbPlayer;
-    }
 
     /**
      * Set Game
      * @param Game|null $game
      * @return $this
      */
-    public function setGame(Game $game = null)
+    public function setGame(Game $game = null): Group
     {
         $this->game = $game;
 
@@ -286,7 +216,7 @@ class Group implements SluggableInterface
      * Get game
      * @return Game
      */
-    public function getGame()
+    public function getGame(): Game
     {
         return $this->game;
     }
@@ -295,7 +225,7 @@ class Group implements SluggableInterface
      * @param Chart $chart
      * @return $this
      */
-    public function addChart(Chart $chart)
+    public function addChart(Chart $chart): Group
     {
         $this->charts[] = $chart;
         return $this;
@@ -304,7 +234,7 @@ class Group implements SluggableInterface
     /**
      * @param Chart $chart
      */
-    public function removeChart(Chart $chart)
+    public function removeChart(Chart $chart): void
     {
         $this->charts->removeElement($chart);
     }

@@ -12,6 +12,7 @@
         }
     ],
     "require": {
+        "ext-gd": "*",
         "php": "^7.4 || ^8.0",
         "a2lix/translation-form-bundle": "*",
         "api-platform/core": "^2.7",
@@ -24,6 +25,7 @@
         "symfony/config": "^5.4",
         "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
+        "symfony/framework-bundle": "5.4.*",
         "symfony/http-kernel": "^5.4",
         "symfony/lock": "^5.4",
         "webmozart/assert": "*"

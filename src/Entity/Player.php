@@ -16,6 +16,11 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerCommunicationDataTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerPersonalDataTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
@@ -57,7 +62,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *              "player.medal",
  *              "player.user_id",
  *              "team.read.mini",
- *              "player.status",
+ *            "player.status",
  *              "player.status.read"
  *          }
  *     }
@@ -86,11 +91,16 @@ class Player implements SluggableInterface
     use RankPointGameTrait;
     use AverageChartRankTrait;
     use AverageGameRankTrait;
+    use PlayerCommunicationDataTrait;
+    use PlayerPersonalDataTrait;
+    use NbChartTrait;
+    use NbChartProvenTrait;
+    use NbGameTrait;
 
-     /**
+    /**
      * @ORM\Column(name="user_id", type="integer")
      */
-    private $user_id;
+    private int $user_id;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -115,21 +125,6 @@ class Player implements SluggableInterface
     private ?string $gamerCard;
 
     /**
-     * @ORM\Column(name="pointVGR", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $pointVGR = 0;
-
-    /**
-     * @ORM\Column(name="presentation", type="text", length=65535, nullable=true)
-     */
-    private ?string $presentation;
-
-    /**
-     * @ORM\Column(name="collection", type="text", length=65535, nullable=true)
-     */
-    private ?string $collection;
-
-    /**
      * @ORM\Column(name="rankProof", type="integer", nullable=false, options={"default" : 0})
      */
     private int $rankProof = 0;
@@ -138,16 +133,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="rankCountry", type="integer", nullable=false, options={"default" : 0})
      */
     private int $rankCountry = 0;
-
-    /**
-     * @ORM\Column(name="nbGame", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbGame = 0;
-
-    /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbChart = 0;
 
     /**
      * @ORM\Column(name="nbChartMax", type="integer", nullable=false, options={"default" : 0})
@@ -160,11 +145,6 @@ class Player implements SluggableInterface
     private int $nbChartWithPlatform = 0;
 
     /**
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $nbChartProven = 0;
-
-    /**
      * @ORM\Column(name="nbChartDisabled", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbChartDisabled = 0;
@@ -173,31 +153,6 @@ class Player implements SluggableInterface
      * @ORM\Column(name="nbMasterBadge", type="integer", nullable=false, options={"default" : 0})
      */
     private int $nbMasterBadge = 0;
-
-    /**
-     * @ORM\Column(name="birthDate", type="date", nullable=true)
-     */
-    protected ?DateTime $birthDate;
-
-    /**
-     * @ORM\Column(name="website", type="string", length=255, nullable=true)
-     */
-    protected ?string $website;
-
-    /**
-     * @ORM\Column(name="youtube", type="string", length=255, nullable=true)
-     */
-    protected ?string $youtube;
-
-    /**
-     * @ORM\Column(name="twitch", type="string", length=255, nullable=true)
-     */
-    protected ?string $twitch;
-
-    /**
-     * @ORM\Column(name="gender", type="string", length=1, nullable=false, options={"default" : "I"}))
-     */
-    protected string $gender = 'I';
 
     /**
      * @ORM\Column(name="last_login",type="datetime", nullable=true)
@@ -210,39 +165,9 @@ class Player implements SluggableInterface
     protected int $nbConnexion = 0;
 
     /**
-     * @ORM\Column(name="displayPersonalInfos", type="boolean", nullable=false)
-     */
-    private bool $displayPersonalInfos = false;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="player")
-     */
-    private $playerPlatform;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="player")
-     */
-    private $playerGame;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGroup", mappedBy="player")
-     */
-    private $playerGroup;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerBadge", mappedBy="player")
-     */
-    private $playerBadge;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="player")
-     */
-    private $lostPositions;
-
-    /**
      * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
      */
-    private $boolMaj = false;
+    private bool $boolMaj = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="players")
@@ -253,36 +178,9 @@ class Player implements SluggableInterface
     private ?Team $team;
 
     /**
-     * @var Country
-     *
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idCountry", referencedColumnName="id")
-     * })
-     */
-    protected $country;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="player")
-     */
-    private $proofs;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="playerResponding")
-     */
-    private $proofRespondings;
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Rule", mappedBy="player")
-     */
-    private $rules;
-
-    /**
-     * @var DateTime
      * @ORM\Column(name="lastDisplayLostPosition", type="datetime", nullable=true)
      */
-    protected $lastDisplayLostPosition;
+    protected ?DateTime $lastDisplayLostPosition;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerStatus")
@@ -290,7 +188,7 @@ class Player implements SluggableInterface
      *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
      * })
      */
-    private $status;
+    private PlayerStatus $status;
 
 
     /**
@@ -315,8 +213,7 @@ class Player implements SluggableInterface
 
     /**
      * Get id
-     *
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -392,72 +289,6 @@ class Player implements SluggableInterface
     }
 
 
-    /**
-     * Set pointVGR
-     *
-     * @param integer $pointVGR
-     * @return $this
-     */
-    public function setPointVGR(int $pointVGR): Player
-    {
-        $this->pointVGR = $pointVGR;
-
-        return $this;
-    }
-
-    /**
-     * Get pointVGR
-     *
-     * @return integer
-     */
-    public function getPointVGR(): int
-    {
-        return $this->pointVGR;
-    }
-
-    /**
-     * Set presentation
-     *
-     * @param string|null $presentation
-     * @return $this
-     */
-    public function setPresentation(string $presentation = null): Player
-    {
-        $this->presentation = $presentation;
-
-        return $this;
-    }
-
-    /**
-     * Get presentation
-     * @return string|null
-     */
-    public function getPresentation(): ?string
-    {
-        return $this->presentation;
-    }
-
-    /**
-     * Set collection
-     *
-     * @param string|null $collection
-     * @return Player
-     */
-    public function setCollection(string $collection = null): Player
-    {
-        $this->collection = $collection;
-
-        return $this;
-    }
-
-    /**
-     * Get collection
-     * @return string|null
-     */
-    public function getCollection(): ?string
-    {
-        return $this->collection;
-    }
 
     /**
      * Set rankProof
@@ -504,53 +335,6 @@ class Player implements SluggableInterface
         return $this->rankCountry;
     }
 
-
-    /**
-     * Set nbGame
-     *
-     * @param integer $nbGame
-     * @return Player
-     */
-    public function setNbGame(int $nbGame): Player
-    {
-        $this->nbGame = $nbGame;
-
-        return $this;
-    }
-
-    /**
-     * Get nbGame
-     *
-     * @return integer
-     */
-    public function getNbGame(): int
-    {
-        return $this->nbGame;
-    }
-
-    /**
-     * Set nbChart
-     *
-     * @param integer $nbChart
-     * @return Player
-     */
-    public function setNbChart(int $nbChart): Player
-    {
-        $this->nbChart = $nbChart;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     *
-     * @return integer
-     */
-    public function getNbChart(): int
-    {
-        return $this->nbChart;
-    }
-
     /**
      * Set nbChartMax
      *
@@ -574,7 +358,7 @@ class Player implements SluggableInterface
         return $this->nbChartMax;
     }
 
-     /**
+    /**
      * Set nbChartWithPlatform
      *
      * @param integer $nbChartWithPlatform
@@ -595,29 +379,6 @@ class Player implements SluggableInterface
     public function getNbChartWithPlatform(): int
     {
         return $this->nbChartWithPlatform;
-    }
-
-    /**
-     * Set nbChartProven
-     *
-     * @param integer $nbChartProven
-     * @return Player
-     */
-    public function setNbChartProven(int $nbChartProven): Player
-    {
-        $this->nbChartProven = $nbChartProven;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChartProven
-     *
-     * @return integer
-     */
-    public function getNbChartProven(): int
-    {
-        return $this->nbChartProven;
     }
 
     /**
@@ -668,118 +429,6 @@ class Player implements SluggableInterface
 
 
     /**
-     * @return string|null
-     */
-    public function getWebsite(): ?string
-    {
-        return $this->website;
-    }
-
-    /**
-     * @param string|null $website
-     * @return $this
-     */
-    public function setWebsite(string $website = null): Player
-    {
-        $this->website = $website;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getYoutube(): ?string
-    {
-        return $this->youtube;
-    }
-
-    /**
-     * @param string|null $youtube
-     * @return $this
-     */
-    public function setYoutube(string $youtube = null): Player
-    {
-        $this->youtube = $youtube;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTwitch(): ?string
-    {
-        return $this->twitch;
-    }
-
-    /**
-     * @param string|null $twitch
-     * @return $this
-     */
-    public function setTwitch(string $twitch = null): Player
-    {
-        $this->twitch = $twitch;
-        return $this;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getBirthDate(): ?DateTime
-    {
-        return $this->birthDate;
-    }
-
-
-    /**
-     * @param DateTime|null $birthDate
-     * @return $this
-     */
-    public function setBirthDate(DateTime $birthDate = null): Player
-    {
-        $this->birthDate = $birthDate;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGender(): string
-    {
-        return $this->gender;
-    }
-
-    /**
-     * @param string $gender
-     * @return $this
-     */
-    public function setGender(string $gender): Player
-    {
-        $this->gender = $gender;
-        return $this;
-    }
-
-    /**
-     * Set displayPersonalInfos
-     * @param bool $displayPersonalInfos
-     * @return $this
-     */
-    public function setDisplayPersonalInfos(bool $displayPersonalInfos): Player
-    {
-        $this->displayPersonalInfos = $displayPersonalInfos;
-
-        return $this;
-    }
-
-    /**
-     * Get DisplayPersonalInfos
-     * @return bool
-     */
-    public function getDisplayPersonalInfos(): bool
-    {
-        return $this->displayPersonalInfos;
-    }
-
-    /**
      * @return DateTime|null
      */
     public function getLastLogin(): ?DateTime
@@ -800,7 +449,7 @@ class Player implements SluggableInterface
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -815,29 +464,6 @@ class Player implements SluggableInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPlayerPlatform()
-    {
-        return $this->playerPlatform;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPlayerGame()
-    {
-        return $this->playerGame;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPlayerBadge(): mixed
-    {
-        return $this->playerBadge;
-    }
 
     /**
      * Set Team
@@ -858,32 +484,6 @@ class Player implements SluggableInterface
     public function getTeam(): ?Team
     {
         return $this->team;
-    }
-
-    /**
-     * @return Country|null
-     */
-    public function getCountry(): ?Country
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param $country
-     * @return Player
-     */
-    public function setCountry($country): Player
-    {
-        $this->country = $country;
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getLostPositions(): Collection
-    {
-        return $this->lostPositions;
     }
 
     /**
@@ -948,7 +548,7 @@ class Player implements SluggableInterface
         return $this->status;
     }
 
-     /**
+    /**
      * @return int
      */
     public function getNbConnexion(): int

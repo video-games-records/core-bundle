@@ -9,6 +9,7 @@ use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
 use VideoGamesRecords\CoreBundle\Service\Stats\Write\SerieStatsHandler;
 
 class GameListener
@@ -60,14 +61,14 @@ class GameListener
     /**
      * @param Game                   $game
      * @param BaseLifecycleEventArgs $event
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function postUpdate(Game $game, BaseLifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
         if ($this->majPlayers) {
-            foreach ($game->getPlayerGame() as $playerGame) {
+            $playerGames = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->findBy(['game' => $game]);
+            /** @var PlayerGame $playerGame */
+            foreach ($playerGames as $playerGame) {
                 $playerGame->getPlayer()->setBoolMaj(true);
             }
         }

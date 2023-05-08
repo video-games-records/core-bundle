@@ -35,7 +35,7 @@ class Rule implements TranslatableInterface
     private string $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="rules")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=true)
      * })

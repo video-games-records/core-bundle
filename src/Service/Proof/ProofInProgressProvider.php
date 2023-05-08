@@ -9,7 +9,7 @@ class ProofInProgressProvider
 {
     private EntityManagerInterface $em;
 
-    public function __construct(EntityManagerInterface $em )
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
@@ -19,7 +19,7 @@ class ProofInProgressProvider
      */
     public function loadByGame()
     {
-         $query = $this->em->createQueryBuilder()
+        $query = $this->em->createQueryBuilder()
             ->from('VideoGamesRecords\CoreBundle\Entity\Game', 'gam')
             ->select('gam')
             ->addSelect('COUNT(proof) as nb')

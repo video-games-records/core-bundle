@@ -4,8 +4,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use VideoGamesRecords\CoreBundle\Model\Entity\GameTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Game\GameTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerTrait;
 
 /**
  * Proof
@@ -63,7 +63,7 @@ class Picture
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): Self
+    public function setId(int $id): static
     {
         $this->id = $id;
         return $this;
@@ -86,7 +86,7 @@ class Picture
      * @param string $path
      * @return $this
      */
-    public function setPath(string $path): Self
+    public function setPath(string $path): static
     {
         $this->path = $path;
         return $this;
@@ -108,7 +108,7 @@ class Picture
      * @param string $metadata
      * @return $this
      */
-    public function setMetadata(string $metadata): Self
+    public function setMetadata(string $metadata): static
     {
         $this->metadata = $metadata;
         return $this;
@@ -130,7 +130,7 @@ class Picture
      * @param string $hash
      * @return $this
      */
-    public function setHash(string $hash): Self
+    public function setHash(string $hash): static
     {
         $this->hash = $hash;
         return $this;

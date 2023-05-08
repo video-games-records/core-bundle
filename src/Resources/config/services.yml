@@ -11,6 +11,11 @@ services:
     vgr.playerChartValueSubscriber:
         class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]
+    vgr.playerBadgeSetTitleSubscriber:
+        arguments:
+            - '@translator'
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\PlayerBadgeSetTitleSubscriber
+        tags: [ { name: 'kernel.event_subscriber' } ]
     vgr.core.event.entity.game:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener
         tags:

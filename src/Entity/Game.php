@@ -16,6 +16,10 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbPostTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\NbTeamTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 /**
@@ -70,6 +74,10 @@ class Game implements SluggableInterface
 {
     use TimestampableEntity;
     use SluggableTrait;
+    use NbChartTrait;
+    use NbPostTrait;
+    use NbPlayerTrait;
+    use NbTeamTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -118,27 +126,6 @@ class Game implements SluggableInterface
     private bool $boolRanking = true;
 
     /**
-     * @ORM\Column(name="nbChart", type="integer", nullable=false, options={"default":0})
-     */
-    private int $nbChart = 0;
-
-    /**
-     * @ORM\Column(name="nbPost", type="integer", nullable=false, options={"default":0})
-     */
-    private int $nbPost = 0;
-
-    /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default":0})
-     */
-    private int $nbPlayer = 0;
-
-    /**
-     * @ORM\Column(name="nbTeam", type="integer", nullable=false, options={"default":0})
-     */
-    private int $nbTeam = 0;
-
-
-    /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", inversedBy="games")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id")
@@ -160,17 +147,6 @@ class Game implements SluggableInterface
     private Collection $groups;
 
     /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\GameDay", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $days;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $videos;
-
-    /**
      * @ORM\ManyToMany(targetEntity="Platform", inversedBy="games")
      * @ORM\JoinTable(name="vgr_game_platform",
      *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
@@ -178,12 +154,8 @@ class Game implements SluggableInterface
      *      )
      * @ORM\OrderBy({"libPlatform" = "ASC"})
      */
-    private $platforms;
+    private Collection $platforms;
 
-    /**
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="game")
-     */
-    private $playerGame;
 
     /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ForumInterface",cascade={"persist"})
@@ -198,7 +170,7 @@ class Game implements SluggableInterface
      *      inverseJoinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")}
      *      )
      */
-    private $rules;
+    private Collection $rules;
 
 
     /**
@@ -366,7 +338,7 @@ class Game implements SluggableInterface
         return new GameStatus($this->status);
     }
 
-     /**
+    /**
      * Get status
      *
      * @return string
@@ -389,8 +361,7 @@ class Game implements SluggableInterface
 
     /**
      * Get publishedAt
-     *
-     * @return DateTime
+     * @return DateTime|null
      */
     public function getPublishedAt(): ?DateTime
     {
@@ -420,97 +391,6 @@ class Game implements SluggableInterface
         return $this->boolRanking;
     }
 
-    /**
-     * Set nbChart
-     *
-     * @param integer $nbChart
-     * @return Game
-     */
-    public function setNbChart(int $nbChart): Game
-    {
-        $this->nbChart = $nbChart;
-
-        return $this;
-    }
-
-    /**
-     * Get nbChart
-     *
-     * @return integer
-     */
-    public function getNbChart(): int
-    {
-        return $this->nbChart;
-    }
-
-    /**
-     * Set nbPost
-     *
-     * @param integer $nbPost
-     * @return Game
-     */
-    public function setNbPost(int $nbPost): Game
-    {
-        $this->nbPost = $nbPost;
-
-        return $this;
-    }
-
-    /**
-     * Get nbPost
-     *
-     * @return integer
-     */
-    public function getNbPost(): int
-    {
-        return $this->nbPost;
-    }
-
-    /**
-     * Set nbPlayer
-     *
-     * @param integer $nbPlayer
-     * @return Game
-     */
-    public function setNbPlayer(int $nbPlayer): Game
-    {
-        $this->nbPlayer = $nbPlayer;
-
-        return $this;
-    }
-
-    /**
-     * Get nbPlayer
-     *
-     * @return integer
-     */
-    public function getNbPlayer(): int
-    {
-        return $this->nbPlayer;
-    }
-
-    /**
-     * Set nbTeam
-     *
-     * @param integer $nbTeam
-     * @return Game
-     */
-    public function setNbTeam(int $nbTeam): Game
-    {
-        $this->nbTeam = $nbTeam;
-
-        return $this;
-    }
-
-    /**
-     * Get nbTeam
-     *
-     * @return integer
-     */
-    public function getNbTeam(): int
-    {
-        return $this->nbTeam;
-    }
 
     /**
      * Set Serie
@@ -549,8 +429,7 @@ class Game implements SluggableInterface
 
     /**
      * Get idBadge
-     *
-     * @return Badge
+     * @return Badge|null
      */
     public function getBadge(): ?Badge
     {
@@ -585,22 +464,6 @@ class Game implements SluggableInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getDays()
-    {
-        return $this->days;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVideos()
-    {
-        return $this->videos;
-    }
-
-    /**
      * @param Platform $platform
      * @return Game
      */
@@ -626,13 +489,6 @@ class Game implements SluggableInterface
         return $this->platforms;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPlayerGame()
-    {
-        return $this->playerGame;
-    }
 
     /**
      * @return ForumInterface

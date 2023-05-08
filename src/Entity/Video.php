@@ -9,12 +9,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Entity\PlayerTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerTrait;
 
 /**
  * @ORM\Table(
@@ -93,7 +93,7 @@ class Video implements SluggableInterface
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", inversedBy="videos")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * })

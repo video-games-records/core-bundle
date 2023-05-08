@@ -8,7 +8,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="player_status_translation")
+ * @ORM\Table(name="vgr_player_status_translation")
  */
 class PlayerStatusTranslation implements TranslationInterface
 {

@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
-use VideoGamesRecords\CoreBundle\File\Picture as PictureFile;
+use VideoGamesRecords\CoreBundle\File\PictureCreatorFactory;
 
 /**
  * Class PictureController
@@ -30,7 +30,7 @@ class PictureController extends AbstractController
      * @param Picture $picture
      * @throws Exception
      */
-    public function indexAction(Picture $picture)
+    public function indexAction(Picture $picture): void
     {
         try {
             $result = $this->s3client->getObject(
@@ -45,8 +45,8 @@ class PictureController extends AbstractController
             echo $result['Body'];
         } catch (S3Exception $e) {
             chdir(__DIR__);
-            $picture = PictureFile::loadFile('../Resources/img/no_photo.gif');
-            $picture->showPicture('png');
+            $picture = PictureCreatorFactory::fromFile('../Resources/img/no_photo.gif');
+            $picture->showPicture('gif');
         }
         exit;
     }

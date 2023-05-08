@@ -3,10 +3,12 @@
 namespace VideoGamesRecords\CoreBundle\File;
 
 use Exception;
+use GdImage;
+use VideoGamesRecords\CoreBundle\Contracts\PictureInterface;
 
-class Picture
+class Picture implements PictureInterface
 {
-    protected $picture = null;
+    protected $image = null;
 
     protected array $fonts = [];
     protected array $colors = [];
@@ -14,32 +16,32 @@ class Picture
     protected ?string $activeColor = null;
     protected ?string $activeFont = null;
 
-    protected array $mimeTypes = [
-        'bmp' => 'image/bmp',
-        'gif' => 'image/gif',
-        'jpeg' => 'image/jpeg',
-        'jpg' => 'image/jpeg',
-        'png' => 'image/png',
-        'wbmp' => 'image/vnd.wap.wbmp',
-        'xbm' => 'image/x-xbitmap',
-    ];
 
     /**
      * Picture constructor.
      * @param      $width
      * @param      $height
-     * @param bool $trueColor
      */
-    public function __construct($width, $height, bool $trueColor = true)
+    public function __construct($width, $height)
     {
         $width = (int) $width;
         $height = (int) $height;
 
-        if ($trueColor) {
-            $this->picture = imagecreatetruecolor($width, $height);
-        } else {
-            $this->picture = imagecreate($width, $height);
-        }
+        $this->image = imagecreatetruecolor($width, $height);
+    }
+
+    /**
+     * @param GdImage $image
+     * @return Picture
+     */
+    public static function create(GdImage $image): Picture
+    {
+        $oSelf = new self(imagesx($image), imagesy($image));
+        $oSrc = new self(imagesx($image), imagesy($image));
+        $oSrc->setImage($image);
+        $oSelf->copyResized($oSrc, 0, 0);
+        unset($oSrc);
+        return $oSelf;
     }
 
     /**
@@ -47,41 +49,41 @@ class Picture
      */
     public function __destruct()
     {
-        imagedestroy($this->picture);
+        imagedestroy($this->image);
     }
 
     /**
-     * @param $picture
-     * @return Picture
+     * @param $image
+     * @return $this
      */
-    public function setPicture($picture): Picture
+    public function setImage($image): Picture
     {
-        $this->picture = $picture;
+        $this->image = $image;
         return $this;
     }
 
     /**
-     * @return false|int
+     * @return int
      */
-    public function getWidth()
+    public function getWidth():int
     {
-        return imagesx($this->picture);
+        return imagesx($this->image);
     }
 
     /**
-     * @return false|int
+     * @return int
      */
-    public function getHeight()
+    public function getHeight(): int
     {
-        return imagesy($this->picture);
+        return imagesy($this->image);
     }
 
     /**
-     * @return false|resource|null
+     * @return GdImage|null
      */
-    public function getPicture()
+    public function getImage(): ?GdImage
     {
-        return $this->picture;
+        return $this->image;
     }
 
     /**
@@ -89,7 +91,7 @@ class Picture
      * @return mixed
      * @throws Exception
      */
-    public function getColor($name)
+    public function getColor($name): mixed
     {
         if (!isset($this->colors[$name])) {
             throw new Exception('Unknown color ' . $name . '.');
@@ -103,7 +105,7 @@ class Picture
      * @return mixed
      * @throws Exception
      */
-    public function getFont($name)
+    public function getFont($name): mixed
     {
         if (!isset($this->fonts[$name])) {
             throw new Exception('Unknown font ' . $name . '.');
@@ -144,9 +146,9 @@ class Picture
         $blue %= 256;
         if ($alpha !== null) {
             $alpha %= 128;
-            $color = imagecolorallocatealpha($this->picture, $red, $green, $blue, $alpha);
+            $color = imagecolorallocatealpha($this->image, $red, $green, $blue, $alpha);
         } else {
-            $color = imagecolorallocate($this->picture, $red, $green, $blue);
+            $color = imagecolorallocate($this->image, $red, $green, $blue);
         }
         $this->colors[$name] = $color;
         $this->activeColor = $color;
@@ -181,7 +183,7 @@ class Picture
         $srcW = is_null($srcW) ? $pic->getWidth() : $srcW;
         $srcH = is_null($srcH) ? $pic->getHeight() : $srcH;
 
-        imagecopyresized($this->picture, $pic->getPicture(), $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH);
+        imagecopyresized($this->image, $pic->getImage(), $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH);
         return $this;
     }
 
@@ -202,7 +204,7 @@ class Picture
                 throw new Exception('No active color defined.');
             }
         }
-        imagefilledrectangle($this->picture, $xA, $yA, $xB, $yB, $color);
+        imagefilledrectangle($this->image, $xA, $yA, $xB, $yB, $color);
         return $this;
     }
 
@@ -217,7 +219,7 @@ class Picture
      * @return Picture
      * @throws Exception
      */
-    public function write($message, $size, $x, $y, $angle = 0, $color = null, $font = null): Picture
+    public function write($message, $size, $x, $y, int $angle = 0, $color = null, $font = null): Picture
     {
         if ($color === null) {
             $color = $this->activeColor;
@@ -231,101 +233,19 @@ class Picture
                 throw new Exception('No active font defined.');
             }
         }
-        imagettftext($this->picture, $size, $angle, $x, $y, $color, $font, $message);
+        imagettftext($this->image, $size, $angle, $x, $y, $color, $font, $message);
         return $this;
     }
 
-    /**
-     * @param      $file
-     * @param bool $keepTrueColor
-     * @return Picture
-     * @throws Exception
-     */
-    public static function loadFile($file, bool $keepTrueColor = false): Picture
-    {
-        $file = realpath($file);
-        if ($file === false) {
-            throw new Exception('Unable to load picture file. The file does not exists.');
-        }
-
-        $sExtension = mb_strtolower(pathinfo($file, PATHINFO_EXTENSION));
-
-        switch ($sExtension) {
-            case 'gd':
-                $picture = imagecreatefromgd($file);
-                break;
-            case 'gd2':
-                $picture = imagecreatefromgd2($file);
-                break;
-            case 'gif':
-                $picture = imagecreatefromgif($file);
-                break;
-            case 'jpeg':
-            case 'jpg':
-                $picture = imagecreatefromjpeg($file);
-                break;
-            case 'png':
-                $picture = imagecreatefrompng($file);
-                break;
-            case 'wbmp':
-            case 'bmp':
-                $picture = imagecreatefromwbmp($file);
-                break;
-            case 'xbm':
-                $picture = imagecreatefromxbm($file);
-                break;
-            default:
-                throw new Exception('Unknown extension of file when converting to PHP resource.');
-        }
-
-        if ($keepTrueColor) {
-            $oSelf = new self(imagesx($picture), imagesy($picture));
-            $oSrc = new self(imagesx($picture), imagesy($picture));
-            $oSrc->setPicture($picture);
-            $oSelf->copyResized($oSrc, 0, 0);
-            unset($oSrc);
-        } else {
-            $oSelf = new self(imagesx($picture), imagesy($picture));
-            $oSelf->setPicture($picture);
-        }
-        return $oSelf;
-    }
 
     /**
-     * @param string $data
-     * @param bool $keepTrueColor
-     * @return Picture
+     * @param        $type
+     * @param string $filename
      * @throws Exception
      */
-    public static function loadFileFromStream(string $data, bool $keepTrueColor = false): Picture
+    public function downloadPicture($type, string $filename): void
     {
-        $picture = imagecreatefromstring($data);
-
-        if ($keepTrueColor) {
-            $oSelf = new self(imagesx($picture), imagesy($picture));
-            $oSrc = new self(imagesx($picture), imagesy($picture));
-            $oSrc->setPicture($picture);
-            $oSelf->copyResized($oSrc, 0, 0);
-            unset($oSrc);
-        } else {
-            $oSelf = new self(imagesx($picture), imagesy($picture));
-            $oSelf->setPicture($picture);
-        }
-        return $oSelf;
-    }
-
-    /**
-     * @param      $type
-     * @param null $filename
-     * @throws Exception
-     */
-    public function downloadPicture($type, $filename = null)
-    {
-        if ($filename !== null) {
-            header('Content-Disposition: "attachement"; filename="' . $filename . '"');
-        } else {
-            header('Content-Disposition: "attachement"');
-        }
+        header('Content-Disposition: "attachement"; filename="' . $filename . '"');
         $this->showPicture($type);
     }
 
@@ -335,11 +255,11 @@ class Picture
      */
     public function showPicture($type)
     {
-        $method = $this->getMethod($type);
-        $contentType = $this->getMimeType($type);
+        $method = self::getGererateMethod($type);
+        $contentType = self::getMimeType($type);
 
         header('Content-Type: ' . $contentType);
-        $method($this->picture);
+        $method($this->image);
         exit;
     }
 
@@ -348,12 +268,12 @@ class Picture
      * @return $this
      * @throws Exception
      */
-    public function savePicture($filename)
+    public function savePicture($filename): static
     {
         $sExtension = pathinfo($filename, PATHINFO_EXTENSION);
-        $method = $this->getMethod($sExtension);
+        $method = $this->getGererateMethod($sExtension);
 
-        $method($this->picture, $filename);
+        $method($this->image, $filename);
         return $this;
     }
 
@@ -362,47 +282,36 @@ class Picture
      * @return string
      * @throws Exception
      */
-    protected function getMethod($type)
+    protected static function getGererateMethod($type): string
     {
-        switch ($type) {
-            case 'gd':
-                $method = 'imagegd';
-                break;
-            case 'gd2':
-                $method = 'imagegd2';
-                break;
-            case 'gif':
-                $method = 'imagegif';
-                break;
-            case 'jpeg':
-            case 'jpg':
-                $method = 'imagejpeg';
-                break;
-            case 'png':
-                $method = 'imagepng';
-                break;
-            case 'wbmp':
-            case 'bmp':
-                $method = 'imagewbmp';
-                break;
-            case 'xbm':
-                $method = 'imagexbm';
-                break;
-            default:
-                throw new Exception('Unknown picture type.');
+        if (!array_key_exists($type, self::EXTENSIONS)) {
+            throw new Exception('Unknown picture type.');
         }
-        return $method;
+        return self::EXTENSIONS[$type]['generate'];
+    }
+
+    /**
+     * @param $type
+     * @return string
+     * @throws Exception
+     */
+    public static function getCreateMethod($type): string
+    {
+        if (!array_key_exists($type, self::EXTENSIONS)) {
+            throw new Exception('Unknown picture type.');
+        }
+        return self::EXTENSIONS[$type]['create'];
     }
 
     /**
      * @param $extension
-     * @return mixed|string
+     * @return string
      */
-    public function getMimeType($extension)
+    public static function getMimeType($extension): string
     {
-        if (!isset($this->mimeTypes[$extension])) {
+        if (!isset(self::MIME_TYPES[$extension])) {
             return 'application/octet-stream';
         }
-        return $this->mimeTypes[$extension];
+        return self::MIME_TYPES[$extension];
     }
 }

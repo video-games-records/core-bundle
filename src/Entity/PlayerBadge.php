@@ -11,6 +11,8 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use phpDocumentor\Reflection\Types\Static_;
+use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 
 /**
  * PlayerGame
@@ -45,7 +47,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class PlayerBadge
+class PlayerBadge implements BadgeInterface
 {
     use TimestampableEntity;
 
@@ -67,7 +69,7 @@ class PlayerBadge
     private ?int $mbOrder = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="playerBadge")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
@@ -82,13 +84,15 @@ class PlayerBadge
      */
     private Badge $badge;
 
+    private string $title = '';
+
     /**
      * Set id
      *
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): Self
+    public function setId(int $id): static
     {
         $this->id = $id;
 
@@ -111,7 +115,7 @@ class PlayerBadge
      * @param DateTime $ended_at
      * @return $this
      */
-    public function setEndedAt(DateTime $ended_at): Self
+    public function setEndedAt(DateTime $ended_at): static
     {
         $this->ended_at = $ended_at;
 
@@ -134,7 +138,7 @@ class PlayerBadge
      * @param integer $mbOrder
      * @return $this
      */
-    public function setMbOrder(int $mbOrder): Self
+    public function setMbOrder(int $mbOrder): static
     {
         $this->mbOrder = $mbOrder;
 
@@ -157,7 +161,7 @@ class PlayerBadge
      * @param Badge $badge
      * @return $this
      */
-    public function setBadge(Badge $badge): Self
+    public function setBadge(Badge $badge): static
     {
         $this->badge = $badge;
 
@@ -180,7 +184,7 @@ class PlayerBadge
      * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player): Self
+    public function setPlayer(Player $player): static
     {
         $this->player = $player;
 
@@ -195,6 +199,20 @@ class PlayerBadge
     public function getPlayer(): Player
     {
         return $this->player;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function __toString(): string
