@@ -200,11 +200,14 @@ class Game implements SluggableInterface
     }
 
     /**
+     * @param string|null $locale
      * @return string|null
      */
-    public function getName(): ?string
+    public function getName(string $locale = null): ?string
     {
-        $locale = Locale::getDefault();
+        if ($locale === null) {
+            $locale = Locale::getDefault();
+        }
         if ($locale == 'fr') {
             return $this->libGameFr;
         } else {

@@ -222,4 +222,12 @@ class Badge implements BadgeInterface
             );
         }
     }
+
+    /**
+     * @return bool
+     */
+    public function isTypeMaster(): bool
+    {
+        return $this->type === self::TYPE_MASTER;
+    }
 }
