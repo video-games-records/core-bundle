@@ -220,3 +220,18 @@ badge:
         Twitch: 'Badge Twitch'
     earnedOn: 'obtenu le'
 
+playerBadge:
+    lose:
+        object: 'Perte de master badge'
+        message: |
+            <p>Bonjour %s,</p>
+            <p>Vous venez de perdre le master badge : <a href="%s">%s</a><br />
+            <p>Cordialement, l'équipe VGR.</p>
+
+teamBadge:
+    lose:
+        object: 'Perte de master badge'
+        message: |
+            <p>Bonjour %s,</p>
+            <p>Votre équipe a perdu le master badge : <a href="%s">%s</a><br />
+            <p>Cordialement, l'équipe VGR.</p>

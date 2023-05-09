@@ -11,7 +11,6 @@ use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use phpDocumentor\Reflection\Types\Static_;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 
 /**

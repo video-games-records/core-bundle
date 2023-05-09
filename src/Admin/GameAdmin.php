@@ -43,6 +43,10 @@ class GameAdmin extends AbstractAdmin
             ->add('maj', $this->getRouterIdParameter() . '/maj');
     }
 
+    /**
+     * @param array $sortValues
+     * @return void
+     */
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues['_page'] = 1;
@@ -50,9 +54,12 @@ class GameAdmin extends AbstractAdmin
         $sortValues['_sort_by'] = 'id';
     }
 
+    /**
+     * @return string[]
+     */
     protected function configureExportFields(): array
     {
-        return ['id', 'libGameEn', 'libGameFr', 'status','picture', 'platforms'];
+        return ['id', 'libGameEn', 'libGameFr', 'serie', 'status', 'picture', 'platforms'];
     }
 
 

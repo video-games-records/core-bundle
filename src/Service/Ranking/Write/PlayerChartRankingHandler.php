@@ -3,26 +3,36 @@
 namespace VideoGamesRecords\CoreBundle\Service\Ranking\Write;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Event\PlayerChartEvent;
+use VideoGamesRecords\CoreBundle\Event\PlayerEvent;
 use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerChartRankingQuery;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerChartRankingHandler implements RankingCommandInterface
 {
     private EntityManagerInterface $em;
     private PlayerChartRankingQuery $playerChartRankingQuery;
+    private EventDispatcherInterface $eventDispatcher;
     private array $players = [];
     private array $games = [];
     private array $groups = [];
 
-    public function __construct(EntityManagerInterface $em, PlayerChartRankingQuery $playerChartRankingQuery)
+    public function __construct(
+        EntityManagerInterface $em,
+        PlayerChartRankingQuery $playerChartRankingQuery,
+        EventDispatcherInterface $eventDispatcher
+    )
     {
         $this->em = $em;
         $this->playerChartRankingQuery = $playerChartRankingQuery;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function handle($mixed): void
@@ -141,21 +151,9 @@ class PlayerChartRankingHandler implements RankingCommandInterface
                 $playerChart->setPointPlatform(0);
             }
 
-            // Lost position ?
-            //@todo listener
-            $newRank = $playerChart->getRank();
-            $newNbEqual = $playerChart->getNbEqual();
 
-            if ((($oldRank >= 1) && ($oldRank <= 3) && ($newRank > $oldRank)) ||
-                (($oldRank === 1) && ($oldNbEqual === 1) && ($newRank === 1) && ($newNbEqual > 1))
-            ) {
-                $lostPosition = new LostPosition();
-                $lostPosition->setNewRank($newRank);
-                $lostPosition->setOldRank(($oldNbEqual == 1 && $oldRank == 1) ? 0 : $oldRank); //----- zero for losing platinum medal
-                $lostPosition->setPlayer($this->em->getReference(Player::class, $playerChart->getPlayer()->getId()));
-                $lostPosition->setChart($this->em->getReference(Chart::class, $playerChart->getChart()->getId()));
-                $this->em->persist($lostPosition);
-            }
+            $event = new PlayerChartEvent($playerChart, $oldRank, $oldNbEqual);
+            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_CHART_MAJ_COMPLETED);
 
             $previousLibValue = $libValue;
 
