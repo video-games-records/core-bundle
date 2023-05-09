@@ -13,8 +13,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class LostPositionSubscriber implements EventSubscriberInterface
 {
 
-    private $tokenStorage;
-    private $em;
+    private TokenStorageInterface $tokenStorage;
+    private EntityManagerInterface $em;
 
     public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
     {
@@ -22,7 +22,7 @@ final class LostPositionSubscriber implements EventSubscriberInterface
         $this->em = $em;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['setLastDisplayLostPosition', EventPriorities::POST_VALIDATE],
@@ -32,7 +32,7 @@ final class LostPositionSubscriber implements EventSubscriberInterface
     /**
      * @param ViewEvent $event
      */
-    public function setLastDisplayLostPosition(ViewEvent $event)
+    public function setLastDisplayLostPosition(ViewEvent $event): void
     {
         $attributes = RequestAttributesExtractor::extractAttributes($event->getRequest());
         $method = $event->getRequest()->getMethod();
