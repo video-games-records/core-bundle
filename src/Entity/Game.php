@@ -172,6 +172,11 @@ class Game implements SluggableInterface
      */
     private Collection $rules;
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="game")
+     */
+    private $playerGame;
+
 
     /**
      * Constructor

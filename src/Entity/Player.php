@@ -62,7 +62,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
  *              "player.medal",
  *              "player.user_id",
  *              "team.read.mini",
- *            "player.status",
+ *              "player.status",
  *              "player.status.read"
  *          }
  *     }
