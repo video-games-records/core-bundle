@@ -302,28 +302,6 @@ class Game implements SluggableInterface
     }
 
     /**
-     * Set downloadurl
-     *
-     * @param string|null $downloadUrl
-     * @return Game
-     */
-    public function setDownloadUrl(string $downloadUrl = null): Game
-    {
-        $this->downloadUrl = $downloadUrl;
-
-        return $this;
-    }
-
-    /**
-     * Get downloadUrl
-     * @return string|null
-     */
-    public function getDownloadUrl(): ?string
-    {
-        return $this->downloadUrl;
-    }
-
-    /**
      * Set status
      *
      * @param string $status
