@@ -127,6 +127,8 @@ services:
                 manager_type: orm
                 group: "group.players"
                 label: "label.player"
+        calls:
+            - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/player_show.html.twig' ] ]
     sonata.admin.vgr.playerbadge:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerBadgeAdmin
         tags:
