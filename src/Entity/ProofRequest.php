@@ -4,8 +4,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use VideoGamesRecords\CoreBundle\ValueObject\ProofRequestStatus;
 
 /**
  * Request
@@ -17,10 +17,6 @@ class ProofRequest
 {
     use TimestampableEntity;
 
-    const STATUS_IN_PROGRESS = 'IN PROGRESS';
-    const STATUS_REFUSED = 'REFUSED';
-    const STATUS_ACCEPTED = 'ACCEPTED';
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -31,7 +27,7 @@ class ProofRequest
     /**
      * @ORM\Column(name="status", type="string", length=50, nullable=false)
      */
-    private string $status = self::STATUS_IN_PROGRESS;
+    private string $status = ProofRequestStatus::STATUS_IN_PROGRESS;
 
     /**
      * @ORM\Column(name="response", type="text", nullable=true)

@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
+use VideoGamesRecords\CoreBundle\ValueObject\ProofRequestStatus;
 
 class ProofRequestAdmin extends AbstractAdmin
 {
@@ -293,18 +294,11 @@ class ProofRequestAdmin extends AbstractAdmin
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
-        $player = $this->getPlayer();
-
-
-
-        $setPlayerResponding = false;
 
         // Cant change status final
-        if (in_array($originalObject['status'], array(ProofRequest::STATUS_ACCEPTED, ProofRequest::STATUS_REFUSED), true)) {
+        if (in_array($originalObject['status'], array(ProofRequestStatus::STATUS_ACCEPTED, ProofRequestStatus::STATUS_REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
-
-
     }
 
     /**
