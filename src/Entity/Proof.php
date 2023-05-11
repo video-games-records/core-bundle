@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
 
 /**
  * Proof
@@ -15,13 +16,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Proof
 {
     use TimestampableEntity;
-
-    const STATUS_IN_PROGRESS = 'IN PROGRESS';
-    const STATUS_REFUSED = 'REFUSED';
-    const STATUS_ACCEPTED = 'ACCEPTED';
-    const STATUS_CLOSED = 'CLOSED';
-    const STATUS_DELETED = 'DELETED';
-
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -49,7 +43,7 @@ class Proof
     /**
      * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
-    private string $status = self::STATUS_IN_PROGRESS;
+    private string $status = ProofStatus::STATUS_IN_PROGRESS;
 
     /**
      * @ORM\Column(name="response", type="text", nullable=true)
@@ -73,7 +67,7 @@ class Proof
     private Player $player;
 
     /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="proofs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
@@ -177,11 +171,11 @@ class Proof
 
     /**
      * Get status
-     * @return string
+     * @return ProofStatus
      */
-    public function getStatus(): string
+    public function getStatus(): ProofStatus
     {
-        return $this->status;
+        return new ProofStatus($this->status);
     }
 
     /**
@@ -305,18 +299,5 @@ class Proof
     public function getType(): string
     {
         return ($this->getPicture() != null) ? 'Picture' : 'Video';
-    }
-
-    /**
-     * @return array
-     */
-    public static function getStatusChoices(): array
-    {
-        return [
-            self::STATUS_IN_PROGRESS => self::STATUS_IN_PROGRESS,
-            self::STATUS_REFUSED => self::STATUS_REFUSED,
-            self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
-            self::STATUS_CLOSED => self::STATUS_CLOSED
-        ];
     }
 }

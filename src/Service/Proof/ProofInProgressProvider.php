@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Service\Proof;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
 
 class ProofInProgressProvider
 {
@@ -27,7 +28,7 @@ class ProofInProgressProvider
             ->innerJoin('grp.charts', 'chr')
             ->innerJoin('chr.proofs', 'proof')
             ->where('proof.status = :status')
-            ->setParameter('status', Proof::STATUS_IN_PROGRESS)
+            ->setParameter('status', ProofStatus::STATUS_IN_PROGRESS)
             ->groupBy('gam.id')
             ->orderBy('nb', 'DESC');
 

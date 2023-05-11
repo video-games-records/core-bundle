@@ -7,6 +7,7 @@ use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
 
 class ProofListener
 {
@@ -19,7 +20,7 @@ class ProofListener
     public function postUpdate(proof $proof, LifecycleEventArgs $event): void
     {
         $em = $event->getEntityManager();
-        if ($proof->getStatus() == Proof::STATUS_CLOSED) {
+        if ($proof->getStatus() == ProofStatus::STATUS_CLOSED) {
             $playerChart = $proof->getPlayerChart();
             if ($playerChart) {
                 $playerChart->setProof(null);

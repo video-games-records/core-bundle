@@ -104,6 +104,11 @@ class Chart implements SluggableInterface
     private ?PlayerChart $playerChartP = null;
 
     /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $proofs;
+
+    /**
      * Constructor
      */
     public function __construct()
