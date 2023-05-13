@@ -180,6 +180,7 @@ class Game implements SluggableInterface
         $this->groups = new ArrayCollection();
         $this->platforms = new ArrayCollection();
         $this->rules = new ArrayCollection();
+        $this->playerGame = new ArrayCollection();
     }
 
     /**
