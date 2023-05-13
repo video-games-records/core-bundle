@@ -18,15 +18,12 @@ class UserToPlayerTransformer implements DataTransformerInterface
 
     /**
      * @param $value
-     * @return ?Player
+     * @return Player
      * @throws ORMException
      */
-    public function transform($value): ?Player
+    public function transform($value): Player
     {
-        if ($value) {
-            return $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $value->getId());
-        }
-        return null;
+        return $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $value->getId());
     }
 
 
