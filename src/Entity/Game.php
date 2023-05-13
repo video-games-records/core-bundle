@@ -105,12 +105,6 @@ class Game implements SluggableInterface
     private ?string $picture;
 
     /**
-     * @Assert\Length(max="255")
-     * @ORM\Column(name="downloadUrl", type="string", length=255, nullable=true)
-     */
-    private ?string $downloadUrl;
-
-    /**
      * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
     private string $status = GameStatus::STATUS_CREATED;
@@ -532,6 +526,11 @@ class Game implements SluggableInterface
     public function removeRule(Rule $rule)
     {
         $this->rules->removeElement($rule);
+    }
+
+    public function getPlaterGame()
+    {
+        return $this->playerGame;
     }
 
     /**
