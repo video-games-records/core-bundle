@@ -239,16 +239,4 @@ class ProofRequest
     {
         return $this->playerResponding;
     }
-
-    /**
-     * @return array
-     */
-    public static function getStatusChoices(): array
-    {
-        return [
-            self::STATUS_IN_PROGRESS => self::STATUS_IN_PROGRESS,
-            self::STATUS_REFUSED => self::STATUS_REFUSED,
-            self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
-        ];
-    }
 }
