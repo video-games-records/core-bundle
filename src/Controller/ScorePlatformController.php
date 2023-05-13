@@ -37,7 +37,7 @@ class ScorePlatformController extends AbstractController
         $idPlatform = $data['idPlatform'];
         $em = $this->getDoctrine()->getManager();
 
-        $this->scorePlatformManager->update(
+        $this->scorePlatformManager->updatePlatform(
             $this->userToPlayerTransformer->transform($this->getUser()),
             $em->getReference(Game::class, $idGame),
             $em->getReference(Platform::class, $idPlatform)
