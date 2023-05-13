@@ -5,7 +5,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableMethodsTrait;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatablePropertiesTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,7 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class PlayerChartStatus implements TranslatableInterface
 {
-    use TranslatableTrait;
+    use TranslatablePropertiesTrait;
+    use TranslatableMethodsTrait;
 
     const ID_STATUS_NORMAL = 1;
     const ID_STATUS_DEMAND = 2;

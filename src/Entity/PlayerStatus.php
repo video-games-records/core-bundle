@@ -5,7 +5,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableMethodsTrait;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatablePropertiesTrait;
 
 /**
  * PlayerStatus
@@ -15,7 +16,8 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
  */
 class PlayerStatus implements TranslatableInterface
 {
-    use TranslatableTrait;
+    use TranslatablePropertiesTrait;
+    use TranslatableMethodsTrait;
 
 
     /**
