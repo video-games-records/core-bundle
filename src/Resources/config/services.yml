@@ -27,8 +27,7 @@ services:
     vgr.core.event.entity.playerchart:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Stats\Write\GameStatsHandler'
-            - '@VideoGamesRecords\CoreBundle\Service\Stats\Write\GroupStatsHandler'
+            - '@VideoGamesRecords\CoreBundle\Service\ScorePlatformManager'
         tags:
             - { name: doctrine.orm.entity_listener }
     vgr.core.event.entity.player:

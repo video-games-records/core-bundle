@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
+use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
 
 class ProofAdmin extends AbstractAdmin
 {
@@ -127,7 +128,7 @@ class ProofAdmin extends AbstractAdmin
                 ChoiceType::class,
                 [
                     'label' => 'label.status',
-                    'choices' => Proof::getStatusChoices(),
+                    'choices' => ProofStatus::getStatusChoices(),
                     'choice_translation_domain' => false,
                 ]
             )
@@ -165,7 +166,7 @@ class ProofAdmin extends AbstractAdmin
                 'label' => 'label.proof.status',
                 'field_type' => ChoiceType::class,
                 'field_options' => [
-                    'choices' => Proof::getStatusChoices(),
+                    'choices' => ProofStatus::getStatusChoices(),
                     'multiple' => false,
                 ]
             ])
@@ -229,7 +230,7 @@ class ProofAdmin extends AbstractAdmin
                 [
                     'label' => 'label.status',
                     'editable' => true,
-                    'choices' => Proof::getStatusChoices(),
+                    'choices' => ProofStatus::getStatusChoices(),
                     'choice_translation_domain' => false,
                 ]
             )
@@ -303,8 +304,7 @@ class ProofAdmin extends AbstractAdmin
 
     /**
      * @param $object
-     * @return bool|void
-     * @throws ORMException
+     * @return void
      */
     public function preUpdate($object): void
     {
@@ -313,13 +313,13 @@ class ProofAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
 
         // Cant change status final (CLOSED & REFUSED)
-        if (in_array($originalObject['status'], array(Proof::STATUS_CLOSED, Proof::STATUS_REFUSED), true)) {
+        if (in_array($originalObject['status'], array(ProofStatus::STATUS_CLOSED, ProofStatus::STATUS_REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
 
 
         if ($object->getPlayerChart() == null) {
-            $object->setStatus(Proof::STATUS_CLOSED);
+            $object->setStatus(ProofStatus::STATUS_CLOSED);
         }
     }
 

@@ -73,6 +73,10 @@ class Platform implements SluggableInterface
      */
     private ?Badge $badge;
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerPlatform", mappedBy="platform")
+     */
+    private $playerPlatform;
 
     /**
      * @return string
@@ -203,6 +207,14 @@ class Platform implements SluggableInterface
     public function getBadge(): ?Badge
     {
         return $this->badge;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerPlatform()
+    {
+        return $this->playerPlatform;
     }
 
     /**

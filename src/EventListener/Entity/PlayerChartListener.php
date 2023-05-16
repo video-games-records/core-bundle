@@ -4,14 +4,11 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
-use VideoGamesRecords\CoreBundle\Service\Stats\Write\GameStatsHandler;
-use VideoGamesRecords\CoreBundle\Service\Stats\Write\GroupStatsHandler;
+use VideoGamesRecords\CoreBundle\Service\ScorePlatformManager;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class PlayerChartListener
@@ -19,8 +16,7 @@ class PlayerChartListener
     private array $changeSet = array();
 
     public function __construct(
-        private readonly GameStatsHandler $gameStatsHandler,
-        private readonly GroupStatsHandler $groupStatsHandler
+        private readonly ScorePlatformManager $scorePlatformManager
     ) {
     }
 
@@ -52,17 +48,13 @@ class PlayerChartListener
         // Player
         $player = $playerChart->getPlayer();
         $player->setNbChart($player->getNbChart() + 1);
+
+        // Set platform
+        if (null === $playerChart->getPlatform()) {
+            $playerChart->setPlatform($this->scorePlatformManager->getPlatform($player, $game));
+        }
     }
 
-    /**
-     * @throws NonUniqueResultException
-     * @throws NoResultException
-     */
-    public function postPersist(PlayerChart $playerChart, LifecycleEventArgs $event): void
-    {
-        //$this->groupStatsHandler->majNbPlayer($playerChart->getChart()->getGroup());
-        //$this->gameStatsHandler->majNbPlayer($playerChart->getChart()->getGroup()->getGame());
-    }
 
     /**
      * @param PlayerChart        $playerChart
