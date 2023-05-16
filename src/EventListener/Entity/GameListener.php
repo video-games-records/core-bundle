@@ -4,25 +4,29 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
+use VideoGamesRecords\CoreBundle\Event\GameEvent;
 use VideoGamesRecords\CoreBundle\Service\Stats\Write\SerieStatsHandler;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class GameListener
 {
     private bool $majPlayers = false;
     private SerieStatsHandler $serieStatsHandler;
+    private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @param SerieStatsHandler $serieStatsHandler
+     * @param SerieStatsHandler        $serieStatsHandler
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(SerieStatsHandler $serieStatsHandler)
+    public function __construct(SerieStatsHandler $serieStatsHandler, EventDispatcherInterface $eventDispatcher)
     {
         $this->serieStatsHandler = $serieStatsHandler;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -55,6 +59,8 @@ class GameListener
 
         if ($game->getStatus()->isActive() && ($game->getPublishedAt() == null)) {
             $game->setPublishedAt(new DateTime());
+            $event = new GameEvent($game);
+            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::GAME_PUBLISHED);
         }
     }
 
