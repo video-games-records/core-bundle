@@ -9,6 +9,7 @@ interface BadgeInterface
     const TYPE_INSCRIPTION = 'Inscription';
     const TYPE_MASTER = 'Master';
     const TYPE_PLATFORM = 'Platform';
+    const TYPE_SERIE = 'Serie';
     const TYPE_SPECIAL_WEBMASTER = 'SpecialWebmaster';
     const TYPE_VGR_CHART = 'VgrChart';
     const TYPE_VGR_PROOF = 'VgrProof';
@@ -19,11 +20,18 @@ interface BadgeInterface
     const TYPE_VGR_SPECIAL_POINTS = 'VgrSpecialPoints';
     const TYPE_TWITCH = 'Twitch';
 
+    const DIRECTORY_DEFAULT = 'badge/';
+
+    const DIRECTORIES = [
+        self::TYPE_SERIE => 'serie/badge'
+    ];
+
     //
     const TITLE_TYPE = 'TYPE';
     const TITLE_VALUE_TYPE = 'VALUE_TYPE';
     const TITLE_TYPE_VALUE = 'TYPE_VALUE';
     const TITLE_PLATFORM = 'PLATFORM';
+    const TITLE_SERIE = 'SERIE';
     const TITLE_GAME = 'GAME';
     const TITLE_COUNTRY = 'COUNTRY';
 
@@ -46,6 +54,7 @@ interface BadgeInterface
 
         self::TYPE_MASTER               => self::TITLE_GAME,
         self::TYPE_PLATFORM             => self::TITLE_PLATFORM,
+        self::TYPE_SERIE                => self::TITLE_SERIE,
         self::TYPE_VGR_SPECIAL_COUNTRY  => self::TITLE_COUNTRY,
     ];
 }

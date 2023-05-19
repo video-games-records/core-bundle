@@ -54,6 +54,11 @@ class Badge implements BadgeInterface
     private ?Game $game;
 
     /**
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", mappedBy="badge")
+     */
+    private ?Serie $serie;
+
+    /**
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country", mappedBy="badge")
      */
     private ?Country $country;
@@ -128,7 +133,7 @@ class Badge implements BadgeInterface
 
     /**
      * Get picture
-     * @return string
+     * @return string|null
      */
     public function getPicture(): ?string
     {
@@ -166,6 +171,14 @@ class Badge implements BadgeInterface
     }
 
     /**
+     * @return Serie|null
+     */
+    public function getSerie(): ?Serie
+    {
+        return $this->serie;
+    }
+
+    /**
      * Get country
      * @return Country|null
      */
@@ -196,6 +209,7 @@ class Badge implements BadgeInterface
             self::TYPE_INSCRIPTION              => self::TYPE_INSCRIPTION,
             self::TYPE_MASTER                   => self::TYPE_MASTER,
             self::TYPE_PLATFORM                 => self::TYPE_PLATFORM,
+            self::TYPE_SERIE                    => self::TYPE_SERIE,
             self::TYPE_SPECIAL_WEBMASTER        => self::TYPE_SPECIAL_WEBMASTER,
             self::TYPE_TWITCH                   => self::TYPE_TWITCH,
             self::TYPE_VGR_CHART                => self::TYPE_VGR_CHART,

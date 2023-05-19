@@ -20,6 +20,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbPostTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbTeamTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 /**
@@ -78,6 +79,7 @@ class Game implements SluggableInterface
     use NbPostTrait;
     use NbPlayerTrait;
     use NbTeamTrait;
+    use PictureTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -97,12 +99,6 @@ class Game implements SluggableInterface
      * @ORM\Column(name="libGameFr", type="string", length=255, nullable=false)
      */
     private ?string $libGameFr = null;
-
-    /**
-     * @Assert\Length(max="200")
-     * @ORM\Column(name="picture", type="string", length=200, nullable=true)
-     */
-    private ?string $picture;
 
     /**
      * @ORM\Column(name="status", type="string", length=30, nullable=false)
@@ -128,7 +124,7 @@ class Game implements SluggableInterface
     private ?Serie $serie;
 
     /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game",cascade={"persist"}))
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game", cascade={"persist"}))
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * })
@@ -271,29 +267,6 @@ class Game implements SluggableInterface
     public function getLibGameFr(): ?string
     {
         return $this->libGameFr;
-    }
-
-
-    /**
-     * Set picture
-     *
-     * @param string|null $picture
-     * @return Game
-     */
-    public function setPicture(string $picture = null): Game
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-
-    /**
-     * Get picture
-     * @return string|null
-     */
-    public function getPicture(): ?string
-    {
-        return $this->picture;
     }
 
     /**

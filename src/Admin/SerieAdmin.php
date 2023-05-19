@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
@@ -48,7 +49,19 @@ class SerieAdmin extends AbstractAdmin
                     'label' => 'label.status',
                     'choices' => SerieStatus::getStatusChoices(),
                 ]
-            );
+            )
+            ->add('picture', TextType::class, [
+                'label' => 'label.picture',
+                'required' => false,
+            ])
+            ->add('badge', ModelListType::class, [
+                'btn_add' => true,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'label.badge',
+            ]);
     }
 
     /**
@@ -78,6 +91,8 @@ class SerieAdmin extends AbstractAdmin
             ->add('createdAt', null, ['label' => 'label.createdAt'])
             ->add('libSerie', null, ['label' => 'label.name'])
             ->add('status', null, ['label' => 'label.status'])
+            ->add('picture', null, ['label' => 'label.picture', 'editable' => true])
+            ->add('badge.picture', null, ['label' => 'label.badge', 'editable' => true])
             ->add('nbGame', null, ['label' => 'label.nbGame'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('_action', 'actions', [
@@ -103,6 +118,8 @@ class SerieAdmin extends AbstractAdmin
             ->add('games', null, ['label' => 'label.games'])
             ->add('nbGame', null, ['label' => 'label.nbGame'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
-            ->add('status', null, ['label' => 'label.status']);
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('picture', null, ['label' => 'label.picture'])
+            ->add('badge', null, ['label' => 'label.badge']);
     }
 }

@@ -8,17 +8,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 
 /**
  * Class BadgeController
  * @Route("/badge")
  */
-class BadgeController extends AbstractController
+class BadgeController extends AbstractController implements BadgeInterface
 {
     private FilesystemOperator $appStorage;
-
-    private string $prefix = 'badge/';
 
     public function __construct(FilesystemOperator $appStorage)
     {
@@ -35,14 +34,26 @@ class BadgeController extends AbstractController
      */
     public function pictureAction(Badge $badge): StreamedResponse
     {
-        $path = $this->prefix . $badge->getType() . DIRECTORY_SEPARATOR . $badge->getPicture();
+        $path = $this->getDirectory($badge->getType()) . DIRECTORY_SEPARATOR . $badge->getPicture();
         if (!$this->appStorage->fileExists($path)) {
-            $path = $this->prefix . 'default.gif';
+            $path = self::DIRECTORY_DEFAULT . 'default.gif';
         }
 
         $stream = $this->appStorage->readStream($path);
         return new StreamedResponse(function() use ($stream) {
             fpassthru($stream);
         }, 200, ['Content-Type' => 'image/gif']);
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    private function getDirectory(string $type): string
+    {
+        if (array_key_exists($type, self::DIRECTORIES)) {
+            return self::DIRECTORIES[$type];
+        }
+        return self::DIRECTORY_DEFAULT . $type;
     }
 }

@@ -53,6 +53,8 @@ final class PlayerBadgeSetTitleSubscriber implements EventSubscriberInterface, B
         $title = match (self::TITLES[$badge->getType()]) {
             self::TITLE_PLATFORM => $badge->getPlatform()
                 ->getLibPlatform(),
+            self::TITLE_SERIE => $badge->getSerie()
+                ->getName(),
             self::TITLE_GAME => $badge->getGame()
                 ->getName(),
             self::TITLE_COUNTRY => $badge->getCountry()
