@@ -19,6 +19,7 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
       groups:
         - 'serie.list'
         - 'serie.read'
+        - 'serie.read.mini'
     nbGame:
       groups:
         - 'serie.read'
