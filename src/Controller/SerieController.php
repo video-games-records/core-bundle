@@ -19,7 +19,7 @@ class SerieController extends AbstractController
 {
     private FilesystemOperator $appStorage;
 
-    private string $prefix = 'serie/picture/';
+    private string $prefix = 'series/picture/';
 
     public function __construct(FilesystemOperator $appStorage)
     {

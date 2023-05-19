@@ -23,7 +23,7 @@ interface BadgeInterface
     const DIRECTORY_DEFAULT = 'badge/';
 
     const DIRECTORIES = [
-        self::TYPE_SERIE => 'serie/badge'
+        self::TYPE_SERIE => 'series/badge'
     ];
 
     //
