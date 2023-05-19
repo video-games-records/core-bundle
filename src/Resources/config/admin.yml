@@ -19,6 +19,8 @@ services:
                 manager_type: orm
                 group: "group.games"
                 label: "label.serie"
+        calls:
+            - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/serie_show.html.twig' ] ]
     sonata.admin.vgr.game:
         class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
         tags:

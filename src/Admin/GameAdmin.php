@@ -218,7 +218,7 @@ class GameAdmin extends AbstractAdmin
             //->add('slug', null, ['label' => 'label.slug'])
             ->add(
                 'picture',
-                'text',
+                null,
                 [
                     'label' => 'label.picture',
                     'editable' => true

@@ -14,6 +14,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Model\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
 /**
@@ -41,6 +42,7 @@ class Serie implements SluggableInterface
     use SluggableTrait;
     use NbChartTrait;
     use NbGameTrait;
+    use PictureTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -65,6 +67,14 @@ class Serie implements SluggableInterface
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="serie", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $games;
+
+    /**
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="serie", cascade={"persist"}))
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * })
+     */
+    private ?Badge $badge;
 
     /**
      * Constructor
@@ -164,6 +174,23 @@ class Serie implements SluggableInterface
     public function getGames()
     {
         return $this->games;
+    }
+
+    /**
+     * @param $badge
+     */
+    public function setBadge($badge = null): void
+    {
+        $this->badge = $badge;
+    }
+
+    /**
+     * Get idBadge
+     * @return Badge|null
+     */
+    public function getBadge(): ?Badge
+    {
+        return $this->badge;
     }
 
     /**
