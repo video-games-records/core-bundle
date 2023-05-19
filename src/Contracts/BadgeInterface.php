@@ -20,7 +20,7 @@ interface BadgeInterface
     const TYPE_VGR_SPECIAL_POINTS = 'VgrSpecialPoints';
     const TYPE_TWITCH = 'Twitch';
 
-    const DIRECTORY_DEFAULT = 'badge/';
+    const DIRECTORY_DEFAULT = 'badge';
 
     const DIRECTORIES = [
         self::TYPE_SERIE => 'series/badge'

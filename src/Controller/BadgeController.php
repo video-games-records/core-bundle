@@ -36,7 +36,7 @@ class BadgeController extends AbstractController implements BadgeInterface
     {
         $path = $this->getDirectory($badge->getType()) . DIRECTORY_SEPARATOR . $badge->getPicture();
         if (!$this->appStorage->fileExists($path)) {
-            $path = self::DIRECTORY_DEFAULT . 'default.gif';
+            $path = self::DIRECTORY_DEFAULT . DIRECTORY_SEPARATOR . 'default.gif';
         }
 
         $stream = $this->appStorage->readStream($path);
@@ -54,6 +54,6 @@ class BadgeController extends AbstractController implements BadgeInterface
         if (array_key_exists($type, self::DIRECTORIES)) {
             return self::DIRECTORIES[$type];
         }
-        return self::DIRECTORY_DEFAULT . $type;
+        return self::DIRECTORY_DEFAULT . DIRECTORY_SEPARATOR . $type;
     }
 }
