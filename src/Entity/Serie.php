@@ -21,6 +21,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
  * Serie
  * @ORM\Table(name="vgr_serie")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\SerieListener"})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
