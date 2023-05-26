@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Manager\Strategy\Badge;
 
-use App\Manager\Strategy\AbstractCompanyRuleStrategy;
 use VideoGamesRecords\CoreBundle\Contracts\Strategy\BadgeTypeStrategyInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 
