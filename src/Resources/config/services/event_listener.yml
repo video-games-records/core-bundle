@@ -1,0 +1,32 @@
+services:
+    vgr.core.event.entity.game:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    vgr.core.event.entity.chart:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    vgr.core.event.entity.playerchart:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Service\ScorePlatformManager'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    vgr.core.event.entity.player:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerListener
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Service\UpdateChartStatusHandler'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    vgr.core.event.entity.team:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener
+        arguments:
+            - '@security.helper'
+            - '@VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+
+
+

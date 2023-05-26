@@ -1,0 +1,47 @@
+services:
+    vgr.core.manager.badge:
+        class: VideoGamesRecords\CoreBundle\Manager\BadgeManager
+        calls:
+            - ['addStrategy', ['@vgr.core.manager.strategy.badge.default']]
+            - ['addStrategy', [ '@vgr.core.manager.strategy.badge.value_prefix']]
+            - ['addStrategy', [ '@vgr.core.manager.strategy.badge.value_suffix']]
+            - ['addStrategy', ['@vgr.core.manager.strategy.badge.game']]
+            - ['addStrategy', ['@vgr.core.manager.strategy.badge.serie']]
+            - ['addStrategy', ['@vgr.core.manager.strategy.badge.platform']]
+            - ['addStrategy', ['@vgr.core.manager.strategy.badge.country']]
+
+    vgr.core.manager.strategy.badge.default:
+        class: VideoGamesRecords\CoreBundle\Manager\Strategy\Badge\DefaultType
+        arguments:
+            - '@translator'
+
+    vgr.core.manager.strategy.badge.game:
+        class: VideoGamesRecords\CoreBundle\Manager\Strategy\Badge\GameType
+        arguments:
+            - '@translator'
+
+    vgr.core.manager.strategy.badge.serie:
+        class: VideoGamesRecords\CoreBundle\Manager\Strategy\Badge\SerieType
+        arguments:
+            - '@translator'
+
+    vgr.core.manager.strategy.badge.platform:
+        class: VideoGamesRecords\CoreBundle\Manager\Strategy\Badge\PlatformType
+        arguments:
+            - '@translator'
+
+    vgr.core.manager.strategy.badge.country:
+        class: VideoGamesRecords\CoreBundle\Manager\Strategy\Badge\CountryType
+        arguments:
+            - '@translator'
+
+    vgr.core.manager.strategy.badge.value_prefix:
+        class: VideoGamesRecords\CoreBundle\Manager\Strategy\Badge\ValuePrefixType
+        arguments:
+            - '@translator'
+
+    vgr.core.manager.strategy.badge.value_suffix:
+        class: VideoGamesRecords\CoreBundle\Manager\Strategy\Badge\ValueSuffixType
+        arguments:
+            - '@translator'
+

@@ -9,14 +9,17 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
+use VideoGamesRecords\CoreBundle\Manager\BadgeManager;
 
 final class PlayerBadgeSetTitleSubscriber implements EventSubscriberInterface, BadgeInterface
 {
     private TranslatorInterface $translator;
+    private BadgeManager $badgeManager;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, BadgeManager $badgeManager)
     {
         $this->translator = $translator;
+        $this->badgeManager = $badgeManager;
     }
 
     public static function getSubscribedEvents(): array
@@ -31,41 +34,20 @@ final class PlayerBadgeSetTitleSubscriber implements EventSubscriberInterface, B
      */
     public function setTitle(RequestEvent $event)
     {
-        //dd($event->getRequest()->attributes->get('data'));
         $data = $event->getRequest()->attributes->get('data');
         $method = $event->getRequest()->getMethod();
 
         if ($method == Request::METHOD_GET && is_array($data) && $data[0] instanceof PlayerBadge) {
             foreach ($data as $playerBadge) {
-                $playerBadge->setTitle($this->getTitle($playerBadge));
+                $playerBadge->setTitle(
+                    sprintf(
+                        '%s %s %s',
+                        $this->badgeManager->getStrategy($playerBadge->getBadge())->getTitle($playerBadge->getBadge()),
+                        $this->translator->trans('badge.earnedOn'),
+                        $playerBadge->getCreatedAt()->format('Y-m-d')
+                    )
+                );
             }
         }
-    }
-
-    /**
-     * @param PlayerBadge $playerBadge
-     * @return string
-     */
-    private function getTitle(PlayerBadge $playerBadge): string
-    {
-        $badge = $playerBadge->getBadge();
-        $titleType = $this->translator->trans('badge.title.' . $badge->getType());
-        $title = match (self::TITLES[$badge->getType()]) {
-            self::TITLE_PLATFORM => $badge->getPlatform()
-                ->getLibPlatform(),
-            self::TITLE_SERIE => $badge->getSerie()
-                ->getName(),
-            self::TITLE_GAME => $badge->getGame()
-                ->getName(),
-            self::TITLE_COUNTRY => $badge->getCountry()
-                ->getName(),
-            self::TITLE_TYPE_VALUE => $titleType . ' ' . $badge->getValue(),
-            self::TITLE_VALUE_TYPE => $badge->getValue() . ' ' . $titleType,
-            default => $badge->getType(),
-        };
-
-        $title .= ' ' . $this->translator->trans('badge.earnedOn') . ' ' . $playerBadge->getCreatedAt()->format('Y-m-d');
-
-        return $title;
     }
 }
