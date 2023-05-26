@@ -30,6 +30,6 @@ class ValuePrefixType extends AbstractBadgeStrategy implements BadgeTypeStrategy
      */
     public function getTitle(Badge $badge): string
     {
-        return  $badge->getValue() . ' '. $this->getTranslator()->trans('badge.title.' . $badge->getType());
+        return  $badge->getValue() . ' ' . $this->getTranslator()->trans('badge.title.' . $badge->getType());
     }
 }
