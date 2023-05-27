@@ -1,0 +1,5 @@
+services:
+    vgr.core.repository.game:
+        class: VideoGamesRecords\CoreBundle\Repository\Game
+        arguments:
+            - '@doctrine'

@@ -2,12 +2,10 @@
 namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ObjectRepository;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use VideoGamesRecords\CoreBundle\Service\GameManager;
+use VideoGamesRecords\CoreBundle\Manager\GameManager;
 
 /**
  * Class GameAdminController

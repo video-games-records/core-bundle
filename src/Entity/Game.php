@@ -101,7 +101,7 @@ class Game implements SluggableInterface
     private ?string $libGameFr = null;
 
     /**
-     * @ORM\Column(name="status", type="string", length=30, nullable=false)
+     * @ORM\Column(name="status", type="string", length=30, nullable=false, options={"default":"CREATED"})
      */
     private string $status = GameStatus::STATUS_CREATED;
 

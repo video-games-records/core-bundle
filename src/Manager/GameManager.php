@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service;
+namespace VideoGamesRecords\CoreBundle\Manager;
 
 use Doctrine\DBAL\Exception;
 use VideoGamesRecords\CoreBundle\Entity\Game;

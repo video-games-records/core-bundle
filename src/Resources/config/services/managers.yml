@@ -1,4 +1,9 @@
 services:
+    vgr.core.manager.game:
+        class: VideoGamesRecords\CoreBundle\Manager\GameManager
+        arguments:
+            - '@vgr.core.repository.game'
+
     vgr.core.manager.badge:
         class: VideoGamesRecords\CoreBundle\Manager\BadgeManager
         calls:
