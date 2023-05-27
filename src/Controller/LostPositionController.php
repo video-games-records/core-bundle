@@ -6,7 +6,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Service\LostPositionManager;
+use VideoGamesRecords\CoreBundle\Manager\LostPositionManager;
 
 /**
  * Class LostPositionController

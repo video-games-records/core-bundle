@@ -10,6 +10,11 @@ services:
             - '@vgr.core.repository.game'
             - '@vgr.core.repository.game_day'
 
+    vgr.core.manager.lost_position:
+        class: VideoGamesRecords\CoreBundle\Manager\LostPositionManager
+        arguments:
+            - '@vgr.core.repository.lost_position'
+
     vgr.core.manager.badge:
         class: VideoGamesRecords\CoreBundle\Manager\BadgeManager
         calls:

@@ -8,3 +8,8 @@ services:
         class: VideoGamesRecords\CoreBundle\Repository\GameDay
         arguments:
             - '@doctrine'
+
+    vgr.core.repository.lost_position:
+        class: VideoGamesRecords\CoreBundle\Repository\LostPosition
+        arguments:
+            - '@doctrine'
