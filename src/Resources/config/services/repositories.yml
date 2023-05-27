@@ -3,3 +3,8 @@ services:
         class: VideoGamesRecords\CoreBundle\Repository\Game
         arguments:
             - '@doctrine'
+
+    vgr.core.repository.game_day:
+        class: VideoGamesRecords\CoreBundle\Repository\GameDay
+        arguments:
+            - '@doctrine'

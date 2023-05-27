@@ -4,6 +4,12 @@ services:
         arguments:
             - '@vgr.core.repository.game'
 
+    vgr.core.manager.game_day:
+        class: VideoGamesRecords\CoreBundle\Manager\GameOfDayManager
+        arguments:
+            - '@vgr.core.repository.game'
+            - '@vgr.core.repository.game_day'
+
     vgr.core.manager.badge:
         class: VideoGamesRecords\CoreBundle\Manager\BadgeManager
         calls:
