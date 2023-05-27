@@ -24,7 +24,7 @@ use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerTrait;
  *     }
  * )
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\VideoListener"})
  * @ApiResource(attributes={"order"={"id": "DESC"}})
  * @ApiFilter(OrderFilter::class, properties={"id": "ASC"}, arguments={"orderParameterName"="order"})
  * @ApiFilter(BooleanFilter::class, properties={"boolActive"})

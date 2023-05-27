@@ -1,29 +1,74 @@
 services:
-    vgr.core.event.entity.game:
-        class: VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener
-        tags:
-            - { name: doctrine.orm.entity_listener }
     vgr.core.event.entity.chart:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener
         tags:
             - { name: doctrine.orm.entity_listener }
+
+    vgr.core.event.entity.game:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Service\Stats\Write\SerieStatsHandler'
+            - '@event_dispatcher'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    vgr.core.event.entity.group:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\GroupListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
     vgr.core.event.entity.playerchart:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener
         arguments:
             - '@VideoGamesRecords\CoreBundle\Service\ScorePlatformManager'
         tags:
             - { name: doctrine.orm.entity_listener }
+
     vgr.core.event.entity.player:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerListener
         arguments:
             - '@VideoGamesRecords\CoreBundle\Service\UpdateChartStatusHandler'
         tags:
             - { name: doctrine.orm.entity_listener }
+
+    vgr.core.event.entity.proof:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\ProofListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    vgr.core.event.entity.proof_request:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    vgr.core.event.entity.serie:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\SerieListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
     vgr.core.event.entity.team:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener
         arguments:
-            - '@security.helper'
-            - '@VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer'
+            - '@VideoGamesRecords\CoreBundle\Security\UserProvider'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    vgr.core.event.entity.team_request:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\TeamRequestListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    vgr.core.event.entity.video:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\VideoListener
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Security\UserProvider'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    vgr.core.event.entity.video_comment:
+        class: VideoGamesRecords\CoreBundle\EventListener\Entity\VideoCommentListener
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Security\UserProvider'
         tags:
             - { name: doctrine.orm.entity_listener }
 

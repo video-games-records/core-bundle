@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerTrait;
 
 /**
  * Comment
@@ -17,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class VideoComment
 {
     use TimestampableEntity;
+    use PlayerTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -33,15 +35,6 @@ class VideoComment
      * })
      */
     private Video $video;
-
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
-    private Player $player;
 
     /**
      * @ORM\Column(name="text", type="text", nullable=false)
@@ -95,26 +88,6 @@ class VideoComment
     public function setVideo(Video $video): VideoComment
     {
         $this->video = $video;
-        return $this;
-    }
-
-    /**
-     * Get player
-     * @return Player
-     */
-    public function getPlayer(): Player
-    {
-        return $this->player;
-    }
-
-    /**
-     * Set player
-     * @param Player $player
-     * @return $this
-     */
-    public function setPlayer(Player $player): VideoComment
-    {
-        $this->player = $player;
         return $this;
     }
 
