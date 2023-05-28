@@ -2,6 +2,7 @@ services:
     VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber:
         class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]
+
     VideoGamesRecords\CoreBundle\EventSubscriber\PlayerBadgeSetTitleSubscriber:
         arguments:
             - '@translator'
