@@ -25,8 +25,6 @@ services:
 
     vgr.core.event.entity.player:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerListener
-        arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\UpdateChartStatusHandler'
         tags:
             - { name: doctrine.orm.entity_listener }
 
