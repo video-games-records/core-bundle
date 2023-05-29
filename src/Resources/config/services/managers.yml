@@ -15,6 +15,12 @@ services:
         arguments:
             - '@vgr.core.repository.lost_position'
 
+    vgr.core.manager.score_platform_manager:
+        class: VideoGamesRecords\CoreBundle\Manager\ScorePlatformManager
+        arguments:
+            - '@event_dispatcher'
+            - '@doctrine.orm.entity_manager'
+
     vgr.core.manager.badge:
         class: VideoGamesRecords\CoreBundle\Manager\BadgeManager
         calls:

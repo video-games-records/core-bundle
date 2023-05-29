@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service;
+namespace VideoGamesRecords\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
@@ -25,28 +25,29 @@ class ScorePlatformManager
 
 
     /**
-     * @param Player   $player
-     * @param Game     $game
-     * @param Platform $platform
+     * @param Player $player
+     * @param int $idGame
+     * @param int $idPlatform
      * @return void
+     * @throws ORMException
      */
-    public function updatePlatform(Player $player, Game $game, Platform $platform): void
+    public function updatePlatform(Player $player, int $idGame, int $idPlatform): void
     {
         $qb = $this->em->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\PlayerChart', 'pc')
             ->set('pc.platform', ':platform')
             ->where('pc.player = :player')
-            ->setParameter('platform', $platform)
+            ->setParameter('platform', $idPlatform)
             ->setParameter('player', $player)
             ->andWhere('pc.chart IN (
                             SELECT c FROM VideoGamesRecords\CoreBundle\Entity\Chart c
                             join c.group g
                         WHERE g.game = :game)')
-            ->setParameter('game', $game);
+            ->setParameter('game', $idGame);
         //@todo MAJ statut chart to MAJ
         $query->getQuery()->execute();
 
-        $event = new GameEvent($game);
+        $event = new GameEvent($this->em->getReference(Game::class, $idGame));
         $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::SCORE_PLATFORM_UPDATED);
     }
 

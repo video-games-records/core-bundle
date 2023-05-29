@@ -1,0 +1,5 @@
+services:
+    vgr.core.transformer.user_to_player:
+        class: VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer
+        arguments:
+            - '@doctrine.orm.entity_manager'

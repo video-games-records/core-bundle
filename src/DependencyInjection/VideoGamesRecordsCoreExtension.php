@@ -26,10 +26,13 @@ class VideoGamesRecordsCoreExtension extends Extension
         $this->processConfiguration($configuration, $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('services/providers.yml');
+        $loader->load('services/transformers.yml');
         $loader->load('services/repositories.yml');
         $loader->load('services/managers.yml');
         $loader->load('services/event_subscriber.yml');
         $loader->load('services/event_listener.yml');
+        $loader->load('services/controllers.yml');
         $loader->load('admin.yml');
     }
 }

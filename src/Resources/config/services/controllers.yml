@@ -1,0 +1,13 @@
+services:
+
+    _defaults:
+        autowire: false
+        autoconfigure: true
+        public: true
+
+    VideoGamesRecords\CoreBundle\Controller\ScorePlatformController:
+        arguments:
+            - '@vgr.core.manager.score_platform_manager'
+            - '@vgr.core.security.user_provider'
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
