@@ -5,8 +5,10 @@ namespace VideoGamesRecords\CoreBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
@@ -76,5 +78,54 @@ class ScorePlatformManager
             return $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Platform', $result['platform']);
         }
         return null;
+    }
+
+
+    /**
+     * @param Game $game
+     * @param Player $player
+     * @param PlayerChart|null $playerChart
+     * @return bool
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function hasScoreOnGame(Game $game, Player $player, ?PlayerChart $playerChart = null): bool
+    {
+        $query = $this->em->createQuery("
+            SELECT COUNT(pc.chart)
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            JOIN pc.chart c
+            JOIN c.group g
+            WHERE g.game = :game
+            AND pc.player = :player");
+        $query->setParameter('game', $game);
+        $query->setParameter('player', $player);
+
+        return $query->getSingleScalarResult() > 0;
+    }
+
+
+    /**
+     * @param Group $group
+     * @param Player $player
+     * @param PlayerChart|null $playerChart
+     * @return bool
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function hasScoreOnGroup(Group $group, Player $player, ?PlayerChart $playerChart = null): bool
+    {
+        $query = $this->em->createQuery(
+            "
+            SELECT COUNT(pc.chart)
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChart pc
+            JOIN pc.chart c
+            WHERE c.group = :group
+            AND pc.player = :player"
+        );
+        $query->setParameter('group', $group);
+        $query->setParameter('player', $player);
+
+        return $query->getSingleScalarResult() > 0;
     }
 }
