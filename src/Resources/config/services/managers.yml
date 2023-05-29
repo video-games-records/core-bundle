@@ -25,8 +25,8 @@ services:
         class: VideoGamesRecords\CoreBundle\Manager\BadgeManager
         calls:
             - ['addStrategy', ['@vgr.core.manager.strategy.badge.default']]
-            - ['addStrategy', [ '@vgr.core.manager.strategy.badge.value_prefix']]
-            - ['addStrategy', [ '@vgr.core.manager.strategy.badge.value_suffix']]
+            - ['addStrategy', ['@vgr.core.manager.strategy.badge.value_prefix']]
+            - ['addStrategy', ['@vgr.core.manager.strategy.badge.value_suffix']]
             - ['addStrategy', ['@vgr.core.manager.strategy.badge.game']]
             - ['addStrategy', ['@vgr.core.manager.strategy.badge.serie']]
             - ['addStrategy', ['@vgr.core.manager.strategy.badge.platform']]

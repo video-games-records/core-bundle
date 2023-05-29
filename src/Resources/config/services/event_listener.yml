@@ -7,7 +7,6 @@ services:
     vgr.core.event.entity.game:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Stats\Write\SerieStatsHandler'
             - '@event_dispatcher'
         tags:
             - { name: doctrine.orm.entity_listener }
