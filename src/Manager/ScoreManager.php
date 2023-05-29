@@ -14,7 +14,7 @@ use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class ScorePlatformManager
+class ScoreManager
 {
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;

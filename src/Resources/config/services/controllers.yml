@@ -7,7 +7,7 @@ services:
 
     VideoGamesRecords\CoreBundle\Controller\ScorePlatformController:
         arguments:
-            - '@vgr.core.manager.score_platform_manager'
+            - '@vgr.core.manager.score_manager'
             - '@vgr.core.security.user_provider'
         calls:
             - [ setContainer, [ "@service_container" ] ]

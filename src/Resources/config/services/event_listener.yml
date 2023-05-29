@@ -20,7 +20,7 @@ services:
     vgr.core.event.entity.playerchart:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener
         arguments:
-            - '@vgr.core.manager.score_platform_manager'
+            - '@vgr.core.manager.score_manager'
         tags:
             - { name: doctrine.orm.entity_listener }
 

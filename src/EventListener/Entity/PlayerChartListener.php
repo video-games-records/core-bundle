@@ -8,7 +8,7 @@ use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
-use VideoGamesRecords\CoreBundle\Manager\ScorePlatformManager;
+use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class PlayerChartListener
@@ -16,7 +16,7 @@ class PlayerChartListener
     private array $changeSet = array();
 
     public function __construct(
-        private readonly ScorePlatformManager $scorePlatformManager
+        private readonly ScoreManager $scoreManager
     ) {
     }
 
@@ -51,14 +51,14 @@ class PlayerChartListener
 
         // Set platform
         if (null === $playerChart->getPlatform()) {
-            $playerChart->setPlatform($this->scorePlatformManager->getPlatform($player, $game));
+            $playerChart->setPlatform($this->scoreManager->getPlatform($player, $game));
         }
 
-        if (!$this->scorePlatformManager->hasScoreOnGroup($group, $player)) {
+        if (!$this->scoreManager->hasScoreOnGroup($group, $player)) {
             $group->setNbPlayer($group->getNbPlayer() + 1);
         }
 
-        if (!$this->scorePlatformManager->hasScoreOnGame($game, $player)) {
+        if (!$this->scoreManager->hasScoreOnGame($game, $player)) {
             $game->setNbPlayer($game->getNbPlayer() + 1);
         }
     }
