@@ -271,7 +271,8 @@ class ProofAdmin extends AbstractAdmin
             ->add('picture', null, ['label' => 'label.picture'])
             ->add('video', null, ['label' => 'label.video'])
             ->add('playerResponding', null, ['label' => 'label.player.responding'])
-            ->add('status', null, ['label' => 'label.status']);
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('proofRequest.message', null, ['label' => 'label.message']);
     }
 
     /**

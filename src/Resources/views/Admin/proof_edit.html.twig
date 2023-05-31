@@ -81,6 +81,19 @@
                                 <td>NO PLAYER CHART</td>
                             {% endif %}
                         </tr>
+
+                        <tr class="sonata-ba-view-container">
+                            {% if object.getProofRequest() %}
+                            <th>Proof Request Message</th>
+                                <td>
+                                    {{ object.getProofRequest().getMessage() }}
+                                </td>
+                            </tr>
+                            {%  else %}
+                                <th>PlayerChart</th>
+                                <td>NO PROOF REQUEST</td>
+                            {% endif %}
+                        </tr>
                     </tbody>
                 </table>
             </div>

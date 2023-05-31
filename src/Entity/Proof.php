@@ -40,6 +40,14 @@ class Proof
      */
     private ?Video $video = null;
 
+     /**
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ProofRequest")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idProofRequest", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private ?ProofRequest $proofRequest = null;
+
     /**
      * @ORM\Column(name="status", type="string", length=30, nullable=false)
      */
@@ -130,7 +138,7 @@ class Proof
 
     /**
      * Get picture
-     * @return Picture
+     * @return Picture|null
      */
     public function getPicture(): ?Picture
     {
@@ -150,13 +158,29 @@ class Proof
 
     /**
      * Get video
-     * @return Video
+     * @return Video|null
      */
     public function getVideo(): ?Video
     {
         return $this->video;
     }
 
+    /**
+     * @param ProofRequest $proofRequest
+     * @return void
+     */
+    public function setProofRequest(ProofRequest $proofRequest): void
+    {
+        $this->proofRequest = $proofRequest;
+    }
+
+    /**
+     * @return ProofRequest|null
+     */
+    public function getProofRequest(): ?ProofRequest
+    {
+        return $this->proofRequest;
+    }
 
     /**
      * Set status
@@ -191,7 +215,7 @@ class Proof
 
     /**
      * Get response
-     * @return string
+     * @return string|null
      */
     public function getResponse(): ?string
     {

@@ -107,6 +107,24 @@ class PlayerChartListener
             $playerChart->setRank(0);
             $playerChart->setTopScore(false);
         }
+
+        if (array_key_exists('proof', $this->changeSet)
+            && $this->changeSet['proof'][1] !== null
+            && $playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF
+        ) {
+            echo $playerChart->getId();
+            $proofRequest = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\ProofRequest')
+                ->findOneBy(
+                    [
+                        'playerChart' => $playerChart
+                    ],
+                    array('createdAt' => 'DESC')
+                );
+
+            if ($proofRequest) {
+                $playerChart->getProof()->setProofRequest($proofRequest);
+            }
+        }
     }
 
     /**
