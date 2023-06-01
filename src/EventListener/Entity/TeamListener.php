@@ -3,32 +3,29 @@
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Symfony\Component\Security\Core\Security;
 use VideoGamesRecords\CoreBundle\Entity\Team;
-use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
+use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class TeamListener
 {
-    private Security $security;
-    private UserToPlayerTransformer $userToPlayerTransformer;
+    private UserProvider $userProvider;
 
     /**
-     * @param Security      $security
-     * @param UserToPlayerTransformer $userToPlayerTransformer
+     * @param UserProvider $userProvider
      */
-    public function __construct(Security $security, UserToPlayerTransformer $userToPlayerTransformer)
+    public function __construct(UserProvider $userProvider)
     {
-        $this->security = $security;
-        $this->userToPlayerTransformer = $userToPlayerTransformer;
+        $this->userProvider = $userProvider;
     }
 
     /**
      * @param Team               $team
      * @param LifecycleEventArgs $event
+     * @return void
      */
     public function prePersist(Team $team, LifecycleEventArgs $event): void
     {
-        $team->setLeader($this->userToPlayerTransformer->transform($this->security->getUser()));
+        $team->setLeader($this->userProvider->getPlayer());
     }
 
 

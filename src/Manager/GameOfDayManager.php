@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service;
+namespace VideoGamesRecords\CoreBundle\Manager;
 
 use Datetime;
 use VideoGamesRecords\CoreBundle\Entity\GameDay;

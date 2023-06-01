@@ -1,7 +1,8 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service;
+namespace VideoGamesRecords\CoreBundle\Manager;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -41,5 +42,14 @@ class LostPositionManager
         } else {
             return $this->getNbLostPosition($player);
         }
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function purge(): void
+    {
+        $this->lostPositionRepository->purge();
     }
 }

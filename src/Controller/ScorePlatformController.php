@@ -6,23 +6,21 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
-use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\Platform;
-use VideoGamesRecords\CoreBundle\Service\ScorePlatformManager;
+use VideoGamesRecords\CoreBundle\Manager\ScorePlatformManager;
+use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class ScorePlatformController extends AbstractController
 {
     private ScorePlatformManager $scorePlatformManager;
-    private UserToPlayerTransformer $userToPlayerTransformer;
+    private UserProvider $userProvider;
 
 
     public function __construct(
         ScorePlatformManager $scorePlatformManager,
-        UserToPlayerTransformer $userToPlayerTransformer
+        UserProvider $userProvider
     ) {
         $this->scorePlatformManager = $scorePlatformManager;
-        $this->userToPlayerTransformer = $userToPlayerTransformer;
+        $this->userProvider = $userProvider;
     }
 
     /**
@@ -35,12 +33,11 @@ class ScorePlatformController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $idGame = $data['idGame'];
         $idPlatform = $data['idPlatform'];
-        $em = $this->getDoctrine()->getManager();
 
         $this->scorePlatformManager->updatePlatform(
-            $this->userToPlayerTransformer->transform($this->getUser()),
-            $em->getReference(Game::class, $idGame),
-            $em->getReference(Platform::class, $idPlatform)
+            $this->userProvider->getPlayer(),
+            $idGame,
+            $idPlatform
         );
         return new JsonResponse(['data' => true]);
     }

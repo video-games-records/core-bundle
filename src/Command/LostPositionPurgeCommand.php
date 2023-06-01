@@ -5,17 +5,18 @@ use Doctrine\DBAL\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use VideoGamesRecords\CoreBundle\Manager\LostPositionManager;
 use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
 
 class LostPositionPurgeCommand extends Command
 {
     protected static $defaultName = 'vgr-core:lost-position-purge';
 
-    private LostPositionRepository $lostPositionRepository;
+    private LostPositionManager $lostPositionManager;
 
-    public function __construct(LostPositionRepository $lostPositionRepository)
+    public function __construct(LostPositionManager $lostPositionManager)
     {
-        $this->lostPositionRepository = $lostPositionRepository;
+        $this->lostPositionManager = $lostPositionManager;
         parent::__construct();
     }
 
@@ -36,7 +37,7 @@ class LostPositionPurgeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->lostPositionRepository->purge();
+        $this->lostPositionManager->purge();
         return Command::SUCCESS;
     }
 }

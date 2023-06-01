@@ -8,7 +8,7 @@ use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
-use VideoGamesRecords\CoreBundle\Service\ScorePlatformManager;
+use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class PlayerChartListener
@@ -16,7 +16,7 @@ class PlayerChartListener
     private array $changeSet = array();
 
     public function __construct(
-        private readonly ScorePlatformManager $scorePlatformManager
+        private readonly ScoreManager $scoreManager
     ) {
     }
 
@@ -51,7 +51,15 @@ class PlayerChartListener
 
         // Set platform
         if (null === $playerChart->getPlatform()) {
-            $playerChart->setPlatform($this->scorePlatformManager->getPlatform($player, $game));
+            $playerChart->setPlatform($this->scoreManager->getPlatform($player, $game));
+        }
+
+        if (!$this->scoreManager->hasScoreOnGroup($group, $player)) {
+            $group->setNbPlayer($group->getNbPlayer() + 1);
+        }
+
+        if (!$this->scoreManager->hasScoreOnGame($game, $player)) {
+            $game->setNbPlayer($game->getNbPlayer() + 1);
         }
     }
 
@@ -98,6 +106,24 @@ class PlayerChartListener
             $playerChart->setPointChart(0);
             $playerChart->setRank(0);
             $playerChart->setTopScore(false);
+        }
+
+        if (array_key_exists('proof', $this->changeSet)
+            && $this->changeSet['proof'][1] !== null
+            && $playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF
+        ) {
+            echo $playerChart->getId();
+            $proofRequest = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\ProofRequest')
+                ->findOneBy(
+                    [
+                        'playerChart' => $playerChart
+                    ],
+                    array('createdAt' => 'DESC')
+                );
+
+            if ($proofRequest) {
+                $playerChart->getProof()->setProofRequest($proofRequest);
+            }
         }
     }
 

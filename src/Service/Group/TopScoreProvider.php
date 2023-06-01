@@ -4,25 +4,20 @@ namespace VideoGamesRecords\CoreBundle\Service\Group;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use VideoGamesRecords\CoreBundle\DataTransformer\TokenStorageToPlayerTransformer;
-use VideoGamesRecords\CoreBundle\DataTransformer\TokenStorageToTeamTransformer;
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class TopScoreProvider
 {
     protected EntityManagerInterface $em;
-    protected TokenStorageToPlayerTransformer $tokenStorageToPlayerTransformer;
-    private TokenStorageInterface $tokenStorage;
+    protected UserProvider $userProvider;
 
     public function __construct(
         EntityManagerInterface $em,
-        TokenStorageToPlayerTransformer $tokenStorageToPlayerTransformer,
-        TokenStorageInterface $tokenStorage
+        UserProvider $userProvider
     ) {
         $this->em = $em;
-        $this->tokenStorageToPlayerTransformer = $tokenStorageToPlayerTransformer;
-        $this->tokenStorage = $tokenStorage;
+        $this->userProvider = $userProvider;
     }
 
     /**
@@ -30,7 +25,7 @@ class TopScoreProvider
      */
     protected function getPlayer(): ?Player
     {
-        return $this->tokenStorageToPlayerTransformer->transform($this->tokenStorage->getToken());
+        return $this->userProvider->getPlayer();
     }
 
     /**

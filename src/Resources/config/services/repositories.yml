@@ -1,0 +1,15 @@
+services:
+    vgr.core.repository.game:
+        class: VideoGamesRecords\CoreBundle\Repository\GameRepository
+        arguments:
+            - '@doctrine'
+
+    vgr.core.repository.game_day:
+        class: VideoGamesRecords\CoreBundle\Repository\GameDayRepository
+        arguments:
+            - '@doctrine'
+
+    vgr.core.repository.lost_position:
+        class: VideoGamesRecords\CoreBundle\Repository\LostPositionRepository
+        arguments:
+            - '@doctrine'

@@ -38,5 +38,4 @@ abstract class DefaultRepository extends ServiceEntityRepository
     {
         return $this->_em->getReference($this->entityClass, $id);
     }
-
 }

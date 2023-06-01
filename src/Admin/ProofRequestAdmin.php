@@ -104,7 +104,7 @@ class ProofRequestAdmin extends AbstractAdmin
                 ChoiceType::class,
                 [
                     'label' => 'label.status',
-                    'choices' => ProofRequest::getStatusChoices(),
+                    'choices' => ProofRequestStatus::getStatusChoices(),
                 ]
             )
             ->add('message', CKEditorType::class, [
@@ -139,7 +139,7 @@ class ProofRequestAdmin extends AbstractAdmin
                 'label' => 'label.status',
                 'field_type' => ChoiceType::class,
                 'field_options' => [
-                    'choices' => ProofRequest::getStatusChoices(),
+                    'choices' => ProofRequestStatus::getStatusChoices(),
                     'multiple' => false,
                 ]
             ])
@@ -224,7 +224,7 @@ class ProofRequestAdmin extends AbstractAdmin
                 [
                     'label' => 'label.status',
                     'editable' => true,
-                    'choices' => ProofRequest::getStatusChoices(),
+                    'choices' => ProofRequestStatus::getStatusChoices(),
                     'choice_translation_domain' => false,
                 ]
             )

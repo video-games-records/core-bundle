@@ -9,23 +9,21 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
+use VideoGamesRecords\CoreBundle\Entity\Serie;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
-use VideoGamesRecords\CoreBundle\Service\Stats\Write\SerieStatsHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class GameListener
 {
     private bool $majPlayers = false;
-    private SerieStatsHandler $serieStatsHandler;
+    private array $changeSet = array();
     private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @param SerieStatsHandler        $serieStatsHandler
      * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(SerieStatsHandler $serieStatsHandler, EventDispatcherInterface $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        $this->serieStatsHandler = $serieStatsHandler;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -51,9 +49,9 @@ class GameListener
      */
     public function preUpdate(Game $game, PreUpdateEventArgs $event): void
     {
-        $changeSet = $event->getEntityChangeSet();
+        $this->changeSet = $event->getEntityChangeSet();
 
-        if (array_key_exists('boolRanking', $changeSet)) {
+        if (array_key_exists('boolRanking', $this->changeSet)) {
             $this->majPlayers = true;
         }
 
@@ -78,10 +76,31 @@ class GameListener
                 $playerGame->getPlayer()->setBoolMaj(true);
             }
         }
-        $em->flush();
 
-        if (null !== $game->getSerie()) {
-            $this->serieStatsHandler->handle($game->getSerie());
+        if (array_key_exists('serie', $this->changeSet)) {
+            $this->majSerie($this->changeSet['serie'][0]);
+            $this->majSerie($this->changeSet['serie'][1]);
         }
+
+        $em->flush();
+    }
+
+
+    /**
+     * @param Serie|null $serie
+     * @return void
+     */
+    private function majSerie(?Serie $serie): void
+    {
+        if (null === $serie) {
+            return;
+        }
+
+        $serie->setNbGame(count($serie->getGames()));
+        $nbChart = 0;
+        foreach ($serie->getGames() as $game) {
+            $nbChart += $game->getNbChart();
+        }
+        $serie->setNbChart($nbChart);
     }
 }
