@@ -24,12 +24,15 @@ class UserProvider
     }
 
     /**
-     * @return Player
+     * @return ?Player
      * @throws ORMException
      */
-    public function getPlayer(): Player
+    public function getPlayer(): ?Player
     {
-        return $this->userToPlayerTransformer->transform($this->security->getUser());
+        if ($this->security->getUser()) {
+            return $this->userToPlayerTransformer->transform($this->security->getUser());
+        }
+        return null;
     }
 
     /**
@@ -38,7 +41,10 @@ class UserProvider
      */
     public function getTeam(): ?Team
     {
-        $player = $this->userToPlayerTransformer->transform($this->security->getUser());
-        return $player->getTeam();
+        if ($this->security->getUser()) {
+            $player = $this->userToPlayerTransformer->transform($this->security->getUser());
+            return $player->getTeam();
+        }
+        return null;
     }
 }
