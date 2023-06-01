@@ -26,7 +26,10 @@ class DefaultRankingQuery
      */
     protected function getPlayer(): ?Player
     {
-        return $this->userProvider->getPlayer();
+        if ($this->userProvider->getUser()) {
+            return $this->userProvider->getPlayer();
+        }
+        return null;
     }
 
     /**
@@ -34,6 +37,9 @@ class DefaultRankingQuery
      */
     protected function getTeam(): ?Team
     {
-        return $this->userProvider->getTeam();
+        if ($this->userProvider->getUser()) {
+            return $this->userProvider->getTeam();
+        }
+        return null;
     }
 }
