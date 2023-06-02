@@ -236,5 +236,12 @@ teamBadge:
             <p>Your team just lost the master badge of : <a href="%s">%s</a><br />
             <p>Regards, VGR Team.</p>
 
+workflow_transitions: 'Workflow'
+workflow:
+    transition_add_score: 'Add Score'
+    transition_add_picture: 'Add Picture'
+    transition_completed: 'Completed'
+    transition_activate: 'Activate'
+    transition_desactivate: 'Desactivate'
     
 

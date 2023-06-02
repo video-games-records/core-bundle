@@ -215,3 +215,5 @@ services:
                 manager_type: orm
                 group: "group.games"
                 label: "label.rules"
+
+

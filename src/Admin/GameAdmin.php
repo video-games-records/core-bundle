@@ -38,6 +38,7 @@ class GameAdmin extends AbstractAdmin
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
+        parent::configureRoutes($collection);
         $collection
             ->add('copy', $this->getRouterIdParameter() . '/copy')
             ->add('maj', $this->getRouterIdParameter() . '/maj');
