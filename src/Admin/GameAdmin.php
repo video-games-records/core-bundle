@@ -200,6 +200,9 @@ class GameAdmin extends AbstractAdmin
             'maj' => [
                 'template' => '@VideoGamesRecordsCore/Admin/game_maj_link.html.twig'
             ],
+            'history' => [
+                'template' => '@VideoGamesRecordsCore/Admin/game_history_link.html.twig'
+            ],
         ];
         if ($this->hasAccess('create')) {
             $btns = array_merge($btns, [

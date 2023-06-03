@@ -99,6 +99,9 @@ class SerieAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'history' => [
+                        'template' => '@VideoGamesRecordsCore/Admin/serie_history_link.html.twig'
+                    ],
                     'games' => [
                         'template' => '@VideoGamesRecordsCore/Admin/serie_games_link.html.twig'
                     ],
