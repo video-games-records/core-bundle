@@ -1,4 +1,31 @@
 services:
+    # Badges
+    VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerMasterBadgeSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerMasterBadgeSubscriber
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadgeHandler'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdateTeamMasterBadgeSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdateTeamMasterBadgeSubscriber
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Service\Badge\TeamMasterBadgeHandler'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerCountryBadgeSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerCountryBadgeSubscriber
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Service\Badge\CountryBadgeHandler'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerPlatformBadgeSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerPlatformBadgeSubscriber
+        arguments:
+            - '@VideoGamesRecords\CoreBundle\Service\Badge\PlatformBadgeHandler'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
+
+    #
     VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber:
         class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]

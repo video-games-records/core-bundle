@@ -1,12 +1,12 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\EventSubscriber;
+namespace VideoGamesRecords\CoreBundle\EventSubscriber\Badge;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use VideoGamesRecords\CoreBundle\Event\CountryEvent;
 use VideoGamesRecords\CoreBundle\Service\Badge\CountryBadgeHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-final class CountrySubscriber implements EventSubscriberInterface
+final class UpdatePlayerCountryBadgeSubscriber implements EventSubscriberInterface
 {
     private CountryBadgeHandler $countryBadgeHandler;
 
@@ -19,14 +19,14 @@ final class CountrySubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            VideoGamesRecordsCoreEvents::COUNTRY_MAJ_COMPLETED => 'countryPostMaj',
+            VideoGamesRecordsCoreEvents::COUNTRY_MAJ_COMPLETED => 'process',
         ];
     }
 
     /**
      * @param CountryEvent $event
      */
-    public function countryPostMaj(CountryEvent $event)
+    public function process(CountryEvent $event)
     {
         $this->countryBadgeHandler->process($event->getCountry());
     }

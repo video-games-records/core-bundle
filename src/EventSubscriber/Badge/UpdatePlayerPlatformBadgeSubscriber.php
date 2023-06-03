@@ -1,12 +1,12 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\EventSubscriber;
+namespace VideoGamesRecords\CoreBundle\EventSubscriber\Badge;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use VideoGamesRecords\CoreBundle\Event\PlatformEvent;
 use VideoGamesRecords\CoreBundle\Service\Badge\PlatformBadgeHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-final class PlatformSubscriber implements EventSubscriberInterface
+final class UpdatePlayerPlatformBadgeSubscriber implements EventSubscriberInterface
 {
     private PlatformBadgeHandler $platformBadgeHandler;
 
@@ -18,14 +18,14 @@ final class PlatformSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            VideoGamesRecordsCoreEvents::PLATFORM_MAJ_COMPLETED => 'platformPostMaj',
+            VideoGamesRecordsCoreEvents::PLATFORM_MAJ_COMPLETED => 'process',
         ];
     }
 
     /**
      * @param PlatformEvent $event
      */
-    public function platformPostMaj(PlatformEvent $event)
+    public function process(PlatformEvent $event)
     {
         $this->platformBadgeHandler->process($event->getPlatform());
     }

@@ -22,6 +22,7 @@ use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
  *     SearchFilter::class,
  *     properties={
  *          "player": "exact",
+ *          "player": "exact",
  *          "badge": "exact",
  *          "badge.type": "exact",
  *      }
@@ -83,7 +84,6 @@ class PlayerBadge implements BadgeInterface
      */
     private Badge $badge;
 
-    private string $title = '';
 
     /**
      * Set id
@@ -200,19 +200,6 @@ class PlayerBadge implements BadgeInterface
         return $this->player;
     }
 
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
 
     public function __toString(): string
     {
