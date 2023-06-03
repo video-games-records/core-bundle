@@ -1,0 +1,21 @@
+services:
+    vgr.core.data_provider.can_ask_proof:
+        class: VideoGamesRecords\CoreBundle\DataProvider\CanAskProofProvider
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    vgr.core.data_provider.proof_in_progress:
+        class: VideoGamesRecords\CoreBundle\DataProvider\ProofInProgressProvider
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    vgr.core.data_provider.top_score:
+        class: VideoGamesRecords\CoreBundle\DataProvider\TopScoreProvider
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@vgr.core.security.user_provider'
+
+
+
+
+

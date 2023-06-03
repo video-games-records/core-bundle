@@ -4,10 +4,9 @@ namespace VideoGamesRecords\CoreBundle\Block\Service;
 
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
-use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
-use VideoGamesRecords\CoreBundle\Service\Proof\ProofInProgressProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\ProofInProgressProvider;
 
 class ProofGamesBlockService extends AbstractBlockService
 {

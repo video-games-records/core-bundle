@@ -8,12 +8,14 @@ services:
     VideoGamesRecords\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
     admin.block.service.proof.games:
         class: VideoGamesRecords\CoreBundle\Block\Service\ProofGamesBlockService
-        public: true
+        arguments:
+            - '@twig'
+            - '@vgr.core.data_provider.proof_in_progress'
         tags:
             - { name: "sonata.block" }
-
 
 
 

@@ -84,13 +84,12 @@
 
                         <tr class="sonata-ba-view-container">
                             {% if object.getProofRequest() %}
-                            <th>Proof Request Message</th>
+                                <th>Proof Request Message</th>
                                 <td>
                                     {{ object.getProofRequest().getMessage() }}
                                 </td>
-                            </tr>
                             {%  else %}
-                                <th>PlayerChart</th>
+                                <th>Proof Request Message</th>
                                 <td>NO PROOF REQUEST</td>
                             {% endif %}
                         </tr>

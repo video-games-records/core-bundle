@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Service\Player\CanAskProofProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\CanAskProofProvider;
 
 /**
  * Class ProofRequestController

@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Security;
 
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Team;
@@ -21,6 +22,14 @@ class UserProvider
     {
         $this->security = $security;
         $this->userToPlayerTransformer = $userToPlayerTransformer;
+    }
+
+    /**
+     * @return UserInterface|null
+     */
+    public function getUser(): ?UserInterface
+    {
+        return $this->security->getUser();
     }
 
     /**

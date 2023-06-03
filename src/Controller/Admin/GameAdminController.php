@@ -6,12 +6,14 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use VideoGamesRecords\CoreBundle\Manager\GameManager;
+use Yokai\SonataWorkflow\Controller\WorkflowControllerTrait;
 
 /**
  * Class GameAdminController
  */
 class GameAdminController extends CRUDController
 {
+    use WorkflowControllerTrait;
     private GameManager $gameManager;
 
     public function __construct(GameManager $gameManager)

@@ -8,12 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use VideoGamesRecords\CoreBundle\Contracts\VgrCoreInterface;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use VideoGamesRecords\CoreBundle\Exception\PostException;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
-use VideoGamesRecords\CoreBundle\Service\Player\CanAskProofProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\CanAskProofProvider;
 
-final class ProofRequestSubscriber implements EventSubscriberInterface
+final class ProofRequestSubscriber implements EventSubscriberInterface, VgrCoreInterface
 {
     private TranslatorInterface $translator;
     private CanAskProofProvider $canAskProofProvider;
@@ -54,7 +55,7 @@ final class ProofRequestSubscriber implements EventSubscriberInterface
                 throw new PostException(
                     sprintf(
                         $this->translator->trans('proof.request.send.refuse'),
-                        CanAskProofProvider::MAX_REQUEST_DAY
+                        self::MAX_PROOF_REQUEST_DAY
                     )
                 );
             }

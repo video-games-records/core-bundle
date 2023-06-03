@@ -14,9 +14,6 @@ VideoGamesRecords\CoreBundle\Entity\PlayerBadge:
       groups:
         - 'playerBadge.read'
         - 'playerBadge.put'
-    title:
-      groups:
-        - 'playerBadge.read'
     createdAt:
       groups:
         - 'playerBadge.read'
