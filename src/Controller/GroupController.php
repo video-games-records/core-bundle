@@ -6,7 +6,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Group;
-use VideoGamesRecords\CoreBundle\Service\Group\TopScoreProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\TopScoreProvider;
 
 /**
  * Class GroupController

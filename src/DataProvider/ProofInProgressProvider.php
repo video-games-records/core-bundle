@@ -1,9 +1,8 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Proof;
+namespace VideoGamesRecords\CoreBundle\DataProvider;
 
 use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
 
 class ProofInProgressProvider
@@ -18,7 +17,7 @@ class ProofInProgressProvider
     /**
      * @return float|int|mixed|string
      */
-    public function loadByGame()
+    public function loadByGame(): mixed
     {
         $query = $this->em->createQueryBuilder()
             ->from('VideoGamesRecords\CoreBundle\Entity\Game', 'gam')

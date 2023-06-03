@@ -18,18 +18,6 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('video_games_records_core');
-        $rootNode = $treeBuilder->getRootNode();
-
-        $rootNode
-            ->children()
-                ->arrayNode('directory')
-                ->children()
-                    ->scalarNode('avatar')->defaultValue(null)->end()
-                    ->scalarNode('picture')->defaultValue(null)->end()
-                ->end()
-            ->end()
-            ->end();
-
         return $treeBuilder;
     }
 }

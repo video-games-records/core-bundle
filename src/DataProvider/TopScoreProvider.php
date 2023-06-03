@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Group;
+namespace VideoGamesRecords\CoreBundle\DataProvider;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
@@ -25,7 +25,10 @@ class TopScoreProvider
      */
     protected function getPlayer(): ?Player
     {
-        return $this->userProvider->getPlayer();
+        if ($this->userProvider->getUser()) {
+            return $this->userProvider->getPlayer();
+        }
+        return null;
     }
 
     /**
