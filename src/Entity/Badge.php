@@ -68,6 +68,8 @@ class Badge implements BadgeInterface
      */
     private ?Platform $platform;
 
+    private string $title = '';
+
     /**
      * @return string
      */
@@ -194,6 +196,20 @@ class Badge implements BadgeInterface
     public function getPlatform(): ?Platform
     {
         return $this->platform;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
 

@@ -6,6 +6,9 @@ VideoGamesRecords\CoreBundle\Entity\Badge:
     type:
       groups:
         - 'badge.read'
+    title:
+      groups:
+        - 'badge.read'
     picture:
       groups:
         - 'badge.read'
@@ -15,4 +18,5 @@ VideoGamesRecords\CoreBundle\Entity\Badge:
     game:
       groups:
         - 'badge.game'
+
 
