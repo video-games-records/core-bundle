@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\EventSubscriber;
+namespace VideoGamesRecords\CoreBundle\EventSubscriber\Badge;
 
 use ApiPlatform\Symfony\EventListener\EventPriorities as EventPrioritiesAlias;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,7 +11,7 @@ use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 use VideoGamesRecords\CoreBundle\Manager\BadgeManager;
 
-final class PlayerBadgeSetTitleSubscriber implements EventSubscriberInterface, BadgeInterface
+final class SetBadgeTitleSubscriber implements EventSubscriberInterface, BadgeInterface
 {
     private TranslatorInterface $translator;
     private BadgeManager $badgeManager;

@@ -1,5 +1,12 @@
 services:
     # Badges
+    VideoGamesRecords\CoreBundle\EventSubscriber\Badge\SetBadgeTitleSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\SetBadgeTitleSubscriber
+        arguments:
+            - '@translator'
+            - '@vgr.core.manager.badge'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerMasterBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerMasterBadgeSubscriber
         arguments:
@@ -29,14 +36,6 @@ services:
     VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber:
         class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]
-
-    VideoGamesRecords\CoreBundle\EventSubscriber\PlayerBadgeSetTitleSubscriber:
-        arguments:
-            - '@translator'
-            - '@vgr.core.manager.badge'
-        class: VideoGamesRecords\CoreBundle\EventSubscriber\PlayerBadgeSetTitleSubscriber
-        tags: [ { name: 'kernel.event_subscriber' } ]
-
 
 
 
