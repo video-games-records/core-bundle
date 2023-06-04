@@ -10,25 +10,25 @@ services:
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerMasterBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerMasterBadgeSubscriber
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadgeHandler'
+            - '@vgr.core.handler.badge.player_game'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdateTeamMasterBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdateTeamMasterBadgeSubscriber
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Badge\TeamMasterBadgeHandler'
+            - '@vgr.core.handler.badge.team_game'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerCountryBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerCountryBadgeSubscriber
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Badge\CountryBadgeHandler'
+            - '@vgr.core.handler.badge.player_country'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerPlatformBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerPlatformBadgeSubscriber
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Badge\PlatformBadgeHandler'
+            - '@vgr.core.handler.badge.player_platform'
         tags: [ { name: 'kernel.event_subscriber' } ]
     # Badges [END]
 

@@ -5,7 +5,7 @@ use Doctrine\DBAL\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Badge\PlayerBadgeHandler;
+use VideoGamesRecords\CoreBundle\Handler\Badge\PlayerBadgeHandler;
 
 class PlayerBadgeUpdateCommand extends Command
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Badge;
+namespace VideoGamesRecords\CoreBundle\Handler\Badge;
 
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Country;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Read\CountryRankingQuery;
 
-class CountryBadgeHandler
+class PlayerCountryBadgeHandler
 {
     private EntityManagerInterface $em;
     private CountryRankingQuery $countryRankingQuery;

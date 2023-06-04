@@ -3,16 +3,16 @@ namespace VideoGamesRecords\CoreBundle\EventSubscriber\Badge;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use VideoGamesRecords\CoreBundle\Event\PlatformEvent;
-use VideoGamesRecords\CoreBundle\Service\Badge\PlatformBadgeHandler;
+use VideoGamesRecords\CoreBundle\Handler\Badge\PlayerPlatformBadgeHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 final class UpdatePlayerPlatformBadgeSubscriber implements EventSubscriberInterface
 {
-    private PlatformBadgeHandler $platformBadgeHandler;
+    private PlayerPlatformBadgeHandler $badgeHandler;
 
-    public function __construct(PlatformBadgeHandler $platformBadgeHandler)
+    public function __construct(PlayerPlatformBadgeHandler $badgeHandler)
     {
-        $this->platformBadgeHandler = $platformBadgeHandler;
+        $this->badgeHandler = $badgeHandler;
     }
 
     public static function getSubscribedEvents(): array
@@ -27,6 +27,6 @@ final class UpdatePlayerPlatformBadgeSubscriber implements EventSubscriberInterf
      */
     public function process(PlatformEvent $event)
     {
-        $this->platformBadgeHandler->process($event->getPlatform());
+        $this->badgeHandler->process($event->getPlatform());
     }
 }
