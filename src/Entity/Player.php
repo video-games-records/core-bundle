@@ -14,18 +14,18 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerCommunicationDataTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerPersonalDataTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\AverageChartRankTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\AverageGameRankTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerCommunicationDataTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerPersonalDataTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankCupTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointBadgeTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
 
 /**
  * Player

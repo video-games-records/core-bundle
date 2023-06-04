@@ -7,7 +7,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
 
 /**
  * TeamGame

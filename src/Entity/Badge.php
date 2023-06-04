@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 
 /**
  * Badge

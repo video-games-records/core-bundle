@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Model\Entity;
+namespace VideoGamesRecords\CoreBundle\Traits\Entity;
 
 trait NbChartProvenWithoutDlcTrait
 {

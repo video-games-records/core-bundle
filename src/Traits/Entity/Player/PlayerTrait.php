@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Model\Entity\Player;
+namespace VideoGamesRecords\CoreBundle\Traits\Entity\Player;
 
 trait PlayerTrait
 {

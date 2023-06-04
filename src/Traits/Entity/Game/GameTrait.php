@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VideoGamesRecords\CoreBundle\Model\Entity\Game;
+namespace VideoGamesRecords\CoreBundle\Traits\Entity\Game;
 
 trait GameTrait
 {

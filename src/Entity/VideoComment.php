@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 
 /**
  * Comment

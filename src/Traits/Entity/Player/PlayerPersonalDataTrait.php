@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Model\Entity\Player;
+namespace VideoGamesRecords\CoreBundle\Traits\Entity\Player;
 
 use DateTime;
 use VideoGamesRecords\CoreBundle\Entity\Country;
