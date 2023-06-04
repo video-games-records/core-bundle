@@ -1,11 +1,11 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Service\Stats;
+namespace VideoGamesRecords\CoreBundle\DataProvider;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Intl\Locale;
 
-class PlayerGameStatsProvider implements StatsProviderInterface
+class PlayerGameStatsProvider
 {
     private EntityManagerInterface $em;
 
