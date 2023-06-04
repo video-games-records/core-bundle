@@ -16,11 +16,11 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbPostTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbTeamTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\PictureTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbTeamTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 /**

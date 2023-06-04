@@ -4,10 +4,10 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 
 /**
  * PlayerGroup
@@ -52,7 +52,7 @@ class PlayerGroup
      * @param DateTime $lastUpdate
      * @return $this
      */
-    public function setLastUpdate(DateTime $lastUpdate): Self
+    public function setLastUpdate(DateTime $lastUpdate): static
     {
         $this->lastUpdate = $lastUpdate;
 
@@ -75,7 +75,7 @@ class PlayerGroup
      * @param Group $group
      * @return $this
      */
-    public function setGroup(Group $group): Self
+    public function setGroup(Group $group): static
     {
         $this->group = $group;
 
@@ -98,7 +98,7 @@ class PlayerGroup
      * @param Player $player
      * @return $this
      */
-    public function setPlayer(Player $player): Self
+    public function setPlayer(Player $player): static
     {
         $this->player = $player;
 

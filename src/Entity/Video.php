@@ -14,7 +14,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 
 /**
  * @ORM\Table(

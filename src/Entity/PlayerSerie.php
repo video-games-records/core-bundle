@@ -3,13 +3,13 @@
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenWithoutDlcTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartWithoutDlcTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenWithoutDlcTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartWithoutDlcTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 
 /**
  * PlayerSerie

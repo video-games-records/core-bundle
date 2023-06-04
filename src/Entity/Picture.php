@@ -4,8 +4,8 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use VideoGamesRecords\CoreBundle\Model\Entity\Game\GameTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\Game\GameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 
 /**
  * Proof

@@ -13,15 +13,15 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Entity\AverageChartRankTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\AverageGameRankTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbPlayerTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankCupTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointBadgeTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointGameTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\AverageChartRankTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\AverageGameRankTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankCupTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointBadgeTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 
 /**
  * @ORM\Table(name="vgr_team")

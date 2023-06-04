@@ -8,15 +8,15 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use VideoGamesRecords\CoreBundle\Model\Entity\Game\GameMethodsTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartProvenWithoutDlcTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartWithoutDlcTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbEqualTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\Player\PlayerMethodsTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankMedalTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\RankPointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\Game\GameMethodsTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenWithoutDlcTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartWithoutDlcTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerMethodsTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 
 /**
  * PlayerGame

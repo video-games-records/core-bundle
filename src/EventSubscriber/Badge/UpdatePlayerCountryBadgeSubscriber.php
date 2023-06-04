@@ -3,17 +3,16 @@ namespace VideoGamesRecords\CoreBundle\EventSubscriber\Badge;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use VideoGamesRecords\CoreBundle\Event\CountryEvent;
-use VideoGamesRecords\CoreBundle\Service\Badge\CountryBadgeHandler;
+use VideoGamesRecords\CoreBundle\Handler\Badge\PlayerCountryBadgeHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 final class UpdatePlayerCountryBadgeSubscriber implements EventSubscriberInterface
 {
-    private CountryBadgeHandler $countryBadgeHandler;
+    private PlayerCountryBadgeHandler $badgeHandler;
 
-    public function __construct(CountryBadgeHandler $countryBadgeHandler)
+    public function __construct(PlayerCountryBadgeHandler $badgeHandler)
     {
-        $this->countryBadgeHandler = $countryBadgeHandler;
-
+        $this->badgeHandler = $badgeHandler;
     }
 
     public static function getSubscribedEvents(): array
@@ -28,6 +27,6 @@ final class UpdatePlayerCountryBadgeSubscriber implements EventSubscriberInterfa
      */
     public function process(CountryEvent $event)
     {
-        $this->countryBadgeHandler->process($event->getCountry());
+        $this->badgeHandler->process($event->getCountry());
     }
 }

@@ -1,42 +1,67 @@
 services:
-    # Badges
+    # Badges [BEGIN]
+    VideoGamesRecords\CoreBundle\EventSubscriber\Badge\SetBadgeTitleSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\SetBadgeTitleSubscriber
+        arguments:
+            - '@translator'
+            - '@vgr.core.manager.badge'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerMasterBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerMasterBadgeSubscriber
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadgeHandler'
+            - '@vgr.core.handler.badge.player_game'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdateTeamMasterBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdateTeamMasterBadgeSubscriber
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Badge\TeamMasterBadgeHandler'
+            - '@vgr.core.handler.badge.team_game'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerCountryBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerCountryBadgeSubscriber
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Badge\CountryBadgeHandler'
+            - '@vgr.core.handler.badge.player_country'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerPlatformBadgeSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdatePlayerPlatformBadgeSubscriber
         arguments:
-            - '@VideoGamesRecords\CoreBundle\Service\Badge\PlatformBadgeHandler'
+            - '@vgr.core.handler.badge.player_platform'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+    # Badges [END]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\InsertLostPositionSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\InsertLostPositionSubscriber
+        arguments:
+            - '@doctrine.orm.entity_manager'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
-
-    #
-    VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber:
-        class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
+    VideoGamesRecords\CoreBundle\EventSubscriber\ScoreSetValueSubscriber:
+        class:  VideoGamesRecords\CoreBundle\EventSubscriber\ScoreSetValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]
 
-    VideoGamesRecords\CoreBundle\EventSubscriber\PlayerBadgeSetTitleSubscriber:
+    VideoGamesRecords\CoreBundle\EventSubscriber\CanAskProofSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\CanAskProofSubscriber
         arguments:
             - '@translator'
-            - '@vgr.core.manager.badge'
-        class: VideoGamesRecords\CoreBundle\EventSubscriber\PlayerBadgeSetTitleSubscriber
+            - '@vgr.core.data_provider.can_ask_proof'
+            - '@vgr.core.security.user_provider'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
+    VideoGamesRecords\CoreBundle\EventSubscriber\IsValidTeamRequestSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\IsValidTeamRequestSubscriber
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@translator'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\MajGameSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\MajGameSubscriber
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags: [ { name: 'kernel.event_subscriber' } ]
 
 
 

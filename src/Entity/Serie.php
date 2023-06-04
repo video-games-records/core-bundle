@@ -12,9 +12,9 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbChartTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\NbGameTrait;
-use VideoGamesRecords\CoreBundle\Model\Entity\PictureTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
 /**

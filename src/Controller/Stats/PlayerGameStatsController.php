@@ -3,8 +3,8 @@
 namespace VideoGamesRecords\CoreBundle\Controller\Stats;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use VideoGamesRecords\CoreBundle\DataProvider\PlayerGameStatsProvider;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Service\Stats\PlayerGameStatsProvider;
 
 /**
  * Class PlayerGameStatsController

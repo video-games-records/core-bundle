@@ -3,16 +3,16 @@ namespace VideoGamesRecords\CoreBundle\EventSubscriber\Badge;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
-use VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadgeHandler;
+use VideoGamesRecords\CoreBundle\Handler\Badge\PlayerMasterBadgeHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 final class UpdatePlayerMasterBadgeSubscriber implements EventSubscriberInterface
 {
-    private PlayerMasterBadgeHandler $playerMasterBadgeHandler;
+    private PlayerMasterBadgeHandler $badgeHandler;
 
-    public function __construct(PlayerMasterBadgeHandler $playerMasterBadgeHandler)
+    public function __construct(PlayerMasterBadgeHandler $badgeHandler)
     {
-        $this->playerMasterBadgeHandler = $playerMasterBadgeHandler;
+        $this->badgeHandler = $badgeHandler;
     }
 
     public static function getSubscribedEvents(): array
@@ -27,6 +27,6 @@ final class UpdatePlayerMasterBadgeSubscriber implements EventSubscriberInterfac
      */
     public function process(GameEvent $event): void
     {
-        $this->playerMasterBadgeHandler->process($event->getGame());
+        $this->badgeHandler->process($event->getGame());
     }
 }

@@ -10,6 +10,9 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * @deprecated
+ */
 final class LostPositionSubscriber implements EventSubscriberInterface
 {
 

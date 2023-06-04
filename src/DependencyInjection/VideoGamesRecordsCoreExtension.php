@@ -27,6 +27,7 @@ class VideoGamesRecordsCoreExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('services/data_providers.yml');
+        $loader->load('services/handlers.yml');
         $loader->load('services/providers.yml');
         $loader->load('services/transformers.yml');
         $loader->load('services/repositories.yml');
