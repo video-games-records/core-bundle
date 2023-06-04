@@ -6,20 +6,20 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use VideoGamesRecords\CoreBundle\Manager\ScorePlatformManager;
+use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class ScorePlatformController extends AbstractController
 {
-    private ScorePlatformManager $scorePlatformManager;
+    private ScoreManager $scoreManager;
     private UserProvider $userProvider;
 
 
     public function __construct(
-        ScorePlatformManager $scorePlatformManager,
+        ScoreManager $scoreManager,
         UserProvider $userProvider
     ) {
-        $this->scorePlatformManager = $scorePlatformManager;
+        $this->scoreManager = $scoreManager;
         $this->userProvider = $userProvider;
     }
 
@@ -34,7 +34,7 @@ class ScorePlatformController extends AbstractController
         $idGame = $data['idGame'];
         $idPlatform = $data['idPlatform'];
 
-        $this->scorePlatformManager->updatePlatform(
+        $this->scoreManager->updatePlatform(
             $this->userProvider->getPlayer(),
             $idGame,
             $idPlatform
