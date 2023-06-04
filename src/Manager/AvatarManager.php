@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\Service\Team;
+namespace VideoGamesRecords\CoreBundle\Manager;
 
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;

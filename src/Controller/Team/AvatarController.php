@@ -5,14 +5,14 @@ namespace VideoGamesRecords\CoreBundle\Controller\Team;
 use League\Flysystem\FilesystemException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\Team;
+use VideoGamesRecords\CoreBundle\Manager\AvatarManager;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
-use VideoGamesRecords\CoreBundle\Service\Team\AvatarManager;
 
 /**
  * Class TeamController
