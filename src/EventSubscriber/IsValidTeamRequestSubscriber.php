@@ -12,7 +12,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\TeamRequest;
 use VideoGamesRecords\CoreBundle\Exception\PostException;
 
-final class TeamRequestSubscriber implements EventSubscriberInterface
+final class IsValidTeamRequestSubscriber implements EventSubscriberInterface
 {
     private EntityManagerInterface $em;
     private TranslatorInterface $translator;

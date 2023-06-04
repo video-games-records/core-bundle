@@ -8,7 +8,7 @@ use VideoGamesRecords\CoreBundle\Service\Badge\PlayerMasterBadgeHandler;
 use VideoGamesRecords\CoreBundle\Service\Badge\TeamMasterBadgeHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-final class GameSubscriber implements EventSubscriberInterface
+final class MajGameSubscriber implements EventSubscriberInterface
 {
     private GameManager $gameManager;
 

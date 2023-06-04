@@ -7,8 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 
-final class PlayerChartValueSubscriber implements EventSubscriberInterface
+final class ScoreSetValueSubscriber implements EventSubscriberInterface
 {
 
     public function __construct()
@@ -31,6 +32,7 @@ final class PlayerChartValueSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
 
         if (($playerChart instanceof PlayerChart) && in_array($method, array(Request::METHOD_POST, Request::METHOD_PUT))) {
+            /** @var PlayerChartLib $lib */
             foreach ($playerChart->getLibs() as $lib) {
                 $lib->setValueFromPaseValue();
             }

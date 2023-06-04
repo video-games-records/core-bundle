@@ -1,5 +1,5 @@
 services:
-    # Badges
+    # Badges [BEGIN]
     VideoGamesRecords\CoreBundle\EventSubscriber\Badge\SetBadgeTitleSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\SetBadgeTitleSubscriber
         arguments:
@@ -30,12 +30,38 @@ services:
         arguments:
             - '@VideoGamesRecords\CoreBundle\Service\Badge\PlatformBadgeHandler'
         tags: [ { name: 'kernel.event_subscriber' } ]
+    # Badges [END]
 
+    VideoGamesRecords\CoreBundle\EventSubscriber\InsertLostPositionSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\InsertLostPositionSubscriber
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags: [ { name: 'kernel.event_subscriber' } ]
 
-    #
-    VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber:
-        class:  VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChartValueSubscriber
+    VideoGamesRecords\CoreBundle\EventSubscriber\ScoreSetValueSubscriber:
+        class:  VideoGamesRecords\CoreBundle\EventSubscriber\ScoreSetValueSubscriber
         tags: [ { name: 'kernel.event_subscriber'} ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\CanAskProofSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\CanAskProofSubscriber
+        arguments:
+            - '@translator'
+            - '@vgr.core.data_provider.can_ask_proof'
+            - '@vgr.core.security.user_provider'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\IsValidTeamRequestSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\IsValidTeamRequestSubscriber
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@translator'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\MajGameSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\MajGameSubscriber
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags: [ { name: 'kernel.event_subscriber' } ]
 
 
 

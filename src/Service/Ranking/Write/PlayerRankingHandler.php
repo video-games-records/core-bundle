@@ -175,6 +175,7 @@ class PlayerRankingHandler implements RankingCommandInterface
 
         $nb = $query->getSingleScalarResult();
         $player->setNbChartWithPlatform($nb);
+        $player->getCountry()?->setBoolMaj(true);
 
         $this->em->persist($player);
         $this->em->flush();

@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\EventSubscriber\PlayerChart;
+namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;

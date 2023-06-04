@@ -14,7 +14,7 @@ use VideoGamesRecords\CoreBundle\Exception\PostException;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 use VideoGamesRecords\CoreBundle\DataProvider\CanAskProofProvider;
 
-final class ProofRequestSubscriber implements EventSubscriberInterface, VgrCoreInterface
+final class CanAskProofSubscriber implements EventSubscriberInterface, VgrCoreInterface
 {
     private TranslatorInterface $translator;
     private CanAskProofProvider $canAskProofProvider;
