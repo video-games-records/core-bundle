@@ -22,7 +22,7 @@ class ScoreInvestigationUpdate extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('vgr-core:score-investigation-update')

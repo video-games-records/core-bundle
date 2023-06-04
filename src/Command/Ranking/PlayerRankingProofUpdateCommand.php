@@ -18,7 +18,7 @@ class PlayerRankingProofUpdateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('vgr-core:player-ranking-proof-update')

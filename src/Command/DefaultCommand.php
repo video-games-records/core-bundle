@@ -34,7 +34,7 @@ abstract class DefaultCommand extends Command
         ;
     }
 
-    protected function init(InputInterface $input)
+    protected function init(InputInterface $input): void
     {
         if ($input->getOption('debug')) {
             $this->sglLoggerEnabled = true;
@@ -46,7 +46,7 @@ abstract class DefaultCommand extends Command
         }
     }
 
-    protected function end(OutputInterface $output)
+    protected function end(OutputInterface $output): void
     {
         if ($this->sglLoggerEnabled) {
             $output->writeln(sprintf('%s queries', count($this->stack->queries)));
