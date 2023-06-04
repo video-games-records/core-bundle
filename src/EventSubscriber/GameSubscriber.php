@@ -12,7 +12,8 @@ final class GameSubscriber implements EventSubscriberInterface
 {
     private GameManager $gameManager;
 
-    public function __construct(GameManager $gameManager) {
+    public function __construct(GameManager $gameManager)
+    {
         $this->gameManager = $gameManager;
     }
 
