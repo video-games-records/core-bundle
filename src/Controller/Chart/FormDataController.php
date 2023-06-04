@@ -2,11 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Chart;
 
-use ApiPlatform\Doctrine\Orm\Paginator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
@@ -26,7 +24,7 @@ class FormDataController extends AbstractController
 {
     private UserToPlayerTransformer $userToPlayerTransformer;
     private EntityManagerInterface $em;
-    private $game;
+    private Game $game;
 
     public function __construct(UserToPlayerTransformer $userToPlayerTransformer, EntityManagerInterface $em)
     {
