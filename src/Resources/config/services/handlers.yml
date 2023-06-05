@@ -28,3 +28,7 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamGameRankingQuery'
 
+    vgr.core.handler.score_investigation:
+        class: VideoGamesRecords\CoreBundle\Handler\Badge\ScoreInvestigationBadgeHandler
+        arguments:
+            - '@doctrine.orm.entity_manager'
