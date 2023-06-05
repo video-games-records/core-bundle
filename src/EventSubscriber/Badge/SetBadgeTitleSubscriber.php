@@ -32,7 +32,7 @@ final class SetBadgeTitleSubscriber implements EventSubscriberInterface, BadgeIn
     /**
      * @param RequestEvent $event
      */
-    public function setTitle(RequestEvent $event)
+    public function setTitle(RequestEvent $event): void
     {
         $data = $event->getRequest()->attributes->get('data');
         $method = $event->getRequest()->getMethod();
