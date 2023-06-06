@@ -54,7 +54,7 @@ class ProofRequestListener
     }
 
 
-     /**
+    /**
      * @param ProofRequest       $proofRequest
      * @param LifecycleEventArgs $event
      * @throws ORMException
