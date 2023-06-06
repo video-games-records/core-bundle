@@ -6,6 +6,7 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
+use VideoGamesRecords\CoreBundle\Event\PlayerBadgeEvent;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerBadgeListener
@@ -35,7 +36,7 @@ class PlayerBadgeListener
     public function postUpdate(PlayerBadge $playerBadge, LifecycleEventArgs $event): void
     {
         if ($playerBadge->getBadge()->isTypeMaster() && array_key_exists('ended_at', $this->changeSet)) {
-            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_BADGE_LOST);
+            $this->eventDispatcher->dispatch(new PlayerBadgeEvent($playerBadge), VideoGamesRecordsCoreEvents::PLAYER_BADGE_LOST);
         }
     }
 }
