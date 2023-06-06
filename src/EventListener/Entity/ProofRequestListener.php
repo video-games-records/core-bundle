@@ -67,14 +67,14 @@ class ProofRequestListener
 
         $setPlayerResponding = false;
         if (array_key_exists('status', $this->changeSet)) {
-            $event = new ProofEvent($proofRequest);
+             $event = new ProofRequestEvent($proofRequest);
              if ($this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_ACCEPTED) {
                  $proofRequest->getPlayerChart()->setStatus(
                     $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_INVESTIGATION)
                  );
 
                  $setPlayerResponding = true;
-                 $this->eventDispatcher->dispatch(new ProofRequestEvent($proofRequest), VideoGamesRecordsCoreEvents::PROOF_REQUEST_ACCEPTED);
+                 $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_ACCEPTED);
              }
              if ($this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_REFUSED) {
                  $proofRequest->getPlayerChart()->setStatus(
@@ -82,7 +82,7 @@ class ProofRequestListener
                  );
 
                  $setPlayerResponding = true;
-                 $this->eventDispatcher->dispatch(new ProofRequestEvent($proofRequest), VideoGamesRecordsCoreEvents::PROOF_REQUEST_REFUSED);
+                 $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_REFUSED);
              }
         }
 

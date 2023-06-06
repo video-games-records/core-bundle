@@ -56,7 +56,7 @@ class ProofListener
                 );
 
                 $setPlayerResponding = true;
-                $this->eventDispatcher->dispatch(new ProofEvent($proof), VideoGamesRecordsCoreEvents::PROOF_ACCEPTED);
+                $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_ACCEPTED);
             }
             if (in_array($this->changeSet['status'][0], array(ProofStatus::STATUS_IN_PROGRESS, ProofStatus::STATUS_ACCEPTED)
                 ) && $this->changeSet['status'][1] === ProofStatus::STATUS_REFUSED) {
@@ -70,7 +70,7 @@ class ProofListener
                 }
 
                 $setPlayerResponding = true;
-                $this->eventDispatcher->dispatch(new ProofEvent($proof), VideoGamesRecordsCoreEvents::PROOF_REFUSED);
+                $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REFUSED);
             }
         }
 
