@@ -32,7 +32,7 @@ class ProofListener
      * @param Proof              $proof
      * @param PreUpdateEventArgs $event
      */
-    public function preUpdate(proof $proof, PreUpdateEventArgs $event): void
+    public function preUpdate(Proof $proof, PreUpdateEventArgs $event): void
     {
         $this->changeSet = $event->getEntityChangeSet();
     }
@@ -43,7 +43,7 @@ class ProofListener
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function postUpdate(proof $proof, LifecycleEventArgs $event): void
+    public function postUpdate(Proof $proof, LifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
 

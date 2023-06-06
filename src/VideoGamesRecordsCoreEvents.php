@@ -18,4 +18,6 @@ final class VideoGamesRecordsCoreEvents
     public const PROOF_REFUSED = 'vgr_core.proof.refused';
     public const PROOF_REQUEST_ACCEPTED = 'vgr_core.proof.request.accepted';
     public const PROOF_REQUEST_REFUSED = 'vgr_core.proof.request.refused';
+    public const PLAYER_BADGE_LOST = 'vgr_core.player.badge.lost';
+    public const TEAM_BADGE_LOST = 'vgr_core.team.badge.lost';
 }
