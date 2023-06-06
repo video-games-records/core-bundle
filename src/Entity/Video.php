@@ -61,7 +61,7 @@ class Video implements SluggableInterface
     /**
      * @ORM\Column(name="type", type="string", length=30, nullable=false)
      */
-    private ?string $type = VideoType::TYPE_YOUTUBE;
+    private string $type = VideoType::TYPE_YOUTUBE;
 
     /**
      * @Assert\NotNull(message="video.videoId.not_null")
@@ -123,7 +123,7 @@ class Video implements SluggableInterface
 
     /**
      * Get id
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -311,9 +311,9 @@ class Video implements SluggableInterface
      */
     public function getEmbeddedUrl(): string
     {
-        if ($this->getType() == VideoType::TYPE_YOUTUBE) {
+        if ($this->getType()->getValue() == VideoType::TYPE_YOUTUBE) {
             return 'https://www.youtube.com/embed/' . $this->getVideoId();
-        } elseif ($this->getType() == VideoType::TYPE_TWITCH) {
+        } elseif ($this->getType()->getValue() == VideoType::TYPE_TWITCH) {
             return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getVideoId(
                 ) . '&parent=' . $_SERVER['SERVER_NAME'];
         } else {
