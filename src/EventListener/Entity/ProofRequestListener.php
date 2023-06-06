@@ -10,7 +10,6 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
-use VideoGamesRecords\CoreBundle\Event\ProofEvent;
 use VideoGamesRecords\CoreBundle\Event\ProofRequestEvent;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofRequestStatus;
@@ -64,31 +63,40 @@ class ProofRequestListener
     public function postUpdate(ProofRequest $proofRequest, LifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
+        $event = new ProofRequestEvent($proofRequest);
 
-        $setPlayerResponding = false;
-        if (array_key_exists('status', $this->changeSet)) {
-             $event = new ProofRequestEvent($proofRequest);
-             if ($this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_ACCEPTED) {
-                 $proofRequest->getPlayerChart()->setStatus(
-                    $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_INVESTIGATION)
-                 );
+        if ($this->isAccepted()) {
+             $proofRequest->getPlayerChart()->setStatus(
+                $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_INVESTIGATION)
+             );
 
-                 $setPlayerResponding = true;
-                 $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_ACCEPTED);
-             }
-             if ($this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_REFUSED) {
-                 $proofRequest->getPlayerChart()->setStatus(
-                    $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
-                 );
-
-                 $setPlayerResponding = true;
-                 $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_REFUSED);
-             }
+             $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
+             $proofRequest->setDateAcceptance(new DateTime());
+             $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_ACCEPTED);
         }
 
-        if ($setPlayerResponding) {
-            $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
-            $proofRequest->setDateAcceptance(new DateTime());
+        if ($this->isRefused()) {
+             $proofRequest->getPlayerChart()->setStatus(
+                $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
+             );
+
+             $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
+             $proofRequest->setDateAcceptance(new DateTime());
+             $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_REFUSED);
         }
+    }
+
+     private function isAccepted(): bool
+    {
+        return array_key_exists('status', $this->changeSet)
+            && $this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS
+            && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_ACCEPTED;
+    }
+
+    private function isRefused(): bool
+    {
+        return array_key_exists('status', $this->changeSet)
+            && $this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS
+            && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_REFUSED;
     }
 }

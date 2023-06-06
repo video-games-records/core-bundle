@@ -49,7 +49,7 @@ class ProofListener
         $event = new ProofEvent($proof);
 
         // ACCEPTED
-        if (array_key_exists('status', $this->changeSet) && $this->changeSet['status'][0] === ProofStatus::STATUS_IN_PROGRESS && $this->changeSet['status'][1] === ProofStatus::STATUS_ACCEPTED) {
+        if ($this->isAccepted()) {
             $proof->getPlayerChart()->setStatus(
                 $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_PROOVED)
             );
@@ -60,8 +60,7 @@ class ProofListener
         }
 
         // REFUSED
-        if (array_key_exists('status', $this->changeSet) && in_array($this->changeSet['status'][0], array(ProofStatus::STATUS_IN_PROGRESS, ProofStatus::STATUS_ACCEPTED)
-                ) && $this->changeSet['status'][1] === ProofStatus::STATUS_REFUSED) {
+        if ($this->isRefused()) {
             $playerChart = $proof->getPlayerChart();
             if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
                 $playerChart->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL));
@@ -97,5 +96,23 @@ class ProofListener
                 $em->flush();
             }
         }
+    }
+
+
+    private function isAccepted(): bool
+    {
+        return array_key_exists('status', $this->changeSet)
+            && $this->changeSet['status'][0] === ProofStatus::STATUS_IN_PROGRESS
+            && $this->changeSet['status'][1] === ProofStatus::STATUS_ACCEPTED;
+    }
+
+    private function isRefused(): bool
+    {
+        return array_key_exists('status', $this->changeSet)
+            && in_array(
+                $this->changeSet['status'][0],
+                array(ProofStatus::STATUS_IN_PROGRESS, ProofStatus::STATUS_ACCEPTED)
+            )
+            && $this->changeSet['status'][1] === ProofStatus::STATUS_REFUSED;
     }
 }
