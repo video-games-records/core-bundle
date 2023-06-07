@@ -101,6 +101,12 @@ class Game implements SluggableInterface
     private ?string $libGameFr = null;
 
     /**
+     * @Assert\Length(max="255")
+     * @ORM\Column(name="downloadUrl", type="string", length=255, nullable=true)
+     */
+    private ?string $downloadUrl;
+
+    /**
      * @ORM\Column(name="status", type="string", length=30, nullable=false, options={"default":"CREATED"})
      */
     private string $status = GameStatus::STATUS_CREATED;
@@ -267,6 +273,24 @@ class Game implements SluggableInterface
     public function getLibGameFr(): ?string
     {
         return $this->libGameFr;
+    }
+
+     /**
+     * @param string $downloadUrl
+     * @return Game
+     */
+    public function setDownloadurl(string $downloadUrl): Game
+    {
+        $this->downloadUrl = $downloadUrl;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDownloadUrl(): ?string
+    {
+        return $this->downloadUrl;
     }
 
     /**
