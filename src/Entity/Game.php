@@ -275,7 +275,7 @@ class Game implements SluggableInterface
         return $this->libGameFr;
     }
 
-     /**
+    /**
      * @param string $downloadUrl
      * @return Game
      */
