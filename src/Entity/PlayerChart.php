@@ -7,6 +7,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -57,6 +58,14 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
  *         "chart.nbPost",
  *         "rank",
  *         "pointChart",
+ *     }
+ * )
+  * @ApiFilter(
+ *     ExistsFilter::class,
+ *     properties={
+ *         "proof",
+ *         "proof.picture",
+ *         "proof.video",
  *     }
  * )
  * @ApiFilter(
