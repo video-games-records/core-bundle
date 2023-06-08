@@ -82,6 +82,12 @@ class PlayerRankingQuery extends DefaultRankingQuery
         $query = $this->em->createQueryBuilder()
             ->select('p')
             ->from('VideoGamesRecords\CoreBundle\Entity\Player', 'p')
+            ->leftJoin('p.team', 't')
+            ->addSelect('t')
+            ->leftJoin('p.country', 'c')
+            ->addSelect('c')
+            ->leftJoin('c.translations', 'trans')
+            ->addSelect('trans')
             ->where("p.$column != 0")
             ->orderBy("p.$column");
 
