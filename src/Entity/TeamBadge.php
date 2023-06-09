@@ -17,6 +17,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *
  * @ORM\Table(name="vgr_team_badge")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\TeamBadgeListener"})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={

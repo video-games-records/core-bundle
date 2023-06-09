@@ -82,14 +82,20 @@ class PlayerRankingQuery extends DefaultRankingQuery
         $query = $this->em->createQueryBuilder()
             ->select('p')
             ->from('VideoGamesRecords\CoreBundle\Entity\Player', 'p')
-            ->where("p.$column IS NOT NULL")
+            ->leftJoin('p.team', 't')
+            ->addSelect('t')
+            ->leftJoin('p.country', 'c')
+            ->addSelect('c')
+            ->leftJoin('c.translations', 'trans')
+            ->addSelect('trans')
+            ->where("p.$column != 0")
             ->orderBy("p.$column");
 
         if ($team !== null) {
             $query->andWhere('(p.team = :team)')
                 ->setParameter('team', $team);
         } elseif (($maxRank !== null) && ($player !== null)) {
-            $query->where("(p.$column <= :maxRank OR p = :player)")
+            $query->andWhere("(p.$column <= :maxRank OR p = :player)")
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
         } else {

@@ -14,4 +14,10 @@ final class VideoGamesRecordsCoreEvents
     public const COUNTRY_MAJ_COMPLETED = 'vgr_core.country.maj.completed';
     public const SCORE_PLATFORM_UPDATED = 'vgr_core.score.platform.updated';
     public const PLAYER_CHART_MAJ_COMPLETED = 'vgr_core.player.chart.maj.completed';
+    public const PROOF_ACCEPTED = 'vgr_core.proof.accepted';
+    public const PROOF_REFUSED = 'vgr_core.proof.refused';
+    public const PROOF_REQUEST_ACCEPTED = 'vgr_core.proof.request.accepted';
+    public const PROOF_REQUEST_REFUSED = 'vgr_core.proof.request.refused';
+    public const PLAYER_BADGE_LOST = 'vgr_core.player.badge.lost';
+    public const TEAM_BADGE_LOST = 'vgr_core.team.badge.lost';
 }

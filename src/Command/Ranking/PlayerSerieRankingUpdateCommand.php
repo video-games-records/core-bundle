@@ -20,7 +20,7 @@ class PlayerSerieRankingUpdateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('vgr-core:player-serie-ranking-update')

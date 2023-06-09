@@ -19,6 +19,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
+use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
 
 
 /**
@@ -167,7 +168,7 @@ class PlayerChartController extends AbstractController
         $videoIn = new Video();
         $videoIn->setUrl($url);
 
-        if (in_array($videoIn->getType(), array(Video::TYPE_TWITCH, Video::TYPE_YOUTUBE))) {
+        if (in_array($videoIn->getType(), array(VideoType::TYPE_TWITCH, VideoType::TYPE_YOUTUBE))) {
             $video = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Video')->findOneBy(
                 array(
                     'videoId' => $videoIn->getVideoId(),

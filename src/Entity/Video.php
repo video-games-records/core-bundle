@@ -15,6 +15,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
+use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
 
 /**
  * @ORM\Table(
@@ -45,10 +46,6 @@ class Video implements SluggableInterface
     use SluggableTrait;
     use PlayerTrait;
 
-    const TYPE_YOUTUBE = 'Youtube';
-    const TYPE_TWITCH = 'Twitch';
-    const TYPE_UNKNOWN = 'Unknown';
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -64,7 +61,7 @@ class Video implements SluggableInterface
     /**
      * @ORM\Column(name="type", type="string", length=30, nullable=false)
      */
-    private ?string $type = self::TYPE_YOUTUBE;
+    private string $type = VideoType::TYPE_YOUTUBE;
 
     /**
      * @Assert\NotNull(message="video.videoId.not_null")
@@ -126,7 +123,7 @@ class Video implements SluggableInterface
 
     /**
      * Get id
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -167,11 +164,11 @@ class Video implements SluggableInterface
 
     /**
      * Get type
-     * @return string
+     * @return VideoType
      */
-    public function getType(): ?string
+    public function getType(): VideoType
     {
-        return $this->type;
+        return new VideoType($this->type);
     }
 
 
@@ -188,7 +185,7 @@ class Video implements SluggableInterface
 
     /**
      * Get videoId
-     * @return string
+     * @return string|null
      */
     public function getVideoId(): ?string
     {
@@ -272,7 +269,7 @@ class Video implements SluggableInterface
 
     /**
      * Get game
-     * @return Game
+     * @return Game|null
      */
     public function getGame(): ?Game
     {
@@ -288,34 +285,23 @@ class Video implements SluggableInterface
     }
 
     /**
-     * @return array
-     */
-    public static function getTypeChoices(): array
-    {
-        return [
-            self::TYPE_YOUTUBE => self::TYPE_YOUTUBE,
-            self::TYPE_TWITCH => self::TYPE_TWITCH,
-        ];
-    }
-
-    /**
      *
      */
     public function majTypeAndVideoId()
     {
         if (strpos($this->getUrl(), 'youtube')) {
-            $this->setType(self::TYPE_YOUTUBE);
+            $this->setType(VideoType::TYPE_YOUTUBE);
             $explode = explode('=', $this->getUrl());
             $this->setVideoId($explode[1]);
         } elseif (strpos($this->getUrl(), 'youtu.be')) {
-            $this->setType(self::TYPE_YOUTUBE);
+            $this->setType(VideoType::TYPE_YOUTUBE);
             $this->setVideoId(substr($this->getUrl(), strripos($this->getUrl(), '/') + 1, strlen($this->getUrl()) - 1));
         } elseif (strpos($this->getUrl(), 'twitch')) {
-            $this->setType(self::TYPE_TWITCH);
+            $this->setType(VideoType::TYPE_TWITCH);
             $explode = explode('/', $this->getUrl());
             $this->setVideoId($explode[count($explode) - 1]);
         } else {
-            $this->setType(self::TYPE_UNKNOWN);
+            $this->setType(VideoType::TYPE_UNKNOWN);
         }
     }
 
@@ -325,9 +311,9 @@ class Video implements SluggableInterface
      */
     public function getEmbeddedUrl(): string
     {
-        if ($this->getType() == self::TYPE_YOUTUBE) {
+        if ($this->getType()->getValue() == VideoType::TYPE_YOUTUBE) {
             return 'https://www.youtube.com/embed/' . $this->getVideoId();
-        } elseif ($this->getType() == self::TYPE_TWITCH) {
+        } elseif ($this->getType()->getValue() == VideoType::TYPE_TWITCH) {
             return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getVideoId(
                 ) . '&parent=' . $_SERVER['SERVER_NAME'];
         } else {

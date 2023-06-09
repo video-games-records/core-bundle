@@ -32,12 +32,12 @@ final class SetBadgeTitleSubscriber implements EventSubscriberInterface, BadgeIn
     /**
      * @param RequestEvent $event
      */
-    public function setTitle(RequestEvent $event)
+    public function setTitle(RequestEvent $event): void
     {
         $data = $event->getRequest()->attributes->get('data');
         $method = $event->getRequest()->getMethod();
 
-        if ($method == Request::METHOD_GET && is_array($data) && $data[0] instanceof PlayerBadge) {
+        if ($method == Request::METHOD_GET && is_array($data) && count($data) > 0 && $data[0] instanceof PlayerBadge) {
             foreach ($data as $playerBadge) {
                 $playerBadge->getBadge()->setTitle(
                     sprintf(

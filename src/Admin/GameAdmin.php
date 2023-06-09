@@ -104,6 +104,10 @@ class GameAdmin extends AbstractAdmin
                 'label' => 'label.picture',
                 'required' => false,
             ])
+            ->add('downloadUrl', TextType::class, [
+                'label' => 'label.downloadUrl',
+                'required' => false,
+            ])
             ->add(
                 'status',
                 ChoiceType::class,
@@ -267,6 +271,7 @@ class GameAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
+            ->add('downloadUrl', null, ['label' => 'label.downloadUrl'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('picture', null, ['label' => 'label.picture'])
             ->add('badge', null, ['label' => 'label.badge'])

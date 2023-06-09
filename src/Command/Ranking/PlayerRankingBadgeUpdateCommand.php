@@ -18,7 +18,7 @@ class PlayerRankingBadgeUpdateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('vgr-core:player-ranking-badge-update')

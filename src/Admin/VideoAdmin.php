@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use VideoGamesRecords\CoreBundle\Entity\Video;
+use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
 
 class VideoAdmin extends AbstractAdmin
 {
@@ -69,7 +70,7 @@ class VideoAdmin extends AbstractAdmin
                 ChoiceType::class,
                 [
                     'label' => 'label.type',
-                    'choices' => Video::getTypeChoices(),
+                    'choices' => VideoType::getTypeChoices(),
                     'choice_translation_domain' => false,
                 ]
             )

@@ -3,6 +3,7 @@
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -93,14 +94,6 @@ class PlayerChartListener
             $playerChart->setProof(null);
         }
 
-        if (null === $playerChart->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $playerChart->getStatus()->getId()) {
-            $playerChart->setDateInvestigation(new DateTime());
-        }
-        if (null !== $playerChart->getDateInvestigation()
-            && in_array($playerChart->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
-            $playerChart->setDateInvestigation(null);
-        }
-
         //-- status
         if ($playerChart->getStatus()->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
             $playerChart->setPointChart(0);
@@ -108,23 +101,9 @@ class PlayerChartListener
             $playerChart->setTopScore(false);
         }
 
-        if (array_key_exists('proof', $this->changeSet)
-            && $this->changeSet['proof'][1] !== null
-            && $playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF
-        ) {
-            echo $playerChart->getId();
-            $proofRequest = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\ProofRequest')
-                ->findOneBy(
-                    [
-                        'playerChart' => $playerChart
-                    ],
-                    array('createdAt' => 'DESC')
-                );
+        $this->updateDateInvestigation($playerChart);
 
-            if ($proofRequest) {
-                $playerChart->getProof()->setProofRequest($proofRequest);
-            }
-        }
+        $this->updateProof($playerChart, $em);
     }
 
     /**
@@ -134,8 +113,6 @@ class PlayerChartListener
      */
     public function postUpdate(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
-        $em = $event->getObjectManager();
-
         if ((array_key_exists('lastUpdate', $this->changeSet)) || (array_key_exists('status', $this->changeSet))) {
             $chart = $playerChart->getChart();
             $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
@@ -161,8 +138,6 @@ class PlayerChartListener
                 $player->setNbChartDisabled($player->getNbChartDisabled() - 1);
             }
         }
-
-        $em->flush();
     }
 
     /**
@@ -188,5 +163,47 @@ class PlayerChartListener
         // Game
         $game = $group->getGame();
         $game->setNbPost($game->getNbPost() - 1);
+    }
+
+
+    /**
+     * @param PlayerChart $playerChart
+     * @return void
+     */
+    private function updateDateInvestigation(PlayerChart $playerChart): void
+    {
+        if (null === $playerChart->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $playerChart->getStatus()->getId()) {
+            $playerChart->setDateInvestigation(new DateTime());
+        }
+
+        if (null !== $playerChart->getDateInvestigation()
+            && in_array($playerChart->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
+            $playerChart->setDateInvestigation(null);
+        }
+    }
+
+    /**
+     * @param PlayerChart $playerChart
+     * @param EntityManagerInterface $em
+     * @return void
+     */
+    private function updateProof(PlayerChart $playerChart, EntityManagerInterface $em): void
+    {
+        if (array_key_exists('proof', $this->changeSet)
+            && $this->changeSet['proof'][1] !== null
+            && $playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF
+        ) {
+            $proofRequest = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\ProofRequest')
+                ->findOneBy(
+                    [
+                        'playerChart' => $playerChart
+                    ],
+                    array('createdAt' => 'DESC')
+                );
+
+            if ($proofRequest) {
+                $playerChart->getProof()->setProofRequest($proofRequest);
+            }
+        }
     }
 }

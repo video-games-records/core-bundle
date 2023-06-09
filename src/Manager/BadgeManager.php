@@ -8,7 +8,7 @@ use VideoGamesRecords\CoreBundle\Entity\Badge;
 class BadgeManager
 {
     /** @var BadgeTypeStrategyInterface[] */
-    private $strategies = [];
+    private array $strategies = [];
 
 
     public function getStrategy(Badge $badge): BadgeTypeStrategyInterface

@@ -18,6 +18,7 @@ use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
  *
  * @ORM\Table(name="vgr_player_badge")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerBadgeListener"})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
