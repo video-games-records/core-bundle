@@ -28,6 +28,7 @@
         "symfony/framework-bundle": "5.4.*",
         "symfony/http-kernel": "^5.4",
         "symfony/lock": "^5.4",
+        "symfony/validator": "^5.4",
         "webmozart/assert": "*"
     },
     "require-dev": {
