@@ -8,25 +8,25 @@ services:
         class: VideoGamesRecords\CoreBundle\Handler\Badge\PlayerCountryBadgeHandler
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@VideoGamesRecords\CoreBundle\Service\Ranking\Read\CountryRankingQuery'
+            - '@vgr.core.data_provider.ranking.player_country'
 
     vgr.core.handler.badge.player_game:
         class: VideoGamesRecords\CoreBundle\Handler\Badge\PlayerMasterBadgeHandler
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGameRankingQuery'
+            - '@vgr.core.data_provider.ranking.player_game'
 
     vgr.core.handler.badge.player_platform:
         class: VideoGamesRecords\CoreBundle\Handler\Badge\PlayerPlatformBadgeHandler
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlatformRankingQuery'
+            - '@vgr.core.data_provider.ranking.player_platform'
 
     vgr.core.handler.badge.team_game:
         class: VideoGamesRecords\CoreBundle\Handler\Badge\TeamMasterBadgeHandler
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamGameRankingQuery'
+            - '@vgr.core.data_provider.ranking.team_game'
 
     vgr.core.handler.score_investigation:
         class: VideoGamesRecords\CoreBundle\Handler\Badge\ScoreInvestigationBadgeHandler

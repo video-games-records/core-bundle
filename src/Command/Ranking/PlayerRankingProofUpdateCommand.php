@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Write\PlayerRankingHandler;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerRankingHandler;
 
 class PlayerRankingProofUpdateCommand extends Command
 {

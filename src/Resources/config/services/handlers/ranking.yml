@@ -1,0 +1,84 @@
+services:
+  _defaults:
+    autowire: false
+    autoconfigure: false
+    public: true
+
+  #Score
+  vgr.core.handler.ranking.player_scoring:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Player\ScoringPlayerRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.handler.ranking.player_chart'
+      - '@vgr.core.handler.ranking.player_group'
+      - '@vgr.core.handler.ranking.player_game'
+      - '@vgr.core.handler.ranking.player'
+
+  #Player
+  vgr.core.handler.ranking.player_chart:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerChartRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.data_provider.ranking.player_chart'
+      - '@event_dispatcher'
+
+  vgr.core.handler.ranking.player_country:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerCountryRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
+
+  vgr.core.handler.ranking.player_game:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerGameRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
+
+  vgr.core.handler.ranking.player_group:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerGroupRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
+  vgr.core.handler.ranking.player_platform:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerPlatformRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
+
+  vgr.core.handler.ranking.player:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
+
+  vgr.core.handler.ranking.player_serie:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerSerieRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
+  #Team
+  vgr.core.handler.ranking.team_chart:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Team\TeamChartRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
+  vgr.core.handler.ranking.team_game:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Team\TeamGameRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
+
+  vgr.core.handler.ranking.team_group:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Team\TeamCGroupRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
+  vgr.core.handler.ranking.team:
+    class: VideoGamesRecords\CoreBundle\Handler\Ranking\Team\TeamRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
+
+
+
+

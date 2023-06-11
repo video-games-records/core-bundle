@@ -7,8 +7,7 @@ services:
     vgr.core.manager.game_day:
         class: VideoGamesRecords\CoreBundle\Manager\GameOfDayManager
         arguments:
-            - '@vgr.core.repository.game'
-            - '@vgr.core.repository.game_day'
+            - '@doctrine.orm.entity_manager'
 
     vgr.core.manager.lost_position:
         class: VideoGamesRecords\CoreBundle\Manager\LostPositionManager

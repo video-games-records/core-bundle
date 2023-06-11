@@ -6,24 +6,24 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerSerieRankingHandler;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerPlatformRankingHandler;
 
-class PlayerSerieRankingUpdateCommand extends Command
+class PlayerPlatformRankingUpdateCommand extends Command
 {
-    protected static $defaultName = 'vgr-core:player-serie-ranking-update';
+    protected static $defaultName = 'vgr-core:platform-ranking-update';
 
-    private PlayerSerieRankingHandler $playerSerieRankingHandler;
+    private PlayerPlatformRankingHandler $playerPlatformRankingHandler;
 
-    public function __construct(PlayerSerieRankingHandler $playerSerieRankingHandler)
+    public function __construct(PlayerPlatformRankingHandler $playerPlatformRankingHandler)
     {
-        $this->playerSerieRankingHandler = $playerSerieRankingHandler;
+        $this->playerPlatformRankingHandler = $playerPlatformRankingHandler;
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->setName('vgr-core:player-serie-ranking-update')
+            ->setName('vgr-core:player-platform-ranking-update')
             ->setDescription('Command to update players ranking')
             ->addArgument(
                 'function',
@@ -52,10 +52,10 @@ class PlayerSerieRankingUpdateCommand extends Command
         switch ($function) {
             case 'maj':
                 $id = $input->getOption('id');
-                $this->playerSerieRankingHandler->handle($id);
+                $this->playerPlatformRankingHandler->handle($id);
                 break;
             case 'maj-all':
-                $this->playerSerieRankingHandler->majAll();
+                $this->playerPlatformRankingHandler->majAll();
                 break;
         }
         return Command::SUCCESS;

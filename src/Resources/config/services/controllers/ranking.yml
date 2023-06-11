@@ -1,0 +1,66 @@
+services:
+  _defaults:
+    autowire: false
+    autoconfigure: true
+    public: true
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\PlatformController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.player_platform'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerSerieController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.player_serie'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGameController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.player_game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGroupController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.player_group'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerChartController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.player_chart'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.team'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGameController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.team_game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGroupController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.team_group'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Ranking\TeamChartController:
+    arguments:
+      - '@vgr.core.data_provider.ranking.team_chart'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
