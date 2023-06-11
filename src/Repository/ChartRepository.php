@@ -3,21 +3,15 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
-class ChartRepository extends DefaultRepository
+class ChartRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Chart::class);
-    }
-
     /**
      * @return mixed
      * @throws NonUniqueResultException

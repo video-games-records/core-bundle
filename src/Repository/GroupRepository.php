@@ -3,16 +3,10 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Group;
+use Doctrine\ORM\EntityRepository;
 
-class GroupRepository extends DefaultRepository
+class GroupRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Group::class);
-    }
-
     /**
      * @param       $id
      * @param false $boolCopyLibChart

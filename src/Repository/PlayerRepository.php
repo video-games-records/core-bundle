@@ -2,18 +2,13 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\ORMException;
-use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 
-class PlayerRepository extends DefaultRepository
+class PlayerRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Player::class);
-    }
-
     /**
      * @param $q
      * @return mixed

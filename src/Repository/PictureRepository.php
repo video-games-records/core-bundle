@@ -2,13 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Picture;
+use Doctrine\ORM\EntityRepository;
 
-class PictureRepository extends DefaultRepository
+class PictureRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Picture::class);
-    }
+
 }

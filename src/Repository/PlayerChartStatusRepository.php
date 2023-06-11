@@ -2,16 +2,10 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use Doctrine\ORM\EntityRepository;
 
-class PlayerChartStatusRepository extends DefaultRepository
+class PlayerChartStatusRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, PlayerChartStatus::class);
-    }
-
     /**
      * @param $player
      * @return int|mixed|string
