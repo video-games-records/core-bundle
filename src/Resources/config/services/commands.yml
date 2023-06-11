@@ -1,7 +1,28 @@
 services:
+    VideoGamesRecords\CoreBundle\Command\PlayerBadgeUpdateCommand:
+        class: VideoGamesRecords\CoreBundle\Command\PlayerBadgeUpdateCommand
+        arguments:
+            - '@vgr.core.handler.badge.player'
+        tags:
+            - { name: 'console.command', command: 'vgr-core:player-badge-update' }
+
     VideoGamesRecords\CoreBundle\Command\GameOfDayAddCommand:
         class: VideoGamesRecords\CoreBundle\Command\GameOfDayAddCommand
         arguments:
             - '@vgr.core.manager.game_day'
         tags:
             - { name: 'console.command', command: 'vgr-core:game-of-day-add' }
+
+    VideoGamesRecords\CoreBundle\Command\LostPositionPurgeCommand:
+        class: VideoGamesRecords\CoreBundle\Command\LostPositionPurgeCommand
+        arguments:
+            - '@vgr.core.manager.lost_position'
+        tags:
+            - { name: 'console.command', command: 'vgr-core:lost-position-purge' }
+
+    VideoGamesRecords\CoreBundle\Command\ScoreInvestigationUpdate:
+        class: VideoGamesRecords\CoreBundle\Command\ScoreInvestigationUpdate
+        arguments:
+            - '@vgr.core.handler.score_investigation'
+        tags:
+            - { name: 'console.command', command: 'vgr-core:score-investigation-update' }
