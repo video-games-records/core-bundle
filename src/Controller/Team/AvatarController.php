@@ -2,6 +2,7 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Team;
 
+use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,19 +22,19 @@ use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 class AvatarController extends AbstractController
 {
     private TranslatorInterface $translator;
-    private TeamRepository $teamRepository;
     private AvatarManager $avatarManager;
+    private EntityManagerInterface $em;
 
     private array $extensions = array(
         'image/png' => '.png',
         'image/jpeg' => '.jpg',
     );
 
-    public function __construct(TranslatorInterface $translator, TeamRepository $teamRepository, AvatarManager $avatarManager)
+    public function __construct(TranslatorInterface $translator, AvatarManager $avatarManager, EntityManagerInterface $em)
     {
         $this->translator = $translator;
-        $this->teamRepository = $teamRepository;
         $this->avatarManager = $avatarManager;
+        $this->em = $em;
     }
 
     /**
@@ -67,7 +68,7 @@ class AvatarController extends AbstractController
 
         // Save avatar
         $team->setLogo($filename);
-        $this->teamRepository->flush();
+        $this->em->flush();
 
         return new JsonResponse([
             'message' => $this->translator->trans('avatar.success'),

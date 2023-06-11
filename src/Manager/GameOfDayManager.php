@@ -3,19 +3,17 @@
 namespace VideoGamesRecords\CoreBundle\Manager;
 
 use Datetime;
+use Doctrine\ORM\EntityManagerInterface;
+use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\GameDay;
-use VideoGamesRecords\CoreBundle\Repository\GameDayRepository;
-use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 
 class GameOfDayManager
 {
-    private GameDayRepository $gameDayRepository;
-    private GameRepository $gameRepository;
+    private EntityManagerInterface $em;
 
-    public function __construct(GameDayRepository $gameDayRepository, GameRepository $gameRepository)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->gameDayRepository = $gameDayRepository;
-        $this->gameRepository = $gameRepository;
+        $this->em = $em;
     }
 
     /**
@@ -24,16 +22,16 @@ class GameOfDayManager
     public function add(): void
     {
         $tomorrow = new Datetime('tomorrow');
-        $gameDay = $this->gameDayRepository->findOneBy(array('day' => $tomorrow));
+        $gameDay = $this->em->getRepository(GameDay::class)->findOneBy(array('day' => $tomorrow));
         if (!$gameDay) {
-            $games = $this->gameRepository->getIds();
+            $games = $this->em->getRepository(Game::class)->getIds();
             $rand_key = array_rand($games, 1);
-            $game = $this->gameRepository->findOneBy($games[$rand_key]);
+            $game = $this->em->getRepository(Game::class)->findOneBy($games[$rand_key]);
             $gameDay = new GameDay();
             $gameDay->setGame($game);
             $gameDay->setDay($tomorrow);
-            $this->gameDayRepository->save($gameDay);
-            $this->gameDayRepository->flush();
+            $this->em->persist($gameDay);
+            $this->em->flush();
         }
     }
 }

@@ -20,21 +20,25 @@ class VideoGamesRecordsCoreExtension extends Extension
      * @param ContainerBuilder $container
      * @throws Exception
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $this->processConfiguration($configuration, $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('services/commands.yml');
+        $loader->load('services/controllers.yml');
+        $loader->load('services/controllers/admin.yml');
+        $loader->load('services/controllers/ranking.yml');
         $loader->load('services/data_providers.yml');
+        $loader->load('services/event_subscriber.yml');
+        $loader->load('services/event_listener.yml');
         $loader->load('services/handlers.yml');
+        $loader->load('services/handlers/ranking.yml');
+        $loader->load('services/managers.yml');
         $loader->load('services/providers.yml');
         $loader->load('services/transformers.yml');
         $loader->load('services/repositories.yml');
-        $loader->load('services/managers.yml');
-        $loader->load('services/event_subscriber.yml');
-        $loader->load('services/event_listener.yml');
-        $loader->load('services/controllers.yml');
         $loader->load('admin.yml');
     }
 }
