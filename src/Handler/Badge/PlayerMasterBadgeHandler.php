@@ -4,18 +4,19 @@ namespace VideoGamesRecords\CoreBundle\Handler\Badge;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingQueryInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerGameRankingQuery;
 
 class PlayerMasterBadgeHandler
 {
     private EntityManagerInterface $em;
-    private PlayerGameRankingQuery $playerGameRankingQuery;
+    private RankingQueryInterface $rankingQuery; //PlayerGameRankingQuery
 
-    public function __construct(EntityManagerInterface $em, PlayerGameRankingQuery $playerGameRankingQuery)
+    public function __construct(EntityManagerInterface $em, RankingQueryInterface $rankingQuery)
     {
         $this->em = $em;
-        $this->playerGameRankingQuery = $playerGameRankingQuery;
+        $this->rankingQuery = $rankingQuery;
     }
 
     /**
@@ -24,7 +25,7 @@ class PlayerMasterBadgeHandler
     public function process(Game $game): void
     {
         //----- get ranking with maxRank = 1
-        $ranking = $this->playerGameRankingQuery->getRankingPoints($game->getId(), ['maxRank' => 1]);
+        $ranking = $this->rankingQuery->getRankingPoints($game->getId(), ['maxRank' => 1]);
         $players = array();
         foreach ($ranking as $playerGame) {
             $players[$playerGame->getPlayer()->getId()] = 0;

@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player;
 
 use Doctrine\ORM\Exception\ORMException;
 use VideoGamesRecords\CoreBundle\DataProvider\Ranking\AbstractRankingQuery;
-use VideoGamesRecords\CoreBundle\Interface\Ranking\RankingQueryInterface;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingQueryInterface;
 
 class PlayerGameRankingQuery extends AbstractRankingQuery implements RankingQueryInterface
 {

@@ -110,9 +110,4 @@ class PlayerRankingQuery extends AbstractRankingQuery
 
         return $query->getQuery()->getResult();
     }
-
-    public function getRankingPoints(int $id = null, array $options = []): array
-    {
-        // TODO: Implement getRankingPoints() method.
-    }
 }
