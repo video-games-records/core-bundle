@@ -1,11 +1,15 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Handler\Ranking\Team;
+namespace VideoGamesRecords\CoreBundle\Handler\Ranking;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Team;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\Team\TeamChartRankingHandler;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\Team\TeamGameRankingHandler;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\Team\TeamGroupRankingHandler;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\Team\TeamRankingHandler;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class ScoringTeamRankingHandler

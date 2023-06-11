@@ -7,17 +7,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerScoringRankingHandler;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\ScoringPlayerRankingHandler;
 
 class PlayerScoringRankingUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:player-scoring-ranking-update';
 
-    private PlayerScoringRankingHandler $playerScoringRankingHandler;
+    private ScoringPlayerRankingHandler $scoringPlayerRankingHandler;
 
-    public function __construct(PlayerScoringRankingHandler $playerScoringRankingHandler)
+    public function __construct(ScoringPlayerRankingHandler $scoringPlayerRankingHandler)
     {
-        $this->playerScoringRankingHandler = $playerScoringRankingHandler;
+        $this->scoringPlayerRankingHandler = $scoringPlayerRankingHandler;
         parent::__construct();
     }
 
@@ -44,7 +44,7 @@ class PlayerScoringRankingUpdateCommand extends Command
         $lock = $factory->createLock(self::$defaultName);
 
         if ($lock->acquire()) {
-            $this->playerScoringRankingHandler->handle();
+            $this->scoringPlayerRankingHandler->handle();
             $lock->release();
         } else {
             echo self::$defaultName . " IS LOCKED\n";

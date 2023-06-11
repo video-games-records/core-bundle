@@ -5,19 +5,15 @@ namespace VideoGamesRecords\CoreBundle\Handler\Ranking\Team;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class TeamChartRankingHandler
+class TeamChartRankingHandler extends AbstractRankingHandler
 {
-    private EntityManagerInterface $em;
     private array $teams = [];
     private array $games = [];
     private array $groups = [];
 
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
 
     public function handle($mixed): void
     {

@@ -2,32 +2,22 @@
 
 namespace VideoGamesRecords\CoreBundle\Handler\Ranking\Player;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Event\PlatformEvent;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class PlayerPlatformRankingHandler
+class PlayerPlatformRankingHandler extends AbstractRankingHandler
 {
-    private EntityManagerInterface $em;
-    private EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $eventDispatcher)
-    {
-        $this->em = $em;
-        $this->eventDispatcher = $eventDispatcher;
-    }
-
-    public function majAll()
+    /*public function majAll()
     {
         $platforms = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Platform')->findAll();
         foreach ($platforms as $platform) {
             $this->handle($platform->getId());
         }
-    }
+    }*/
 
     public function handle($mixed): void
     {

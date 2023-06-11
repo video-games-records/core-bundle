@@ -1,5 +1,5 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\Command\Badge;
+namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\DBAL\Exception;
 use Symfony\Component\Console\Command\Command;

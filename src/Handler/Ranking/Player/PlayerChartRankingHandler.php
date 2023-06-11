@@ -8,27 +8,25 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Event\PlayerChartEvent;
 use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerChartRankingQuery;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class PlayerChartRankingHandler
+class PlayerChartRankingHandler extends AbstractRankingHandler
 {
-    private EntityManagerInterface $em;
     private PlayerChartRankingQuery $playerChartRankingQuery;
-    private EventDispatcherInterface $eventDispatcher;
     private array $players = [];
     private array $games = [];
     private array $groups = [];
 
-    public function __construct(
-        EntityManagerInterface $em,
-        PlayerChartRankingQuery $playerChartRankingQuery,
-        EventDispatcherInterface $eventDispatcher
-    )
+
+    /**
+     * @param PlayerChartRankingQuery $playerChartRankingQuery
+     * @return void
+     */
+    public function setPlayerChartRankingQuert(PlayerChartRankingQuery $playerChartRankingQuery): void
     {
-        $this->em = $em;
         $this->playerChartRankingQuery = $playerChartRankingQuery;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function handle($mixed): void

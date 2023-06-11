@@ -2,27 +2,17 @@
 
 namespace VideoGamesRecords\CoreBundle\Handler\Ranking\Team;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Event\TeamEvent;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class TeamRankingHandler
+class TeamRankingHandler extends AbstractRankingHandler
 {
-    private EntityManagerInterface $em;
-    private EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $eventDispatcher)
-    {
-        $this->em = $em;
-        $this->eventDispatcher = $eventDispatcher;
-    }
-
-    public function majAll()
+    /*public function majAll()
     {
         $query = $this->em->createQuery("
             SELECT p
@@ -33,7 +23,7 @@ class TeamRankingHandler
         foreach ($teams as $team) {
             $this->handle($team->getId());
         }
-    }
+    }*/
 
     /**
      * @throws NonUniqueResultException

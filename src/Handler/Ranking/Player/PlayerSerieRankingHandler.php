@@ -2,27 +2,20 @@
 
 namespace VideoGamesRecords\CoreBundle\Handler\Ranking\Player;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerSerieRankingHandler
+class PlayerSerieRankingHandler extends AbstractRankingHandler
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-    public function majAll()
+    /*public function majAll()
     {
         $series = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Serie')->findAll();
         foreach ($series as $serie) {
             $this->handle($serie->getId());
         }
-    }
+    }*/
 
     public function handle($mixed): void
     {

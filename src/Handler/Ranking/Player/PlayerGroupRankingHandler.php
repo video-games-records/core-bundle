@@ -3,21 +3,14 @@
 namespace VideoGamesRecords\CoreBundle\Handler\Ranking\Player;
 
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class PlayerGroupRankingHandler
+class PlayerGroupRankingHandler extends AbstractRankingHandler
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     public function handle($mixed): void
     {
         $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($mixed);

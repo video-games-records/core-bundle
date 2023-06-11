@@ -2,25 +2,15 @@
 
 namespace VideoGamesRecords\CoreBundle\Handler\Ranking\Player;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Event\CountryEvent;
+use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-class PlayerCountryRankingHandler
+class PlayerCountryRankingHandler extends AbstractRankingHandler
 {
-    private EntityManagerInterface $em;
-    private EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $eventDispatcher)
-    {
-        $this->em = $em;
-        $this->eventDispatcher = $eventDispatcher;
-    }
-
-    public function majAll()
+    /*public function majAll()
     {
         $countries = $this->getCountryRepository()->findBy(['boolMaj' => true]);
         foreach ($countries as $country) {
@@ -28,7 +18,7 @@ class PlayerCountryRankingHandler
             $country->setBoolMaj(false);
         }
         $this->em->flush();
-    }
+    }*/
 
     public function handle($mixed): void
     {
