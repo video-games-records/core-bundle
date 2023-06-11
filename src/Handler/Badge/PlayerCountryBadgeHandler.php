@@ -23,7 +23,7 @@ class PlayerCountryBadgeHandler
             return;
         }
 
-        $ranking = $this->rankingQuery->getRanking($country->getId(), array('maxRank' => 1));
+        $ranking = $this->rankingQuery->getRankingPoints($country->getId(), array('maxRank' => 1));
 
         $players = array();
         foreach ($ranking as $player) {
