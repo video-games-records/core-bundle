@@ -2,10 +2,11 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Group;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\TeamGroupRankingQuery;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Team\TeamGroupRankingQuery;
 
 /**
  * Class TeamGroupController
@@ -20,9 +21,10 @@ class TeamGroupController extends AbstractController
     }
 
     /**
-     * @param Group    $group
+     * @param Group $group
      * @param Request $request
      * @return array
+     * @throws ORMException
      */
     public function getRankingPoints(Group $group, Request $request): array
     {

@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerSerieRankingQuery;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerSerieRankingQuery;
 
 /**
  * Class PlayerSerieController

@@ -5,7 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlayerRankingQuery;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerRankingQuery;
 
 /**
  * Class PlayerController
