@@ -4,19 +4,19 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Team\TeamGameRankingQuery;
 
 /**
  * Class TeamGameController
  */
 class TeamGameController extends AbstractController
 {
-    private TeamGameRankingQuery $teamGameRankingQuery;
+    private RankingProviderInterface $rankingProvider;
 
-    public function __construct(TeamGameRankingQuery $teamGameRankingQuery)
+    public function __construct(RankingProviderInterface $rankingProvider)
     {
-        $this->teamGameRankingQuery = $teamGameRankingQuery;
+        $this->rankingProvider = $rankingProvider;
     }
 
     /**
@@ -26,7 +26,7 @@ class TeamGameController extends AbstractController
      */
     public function getRankingPoints(Game $game, Request $request): array
     {
-        return $this->teamGameRankingQuery->getRankingPoints(
+        return $this->rankingProvider->getRankingPoints(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
@@ -41,7 +41,7 @@ class TeamGameController extends AbstractController
      */
     public function getRankingMedals(Game $game, Request $request): array
     {
-        return $this->teamGameRankingQuery->getRankingMedals(
+        return $this->rankingProvider->getRankingMedals(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),

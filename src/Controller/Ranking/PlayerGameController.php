@@ -2,33 +2,30 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
-use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerGameRankingQuery;
 
 /**
  * Class PlayerGameController
  */
 class PlayerGameController extends AbstractController
 {
-    private PlayerGameRankingQuery $playerGameRankingQuery;
+    private RankingProviderInterface $rankingProvider;
 
-    public function __construct(PlayerGameRankingQuery $playerGameRankingQuery)
+    public function __construct(RankingProviderInterface $rankingProvider)
     {
-        $this->playerGameRankingQuery = $playerGameRankingQuery;
+        $this->rankingProvider = $rankingProvider;
     }
-
     /**
      * @param Game    $game
      * @param Request $request
      * @return array
-     * @throws ORMException
      */
     public function getRankingPoints(Game $game, Request $request): array
     {
-        return $this->playerGameRankingQuery->getRankingPoints(
+        return $this->rankingProvider->getRankingPoints(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),
@@ -42,11 +39,10 @@ class PlayerGameController extends AbstractController
      * @param Game    $game
      * @param Request $request
      * @return array
-     * @throws ORMException
      */
     public function getRankingMedals(Game $game, Request $request): array
     {
-        return $this->playerGameRankingQuery->getRankingMedals(
+        return $this->rankingProvider->getRankingMedals(
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 5),

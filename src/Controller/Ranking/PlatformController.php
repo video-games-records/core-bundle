@@ -4,7 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingQueryInterface;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 
 /**
@@ -12,11 +12,11 @@ use VideoGamesRecords\CoreBundle\Entity\Platform;
  */
 class PlatformController extends AbstractController
 {
-    private RankingQueryInterface $rankingQuery;
+    private RankingProviderInterface $rankingProvider;
 
-    public function __construct(RankingQueryInterface $rankingQuery)
+    public function __construct(RankingProviderInterface $rankingProvider)
     {
-        $this->rankingQuery = $rankingQuery;
+        $this->rankingProvider = $rankingProvider;
     }
 
     /**
@@ -26,7 +26,7 @@ class PlatformController extends AbstractController
      */
     public function getRankingPoints(Platform $platform, Request $request): array
     {
-        return $this->rankingQuery->getRankingPoints(
+        return $this->rankingProvider->getRankingPoints(
             $platform->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', 100),
