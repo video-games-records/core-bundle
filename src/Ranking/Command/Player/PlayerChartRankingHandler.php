@@ -2,31 +2,30 @@
 
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Event\PlayerChartEvent;
-use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerChartRankingQuery;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerChartRankingProvider;
+use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerChartRankingHandler extends AbstractRankingHandler
 {
-    private PlayerChartRankingQuery $playerChartRankingQuery;
+    private PlayerChartRankingProvider $playerChartRankingProvider;
     private array $players = [];
     private array $games = [];
     private array $groups = [];
 
 
     /**
-     * @param PlayerChartRankingQuery $playerChartRankingQuery
+     * @param PlayerChartRankingProvider $playerChartRankingProvider
      * @return void
      */
-    public function setPlayerChartRankingQuert(PlayerChartRankingQuery $playerChartRankingQuery): void
+    public function setPlayerChartRankingQuert(PlayerChartRankingProvider $playerChartRankingProvider): void
     {
-        $this->playerChartRankingQuery = $playerChartRankingQuery;
+        $this->playerChartRankingProvider = $playerChartRankingProvider;
     }
 
     public function handle($mixed): void
@@ -40,7 +39,7 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
         $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
         $this->games[$chart->getGroup()->getGame()->getId()] = $chart->getGroup()->getGame();
 
-        $ranking     = $this->playerChartRankingQuery->getRanking($chart);
+        $ranking     = $this->playerChartRankingProvider->getRanking($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
 
         $topScoreLibValue = '';
