@@ -34,11 +34,12 @@ class VideoGamesRecordsCoreExtension extends Extension
         $loader->load('services/event_subscriber.yml');
         $loader->load('services/event_listener.yml');
         $loader->load('services/handlers.yml');
-        $loader->load('services/handlers/ranking.yml');
         $loader->load('services/managers.yml');
         $loader->load('services/providers.yml');
-        $loader->load('services/transformers.yml');
+        $loader->load('services/ranking/commands.yml');
+        $loader->load('services/ranking/providers.yml');
         $loader->load('services/repositories.yml');
+        $loader->load('services/transformers.yml');
         $loader->load('admin.yml');
     }
 }

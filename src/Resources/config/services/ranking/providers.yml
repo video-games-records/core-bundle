@@ -1,0 +1,70 @@
+services:
+
+  #Player
+  vgr.core.ranking.provider.player.player_chart:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerChartRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.player.player_country:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerCountryRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.player.player_game:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerGameRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.player.player_group:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerGroupRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.player.player_platform:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerPlarformRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.player.player:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.player.player_serie:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerSerieRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+
+  #Team
+  vgr.core.ranking.provider.team.team_chart:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamChartRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.team.team_game:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamGameRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.team.team_group:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamGroupRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
+
+  vgr.core.ranking.provider.team.team:
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamRankingProvider
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.security.user_provider'
