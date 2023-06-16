@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Picture;
 
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
@@ -11,11 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
 use VideoGamesRecords\CoreBundle\File\PictureCreatorFactory;
 
-/**
- * Class PictureController
- * @Route(path="/proof/picture")
- */
-class PictureController extends AbstractController
+class Show extends AbstractController
 {
     private S3Client $s3client;
 
@@ -25,12 +21,12 @@ class PictureController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_core_picture_index", methods={"GET"})
+     * @Route(path="/proof/picture/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_core_picture_index", methods={"GET"})
      * @Cache(expires="+30 days")
      * @param Picture $picture
      * @throws Exception
      */
-    public function indexAction(Picture $picture): void
+    public function __invoke(Picture $picture): void
     {
         try {
             $result = $this->s3client->getObject(

@@ -1,13 +1,22 @@
 services:
 
-    _defaults:
-        autowire: false
-        autoconfigure: true
-        public: true
+  _defaults:
+    autowire: false
+    autoconfigure: true
+    public: true
 
-    VideoGamesRecords\CoreBundle\Controller\ScorePlatformController:
-        arguments:
-            - '@vgr.core.manager.score_manager'
-            - '@vgr.core.security.user_provider'
-        calls:
-            - [ setContainer, [ "@service_container" ] ]
+  # OK
+  VideoGamesRecords\CoreBundle\Controller\Picture\Show:
+    arguments:
+      - '@aws.s3'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+
+  # TODO
+  VideoGamesRecords\CoreBundle\Controller\ScorePlatformController:
+    arguments:
+      - '@vgr.core.manager.score_manager'
+      - '@vgr.core.security.user_provider'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
