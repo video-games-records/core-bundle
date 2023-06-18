@@ -40,6 +40,7 @@ class PlayerCountryRankingUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $countries = $this->em->getRepository(Country::class)->findBy(['boolMaj' => true]);
+        /** @var Country $country */
         foreach ($countries as $country) {
             $this->rankingCommand->handle($country->getId());
             $country->setBoolMaj(false);

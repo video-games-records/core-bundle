@@ -29,6 +29,6 @@ services:
             - '@vgr.core.ranking.provider.team.team_game'
 
     vgr.core.handler.score_investigation:
-        class: VideoGamesRecords\CoreBundle\Handler\Badge\ScoreInvestigationBadgeHandler
+        class: VideoGamesRecords\CoreBundle\Handler\ScoreInvestigationHandler
         arguments:
             - '@doctrine.orm.entity_manager'

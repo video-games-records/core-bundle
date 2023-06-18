@@ -1,22 +1,24 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerPlatformRankingHandler;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingCommandInterface;
+use VideoGamesRecords\CoreBundle\Entity\Platform;
 
 class PlayerPlatformRankingUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:platform-ranking-update';
 
-    private PlayerPlatformRankingHandler $playerPlatformRankingHandler;
+    private EntityManagerInterface $em;
+    private RankingCommandInterface $rankingCommand;
 
-    public function __construct(PlayerPlatformRankingHandler $playerPlatformRankingHandler)
+    public function __construct(EntityManagerInterface $em, RankingCommandInterface $rankingCommand)
     {
-        $this->playerPlatformRankingHandler = $playerPlatformRankingHandler;
+        $this->em = $em;
+        $this->rankingCommand = $rankingCommand;
         parent::__construct();
     }
 
@@ -25,17 +27,6 @@ class PlayerPlatformRankingUpdateCommand extends Command
         $this
             ->setName('vgr-core:player-platform-ranking-update')
             ->setDescription('Command to update players ranking')
-            ->addArgument(
-                'function',
-                InputArgument::REQUIRED,
-                'Who do you want to do?'
-            )
-            ->addOption(
-                'id',
-                null,
-                InputOption::VALUE_REQUIRED,
-                ''
-            )
         ;
         parent::configure();
     }
@@ -48,16 +39,12 @@ class PlayerPlatformRankingUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $function = $input->getArgument('function');
-        switch ($function) {
-            case 'maj':
-                $id = $input->getOption('id');
-                $this->playerPlatformRankingHandler->handle($id);
-                break;
-            case 'maj-all':
-                $this->playerPlatformRankingHandler->majAll();
-                break;
+        $platforms = $this->em->getRepository(Platform::class)->findAll();
+        /** @var Platform $platform */
+        foreach ($platforms as $platform) {
+            $this->rankingCommand->handle($platform->getId());
         }
+
         return Command::SUCCESS;
     }
 }

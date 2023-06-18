@@ -5,20 +5,12 @@ namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Event\PlatformEvent;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerPlatformRankingHandler extends AbstractRankingHandler
 {
-    /*public function majAll()
-    {
-        $platforms = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Platform')->findAll();
-        foreach ($platforms as $platform) {
-            $this->handle($platform->getId());
-        }
-    }*/
-
     public function handle($mixed): void
     {
         $platform = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Platform')->find($mixed);

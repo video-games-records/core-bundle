@@ -4,19 +4,11 @@ namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerSerieRankingHandler extends AbstractRankingHandler
 {
-    /*public function majAll()
-    {
-        $series = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Serie')->findAll();
-        foreach ($series as $serie) {
-            $this->handle($serie->getId());
-        }
-    }*/
-
     public function handle($mixed): void
     {
         $serie = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Serie')->find($mixed);

@@ -6,7 +6,23 @@ services:
       - '@doctrine.orm.entity_manager'
       - '@vgr.core.ranking.command.player.player_country'
     tags:
-      - { name: 'console.command', command: 'vgr-core:country-ranking-update' }
+      - { name: 'console.command', command: 'vgr-core:player-country-ranking-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerPlatformRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerPlatformRankingUpdateCommand
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.ranking.command.player.player_platform'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-platform-ranking-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerSerieRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerSerieRankingUpdateCommand
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.ranking.command.player.player_serie'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-serie-ranking-update' }
 
 
 

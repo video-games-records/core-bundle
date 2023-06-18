@@ -35,6 +35,7 @@ services:
     class: VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerGroupRankingHandler
     arguments:
       - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
 
   vgr.core.ranking.command.player.player_platform:
     class: VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerPlatformRankingHandler
@@ -52,12 +53,14 @@ services:
     class: VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerSerieRankingHandler
     arguments:
       - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
 
   #Team
   vgr.core.ranking.command.team.team_chart:
     class: VideoGamesRecords\CoreBundle\Ranking\Command\Team\TeamChartRankingHandler
     arguments:
       - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
 
   vgr.core.ranking.command.team.team_game:
     class: VideoGamesRecords\CoreBundle\Ranking\Command\Team\TeamGameRankingHandler
@@ -69,6 +72,7 @@ services:
     class: VideoGamesRecords\CoreBundle\Ranking\Command\Team\TeamCGroupRankingHandler
     arguments:
       - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
 
   vgr.core.ranking.command.team.team:
     class: VideoGamesRecords\CoreBundle\Ranking\Command\Team\TeamRankingHandler
