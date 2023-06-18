@@ -4,20 +4,19 @@ namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerRankingHandler;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankUpdateInterface;
 
 class PlayerRankingBadgeUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:player-ranking-badge-update';
 
-    private PlayerRankingHandler $playerRankingHandler;
+    private RankUpdateInterface $rankUpdate;
 
-    public function __construct(PlayerRankingHandler $playerRankingHandler)
+    public function __construct(RankUpdateInterface $rankUpdate)
     {
-        $this->playerRankingHandler = $playerRankingHandler;
+        $this->rankUpdate = $rankUpdate;
         parent::__construct();
     }
-
     protected function configure(): void
     {
         $this
@@ -35,7 +34,7 @@ class PlayerRankingBadgeUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->playerRankingHandler->majRankBadge();
+        $this->rankUpdate->majRankBadge();
         return Command::SUCCESS;
     }
 }

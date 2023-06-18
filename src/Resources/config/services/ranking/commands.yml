@@ -1,5 +1,16 @@
 services:
 
+  #RankUpdate
+  vgr.core.ranking.command.rank_update.player:
+    class: VideoGamesRecords\CoreBundle\Ranking\Command\RankUpdate\PlayerRankUpdateHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
+  vgr.core.ranking.command.rank_update.team:
+    class: VideoGamesRecords\CoreBundle\Ranking\Command\RankUpdate\TeamRankUpdateHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
   #Score
   vgr.core.ranking.command.scoring_player:
     class: VideoGamesRecords\CoreBundle\Ranking\Query\Player\ScoringPlayerRankingHandler

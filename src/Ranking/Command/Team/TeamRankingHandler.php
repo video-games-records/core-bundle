@@ -2,28 +2,14 @@
 
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Event\TeamEvent;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
-use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class TeamRankingHandler extends AbstractRankingHandler
 {
-    /*public function majAll()
-    {
-        $query = $this->em->createQuery("
-            SELECT p
-            FROM VideoGamesRecords\CoreBundle\Entity\Team p
-            WHERE p.nbGame > 0"
-        );
-        $teams = $query->getResult();
-        foreach ($teams as $team) {
-            $this->handle($team->getId());
-        }
-    }*/
 
     /**
      * @throws NonUniqueResultException
@@ -148,72 +134,5 @@ class TeamRankingHandler extends AbstractRankingHandler
 
         $event = new TeamEvent($team);
         $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::TEAM_MAJ_COMPLETED);
-    }
-
-    /**
-     * @return void
-     */
-    public function majRank(): void
-    {
-        $this->majRankPointChart();
-        $this->majRankPointGame();
-        $this->majRankMedal();
-        $this->majRankCup();
-        $this->majRankBadge();
-    }
-
-    /**
-     * @return void
-     */
-    private function majRankPointChart(): void
-    {
-        $teams = $this->getTeamRepository()->findBy(array(), array('pointChart' => 'DESC'));
-        Ranking::addObjectRank($teams);
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    private function majRankPointGame(): void
-    {
-        $teams = $this->getTeamRepository()->findBy(array(), array('pointGame' => 'DESC'));
-        Ranking::addObjectRank($teams, 'rankPointGame', array('pointGame'));
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    private function majRankMedal(): void
-    {
-        $teams = $this->getTeamRepository()->findBy(array(), array('chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC'));
-        Ranking::addObjectRank($teams, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    private function majRankCup(): void
-    {
-        $teams = $this->getTeamRepository()->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
-        Ranking::addObjectRank($teams, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    private function majRankBadge(): void
-    {
-        $teams = $this->getTeamRepository()->findBy(array(), array('pointBadge' => 'DESC', 'nbMasterBadge' => 'DESC'));
-        Ranking::addObjectRank($teams, 'rankBadge', array('pointBadge', 'nbMasterBadge'));
-        $this->em->flush();
-    }
-
-    private function getTeamRepository(): EntityRepository
-    {
-        return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team');
     }
 }

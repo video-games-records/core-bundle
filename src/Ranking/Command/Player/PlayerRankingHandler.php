@@ -3,31 +3,14 @@
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Event\PlayerEvent;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerRankingHandler extends AbstractRankingHandler
 {
-    /*public function majAll()
-    {
-        $query = $this->em->createQuery("
-            SELECT p
-            FROM VideoGamesRecords\CoreBundle\Entity\Player p
-            WHERE p.nbChart > 0"
-        );
-        $players = $query->getResult();
-        foreach ($players as $player) {
-            $this->handle($player->getId());
-        }
-    }*/
-
-    /**
-     * @throws NonUniqueResultException
-     */
     public function handle($mixed): void
     {
         /** @var Player $player */
@@ -173,79 +156,5 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_MAJ_COMPLETED);
     }
 
-    /**
-     * @return void
-     */
-    public function majRank(): void
-    {
-        $this->majRankPointChart();
-        $this->majRankPointGame();
-        $this->majRankMedal();
-        $this->majRankCup();
-    }
 
-    /**
-     * @return void
-     */
-    public function majRankPointChart(): void
-    {
-        $players = $this->getPlayerRepository()->findBy(array(), array('pointChart' => 'DESC'));
-        Ranking::addObjectRank($players);
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    public function majRankMedal(): void
-    {
-        $players = $this->getPlayerRepository()->findBy(array(), array('chartRank0' => 'DESC', 'chartRank1' => 'DESC', 'chartRank2' => 'DESC', 'chartRank3' => 'DESC'));
-        Ranking::addObjectRank($players, 'rankMedal', array('chartRank0', 'chartRank1', 'chartRank2', 'chartRank3'));
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    public function majRankPointGame(): void
-    {
-        $players = $this->getPlayerRepository()->findBy(array(), array('pointGame' => 'DESC'));
-        Ranking::addObjectRank($players, 'rankPointGame', array('pointGame'));
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    public function majRankCup(): void
-    {
-        $players = $this->getPlayerRepository()->findBy(array(), array('gameRank0' => 'DESC', 'gameRank1' => 'DESC', 'gameRank2' => 'DESC', 'gameRank3' => 'DESC'));
-        Ranking::addObjectRank($players, 'rankCup', array('gameRank0', 'gameRank1', 'gameRank2', 'gameRank3'));
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    public function majRankProof(): void
-    {
-        $players = $this->getPlayerRepository()->findBy(array(), array('nbChartProven' => 'DESC'));
-        Ranking::addObjectRank($players, 'rankProof', array('nbChartProven'));
-        $this->em->flush();
-    }
-
-    /**
-     * @return void
-     */
-    public function majRankBadge(): void
-    {
-        $players = $this->getPlayerRepository()->findBy(array(), array('pointBadge' => 'DESC', 'nbMasterBadge' => 'DESC'));
-        Ranking::addObjectRank($players, 'rankBadge', array('pointBadge', 'nbMasterBadge'));
-        $this->em->flush();
-    }
-
-    private function getPlayerRepository(): EntityRepository
-    {
-        return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player');
-    }
 }

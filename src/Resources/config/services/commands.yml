@@ -24,6 +24,19 @@ services:
     tags:
       - { name: 'console.command', command: 'vgr-core:player-serie-ranking-update' }
 
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerRankingBadgeUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerRankingBadgeUpdateCommand
+    arguments:
+      - '@vgr.core.ranking.command.rank_update.player'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-ranking-badge-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerRankingProofUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerRankingProofUpdateCommand
+    arguments:
+      - '@vgr.core.ranking.command.rank_update.player'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-ranking-proof-update' }
 
 
   #Badge
