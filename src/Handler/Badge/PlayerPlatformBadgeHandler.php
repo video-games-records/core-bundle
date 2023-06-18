@@ -4,19 +4,18 @@ namespace VideoGamesRecords\CoreBundle\Handler\Badge;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
-use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingQueryInterface;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
-use VideoGamesRecords\CoreBundle\Service\Ranking\Read\PlatformRankingQuery;
 
 class PlayerPlatformBadgeHandler
 {
     private EntityManagerInterface $em;
-    private RankingQueryInterface $rankingQuery; //PlayerPlatformRankingQuery
+    private RankingProviderInterface $rankingProvider; //PlayerPlatformRankingQuery
 
-    public function __construct(EntityManagerInterface $em, RankingQueryInterface $rankingQuery)
+    public function __construct(EntityManagerInterface $em, RankingProviderInterface $rankingProvider)
     {
         $this->em = $em;
-        $this->rankingQuery = $rankingQuery;
+        $this->rankingProvider = $rankingProvider;
     }
 
     /**
@@ -28,7 +27,7 @@ class PlayerPlatformBadgeHandler
             return;
         }
 
-        $ranking = $this->rankingQuery->getRankingPoints($platform->getId(), array('maxRank' => 1));
+        $ranking = $this->rankingProvider->getRankingPoints($platform->getId(), array('maxRank' => 1));
 
         $players = array();
         foreach ($ranking as $playerPlatform) {

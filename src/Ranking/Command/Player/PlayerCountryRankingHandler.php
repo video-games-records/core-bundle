@@ -4,22 +4,12 @@ namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
 use Doctrine\ORM\EntityRepository;
 use VideoGamesRecords\CoreBundle\Event\CountryEvent;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerCountryRankingHandler extends AbstractRankingHandler
 {
-    /*public function majAll()
-    {
-        $countries = $this->getCountryRepository()->findBy(['boolMaj' => true]);
-        foreach ($countries as $country) {
-            $this->handle($country->getId());
-            $country->setBoolMaj(false);
-        }
-        $this->em->flush();
-    }*/
-
     public function handle($mixed): void
     {
         $country = $this->getCountryRepository()->find($mixed);

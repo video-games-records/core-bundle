@@ -1,22 +1,24 @@
 <?php
 namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\Player\PlayerCountryRankingHandler;
+use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingCommandInterface;
+use VideoGamesRecords\CoreBundle\Entity\Country;
 
 class PlayerCountryRankingUpdateCommand extends Command
 {
     protected static $defaultName = 'vgr-core:country-ranking-update';
 
-    private PlayerCountryRankingHandler $playerCountryRankingHandler;
+    private EntityManagerInterface $em;
+    private RankingCommandInterface $rankingCommand;
 
-    public function __construct(PlayerCountryRankingHandler $playerCountryRankingHandler)
+    public function __construct(EntityManagerInterface $em, RankingCommandInterface $rankingCommand)
     {
-        $this->playerCountryRankingHandler = $playerCountryRankingHandler;
+        $this->em = $em;
+        $this->rankingCommand = $rankingCommand;
         parent::__construct();
     }
 
@@ -24,18 +26,7 @@ class PlayerCountryRankingUpdateCommand extends Command
     {
         $this
             ->setName('vgr-core:country-ranking-update')
-            ->setDescription('Command to update players ranking')
-            ->addArgument(
-                'function',
-                InputArgument::REQUIRED,
-                'Who do you want to do?'
-            )
-            ->addOption(
-                'id',
-                null,
-                InputOption::VALUE_REQUIRED,
-                ''
-            )
+            ->setDescription('Command to update players country ranking')
         ;
         parent::configure();
     }
@@ -48,16 +39,13 @@ class PlayerCountryRankingUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $function = $input->getArgument('function');
-        switch ($function) {
-            case 'maj':
-                $id = $input->getOption('id');
-                $this->playerCountryRankingHandler->handle($id);
-                break;
-            case 'maj-all':
-                $this->playerCountryRankingHandler->majAll();
-                break;
+        $countries = $this->em->getRepository(Country::class)->findBy(['boolMaj' => true]);
+        foreach ($countries as $country) {
+            $this->rankingCommand->handle($country->getId());
+            $country->setBoolMaj(false);
         }
+        $this->em->flush();
+
         return Command::SUCCESS;
     }
 }
