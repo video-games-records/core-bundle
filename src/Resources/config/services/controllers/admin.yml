@@ -4,16 +4,3 @@ services:
     autoconfigure: false
     public: true
 
-  VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController:
-    arguments:
-      - '@vgr.core.manager.game'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\Admin\groupAdminController:
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\Admin\ProofAdminController:
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
