@@ -14,7 +14,7 @@ abstract class AbstractRankUpdateHandler implements RankUpdateInterface
         $this->em = $em;
     }
 
-    public function handle($mixed): void
+    public function handle(): void
     {
 
     }

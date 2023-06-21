@@ -4,12 +4,15 @@ namespace VideoGamesRecords\CoreBundle\Ranking\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerChartRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerGameRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerGroupRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerRankingHandler;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class ScoringPlayerRankingHandler
 {
@@ -18,19 +21,22 @@ class ScoringPlayerRankingHandler
     private PlayerGroupRankingHandler $playerGroupRankingHandler;
     private PlayerGameRankingHandler $playerGameRankingHandler;
     private PlayerRankingHandler $playerRankingHandler;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         EntityManagerInterface $em,
         PlayerChartRankingHandler $playerChartRankingHandler,
         PlayerGroupRankingHandler $playerGroupRankingHandler,
         PlayerGameRankingHandler$playerGameRankingHandler,
-        PlayerRankingHandler $playerRankingHandler
+        PlayerRankingHandler $playerRankingHandler,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->em = $em;
         $this->playerChartRankingHandler = $playerChartRankingHandler;
         $this->playerGroupRankingHandler = $playerGroupRankingHandler;
         $this->playerGameRankingHandler = $playerGameRankingHandler;
         $this->playerRankingHandler = $playerRankingHandler;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -65,7 +71,9 @@ class ScoringPlayerRankingHandler
             $this->playerRankingHandler->handle($player->getId());
         }
 
-        $this->playerRankingHandler->majRank();
+        $event = new Event();
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::SCORES_PLAYER_MAJ_COMPLETED);
+        //$this->playerRankingHandler->majRank();
 
         echo sprintf("%d charts updated\n", count($charts));
         echo sprintf("%d groups updated\n", count($groups));

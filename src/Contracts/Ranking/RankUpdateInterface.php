@@ -4,8 +4,6 @@ namespace VideoGamesRecords\CoreBundle\Contracts\Ranking;
 
 interface RankUpdateInterface
 {
-    public function majRank(): void;
-
     public function majRankPointChart(): void;
 
     public function majRankPointGame(): void;

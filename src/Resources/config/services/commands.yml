@@ -1,4 +1,20 @@
 services:
+  #Scoring
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerScoringRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerScoringRankingUpdateCommand
+    arguments:
+      - '@vgr.core.ranking.command.scoring_player'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-scoring-ranking-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\TeamScoringRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\TeamScoringRankingUpdateCommand
+    arguments:
+      - '@vgr.core.ranking.command.scoring_team'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:team-scoring-ranking-update' }
+
+
   #Ranking
   VideoGamesRecords\CoreBundle\Command\Ranking\PlayerCountryRankingUpdateCommand:
     class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerCountryRankingUpdateCommand

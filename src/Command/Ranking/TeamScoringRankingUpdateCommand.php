@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\Team\ScoringTeamRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\ScoringTeamRankingHandler;
 
 class TeamScoringRankingUpdateCommand extends Command
 {

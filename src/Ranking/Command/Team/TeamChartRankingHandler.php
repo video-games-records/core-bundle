@@ -2,10 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class TeamChartRankingHandler extends AbstractRankingHandler

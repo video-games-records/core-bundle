@@ -32,6 +32,20 @@ services:
         tags: [ { name: 'kernel.event_subscriber' } ]
     # Badges [END]
 
+    # Update rank [BEGIN]
+    VideoGamesRecords\CoreBundle\EventSubscriber\Ranking\UpdatePlayerRankSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Ranking\UpdatePlayerRankSubscriber
+        arguments:
+            - '@vgr.core.ranking.command.rank_update.player'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\Ranking\UpdateTeamRankSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Ranking\UpdateTeamRankSubscriber
+        arguments:
+            - '@vgr.core.ranking.command.rank_update.team'
+        tags: [ { name: 'kernel.event_subscriber' } ]
+    # Update rank [END]
+
     VideoGamesRecords\CoreBundle\EventSubscriber\InsertLostPositionSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\InsertLostPositionSubscriber
         arguments:

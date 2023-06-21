@@ -7,15 +7,6 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class TeamRankUpdateHandler extends AbstractRankUpdateHandler
 {
-    public function majRank(): void
-    {
-        $this->majRankPointChart();
-        $this->majRankPointGame();
-        $this->majRankMedal();
-        $this->majRankCup();
-        $this->majRankBadge();
-    }
-
     public function majRankPointChart(): void
     {
         $teams = $this->getTeamRepository()->findBy(array(), array('pointChart' => 'DESC'));

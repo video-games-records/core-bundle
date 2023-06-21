@@ -23,7 +23,7 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
      * @param PlayerChartRankingProvider $playerChartRankingProvider
      * @return void
      */
-    public function setPlayerChartRankingQuert(PlayerChartRankingProvider $playerChartRankingProvider): void
+    public function setPlayerChartRankingProvider(PlayerChartRankingProvider $playerChartRankingProvider): void
     {
         $this->playerChartRankingProvider = $playerChartRankingProvider;
     }

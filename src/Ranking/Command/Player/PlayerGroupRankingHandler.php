@@ -6,7 +6,7 @@ use DateTime;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
-use VideoGamesRecords\CoreBundle\Handler\Ranking\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 class PlayerGroupRankingHandler extends AbstractRankingHandler

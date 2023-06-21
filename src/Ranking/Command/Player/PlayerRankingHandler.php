@@ -2,11 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
-use Doctrine\ORM\EntityRepository;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Event\PlayerEvent;
 use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
-use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerRankingHandler extends AbstractRankingHandler
