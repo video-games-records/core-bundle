@@ -22,10 +22,8 @@ final class UpdateTeamRankSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param Event $event
-     */
-    public function process(Event $event): void
+
+    public function process(): void
     {
         $this->rankUpdateHandler->majRankPointChart();
         $this->rankUpdateHandler->majRankPointGame();
