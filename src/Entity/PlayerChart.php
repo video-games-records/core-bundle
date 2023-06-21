@@ -60,7 +60,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
  *         "pointChart",
  *     }
  * )
-  * @ApiFilter(
+ * @ApiFilter(
  *     ExistsFilter::class,
  *     properties={
  *         "proof",

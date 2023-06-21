@@ -40,7 +40,7 @@ class Proof
      */
     private ?Video $video = null;
 
-     /**
+    /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ProofRequest")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idProofRequest", referencedColumnName="id", nullable=true)
