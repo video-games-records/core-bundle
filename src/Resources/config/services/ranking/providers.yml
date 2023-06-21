@@ -26,7 +26,7 @@ services:
       - '@vgr.core.security.user_provider'
 
   vgr.core.ranking.provider.player.player_platform:
-    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerPlarformRankingProvider
+    class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerPlatformRankingProvider
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@vgr.core.security.user_provider'

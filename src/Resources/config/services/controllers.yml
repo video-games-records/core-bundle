@@ -5,6 +5,7 @@ services:
     autoconfigure: true
     public: true
 
+
   # Admin
   VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController:
     arguments:
@@ -21,6 +22,84 @@ services:
       - [ setContainer, [ "@service_container" ] ]
 
 
+  #Chart
+  VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRanking:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player_chart'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRankingDisabled:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player_chart'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRankingPoints:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player_chart'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Chart\Team\GetRankingPoints:
+    arguments:
+      - '@vgr.core.ranking.provider.team.team_chart'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+
+  #Game
+  VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingPoints:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player_game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingMedals:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player_game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints:
+    arguments:
+      - '@vgr.core.ranking.provider.team.team_game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingMedals:
+    arguments:
+      - '@vgr.core.ranking.provider.team.team_game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+
+  #Group
+  VideoGamesRecords\CoreBundle\Controller\Group\Player\GetRankingPoints:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player_group'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Group\Player\GetRankingMedals:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player_group'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Group\Team\GetRankingPoints:
+    arguments:
+      - '@vgr.core.ranking.provider.team.team_group'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Group\Team\GetRankingMedals:
+    arguments:
+      - '@vgr.core.ranking.provider.team.team_group'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+
   # Picture
   VideoGamesRecords\CoreBundle\Controller\Picture\Show:
     arguments:
@@ -28,68 +107,97 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  #Ranking
-  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController:
-    arguments:
-      - '@vgr.core.ranking.provider.player.player'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
 
-  VideoGamesRecords\CoreBundle\Controller\Ranking\PlatformController:
+  #Platform
+  VideoGamesRecords\CoreBundle\Controller\Platform\Player\GetRankingPoints:
     arguments:
       - '@vgr.core.ranking.provider.player.player_platform'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerSerieController:
+
+  #Player
+  VideoGamesRecords\CoreBundle\Controller\Player\GetRankingBadge:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\GetRankingCup:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\GetRankingMedals:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\GetRankingPointChart:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\GetRankingPointGame:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\GetRankingProof:
+    arguments:
+      - '@vgr.core.ranking.provider.player.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+
+  #Serie
+  VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingPoints:
     arguments:
       - '@vgr.core.ranking.provider.player.player_serie'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGameController:
+  VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingMedals:
     arguments:
-      - '@vgr.core.ranking.provider.player.player_game'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGroupController:
-    arguments:
-      - '@vgr.core.ranking.provider.player.player_group'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerChartController:
-    arguments:
-      - '@vgr.core.ranking.provider.player.player_chart'
+      - '@vgr.core.ranking.provider.player.player_serie'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
 
-  VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController:
+  #Team
+  VideoGamesRecords\CoreBundle\Controller\Team\GetRankingBadge:
     arguments:
       - '@vgr.core.ranking.provider.team.team'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGameController:
+  VideoGamesRecords\CoreBundle\Controller\Team\GetRankingCup:
     arguments:
-      - '@vgr.core.ranking.provider.team.team_game'
+      - '@vgr.core.ranking.provider.team.team'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGroupController:
+  VideoGamesRecords\CoreBundle\Controller\Team\GetRankingMedals:
     arguments:
-      - '@vgr.core.ranking.provider.team.team_group'
+      - '@vgr.core.ranking.provider.team.team'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  VideoGamesRecords\CoreBundle\Controller\Ranking\TeamChartController:
+  VideoGamesRecords\CoreBundle\Controller\Team\GetRankingPointChart:
     arguments:
-      - '@vgr.core.ranking.provider.team.team_chart'
+      - '@vgr.core.ranking.provider.team.team'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Team\GetRankingPointGame:
+    arguments:
+      - '@vgr.core.ranking.provider.team.team'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
 
 
   # TODO

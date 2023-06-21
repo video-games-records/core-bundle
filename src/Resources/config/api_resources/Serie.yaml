@@ -20,7 +20,7 @@ resources:
                             in: query
                             required: false
                             type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerSerieController::getRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingPoints'
             player-ranking-medals:
                 method: 'GET'
                 normalization_context: { 'groups': [ playerSerie.medal,playerSerie.player,player.read.mini,player.team,team.read.mini,player.country,country.read ] }
@@ -35,4 +35,4 @@ resources:
                             in: query
                             required: false
                             type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerSerieController::getRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingMedals'

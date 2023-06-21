@@ -1,16 +1,13 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller\Ranking;
+namespace VideoGamesRecords\CoreBundle\Controller\Group\Team;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
-use VideoGamesRecords\CoreBundle\Entity\Platform;
+use VideoGamesRecords\CoreBundle\Entity\Group;
 
-/**
- * Class PlaformController
- */
-class PlatformController extends AbstractController
+class GetRankingPoints extends AbstractController
 {
     private RankingProviderInterface $rankingProvider;
 
@@ -20,16 +17,16 @@ class PlatformController extends AbstractController
     }
 
     /**
-     * @param Platform $platform
-     * @param Request  $request
+     * @param Group $group
+     * @param Request $request
      * @return array
      */
-    public function getRankingPoints(Platform $platform, Request $request): array
+    public function __invoke(Group $group, Request $request): array
     {
         return $this->rankingProvider->getRankingPoints(
-            $platform->getId(),
+            $group->getId(),
             [
-                'maxRank' => $request->query->get('maxRank', 100),
+                'maxRank' => $request->query->get('maxRank', 5),
             ]
         );
     }
