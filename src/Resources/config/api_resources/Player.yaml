@@ -11,32 +11,32 @@ resources:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.pointChart,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-point-chart'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingPointChart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\GetRankingPointChart'
             player-ranking-point-game:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.pointGame,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-point-game'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingPointGame'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\GetRankingPointGame'
             player-ranking-medal:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.medal,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-medal'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\GetRankingMedals'
             player-ranking-cup:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.cup,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-cup'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingCup'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\GetRankingCup'
             player-ranking-badge:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini,player.badge,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-badge'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingBadge'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\GetRankingBadge'
             player-ranking-proof:
                 method: 'GET'
                 normalization_context: {'groups': [player.read,player.proof,player.team,team.read.mini,player.country,country.read]}
                 path: '/players/ranking-proof'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerController::getRankingProof'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\GetRankingProof'
             profile:
                 method: 'GET'
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'

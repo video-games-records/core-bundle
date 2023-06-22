@@ -12,27 +12,27 @@ resources:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.pointChart]}
                 path: '/teams/ranking-point-chart'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingPointChart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Team\GetRankingPointChart'
             team-ranking-point-game:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.pointGame]}
                 path: '/teams/ranking-point-game'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingPointGame'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Team\GetRankingPointGame'
             team-ranking-medal:
                 method: 'GET'
                 normalization_context: { 'groups': [ team.read.mini, team.rank.medal ] }
                 path: '/teams/ranking-medal'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Team\GetRankingMedals'
             team-ranking-cup:
                 method: 'GET'
                 normalization_context: { 'groups': [ team.read.mini, team.rank.cup ] }
                 path: '/teams/ranking-cup'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingCup'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Team\GetRankingCup'
             team-ranking-badge:
                 method: 'GET'
                 normalization_context: {'groups': [team.read.mini, team.rank.badge]}
                 path: '/teams/ranking-badge'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamController::getRankingBadge'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Team\GetRankingBadge'
         itemOperations:
             get:
                 normalization_context: {'groups': [team.read, team.leader, player.read.mini], 'enable_max_depth':true}

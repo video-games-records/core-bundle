@@ -43,7 +43,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamChartController::getRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\Team\GetRankingPoints'
             player-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [
@@ -65,7 +65,7 @@ resources:
                 path: '/charts/{id}/player-ranking'
                 swagger_context:
                     summary: 'Retrive ranking of a chart'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerChartController::getRanking'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRanking'
                 defaults:
                     _api_receive: false
             player-ranking-disabled:
@@ -89,7 +89,7 @@ resources:
                 path: '/charts/{id}/player-ranking-disabled'
                 swagger_context:
                     summary: 'Retrive ranking of a chart with disabled score'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerChartController::getRankingDisabled'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRankingDisabled'
                 defaults:
                     _api_receive: false
             player-ranking-points:
@@ -106,4 +106,4 @@ resources:
                             in: query
                             required: false
                             type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerChartController::getRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRankingPoints'
