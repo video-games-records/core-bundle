@@ -124,6 +124,11 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Group\GetTopScore:
+    arguments:
+      - '@vgr.core.data_provider.top_score'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
 
   # Picture
   VideoGamesRecords\CoreBundle\Controller\Picture\Show:
