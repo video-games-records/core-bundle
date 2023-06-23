@@ -28,6 +28,12 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  #Badge
+  VideoGamesRecords\CoreBundle\Controller\Badge\GetPicture:
+    arguments:
+      - '@app.storage'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
 
   #Chart
   VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRanking:
@@ -83,6 +89,12 @@ services:
   VideoGamesRecords\CoreBundle\Controller\Game\Autocomplete:
     arguments:
       - '@vgr.core.repository.game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Game\GetPicture:
+    arguments:
+      - '@app.storage'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 

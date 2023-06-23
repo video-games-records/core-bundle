@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Badge;
 
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
@@ -15,7 +15,7 @@ use VideoGamesRecords\CoreBundle\Entity\Badge;
  * Class BadgeController
  * @Route("/badge")
  */
-class BadgeController extends AbstractController implements BadgeInterface
+class GetPicture extends AbstractController implements BadgeInterface
 {
     private FilesystemOperator $appStorage;
 
@@ -24,7 +24,6 @@ class BadgeController extends AbstractController implements BadgeInterface
         $this->appStorage = $appStorage;
     }
 
-
     /**
      * @Route(path="/{id}/picture", requirements={"id": "[1-9]\d*"}, name="vgr_core_badge_picture", methods={"GET"})
      * @Cache(expires="+30 days")
@@ -32,7 +31,7 @@ class BadgeController extends AbstractController implements BadgeInterface
      * @return StreamedResponse
      * @throws FilesystemException
      */
-    public function pictureAction(Badge $badge): StreamedResponse
+    public function __invoke(Badge $badge): StreamedResponse
     {
         $path = $this->getDirectory($badge->getType()) . DIRECTORY_SEPARATOR . $badge->getPicture();
         if (!$this->appStorage->fileExists($path)) {
