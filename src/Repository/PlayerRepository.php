@@ -31,7 +31,7 @@ class PlayerRepository extends EntityRepository
      * @throws NonUniqueResultException
      * @throws ORMException
      */
-    public function getPlayerFromUser($user)
+    public function getPlayerFromUser($user): mixed
     {
         $qb = $this->createQueryBuilder('player')
             ->where('player.user_id = :userId')

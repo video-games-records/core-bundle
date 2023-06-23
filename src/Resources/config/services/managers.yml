@@ -66,3 +66,9 @@ services:
         arguments:
             - '@translator'
 
+    vgr.core.manager.team.avatar:
+        class: VideoGamesRecords\CoreBundle\Manager\AvatarManager
+        arguments:
+            - '@app.storage'
+            - 'team/'
+

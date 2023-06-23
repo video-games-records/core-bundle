@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AvatarManager
 {
-    private string $prefix = 'team/';
+    private string $prefix;
 
     private array $extensions = array(
         'png' => 'image/png',
@@ -16,10 +16,10 @@ class AvatarManager
 
     private FilesystemOperator $appStorage;
 
-
-    public function __construct(FilesystemOperator $appStorage)
+    public function __construct(FilesystemOperator $appStorage, string $prefix)
     {
         $this->appStorage = $appStorage;
+        $this->prefix = $prefix;
     }
 
     /**

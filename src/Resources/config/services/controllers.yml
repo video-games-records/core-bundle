@@ -175,15 +175,16 @@ services:
 
 
   #Team
-  VideoGamesRecords\CoreBundle\Controller\Avatar\Upload:
+  VideoGamesRecords\CoreBundle\Controller\Team\Avatar\Upload:
     arguments:
       - '@vgr.core.manager.team.avatar'
-      - '@translator'
+      - '@vgr.core.security.user_provider'
       - '@doctrine.orm.entity_manager'
+      - '@translator'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  VideoGamesRecords\CoreBundle\Controller\Avatar\Download:
+  VideoGamesRecords\CoreBundle\Controller\Team\Avatar\Download:
     arguments:
       - '@vgr.core.manager.team.avatar'
     calls:

@@ -1,50 +1,52 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller\Team;
+namespace VideoGamesRecords\CoreBundle\Controller\Team\Avatar;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use League\Flysystem\FilesystemException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use VideoGamesRecords\CoreBundle\Entity\Team;
 use VideoGamesRecords\CoreBundle\Manager\AvatarManager;
-use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
+use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
-/**
- * Class TeamController
- * @Route("/teams")
- */
-class AvatarController extends AbstractController
+class Upload extends AbstractController
 {
-    private TranslatorInterface $translator;
     private AvatarManager $avatarManager;
+    private UserProvider $userProvider;
     private EntityManagerInterface $em;
+    private TranslatorInterface $translator;
+
 
     private array $extensions = array(
         'image/png' => '.png',
         'image/jpeg' => '.jpg',
     );
 
-    public function __construct(TranslatorInterface $translator, AvatarManager $avatarManager, EntityManagerInterface $em)
-    {
-        $this->translator = $translator;
+    public function __construct(
+        AvatarManager $avatarManager,
+        UserProvider $userProvider,
+        EntityManagerInterface $em,
+        TranslatorInterface $translator
+    ) {
         $this->avatarManager = $avatarManager;
+        $this->userProvider = $userProvider;
         $this->em = $em;
+        $this->translator = $translator;
     }
 
     /**
-     * @param Team    $team
      * @param Request $request
      * @return Response
-     * @throws FilesystemException
+     * @throws FilesystemException|ORMException
      */
-    public function upload(Team $team, Request $request): Response
+    public function __invoke(Request $request): Response
     {
+        $team = $this->userProvider->getTeam();
+
         $data = json_decode($request->getContent(), true);
         $file = $data['file'];
         $fp1 = fopen($file, 'r');
@@ -73,20 +75,5 @@ class AvatarController extends AbstractController
         return new JsonResponse([
             'message' => $this->translator->trans('avatar.success'),
         ], 200);
-    }
-
-
-    /**
-     * @Route(path="/{id}/avatar", requirements={"id": "[1-9]\d*"}, name="vgr_core_team_avatar", methods={"GET"})
-     * @param Team $team
-     * @return StreamedResponse
-     * @throws FilesystemException
-     */
-    public function download(Team $team): StreamedResponse
-    {
-        $response = $this->avatarManager->read($team->getLogo());
-        $response->setPublic();
-        $response->setMaxAge(3600);
-        return $response;
     }
 }

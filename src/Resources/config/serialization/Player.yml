@@ -124,7 +124,6 @@ VideoGamesRecords\CoreBundle\Entity\Player:
         - 'player.badge'
     team:
       groups:
-        - 'user.profile'
         - 'player.team'
         - 'player.put'
         - 'player.profile'
