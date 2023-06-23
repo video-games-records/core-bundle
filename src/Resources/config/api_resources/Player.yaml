@@ -64,11 +64,11 @@ resources:
             nb-lost-position:
                 method: 'GET'
                 path: '/players/{id}/nb-lost-position'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\LostPositionController::getPlayerNbLostPosition'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbLostPosition'
             nb-new-lost-position:
                 method: 'GET'
                 path: '/players/{id}/nb-new-lost-position'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\LostPositionController::getPlayerNbNewLostPosition'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbNewLostPosition'
             can-ask-proof:
                 method: 'GET'
                 path: '/players/{id}/can-ask-proof'

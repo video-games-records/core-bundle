@@ -124,6 +124,18 @@ services:
 
 
   #Player
+  VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbLostPosition:
+    arguments:
+      - '@vgr.core.manager.lost_position'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbNewLostPosition:
+    arguments:
+      - '@vgr.core.manager.lost_position'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
   VideoGamesRecords\CoreBundle\Controller\Player\GetProfile:
     arguments:
       - '@vgr.core.repository.player'

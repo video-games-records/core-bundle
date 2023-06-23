@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Player\LostPosition;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -8,10 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Manager\LostPositionManager;
 
-/**
- * Class LostPositionController
- */
-class LostPositionController extends AbstractController
+class GetNbLostPosition extends AbstractController
 {
     private LostPositionManager $lostPositionManager;
 
@@ -20,26 +17,14 @@ class LostPositionController extends AbstractController
         $this->lostPositionManager = $lostPositionManager;
     }
 
-
     /**
      * @param Player $player
      * @return int
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function getPlayerNbLostPosition(Player $player): int
+    public function __invoke(Player $player): int
     {
         return $this->lostPositionManager->getNbLostPosition($player);
-    }
-
-    /**
-     * @param Player $player
-     * @return int
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function getPlayerNbNewLostPosition(Player $player): int
-    {
-        return $this->lostPositionManager->getNbNewLostPosition($player);
     }
 }
