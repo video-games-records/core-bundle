@@ -226,6 +226,13 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  #PlayerChart
+  VideoGamesRecords\CoreBundle\Controller\PlayerChart\UpdatePlatform:
+    arguments:
+      - '@vgr.core.manager.score_manager'
+      - 'vgr.core.security.user_provider'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
 
   #Serie
   VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingPoints:
