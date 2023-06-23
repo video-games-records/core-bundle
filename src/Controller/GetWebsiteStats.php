@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller\Stats;
+namespace VideoGamesRecords\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -9,7 +9,7 @@ use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 
-class GeneralStatsController extends AbstractController
+class GetWebsiteStats extends AbstractController
 {
     protected EntityManagerInterface $em;
 
@@ -22,7 +22,7 @@ class GeneralStatsController extends AbstractController
      * @return array
      * @throws NonUniqueResultException
      */
-    public function getWebsiteStats(): array
+    public function __invoke(): array
     {
         /** @var PlayerRepository $playerRepository */
         $playerRepository = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player');

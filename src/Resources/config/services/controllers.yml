@@ -5,6 +5,13 @@ services:
     autoconfigure: true
     public: true
 
+  #######
+  VideoGamesRecords\CoreBundle\Controller\GetWebsiteStats:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
 
   # Admin
   VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController:
