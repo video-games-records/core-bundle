@@ -155,6 +155,12 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Player\ProofRequest\CanAskProof:
+    arguments:
+      - '@vgr.core.data_provider.can_ask_proof'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
   VideoGamesRecords\CoreBundle\Controller\Player\Autocomplete:
     arguments:
       - '@vgr.core.repository.player'

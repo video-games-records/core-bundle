@@ -1,15 +1,15 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Player\ProofRequest;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\DataProvider\CanAskProofProvider;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 
-/**
- * Class ProofRequestController
- */
-class ProofRequestController extends AbstractController
+
+class CanAskProof extends AbstractController
 {
     private CanAskProofProvider $canAskProofProvider;
 
@@ -21,8 +21,10 @@ class ProofRequestController extends AbstractController
     /**
      * @param Player $player
      * @return bool
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
-    public function canAskProof(Player $player): bool
+    public function __invoke(Player $player): bool
     {
         return $this->canAskProofProvider->load($player);
     }

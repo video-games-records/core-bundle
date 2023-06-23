@@ -72,7 +72,7 @@ resources:
             can-ask-proof:
                 method: 'GET'
                 path: '/players/{id}/can-ask-proof'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\ProofRequestController::canAskProof'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\ProofRequest\CanAskProof'
             player-chart-stats:
                 method: 'GET'
                 normalization_context: {'groups': [playerChartStatus.read]}
