@@ -1,19 +1,18 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\PlayerChart;
 
 use Doctrine\ORM\Exception\ORMException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
-class ScorePlatformController extends AbstractController
+class UpdatePlatform extends AbstractController
 {
     private ScoreManager $scoreManager;
     private UserProvider $userProvider;
-
 
     public function __construct(
         ScoreManager $scoreManager,
