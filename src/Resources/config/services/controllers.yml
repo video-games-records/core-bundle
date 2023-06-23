@@ -124,6 +124,19 @@ services:
 
 
   #Player
+  VideoGamesRecords\CoreBundle\Controller\Player\Gamercard\Mini:
+    arguments:
+      - '@app.storage'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\Gamercard\Classic:
+    arguments:
+      - '@app.storage'
+      - '@vgr.core.repository.player_game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
   VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbLostPosition:
     arguments:
       - '@vgr.core.manager.lost_position'

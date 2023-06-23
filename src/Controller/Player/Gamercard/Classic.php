@@ -1,6 +1,6 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Player\Gamercard;
 
 use Exception;
 use League\Flysystem\FilesystemException;
@@ -13,17 +13,20 @@ use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\File\Picture;
 use VideoGamesRecords\CoreBundle\File\PictureCreatorFactory;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
+use VideoGamesRecords\CoreBundle\Traits\GetOrdinalSuffixTrait;
+use VideoGamesRecords\CoreBundle\Traits\NumberFormatTrait;
 
 /**
- * Class GamercardController
  * @Route("/gamercard")
  * @Cache(expires="tomorrow", public=true)
  */
-class GamercardController extends AbstractController
+class Classic extends AbstractController
 {
+    use GetOrdinalSuffixTrait;
+    use NumberFormatTrait;
+
     private FilesystemOperator $appStorage;
     private PlayerGameRepository $playerGameRepository;
-
 
     public function __construct(
         FilesystemOperator $appStorage,
@@ -31,65 +34,6 @@ class GamercardController extends AbstractController
     ) {
         $this->appStorage = $appStorage;
         $this->playerGameRepository = $playerGameRepository;
-    }
-
-
-    /**
-     * @Route("/mini/{id}", name="gamercard_mini_1", methods={"GET"})
-     * @Route("/{id}/mini", name="gamercard_mini_2", methods={"GET"})
-     * @Cache(smaxage="900")
-     * @param Player $player
-     * @throws Exception
-     * @throws FilesystemException
-     */
-    public function miniAction(Player $player)
-    {
-        chdir(__DIR__);
-        $gamercard = PictureCreatorFactory::fromFile('../Resources/img/gamercard/mini.png');
-
-        // Ranking Points
-        $fontSize = 8;
-        $gamercard
-            ->addColor('lightBrown', 255, 218, 176)
-            ->addFont('segoeUISemiBold', '../Resources/fonts/seguisb.ttf')
-            ->write($this->numberFormat($player->getPointGame()) . ' Pts', $fontSize, 40, 20)
-            ->write('/', $fontSize, 124, 20)
-            ->addColor('darkYellow', 255, 191, 1)
-            ->write($player->getRankPointGame() . ' ' . $this->getOrdinalSuffix($player->getRankPointGame()), $fontSize, 130, 20);
-
-
-        // Ranking Medals
-        $sprite = PictureCreatorFactory::fromFile('../Resources/img/sprite.png');
-        $gamercard
-            ->copyResized($sprite, 164, 8, 126, 160, 16, 16, 16, 16)
-            ->copyResized($sprite, 211, 8, 108, 160, 16, 16, 16, 16)
-            ->copyResized($sprite, 258, 8, 92, 160, 16, 16, 16, 16)
-            ->copyResized($sprite, 305, 8, 74, 160, 16, 16, 16, 16);
-
-        $gamercard->getColor('lightBrown');
-        $gamercard
-            ->write($player->getChartRank0(), $fontSize, 180, 20)
-            ->write($player->getChartRank1(), $fontSize, 227, 20)
-            ->write($player->getChartRank2(), $fontSize, 274, 20)
-            ->write($player->getChartRank3(), $fontSize, 321, 20);
-        $gamercard->write('/', $fontSize, 350, 20);
-        $gamercard->getColor('darkYellow');
-        $rank = $player->getRankMedal();
-        if ($rank <= 99) {
-            $rank .= $this->getOrdinalSuffix($rank);
-        }
-        $gamercard->write($rank, $fontSize, 356, 20);
-
-        // Add avatar
-        $avatar = PictureCreatorFactory::fromStream($this->getAvatar($player));
-        $gamercard->copyResized($avatar, 4, 2, 0, 0, 26, 26);
-
-        try {
-            $gamercard->downloadPicture('png', 'VGR-GamerCard-Mini-' . $player->getSlug() . '.png');
-        } catch (Exception $e) {
-            exit;
-        }
-        exit;
     }
 
     /**
@@ -100,7 +44,7 @@ class GamercardController extends AbstractController
      * @throws FilesystemException
      * @throws Exception
      */
-    public function classicAction(Player $player)
+    public function __invoke(Player $player): void
     {
         chdir(__DIR__);
 
@@ -121,7 +65,7 @@ class GamercardController extends AbstractController
             $pseudo = $player->getPseudo();
         }
         $gamercard->addColor('orange', 246, 162, 83)
-            ->addFont('segoeUILight', '../Resources/fonts/segoeuil.ttf')
+            ->addFont('segoeUILight', '../../../Resources/fonts/segoeuil.ttf')
             ->write($pseudo, 12.375, 9, 17);
 
         // Ranking
@@ -134,7 +78,7 @@ class GamercardController extends AbstractController
         $pointGame .= $player->getRankPointGame() . $this->getOrdinalSuffix($player->getRankPointGame());
         $gamercard
             ->addColor('white', 255, 255, 255)
-            ->addFont('segoeUISemiBold', '../Resources/fonts/seguisb.ttf')
+            ->addFont('segoeUISemiBold', '../../../Resources/fonts/seguisb.ttf')
             ->write($player->getChartRank0(), $fontSize, 96, 70)
             ->write($player->getChartRank1(), $fontSize, 145, 70)
             ->write($player->getChartRank2(), $fontSize, 96, 90)
@@ -143,7 +87,7 @@ class GamercardController extends AbstractController
             ->write($pointGame, $fontSize, 82, 45);
 
         // Add sprites pictures medals
-        $sprite = PictureCreatorFactory::fromFile('../Resources/img/sprite.png');
+        $sprite = PictureCreatorFactory::fromFile('../../../Resources/img/sprite.png');
         $gamercard
             ->copyResized($sprite, 78, 59, 126, 160, 16, 16, 16, 16)
             ->copyResized($sprite, 127, 59, 108, 160, 16, 16, 16, 16)
@@ -171,36 +115,6 @@ class GamercardController extends AbstractController
         exit;
     }
 
-    /**
-     * @param $number
-     * @return string
-     */
-    private function getOrdinalSuffix($number): string
-    {
-        if ($number <= 0) {
-            return '';
-        }
-        $number %= 100;
-        if ($number != 11 && ($number % 10) == 1) {
-            return 'st';
-        }
-        if ($number != 12 && ($number % 10) == 2) {
-            return 'nd';
-        }
-        if ($number != 13 && ($number % 10) == 3) {
-            return 'rd';
-        }
-        return 'th';
-    }
-
-    /**
-     * @param      $value
-     * @return string
-     */
-    private function numberFormat($value): string
-    {
-        return number_format($value);
-    }
 
     /**
      * @param Player $player
