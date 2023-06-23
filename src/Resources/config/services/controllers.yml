@@ -117,6 +117,12 @@ services:
 
 
   #Player
+  VideoGamesRecords\CoreBundle\Controller\Player\GetProfile:
+    arguments:
+      - '@vgr.core.repository.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
   VideoGamesRecords\CoreBundle\Controller\Player\GetRankingBadge:
     arguments:
       - '@vgr.core.ranking.provider.player.player'
@@ -169,9 +175,17 @@ services:
 
 
   #Team
-  VideoGamesRecords\CoreBundle\Controller\Team\GetRankingBadge:
+  VideoGamesRecords\CoreBundle\Controller\Avatar\Upload:
     arguments:
-      - '@vgr.core.ranking.provider.team.team'
+      - '@vgr.core.manager.team.avatar'
+      - '@translator'
+      - '@doctrine.orm.entity_manager'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Avatar\Download:
+    arguments:
+      - '@vgr.core.manager.team.avatar'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 

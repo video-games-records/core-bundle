@@ -42,7 +42,7 @@ resources:
                 access_control: 'is_granted("IS_AUTHENTICATED_FULLY")'
                 normalization_context: {'groups': [player.read.mini,team.read.mini]}
                 path: '/players/profile'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\AuthController::profile'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\GetProfile'
             autocomplete:
                 method: 'GET'
                 normalization_context: {'groups': [player.read.mini]}

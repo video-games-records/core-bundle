@@ -1,11 +1,14 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Player;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 
-class AuthController extends AbstractController
+class GetProfile extends AbstractController
 {
     protected PlayerRepository $playerRepository;
 
@@ -19,9 +22,11 @@ class AuthController extends AbstractController
 
 
     /**
-     * @return null
+     * @return mixed|Player|null
+     * @throws NonUniqueResultException
+     * @throws ORMException
      */
-    public function profile()
+    public function __invoke(): mixed
     {
         if ($this->getUser() !== null) {
             return $this->playerRepository->getPlayerFromUser($this->getUser());
