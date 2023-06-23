@@ -33,17 +33,6 @@ class GameController extends AbstractController
      * @param Request $request
      * @return mixed
      */
-    public function autocomplete(Request $request): mixed
-    {
-        $q = $request->query->get('query', null);
-        $locale = $request->getLocale();
-        return $this->gameRepository->autocomplete($q, $locale);
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
     public function listByLetter(Request $request): mixed
     {
         $letter = $request->query->get('letter', '0');

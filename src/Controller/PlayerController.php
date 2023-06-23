@@ -12,23 +12,6 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
  */
 class PlayerController extends AbstractController
 {
-    private PlayerRepository $playerRepository;
-
-    public function __construct(PlayerRepository $playerRepository)
-    {
-        $this->playerRepository = $playerRepository;
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function autocomplete(Request $request): mixed
-    {
-        $q = $request->query->get('query', null);
-        return $this->playerRepository->autocomplete($q);
-    }
-
     /**
      * @param Player    $player
      * @return mixed

@@ -1,18 +1,14 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Platform;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Repository\PlatformRepository;
 
-/**
- * Class PlatformController
- */
-class PlatformController extends AbstractController
+class Autocomplete extends AbstractController
 {
     private PlatformRepository $platformRepository;
-
 
     public function __construct(PlatformRepository $platformRepository)
     {
@@ -23,7 +19,7 @@ class PlatformController extends AbstractController
      * @param Request $request
      * @return mixed
      */
-    public function autocomplete(Request $request): mixed
+    public function __invoke(Request $request): mixed
     {
         $q = $request->query->get('query', null);
         return $this->platformRepository->autocomplete($q);

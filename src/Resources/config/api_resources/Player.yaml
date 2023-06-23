@@ -53,7 +53,7 @@ resources:
                           in: query
                           required: true
                           type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerController::autocomplete'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\Autocomplete'
         itemOperations:
             get:
                 normalization_context: {'groups': [player.read, player.status, player.status.read, player.team, team.read.mini, player.country, country.read, player.cup, player.medal, player.proof, player.badge, player.pointGame, player.pointChart]}

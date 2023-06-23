@@ -80,6 +80,12 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Game\Autocomplete:
+    arguments:
+      - '@vgr.core.repository.game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
 
   #Group
   VideoGamesRecords\CoreBundle\Controller\Group\Player\GetRankingPoints:
@@ -146,6 +152,12 @@ services:
   VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbNewLostPosition:
     arguments:
       - '@vgr.core.manager.lost_position'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\Autocomplete:
+    arguments:
+      - '@vgr.core.repository.player'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 

@@ -15,7 +15,7 @@ resources:
                             in: query
                             required: true
                             type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlatformController::autocomplete'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Platform\Autocomplete'
         itemOperations:
             get:
                 normalization_context: {'groups': [platform.read]}
