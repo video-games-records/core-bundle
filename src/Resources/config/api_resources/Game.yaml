@@ -14,7 +14,7 @@ resources:
                             in: query
                             required: false
                             type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::listByLetter'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\GetListByLetter'
                 defaults:
                     _api_receive: false
             autocomplete:

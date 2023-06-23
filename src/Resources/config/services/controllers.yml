@@ -98,6 +98,12 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Game\GetListByLetter:
+    arguments:
+      - '@vgr.core.repository.game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
 
   #Group
   VideoGamesRecords\CoreBundle\Controller\Group\Player\GetRankingPoints:

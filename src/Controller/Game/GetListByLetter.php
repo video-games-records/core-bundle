@@ -1,19 +1,17 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller;
+namespace VideoGamesRecords\CoreBundle\Controller\Game;
 
 
-use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 
 /**
- * Class GameController
  * @Route("/game")
  */
-class GameController extends AbstractController
+class GetListByLetter extends AbstractController
 {
     private GameRepository $gameRepository;
 
@@ -27,7 +25,7 @@ class GameController extends AbstractController
      * @param Request $request
      * @return mixed
      */
-    public function listByLetter(Request $request): mixed
+    public function __invoke(Request $request): mixed
     {
         $letter = $request->query->get('letter', '0');
         $locale = $request->getLocale();
@@ -35,5 +33,4 @@ class GameController extends AbstractController
             ->findWithLetter($letter, $locale)
             ->getResult();
     }
-
 }
