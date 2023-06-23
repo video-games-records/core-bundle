@@ -60,6 +60,12 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Chart\GetFormData:
+    arguments:
+      - '@vgr.core.security.user_provider'
+      - '@doctrine.orm.entity_manager'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
 
   #Game
   VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingPoints:
@@ -89,6 +95,13 @@ services:
   VideoGamesRecords\CoreBundle\Controller\Game\Autocomplete:
     arguments:
       - '@vgr.core.repository.game'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Game\GetFormData:
+    arguments:
+      - '@vgr.core.security.user_provider'
+      - '@doctrine.orm.entity_manager'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
@@ -127,6 +140,13 @@ services:
   VideoGamesRecords\CoreBundle\Controller\Group\Team\GetRankingMedals:
     arguments:
       - '@vgr.core.ranking.provider.team.team_group'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Group\GetFormData:
+    arguments:
+      - '@vgr.core.security.user_provider'
+      - '@doctrine.orm.entity_manager'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 

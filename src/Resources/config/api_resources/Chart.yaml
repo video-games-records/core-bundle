@@ -28,7 +28,7 @@ resources:
                             in: query
                             required: false
                             type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\FormDataController::loadChart'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\GetFormData'
             team-ranking:
                 method: 'GET'
                 normalization_context: {'groups': [teamChart.pointChart, teamChart.team, team.read.mini]}
