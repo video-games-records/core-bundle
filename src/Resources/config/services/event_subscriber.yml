@@ -74,7 +74,7 @@ services:
     VideoGamesRecords\CoreBundle\EventSubscriber\MajGameSubscriber:
         class: VideoGamesRecords\CoreBundle\EventSubscriber\MajGameSubscriber
         arguments:
-            - '@doctrine.orm.entity_manager'
+            - '@vgr.core.manager.game'
         tags: [ { name: 'kernel.event_subscriber' } ]
 
 

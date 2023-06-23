@@ -2,10 +2,35 @@
 
 namespace VideoGamesRecords\CoreBundle\Ranking\Provider\Player;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class PlayerRankingProvider
 {
+    protected EntityManagerInterface $em;
+    protected UserProvider $userProvider;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        UserProvider $userProvider
+    ) {
+        $this->em = $em;
+        $this->userProvider = $userProvider;
+    }
+
+    /**
+     * @throws ORMException
+     */
+    protected function getPlayer(): ?Player
+    {
+        if ($this->userProvider->getUser()) {
+            return $this->userProvider->getPlayer();
+        }
+        return null;
+    }
+
     /**
      * @param array $options
      * @return array
