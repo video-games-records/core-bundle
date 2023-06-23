@@ -98,7 +98,7 @@ resources:
                           in: path
                           required: true
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::topScore'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Group\GetTopScore'
         properties:
             charts:
                 subresource:
