@@ -21,7 +21,7 @@ class GetStats extends AbstractController
      */
     public function __invoke(Player $player): mixed
     {
-         $query = $this->em->createQuery("
+        $query = $this->em->createQuery("
             SELECT
                  s,
                  COUNT(pc) as nb

@@ -24,7 +24,7 @@ class GroupRepository extends EntityRepository
      * @return int|string
      * @throws Exception
      */
-    public function insertLibChart(int $idGroup, int $idType): int|string
+    public function insertLibChart(int $idGroup, int $idType): int | string
     {
         $sql = "INSERT INTO vgr_chartlib (idChart,idType,created_at)
             SELECT id,:idType,NOW()
