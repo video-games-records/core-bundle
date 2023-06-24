@@ -15,7 +15,3 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@vgr.core.security.user_provider'
 
-
-
-
-

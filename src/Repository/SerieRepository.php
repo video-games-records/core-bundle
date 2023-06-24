@@ -2,13 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Serie;
+use Doctrine\ORM\EntityRepository;
 
-class SerieRepository extends DefaultRepository
+class SerieRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Serie::class);
-    }
+
 }

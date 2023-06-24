@@ -30,7 +30,7 @@ class Score
     public static function getValues(string $mask, $value): array
     {
         $parse   = self::parseChartMask($mask);
-        $negative = 0 === strpos($value, '-');
+        $negative = str_starts_with($value, '-');
         $value = $negative ? (int) substr($value, 1) : $value;
         $data    = [];
         $laValue = $value;

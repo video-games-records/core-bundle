@@ -139,10 +139,10 @@ class TeamGame
 
     /**
      * Set pointChart
-     * @param float $pointChart
+     * @param int $pointChart
      * @return $this
      */
-    public function setPointChart(float $pointChart): TeamGame
+    public function setPointChart(int $pointChart): TeamGame
     {
         $this->pointChart = $pointChart;
         return $this;

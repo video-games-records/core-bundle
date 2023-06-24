@@ -3,22 +3,16 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Group;
+use Doctrine\ORM\EntityRepository;
 
-class GroupRepository extends DefaultRepository
+class GroupRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Group::class);
-    }
-
     /**
      * @param       $id
      * @param false $boolCopyLibChart
      * @throws Exception
      */
-    public function copy($id, bool $boolCopyLibChart = false)
+    public function copy($id, bool $boolCopyLibChart = false): void
     {
         $sql = sprintf("call copy_group (%d, %d);", $id, ($boolCopyLibChart) ? 1 : 0);
         $this->_em->getConnection()->executeStatement($sql);
@@ -30,7 +24,7 @@ class GroupRepository extends DefaultRepository
      * @return int|string
      * @throws Exception
      */
-    public function insertLibChart(int $idGroup, int $idType)
+    public function insertLibChart(int $idGroup, int $idType): int | string
     {
         $sql = "INSERT INTO vgr_chartlib (idChart,idType,created_at)
             SELECT id,:idType,NOW()
@@ -44,5 +38,4 @@ class GroupRepository extends DefaultRepository
             ]
         );
     }
-
 }

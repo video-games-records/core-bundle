@@ -60,7 +60,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
  *         "pointChart",
  *     }
  * )
-  * @ApiFilter(
+ * @ApiFilter(
  *     ExistsFilter::class,
  *     properties={
  *         "proof",
@@ -262,10 +262,10 @@ class PlayerChart
 
     /**
      * Set pointChart
-     * @param float $pointChart
+     * @param int $pointChart
      * @return PlayerChart
      */
-    public function setPointChart(float $pointChart): PlayerChart
+    public function setPointChart(int $pointChart): PlayerChart
     {
         $this->pointChart = $pointChart;
         return $this;
@@ -274,19 +274,19 @@ class PlayerChart
     /**
      * Get pointChart
      *
-     * @return float
+     * @return int
      */
-    public function getPointChart(): float
+    public function getPointChart(): int
     {
         return $this->pointChart;
     }
 
     /**
      * Set pointPlatform
-     * @param float $pointPlatform
+     * @param int $pointPlatform
      * @return PlayerChart
      */
-    public function setPointPlatform(float $pointPlatform): PlayerChart
+    public function setPointPlatform(int $pointPlatform): PlayerChart
     {
         $this->pointPlatform = $pointPlatform;
         return $this;

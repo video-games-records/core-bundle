@@ -246,7 +246,7 @@ class Badge implements BadgeInterface
         if (0 === $this->nbPlayer) {
             $this->value = 0;
         } else {
-            $this->value = floor(
+            $this->value = (int) floor(
                 100 * (6250 * (-1 / (100 + $this->getGame()
                                 ->getNbPlayer() - $this->nbPlayer) + 0.0102) / (pow($this->nbPlayer, 1 / 3)))
             );

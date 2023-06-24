@@ -2,16 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\TeamGame;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * TeamGameRepository
  */
-class TeamGameRepository extends DefaultRepository
+class TeamGameRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, TeamGame::class);
-    }
+
 }

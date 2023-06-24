@@ -19,32 +19,37 @@
         "aws/aws-sdk-php-symfony": "~2.0",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "~2.0",
+        "friendsofsymfony/ckeditor-bundle": "^2.1",
         "gedmo/doctrine-extensions": "^3.11",
         "knplabs/doctrine-behaviors": "~2.0",
         "league/flysystem-bundle": "^3.0",
+        "sonata-project/admin-bundle": "^4.0",
+        "sonata-project/doctrine-orm-admin-bundle": "^4.8",
         "symfony/config": "^5.4",
         "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
+        "symfony/dotenv": "^5.4",
+        "symfony/flex": "^1.19",
         "symfony/framework-bundle": "5.4.*",
         "symfony/http-kernel": "^5.4",
+        "symfony/intl": "^5.4",
         "symfony/lock": "^5.4",
-        "webmozart/assert": "*"
+        "symfony/runtime": "^5.4",
+        "symfony/validator": "^5.4",
+        "symfony/yaml": "^5.4",
+        "webmozart/assert": "*",
+        "yokai/sonata-workflow": "^0.7.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^1.8",
-        "phpstan/phpstan-symfony": "^1.2",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-doctrine": "^1.3",
+        "phpstan/phpstan-symfony": "^1.3",
+        "squizlabs/php_codesniffer": "^3.7",
         "symfony/browser-kit": "^5.4",
-        "symfony/dotenv": "^5.4",
-        "symfony/flex": "^1.19",
-        "symfony/phpunit-bridge": "^6.1",
-        "symfony/runtime": "^5.4",
-        "symfony/yaml": "^5.4"
-    },
-    "suggest": {
-        "sonata-project/admin-bundle": "To use administration with sonata",
-        "sonata-project/doctrine-orm-admin-bundle": "To use doctrine orm into sonata admin"
+        "symfony/phpunit-bridge": "^6.2",
+        "symfony/web-profiler-bundle": "^5.4"
     },
     "autoload": {
         "psr-4": { "VideoGamesRecords\\CoreBundle\\": "src/" }
@@ -76,7 +81,16 @@
     "prefer-stable": true,
     "scripts": {
         "auto-scripts": {
-
-        }
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "console": "@php bin/console",
+        "lint:phpstan": "@php vendor/bin/phpstan",
+        "lint:phpcs": "@php vendor/bin/phpcs src/ tests/ -p",
+        "lint:phpcs:fix": "@php vendor/bin/phpcbf src/ tests/ -p",
+        "lint": [
+            "@lint:phpcs",
+            "@lint:phpstan"
+        ]
     }
 }

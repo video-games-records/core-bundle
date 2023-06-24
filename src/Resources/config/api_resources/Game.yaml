@@ -14,7 +14,7 @@ resources:
                             in: query
                             required: false
                             type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::listByLetter'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\GetListByLetter'
                 defaults:
                     _api_receive: false
             autocomplete:
@@ -27,7 +27,7 @@ resources:
                             in: query
                             required: true
                             type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GameController::autocomplete'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\Autocomplete'
         itemOperations:
             get:
                 normalization_context: {'groups': [game.read, game.platforms, platform.read, game.serie, serie.read.mini]}
@@ -46,7 +46,7 @@ resources:
                             in: query
                             required: false
                             type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\FormDataController::loadGame'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\GetFormData'
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [playerGame.pointChart,playerGame.player,player.read.mini,player.team,team.read.mini,player.country,country.read]}
@@ -61,7 +61,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGameController::getRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingPoints'
             player-ranking-medals:
                 method: 'GET'
                 normalization_context: {'groups': [playerGame.medal,playerGame.player,player.read.mini,player.team,team.read.mini,player.country,country.read]}
@@ -76,7 +76,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGameController::getRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingMedals'
             team-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [teamGame.pointChart, teamGame.team, team.read.mini]}
@@ -91,7 +91,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGameController::getRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints'
             team-ranking-medals:
                 method: 'GET'
                 normalization_context: {'groups': [teamGame.medal, teamGame.team, team.read.mini]}
@@ -106,7 +106,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGameController::getRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\Team\getRankingMedals'
         properties:
             groups:
                 subresource:

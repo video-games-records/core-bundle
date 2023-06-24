@@ -139,9 +139,6 @@ class Team implements SluggableInterface
     private Collection $teamBadge;
 
     /**
-     * @var Player
-     *
-     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idLeader", referencedColumnName="id", nullable=false)

@@ -3,21 +3,16 @@
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
-class ChartRepository extends DefaultRepository
+class ChartRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Chart::class);
-    }
-
     /**
      * @return mixed
      * @throws NonUniqueResultException
@@ -45,14 +40,14 @@ class ChartRepository extends DefaultRepository
     }
 
     /**
-     * @param int    $page
-     * @param null   $player
-     * @param array  $search
+     * @param int $page
+     * @param Player|null $player
+     * @param array $search
      * @param string $locale
-     * @param int    $itemsPerPage
+     * @param int $itemsPerPage
      * @return Paginator
      */
-    public function getList(int $page = 1, $player = null, array $search = array(), string $locale = 'en', int $itemsPerPage = 20) : Paginator
+    public function getList(int $page = 1, Player $player = null, array $search = array(), string $locale = 'en', int $itemsPerPage = 20) : Paginator
     {
         $firstResult = ($page - 1) * $itemsPerPage;
 

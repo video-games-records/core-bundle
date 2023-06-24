@@ -13,7 +13,7 @@ class Picture implements PictureInterface
     protected array $fonts = [];
     protected array $colors = [];
 
-    protected ?string $activeColor = null;
+    protected ?int $activeColor = null;
     protected ?string $activeFont = null;
 
 
@@ -157,26 +157,26 @@ class Picture implements PictureInterface
 
     /**
      * @param Picture $pic
-     * @param                   $dstX
-     * @param                   $dstY
-     * @param int               $srcX
-     * @param int               $srcY
-     * @param null              $dstW
-     * @param null              $dstH
-     * @param null              $srcW
-     * @param null              $srcH
+     * @param int             $dstX
+     * @param int             $dstY
+     * @param int             $srcX
+     * @param int             $srcY
+     * @param int|null        $dstW
+     * @param int|null        $dstH
+     * @param int|null        $srcW
+     * @param int|null        $srcH
      * @return Picture
      */
     public function copyResized(
         Picture $pic,
-        $dstX,
-        $dstY,
-        $srcX = 0,
-        $srcY = 0,
-        $dstW = null,
-        $dstH = null,
-        $srcW = null,
-        $srcH = null
+        int $dstX,
+        int $dstY,
+        int $srcX = 0,
+        int $srcY = 0,
+        int $dstW = null,
+        int $dstH = null,
+        int $srcW = null,
+        int $srcH = null
     ): Picture {
         $dstW = is_null($dstW) ? $pic->getWidth() : $dstW;
         $dstH = is_null($dstH) ? $pic->getHeight() : $dstH;

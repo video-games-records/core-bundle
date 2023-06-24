@@ -2,16 +2,12 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\TeamChart;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * TeamChartRepository
  */
-class TeamChartRepository extends DefaultRepository
+class TeamChartRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, TeamChart::class);
-    }
+
 }

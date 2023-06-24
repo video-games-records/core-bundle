@@ -7,8 +7,7 @@ services:
     vgr.core.manager.game_day:
         class: VideoGamesRecords\CoreBundle\Manager\GameOfDayManager
         arguments:
-            - '@vgr.core.repository.game'
-            - '@vgr.core.repository.game_day'
+            - '@doctrine.orm.entity_manager'
 
     vgr.core.manager.lost_position:
         class: VideoGamesRecords\CoreBundle\Manager\LostPositionManager
@@ -66,4 +65,10 @@ services:
         class: VideoGamesRecords\CoreBundle\Manager\Strategy\Badge\ValueSuffixType
         arguments:
             - '@translator'
+
+    vgr.core.manager.team.avatar:
+        class: VideoGamesRecords\CoreBundle\Manager\AvatarManager
+        arguments:
+            - '@app.storage'
+            - 'team/'
 

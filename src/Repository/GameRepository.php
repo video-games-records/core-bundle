@@ -4,22 +4,17 @@ namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
-class GameRepository extends DefaultRepository
+class GameRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Game::class);
-    }
-
     /**
      * @return array
      */

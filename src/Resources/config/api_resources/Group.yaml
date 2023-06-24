@@ -27,7 +27,7 @@ resources:
                             in: query
                             required: false
                             type: string
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Chart\FormDataController::loadGroup'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Group\GetFormData'
             player-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [playerGroup.pointChart,playerGroup.player,player.read.mini,player.team,team.read.mini,player.country,country.read]}
@@ -42,7 +42,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGroupController::getRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Group\Player\GetRankingPoints'
             player-ranking-medals:
                 method: 'GET'
                 normalization_context: {'groups': [playerGroup.medal,playerGroup.player,player.read.mini,player.team,team.read.mini,player.country,country.read]}
@@ -57,7 +57,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\PlayerGroupController::getRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Group\Player\GetRankingMedals'
             team-ranking-points:
                 method: 'GET'
                 normalization_context: {'groups': [teamGroup.pointChart, teamGroup.team, team.read.mini]}
@@ -72,7 +72,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGroupController::getRankingPoints'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Group\Team\GetRankingPoints'
             team-ranking-medals:
                 method: 'GET'
                 normalization_context: {'groups': [teamGroup.medal, teamGroup.team, team.read.mini]}
@@ -87,7 +87,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Ranking\TeamGroupController::getRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Group\Team\GetRankingMedals'
             top-score:
                 method: 'GET'
                 normalization_context: {'groups': [chart.read, chart.top-score, playerChart.libs, playerChartLib.format, playerChart.read, playerChart.player, player.read.mini]}
@@ -98,7 +98,7 @@ resources:
                           in: path
                           required: true
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\GroupController::topScore'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Group\GetTopScore'
         properties:
             charts:
                 subresource:

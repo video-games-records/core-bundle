@@ -1,0 +1,88 @@
+services:
+  #Scoring
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerScoringRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerScoringRankingUpdateCommand
+    arguments:
+      - '@vgr.core.ranking.command.scoring_player'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-scoring-ranking-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\TeamScoringRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\TeamScoringRankingUpdateCommand
+    arguments:
+      - '@vgr.core.ranking.command.scoring_team'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:team-scoring-ranking-update' }
+
+
+  #Ranking
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerCountryRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerCountryRankingUpdateCommand
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.ranking.command.player.player_country'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-country-ranking-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerPlatformRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerPlatformRankingUpdateCommand
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.ranking.command.player.player_platform'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-platform-ranking-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerSerieRankingUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerSerieRankingUpdateCommand
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.ranking.command.player.player_serie'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-serie-ranking-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerRankingBadgeUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerRankingBadgeUpdateCommand
+    arguments:
+      - '@vgr.core.ranking.command.rank_update.player'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-ranking-badge-update' }
+
+  VideoGamesRecords\CoreBundle\Command\Ranking\PlayerRankingProofUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\Ranking\PlayerRankingProofUpdateCommand
+    arguments:
+      - '@vgr.core.ranking.command.rank_update.player'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-ranking-proof-update' }
+
+
+  #Badge
+  VideoGamesRecords\CoreBundle\Command\PlayerBadgeUpdateCommand:
+    class: VideoGamesRecords\CoreBundle\Command\PlayerBadgeUpdateCommand
+    arguments:
+      - '@vgr.core.handler.badge.player'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:player-badge-update' }
+
+  #GameOfDay
+  VideoGamesRecords\CoreBundle\Command\GameOfDayAddCommand:
+    class: VideoGamesRecords\CoreBundle\Command\GameOfDayAddCommand
+    arguments:
+      - '@vgr.core.manager.game_day'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:game-of-day-add' }
+
+  #Lostposition
+  VideoGamesRecords\CoreBundle\Command\LostPositionPurgeCommand:
+    class: VideoGamesRecords\CoreBundle\Command\LostPositionPurgeCommand
+    arguments:
+      - '@vgr.core.manager.lost_position'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:lost-position-purge' }
+
+  #Scoreinvestigation
+  VideoGamesRecords\CoreBundle\Command\ScoreInvestigationUpdate:
+    class: VideoGamesRecords\CoreBundle\Command\ScoreInvestigationUpdate
+    arguments:
+      - '@vgr.core.handler.score_investigation'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:score-investigation-update' }

@@ -66,31 +66,31 @@ class ProofRequestListener
         $event = new ProofRequestEvent($proofRequest);
 
         if ($this->isAccepted()) {
-             $proofRequest->getPlayerChart()->setStatus(
+            $proofRequest->getPlayerChart()->setStatus(
                 $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_INVESTIGATION)
-             );
+            );
 
-             $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
-             $proofRequest->setDateAcceptance(new DateTime());
-             $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_ACCEPTED);
+            $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
+            $proofRequest->setDateAcceptance(new DateTime());
+            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_ACCEPTED);
         }
 
         if ($this->isRefused()) {
-             $proofRequest->getPlayerChart()->setStatus(
+            $proofRequest->getPlayerChart()->setStatus(
                 $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
-             );
+            );
 
-             $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
-             $proofRequest->setDateAcceptance(new DateTime());
-             $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_REFUSED);
+            $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
+            $proofRequest->setDateAcceptance(new DateTime());
+            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_REFUSED);
         }
     }
 
-     private function isAccepted(): bool
+    private function isAccepted(): bool
     {
         return array_key_exists('status', $this->changeSet)
-            && $this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS
-            && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_ACCEPTED;
+           && $this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS
+           && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_ACCEPTED;
     }
 
     private function isRefused(): bool

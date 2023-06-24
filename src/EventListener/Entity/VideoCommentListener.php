@@ -8,7 +8,7 @@ use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class VideoCommentListener
 {
-     private UserProvider $userProvider;
+    private UserProvider $userProvider;
 
     /**
      * @param UserProvider $userProvider

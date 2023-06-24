@@ -41,7 +41,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
      * @param ObjectManager $manager
      * @throws Exception
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->loadPlayerChartStatus($manager);
         $this->loadPlayers($manager);
@@ -57,7 +57,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     /**
      * @param ObjectManager $manager
      */
-    private function loadSeries(ObjectManager $manager)
+    private function loadSeries(ObjectManager $manager): void
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Serie');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
@@ -85,7 +85,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     /**
      * @param ObjectManager $manager
      */
-    private function loadPlatforms(ObjectManager $manager)
+    private function loadPlatforms(ObjectManager $manager): void
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Platform');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
@@ -116,7 +116,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     /**
      * @param ObjectManager $manager
      */
-    private function loadGames(ObjectManager $manager)
+    private function loadGames(ObjectManager $manager): void
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Game');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
@@ -198,7 +198,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     /**
      * @param ObjectManager $manager
      */
-    private function loadGroups(ObjectManager $manager)
+    private function loadGroups(ObjectManager $manager): void
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Group');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
@@ -240,7 +240,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     /**
      * @param ObjectManager $manager
      */
-    private function loadChartType(ObjectManager $manager)
+    private function loadChartType(ObjectManager $manager): void
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\ChartType');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
@@ -283,7 +283,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     /**
      * @param ObjectManager $manager
      */
-    private function loadCharts(ObjectManager $manager)
+    private function loadCharts(ObjectManager $manager): void
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Chart');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
@@ -430,7 +430,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     /**
      * @param ObjectManager $manager
      */
-    private function loadPlayers(ObjectManager $manager)
+    private function loadPlayers(ObjectManager $manager): void
     {
         $metadata = $manager->getClassMetaData('VideoGamesRecords\CoreBundle\Entity\Player');
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
@@ -465,50 +465,50 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     /**
      * @param $manager
      */
-    public function loadPlayerChartStatus($manager)
+    public function loadPlayerChartStatus($manager): void
     {
         $list = [
             [
                 'libStatus' => 'NORMAL',
                 'class'     => 'proof--none',
-                'ranking'   => 1,
-                'proof'     => 0,
+                'ranking'   => true,
+                'proof'     => false,
             ],
             [
                 'libStatus' => 'DEMAND',
                 'class'     => 'proof--request-pending',
-                'ranking'   => 1,
-                'proof'     => 0,
+                'ranking'   => true,
+                'proof'     => false,
             ],
             [
                 'libStatus' => 'INVESTIGATION',
                 'class'     => 'proof--request-validated',
-                'ranking'   => 0,
-                'proof'     => 0,
+                'ranking'   => false,
+                'proof'     => false,
             ],
             [
                 'libStatus' => 'DEMAND_SEND_PROOF',
                 'class'     => 'proof--request-sent',
-                'ranking'   => 1,
-                'proof'     => 1,
+                'ranking'   => true,
+                'proof'     => true,
             ],
             [
                 'libStatus' => 'NORMAL_SEND_PROOF',
                 'class'     => 'proof--sent',
-                'ranking'   => 1,
-                'proof'     => 1,
+                'ranking'   => true,
+                'proof'     => true,
             ],
             [
                 'libStatus' => 'PROOVED',
                 'class'     => 'proof--proved',
-                'ranking'   => 1,
-                'proof'     => 1,
+                'ranking'   => true,
+                'proof'     => true,
             ],
             [
                 'libStatus' => 'NOT_PROOVED',
                 'class'     => 'proof--unproved',
-                'ranking'   => 1,
-                'proof'     => 0,
+                'ranking'   => true,
+                'proof'     => false,
             ],
         ];
 
@@ -532,7 +532,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
      * @param ObjectManager $manager
      * @throws Exception
      */
-    private function loadPlayerChart(ObjectManager $manager)
+    private function loadPlayerChart(ObjectManager $manager): void
     {
         /** @var Chart $chart */
         $chart = $this->getReference('chart1');
@@ -581,7 +581,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
      *
      * @return integer
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 50;
     }

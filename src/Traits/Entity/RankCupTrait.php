@@ -126,4 +126,3 @@ trait RankCupTrait
         return $this->gameRank3;
     }
 }
-

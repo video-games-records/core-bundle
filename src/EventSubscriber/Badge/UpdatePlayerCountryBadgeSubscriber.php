@@ -25,7 +25,7 @@ final class UpdatePlayerCountryBadgeSubscriber implements EventSubscriberInterfa
     /**
      * @param CountryEvent $event
      */
-    public function process(CountryEvent $event)
+    public function process(CountryEvent $event): void
     {
         $this->badgeHandler->process($event->getCountry());
     }

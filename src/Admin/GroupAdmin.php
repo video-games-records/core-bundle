@@ -30,15 +30,6 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @return string
-     */
-    private function getLibGroup(): string
-    {
-        $locale = Locale::getDefault();
-        return ($locale == 'fr') ? 'libGroupFr' : 'libGroupEn';
-    }
-
-    /**
      * @param RouteCollectionInterface $collection
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
@@ -118,7 +109,7 @@ class GroupAdmin extends AbstractAdmin
                         'btn_delete' => false,
                         'btn_catalogue' => $btnCalalogue,
                         'label' => 'label.game',
-                    ]
+                        ]
                 )
             );
         }
@@ -135,9 +126,9 @@ class GroupAdmin extends AbstractAdmin
                         ->getPathInfo(), 'videogamesrecords/core/group'
                 ) || (($this->getRequest()
                             ->getPathInfo() == '/admin/core/append-form-field-element') && ($this->getRequest(
-                        )->query->get('_sonata_admin') == 'sonata.admin.vgr.group'))) && (count(
+                            )->query->get('_sonata_admin') == 'sonata.admin.vgr.group'))) && (count(
                     $subject->getCharts()
-                ) < 50)) {
+                            ) < 50)) {
             $form->end()
                 ->with('label.charts')
                 ->add(

@@ -2,16 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Data;
+use Doctrine\ORM\EntityRepository;
 
-/**
- * Specific repository that serves the Data entity.
- */
-class DataRepository extends DefaultRepository
+class DataRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Data::class);
-    }
+
 }
