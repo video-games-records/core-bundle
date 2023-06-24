@@ -1,13 +1,15 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\DataProvider;
+namespace VideoGamesRecords\CoreBundle\Controller\Player\Game;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Intl\Locale;
+use VideoGamesRecords\CoreBundle\Entity\Player;
 
-class PlayerGameStatsProvider
+class GetStats extends AbstractController
 {
-    private EntityManagerInterface $em;
+    protected EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -15,13 +17,13 @@ class PlayerGameStatsProvider
     }
 
     /**
-     * @param $mixed
+     * @param Player    $player
      * @return array
      */
-    public function load($mixed): array
+    public function __invoke(Player $player): array
     {
-        $playerGames = $this->getPlayerGameStats($mixed);
-        $stats = $this->getStatusPerGame($mixed);
+        $playerGames = $this->getPlayerGameStats($player);
+        $stats = $this->getStatusPerGame($player);
 
         foreach ($playerGames as $playerGame) {
             if (isset($stats[$playerGame->getGame()->getId()])) {
@@ -31,7 +33,7 @@ class PlayerGameStatsProvider
         return $playerGames;
     }
 
-    /**
+     /**
      * Return data from player with game and platforms
      *
      * @param $player

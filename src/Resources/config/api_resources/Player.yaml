@@ -77,9 +77,9 @@ resources:
                 method: 'GET'
                 normalization_context: {'groups': [playerChartStatus.read]}
                 path: '/players/{id}/player-chart-stats'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Stats\PlayerChartStatsController::load'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\PlayerChart\GetStats'
             game-stats:
                 method: 'GET'
                 normalization_context: { 'groups': [playerGame.game, game.stats, playerGame.proof, playerGame.statuses, playerChartStatus.read, game.read.mini, game.platforms, platform.read]}
                 path: '/players/{id}/game-stats'
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Stats\PlayerGameStatsController::load'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Player\Game\GetStats'

@@ -173,6 +173,12 @@ services:
 
 
   #Player
+  VideoGamesRecords\CoreBundle\Controller\Player\Game\GetStats:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
   VideoGamesRecords\CoreBundle\Controller\Player\Gamercard\Mini:
     arguments:
       - '@app.storage'
@@ -195,6 +201,12 @@ services:
   VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbNewLostPosition:
     arguments:
       - '@vgr.core.manager.lost_position'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\Player\PlayerChart\GetStats:
+    arguments:
+      - '@doctrine.orm.entity_manager'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
