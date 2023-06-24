@@ -260,6 +260,22 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendPicture:
+    arguments:
+      - '@aws.s3'
+      - '@vgr.core.security.user_provider'
+      - '@doctrine.orm.entity_manager'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+  VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendVideo:
+    arguments:
+      - '@vgr.core.security.user_provider'
+      - '@doctrine.orm.entity_manager'
+      - '@translator'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
   #Serie
   VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingPoints:
     arguments:
