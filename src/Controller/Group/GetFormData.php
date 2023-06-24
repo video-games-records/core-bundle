@@ -25,8 +25,8 @@ class GetFormData extends AbtsractFormDataController
         $this->game = $group->getGame();
 
         $player = $this->userProvider->getPlayer();
-        $page = (int) $request->query->get('page', 1);
-        $itemsPerPage = (int) $request->query->get('itemsPerPage', 20);
+        $page = (int) $request->query->get('page', '1');
+        $itemsPerPage = (int) $request->query->get('itemsPerPage', '20');
         $locale = $request->getLocale();
         $search = array(
             'group' => $group,

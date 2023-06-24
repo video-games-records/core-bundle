@@ -30,15 +30,6 @@ class GroupAdmin extends AbstractAdmin
     }
 
     /**
-     * @return string
-     */
-    private function getLibGroup(): string
-    {
-        $locale = Locale::getDefault();
-        return ($locale == 'fr') ? 'libGroupFr' : 'libGroupEn';
-    }
-
-    /**
      * @param RouteCollectionInterface $collection
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void

@@ -26,7 +26,7 @@ class GetRankingPoints extends AbstractController
         return $this->rankingProvider->getRankingPoints(
             $platform->getId(),
             [
-                'maxRank' => $request->query->get('maxRank', 100),
+                'maxRank' => $request->query->get('maxRank', '100'),
             ]
         );
     }
