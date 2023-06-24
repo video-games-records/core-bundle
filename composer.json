@@ -84,8 +84,8 @@
         },
         "console": "@php bin/console",
         "lint:phpstan": "@php vendor/bin/phpstan",
-        "lint:phpcs": "@php vendor/bin/phpcs src/ tests/ migrations/ -p",
-        "lint:phpcs:fix": "@php vendor/bin/phpcbf src/ tests/ migrations/ -p",
+        "lint:phpcs": "@php vendor/bin/phpcs src/ tests/ -p",
+        "lint:phpcs:fix": "@php vendor/bin/phpcbf src/ tests/ -p",
         "lint": [
             "@lint:phpcs",
             "@lint:phpstan"
