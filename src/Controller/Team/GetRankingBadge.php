@@ -25,7 +25,7 @@ class GetRankingBadge extends AbstractController
     {
         return $this->teamRankingProvider->getRankingBadge(
             [
-                'maxRank' => $request->query->get('maxRank', 5),
+                'maxRank' => $request->query->get('maxRank', '5'),
             ]
         );
     }

@@ -25,15 +25,6 @@ class GameAdmin extends AbstractAdmin
     protected $baseRouteName = 'vgrcorebundle_admin_game';
 
     /**
-     * @return string
-     */
-    private function getLibGame(): string
-    {
-        $locale = Locale::getDefault();
-        return ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
-    }
-
-    /**
      * @param RouteCollectionInterface $collection
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void

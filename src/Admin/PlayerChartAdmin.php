@@ -40,15 +40,6 @@ class PlayerChartAdmin extends AbstractAdmin
     }
 
     /**
-     * @return string
-     */
-    private function getLibChart(): string
-    {
-        $locale = Locale::getDefault();
-        return ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
-    }
-
-    /**
      * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void

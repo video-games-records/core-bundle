@@ -12,7 +12,7 @@ class GroupRepository extends EntityRepository
      * @param false $boolCopyLibChart
      * @throws Exception
      */
-    public function copy($id, bool $boolCopyLibChart = false)
+    public function copy($id, bool $boolCopyLibChart = false): void
     {
         $sql = sprintf("call copy_group (%d, %d);", $id, ($boolCopyLibChart) ? 1 : 0);
         $this->_em->getConnection()->executeStatement($sql);
@@ -24,7 +24,7 @@ class GroupRepository extends EntityRepository
      * @return int|string
      * @throws Exception
      */
-    public function insertLibChart(int $idGroup, int $idType)
+    public function insertLibChart(int $idGroup, int $idType): int|string
     {
         $sql = "INSERT INTO vgr_chartlib (idChart,idType,created_at)
             SELECT id,:idType,NOW()
@@ -38,5 +38,4 @@ class GroupRepository extends EntityRepository
             ]
         );
     }
-
 }

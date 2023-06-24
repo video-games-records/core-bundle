@@ -78,9 +78,9 @@ class Ranking
     }
 
     /**
-     * @param PlayerChart[] $array
-     * @param string        $ranking
-     * @param array         $columns
+     * @param array  $array
+     * @param string $ranking
+     * @param array  $columns
      * @return array
      */
     public static function addObjectRank(
@@ -119,7 +119,6 @@ class Ranking
                 }
             }
 
-            /** @var Player $player */
             $object = $array[$i];
             $object->$setter($rank);
             $array[$i] = $object;

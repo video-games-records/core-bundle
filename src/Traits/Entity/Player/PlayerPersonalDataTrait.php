@@ -68,7 +68,7 @@ trait PlayerPersonalDataTrait
      * Set collection
      *
      * @param string|null $collection
-     * @return Player
+     * @return $this
      */
     public function setCollection(string $collection = null): static
     {

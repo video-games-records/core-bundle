@@ -25,7 +25,7 @@ class GetRankingMedals extends AbstractController
     {
         return $this->teamRankingProvider->getRankingMedals(
             [
-                'maxRank' => $request->query->get('maxRank', 5),
+                'maxRank' => $request->query->get('maxRank', '5'),
             ]
         );
     }

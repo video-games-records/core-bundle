@@ -11,6 +11,7 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Event\GameEvent;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 

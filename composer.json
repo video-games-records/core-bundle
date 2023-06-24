@@ -19,9 +19,12 @@
         "aws/aws-sdk-php-symfony": "~2.0",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "~2.0",
+        "friendsofsymfony/ckeditor-bundle": "^2.1",
         "gedmo/doctrine-extensions": "^3.11",
         "knplabs/doctrine-behaviors": "~2.0",
         "league/flysystem-bundle": "^3.0",
+        "sonata-project/admin-bundle": "^4.0",
+        "sonata-project/doctrine-orm-admin-bundle": "^4.8",
         "symfony/config": "^5.4",
         "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
@@ -29,11 +32,13 @@
         "symfony/flex": "^1.19",
         "symfony/framework-bundle": "5.4.*",
         "symfony/http-kernel": "^5.4",
+        "symfony/intl": "^5.4",
         "symfony/lock": "^5.4",
         "symfony/runtime": "^5.4",
         "symfony/validator": "^5.4",
         "symfony/yaml": "^5.4",
-        "webmozart/assert": "*"
+        "webmozart/assert": "*",
+        "yokai/sonata-workflow": "^0.7.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
@@ -45,10 +50,6 @@
         "symfony/browser-kit": "^5.4",
         "symfony/phpunit-bridge": "^6.2",
         "symfony/web-profiler-bundle": "^5.4"
-    },
-    "suggest": {
-        "sonata-project/admin-bundle": "To use administration with sonata",
-        "sonata-project/doctrine-orm-admin-bundle": "To use doctrine orm into sonata admin"
     },
     "autoload": {
         "psr-4": { "VideoGamesRecords\\CoreBundle\\": "src/" }
@@ -80,7 +81,8 @@
     "prefer-stable": true,
     "scripts": {
         "auto-scripts": {
-
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "console": "@php bin/console",
         "lint:phpstan": "@php vendor/bin/phpstan",

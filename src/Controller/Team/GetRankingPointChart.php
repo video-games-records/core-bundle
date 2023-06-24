@@ -25,7 +25,7 @@ class GetRankingPointChart extends AbstractController
     {
         return $this->teamRankingProvider->getRankingPointChart(
             [
-                'maxRank' => $request->query->get('maxRank', 5),
+                'maxRank' => $request->query->get('maxRank', '5'),
             ]
         );
     }

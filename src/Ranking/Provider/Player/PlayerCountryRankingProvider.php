@@ -20,7 +20,7 @@ class PlayerCountryRankingProvider extends AbstractRankingProvider
 
         $maxRank = $options['maxRank'] ?? null;
 
-        $query = $this->em->createQueryBuilder('p')
+        $query = $this->em->createQueryBuilder()
             ->select('p')
             ->from('VideoGamesRecords\CoreBundle\Entity\Player', 'p')
             ->where('(p.country = :country)')

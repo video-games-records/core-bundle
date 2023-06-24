@@ -25,7 +25,7 @@ class GetRankingCup extends AbstractController
     {
         return $this->teamRankingProvider->getRankingCup(
             [
-                'maxRank' => $request->query->get('maxRank', 5),
+                'maxRank' => $request->query->get('maxRank', '5'),
             ]
         );
     }
