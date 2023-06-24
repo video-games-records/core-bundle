@@ -19,6 +19,5 @@ abstract class AbstractRankingHandler implements RankingCommandInterface
 
     public function handle($mixed): void
     {
-
     }
 }

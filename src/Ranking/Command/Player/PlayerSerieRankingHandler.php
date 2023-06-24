@@ -15,7 +15,7 @@ class PlayerSerieRankingHandler extends AbstractRankingHandler
         if (null === $serie) {
             return;
         }
-        
+
         // Delete old data
         $query = $this->em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerSerie us WHERE us.serie = :serie');
         $query->setParameter('serie', $serie);

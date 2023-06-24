@@ -84,7 +84,6 @@ class PlayerAdmin extends AbstractAdmin
             ->add('youtube', NullFilter::class, ['label' => 'label.youtube_is_null'])
             ->add('website', NullFilter::class, ['label' => 'label.website_is_null'])
             ->add('boolMaj', null, ['label' => 'label.boolMaj']);
-
     }
 
     /**

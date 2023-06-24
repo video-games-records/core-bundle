@@ -16,6 +16,5 @@ abstract class AbstractRankUpdateHandler implements RankUpdateInterface
 
     public function handle(): void
     {
-
     }
 }

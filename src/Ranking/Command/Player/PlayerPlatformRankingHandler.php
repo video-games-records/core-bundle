@@ -17,7 +17,7 @@ class PlayerPlatformRankingHandler extends AbstractRankingHandler
         if (null === $platform) {
             return;
         }
-        
+
         // Delete old data
         $query = $this->em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\PlayerPlatform pp WHERE pp.platform = :platform');
         $query->setParameter('platform', $platform);

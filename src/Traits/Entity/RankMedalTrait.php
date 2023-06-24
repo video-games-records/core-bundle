@@ -174,4 +174,3 @@ trait RankMedalTrait
         return $this->chartRank5;
     }
 }
-

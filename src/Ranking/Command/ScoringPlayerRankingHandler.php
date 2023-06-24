@@ -27,7 +27,7 @@ class ScoringPlayerRankingHandler
         EntityManagerInterface $em,
         PlayerChartRankingHandler $playerChartRankingHandler,
         PlayerGroupRankingHandler $playerGroupRankingHandler,
-        PlayerGameRankingHandler$playerGameRankingHandler,
+        PlayerGameRankingHandler $playerGameRankingHandler,
         PlayerRankingHandler $playerRankingHandler,
         EventDispatcherInterface $eventDispatcher
     ) {
