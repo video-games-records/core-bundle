@@ -8,4 +8,6 @@ interface ForumInterface
     public function getId(): int;
     /** @return string */
     public function getLibForum(): string;
+
+    public function setLibForum(string $libForum): static;
 }
