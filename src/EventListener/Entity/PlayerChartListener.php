@@ -113,6 +113,7 @@ class PlayerChartListener
      */
     public function postUpdate(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
+        $em = $event->getObjectManager();
         if ((array_key_exists('lastUpdate', $this->changeSet)) || (array_key_exists('status', $this->changeSet))) {
             $chart = $playerChart->getChart();
             $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
@@ -138,8 +139,10 @@ class PlayerChartListener
                 $player->setNbChartDisabled($player->getNbChartDisabled() - 1);
             }
         }
+        $em->flush();
     }
 
+    /**
     /**
      * @param PlayerChart            $playerChart
      * @param LifecycleEventArgs $event

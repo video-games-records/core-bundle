@@ -12,8 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait {
-        configureContainer as private configureContainerFromTrait;
-        configureRoutes as private privateConfigureRoutesFromTrait;
+        MicroKernelTrait::configureContainer as private configureContainerFromTrait;
+        MicroKernelTrait::configureRoutes as private privateConfigureRoutesFromTrait;
     }
 
     /**

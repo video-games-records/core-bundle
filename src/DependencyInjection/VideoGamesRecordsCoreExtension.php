@@ -29,6 +29,7 @@ class VideoGamesRecordsCoreExtension extends Extension
         $loader->load('services/commands.yml');
         $loader->load('services/controllers.yml');
         $loader->load('services/data_providers.yml');
+        $loader->load('services/doctrine_extension.yml');
         $loader->load('services/event_subscriber.yml');
         $loader->load('services/event_listener.yml');
         $loader->load('services/handlers.yml');
