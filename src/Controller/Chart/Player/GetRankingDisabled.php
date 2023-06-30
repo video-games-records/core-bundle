@@ -20,7 +20,7 @@ class GetRankingDisabled extends AbstractController
      * @param Chart    $chart
      * @return array
      */
-    public function getRankingDisabled(Chart $chart): array
+    public function __invoke(Chart $chart): array
     {
         $ranking = $this->playerChartRankingProvider->getRankingDisabled($chart);
 

@@ -106,7 +106,7 @@ resources:
                           in: query
                           required: false
                           type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\Team\getRankingMedals'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingMedals'
         properties:
             groups:
                 subresource:
