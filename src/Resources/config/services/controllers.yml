@@ -301,6 +301,12 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Serie\GetPicture:
+    arguments:
+      - '@app.storage'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
 
   #Team
   VideoGamesRecords\CoreBundle\Controller\Team\Avatar\Upload:
