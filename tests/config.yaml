@@ -3,6 +3,7 @@ framework:
   router:
     utf8: true
     resource:
+  profiler: { collect: false }
 
 #flysystem
 flysystem:
@@ -72,3 +73,11 @@ security:
 
   access_control:
     - { path: ^/api/login, roles: PUBLIC_ACCESS }
+
+web_profiler:
+  toolbar: false
+  intercept_redirects: false
+
+twig:
+    strict_variables: true
+

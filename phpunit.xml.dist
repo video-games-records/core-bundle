@@ -23,7 +23,7 @@
         <!-- ###- aws/aws-sdk-php-symfony ### -->
 
         <!-- ###+ doctrine/doctrine-bundle ### -->
-        <env name="DATABASE_URL=" value="mysql://vgr:vgr@127.0.0.1:3306/test_vgr" />
+        <env name="DATABASE_URL=" value="mysql://vgr:vgr@127.0.0.1:3306/vgr-test" />
         <!-- ###- doctrine/doctrine-bundle ### -->
 
         <!-- ###+ symfony/lock ### -->
