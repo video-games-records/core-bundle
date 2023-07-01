@@ -1,2 +1,74 @@
 framework:
   test: true
+  router:
+    utf8: true
+    resource:
+
+#flysystem
+flysystem:
+  storages:
+    app.storage:
+      adapter: 'local'
+      options:
+        directory: '../var/storage/default'
+
+#aws
+aws:
+    version: latest
+    region: eu-west-3
+    credentials:
+        key: ""
+        secret: ""
+
+#doctrine
+doctrine:
+  dbal:
+    connections:
+      default:
+        driver: pdo_mysql
+        url: 'mysql://root:root@127.0.0.1:3306/vgr-test'
+        charset: UTF8MB4
+        server_version: 5.6
+  orm:
+    auto_generate_proxy_classes: true
+    entity_managers:
+      default:
+        connection: default
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+          VideoGamesRecordsCoreBundle:
+            is_bundle: true
+            type: annotation
+            dir: '../src/Entity'
+            prefix: 'VideoGamesRecords\CoreBundle\Entity'
+            alias: App
+        dql:
+          string_functions:
+            ifnull: DoctrineExtensions\Query\Mysql\IfNull
+          numeric_functions:
+            round: DoctrineExtensions\Query\Mysql\Round
+
+#security
+security:
+  enable_authenticator_manager: true
+  firewalls:
+    admin:
+      pattern: /admin(.*)
+      context: user
+    api:
+      pattern: ^/api
+      stateless: true
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      lazy: true
+
+  role_hierarchy:
+    ROLE_ADMIN:
+      - ROLE_USER
+    ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+
+  access_control:
+    - { path: ^/api/login, roles: PUBLIC_ACCESS }
