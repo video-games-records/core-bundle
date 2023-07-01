@@ -20,7 +20,7 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  VideoGamesRecords\CoreBundle\Controller\Admin\groupAdminController:
+  VideoGamesRecords\CoreBundle\Controller\Admin\GroupAdminController:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
