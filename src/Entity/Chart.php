@@ -223,7 +223,9 @@ class Chart implements SluggableInterface
      */
     public function setLibChartFr(?string $libChartFr): self
     {
-        if ($libChartFr) $this->libChartFr = $libChartFr;
+        if ($libChartFr) {
+            $this->libChartFr = $libChartFr;
+        }
         return $this;
     }
 

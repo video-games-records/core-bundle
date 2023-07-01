@@ -139,7 +139,7 @@ class Country implements TranslatableInterface
     /**
      * Get id
      *
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
