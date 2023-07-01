@@ -199,7 +199,7 @@ class PlayerChartLib
     public function setValueFromPaseValue(): void
     {
         if ($this->parseValue == null) {
-            $this->value = null;
+            $this->value = '';
         } else {
             $this->value = (string) Score::formToBdd(
                 $this->getLibChart()
