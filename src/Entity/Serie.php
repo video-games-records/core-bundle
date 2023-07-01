@@ -65,6 +65,7 @@ class Serie implements SluggableInterface
     private string $status = SerieStatus::STATUS_INACTIVE;
 
     /**
+     * @var Collection<Game>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="serie", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $games;

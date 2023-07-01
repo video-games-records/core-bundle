@@ -189,6 +189,7 @@ class PlayerChart
     private ?Platform $platform = null;
 
     /**
+     * @var Collection<PlayerChartLib>
      * @ORM\OneToMany(
      *     targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartLib",
      *     mappedBy="playerChart",

@@ -56,13 +56,13 @@ class Chart implements SluggableInterface
      * @Assert\Length(max="255")
      * @ORM\Column(name="libChartEn", type="string", length=255, nullable=false)
      */
-    private ?string $libChartEn;
+    private string $libChartEn = '';
 
     /**
      * @Assert\Length(max="255")
      * @ORM\Column(name="libChartFr", type="string", length=255, nullable=false)
      */
-    private ?string $libChartFr = null;
+    private string $libChartFr = '';
 
     /**
      * @ORM\Column(name="statusPlayer", type="string", length=30, nullable=false, options={"default" : "NORMAL"}))
@@ -84,11 +84,13 @@ class Chart implements SluggableInterface
     private Group $group;
 
     /**
+     * @var Collection<ChartLib>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $libs;
 
     /**
+     * @var Collection<PlayerChart>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart", fetch="EXTRA_LAZY")
      */
     private Collection $playerCharts;
@@ -104,11 +106,13 @@ class Chart implements SluggableInterface
     private ?PlayerChart $playerChartP = null;
 
     /**
+     * @var Collection<Proof>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $proofs;
 
     /**
+     * @var Collection<LostPosition>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="chart")
      */
     private Collection $lostPositions;
@@ -206,9 +210,9 @@ class Chart implements SluggableInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getLibChartEn(): ?string
+    public function getLibChartEn(): string
     {
         return $this->libChartEn;
     }
@@ -224,9 +228,9 @@ class Chart implements SluggableInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getLibChartFr(): ?string
+    public function getLibChartFr(): string
     {
         return $this->libChartFr;
     }

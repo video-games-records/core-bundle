@@ -52,7 +52,7 @@ class PlayerChartLib
      *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
-    private playerChart $playerChart;
+    private PlayerChart $playerChart;
 
 
     private array $parseValue;

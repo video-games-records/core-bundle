@@ -57,6 +57,7 @@ class PlayerChartStatus implements TranslatableInterface
     private int $sOrder = 0;
 
     /**
+     * @var Collection<PlayerChart>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="status")
      */
     private Collection $playerCharts;

@@ -92,13 +92,13 @@ class Game implements SluggableInterface
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGameEn", type="string", length=255, nullable=false)
      */
-    private ?string $libGameEn;
+    private string $libGameEn = '';
 
     /**
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGameFr", type="string", length=255, nullable=false)
      */
-    private ?string $libGameFr = null;
+    private string $libGameFr = '';
 
     /**
      * @Assert\Length(max="255")
@@ -138,11 +138,13 @@ class Game implements SluggableInterface
     private ?Badge $badge;
 
     /**
+     * @var Collection<Group>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $groups;
 
     /**
+     * @var Collection<Platform>
      * @ORM\ManyToMany(targetEntity="Platform", inversedBy="games")
      * @ORM\JoinTable(name="vgr_game_platform",
      *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
@@ -160,6 +162,7 @@ class Game implements SluggableInterface
     private $forum;
 
     /**
+     * @var Collection<Rule>
      * @ORM\ManyToMany(targetEntity="Rule", inversedBy="games")
      * @ORM\JoinTable(name="vgr_rule_game",
      *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
@@ -169,9 +172,10 @@ class Game implements SluggableInterface
     private Collection $rules;
 
     /**
+     * @var Collection<PlayerGame>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="game")
      */
-    private $playerGame;
+    private Collection $playerGame;
 
 
     /**
@@ -223,7 +227,7 @@ class Game implements SluggableInterface
      * @param integer $id
      * @return Game
      */
-    public function setId(int $id)
+    public function setId(int $id): Game
     {
         $this->id = $id;
         return $this;
@@ -232,9 +236,9 @@ class Game implements SluggableInterface
     /**
      * Get id
      *
-     * @return integer
+     * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -250,9 +254,9 @@ class Game implements SluggableInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getLibGameEn(): ?string
+    public function getLibGameEn(): string
     {
         return $this->libGameEn;
     }
@@ -268,9 +272,9 @@ class Game implements SluggableInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getLibGameFr(): ?string
+    public function getLibGameFr(): string
     {
         return $this->libGameFr;
     }

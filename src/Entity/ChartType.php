@@ -35,7 +35,7 @@ class ChartType
 
     /**
      * @Assert\Length(max="10")
-     * @ORM\Column(name="orderBy", type="string", length=10, nullable=true)
+     * @ORM\Column(name="orderBy", type="string", length=10, nullable=false)
      */
     private string $orderBy = 'ASC';
 

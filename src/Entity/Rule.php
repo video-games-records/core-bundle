@@ -43,6 +43,7 @@ class Rule implements TranslatableInterface
     private ?Player $player;
 
     /**
+     * @var Collection<Game>
      * @ORM\ManyToMany(targetEntity="Game", mappedBy="rules")
      * @ORM\JoinTable(name="vgr_rule_game",
      *      joinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")},
