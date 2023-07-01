@@ -290,18 +290,6 @@ class Chart implements SluggableInterface
         return $this->playerCharts;
     }
 
-
-    /**
-     * @param ArrayCollection|PlayerChart[] $playerCharts
-     * @return Chart
-     */
-    public function setPlayerCharts(array | ArrayCollection $playerCharts): self
-    {
-        $this->playerCharts = $playerCharts;
-
-        return $this;
-    }
-
     /**
      * @param PlayerChart $playerChart
      * @return $this

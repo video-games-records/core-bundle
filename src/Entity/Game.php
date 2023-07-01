@@ -526,10 +526,12 @@ class Game implements SluggableInterface
 
     /**
      * @param Rule $rule
+     * @return Game
      */
-    public function removeRule(Rule $rule)
+    public function removeRule(Rule $rule): Game
     {
         $this->rules->removeElement($rule);
+        return $this;
     }
 
     public function getPlaterGame()

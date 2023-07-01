@@ -11,7 +11,6 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * PlayerChartStatus
  *
  * @ORM\Table(name="vgr_rule")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\RuleRepository")
