@@ -262,12 +262,12 @@ class Game implements SluggableInterface
     }
 
     /**
-     * @param string $libGameFr
+     * @param ?string $libGameFr
      * @return Game
      */
-    public function setLibGameFr(string $libGameFr): Game
+    public function setLibGameFr(?string $libGameFr): Game
     {
-        $this->libGameFr = $libGameFr;
+        if ($libGameFr) $this->libGameFr = $libGameFr;
         return $this;
     }
 

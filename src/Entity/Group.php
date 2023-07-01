@@ -162,12 +162,12 @@ class Group implements SluggableInterface
     }
 
     /**
-     * @param string $libGroupFr
+     * @param ?string $libGroupFr
      * @return $this
      */
-    public function setLibGroupFr(string $libGroupFr): Group
+    public function setLibGroupFr(?string $libGroupFr): Group
     {
-        $this->libGroupFr = $libGroupFr;
+        if ($libGroupFr) $this->libGroupFr = $libGroupFr;
         return $this;
     }
 
