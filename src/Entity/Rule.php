@@ -139,7 +139,7 @@ class Rule implements TranslatableInterface
      */
     public function setText(string $text): Rule
     {
-        $this->translate(null, false)->setName($text);
+        $this->translate(null, false)->setText($text);
 
         return $this;
     }
