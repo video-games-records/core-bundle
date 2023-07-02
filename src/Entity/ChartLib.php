@@ -32,7 +32,7 @@ class ChartLib
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="libs")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false)
      * })
      */
     private Chart $chart;
@@ -40,7 +40,7 @@ class ChartLib
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartType", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idType", referencedColumnName="idType")
+     *   @ORM\JoinColumn(name="idType", referencedColumnName="idType", nullable=false)
      * })
      */
     private ChartType $type;

@@ -27,7 +27,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
  *         @ORM\UniqueConstraint(name="unq_player_chart", columns={"idPlayer", "idChart"})
  *     },
  *     indexes={
- *         @ORM\Index(name="idx_rank", columns={"rank"}),
+ *         @ORM\Index(name="idx_rank", columns={"`rank`"}),
  *         @ORM\Index(name="idx_point_chart", columns={"pointChart"}),
  *         @ORM\Index(name="idx_top_score", columns={"isTopScore"}),
  *         @ORM\Index(name="idx_last_update_player", columns={"lastUpdate", "idPlayer"})
@@ -189,6 +189,7 @@ class PlayerChart
     private ?Platform $platform = null;
 
     /**
+     * @var Collection<PlayerChartLib>
      * @ORM\OneToMany(
      *     targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartLib",
      *     mappedBy="playerChart",

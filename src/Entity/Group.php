@@ -57,13 +57,13 @@ class Group implements SluggableInterface
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGroupEn", type="string", length=255, nullable=false)
      */
-    private ?string $libGroupEn;
+    private string $libGroupEn = '';
 
     /**
      * @Assert\Length(max="255")
      * @ORM\Column(name="libGroupFr", type="string", length=255, nullable=false)
      */
-    private ?string $libGroupFr = null;
+    private string $libGroupFr = '';
 
     /**
      * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
@@ -81,6 +81,7 @@ class Group implements SluggableInterface
     private Game $game;
 
     /**
+     * @var Collection<Chart>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", mappedBy="group",cascade={"persist"})
      */
     private Collection $charts;
@@ -127,7 +128,7 @@ class Group implements SluggableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Group
     {
         $this->id = $id;
         return $this;
@@ -135,9 +136,9 @@ class Group implements SluggableInterface
 
     /**
      * Get idGroup
-     * @return integer
+     * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -155,25 +156,27 @@ class Group implements SluggableInterface
     /**
      * @return string
      */
-    public function getLibGroupEn(): ?string
+    public function getLibGroupEn(): string
     {
         return $this->libGroupEn;
     }
 
     /**
-     * @param string $libGroupFr
+     * @param ?string $libGroupFr
      * @return $this
      */
-    public function setLibGroupFr(string $libGroupFr): Group
+    public function setLibGroupFr(?string $libGroupFr): Group
     {
-        $this->libGroupFr = $libGroupFr;
+        if ($libGroupFr) {
+            $this->libGroupFr = $libGroupFr;
+        }
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getLibGroupFr(): ?string
+    public function getLibGroupFr(): string
     {
         return $this->libGroupFr;
     }

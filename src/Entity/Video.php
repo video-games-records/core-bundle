@@ -98,6 +98,7 @@ class Video implements SluggableInterface
     private ?Game $game;
 
     /**
+     * @var Collection<VideoComment>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\VideoComment", mappedBy="video")
      */
     private Collection $comments;

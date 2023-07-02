@@ -123,17 +123,20 @@ class Team implements SluggableInterface
     private int $nbMasterBadge = 0;
 
     /**
+     * @var Collection<Player>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", mappedBy="team")
      * @ORM\OrderBy({"pseudo" = "ASC"})
      */
     private Collection $players;
 
     /**
+     * @var Collection<TeamGame>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\TeamGame", mappedBy="team")
      */
     private Collection $teamGame;
 
     /**
+     * @var Collection<TeamBadge>
      * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\TeamBadge", mappedBy="team")
      */
     private Collection $teamBadge;

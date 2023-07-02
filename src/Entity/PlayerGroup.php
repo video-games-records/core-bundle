@@ -44,15 +44,15 @@ class PlayerGroup
     /**
      * @ORM\Column(name="lastUpdate", type="datetime", nullable=true)
      */
-    private DateTime $lastUpdate;
+    private ?DateTime $lastUpdate;
 
 
     /**
      * Set lastUpdate
-     * @param DateTime $lastUpdate
+     * @param DateTime|null $lastUpdate
      * @return $this
      */
-    public function setLastUpdate(DateTime $lastUpdate): static
+    public function setLastUpdate(DateTime $lastUpdate = null): static
     {
         $this->lastUpdate = $lastUpdate;
 
@@ -62,9 +62,9 @@ class PlayerGroup
     /**
      * Get lastUpdate
      *
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getLastUpdate(): DateTime
+    public function getLastUpdate(): ?DateTime
     {
         return $this->lastUpdate;
     }

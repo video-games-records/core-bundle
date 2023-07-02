@@ -27,7 +27,7 @@ class RuleTranslation implements TranslationInterface
     private string $text = '';
 
     /**
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {

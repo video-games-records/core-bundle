@@ -52,7 +52,7 @@ class PlayerChartLib
      *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
-    private playerChart $playerChart;
+    private PlayerChart $playerChart;
 
 
     private array $parseValue;
@@ -199,7 +199,7 @@ class PlayerChartLib
     public function setValueFromPaseValue(): void
     {
         if ($this->parseValue == null) {
-            $this->value = null;
+            $this->value = '';
         } else {
             $this->value = (string) Score::formToBdd(
                 $this->getLibChart()

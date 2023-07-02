@@ -11,7 +11,6 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * PlayerChartStatus
  *
  * @ORM\Table(name="vgr_rule")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\RuleRepository")
@@ -43,6 +42,7 @@ class Rule implements TranslatableInterface
     private ?Player $player;
 
     /**
+     * @var Collection<Game>
      * @ORM\ManyToMany(targetEntity="Game", mappedBy="rules")
      * @ORM\JoinTable(name="vgr_rule_game",
      *      joinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")},
@@ -138,7 +138,7 @@ class Rule implements TranslatableInterface
      */
     public function setText(string $text): Rule
     {
-        $this->translate(null, false)->setName($text);
+        $this->translate(null, false)->setText($text);
 
         return $this;
     }
