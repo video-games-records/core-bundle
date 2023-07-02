@@ -22,10 +22,13 @@ class PlayerAdmin extends AbstractAdmin
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
+        parent::configureRoutes($collection);
         $collection
             ->remove('create')
             ->remove('export')
             ->remove('delete');
+        $collection
+            ->add('maj', $this->getRouterIdParameter() . '/maj');
     }
 
     /**
@@ -102,6 +105,9 @@ class PlayerAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'maj' => [
+                        'template' => '@VideoGamesRecordsCore/Admin/object_maj_link.html.twig'
+                    ]
                 ]
             ]);
     }

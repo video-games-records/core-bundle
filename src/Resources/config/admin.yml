@@ -126,6 +126,7 @@ services:
             -
                 name: sonata.admin
                 model_class: VideoGamesRecords\CoreBundle\Entity\Player
+                controller: VideoGamesRecords\CoreBundle\Controller\Admin\PlayerAdminController
                 manager_type: orm
                 group: "group.players"
                 label: "label.player"

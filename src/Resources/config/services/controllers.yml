@@ -24,6 +24,12 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Admin\PlayerAdminController:
+    arguments:
+      - '@vgr.core.ranking.command.player.player'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
   VideoGamesRecords\CoreBundle\Controller\Admin\ProofAdminController:
     calls:
       - [ setContainer, [ "@service_container" ] ]
