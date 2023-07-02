@@ -20,6 +20,7 @@ use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use VideoGamesRecords\CoreBundle\Entity\PlayerStatus;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
@@ -44,6 +45,7 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     public function load(ObjectManager $manager): void
     {
         $this->loadPlayerChartStatus($manager);
+        $this->loadPlayerStatus($manager);
         $this->loadPlayers($manager);
         $this->loadChartType($manager);
         $this->loadSeries($manager);
@@ -428,6 +430,30 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
     }
 
     /**
+     * @param $manager
+     */
+    public function loadPlayerStatus($manager): void
+    {
+        $list = [
+            [
+                'class'     => 'normal',
+            ],
+        ];
+
+        foreach ($list as $key => $row) {
+            $playerStatus = new PlayerStatus();
+            $playerStatus
+                ->setId($key + 1)
+                ->setClass($row['class']);
+
+            $manager->persist($playerStatus);
+            $this->addReference('playerStatus' . $playerStatus->getId(), $playerStatus);
+        }
+        $manager->flush();
+    }
+
+
+    /**
      * @param ObjectManager $manager
      */
     private function loadPlayers(ObjectManager $manager): void
@@ -454,7 +480,11 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
             $player = new Player();
             $player
                 ->setId($row['idPlayer'])
-                ->setPseudo($row['pseudo']);
+                ->setUserId($row['idPlayer'])
+                ->setPseudo($row['pseudo'])
+                ->setStatus($this->getReference('playerStatus1'))
+                ->setCreatedAt(new \Datetime())
+                ->setUpdatedAt(new \Datetime());
 
             $manager->persist($player);
             $this->addReference('player' . $player->getId(), $player);

@@ -159,7 +159,7 @@ class Game implements SluggableInterface
      * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ForumInterface",cascade={"persist"})
      * @ORM\JoinColumn(name="idForum", referencedColumnName="id")
      */
-    private $forum;
+    //private $forum;
 
     /**
      * @var Collection<Rule>

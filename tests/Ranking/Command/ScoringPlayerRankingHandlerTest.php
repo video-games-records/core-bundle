@@ -8,6 +8,7 @@ class ScoringPlayerRankingHandlerTest extends AbstractFunctionalTestCase
 {
     public function testDefault(): void
     {
+        $this->setUpSchema();
         $this->assertSame(1, 1);
     }
 }
