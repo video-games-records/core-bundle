@@ -24,16 +24,6 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerStatus;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
-/**
- * Defines the sample data to load in the database when running the unit and
- * functional tests. Execute this command to load the data:
- *
- *   $ php app/console doctrine:fixtures:load
- *
- * See http://symfony.com/doc/current/bundles/DoctrineFixturesBundle/index.html
- *
- * @author David Benard <magicbart@gmail.com>
- */
 class LoadFixtures extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     use ContainerAwareTrait;
@@ -78,6 +68,8 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
             $serie = new Serie();
             $serie->setId($row['id']);
             $serie->setLibSerie($row['libSerie']);
+            $serie->setCreatedAt(new \Datetime());
+            $serie->setUpdatedAt(new \Datetime());
             $manager->persist($serie);
             $this->addReference('serie.' . $serie->getId(), $serie);
         }
@@ -179,6 +171,8 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
             $game->setId($row['idGame']);
             $game->setLibGameEn($row['LibGameEn']);
             $game->setLibGameFr($row['libGameFr']);
+            $game->setCreatedAt(new \Datetime());
+            $game->setUpdatedAt(new \Datetime());
 
             if (isset($row['idSerie'])) {
                 $game->setSerie($this->getReference('serie.' . $row['idSerie']));
@@ -231,6 +225,8 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
             $group->setId($row['idGroup']);
             $group->setLibGroupEn($row['LibGroupEn']);
             $group->setLibGroupFr($row['libGroupFr']);
+            $group->setCreatedAt(new \Datetime());
+            $group->setUpdatedAt(new \Datetime());
             $group->setGame($this->getReference('game' . $row['idGame']));
             $manager->persist($group);
             $this->addReference('group' . $group->getId(), $group);
@@ -410,6 +406,8 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
             $chart->setId($row['idChart']);
             $chart->setLibChartEn($row['LibChartEn']);
             $chart->setLibChartFr($row['libChartFr']);
+            $chart->setCreatedAt(new \Datetime());
+            $chart->setUpdatedAt(new \Datetime());
             $chart->setGroup($this->getReference('group' . $row['idGroup']));
 
             foreach ($row['types'] as $type) {
@@ -417,6 +415,8 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
                 $chartLib
                     ->setChart($chart)
                     ->setType($this->getReference('charttype.' . $type))
+                    ->setCreatedAt(new \Datetime())
+                    ->setUpdatedAt(new \Datetime())
                     ->setName('test');
 
                 $chart->addLib($chartLib);
@@ -590,6 +590,8 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
             $playerChart->setPlayer($this->getReference('player' . $row['idPlayer']));
             $playerChart->setChart($chart);
             $playerChart->setStatus($this->getReference(sprintf('playerchartstatus%d', $row['status'])));
+            $playerChart->setCreatedAt(new \Datetime());
+            $playerChart->setUpdatedAt(new \Datetime());
             $playerChart->setLastUpdate(new DateTime());
             $manager->persist($playerChart);
 
