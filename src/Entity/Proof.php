@@ -300,7 +300,7 @@ class Proof
 
     /**
      * Get checkedAt
-     * @return DateTime
+     * @return DateTime|null
      */
     public function getCheckedAt(): ?DateTime
     {
