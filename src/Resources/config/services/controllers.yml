@@ -330,6 +330,12 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Team\GetRankingBadge:
+    arguments:
+      - '@vgr.core.ranking.provider.team.team'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
   VideoGamesRecords\CoreBundle\Controller\Team\GetRankingCup:
     arguments:
       - '@vgr.core.ranking.provider.team.team'
