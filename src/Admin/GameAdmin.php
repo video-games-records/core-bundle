@@ -193,7 +193,7 @@ class GameAdmin extends AbstractAdmin
     {
         $btns = [
             'maj' => [
-                'template' => '@VideoGamesRecordsCore/Admin/game_maj_link.html.twig'
+                'template' => '@VideoGamesRecordsCore/Admin/object_maj_link.html.twig'
             ],
             'history' => [
                 'template' => '@VideoGamesRecordsCore/Admin/game_history_link.html.twig'

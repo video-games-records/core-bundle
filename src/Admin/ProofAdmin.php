@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\NullFilter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -30,7 +31,7 @@ class ProofAdmin extends AbstractAdmin
     /** @var ContainerInterface */
     private ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
     }
@@ -175,7 +176,10 @@ class ProofAdmin extends AbstractAdmin
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => 'pseudo'],
                 'label' => 'label.player.responding'
-            ]);
+            ])
+            ->add('video', NullFilter::class, ['label' => 'label.video_is_null'])
+            ->add('picture', NullFilter::class, ['label' => 'label.picture_is_null'])
+        ;
     }
 
 

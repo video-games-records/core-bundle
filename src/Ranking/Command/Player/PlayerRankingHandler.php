@@ -153,6 +153,4 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $event = new PlayerEvent($player);
         $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_MAJ_COMPLETED);
     }
-
-
 }

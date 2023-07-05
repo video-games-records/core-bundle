@@ -75,7 +75,8 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
  *          "createdAt": "DESC",
  *          "nbConnexion": "DESC",
  *          "lastLogin": "DESC",
- *          "nbForumMessage": "DESC"
+ *          "nbForumMessage": "DESC",
+ *          "nbChart": "DESC"
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
