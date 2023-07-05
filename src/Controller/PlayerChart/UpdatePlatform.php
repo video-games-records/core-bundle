@@ -27,7 +27,7 @@ class UpdatePlatform extends AbstractController
      * @return JsonResponse
      * @throws ORMException
      */
-    public function update(Request $request): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $idGame = $data['idGame'];
