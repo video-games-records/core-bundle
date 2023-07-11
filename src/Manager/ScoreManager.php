@@ -64,8 +64,7 @@ class ScoreManager
     public function getPlatform(Player $player, Game $game): ?Platform
     {
         $qb = $this->em->createQueryBuilder();
-        $query = $qb->select('(pc.platform) as platform')
-            ->distinct()
+        $query = $qb->select('pc')
             ->from('VideoGamesRecords\CoreBundle\Entity\PlayerChart', 'pc')
             ->innerJoin('pc.chart', 'c')
             ->innerJoin('c.group', 'g')
@@ -73,12 +72,13 @@ class ScoreManager
             ->setParameter('player', $player)
             ->andWhere('g.game = :game')
             ->setParameter('game', $game)
-            ->andWhere('pc.platform IS NOT NULL');
-        $result = $query->getQuery()->getOneOrNullResult();
-        if (null !== $result) {
-            return $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Platform', $result['platform']);
-        }
-        return null;
+            ->andWhere('pc.platform IS NOT NULL')
+            ->orderBy("pc.lastUpdate",  "DESC")
+            ->setMaxResults(1);
+
+        $playerChart = $query->getQuery()->getOneOrNullResult();
+
+        return $playerChart?->getPlatform();
     }
 
 
