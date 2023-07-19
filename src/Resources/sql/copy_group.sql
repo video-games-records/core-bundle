@@ -4,7 +4,7 @@ CREATE PROCEDURE copy_group(IN group_id_src int, IN copy_libchart boolean)
 BEGIN
  	DECLARE group_id_dest INT;
 
-
+    DECLARE game_id INT;
 	DECLARE chart_id_src INT;
 	DECLARE chart_id_dest INT;
 	DECLARE chart_slug VARCHAR(255);
@@ -20,12 +20,16 @@ BEGIN
 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
+ 	SET game_id = (SELECT idGame FROM vgr_group WHERE id = group_id_src);
 
     -- GROUP
     INSERT INTO vgr_group (idGame, libGroupEn, libGroupFr, boolDlc, nbChart, slug, created_at, updated_at)
     SELECT idGame, CONCAT(libGroupEn, ' [COPY]'), CONCAT(libGroupFr, ' [COPY]'), boolDlc, nbChart, slug, NOW(), NOW()
     FROM vgr_group
     WHERE id = group_id_src;
+
+ 	UPDATE vgr_game
+ 	SET nbChart = (SELECT SUM(nbChart) FROM vgr_group WHERE idGame = game_id);
 
     SET group_id_dest = LAST_INSERT_ID();
 
