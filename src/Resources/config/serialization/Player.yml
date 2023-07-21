@@ -151,3 +151,6 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.read'
         - 'player.put'
+    lastDisplayLostPosition:
+      groups:
+        - 'player.put'

@@ -127,6 +127,7 @@ class PlayerAdmin extends AbstractAdmin
                 ->add('website', null, ['label' => 'label.website'])
                 ->add('youtube', null, ['label' => 'label.youtube'])
                 ->add('twitch', null, ['label' => 'label.twitch'])
+                ->add('lastDisplayLostPosition', null, ['label' => 'label.lastDisplayLostPosition'])
             ->end()
             ->with('Ranking', ['class' => 'col-md-6', 'label' => 'label.ranking'])
                 ->add('rankPointChart', null, ['label' => 'label.rankPointChart'])
