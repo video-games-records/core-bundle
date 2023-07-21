@@ -28,6 +28,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         - 'playerChart.read'
     pointChart:
       groups:
+        - 'playerChart.read'
         - 'playerChart.ranking'
         - 'playerChart.pointChart'
     status:

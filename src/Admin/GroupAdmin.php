@@ -201,7 +201,7 @@ class GroupAdmin extends AbstractAdmin
             ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('libGroupEn', null, ['label' => 'label.group.en', 'editable' => true])
             ->add('libGroupFr', null, ['label' => 'label.group.fr', 'editable' => true])
-            //->add('slug', null, ['label' => 'label.slug'])
+            ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',
@@ -230,7 +230,8 @@ class GroupAdmin extends AbstractAdmin
         $show
             ->add('id', null, ['label' => 'label.id'])
             ->add('libGroupEn', null, ['label' => 'label.name.en'])
-            ->add('libGroupFr', null, ['label' => 'lel.name.fr'])
+            ->add('libGroupFr', null, ['label' => 'label.name.fr'])
+            ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',

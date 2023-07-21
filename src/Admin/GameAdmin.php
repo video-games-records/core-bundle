@@ -175,6 +175,7 @@ class GameAdmin extends AbstractAdmin
             ])
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
+            ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('status', ChoiceFilter::class, [
                 'label' => 'label.status',
                 'field_type' => ChoiceType::class,
@@ -262,8 +263,8 @@ class GameAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
-            ->add('downloadUrl', null, ['label' => 'label.downloadUrl'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
+            ->add('downloadUrl', null, ['label' => 'label.downloadUrl'])
             ->add('picture', null, ['label' => 'label.picture'])
             ->add('badge', null, ['label' => 'label.badge'])
             ->add('status', null, ['label' => 'label.status'])

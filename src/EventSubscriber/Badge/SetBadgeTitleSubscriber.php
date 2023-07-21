@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
+use VideoGamesRecords\CoreBundle\Entity\TeamBadge;
 use VideoGamesRecords\CoreBundle\Manager\BadgeManager;
 
 final class SetBadgeTitleSubscriber implements EventSubscriberInterface, BadgeInterface
@@ -37,14 +38,17 @@ final class SetBadgeTitleSubscriber implements EventSubscriberInterface, BadgeIn
         $data = $event->getRequest()->attributes->get('data');
         $method = $event->getRequest()->getMethod();
 
-        if ($method == Request::METHOD_GET && is_array($data) && count($data) > 0 && $data[0] instanceof PlayerBadge) {
-            foreach ($data as $playerBadge) {
-                $playerBadge->getBadge()->setTitle(
+        if ($method == Request::METHOD_GET
+            && is_array($data)
+            && count($data) > 0
+            && ($data[0] instanceof PlayerBadge || $data[0] instanceof TeamBadge) ) {
+            foreach ($data as $userBadge) {
+                $userBadge->getBadge()->setTitle(
                     sprintf(
                         '%s %s %s',
-                        $this->badgeManager->getStrategy($playerBadge->getBadge())->getTitle($playerBadge->getBadge()),
+                        $this->badgeManager->getStrategy($userBadge->getBadge())->getTitle($userBadge->getBadge()),
                         $this->translator->trans('badge.earnedOn'),
-                        $playerBadge->getCreatedAt()->format('Y-m-d')
+                        $userBadge->getCreatedAt()->format('Y-m-d')
                     )
                 );
             }

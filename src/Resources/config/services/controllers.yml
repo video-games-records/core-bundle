@@ -176,6 +176,12 @@ services:
       - '@vgr.core.ranking.provider.player.player_platform'
     calls:
       - [ setContainer, [ "@service_container" ] ]
+  VideoGamesRecords\CoreBundle\Controller\Platform\Autocomplete:
+    arguments:
+      - '@vgr.core.repository.platform'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
 
 
   #Player

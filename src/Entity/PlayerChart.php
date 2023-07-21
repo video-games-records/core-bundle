@@ -103,6 +103,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
  *          "id":"ASC",
  *          "lastUpdate" : "DESC",
  *          "rank" : "ASC",
+ *          "pointChart" : "DESC",
  *          "chart.libChartEn" : "ASC",
  *          "chart.libChartFr" : "ASC",
  *          "chart.group.libGroupEn" : "ASC",

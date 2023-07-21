@@ -73,7 +73,7 @@ class ScoreManager
             ->andWhere('g.game = :game')
             ->setParameter('game', $game)
             ->andWhere('pc.platform IS NOT NULL')
-            ->orderBy("pc.lastUpdate",  "DESC")
+            ->orderBy("pc.lastUpdate", "DESC")
             ->setMaxResults(1);
 
         $playerChart = $query->getQuery()->getOneOrNullResult();
