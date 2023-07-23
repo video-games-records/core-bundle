@@ -25,7 +25,7 @@ resources:
                                       type: integer
                                   idPlatform:
                                       type: integer
-                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChart\UpdatePlatorm'
+                controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChart\UpdatePlatform'
             send-picture:
                 access_control: 'is_granted("ROLE_PLAYER")'
                 method: 'POST'
