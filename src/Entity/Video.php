@@ -27,14 +27,21 @@ use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoRepository")
  * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\VideoListener"})
  * @ApiResource(attributes={"order"={"id": "DESC"}})
- * @ApiFilter(OrderFilter::class, properties={"id": "ASC"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *         "id": "DESC"
+ *     },
+ *     arguments={"orderParameterName"="order"}
+ * )
  * @ApiFilter(BooleanFilter::class, properties={"boolActive"})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
  *          "libVideo": "partial",
  *          "game": "exact",
- *          "player": "exact"
+ *          "player": "exact",
+ *          "boolActive": "exact"
  *      }
  * )
  * @DoctrineAssert\UniqueEntity(fields={"url"})
