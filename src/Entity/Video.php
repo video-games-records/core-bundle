@@ -14,7 +14,13 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Traits\Entity\DescriptionTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\IsActiveTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\LikeCountTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ThumbnailTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\TitleTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ViewCountTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
 
 /**
@@ -40,8 +46,9 @@ use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
  *     properties={
  *          "libVideo": "partial",
  *          "game": "exact",
+ *          "type": "exact",
  *          "player": "exact",
- *          "boolActive": "exact"
+ *          "isActive": "exact"
  *      }
  * )
  * @DoctrineAssert\UniqueEntity(fields={"url"})
@@ -52,6 +59,12 @@ class Video implements SluggableInterface
     use TimestampableEntity;
     use SluggableTrait;
     use PlayerTrait;
+    use ViewCountTrait;
+    use LikeCountTrait;
+    use TitleTrait;
+    use DescriptionTrait;
+    use ThumbnailTrait;
+    use IsActiveTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -59,11 +72,6 @@ class Video implements SluggableInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private ?int $id = null;
-
-    /**
-     * @ORM\Column(name="boolActive", type="boolean", nullable=false, options={"default":true})
-     */
-    private bool $boolActive = true;
 
     /**
      * @ORM\Column(name="type", type="string", length=30, nullable=false)
@@ -138,26 +146,6 @@ class Video implements SluggableInterface
         return $this->id;
     }
 
-    /**
-     * Set boolActive
-     * @param bool $boolActive
-     * @return Video
-     */
-    public function setBoolActive(bool $boolActive): Video
-    {
-        $this->boolActive = $boolActive;
-
-        return $this;
-    }
-
-    /**
-     * Get boolActive
-     * @return bool
-     */
-    public function getBoolActive(): bool
-    {
-        return $this->boolActive;
-    }
 
     /**
      * Set type

@@ -86,3 +86,12 @@ services:
       - '@vgr.core.handler.score_investigation'
     tags:
       - { name: 'console.command', command: 'vgr-core:score-investigation-update' }
+
+  #Video
+  VideoGamesRecords\CoreBundle\Command\Video\YoutubeDataUpdate:
+    class: VideoGamesRecords\CoreBundle\Command\Video\YoutubeDataUpdate
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@vgr.core.handler.video_youtube_data'
+    tags:
+      - { name: 'console.command', command: 'vgr-core:video-youtube-data-update' }
