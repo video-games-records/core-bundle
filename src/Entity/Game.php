@@ -67,7 +67,8 @@ use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
  *          "publishedAt": "DESC",
  *          "nbChart": "DESC",
  *          "nbPost": "DESC",
- *          "nbPlayer": "DESC"
+ *          "nbPlayer": "DESC",
+ *          "nbVideo": "DESC"
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
