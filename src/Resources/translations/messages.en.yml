@@ -207,6 +207,8 @@ avatar:
 
 video:
     type_not_found: "Only URL from youtube and twitch"
+    youtube:
+        not_found: "This youtube video does not exists"
 
 badge:
     title:

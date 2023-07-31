@@ -207,6 +207,8 @@ avatar:
 
 video:
     type_not_found: "Impossible de déterminer l'origine de la vidéo"
+    youtube:
+        not_found: "Cette vidéo youtube n'existe pas"
 
 badge:
     title:

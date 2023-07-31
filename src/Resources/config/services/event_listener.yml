@@ -79,6 +79,8 @@ services:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\VideoListener
         arguments:
             - '@vgr.core.security.user_provider'
+            - '@vgr.core.data_provider.youtube'
+            - '@translator'
         tags:
             - { name: doctrine.orm.entity_listener }
 
