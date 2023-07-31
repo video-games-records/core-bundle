@@ -19,6 +19,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\AverageGameRankTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbVideoTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerCommunicationDataTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerPersonalDataTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\RankCupTrait;
@@ -76,7 +77,8 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
  *          "nbConnexion": "DESC",
  *          "lastLogin": "DESC",
  *          "nbForumMessage": "DESC",
- *          "nbChart": "DESC"
+ *          "nbChart": "DESC",
+ *          "nbVideo": "DESC"
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
@@ -97,6 +99,7 @@ class Player implements SluggableInterface
     use NbChartTrait;
     use NbChartProvenTrait;
     use NbGameTrait;
+    use NbVideoTrait;
 
     /**
      * @ORM\Column(name="user_id", type="integer")

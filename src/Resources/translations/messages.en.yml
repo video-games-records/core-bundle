@@ -75,9 +75,11 @@ label:
     group.fr: 'Group [FR]'
     groups: 'Groups'
     id: 'id'
+    isActive: 'Active ? '
     leader: 'Leader'
     libs: 'libs'
     libs.help: 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group'
+    likeCount: 'Nb like'
     mask: 'Mask'
     medals: ' Medals'
     name: 'Name'
@@ -87,7 +89,9 @@ label:
     nbChart: 'Nb scores'
     nbChartProven: 'Nb proven scores'
     nbChartDisabled: 'nb disabed scores'
+    nbComment: 'Nb comments'
     nbPlayer: 'nb player'
+    nbVideo: 'Nb videos'
     orderBy : 'Order By'
     orderBy.asc: 'ASC'
     orderBy.desc: 'DESC'
@@ -132,6 +136,7 @@ label:
     status.refused: 'REFUSED'
     team: 'Team'
     text: 'Text'
+    thumbnail: 'Thumbnail'
     translations: 'Translations'
     twitch: 'Twitch'
     twitch_is_null: 'Twitch is empty'
@@ -141,6 +146,7 @@ label:
     video: 'Video'
     video_is_null: 'Video is null'
     video.id: 'Video Id'
+    viewCount: 'Nb view'
     proof: 'Preuve'
     proof.response: 'Refusal answer'
     proof.status: 'Proof status'
@@ -202,6 +208,8 @@ avatar:
 
 video:
     type_not_found: "Only URL from youtube and twitch"
+    youtube:
+        not_found: "This youtube video does not exists"
 
 badge:
     title:

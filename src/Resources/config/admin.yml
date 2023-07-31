@@ -115,6 +115,7 @@ services:
             -
                 name: sonata.admin
                 model_class: VideoGamesRecords\CoreBundle\Entity\Video
+                controller: VideoGamesRecords\CoreBundle\Controller\Admin\VideoAdminController
                 manager_type: orm
                 group: "group.proofs"
                 label: "label.video"

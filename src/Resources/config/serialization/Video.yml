@@ -28,6 +28,21 @@ VideoGamesRecords\CoreBundle\Entity\Video:
       groups:
         - 'video.post'
         - 'video.put'
+    title:
+      groups:
+        - 'video.read'
+    description:
+      groups:
+        - 'video.read'
+    viewCount:
+      groups:
+        - 'video.read'
+    likeCount:
+      groups:
+        - 'video.read'
+    thumbnail:
+      groups:
+        - 'video.read'
     nbComment:
       groups:
         - 'video.read'

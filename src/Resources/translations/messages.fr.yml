@@ -75,9 +75,11 @@ label:
     group.fr: 'Groupe [FR]'
     groups: 'Groupes'
     id: 'id'
+    isActive: 'Active ? '
     leader: 'Chef'
     libs: 'libs'
     libs.help: 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group'
+    likeCount: 'Nb like'
     mask: 'Mask'
     medals: 'Médailles'
     name: 'Nom'
@@ -86,8 +88,10 @@ label:
     nbGame: 'Nb jeux'
     nbChart: 'Nb scores'
     nbChartProven: 'Nb scores prouvés'
-    nbChartDisabled: 'nb scores déactivés'
+    nbChartDisabled: 'Nb scores déactivés'
+    nbComment: 'Nb commentaires'
     nbPlayer: 'nb joueurs'
+    nbVideo: 'Nb vidéos'
     orderBy : 'Ordonné par'
     orderBy.asc: 'ASC'
     orderBy.desc: 'DESC'
@@ -131,6 +135,7 @@ label:
     status.refused: 'REFUSED'
     team: 'Equipe'
     text: 'Texte'
+    thumbnail: 'Miniature'
     translations: 'Traductions'
     twitch: 'Twitch'
     twitch_is_null: 'Twitch est vide'
@@ -140,6 +145,7 @@ label:
     video: 'Vidéo'
     video_is_null: 'Video est vide'
     video.id: 'Vidéo Id'
+    viewCount: 'Nb vue'
     proof: 'Preuve'
     proof.response: 'Réponse de refus'
     proof.status: 'Statut de la preuve'
@@ -202,6 +208,8 @@ avatar:
 
 video:
     type_not_found: "Impossible de déterminer l'origine de la vidéo"
+    youtube:
+        not_found: "Cette vidéo youtube n'existe pas"
 
 badge:
     title:

@@ -15,3 +15,8 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@vgr.core.security.user_provider'
 
+    vgr.core.data_provider.youtube:
+        class: VideoGamesRecords\CoreBundle\DataProvider\YoutubeProvider
+        arguments:
+            - '%youtube_api_key%'
+

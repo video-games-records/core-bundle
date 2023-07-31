@@ -21,6 +21,7 @@
         "doctrine/orm": "^2.5",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
         "gedmo/doctrine-extensions": "^3.11",
+        "google/apiclient": "^2.0",
         "knplabs/doctrine-behaviors": "~2.0",
         "league/flysystem-bundle": "^3.0",
         "sonata-project/admin-bundle": "^4.0",

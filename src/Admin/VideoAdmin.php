@@ -27,7 +27,8 @@ class VideoAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
-            ->remove('export');
+            ->remove('export')
+            ->add('maj', $this->getRouterIdParameter() . '/maj');
     }
 
     /**
@@ -82,8 +83,8 @@ class VideoAdmin extends AbstractAdmin
                 'label' => 'label.url',
                 'required' => true,
             ])
-            ->add('boolActive', CheckboxType::class, [
-                'label' => 'label.boolActive',
+            ->add('isActive', CheckboxType::class, [
+                'label' => 'label.isActive',
                 'required' => false,
             ]);
     }
@@ -95,7 +96,7 @@ class VideoAdmin extends AbstractAdmin
     {
         $filter
             ->add('id', null, ['label' => 'label.id'])
-            ->add('boolActive', null, ['label' => 'label.boolActive'])
+            ->add('isActive', null, ['label' => 'label.isActive'])
             ->add('type', null, ['label' => 'label.type'])
             ->add('player', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
@@ -120,15 +121,14 @@ class VideoAdmin extends AbstractAdmin
                 'label' => 'label.game',
             ])
             ->add('libVideo', null, ['label' => 'label.name'])
+            ->add('title', null, ['label' => 'label.title'])
             ->add('type', null, ['label' => 'label.type'])
             ->add('videoId', null, ['label' => 'label.video.id'])
-            ->add('url', null, ['label' => 'label.url'])
-            ->add('nbComment', null, ['label' => 'label.nbComment'])
             ->add(
-                'boolActive',
+                'isActive',
                 'boolean',
                 [
-                    'label' => 'label.boolActive',
+                    'label' => 'label.isActive',
                     'editable' => true,
                 ]
             )
@@ -136,6 +136,9 @@ class VideoAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'maj' => [
+                        'template' => '@VideoGamesRecordsCore/Admin/object_maj_link.html.twig'
+                    ],
                 ]
             ]);
     }
@@ -146,11 +149,16 @@ class VideoAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show->add('id', null, ['label' => 'label.id'])
-            ->add('boolActive', null, ['label' => 'label.boolActive'])
+            ->add('isActive', null, ['label' => 'label.isActive'])
             ->add('libVideo', null, ['label' => 'label.name'])
             ->add('player', null, ['label' => 'label.player'])
             ->add('game', null, ['label' => 'label.game'])
             ->add('url', null, ['label' => 'label.url'])
-            ->add('nbComment', null, ['label' => 'label.nbComment']);
+            ->add('nbComment', null, ['label' => 'label.nbComment'])
+
+            ->add('title', null, ['label' => 'label.title'])
+            ->add('viewCount', null, ['label' => 'label.viewCount'])
+            ->add('likeCount', null, ['label' => 'label.likeCount'])
+            ->add('thumbnail', null, ['label' => 'label.thumbnail']);
     }
 }

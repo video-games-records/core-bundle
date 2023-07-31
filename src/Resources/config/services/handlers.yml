@@ -32,3 +32,9 @@ services:
         class: VideoGamesRecords\CoreBundle\Handler\ScoreInvestigationHandler
         arguments:
             - '@doctrine.orm.entity_manager'
+
+    vgr.core.handler.video_youtube_data:
+        class: VideoGamesRecords\CoreBundle\Handler\Video\YoutubeDataHandler
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@vgr.core.data_provider.youtube'

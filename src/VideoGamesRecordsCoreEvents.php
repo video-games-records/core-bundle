@@ -26,4 +26,6 @@ final class VideoGamesRecordsCoreEvents
     #BADGE
     public const PLAYER_BADGE_LOST = 'vgr_core.player.badge.lost';
     public const TEAM_BADGE_LOST = 'vgr_core.team.badge.lost';
+    #VIDEO
+    public const VIDEO_DESACTIVATED = 'vgr_core.video.desactivated';
 }

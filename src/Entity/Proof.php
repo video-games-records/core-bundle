@@ -35,7 +35,7 @@ class Proof
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idVideo", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="idVideo", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private ?Video $video = null;

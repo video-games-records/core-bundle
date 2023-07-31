@@ -34,6 +34,13 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
+  VideoGamesRecords\CoreBundle\Controller\Admin\VideoAdminController:
+    arguments:
+      - '@vgr.core.handler.video_youtube_data'
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+
+
   #Badge
   VideoGamesRecords\CoreBundle\Controller\Badge\GetPicture:
     arguments:
