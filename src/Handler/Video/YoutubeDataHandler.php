@@ -35,19 +35,13 @@ class YoutubeDataHandler
 
                 $snippet = $youtubeVideo->getSnippet();
                 $video->setTitle($snippet->getTitle());
-                echo $video->getId() . "\n";
-                //var_dump($snippet->getThumbnails());
-                $video->setThumbnail(
-                    $snippet->getThumbnails()
-                        ->getHigh()
-                        ->getUrl()
-                );
+                $video->setThumbnail($snippet->getThumbnails()->getHigh()->getUrl());
 
                 $video->setDescription($snippet->getDescription());
 
                 $statistics = $youtubeVideo->getStatistics();
-                $video->setLikeCount($statistics->getLikeCount() ?? 0);
-                $video->setViewCount($statistics->getViewCount() ?? 0);
+                $video->setLikeCount((int) $statistics->getLikeCount());
+                $video->setViewCount((int) $statistics->getViewCount());
             } else {
                 $video->setIsActive(false);
             }
