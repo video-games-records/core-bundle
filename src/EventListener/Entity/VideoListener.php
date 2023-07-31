@@ -43,6 +43,12 @@ class VideoListener
         $video->setPlayer($this->userProvider->getPlayer());
         $video->getPlayer()->setNbVideo($video->getPlayer()->getNbVideo() + 1);
 
+        $video->getGame()
+            ?->setNbVideo(
+                $video->getGame()
+                    ->getNbVideo() + 1
+            );
+
         // Set youtube data
         if ($video->getType()->getValue() === VideoType::TYPE_YOUTUBE) {
             $response = $this->youtubeProvider->getVideo($video->getVideoId());
@@ -72,5 +78,11 @@ class VideoListener
     public function preRemove(Video $video, LifecycleEventArgs $event): void
     {
         $video->getPlayer()->setNbVideo($video->getPlayer()->getNbVideo() - 1);
+
+        $video->getGame()
+            ?->setNbVideo(
+                $video->getGame()
+                    ->getNbVideo() - 1
+            );
     }
 }

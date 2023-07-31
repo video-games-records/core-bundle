@@ -264,6 +264,7 @@ class GameAdmin extends AbstractAdmin
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
+            ->add('nbVideo', null, ['label' => 'label.nbVideo'])
             ->add('downloadUrl', null, ['label' => 'label.downloadUrl'])
             ->add('picture', null, ['label' => 'label.picture'])
             ->add('badge', null, ['label' => 'label.badge'])

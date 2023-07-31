@@ -29,6 +29,6 @@ trait NbVideoTrait
      */
     public function getNbVideo(): int
     {
-        return $this->nbGame;
+        return $this->nbVideo;
     }
 }

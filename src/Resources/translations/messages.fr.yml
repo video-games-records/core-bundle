@@ -91,6 +91,7 @@ label:
     nbChartDisabled: 'Nb scores déactivés'
     nbComment: 'Nb commentaires'
     nbPlayer: 'nb joueurs'
+    nbVideo: 'Nb vidéos'
     orderBy : 'Ordonné par'
     orderBy.asc: 'ASC'
     orderBy.desc: 'DESC'

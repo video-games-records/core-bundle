@@ -20,6 +20,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbTeamTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbVideoTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
@@ -80,6 +81,7 @@ class Game implements SluggableInterface
     use NbPlayerTrait;
     use NbTeamTrait;
     use PictureTrait;
+    use NbVideoTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
