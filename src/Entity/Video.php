@@ -48,7 +48,8 @@ use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
  *          "game": "exact",
  *          "type": "exact",
  *          "player": "exact",
- *          "isActive": "exact"
+ *          "isActive": "exact",
+ *          "title": "partial"
  *      }
  * )
  * @DoctrineAssert\UniqueEntity(fields={"url"})
