@@ -13,34 +13,6 @@ services:
       - [ setContainer, [ "@service_container" ] ]
 
 
-  # Admin
-  VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController:
-    arguments:
-      - '@vgr.core.manager.game'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\Admin\GroupAdminController:
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\Admin\PlayerAdminController:
-    arguments:
-      - '@vgr.core.ranking.command.player.player'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\Admin\ProofAdminController:
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\Admin\VideoAdminController:
-    arguments:
-      - '@vgr.core.handler.video_youtube_data'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-
   #Badge
   VideoGamesRecords\CoreBundle\Controller\Badge\GetPicture:
     arguments:
