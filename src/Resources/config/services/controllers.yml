@@ -259,7 +259,7 @@ services:
   VideoGamesRecords\CoreBundle\Controller\PlayerChart\UpdatePlatform:
     arguments:
       - '@vgr.core.manager.score_manager'
-      - 'vgr.core.security.user_provider'
+      - '@vgr.core.security.user_provider'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
