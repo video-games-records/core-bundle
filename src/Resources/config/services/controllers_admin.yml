@@ -1,0 +1,31 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  # Admin
+  VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController:
+    class: VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController
+    arguments:
+      - '@vgr.core.manager.game'
+
+  VideoGamesRecords\CoreBundle\Controller\Admin\GroupAdminController:
+    class: VideoGamesRecords\CoreBundle\Controller\Admin\GroupAdminController
+
+  VideoGamesRecords\CoreBundle\Controller\Admin\PlayerAdminController:
+    class: VideoGamesRecords\CoreBundle\Controller\Admin\PlayerAdminController
+    arguments:
+      - '@vgr.core.ranking.command.player.player'
+
+  VideoGamesRecords\CoreBundle\Controller\Admin\ProofAdminController:
+    class: VideoGamesRecords\CoreBundle\Controller\Admin\ProofAdminController
+
+  VideoGamesRecords\CoreBundle\Controller\Admin\VideoAdminController:
+    class: VideoGamesRecords\CoreBundle\Controller\Admin\VideoAdminController
+    arguments:
+      - '@vgr.core.handler.video_youtube_data'
+
+
+
+
