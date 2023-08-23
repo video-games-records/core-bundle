@@ -78,7 +78,7 @@ class Chart implements SluggableInterface
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", inversedBy="charts")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private Group $group;

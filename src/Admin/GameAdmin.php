@@ -176,6 +176,14 @@ class GameAdmin extends AbstractAdmin
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
+            ->add('platforms', null,
+                [
+                    'label' => 'label.platforms',
+                    'field_options' => [
+                        'multiple' => true,
+                    ]
+                ]
+            )
             ->add('status', ChoiceFilter::class, [
                 'label' => 'label.status',
                 'field_type' => ChoiceType::class,
@@ -215,7 +223,7 @@ class GameAdmin extends AbstractAdmin
             ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('libGameEn', null, ['label' => 'label.game.en', 'editable' => true])
             ->add('libGameFr', null, ['label' => 'label.game.fr', 'editable' => true])
-            //->add('slug', null, ['label' => 'label.slug'])
+            ->add('platforms', null, ['label' => 'label.platforms'])
             ->add(
                 'picture',
                 null,
@@ -263,6 +271,7 @@ class GameAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
+            ->add('platforms', null, ['label' => 'label.platforms'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('nbVideo', null, ['label' => 'label.nbVideo'])
             ->add('downloadUrl', null, ['label' => 'label.downloadUrl'])
