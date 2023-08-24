@@ -9,9 +9,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Traits\Entity\DescriptionTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
@@ -37,13 +40,15 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
  *     arguments={"orderParameterName"="order"}
  * )
  */
-class Serie implements SluggableInterface
+class Serie implements SluggableInterface,TranslatableInterface
 {
     use TimestampableEntity;
+    use TranslatableTrait;
     use SluggableTrait;
     use NbChartTrait;
     use NbGameTrait;
     use PictureTrait;
+    use DescriptionTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -193,6 +198,33 @@ class Serie implements SluggableInterface
     public function getBadge(): ?Badge
     {
         return $this->badge;
+    }
+
+    /**
+     * @param string $text
+     * @return $this
+     */
+    public function setDescription(string $description): Serie
+    {
+        $this->translate(null, false)->setDescription($description);
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->translate(null, false)->getDescription();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultDescription(): string
+    {
+        return $this->translate('en', false)->getDescription();
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -61,6 +63,30 @@ class SerieAdmin extends AbstractAdmin
                 'btn_delete' => false,
                 'btn_catalogue' => true,
                 'label' => 'label.badge',
+            ])
+            ->add('translations', TranslationsType::class, [
+                'label' => 'label.translations',
+                'fields' => [
+                    'description' => [
+                        'field_type' => CKEditorType::class,
+                        'label' => 'label.description',
+                        'required' => false,
+                        'locale_options' => [
+                            'en' => [
+                                'config' => array(
+                                    'height' => '200',
+                                    'toolbar' => 'standard'
+                                ),
+                            ],
+                            'fr' => [
+                                'config' => array(
+                                    'height' => '200',
+                                    'toolbar' => 'standard'
+                                ),
+                            ],
+                        ]
+                    ]
+                ]
             ]);
     }
 
@@ -123,6 +149,7 @@ class SerieAdmin extends AbstractAdmin
             ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('status', null, ['label' => 'label.status'])
             ->add('picture', null, ['label' => 'label.picture'])
-            ->add('badge', null, ['label' => 'label.badge']);
+            ->add('badge', null, ['label' => 'label.badge'])
+            ->add('description', null, ['label' => 'label.description']);
     }
 }
