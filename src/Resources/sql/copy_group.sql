@@ -29,7 +29,8 @@ BEGIN
     WHERE id = group_id_src;
 
  	UPDATE vgr_game
- 	SET nbChart = (SELECT SUM(nbChart) FROM vgr_group WHERE idGame = game_id);
+ 	SET nbChart = (SELECT SUM(nbChart) FROM vgr_group WHERE idGame = game_id)
+ 	WHERE id = game_id;
 
     SET group_id_dest = LAST_INSERT_ID();
 
