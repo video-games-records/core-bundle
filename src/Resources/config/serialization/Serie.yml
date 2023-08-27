@@ -23,6 +23,9 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
     nbGame:
       groups:
         - 'serie.read'
+    description:
+      groups:
+        - 'serie.read'
     nbChart:
       groups:
         - 'serie.read'

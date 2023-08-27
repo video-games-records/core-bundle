@@ -101,6 +101,14 @@ class PlayerChartAdmin extends AbstractAdmin
                 'label' => 'label.chart',
             ])
             ->add('status', null, ['label' => 'label.status'])
+            ->add('proof', ModelListType::class, [
+                'btn_add' => false,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'label.proof',
+            ])
             ->add('libs', CollectionType::class, array(
                 'label' => 'label.libs',
                 'btn_add' => true,
