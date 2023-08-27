@@ -14,7 +14,6 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Traits\Entity\DescriptionTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
@@ -48,7 +47,6 @@ class Serie implements SluggableInterface,TranslatableInterface
     use NbChartTrait;
     use NbGameTrait;
     use PictureTrait;
-    use DescriptionTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -201,7 +199,7 @@ class Serie implements SluggableInterface,TranslatableInterface
     }
 
     /**
-     * @param string $text
+     * @param string $description
      * @return $this
      */
     public function setDescription(string $description): Serie
