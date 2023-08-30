@@ -22,6 +22,12 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@vgr.core.ranking.provider.player.player_platform'
 
+    vgr.core.handler.badge.player_serie:
+        class: VideoGamesRecords\CoreBundle\Handler\Badge\PlayerSerieBadgeHandler
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@vgr.core.ranking.provider.player.player_serie'
+
     vgr.core.handler.badge.team_game:
         class: VideoGamesRecords\CoreBundle\Handler\Badge\TeamMasterBadgeHandler
         arguments:
