@@ -150,6 +150,6 @@ class SerieAdmin extends AbstractAdmin
             ->add('status', null, ['label' => 'label.status'])
             ->add('picture', null, ['label' => 'label.picture'])
             ->add('badge', null, ['label' => 'label.badge'])
-            ->add('description', null, ['label' => 'label.description']);
+            ->add('getDescription', null, ['label' => 'label.description']);
     }
 }

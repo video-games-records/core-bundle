@@ -194,6 +194,11 @@ class Player implements SluggableInterface
      */
     private PlayerStatus $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="playerResponding")
+     */
+    private $proofRespondings;
+
 
     /**
      * @return string
