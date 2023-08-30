@@ -5,6 +5,7 @@ namespace VideoGamesRecords\CoreBundle\Command\Video;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use VideoGamesRecords\CoreBundle\Handler\Video\YoutubeDataHandler;
 use VideoGamesRecords\CoreBundle\Entity\Video;
@@ -28,7 +29,14 @@ class YoutubeDataUpdate extends Command
     {
         $this
             ->setName('vgr-core:video-youtube-data-update')
-            ->setDescription('Command to update videos with youtube data');
+            ->setDescription('Command to update videos with youtube data')
+            ->addOption(
+                'nb',
+                null,
+                InputOption::VALUE_REQUIRED,
+                ''
+            )
+        ;
         parent::configure();
     }
 
@@ -39,7 +47,14 @@ class YoutubeDataUpdate extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $videos = $this->em->getRepository(Video::class)->findBy(['isActive' => true, 'type' => VideoType::TYPE_YOUTUBE, 'title' => null]);
+        $videos = $this->em->getRepository(Video::class)->findBy(
+            [
+                'isActive' => true,
+                'type' => VideoType::TYPE_YOUTUBE
+            ],
+            ['id' => 'DESC'],
+            $input->getOption('nb') ?? null
+        );
         /** @var Video $video */
         foreach ($videos as $video) {
             $this->youtubeDataHandler->process($video);

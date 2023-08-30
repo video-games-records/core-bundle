@@ -10,6 +10,7 @@ final class VideoGamesRecordsCoreEvents
     #RANKING
     public const PLAYER_GAME_MAJ_COMPLETED = 'vgr_core.player.game.maj.completed';
     public const PLATFORM_MAJ_COMPLETED = 'vgr_core.platform.maj.completed';
+    public const SERIE_MAJ_COMPLETED = 'vgr_core.serie.maj.completed';
     public const TEAM_GAME_MAJ_COMPLETED = 'vgr_core.team.game.maj.completed';
     public const PLAYER_MAJ_COMPLETED = 'vgr_core.player.maj.completed';
     public const TEAM_MAJ_COMPLETED = 'vgr_core.team.maj.completed';

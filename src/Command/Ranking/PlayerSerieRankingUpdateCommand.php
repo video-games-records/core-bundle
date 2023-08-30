@@ -40,7 +40,8 @@ class PlayerSerieRankingUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $series = $this->em->getRepository(Serie::class)->findAll();
+        //$series = $this->em->getRepository(Serie::class)->findAll();
+        $series = $this->em->getRepository(Serie::class)->findBy(['id' => 1]);
         /** @var Serie $serie */
         foreach ($series as $serie) {
             $this->rankingCommand->handle($serie->getId());

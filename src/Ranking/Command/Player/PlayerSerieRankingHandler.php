@@ -4,8 +4,10 @@ namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use VideoGamesRecords\CoreBundle\Event\SerieEvent;
 use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerSerieRankingHandler extends AbstractRankingHandler
 {
@@ -74,5 +76,8 @@ class PlayerSerieRankingHandler extends AbstractRankingHandler
             $this->em->persist($playerSerie);
             $this->em->flush();
         }
+
+        $event = new SerieEvent($serie);
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::SERIE_MAJ_COMPLETED);
     }
 }
