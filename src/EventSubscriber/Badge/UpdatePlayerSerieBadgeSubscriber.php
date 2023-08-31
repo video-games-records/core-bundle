@@ -27,7 +27,6 @@ final class UpdatePlayerSerieBadgeSubscriber implements EventSubscriberInterface
      */
     public function process(SerieEvent $event)
     {
-        echo 'tutu';
         $this->badgeHandler->process($event->getSerie());
     }
 }
