@@ -35,7 +35,16 @@ use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
  *     arguments={
  *          "parameterName": "groups",
  *          "overrideDefaultGroups": true,
- *          "whitelist": {"playerBadge.read","playerBadge.badge","playerBadge.player","player.read.mini", "badge.read", "badge.game"}
+ *          "whitelist": {
+ *              "playerBadge.read",
+ *              "playerBadge.badge",
+ *              "playerBadge.player",
+ *              "player.read.mini",
+ *              "badge.read",
+ *              "badge.game",
+ *              "badge.serie",
+ *              "serie.read"
+ *          }
  *     }
  * )
  * @ApiFilter(

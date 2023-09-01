@@ -18,5 +18,8 @@ VideoGamesRecords\CoreBundle\Entity\Badge:
     game:
       groups:
         - 'badge.game'
+    serie:
+      groups:
+        - 'badge.serie'
 
 
