@@ -30,6 +30,7 @@ class GetFormData extends AbtsractFormDataController
         $locale = $request->getLocale();
         $search = array(
             'game' => $game,
+            'term' => $request->query->get('term', null),
         );
 
         $charts = $this->em->getRepository(Chart::class)->getList(
