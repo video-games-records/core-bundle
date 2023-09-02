@@ -76,7 +76,7 @@ class ChartRepository extends EntityRepository
         if (isset($search['term'])) {
             $column = ($locale == 'fr') ? 'libChartFr' : 'libChartEn';
             $query->andWhere("ch.$column LIKE :term")
-                ->setParameter('term', $search['term'] . '%');
+                ->setParameter('term', '%' . $search['term'] . '%');
         }
         $query = $query->getQuery()
             ->setFirstResult($firstResult)
