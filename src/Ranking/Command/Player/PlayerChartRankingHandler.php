@@ -15,6 +15,7 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
 {
     private PlayerChartRankingProvider $playerChartRankingProvider;
     private array $players = [];
+    private array $series = [];
     private array $games = [];
     private array $groups = [];
 
@@ -36,8 +37,13 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
             return;
         }
 
+        $game = $chart->getGroup()->getGame();
         $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
-        $this->games[$chart->getGroup()->getGame()->getId()] = $chart->getGroup()->getGame();
+        $this->games[$game->getId()] = $game;
+
+        if ($game->getSerie() !== null && $game->getSerie()->getStatus()->isActive()) {
+            $this->series[$game->getSerie()->getId()] = $game->getSerie();
+        }
 
         $ranking     = $this->playerChartRankingProvider->getRanking($chart);
         $pointsChart = Ranking::chartPointProvider(count($ranking));
@@ -161,6 +167,11 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
     public function getPlayers(): array
     {
         return $this->players;
+    }
+
+    public function getSeries(): array
+    {
+        return $this->series;
     }
 
     public function getGames(): array

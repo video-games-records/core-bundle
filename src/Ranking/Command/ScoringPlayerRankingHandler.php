@@ -11,6 +11,7 @@ use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerChartRankingHandle
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerGameRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerGroupRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerSerieRankingHandler;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
@@ -20,6 +21,7 @@ class ScoringPlayerRankingHandler
     private PlayerChartRankingHandler $playerChartRankingHandler;
     private PlayerGroupRankingHandler $playerGroupRankingHandler;
     private PlayerGameRankingHandler $playerGameRankingHandler;
+    private PlayerSerieRankingHandler $playerSerieRankingHandler;
     private PlayerRankingHandler $playerRankingHandler;
     protected EventDispatcherInterface $eventDispatcher;
 
@@ -28,6 +30,7 @@ class ScoringPlayerRankingHandler
         PlayerChartRankingHandler $playerChartRankingHandler,
         PlayerGroupRankingHandler $playerGroupRankingHandler,
         PlayerGameRankingHandler $playerGameRankingHandler,
+        PlayerSerieRankingHandler $playerSerieRankingHandler,
         PlayerRankingHandler $playerRankingHandler,
         EventDispatcherInterface $eventDispatcher
     ) {
@@ -35,6 +38,7 @@ class ScoringPlayerRankingHandler
         $this->playerChartRankingHandler = $playerChartRankingHandler;
         $this->playerGroupRankingHandler = $playerGroupRankingHandler;
         $this->playerGameRankingHandler = $playerGameRankingHandler;
+        $this->playerSerieRankingHandler = $playerSerieRankingHandler;
         $this->playerRankingHandler = $playerRankingHandler;
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -56,6 +60,7 @@ class ScoringPlayerRankingHandler
         $groups = $this->playerChartRankingHandler->getGroups();
         $games = $this->playerChartRankingHandler->getGames();
         $players = $this->playerChartRankingHandler->getPlayers();
+        $series = $this->playerChartRankingHandler->getSeries();
 
         //----- Maj group
         foreach ($groups as $group) {
@@ -65,6 +70,11 @@ class ScoringPlayerRankingHandler
         //----- Maj game
         foreach ($games as $game) {
             $this->playerGameRankingHandler->handle($game->getId());
+        }
+
+        //----- Maj serie
+        foreach ($series as $serie) {
+            $this->playerSerieRankingHandler->handle($serie->getId());
         }
 
         foreach ($players as $player) {
@@ -78,6 +88,7 @@ class ScoringPlayerRankingHandler
         echo sprintf("%d charts updated\n", count($charts));
         echo sprintf("%d groups updated\n", count($groups));
         echo sprintf("%d games updated\n", count($games));
+        echo sprintf("%d series updated\n", count($series));
         echo sprintf("%d players updated\n", count($players));
         return 0;
     }
