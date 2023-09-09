@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
+use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
 
 class PlayerSerieRankingUpdateCommand extends Command
@@ -40,7 +41,7 @@ class PlayerSerieRankingUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $series = $this->em->getRepository(Serie::class)->findAll();
+        $series = $this->em->getRepository(Serie::class)->findBy(['status' => SerieStatus::STATUS_ACTIVE]);
         /** @var Serie $serie */
         foreach ($series as $serie) {
             $this->rankingCommand->handle($serie->getId());

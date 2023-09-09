@@ -19,6 +19,7 @@ services:
       - '@vgr.core.ranking.command.player.player_chart'
       - '@vgr.core.ranking.command.player.player_group'
       - '@vgr.core.ranking.command.player.player_game'
+      - '@vgr.core.ranking.command.player.player_serie'
       - '@vgr.core.ranking.command.player.player'
       - '@event_dispatcher'
 

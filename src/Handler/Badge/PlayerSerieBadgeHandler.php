@@ -27,6 +27,10 @@ class PlayerSerieBadgeHandler
             return;
         }
 
+        if ($serie->getStatus()->isInactive()) {
+            return;
+        }
+
         $ranking = $this->rankingProvider->getRankingPoints($serie->getId(), array('maxRank' => 1));
 
         $players = array();
