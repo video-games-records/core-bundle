@@ -23,7 +23,7 @@ class GetRankingPoints extends AbstractController
      * @return array
      * @throws ORMException
      */
-    public function getRankingPoints(Chart $chart, Request $request): array
+    public function __invoke(Chart $chart, Request $request): array
     {
         return $this->playerChartRankingProvider->getRankingPoints(
             $chart->getId(),

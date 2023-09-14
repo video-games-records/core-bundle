@@ -111,7 +111,7 @@ class PlayerChartAdmin extends AbstractAdmin
             ])
             ->add('libs', CollectionType::class, array(
                 'label' => 'label.libs',
-                'btn_add' => true,
+                'btn_add' => null,
                 'by_reference' => false,
                 'type_options' => array(
                     'delete' => false,

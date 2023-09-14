@@ -59,7 +59,7 @@ class Proof
     private ?string $response = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
+     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player", inversedBy="proofRespondings")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPlayerResponding", referencedColumnName="id", nullable=true)
      * })
