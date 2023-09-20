@@ -23,7 +23,6 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $query = $this->em->createQuery("
             SELECT
                  p.id,
-                 SUM(g.nbChart) as nbChartMax,
                  round(AVG(pg.rankPointChart),2) as averageGameRank,
                  SUM(pg.chartRank0) as chartRank0,
                  SUM(pg.chartRank1) as chartRank1,
@@ -43,17 +42,34 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
 
-        $player->setNbChartMax($row['nbChartMax']);
         $player->setAverageGameRank($row['averageGameRank']);
         $player->setChartRank0($row['chartRank0']);
         $player->setChartRank1($row['chartRank1']);
         $player->setChartRank2($row['chartRank2']);
         $player->setChartRank3($row['chartRank3']);
+        $player->setPointChart($row['pointChart']);
+        $player->setPointGame($row['pointGame']);
+
+
+        $query = $this->em->createQuery("
+            SELECT
+                 p.id,
+                 SUM(g.nbChart) as nbChartMax,
+                 SUM(pg.nbChart) as nbChart,
+                 SUM(pg.nbChartProven) as nbChartProven,
+                 COUNT(DISTINCT pg.game) as nbGame
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerGame pg
+            JOIN pg.player p
+            JOIN pg.game g
+            WHERE pg.player = :player
+            GROUP BY p.id");
+        $query->setParameter('player', $player);
+        $row = $query->getOneOrNullResult();
+
+        $player->setNbChartMax($row['nbChartMax']);
         $player->setNbChart($row['nbChart']);
         $player->setNbChartProven($row['nbChartProven']);
         $player->setNbGame($row['nbGame']);
-        $player->setPointChart($row['pointChart']);
-        $player->setPointGame($row['pointGame']);
 
         // 2 game Ranking
         $data = [
