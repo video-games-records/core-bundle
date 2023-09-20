@@ -2,7 +2,6 @@
 
 namespace VideoGamesRecords\CoreBundle\Admin;
 
-use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -20,7 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
-use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofRequestStatus;
 
 class ProofRequestAdmin extends AbstractAdmin

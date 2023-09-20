@@ -91,6 +91,10 @@ class GroupAdmin extends AbstractAdmin
             ->add('libGroupFr', TextType::class, [
                 'label' => 'label.name.fr',
                 'required' => false,
+            ])
+            ->add('isRank', CheckboxType::class, [
+                'label' => 'label.boolRanking',
+                'required' => false,
             ]);
 
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
