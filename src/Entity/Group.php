@@ -12,6 +12,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Traits\Entity\IsRankTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
@@ -45,6 +46,7 @@ class Group implements SluggableInterface
     use NbChartTrait;
     use NbPostTrait;
     use NbPlayerTrait;
+    use IsRankTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
