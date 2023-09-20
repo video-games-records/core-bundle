@@ -42,13 +42,13 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
 
-        $player->setAverageGameRank($row['averageGameRank']);
-        $player->setChartRank0($row['chartRank0']);
-        $player->setChartRank1($row['chartRank1']);
-        $player->setChartRank2($row['chartRank2']);
-        $player->setChartRank3($row['chartRank3']);
-        $player->setPointChart($row['pointChart']);
-        $player->setPointGame($row['pointGame']);
+        $player->setAverageGameRank($row['averageGameRank'] ?? 0);
+        $player->setChartRank0($row['chartRank0'] ?? 0);
+        $player->setChartRank1($row['chartRank1'] ?? 0);
+        $player->setChartRank2($row['chartRank2'] ?? 0);
+        $player->setChartRank3($row['chartRank3'] ?? 0);
+        $player->setPointChart($row['pointChart'] ?? 0);
+        $player->setPointGame($row['pointGame'] ?? 0);
 
 
         $query = $this->em->createQuery("
@@ -66,10 +66,10 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
 
-        $player->setNbChartMax($row['nbChartMax']);
-        $player->setNbChart($row['nbChart']);
-        $player->setNbChartProven($row['nbChartProven']);
-        $player->setNbGame($row['nbGame']);
+        $player->setNbChartMax($row['nbChartMax'] ?? 0);
+        $player->setNbChart($row['nbChart'] ?? 0);
+        $player->setNbChartProven($row['nbChartProven'] ?? 0);
+        $player->setNbGame($row['nbGame'] ?? 0);
 
         // 2 game Ranking
         $data = [
@@ -121,10 +121,10 @@ class PlayerRankingHandler extends AbstractRankingHandler
             }
         }
 
-        $player->setGameRank0($data['gameRank0']);
-        $player->setGameRank1($data['gameRank1']);
-        $player->setGameRank2($data['gameRank2']);
-        $player->setGameRank3($data['gameRank3']);
+        $player->setGameRank0($data['gameRank0'] ?? 0);
+        $player->setGameRank1($data['gameRank1'] ?? 0);
+        $player->setGameRank2($data['gameRank2'] ?? 0);
+        $player->setGameRank3($data['gameRank3'] ?? 0);
 
 
         // 3 Badge Ranking
