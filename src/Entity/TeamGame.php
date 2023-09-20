@@ -48,6 +48,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
  *          "chartRank3": "DESC",
  *          "pointGame": "DESC",
  *          "nbEqual": "ASC",
+ *          "game.nbTeam" : "DESC",
  *          "game.libGameEn" : "ASC",
  *          "game.libGameFr" : "ASC",
  *     },
