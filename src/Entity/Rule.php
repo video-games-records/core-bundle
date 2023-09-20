@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="vgr_rule")
  * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\RuleRepository")
+ * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\RuleListener"})
  */
 class Rule implements TranslatableInterface
 {
