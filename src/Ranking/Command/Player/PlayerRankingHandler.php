@@ -28,8 +28,6 @@ class PlayerRankingHandler extends AbstractRankingHandler
                  SUM(pg.chartRank1) as chartRank1,
                  SUM(pg.chartRank2) as chartRank2,
                  SUM(pg.chartRank3) as chartRank3,
-                 SUM(pg.nbChart) as nbChart,
-                 SUM(pg.nbChartProven) as nbChartProven,
                  SUM(pg.pointChart) as pointChart,
                  SUM(pg.pointGame) as pointGame,
                  COUNT(DISTINCT pg.game) as nbGame
