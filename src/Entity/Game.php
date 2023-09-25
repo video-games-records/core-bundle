@@ -16,6 +16,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Traits\Entity\IsRankTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
@@ -83,6 +84,7 @@ class Game implements SluggableInterface
     use NbTeamTrait;
     use PictureTrait;
     use NbVideoTrait;
+    use IsRankTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -119,10 +121,6 @@ class Game implements SluggableInterface
      */
     private ?DateTime $publishedAt = null;
 
-    /**
-     * @ORM\Column(name="boolRanking", type="boolean", nullable=false, options={"default":1})
-     */
-    private bool $boolRanking = true;
 
     /**
      * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", inversedBy="games")
@@ -353,29 +351,6 @@ class Game implements SluggableInterface
     public function getPublishedAt(): ?DateTime
     {
         return $this->publishedAt;
-    }
-
-    /**
-     * Set boolRanking
-     *
-     * @param bool $boolRanking
-     * @return Game
-     */
-    public function setBoolRanking(bool $boolRanking): Game
-    {
-        $this->boolRanking = $boolRanking;
-
-        return $this;
-    }
-
-    /**
-     * Get boolRanking
-     *
-     * @return bool
-     */
-    public function getBoolRanking(): bool
-    {
-        return $this->boolRanking;
     }
 
 

@@ -51,7 +51,7 @@ class GameListener
     {
         $this->changeSet = $event->getEntityChangeSet();
 
-        if (array_key_exists('boolRanking', $this->changeSet)) {
+        if (array_key_exists('isRank', $this->changeSet)) {
             $this->majPlayers = true;
         }
 
