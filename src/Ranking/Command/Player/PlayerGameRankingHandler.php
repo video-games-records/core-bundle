@@ -51,15 +51,34 @@ class PlayerGameRankingHandler extends AbstractRankingHandler
         $query = $this->em->createQuery("
             SELECT
                 p.id,
-                '' as rankPointChart,
-                '' as rankMedal,
                 SUM(pg.chartRank0) as chartRank0,
                 SUM(pg.chartRank1) as chartRank1,
                 SUM(pg.chartRank2) as chartRank2,
                 SUM(pg.chartRank3) as chartRank3,
                 SUM(pg.chartRank4) as chartRank4,
                 SUM(pg.chartRank5) as chartRank5,
-                SUM(pg.pointChart) as pointChart,
+                SUM(pg.pointChart) as pointChart
+            FROM VideoGamesRecords\CoreBundle\Entity\PlayerGroup pg
+            JOIN pg.player p
+            JOIN pg.group g
+            WHERE g.game = :game
+            AND g.isRank = 1
+            GROUP BY p.id");
+
+
+        $dataRank = [];
+        $query->setParameter('game', $game);
+        $result = $query->getResult();
+        foreach ($result as $row) {
+            $dataRank[$row['id']] = $row;
+        }
+
+        //----- select and save result in array
+        $query = $this->em->createQuery("
+            SELECT
+                p.id,
+                '' as rankPointChart,
+                '' as rankMedal,
                 SUM(pg.nbChart) as nbChart,
                 SUM(pg.nbChartProven) as nbChartProven,
                 MAX(pg.lastUpdate) as lastUpdate
@@ -67,8 +86,7 @@ class PlayerGameRankingHandler extends AbstractRankingHandler
             JOIN pg.player p
             JOIN pg.group g
             WHERE g.game = :game
-            GROUP BY p.id
-            ORDER BY pointChart DESC");
+            GROUP BY p.id");
 
 
         $query->setParameter('game', $game);
@@ -77,6 +95,7 @@ class PlayerGameRankingHandler extends AbstractRankingHandler
         $list = [];
         foreach ($result as $row) {
             $row['lastUpdate'] = new \DateTime($row['lastUpdate']);
+            // $dataWithoutDlc
             if (isset($dataWithoutDlc[$row['id']])) {
                 $row = array_merge($row, $dataWithoutDlc[$row['id']]);
             } else {
@@ -84,10 +103,23 @@ class PlayerGameRankingHandler extends AbstractRankingHandler
                 $row['nbChartWithoutDlc'] = 0;
                 $row['nbChartProvenWithoutDlc'] = 0;
             }
+            // $dataRank
+            if (isset($dataRank[$row['id']])) {
+                $row = array_merge($row, $dataRank[$row['id']]);
+            } else {
+                $row['chartRank0'] = 0;
+                $row['chartRank1'] = 0;
+                $row['chartRank2'] = 0;
+                $row['chartRank3'] = 0;
+                $row['chartRank4'] = 0;
+                $row['chartRank5'] = 0;
+                $row['pointChart'] = 0;
+            }
             $list[] = $row;
         }
 
         //----- add some data
+        $list = Ranking::order($list, ['pointChart' => SORT_DESC]);
         $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);
         $list = Ranking::calculateGamePoints($list, ['rankPointChart', 'nbEqual'], 'pointGame', 'pointChart');
         $list = Ranking::order($list, ['chartRank0' => SORT_DESC, 'chartRank1' => SORT_DESC, 'chartRank2' => SORT_DESC, 'chartRank3' => SORT_DESC]);
