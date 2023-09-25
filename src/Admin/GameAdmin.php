@@ -111,7 +111,7 @@ class GameAdmin extends AbstractAdmin
                 'required' => false,
                 'years' => range(2004, date('Y'))
             ])
-            ->add('boolRanking', CheckboxType::class, [
+            ->add('isRank', CheckboxType::class, [
                 'label' => 'label.boolRanking',
                 'required' => false,
             ])
@@ -191,7 +191,7 @@ class GameAdmin extends AbstractAdmin
                     'multiple' => false,
                 ]
             ])
-            ->add('boolRanking', null, ['label' => 'label.boolRanking']);
+            ->add('isRank', null, ['label' => 'label.boolRanking']);
     }
 
     /**

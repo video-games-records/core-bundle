@@ -24,7 +24,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game.list'
         - 'game.read'
-    boolRanking:
+    isRank:
       groups:
         - 'game.list'
         - 'game.read'

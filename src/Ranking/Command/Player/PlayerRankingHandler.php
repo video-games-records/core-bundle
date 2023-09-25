@@ -35,7 +35,7 @@ class PlayerRankingHandler extends AbstractRankingHandler
             JOIN pg.player p
             JOIN pg.game g
             WHERE pg.player = :player
-            AND g.boolRanking = 1
+            AND g.isRank = 1
             GROUP BY p.id");
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
@@ -88,7 +88,7 @@ class PlayerRankingHandler extends AbstractRankingHandler
             WHERE pg.rankPointChart = 1
             AND pg.player = :player
             AND g.nbPlayer > 1
-            AND g.boolRanking = 1
+            AND g.isRank = 1
             AND pg.nbEqual = 1
             GROUP BY p.id");
 
@@ -107,7 +107,7 @@ class PlayerRankingHandler extends AbstractRankingHandler
             JOIN pg.player p
             WHERE pg.rankPointChart = :rank
             AND pg.player = :player
-            AND g.boolRanking = 1
+            AND g.isRank = 1
             GROUP BY p.id");
 
         $query->setParameter('player', $player);
@@ -138,7 +138,7 @@ class PlayerRankingHandler extends AbstractRankingHandler
             WHERE b.type = :type
             AND pb.player = :player
             AND pb.ended_at IS NULL
-            AND g.boolRanking = 1
+            AND g.isRank = 1
             GROUP BY p.id");
         $query->setParameter('type', 'Master');
         $query->setParameter('player', $player);

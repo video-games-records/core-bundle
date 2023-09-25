@@ -46,8 +46,8 @@ BEGIN
     SET forum_id = LAST_INSERT_ID();
 
     -- GAME
-	INSERT INTO vgr_game (libGameEn, libGameFr, picture, status, boolRanking, created_at, updated_at, idSerie, slug, idBadge, idForum, nbChart)
-	SELECT CONCAT(libGameEn, ' [COPY]'), CONCAT(libGameFr, ' [COPY]'), picture, 'CREATED', boolRanking, NOW(), NOW(), idSerie, slug, badge_id, forum_id, nbChart FROM vgr_game
+	INSERT INTO vgr_game (libGameEn, libGameFr, picture, status, isRank, created_at, updated_at, idSerie, slug, idBadge, idForum, nbChart)
+	SELECT CONCAT(libGameEn, ' [COPY]'), CONCAT(libGameFr, ' [COPY]'), picture, 'CREATED', isRank, NOW(), NOW(), idSerie, slug, badge_id, forum_id, nbChart FROM vgr_game
 	WHERE id = game_id_src;
 	SET game_id_dest = LAST_INSERT_ID();
 	SET group_id_local = 0;
