@@ -14,7 +14,10 @@ resources:
                 normalization_context: {'groups': [group.read]}
             form-data:
                 method: 'GET'
-                normalization_context: { 'groups': [ chart.read, chart.group, group.read.mini, chart.libs, chartLib.read, chart.playerCharts, playerChart.read, playerChart.chart, playerChart.player, playerChart.libs, playerChart.status, playerChartStatus.read, playerChart.platform ], 'enable_max_depth': true }
+                normalization_context:
+                    groups: [ chart.read, chart.group, group.read.mini, chart.libs, chartLib.read, chart.playerCharts, playerChart.read, playerChart.chart, playerChart.player, playerChart.libs, playerChart.status, playerChartStatus.read, playerChart.platform ]
+                    enable_max_depth': true
+                    subresource_operation_name: ''
                 access_control: 'is_granted("ROLE_PLAYER")'
                 path: '/groups/{id}/form-data'
                 swagger_context:
