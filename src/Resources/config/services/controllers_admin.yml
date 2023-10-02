@@ -5,6 +5,11 @@ services:
     public: true
 
   # Admin
+  VideoGamesRecords\CoreBundle\Controller\Admin\SerieAdminController:
+    class: VideoGamesRecords\CoreBundle\Controller\Admin\SerieAdminController
+    arguments:
+      - '@vgr.core.ranking.command.player.player_serie'
+
   VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController:
     class: VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController
     arguments:
