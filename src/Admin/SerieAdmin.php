@@ -24,7 +24,8 @@ class SerieAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
-            ->remove('export');
+            ->remove('export')
+            ->add('maj', $this->getRouterIdParameter() . '/maj');
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -125,6 +126,9 @@ class SerieAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'maj' => [
+                        'template' => '@VideoGamesRecordsCore/Admin/object_maj_link.html.twig'
+                    ],
                     'history' => [
                         'template' => '@VideoGamesRecordsCore/Admin/serie_history_link.html.twig'
                     ],
