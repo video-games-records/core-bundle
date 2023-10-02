@@ -60,6 +60,8 @@ services:
 
     vgr.core.event.entity.serie:
         class: VideoGamesRecords\CoreBundle\EventListener\Entity\SerieListener
+        arguments:
+            - '@vgr.core.ranking.command.player.player_serie'
         tags:
             - { name: doctrine.orm.entity_listener }
 

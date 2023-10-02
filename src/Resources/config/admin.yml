@@ -16,6 +16,7 @@ services:
             -
                 name: sonata.admin
                 model_class: VideoGamesRecords\CoreBundle\Entity\Serie
+                controller: VideoGamesRecords\CoreBundle\Controller\Admin\SerieAdminController
                 manager_type: orm
                 group: "group.games"
                 label: "label.serie"
