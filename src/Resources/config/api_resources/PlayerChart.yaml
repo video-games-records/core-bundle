@@ -1,11 +1,12 @@
 resources:
     VideoGamesRecords\CoreBundle\Entity\PlayerChart:
         attributes:
-            normalization_context: {'groups': [playerChart.read, playerChart.libs]}
+            normalization_context: {'groups': [playerChart.read, playerChart.libs, playerChart.status]}
             denormalization_context: {'groups': [playerChart.write]}
         collectionOperations:
             get: ~
             post:
+                normalization_context: {'groups': [playerChart.read, playerChart.status, playerChartStatus.read, playerChart.player, player.read.mini, playerChart.platform]}
                 access_control: 'is_granted("ROLE_PLAYER")'
             maj-platform:
                 method: 'POST'
@@ -73,5 +74,5 @@ resources:
             put:
                 denormalization_context: {'groups': [playerChart.write, playerChart.put]}
                 normalization_context: {'groups': [playerChart.read, playerChart.status, playerChartStatus.read, playerChart.platform]}
-                access_control: 'is_granted("ROLE_PLAYER") and object.getPlayer().getUserId() == user.getId()'
+                access_control: 'is_granted("ROLE_PLAYER") and (object.getPlayer().getUserId() == user.getId()) and ((object.getStatus().getId() == 1) or (object.getStatus().getId() == 6))'
                 _api_receive: true
