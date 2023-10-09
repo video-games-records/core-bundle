@@ -66,6 +66,9 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     forum:
       groups:
         - 'game.read'
+    downloadUrl:
+      groups:
+        - 'game.read'
     createdAt:
       groups: []
     updatedAt:
