@@ -199,6 +199,11 @@ class Player implements SluggableInterface
      */
     private $proofRespondings;
 
+    /**
+     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="player")
+     */
+    private $playerGame;
+
 
     /**
      * @return string
