@@ -14,12 +14,21 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
 
 class PlayerChartAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_player_chart';
+
+    private ContainerInterface $container;
+
+    public function setContainer(ContainerInterface $container): void
+    {
+        $this->container = $container;
+    }
 
     /**
      * @return string
@@ -100,6 +109,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'label.chart',
             ])
+            ->add('platform', null, ['label' => 'label.platform'])
             ->add('status', null, ['label' => 'label.status'])
             ->add('proof', ModelListType::class, [
                 'btn_add' => false,
@@ -224,10 +234,46 @@ class PlayerChartAdmin extends AbstractAdmin
     /**
      * @param $object
      */
+    public function preValidate($object): void
+    {
+        $platform = $object->getPlatform();
+        $platforms = $object->getChart()->getGroup()->getGame()->getPlatforms();
+
+        if ($platform !== null) {
+            $isPlatFormValid = false;
+            foreach ($platforms as $row) {
+                if ($platform === $row) {
+                    $isPlatFormValid = true;
+                }
+            }
+            if (!$isPlatFormValid) {
+                $this->container->get('session')->getFlashBag()->add(
+                    'error',
+                    "Platform is invalid"
+                );
+                $response = new RedirectResponse(
+                    $this->generateUrl(
+                        'edit',
+                        array(
+                            'id' => $object->getId()
+                        )
+                    )
+                );
+                header('Location: ' . $response->getTargetUrl());
+                exit;
+            }
+        }
+    }
+
+    /**
+     * @param $object
+     */
     public function preUpdate($object): void
     {
         $chart = $object->getChart();
         $chart->setStatusPlayer('MAJ');
         $chart->setStatusTeam('MAJ');
     }
+
+
 }
