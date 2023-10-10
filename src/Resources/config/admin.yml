@@ -172,6 +172,7 @@ services:
                 label: "label.playerChart"
         calls:
             - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/playerchart_show.html.twig' ] ]
+            - [ setContainer, ['@service_container']]
     sonata.admin.vgr.playerchart_lib:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
         tags:
