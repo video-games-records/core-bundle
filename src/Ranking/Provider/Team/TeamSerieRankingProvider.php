@@ -1,14 +1,14 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Ranking\Provider\Player;
+namespace VideoGamesRecords\CoreBundle\Ranking\Provider\Team;
 
 use Doctrine\ORM\Exception\ORMException;
-use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\Entity\PlayerSerie;
+use VideoGamesRecords\CoreBundle\Entity\Team;
+use VideoGamesRecords\CoreBundle\Entity\TeamSerie;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 use VideoGamesRecords\CoreBundle\Ranking\Provider\AbstractRankingProvider;
 
-class PlayerSerieRankingProvider extends AbstractRankingProvider
+class TeamSerieRankingProvider extends AbstractRankingProvider
 {
     /**
      * @param int|null $id
@@ -24,30 +24,20 @@ class PlayerSerieRankingProvider extends AbstractRankingProvider
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $this->getPlayer($options['user'] ?? null);
         $limit = $options['limit'] ?? null;
 
         $query = $this->em->createQueryBuilder()
-            ->select('ps')
-            ->from('VideoGamesRecords\CoreBundle\Entity\PlayerSerie', 'ps')
-            ->join('ps.player', 'p')
-            ->addSelect('p')
-            ->orderBy('ps.rankPointChart');
+            ->select('ts')
+            ->from('VideoGamesRecords\CoreBundle\Entity\TeamSerie', 'ts')
+            ->join('ts.team', 't')
+            ->addSelect('t')
+            ->orderBy('ts.rankPointChart');
 
-        $query->where('ps.serie = :serie')
+        $query->where('ts.serie = :serie')
             ->setParameter('serie', $serie);
 
-        /** @var PlayerSerie $row */
-        $row = (null !== $player) ? $this->getRow($serie, $player) : null;
-
         if (null !== $maxRank) {
-            if (null !== $row) {
-                $query->andWhere('(ps.rankPointChart <= :maxRank OR ps.rankPointChart BETWEEN :min AND :max)')
-                    ->setParameter('min', $row->getRankPointChart() - 5)
-                    ->setParameter('max', $row->getRankPointChart() + 5);
-            } else {
-                $query->andWhere('ps.rankPointChart <= :maxRank');
-            }
+            $query->andWhere('ts.rankPointChart <= :maxRank');
             $query->setParameter('maxRank', $maxRank);
         }
 
@@ -72,7 +62,7 @@ class PlayerSerieRankingProvider extends AbstractRankingProvider
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $this->getPlayer($options['user'] ?? null);
+        $player = $this->getPlayer();
         $limit = $options['limit'] ?? null;
 
         $query = $this->em->createQueryBuilder()
@@ -105,12 +95,12 @@ class PlayerSerieRankingProvider extends AbstractRankingProvider
         return $query->getQuery()->getResult();
     }
 
-    private function getRow(Serie $serie, Player $player)
+    private function getRow(Serie $serie, Team $team)
     {
-        return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerSerie')->findOneBy(
+        return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\TeamSerie')->findOneBy(
             [
                 'serie' => $serie,
-                'player' => $player,
+                'team' => $team,
             ]
         );
     }

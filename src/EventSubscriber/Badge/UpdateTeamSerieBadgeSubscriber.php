@@ -3,14 +3,14 @@ namespace VideoGamesRecords\CoreBundle\EventSubscriber\Badge;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use VideoGamesRecords\CoreBundle\Event\SerieEvent;
-use VideoGamesRecords\CoreBundle\Handler\Badge\PlayerSerieBadgeHandler;
+use VideoGamesRecords\CoreBundle\Handler\Badge\TeamSerieBadgeHandler;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
-final class UpdatePlayerSerieBadgeSubscriber implements EventSubscriberInterface
+final class UpdateTeamSerieBadgeSubscriber implements EventSubscriberInterface
 {
-    private PlayerSerieBadgeHandler $badgeHandler;
+    private TeamSerieBadgeHandler $badgeHandler;
 
-    public function __construct(PlayerSerieBadgeHandler $badgeHandler)
+    public function __construct(TeamSerieBadgeHandler $badgeHandler)
     {
         $this->badgeHandler = $badgeHandler;
     }
@@ -18,7 +18,7 @@ final class UpdatePlayerSerieBadgeSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            VideoGamesRecordsCoreEvents::PLAYER_SERIE_MAJ_COMPLETED => 'process',
+            VideoGamesRecordsCoreEvents::TEAM_SERIE_MAJ_COMPLETED => 'process',
         ];
     }
 

@@ -78,6 +78,6 @@ class PlayerSerieRankingHandler extends AbstractRankingHandler
         }
 
         $event = new SerieEvent($serie);
-        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::SERIE_MAJ_COMPLETED);
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_SERIE_MAJ_COMPLETED);
     }
 }

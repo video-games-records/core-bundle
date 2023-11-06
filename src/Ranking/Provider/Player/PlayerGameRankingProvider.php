@@ -21,7 +21,7 @@ class PlayerGameRankingProvider extends AbstractRankingProvider
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $this->getPlayer();
+        $player = $this->getPlayer($options['user'] ?? null);
         $team = !empty($options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
 
         $query = $this->em->createQueryBuilder()
@@ -64,7 +64,7 @@ class PlayerGameRankingProvider extends AbstractRankingProvider
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $this->getPlayer();
+        $player = $this->getPlayer($options['user'] ?? null);
 
         $query = $this->em->createQueryBuilder()
             ->select('pg')

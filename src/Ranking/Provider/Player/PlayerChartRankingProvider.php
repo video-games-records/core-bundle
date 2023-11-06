@@ -27,7 +27,7 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $this->getPlayer();
+        $player = $this->getPlayer($options['user'] ?? null);
         $team = !empty($options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
 
         $query = $this->em->createQueryBuilder()
@@ -71,7 +71,7 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
     public function getRanking(Chart $chart, array $options = []): array
     {
         $maxRank = $options['maxRank'] ?? null;
-        $player = $this->getPlayer();
+        $player = $this->getPlayer($options['user'] ?? null);
 
         $orderBy = $chart->getStatusPlayer()->isNormal() ? self::ORDER_BY_RANK : self::ORDER_BY_SCORE;
         $queryBuilder = $this->getRankingBaseQuery($chart, $orderBy);
