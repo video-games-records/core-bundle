@@ -30,6 +30,7 @@ class GetRanking extends AbstractController
             $chart,
             [
                 'maxRank' => $request->query->get('maxRank', '100'),
+                'user' => $this->getUser()
             ]
         );
 

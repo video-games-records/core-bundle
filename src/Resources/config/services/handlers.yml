@@ -34,6 +34,12 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@vgr.core.ranking.provider.team.team_game'
 
+    vgr.core.handler.badge.team_serie:
+        class: VideoGamesRecords\CoreBundle\Handler\Badge\TeamSerieBadgeHandler
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@vgr.core.ranking.provider.team.team_serie'
+
     vgr.core.handler.score_investigation:
         class: VideoGamesRecords\CoreBundle\Handler\ScoreInvestigationHandler
         arguments:

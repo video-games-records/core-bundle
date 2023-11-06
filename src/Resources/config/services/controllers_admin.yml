@@ -9,6 +9,7 @@ services:
     class: VideoGamesRecords\CoreBundle\Controller\Admin\SerieAdminController
     arguments:
       - '@vgr.core.ranking.command.player.player_serie'
+      - '@vgr.core.ranking.command.team.team_serie'
 
   VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController:
     class: VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController

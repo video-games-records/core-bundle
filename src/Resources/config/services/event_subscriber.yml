@@ -36,6 +36,12 @@ services:
         arguments:
             - '@vgr.core.handler.badge.player_serie'
         tags: [ { name: 'kernel.event_subscriber' } ]
+
+    VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdateTeamSerieBadgeSubscriber:
+        class: VideoGamesRecords\CoreBundle\EventSubscriber\Badge\UpdateTeamSerieBadgeSubscriber
+        arguments:
+            - '@vgr.core.handler.badge.team_serie'
+        tags: [ { name: 'kernel.event_subscriber' } ]
     # Badges [END]
 
     # Update rank [BEGIN]

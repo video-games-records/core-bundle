@@ -98,6 +98,12 @@ services:
       - '@doctrine.orm.entity_manager'
       - '@event_dispatcher'
 
+  vgr.core.ranking.command.team.team_serie:
+    class: VideoGamesRecords\CoreBundle\Ranking\Command\Team\TeamSerieRankingHandler
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@event_dispatcher'
+
   vgr.core.ranking.command.team.team:
     class: VideoGamesRecords\CoreBundle\Ranking\Command\Team\TeamRankingHandler
     arguments:

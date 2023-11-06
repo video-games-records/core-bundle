@@ -19,7 +19,7 @@ class PlayerPlatformRankingProvider extends AbstractRankingProvider
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $this->getPlayer();
+        $player = $this->getPlayer($options['user'] ?? null);
 
         $query = $this->em->createQueryBuilder()
             ->select('pp')

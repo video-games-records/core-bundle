@@ -27,6 +27,7 @@ class GetRankingMedals extends AbstractController
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', '5'),
+                'user' => $this->getUser()
             ]
         );
     }

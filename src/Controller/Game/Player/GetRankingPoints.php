@@ -27,7 +27,8 @@ class GetRankingPoints extends AbstractController
             $game->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', '5'),
-                'idTeam' => $request->query->get('idTeam')
+                'idTeam' => $request->query->get('idTeam'),
+                'user' => $this->getUser()
             ]
         );
     }
