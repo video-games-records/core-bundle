@@ -240,7 +240,7 @@ playerBadge:
 
 teamBadge:
     lose:
-        object: 'Perte de master badge'
+        object: "Perte de master badge d'équipe"
         message: |
             <p>Bonjour %s,</p>
             <p>Votre équipe a perdu le master badge : <a href="%s">%s</a><br />
