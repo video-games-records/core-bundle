@@ -246,6 +246,15 @@ teamBadge:
             <p>Votre équipe a perdu le master badge : <a href="%s">%s</a><br />
             <p>Cordialement, l'équipe VGR.</p>
 
+playerChart:
+    updated:
+        object: 'Score modifié'
+        message: |
+            <p>Bonjour %s,</p>
+            <p>Votre score sur <a href="%s">%s</a> vient d'être modifié par un Administrateur.<br />
+            <p>Merci d'être davantage vigilant lors de l'envoi de vos scores sur VGR.</p><br />
+            <p>Cordialement, l'équipe VGR.</p>
+
 workflow_transitions: 'Workflow'
 workflow:
     transition_add_score: 'Ajout de score'

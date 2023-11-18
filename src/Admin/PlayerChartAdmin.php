@@ -15,19 +15,29 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
+use VideoGamesRecords\CoreBundle\Event\PlayerChartEvent;
+use VideoGamesRecords\CoreBundle\Security\UserProvider;
+use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerChartAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_player_chart';
 
     private ContainerInterface $container;
+    private readonly EventDispatcherInterface $eventDispatcher;
 
     public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
+    }
+
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): void
+    {
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -275,5 +285,11 @@ class PlayerChartAdmin extends AbstractAdmin
         $chart->setStatusTeam('MAJ');
     }
 
+    public function postUpdate(object $object): void
+    {
+        $event = new PlayerChartEvent($object, null , 0);
+        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_CHART_UPDATED);
+        parent::postUpdate($object);
+    }
 
 }
