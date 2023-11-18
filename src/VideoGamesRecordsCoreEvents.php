@@ -18,6 +18,8 @@ final class VideoGamesRecordsCoreEvents
     public const COUNTRY_MAJ_COMPLETED = 'vgr_core.country.maj.completed';
     public const SCORE_PLATFORM_UPDATED = 'vgr_core.score.platform.updated';
     public const PLAYER_CHART_MAJ_COMPLETED = 'vgr_core.player.chart.maj.completed';
+
+    public const PLAYER_CHART_UPDATED = 'vgr_core.player.chart.updated';
     #GAME
     public const GAME_PUBLISHED = 'vgr_core.game.published';
     #PROOF

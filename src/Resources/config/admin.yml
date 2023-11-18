@@ -173,6 +173,8 @@ services:
         calls:
             - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/playerchart_show.html.twig' ] ]
             - [ setContainer, ['@service_container']]
+            - [ setEventDispatcher, ['@event_dispatcher']]
+
     sonata.admin.vgr.playerchart_lib:
         class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
         tags:
