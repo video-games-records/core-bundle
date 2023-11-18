@@ -120,7 +120,8 @@ class Score
         }
 
         $result     = '';
-        $localValue = $value;
+        $negative = str_starts_with($value, '-');
+        $localValue = $negative ? (int) substr($value, 1) : $value;
         $nbElement  = count($parse) - 1;
         for ($k = $nbElement; $k >= 0; --$k) {
             $size             = $parse[$k]['size'];
@@ -144,6 +145,6 @@ class Score
             $result = $tmpValue . $suffixe . $result;
         }
 
-        return $result;
+        return ($negative ? '-' : '') .  $result;
     }
 }
