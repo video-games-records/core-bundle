@@ -35,7 +35,7 @@ services:
     class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerRankingProvider
     arguments:
       - '@doctrine.orm.entity_manager'
-      - '@vgr.core.transformer.user_to_player'
+      - '@vgr.core.security.user_provider'
 
   vgr.core.ranking.provider.player.player_serie:
     class: VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerSerieRankingProvider
@@ -67,8 +67,8 @@ services:
     class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamRankingProvider
     arguments:
       - '@doctrine.orm.entity_manager'
-      - '@vgr.core.transformer.user_to_player'
-
+      - '@vgr.core.security.user_provider'
+      -
   vgr.core.ranking.provider.team.team_serie:
     class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamSerieRankingProvider
     arguments:
