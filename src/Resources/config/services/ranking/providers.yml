@@ -61,14 +61,14 @@ services:
     class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamGroupRankingProvider
     arguments:
       - '@doctrine.orm.entity_manager'
-      - '@vgr.core.security.user_provider'
+      - '@vgr.core.transformer.user_to_player'
 
   vgr.core.ranking.provider.team.team:
     class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamRankingProvider
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@vgr.core.security.user_provider'
-      -
+
   vgr.core.ranking.provider.team.team_serie:
     class: VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamSerieRankingProvider
     arguments:
