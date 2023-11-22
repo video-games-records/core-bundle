@@ -12,6 +12,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Traits\Entity\IsDlcTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
@@ -44,6 +45,7 @@ class Chart implements SluggableInterface
     use TimestampableEntity;
     use SluggableTrait;
     use NbPostTrait;
+    use IsDlcTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")

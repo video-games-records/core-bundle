@@ -23,8 +23,8 @@ BEGIN
  	SET game_id = (SELECT idGame FROM vgr_group WHERE id = group_id_src);
 
     -- GROUP
-    INSERT INTO vgr_group (idGame, libGroupEn, libGroupFr, boolDlc, nbChart, slug, created_at, updated_at)
-    SELECT idGame, CONCAT(libGroupEn, ' [COPY]'), CONCAT(libGroupFr, ' [COPY]'), boolDlc, nbChart, slug, NOW(), NOW()
+    INSERT INTO vgr_group (idGame, libGroupEn, libGroupFr, isDlc, nbChart, slug, created_at, updated_at)
+    SELECT idGame, CONCAT(libGroupEn, ' [COPY]'), CONCAT(libGroupFr, ' [COPY]'), isDlc, nbChart, slug, NOW(), NOW()
     FROM vgr_group
     WHERE id = group_id_src;
 

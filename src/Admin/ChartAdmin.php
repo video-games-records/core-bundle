@@ -115,6 +115,12 @@ class ChartAdmin extends AbstractAdmin
                 'required' => false,
             ]);
 
+        $form->add('isDlc', CheckboxType::class, [
+            'label' => 'label.isDlc',
+            'required' => false,
+        ]);
+
+
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
             $form
                 ->add(
@@ -175,6 +181,7 @@ class ChartAdmin extends AbstractAdmin
                 'field_options' => ['property' => $this->getLibGame()],
                 'label' => 'label.game',
             ])
+            ->add('isDlc', null, ['label' => 'label.isDlc'])
             ->add(
                 'statusPlayer', ChoiceFilter::class, [
                     'label' => 'label.chart.statusPlayer',
@@ -249,6 +256,7 @@ class ChartAdmin extends AbstractAdmin
             ->add('libChartFr', null, ['label' => 'label.name.fr'])
             ->add('statusPlayer', null, ['label' => 'label.chart.statusPlayer'])
             ->add('statusTeam', null, ['label' => 'label.chart.statusTeam'])
+            ->add('isDlc', null, ['label' => 'label.isDlc'])
             ->add('createdAt', null, ['label' => 'label.createdAt'])
             ->add('updatedAt', null, ['label' => 'label.updatedAt'])
             ->add('group', null, array(

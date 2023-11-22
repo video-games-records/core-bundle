@@ -12,6 +12,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Traits\Entity\IsDlcTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\IsRankTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
@@ -47,6 +48,7 @@ class Group implements SluggableInterface
     use NbPostTrait;
     use NbPlayerTrait;
     use IsRankTrait;
+    use IsDlcTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -66,12 +68,6 @@ class Group implements SluggableInterface
      * @ORM\Column(name="libGroupFr", type="string", length=255, nullable=false)
      */
     private string $libGroupFr = '';
-
-    /**
-     * @ORM\Column(name="boolDlc", type="boolean", nullable=false)
-     */
-    private bool $boolDlc = false;
-
 
     /**
      * @Assert\NotNull
@@ -182,28 +178,6 @@ class Group implements SluggableInterface
     {
         return $this->libGroupFr;
     }
-
-    /**
-     * Set boolDlc
-     * @param bool $boolDlc
-     * @return $this
-     */
-    public function setBoolDlc(bool $boolDlc): Group
-    {
-        $this->boolDlc = $boolDlc;
-
-        return $this;
-    }
-
-    /**
-     * Get boolDlc
-     * @return bool
-     */
-    public function getBoolDlc(): bool
-    {
-        return $this->boolDlc;
-    }
-
 
     /**
      * Set Game
