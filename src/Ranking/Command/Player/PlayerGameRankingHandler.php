@@ -36,7 +36,7 @@ class PlayerGameRankingHandler extends AbstractRankingHandler
             JOIN pg.player p
             JOIN pg.group g
             WHERE g.game = :game
-            AND g.boolDlc = 0
+            AND g.isDlc = 0
             GROUP BY p.id");
 
         $dataWithoutDlc = [];

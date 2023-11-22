@@ -13,7 +13,7 @@ VideoGamesRecords\CoreBundle\Entity\Group:
     game:
       groups:
         - 'group.game'
-    boolDlc:
+    isDlc:
       groups:
         - 'group.list'
     nbChart:

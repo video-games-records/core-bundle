@@ -24,6 +24,9 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
         - 'chart.list'
         - 'chart.read'
         - 'chart.read.mini'
+    isDlc:
+      groups:
+        - 'chart.list'
     slug:
       groups:
         - 'chart.list'

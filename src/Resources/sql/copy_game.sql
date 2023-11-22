@@ -24,7 +24,7 @@ BEGIN
 	DECLARE done INT DEFAULT FALSE;
 
 	DECLARE cur1 CURSOR FOR
-	SELECT vgr_group.id as idGroup, libGroupEn, libGroupFr, boolDlc, vgr_group.nbChart, vgr_group.slug, vgr_chart.id as idChart, libChartEn, libChartFr, vgr_chart.slug
+	SELECT vgr_group.id as idGroup, libGroupEn, libGroupFr, isDlc, vgr_group.nbChart, vgr_group.slug, vgr_chart.id as idChart, libChartEn, libChartFr, vgr_chart.slug
 	FROM vgr_group INNER JOIN vgr_chart ON vgr_group.id = vgr_chart.idGroup
 	WHERE vgr_group.idGame = game_id_src;
 
@@ -65,7 +65,7 @@ BEGIN
 
 		-- ADD GROUP
 		IF (group_id_local != group_id_src) THEN
-			INSERT INTO vgr_group (libGroupEn, libGroupFr, idGame, boolDlc, nbChart, slug, created_at, updated_at)
+			INSERT INTO vgr_group (libGroupEn, libGroupFr, idGame, isDlc, nbChart, slug, created_at, updated_at)
 			VALUES (group_lib_en, group_lib_fr, game_id_dest, group_bool_dlc, group_nb_chart, group_slug, NOW(), NOW());
 
 			SET group_id_local = group_id_src;

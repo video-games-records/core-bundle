@@ -31,7 +31,7 @@ label:
     action: 'Action'
     badge: 'Badge'
     boolActive: 'Active ? '
-    boolDlc: 'DLC ? '
+    isDlc: 'DLC ? '
     boolMaj: 'Maj ?'
     boolRanking: 'Ranking ?'
     chart: 'Record'

@@ -118,8 +118,8 @@ class GroupAdmin extends AbstractAdmin
             );
         }
 
-        $form->add('boolDLC', CheckboxType::class, [
-            'label' => 'label.boolDlc',
+        $form->add('isDlc', CheckboxType::class, [
+            'label' => 'label.isDlc',
             'required' => false,
         ]);
 
@@ -173,6 +173,7 @@ class GroupAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('libGroupEn', null, ['label' => 'label.name.en'])
             ->add('libGroupFr', null, ['label' => 'label.name.fr'])
+            ->add('isDlc', null, ['label' => 'label.isDlc'])
             ->add('game', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => $this->getLibGame()],
@@ -210,7 +211,7 @@ class GroupAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',
             ])
-            ->add('boolDLC', 'boolean', ['label' => 'label.boolDlc'])
+            ->add('isDlc', 'boolean', ['label' => 'label.isDlc'])
             ->add('_action', 'actions', [
                 'actions' =>
                     array_merge(
@@ -236,6 +237,7 @@ class GroupAdmin extends AbstractAdmin
             ->add('libGroupEn', null, ['label' => 'label.name.en'])
             ->add('libGroupFr', null, ['label' => 'label.name.fr'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
+            ->add('isDlc', null, ['label' => 'label.isDlc'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',
