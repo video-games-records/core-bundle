@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
@@ -61,6 +62,10 @@ class PlayerChartListener
 
         if (!$this->scoreManager->hasScoreOnGame($game, $player)) {
             $game->setNbPlayer($game->getNbPlayer() + 1);
+        }
+
+        if (null === $playerChart->getPlatform()) {
+            throw new BadRequestException('Missing platform');
         }
     }
 
