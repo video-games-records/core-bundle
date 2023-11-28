@@ -33,7 +33,16 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *     arguments={
  *          "parameterName": "groups",
  *          "overrideDefaultGroups": true,
- *          "whitelist": {"teamBadge.read","teamBadge.badge","teamBadge.team","team.read.mini"}
+ *          "whitelist": {
+ *              "teamBadge.read",
+ *              "teamBadge.badge",
+ *              "teamBadge.team",
+ *              "team.read.mini",
+ *              "badge.read",
+ *              "badge.game",
+ *              "badge.serie",
+ *              "serie.read"
+ *          }
  *     }
  * )
  * @ApiFilter(
