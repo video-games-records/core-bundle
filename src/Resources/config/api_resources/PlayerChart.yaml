@@ -6,7 +6,7 @@ resources:
         collectionOperations:
             get: ~
             post:
-                normalization_context: {'groups': [playerChart.read, playerChart.status, playerChartStatus.read, playerChart.player, player.read.mini, playerChart.platform]}
+                normalization_context: {'groups': [playerChart.read, playerChart.status, playerChartStatus.read, playerChart.platform]}
                 access_control: 'is_granted("ROLE_PLAYER")'
             maj-platform:
                 method: 'POST'
