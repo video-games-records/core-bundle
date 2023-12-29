@@ -65,6 +65,7 @@ class PlayerGameRankingProvider extends AbstractRankingProvider
 
         $maxRank = $options['maxRank'] ?? null;
         $player = $this->getPlayer($options['user'] ?? null);
+        $team = !empty($options['idTeam']) ? $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $options['idTeam']) : null;
 
         $query = $this->em->createQueryBuilder()
             ->select('pg')
@@ -76,7 +77,10 @@ class PlayerGameRankingProvider extends AbstractRankingProvider
         $query->where('pg.game = :game')
             ->setParameter('game', $game);
 
-        if (($maxRank !== null) && ($player !== null)) {
+        if ($team != null) {
+            $query->andWhere('(p.team = :team)')
+                ->setParameter('team', $team);
+        } elseif (($maxRank !== null) && ($player !== null)) {
             $query->andWhere('(pg.rankMedal <= :maxRank OR pg.player = :player)')
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player);
