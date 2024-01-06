@@ -24,7 +24,7 @@ BEGIN
 	DECLARE done INT DEFAULT FALSE;
 
 	DECLARE cur1 CURSOR FOR
-	SELECT vgr_group.id as idGroup, libGroupEn, libGroupFr, isDlc, vgr_group.nbChart, vgr_group.slug, vgr_chart.id as idChart, libChartEn, libChartFr, vgr_chart.slug
+	SELECT vgr_group.id as idGroup, libGroupEn, libGroupFr, vgr_group.isDlc, vgr_group.nbChart, vgr_group.slug, vgr_chart.id as idChart, libChartEn, libChartFr, vgr_chart.slug
 	FROM vgr_group INNER JOIN vgr_chart ON vgr_group.id = vgr_chart.idGroup
 	WHERE vgr_group.idGame = game_id_src;
 
