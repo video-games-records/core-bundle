@@ -4,7 +4,7 @@ resources:
             post:
                 access_control: 'is_granted("ROLE_PLAYER")'
                 denormalization_context: {'groups': [team.put]}
-                normalization_context: {'groups': [team.profile, team.leader, player.read.mini]}
+                normalization_context: {'groups': [team.read.mini, team.leader, player.read.mini]}
             get:
                 method: 'GET'
                 normalization_context: {'groups': [team.read, team.leader, player.read.mini]}
