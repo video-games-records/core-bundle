@@ -35,7 +35,6 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       groups:
         - 'team.read'
         - 'team.read.mini'
-        - 'team.profile'
     leader:
       groups:
         - 'team.leader'
