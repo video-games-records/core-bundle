@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -17,6 +19,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Traits\Entity\IsRankTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\LastUpdateTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
@@ -56,7 +59,19 @@ use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
  *     arguments={
  *          "parameterName": "groups",
  *          "overrideDefaultGroups": true,
- *          "whitelist": {"game.read.mini","game.list","game.platforms","platform.read"}
+ *          "whitelist": {
+ *              "game.read",
+ *              "game.read.mini",
+ *              "game.list",
+ *              "game.platforms",
+ *              "platform.read",
+ *              "lastScore.read",
+ *              "playerChart.read",
+ *              "playerChart.player",
+ *              "playerChart.chart",
+ *              "player.read.mini",
+ *              "chart.read.mini"
+ *          }
  *     }
  * )
  * @ApiFilter(
@@ -69,7 +84,8 @@ use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
  *          "nbChart": "DESC",
  *          "nbPost": "DESC",
  *          "nbPlayer": "DESC",
- *          "nbVideo": "DESC"
+ *          "nbVideo": "DESC",
+ *          "lastUpdate": "DESC"
  *     },
  *     arguments={"orderParameterName"="order"}
  * )
@@ -85,6 +101,7 @@ class Game implements SluggableInterface
     use PictureTrait;
     use NbVideoTrait;
     use IsRankTrait;
+    use LastUpdateTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -161,6 +178,12 @@ class Game implements SluggableInterface
      * @ORM\JoinColumn(name="idForum", referencedColumnName="id")
      */
     private $forum;
+
+    /**
+     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart")
+     * @ORM\JoinColumn(name="last_score_id", referencedColumnName="id")
+     */
+    private ?PlayerChart $lastScore;
 
     /**
      * @var Collection<Rule>
@@ -469,6 +492,17 @@ class Game implements SluggableInterface
         $this->forum = $forum;
         return $this;
     }
+
+    public function getLastScore(): ?PlayerChart
+    {
+        return $this->lastScore;
+    }
+
+    public function setLastScore(?PlayerChart $lastScore): void
+    {
+        $this->lastScore = $lastScore;
+    }
+
 
     /**
      * Returns an array of the fields used to generate the slug.

@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use VideoGamesRecords\CoreBundle\Traits\Entity\LastUpdateTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 
@@ -119,6 +120,7 @@ class PlayerChart
     use PlayerTrait;
     use TimestampableEntity;
     use NbEqualTrait;
+    use LastUpdateTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -146,11 +148,6 @@ class PlayerChart
      * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
      */
     private bool $topScore = false;
-
-    /**
-     * @ORM\Column(name="lastUpdate", type="datetime", nullable=false)
-     */
-    private DateTime $lastUpdate;
 
     /**
      * @ORM\Column(name="dateInvestigation", type="date", nullable=true)
@@ -327,28 +324,7 @@ class PlayerChart
         return $this->topScore;
     }
 
-    /**
-     * Set lastUpdate
-     *
-     * @param DateTime $lastUpdate
-     * @return PlayerChart
-     */
-    public function setLastUpdate(DateTime $lastUpdate): PlayerChart
-    {
-        $this->lastUpdate = $lastUpdate;
 
-        return $this;
-    }
-
-    /**
-     * Get lastUpdate
-     *
-     * @return DateTime
-     */
-    public function getLastUpdate(): DateTime
-    {
-        return $this->lastUpdate;
-    }
 
     /**
      * Set dateInvestigation
