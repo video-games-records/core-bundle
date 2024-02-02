@@ -69,6 +69,12 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     downloadUrl:
       groups:
         - 'game.read'
+    lastUpdate:
+      groups:
+        - 'game.read'
+    lastScore:
+      groups:
+        - 'lastScore.read'
     createdAt:
       groups: []
     updatedAt:

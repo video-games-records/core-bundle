@@ -46,6 +46,8 @@ class PlayerChartListener
         // Game
         $game = $group->getGame();
         $game->setNbPost($game->getNbPost() + 1);
+        $game->setLastUpdate(new DateTime());
+        $game->setLastScore($playerChart);
 
         // Player
         $player = $playerChart->getPlayer();
@@ -83,6 +85,9 @@ class PlayerChartListener
         // Update by player
         if (array_key_exists('lastUpdate', $this->changeSet)) {
             $playerChart->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL));
+            $game = $playerChart->getChart()->getGroup()->getGame();
+            $game->setLastUpdate(new DateTime());
+            $game->setLastScore($playerChart);
         }
 
         if (array_key_exists('platform', $this->changeSet)) {
