@@ -7,7 +7,7 @@ trait IsDlcTrait
     /**
      * @ORM\Column(name="isDlc", type="boolean", nullable=false, options={"default":false})
      */
-    private bool $isDlc = true;
+    private bool $isDlc = false;
 
     /**
      * Set isDlc
