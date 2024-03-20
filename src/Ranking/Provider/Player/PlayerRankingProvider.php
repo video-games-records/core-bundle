@@ -111,8 +111,6 @@ class PlayerRankingProvider
             ->addSelect('t')
             ->leftJoin('p.country', 'c')
             ->addSelect('c')
-            ->leftJoin('c.translations', 'trans')
-            ->addSelect('trans')
             ->where("p.$column != 0")
             ->orderBy("p.$column");
 
