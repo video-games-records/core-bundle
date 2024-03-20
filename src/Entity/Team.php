@@ -4,6 +4,7 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -49,6 +50,18 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
  *         }
  *     }
  * )
+ * @ApiFilter(
+ *      OrderFilter::class,
+ *      properties={
+ *           "id":"ASC",
+ *           "libTeam" : "ASC",
+ *           "createdAt": "DESC",
+ *           "nbGame": "DESC",
+ *           "pointGame": "DESC",
+ *           "rankPointGame": "ASC"
+ *      },
+ *      arguments={"orderParameterName"="order"}
+ *  )
  */
 class Team implements SluggableInterface
 {
