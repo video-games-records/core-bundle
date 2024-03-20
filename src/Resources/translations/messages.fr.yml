@@ -199,7 +199,7 @@ proof:
                 <p>Cordialement, l'équipe VGR.</p>
 team:
     request:
-        exists: 'Vous avez déjà envoyé une demande pour ce joueur'
+        exists: 'Vous avez déjà envoyé une demande pour cette équipe'
         has_team: 'Ce joueur a déjà une équipe'
 
 avatar:
