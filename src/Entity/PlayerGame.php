@@ -42,6 +42,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
  *              "game.platforms",
  *              "platform.read",
  *              "playerGame.game",
+ *              "playerGame.lastUpdate",
  *              "playerGame.pointChart",
  *              "playerGame.medal",
  *              "playerGame.proof",
@@ -52,6 +53,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
  * @ApiFilter(
  *     OrderFilter::class,
  *     properties={
+ *          "lastUpdate": "DESC",
  *          "rankPointChart": "ASC",
  *          "chartRank0": "DESC",
  *          "chartRank1": "DESC",
