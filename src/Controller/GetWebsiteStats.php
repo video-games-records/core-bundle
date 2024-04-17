@@ -38,11 +38,11 @@ class GetWebsiteStats extends AbstractController
         $teamStats = $teamRepository->getStats();
 
         return array(
-            'nbPlayer' => $playerStats[1],
-            'nbChart' => $playerStats[2],
-            'nbChartProven' => $playerStats[3],
-            'nbGame' => $gameStats[1],
-            'nbTeam' => $teamStats[1],
+            'nbPlayer' => (int)$playerStats[1],
+            'nbChart' => (int) $playerStats[2],
+            'nbChartProven' => (int) $playerStats[3],
+            'nbGame' => (int) $gameStats[1],
+            'nbTeam' => (int) $teamStats[1],
         );
     }
 }
