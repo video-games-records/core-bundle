@@ -9,6 +9,9 @@ VideoGamesRecords\CoreBundle\Entity\PlayerGame:
     statuses:
       groups:
         - 'playerGame.statuses'
+    lastUpdate:
+      groups:
+        - 'playerGame.lastUpdate'
     rankPointChart:
       groups:
         - 'playerGame.pointChart'
