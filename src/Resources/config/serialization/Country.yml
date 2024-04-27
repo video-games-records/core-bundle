@@ -6,6 +6,9 @@ VideoGamesRecords\CoreBundle\Entity\Country:
     name:
       groups:
         - 'country.read'
+    slug:
+      groups:
+        - 'country.read'
     codeIso2:
       groups:
         - 'country.read'

@@ -4,6 +4,9 @@ namespace VideoGamesRecords\CoreBundle\Ranking\Provider\Player;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
+use VideoGamesRecords\CoreBundle\Entity\Country;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
@@ -38,7 +41,9 @@ class PlayerRankingProvider
      */
     public function getRankingPointChart(array $options = []): array
     {
-        return $this->getRanking('rankPointChart', $options);
+        return $this->getRankingQuery('rankPointChart', $options)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -48,7 +53,9 @@ class PlayerRankingProvider
      */
     public function getRankingPointGame(array $options = []): array
     {
-        return $this->getRanking('rankPointGame', $options);
+        return $this->getRankingQuery('rankPointGame', $options)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -58,7 +65,9 @@ class PlayerRankingProvider
      */
     public function getRankingMedals(array $options = []): array
     {
-        return $this->getRanking('rankMedal', $options);
+        return $this->getRankingQuery('rankMedal', $options)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -68,7 +77,9 @@ class PlayerRankingProvider
      */
     public function getRankingBadge(array $options = []): array
     {
-        return $this->getRanking('rankBadge', $options);
+        return $this->getRankingQuery('rankBadge', $options)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -78,7 +89,9 @@ class PlayerRankingProvider
      */
     public function getRankingCup(array $options = []): array
     {
-        return $this->getRanking('rankCup', $options);
+        return $this->getRankingQuery('rankCup', $options)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -88,16 +101,33 @@ class PlayerRankingProvider
      */
     public function getRankingProof(array $options = []): array
     {
-        return $this->getRanking('rankProof', $options);
+        return $this->getRankingQuery('rankProof', $options)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Country $country
+     * @param array $options
+     * @return array
+     * @throws ORMException
+     */
+    public function getRankingCountry(Country $country, array $options = []): array
+    {
+        return $this->getRankingQuery('rankCountry', $options)
+            ->andWhere('p.country = :country')
+            ->setParameter('country', $country)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
      * @param string $column
-     * @param array  $options
-     * @return array
+     * @param array $options
+     * @return QueryBuilder
      * @throws ORMException
      */
-    private function getRanking(string $column = 'rankPointChart', array $options = []): array
+    private function getRankingQuery(string $column = 'rankPointChart', array $options = []): QueryBuilder
     {
         $maxRank = $options['maxRank'] ?? 100;
         $limit = $options['limit'] ?? null;
@@ -130,6 +160,6 @@ class PlayerRankingProvider
             $query->setMaxResults($limit);
         }
 
-        return $query->getQuery()->getResult();
+        return $query;
     }
 }
