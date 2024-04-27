@@ -41,6 +41,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player.country'
         - 'player.put'
+    rankCountry:
+      groups:
+        - 'player.read'
     rankPointChart:
       groups:
         - 'player.pointChart'

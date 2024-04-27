@@ -39,6 +39,11 @@ class Country implements TranslatableInterface
     private int $codeIsoNumeric;
 
     /**
+     * @ORM\Column(name="slug", type="string", length=100, nullable=true)
+     */
+    private string $slug;
+
+    /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -201,6 +206,16 @@ class Country implements TranslatableInterface
     public function getBoolMaj(): bool
     {
         return $this->boolMaj;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**
