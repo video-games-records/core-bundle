@@ -66,9 +66,9 @@ class PlayerChartListener
             $game->setNbPlayer($game->getNbPlayer() + 1);
         }
 
-        if (null === $playerChart->getPlatform()) {
+        /*if (null === $playerChart->getPlatform()) {
             throw new BadRequestException('Missing platform');
-        }
+        }*/
     }
 
 
