@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
@@ -47,8 +48,14 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
  *     SearchFilter::class,
  *     properties={
  *          "pseudo": "partial",
- *          "user.enabled": "exact",
+ *          "user.enabled": "exact"
  *      }
+ * )
+ * @ApiFilter(
+ *     RangeFilter::class,
+ *     properties={
+ *         "nbVideo"
+ *     }
  * )
  * @ApiFilter(
  *     GroupFilter::class,
