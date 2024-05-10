@@ -11,7 +11,7 @@ resources:
             maj-platform:
                 method: 'POST'
                 path: '/player-charts/maj-platform'
-                access_control: 'is_granted("ROLE_PLAYER")'
+                access_control: 'is_granted("ROLE_USER")'
                 swagger_context:
                     parameters:
                         - in: body
@@ -28,7 +28,7 @@ resources:
                                       type: integer
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChart\UpdatePlatform'
             send-picture:
-                access_control: 'is_granted("ROLE_PLAYER")'
+                access_control: 'is_granted("ROLE_USER")'
                 method: 'POST'
                 path: '/player-charts/{id}/send-picture'
                 consumes:
@@ -51,7 +51,7 @@ resources:
                                       type: string
                 controller: 'VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendPicture'
             send-video:
-                access_control: 'is_granted("ROLE_PLAYER")'
+                access_control: 'is_granted("ROLE_USER")'
                 method: 'POST'
                 path: '/player-charts/{id}/send-video'
                 consumes:
