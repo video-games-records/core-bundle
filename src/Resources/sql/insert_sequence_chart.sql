@@ -11,8 +11,8 @@ BEGIN
 
     WHILE seq <= seq_end DO
         SET seq_string = LPAD(seq, nbChar, '0');
-        SET label_fr = CONCAT(prefixe_fr, " ", seq_string);
-        SET label_en = CONCAT(prefixe_en, " ", seq_string);
+        SET label_fr = TRIM(CONCAT(prefixe_fr, " ", seq_string));
+        SET label_en = TRIM(CONCAT(prefixe_en, " ", seq_string));
 
         -- ADD CHART
 		INSERT INTO vgr_chart (idGroup, libChartEn, libChartFr, created_at, updated_at, slug)
