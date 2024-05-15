@@ -2,21 +2,21 @@ VideoGamesRecords\CoreBundle\Entity\PlayerBadge:
   attributes:
     id:
       groups:
-        - 'playerBadge.read'
-        - 'playerBadge.put'
+        - 'player-badge:read'
+        - 'player-badge:update'
     badge:
       groups:
-        - 'playerBadge.badge'
+        - 'player-badge:badge'
     player:
       groups:
-        - 'playerBadge.player'
+        - 'player-badge:player'
     mbOrder:
       groups:
-        - 'playerBadge.read'
-        - 'playerBadge.put'
+        - 'player-badge:read'
+        - 'player-badge:update'
     createdAt:
       groups:
-        - 'playerBadge.read'
+        - 'player-badge:read'
     endedAt:
       groups:
-        - 'playerBadge.read'
+        - 'player-badge:read'

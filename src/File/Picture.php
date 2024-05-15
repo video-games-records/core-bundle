@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\File;
 
 use Exception;
@@ -65,7 +67,7 @@ class Picture implements PictureInterface
     /**
      * @return int
      */
-    public function getWidth():int
+    public function getWidth(): int
     {
         return imagesx($this->image);
     }

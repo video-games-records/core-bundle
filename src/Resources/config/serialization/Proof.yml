@@ -2,15 +2,15 @@ VideoGamesRecords\CoreBundle\Entity\Proof:
   attributes:
     id:
       groups:
-        - 'proof.read'
-        - 'proof.put'
+        - 'proof:read'
+        - 'proof:update'
     picture:
       groups:
-        - 'proof.read'
+        - 'proof:picture'
     video:
       groups:
-        - 'proof.read'
+        - 'proof:video'
     status:
       groups:
-        - 'proof.read'
-        - 'proof.put'
+        - 'proof:read'
+        - 'proof:update'

@@ -1,6 +1,7 @@
 <?php
 
-// src/Form/Type/TaskType.php
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
@@ -15,15 +16,17 @@ class ChartTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
-                'type', EntityType::class, [
+            'type',
+            EntityType::class,
+            [
                     'class' => ChartType::class,
-                    'query_builder' => function(EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('ct')
                             ->orderBy('ct.name', 'ASC');
                     },
                     'choice_label' => 'name'
                 ]
-            )
+        )
             ->add('submit', SubmitType::class);
     }
 }

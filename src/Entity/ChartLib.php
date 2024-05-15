@@ -1,132 +1,80 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\ChartLibRepository;
 
-/**
- * Chart
- *
- * @ORM\Table(name="vgr_chartlib")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartLibRepository")
- */
+#[ORM\Table(name:'vgr_chartlib')]
+#[ORM\Entity(repositoryClass: ChartLibRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get()
+    ],
+    normalizationContext: ['groups' => ['chart-lib:read']]
+)]
 class ChartLib
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(name="idLibChart", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private ?int $idLibChart = null;
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
+    private ?int $id = null;
 
-    /**
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="name", type="string", length=100, nullable=true)
-     */
+    #[Assert\Length(max: 100)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="libs")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Chart::class, inversedBy: 'libs')]
+    #[ORM\JoinColumn(name:'chart_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Chart $chart;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartType", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idType", referencedColumnName="idType", nullable=false)
-     * })
-     */
+
+    #[ORM\ManyToOne(targetEntity: ChartType::class, fetch: 'EAGER')]
+    #[ORM\JoinColumn(name:'type_id', referencedColumnName:'id', nullable:false)]
     private ChartType $type;
 
-    /**
-     * Set lib
-     *
-     * @param string|null $name
-     * @return $this
-     */
-    public function setName(string $name = null): ChartLib
+
+    public function setName(string $name = null): void
     {
         $this->name = $name;
-        return $this;
     }
 
-    /**
-     * Get lib
-     *
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Get idLibChart
-     *
-     * @return integer
-     */
-    public function getIdLibChart(): ?int
+    public function getId(): ?int
     {
-        return $this->idLibChart;
+        return $this->id;
     }
 
-    /**
-     * Set idLibChart
-     *
-     * @param int $idLibChart
-     * @return $this
-     */
-    public function setIdLibChart(int $idLibChart): ChartLib
+    public function setId(int $id): void
     {
-        $this->idLibChart = $idLibChart;
-
-        return $this;
+        $this->id = $id;
     }
 
-    /**
-     * Set chart
-     * @param Chart $chart
-     * @return $this
-     */
-    public function setChart(Chart $chart): ChartLib
+    public function setChart(Chart $chart): void
     {
         $this->chart = $chart;
-        return $this;
     }
 
-    /**
-     * Get chart
-     *
-     * @return Chart
-     */
     public function getChart(): Chart
     {
         return $this->chart;
     }
 
-    /**
-     * Set type
-     * @param ChartType $type
-     * @return $this
-     */
-    public function setType(ChartType $type): ChartLib
+    public function setType(ChartType $type): void
     {
         $this->type = $type;
-        return $this;
     }
 
-    /**
-     * Get type
-     *
-     * @return ChartType
-     */
     public function getType(): ChartType
     {
         return $this->type;
@@ -137,6 +85,6 @@ class ChartLib
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getType()->getName(), $this->idLibChart);
+        return sprintf('%s [%s]', $this->getType()->getName(), $this->id);
     }
 }

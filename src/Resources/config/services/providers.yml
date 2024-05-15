@@ -1,6 +1,0 @@
-services:
-    vgr.core.security.user_provider:
-        class: VideoGamesRecords\CoreBundle\Security\UserProvider
-        arguments:
-          - '@security.helper'
-          - '@vgr.core.transformer.user_to_player'

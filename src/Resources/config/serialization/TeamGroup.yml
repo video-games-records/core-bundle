@@ -1,30 +1,26 @@
 VideoGamesRecords\CoreBundle\Entity\TeamGroup:
   attributes:
-    group:
-      groups: []
     team:
       groups:
-        - 'teamGroup.team'
+        - 'team-group:team'
     pointChart:
       groups:
-        - 'teamGroup.pointChart'
+        - 'team-group:read'
     rankPointChart:
       groups:
-        - 'teamGroup.pointChart'
-    pointGame:
-      groups: []
+        - 'team-group:read'
     rankMedal:
       groups:
-        - 'teamGroup.medal'
+        - 'team-group:read'
     chartRank0:
       groups:
-        - 'teamGroup.medal'
+        - 'team-group:read'
     chartRank1:
       groups:
-        - 'teamGroup.medal'
+        - 'team-group:read'
     chartRank2:
       groups:
-        - 'teamGroup.medal'
+        - 'team-group:read'
     chartRank3:
       groups:
-        - 'teamGroup.medal'
+        - 'team-group:read'

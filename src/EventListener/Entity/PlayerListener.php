@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\DBAL\Exception;
@@ -44,10 +46,10 @@ class PlayerListener
             $em = $event->getObjectManager();
             $conn = $em->getConnection();
             $sql = 'UPDATE vgr_chart
-                SET statusTeam = :status
-                WHERE id IN (SELECT idChart FROM vgr_player_chart WHERE idPlayer = :idPlayer)';
+                SET status_team = :status
+                WHERE id IN (SELECT chart_id FROM vgr_player_chart WHERE player_id = :idPlayer)';
             $stmt = $conn->prepare($sql);
-            $stmt->executeQuery(['status' => ChartStatus::STATUS_MAJ, 'idPlayer' => $player->getId()]);
+            $stmt->executeQuery(['status' => ChartStatus::MAJ, 'idPlayer' => $player->getId()]);
             $em->flush();
         }
     }

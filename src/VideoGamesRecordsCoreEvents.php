@@ -1,7 +1,8 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle;
+declare(strict_types=1);
 
+namespace VideoGamesRecords\CoreBundle;
 
 final class VideoGamesRecordsCoreEvents
 {

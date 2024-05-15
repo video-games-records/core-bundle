@@ -1,6 +1,0 @@
-resources:
-    VideoGamesRecords\CoreBundle\Entity\TeamChart:
-        collectionOperations:
-            get: ~
-        itemOperations:
-            get: ~

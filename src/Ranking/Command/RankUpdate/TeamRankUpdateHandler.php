@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\RankUpdate;
 
 use Doctrine\ORM\EntityRepository;
@@ -52,5 +54,4 @@ class TeamRankUpdateHandler extends AbstractRankUpdateHandler
     {
         return $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team');
     }
-
 }

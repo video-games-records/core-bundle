@@ -1,32 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait NbPlayerTrait
 {
-    /**
-     * @ORM\Column(name="nbPlayer", type="integer", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $nbPlayer = 0;
 
-    /**
-     * Set nbPlayer
-     *
-     * @param integer $nbPlayer
-     * @return $this
-     */
-    public function setNbPlayer(int $nbPlayer): static
+    public function setNbPlayer(int $nbPlayer): void
     {
         $this->nbPlayer = $nbPlayer;
-
-        return $this;
     }
 
-    /**
-     * Get nbPlayer
-     *
-     * @return integer
-     */
     public function getNbPlayer(): int
     {
         return $this->nbPlayer;

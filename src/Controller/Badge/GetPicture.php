@@ -1,20 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Badge;
 
-use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Attribute\Cache;
+use Symfony\Component\Routing\Attribute\Route;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 
-/**
- * Class BadgeController
- * @Route("/badge")
- */
 class GetPicture extends AbstractController implements BadgeInterface
 {
     private FilesystemOperator $appStorage;
@@ -24,13 +21,13 @@ class GetPicture extends AbstractController implements BadgeInterface
         $this->appStorage = $appStorage;
     }
 
-    /**
-     * @Route(path="/{id}/picture", requirements={"id": "[1-9]\d*"}, name="vgr_core_badge_picture", methods={"GET"})
-     * @Cache(expires="+30 days")
-     * @param Badge $badge
-     * @return StreamedResponse
-     * @throws FilesystemException
-     */
+    #[Route(
+        '/badge/{id}/picture',
+        name: 'vgr_core_badge_picture',
+        methods: ['GET'],
+        requirements: ['id' => '[1-9]\d*']
+    )]
+    #[Cache(public: true, maxage: 3600 * 24, mustRevalidate: true)]
     public function __invoke(Badge $badge): StreamedResponse
     {
         $path = $this->getDirectory($badge->getType()) . DIRECTORY_SEPARATOR . $badge->getPicture();
@@ -39,15 +36,11 @@ class GetPicture extends AbstractController implements BadgeInterface
         }
 
         $stream = $this->appStorage->readStream($path);
-        return new StreamedResponse(function() use ($stream) {
+        return new StreamedResponse(function () use ($stream) {
             fpassthru($stream);
         }, 200, ['Content-Type' => 'image/gif']);
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
     private function getDirectory(string $type): string
     {
         if (array_key_exists($type, self::DIRECTORIES)) {

@@ -1,30 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait ThumbnailTrait
 {
-    /**
-     * @ORM\Column(name="thumbnail", type="string", length=255, nullable=true)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $thumbnail;
 
-    /**
-     * Set thumbnail
-     * @param string|null $thumbnail
-     * @return $this
-     */
-    public function setThumbnail(?string $thumbnail): static
+    public function setThumbnail(?string $thumbnail): void
     {
         $this->thumbnail = $thumbnail;
-
-        return $this;
     }
 
-    /**
-     * Get thumbnail
-     * @return string|null
-     */
     public function getThumbnail(): ?string
     {
         return $this->thumbnail;

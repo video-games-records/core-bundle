@@ -1,7 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Contracts;
 
 interface VgrCoreInterface
 {
-    const MAX_PROOF_REQUEST_DAY = 5;
+    public const MAX_PROOF_REQUEST_DAY = 5;
 }

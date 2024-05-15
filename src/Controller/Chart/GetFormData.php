@@ -1,7 +1,8 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Controller\Chart;
+declare(strict_types=1);
 
+namespace VideoGamesRecords\CoreBundle\Controller\Chart;
 
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\Request;

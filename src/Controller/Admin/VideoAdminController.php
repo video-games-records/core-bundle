@@ -1,16 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use VideoGamesRecords\CoreBundle\Handler\Video\YoutubeDataHandler;
 
-/**
- * Class VideoAdminController
- */
 class VideoAdminController extends CRUDController
 {
-
     private YoutubeDataHandler $youtubeDataHandler;
 
     public function __construct(YoutubeDataHandler $youtubeDataHandler)

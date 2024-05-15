@@ -1,215 +1,146 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
+use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
 
-/**
- * PlayerGame
- *
- * @ORM\Table(name="vgr_player_badge")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerBadgeListener"})
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "player": "exact",
- *          "player": "exact",
- *          "badge": "exact",
- *          "badge.type": "exact",
- *      }
- *)
- * @ApiFilter(DateFilter::class, properties={"ended_at": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
- * @ApiResource(attributes={"order"={"badge.type", "badge.value"}})
- * @ApiFilter(
- *     GroupFilter::class,
- *     arguments={
- *          "parameterName": "groups",
- *          "overrideDefaultGroups": true,
- *          "whitelist": {
- *              "playerBadge.read",
- *              "playerBadge.badge",
- *              "playerBadge.player",
- *              "player.read.mini",
- *              "badge.read",
- *              "badge.game",
- *              "badge.serie",
- *              "serie.read"
- *          }
- *     }
- * )
- * @ApiFilter(
- *     OrderFilter::class,
- *     properties={
- *          "id":"ASC",
- *          "createdAt":"ASC",
- *          "mbOrder":"ASC",
- *     },
- *     arguments={"orderParameterName"="order"}
- * )
- */
+#[ORM\Table(name:'vgr_player_badge')]
+#[ORM\Entity(repositoryClass: PlayerBadgeRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerBadgeListener"])]
+#[ApiResource(
+    order: ['badge.type' => 'ASC', 'badge.value' => 'ASC'],
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Put(
+            denormalizationContext: ['groups' => ['player-badge:update']],
+            security: 'object.getPlayer().getUserId() == user.getId()'
+        ),
+    ],
+    normalizationContext: ['groups' => [
+        'player-badge:read',
+        'player-badge:badge', 'badge:read']
+    ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'player' => 'exact',
+        'badge' => 'exact',
+        'badge.type' => 'exact',
+    ]
+)]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: [
+        'id' => 'ASC',
+        'createdAt' => 'ASC',
+        'mbOrder' => 'DESC',
+    ]
+)]
+#[ApiFilter(
+    GroupFilter::class,
+    arguments: [
+        'parameterName' => 'groups',
+        'overrideDefaultGroups' => true,
+        'whitelist' => [
+            'player-badge:read',
+            'player-badge:badge', 'badge:read',
+            'player-badge:player', 'player:read',
+            'badge:game', 'game:read',
+            'badge:serie', 'serie:read',
+        ]
+    ]
+)]
+#[ApiFilter(DateFilter::class, properties: ['ended_at' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
 class PlayerBadge implements BadgeInterface
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="ended_at", type="datetime", nullable=true)
-     */
-    private ?DateTime $ended_at = null;
+    #[ORM\Column(nullable: true)]
+    private ?DateTime $endedAt = null;
 
-    /**
-     * @ORM\Column(name="mbOrder", type="integer", nullable=true, options={"default":0})
-     */
+    #[ORM\Column(nullable: true, options: ['default' => 0])]
     private ?int $mbOrder = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Player::class)]
+    #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false, onDelete: 'CASCADE')]
     private Player $player;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Badge::class, fetch: 'EAGER')]
+    #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:false, onDelete: 'CASCADE')]
     private Badge $badge;
 
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return $this
-     */
-    public function setId(int $id): static
+    public function setId(int $id): void
     {
         $this->id = $id;
-
-        return $this;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set ended_at
-     *
-     * @param DateTime $ended_at
-     * @return $this
-     */
-    public function setEndedAt(DateTime $ended_at): static
+    public function setEndedAt(DateTime $endedAt): void
     {
-        $this->ended_at = $ended_at;
-
-        return $this;
+        $this->endedAt = $endedAt;
     }
 
-    /**
-     * Get ended_at
-     *
-     * @return DateTime
-     */
     public function getEndedAt(): ?DateTime
     {
-        return $this->ended_at;
+        return $this->endedAt;
     }
 
-    /**
-     * Set mbOrder
-     *
-     * @param integer $mbOrder
-     * @return $this
-     */
-    public function setMbOrder(int $mbOrder): static
+    public function setMbOrder(int $mbOrder): void
     {
         $this->mbOrder = $mbOrder;
-
-        return $this;
     }
 
-    /**
-     * Get mbOrder
-     *
-     * @return integer
-     */
     public function getMbOrder(): ?int
     {
         return $this->mbOrder;
     }
 
-    /**
-     * Set badge
-     *
-     * @param Badge $badge
-     * @return $this
-     */
-    public function setBadge(Badge $badge): static
+
+    public function setBadge(Badge $badge): void
     {
         $this->badge = $badge;
-
-        return $this;
     }
 
-    /**
-     * Get badge
-     *
-     * @return Badge
-     */
     public function getBadge(): Badge
     {
         return $this->badge;
     }
 
-
-    /**
-     * Set player
-     * @param Player $player
-     * @return $this
-     */
-    public function setPlayer(Player $player): static
+    public function setPlayer(Player $player): void
     {
         $this->player = $player;
-
-        return $this;
     }
 
-    /**
-     * Get player
-     *
-     * @return Player
-     */
     public function getPlayer(): Player
     {
         return $this->player;
     }
-
 
     public function __toString(): string
     {

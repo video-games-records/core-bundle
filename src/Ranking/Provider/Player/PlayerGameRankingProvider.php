@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Provider\Player;
 
 use Doctrine\ORM\Exception\ORMException;

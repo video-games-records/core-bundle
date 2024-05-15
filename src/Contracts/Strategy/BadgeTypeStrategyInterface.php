@@ -1,7 +1,8 @@
 <?php
 
-namespace VideoGamesRecords\CoreBundle\Contracts\Strategy;
+declare(strict_types=1);
 
+namespace VideoGamesRecords\CoreBundle\Contracts\Strategy;
 
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;

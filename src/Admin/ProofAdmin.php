@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Doctrine\ORM\EntityManager;
@@ -316,13 +318,13 @@ class ProofAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
 
         // Cant change status final (CLOSED & REFUSED)
-        if (in_array($originalObject['status'], array(ProofStatus::STATUS_CLOSED, ProofStatus::STATUS_REFUSED), true)) {
+        if (in_array($originalObject['status'], array(ProofStatus::CLOSED, ProofStatus::REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
 
 
         if ($object->getPlayerChart() == null) {
-            $object->setStatus(ProofStatus::STATUS_CLOSED);
+            $object->setStatus(ProofStatus::CLOSED);
         }
     }
 

@@ -2,7 +2,7 @@ VideoGamesRecords\CoreBundle\Entity\Rule:
   attributes:
     name:
       groups:
-        - 'game.read'
+        - 'rule:read'
     text:
       groups:
-        - 'game.read'
+        - 'rule:read'

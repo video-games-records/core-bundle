@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Player\Gamercard;
 
 use Exception;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Attribute\Cache;
+use Symfony\Component\Routing\Attribute\Route;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\File\Picture;
@@ -16,10 +18,6 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
 use VideoGamesRecords\CoreBundle\Traits\GetOrdinalSuffixTrait;
 use VideoGamesRecords\CoreBundle\Traits\NumberFormatTrait;
 
-/**
- * @Route("/gamercard")
- * @Cache(expires="tomorrow", public=true)
- */
 class Classic extends AbstractController
 {
     use GetOrdinalSuffixTrait;
@@ -36,14 +34,13 @@ class Classic extends AbstractController
         $this->playerGameRepository = $playerGameRepository;
     }
 
-    /**
-     * @Route("/{id}/classic", name="gamercard_classic_1", methods={"GET"})
-     * @Route("/classic/{id}", name="gamercard_classic_2", methods={"GET"})
-     * @Cache(smaxage="900")
-     * @param Player $player
-     * @throws FilesystemException
-     * @throws Exception
-     */
+    #[Route(
+        '/gamercard/{id}/classic',
+        name: 'vgr_core_player_gamercard_classic',
+        methods: ['GET'],
+        requirements: ['id' => '[1-9]\d*']
+    )]
+    #[Cache(public: true, maxage: 3600, mustRevalidate: true)]
     public function __invoke(Player $player): void
     {
         chdir(__DIR__);

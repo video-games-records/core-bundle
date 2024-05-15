@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -10,7 +12,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use VideoGamesRecords\CoreBundle\Entity\TeamRequest;
+use VideoGamesRecords\CoreBundle\ValueObject\TeamRequestStatus;
 
 class TeamRequestAdmin extends AbstractAdmin
 {
@@ -63,7 +65,7 @@ class TeamRequestAdmin extends AbstractAdmin
                 ChoiceType::class,
                 [
                     'label' => 'label.status',
-                    'choices' => TeamRequest::getStatusChoices(),
+                    'choices' => TeamRequestStatus::getStatusChoices(),
                 ]
             );
     }
@@ -99,7 +101,7 @@ class TeamRequestAdmin extends AbstractAdmin
                 [
                     'label' => 'label.status',
                     'editable' => false,
-                    'choices' => TeamRequest::getStatusChoices(),
+                    'choices' => TeamRequestStatus::getStatusChoices(),
                 ]
             )
             ->add('_action', 'actions', [

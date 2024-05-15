@@ -2,158 +2,154 @@ VideoGamesRecords\CoreBundle\Entity\Player:
   attributes:
     id:
       groups:
-        - 'player.read'
-        - 'player.read.mini'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
     pseudo:
       groups:
-        - 'player.read'
-        - 'player.read.mini'
+        - 'player:read'
     createdAt:
       groups:
-        - 'player.read'
+        - 'player:read'
     lastLogin:
       groups:
-        - 'player.read'
+        - 'player:read'
     nbConnexion:
       groups:
-        - 'player.read'
+        - 'player:read'
     presentation:
       groups:
-        - 'player.read'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
     collection:
       groups:
-        - 'player.read'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
     slug:
       groups:
-        - 'player.read'
-        - 'player.read.mini'
+        - 'player:read'
     status:
       groups:
-        - 'player.status'
+        - 'player:status'
     avatar:
       groups:
-        - 'player.read'
-        - 'player.read.mini'
+        - 'player:read'
     country:
       groups:
-        - 'player.country'
-        - 'player.put'
+        - 'player:country'
+        - 'player:update'
     rankCountry:
       groups:
-        - 'player.read'
+        - 'player:read'
     rankPointChart:
       groups:
-        - 'player.pointChart'
+        - 'player:read'
     averageChartRank:
       groups:
-        - 'player.pointChart'
+        - 'player:read'
     nbChart:
       groups:
-        - 'player.pointChart'
-        - 'player.proof'
+        - 'player:read'
     nbChartMax:
       groups:
-        - 'player.pointChart'
+        - 'player:read'
     nbChartWithPlatform:
       groups:
-        - 'player.pointChart'
+        - 'player:read'
     nbChartProven:
       groups:
-        - 'player.pointChart'
-        - 'player.proof'
+        - 'player:read'
     nbChartDisabled:
       groups:
-        - 'player.pointChart'
-        - 'player.proof'
+        - 'player:read'
     pointChart:
       groups:
-        - 'player.pointChart'
+        - 'player:read'
     rankPointGame:
       groups:
-        - 'player.pointGame'
+        - 'player:read'
     pointGame:
       groups:
-        - 'player.pointGame'
+        - 'player:read'
     nbGame:
       groups:
-        - 'player.pointGame'
+        - 'player:read'
     rankMedal:
       groups:
-        - 'player.medal'
+        - 'player:read'
     chartRank0:
       groups:
-        - 'player.medal'
+        - 'player:read'
     chartRank1:
       groups:
-        - 'player.medal'
+        - 'player:read'
     chartRank2:
       groups:
-        - 'player.medal'
+        - 'player:read'
     chartRank3:
       groups:
-        - 'player.medal'
+        - 'player:read'
     rankCup:
       groups:
-        - 'player.cup'
+        - 'player:read'
     averageGameRank:
       groups:
-        - 'player.cup'
+        - 'player:read'
     gameRank0:
       groups:
-        - 'player.cup'
+        - 'player:read'
     gameRank1:
       groups:
-        - 'player.cup'
+        - 'player:read'
     gameRank2:
       groups:
-        - 'player.cup'
+        - 'player:read'
     gameRank3:
       groups:
-        - 'player.cup'
+        - 'player:read'
     rankProof:
       groups:
-        - 'player.proof'
+        - 'player:read'
     rankBadge:
       groups:
-        - 'player.badge'
+        - 'player:read'
     pointBadge:
       groups:
-        - 'player.badge'
+        - 'player:read'
     nbMasterBadge:
       groups:
-        - 'player.badge'
+        - 'player:read'
     team:
       groups:
-        - 'player.team'
-        - 'player.put'
-        - 'player.profile'
+        - 'player:team'
+        - 'player:update'
     birthDate:
       groups:
-        - 'player.read'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
     gender:
       groups:
-        - 'player.read'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
     website:
       groups:
-        - 'player.read'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
     youtube:
       groups:
-        - 'player.read'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
     twitch:
       groups:
-        - 'player.read'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
+    discord:
+      groups:
+        - 'player:read'
+        - 'player:update'
     displayPersonalInfos:
       groups:
-        - 'player.read'
-        - 'player.put'
+        - 'player:read'
+        - 'player:update'
     lastDisplayLostPosition:
       groups:
-        - 'player.put'
+        - 'player:update'

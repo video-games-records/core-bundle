@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Provider;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +30,9 @@ abstract class AbstractRankingProvider implements RankingProviderInterface
      */
     protected function getPlayer($user = null): ?Player
     {
-        if ($user === null) return null;
+        if ($user === null) {
+            return null;
+        }
         return $this->userToPlayerTransformer->transform($user);
     }
 
@@ -37,7 +41,9 @@ abstract class AbstractRankingProvider implements RankingProviderInterface
      */
     protected function getTeam($user = null): ?Team
     {
-        if ($user === null) return null;
+        if ($user === null) {
+            return null;
+        }
         $player = $this->userToPlayerTransformer->transform($user);
         return $player->getTeam();
     }

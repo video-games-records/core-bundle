@@ -1,21 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use DateTime;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 
-class PlayerBadgeRepository extends EntityRepository
+class PlayerBadgeRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PlayerBadge::class);
+    }
+
     /**
      * @param $badge
      * @return array
      */
-    public function getFromBadge($badge) : array
+    public function getFromBadge($badge): array
     {
         $query = $this->createQueryBuilder('pb');
         $query
@@ -32,7 +39,7 @@ class PlayerBadgeRepository extends EntityRepository
      * @param Badge $badge
      * @throws Exception
      */
-    public function updateBadge(array $players, Badge $badge)
+    public function updateBadge(array $players, Badge $badge): void
     {
         //----- get players with badge
         $list = $this->getFromBadge($badge);
@@ -65,8 +72,8 @@ class PlayerBadgeRepository extends EntityRepository
     /**
      * @param QueryBuilder $query
      */
-    private function onlyActive(QueryBuilder $query)
+    private function onlyActive(QueryBuilder $query): void
     {
-        $query->andWhere($query->expr()->isNull('pb.ended_at'));
+        $query->andWhere($query->expr()->isNull('pb.endedAt'));
     }
 }

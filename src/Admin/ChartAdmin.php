@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -91,8 +93,11 @@ class ChartAdmin extends AbstractAdmin
             $btnCalalogue = $this->isCurrentRoute('create');
             $form->
                 add(
-                    'group', ModelListType::class, array_merge(
-                    $groupOptions, [
+                    'group',
+                    ModelListType::class,
+                    array_merge(
+                        $groupOptions,
+                        [
                         'data_class' => null,
                         'btn_add' => false,
                         'btn_list' => $btnCalalogue,
@@ -100,9 +105,9 @@ class ChartAdmin extends AbstractAdmin
                         'btn_delete' => false,
                         'btn_catalogue' => $btnCalalogue,
                         'label' => 'label.group',
-                    ]
-                )
-            );
+                        ]
+                    )
+                );
         }
 
         $form
@@ -124,13 +129,17 @@ class ChartAdmin extends AbstractAdmin
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
             $form
                 ->add(
-                    'statusPlayer', ChoiceType::class, array(
+                    'statusPlayer',
+                    ChoiceType::class,
+                    array(
                         'label' => 'label.chart.statusPlayer',
                         'choices' => ChartStatus::getStatusChoices()
                     )
                 )
                 ->add(
-                    'statusTeam', ChoiceType::class, array(
+                    'statusTeam',
+                    ChoiceType::class,
+                    array(
                         'label' => 'label.chart.statusTeam',
                         'choices' => ChartStatus::getStatusChoices()
                     )
@@ -183,7 +192,9 @@ class ChartAdmin extends AbstractAdmin
             ])
             ->add('isDlc', null, ['label' => 'label.isDlc'])
             ->add(
-                'statusPlayer', ChoiceFilter::class, [
+                'statusPlayer',
+                ChoiceFilter::class,
+                [
                     'label' => 'label.chart.statusPlayer',
                     'field_type' => ChoiceType::class,
                     'field_options' => [
@@ -197,7 +208,8 @@ class ChartAdmin extends AbstractAdmin
             )
             ->add(
                 'statusTeam',
-                ChoiceFilter::class, [
+                ChoiceFilter::class,
+                [
                     'label' => 'label.chart.statusTeam',
                     'field_type' => ChoiceType::class,
                     'field_options' => [

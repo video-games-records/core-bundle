@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Provider\Player;
 
 use Doctrine\ORM\Exception\ORMException;
@@ -10,11 +12,10 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Ranking\Provider\AbstractRankingProvider;
 
-
 class PlayerChartRankingProvider extends AbstractRankingProvider
 {
-    const ORDER_BY_RANK = 'RANK';
-    const ORDER_BY_SCORE = 'SCORE';
+    public const ORDER_BY_RANK = 'RANK';
+    public const ORDER_BY_SCORE = 'SCORE';
 
     /**
      * @throws ORMException
@@ -138,6 +139,10 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
             ->innerJoin('pc.chart', 'c')
             ->innerJoin('pc.status', 'status')
             ->addSelect('status')
+            ->leftJoin('pc.proof', 'proof')
+            ->addSelect('proof')
+            ->leftJoin('pc.platform', 'platform')
+            ->addSelect('platform')
             ->where('c.id = :idChart')
             ->setParameter('idChart', $chart->getId());
 
@@ -148,8 +153,8 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
         }
 
         foreach ($chart->getLibs() as $lib) {
-            $key             = 'value_' . $lib->getIdLibChart();
-            $alias           = 'pcl_' . $lib->getIdLibChart();
+            $key             = 'value_' . $lib->getId();
+            $alias           = 'pcl_' . $lib->getId();
             $subQueryBuilder = $this->em->createQueryBuilder()
                 ->select(sprintf('%s.value', $alias))
                 ->from('VideoGamesRecords\CoreBundle\Entity\PlayerChartLib', $alias)

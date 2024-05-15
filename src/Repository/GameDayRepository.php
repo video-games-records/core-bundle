@@ -1,13 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\GameDay;
 
-class GameDayRepository extends EntityRepository
+class GameDayRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, GameDay::class);
+    }
+
     /**
      * @return mixed
      * @throws NoResultException

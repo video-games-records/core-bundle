@@ -2,21 +2,21 @@ VideoGamesRecords\CoreBundle\Entity\TeamRequest:
   attributes:
     id:
       groups:
-        - 'teamRequest.read'
-        - 'teamRequest.put'
+        - 'team-request:read'
+        - 'team-request:update'
     team:
       groups:
-        - 'teamRequest.read'
-        - 'teamRequest.post'
+        - 'team-request:read'
+        - 'team-request:insert'
     player:
       groups:
-        - 'teamRequest.read'
-        - 'teamRequest.post'
+        - 'team-request:read'
+        - 'team-request:insert'
     status:
       groups:
-        - 'teamRequest.read'
-        - 'teamRequest.put'
+        - 'team-request:read'
+        - 'team-request:update'
     createdAt:
       groups:
-        - 'teamRequest.read'
+        - 'team-request:read'
 

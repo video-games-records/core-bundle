@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  VideoGamesRecords\CoreBundle\:
+    resource: '../src/*'
+    exclude: '../src/{Admin,Entity,DependencyInjection,Migrations,Tests,Kernel.php}'
+
+  admin.block.service.proof.games:
+    class: VideoGamesRecords\CoreBundle\Block\Service\ProofGamesBlockService
+    tags:
+      - { name: "sonata.block" }
+
+
+

@@ -1,30 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait IsRankTrait
 {
-    /**
-     * @ORM\Column(name="isRank", type="boolean", nullable=false, options={"default":true})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => true])]
     private bool $isRank = true;
 
-    /**
-     * Set isRank
-     * @param bool $isRank
-     * @return $this
-     */
-    public function setIsRank(bool $isRank): static
+    public function setIsRank(bool $isRank): void
     {
         $this->isRank = $isRank;
-
-        return $this;
     }
 
-    /**
-     * Get isRank
-     * @return bool
-     */
     public function getIsRank(): bool
     {
         return $this->isRank;

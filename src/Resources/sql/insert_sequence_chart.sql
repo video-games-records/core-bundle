@@ -37,5 +37,16 @@ prefixe_en : label EN
     */
 
 -- Exemple
-call insert_sequence_chart (18136, 51, 301, 999, 3, 'Level', 'Level');
+call insert_sequence_chart (23764, 1, 1, 40, 3, 'Stage Level - ', 'Stage Level - ');
+
+call insert_sequence_chart (23765, 1, 41, 80, 3, 'Stage Level - ', 'Stage Level - ');
+call insert_sequence_chart (23766, 1, 81, 140, 3, 'Stage Level - ', 'Stage Level - ');
+call insert_sequence_chart (23767, 1, 141, 200, 3, 'Stage Level - ', 'Stage Level - ');
+call insert_sequence_chart (23768, 1, 201, 300, 3, 'Stage Level - ', 'Stage Level - ');
+call insert_sequence_chart (23769, 1, 301, 400, 3, 'Stage Level - ', 'Stage Level - ');
+call insert_sequence_chart (23770, 1, 401, 500, 3, 'Stage Level - ', 'Stage Level - ');
+call insert_sequence_chart (23771, 1, 501, 600, 3, 'Stage Level - ', 'Stage Level - ');
+call insert_sequence_chart (23772, 1, 601, 700, 3, 'Stage Level - ', 'Stage Level - ');
+call insert_sequence_chart (23773, 1, 701, 800, 3, 'Stage Level - ', 'Stage Level - ');
+
 

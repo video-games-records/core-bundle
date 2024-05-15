@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Handler;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,7 +25,8 @@ class ScoreInvestigationHandler
     {
         $list = $this->getScoreToDesactivate();
         $statut = $this->em->getReference(
-            'VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', PlayerChartStatus::ID_STATUS_NOT_PROOVED
+            'VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus',
+            PlayerChartStatus::ID_STATUS_NOT_PROOVED
         );
         /** @var PlayerChart $playerChart */
         foreach ($list as $playerChart) {

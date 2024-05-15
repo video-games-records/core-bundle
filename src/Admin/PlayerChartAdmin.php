@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -20,7 +22,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Event\PlayerChartEvent;
-use VideoGamesRecords\CoreBundle\Security\UserProvider;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerChartAdmin extends AbstractAdmin
@@ -151,21 +152,27 @@ class PlayerChartAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('status', null, ['label' => 'label.status'])
             ->add(
-                'player', ModelFilter::class, [
+                'player',
+                ModelFilter::class,
+                [
                     'label' => 'label.player',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'pseudo'],
                 ]
             )
             ->add(
-                'chart.group.game', ModelFilter::class, [
+                'chart.group.game',
+                ModelFilter::class,
+                [
                     'label' => 'label.game',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'libGameEn'],
                 ]
             )
             ->add(
-                'chart.group', ModelFilter::class, [
+                'chart.group',
+                ModelFilter::class,
+                [
                     'label' => 'label.group',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'libGroupEn'],
@@ -288,9 +295,8 @@ class PlayerChartAdmin extends AbstractAdmin
 
     public function postUpdate(object $object): void
     {
-        $event = new PlayerChartEvent($object, null , 0);
+        $event = new PlayerChartEvent($object, null, 0);
         $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_CHART_UPDATED);
         parent::postUpdate($object);
     }
-
 }

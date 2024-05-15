@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -29,7 +32,7 @@ class PlayerChartLibAdmin extends AbstractAdmin
                 [
                     'required' => true,
                     'query_builder' =>
-                        function($er) use ($chart) {
+                        function ($er) use ($chart) {
                             $qb = $er->createQueryBuilder('l');
                             $qb->where('l.chart = :chart');
                             $qb->setParameter('chart', $chart);

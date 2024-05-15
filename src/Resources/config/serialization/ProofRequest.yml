@@ -2,29 +2,25 @@ VideoGamesRecords\CoreBundle\Entity\ProofRequest:
   attributes:
     id:
       groups:
-        - 'proof.request.read'
+        - 'proof-request:read'
     playerChart:
       groups:
-        - 'proof.request.read'
-        - 'proof.request.post'
+        - 'proof-request:read'
+        - 'proof-request:insert'
     status:
       groups:
-        - 'proof.request.read'
+        - 'proof-request:read'
     playerRequesting:
       groups:
-        - 'proof.request.read'
-        - 'proof.request.post'
+        - 'proof-request:read'
+        - 'proof-request:insert'
     playerResponding:
       groups:
-        - 'proof.request.read'
+        - 'proof-request:read'
     message:
       groups:
-        - 'proof.request.read'
-        - 'proof.request.post'
+        - 'proof-request:read'
+        - 'proof-request:insert'
     dateAcceptance:
       groups:
-        - 'proof.request.read'
-    createdAt:
-      groups: []
-    updatedAt:
-      groups: []
+        - 'proof-request:read'

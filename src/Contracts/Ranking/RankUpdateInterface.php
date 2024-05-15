@@ -1,6 +1,8 @@
 <?php
-namespace VideoGamesRecords\CoreBundle\Contracts\Ranking;
 
+declare(strict_types=1);
+
+namespace VideoGamesRecords\CoreBundle\Contracts\Ranking;
 
 interface RankUpdateInterface
 {

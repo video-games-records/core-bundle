@@ -1,221 +1,139 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
+use VideoGamesRecords\CoreBundle\Repository\BadgeRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 
-/**
- * Badge
- * @ORM\Table(
- *     name="vgr_badge",
- *     indexes={
- *         @ORM\Index(name="idx_type", columns={"type"}),
- *         @ORM\Index(name="idx_value", columns={"value"})
- *     }
- * )
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\BadgeRepository")
- * @ApiResource(attributes={"order"={"type", "value"}})
- */
+#[ORM\Table(name:'vgr_badge')]
+#[ORM\Entity(repositoryClass: BadgeRepository::class)]
+#[ORM\Index(name: "idx_type", columns: ["type"])]
+#[ORM\Index(name: "idx_value", columns: ["value"])]
+#[ApiFilter(OrderFilter::class, properties: ['type', 'value'], arguments: ['orderParameterName' => 'order'])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+    ],
+    normalizationContext: ['groups' => ['badge:read']]
+)]
 class Badge implements BadgeInterface
 {
     use NbPlayerTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @Assert\Length(max="50")
-     * @ORM\Column(name="type", type="string", length=50, nullable=false)
-     */
+    #[Assert\Length(max: 50)]
+    #[ORM\Column(length: 50, nullable: false)]
     private string $type;
 
-    /**
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="picture", type="string", length=100, nullable=false, options={"default" : "default.gif"})
-     */
+    #[Assert\Length(max: 100)]
+    #[ORM\Column(length: 100, nullable: false, options: ['default' => 'default.gif'])]
     private string $picture;
 
-    /**
-     * @ORM\Column(name="value", type="integer", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(length: 100, nullable: false, options: ['default' => 0])]
     private int $value = 0;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="badge")
-     */
+    #[ORM\OneToOne(targetEntity: Game::class, mappedBy: "badge")]
     private ?Game $game;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", mappedBy="badge")
-     */
+    #[ORM\OneToOne(targetEntity: Serie::class, mappedBy: "badge")]
     private ?Serie $serie;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country", mappedBy="badge")
-     */
+    #[ORM\OneToOne(targetEntity: Country::class, mappedBy: "badge")]
     private ?Country $country;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform", mappedBy="badge")
-     */
+    #[ORM\OneToOne(targetEntity: Platform::class, mappedBy: "badge")]
     private ?Platform $platform;
 
     private string $title = '';
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return sprintf('%s / %s [%s]', $this->getType(), $this->getPicture(), $this->getId());
     }
 
-
-    /**
-     * Set id
-     * @param integer $id
-     * @return Badge
-     */
-    public function setId(int $id): Badge
+    public function setId(int $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
-    /**
-     * Get id
-     * @return integer
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set type
-     * @param string $type
-     * @return Badge
-     */
-    public function setType(string $type): Badge
+    public function setType(string $type): void
     {
         $this->type = $type;
-
-        return $this;
     }
 
-    /**
-     * Get type
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-
-    /**
-     * Set picture
-     * @param string $picture
-     * @return Badge
-     */
-    public function setPicture(string $picture): Badge
+    public function setPicture(string $picture): void
     {
         $this->picture = $picture;
-
-        return $this;
     }
 
-    /**
-     * Get picture
-     * @return string|null
-     */
     public function getPicture(): ?string
     {
         return $this->picture;
     }
 
-    /**
-     * Set value
-     * @param integer $value
-     * @return Badge
-     */
-    public function setValue(int $value): Badge
+    public function setValue(int $value): void
     {
         $this->value = $value;
-
-        return $this;
     }
 
-    /**
-     * Get value
-     * @return int
-     */
     public function getValue(): int
     {
         return $this->value;
     }
 
-    /**
-     * Get game
-     * @return Game|null
-     */
     public function getGame(): ?Game
     {
         return $this->game;
     }
 
-    /**
-     * @return Serie|null
-     */
     public function getSerie(): ?Serie
     {
         return $this->serie;
     }
 
-    /**
-     * Get country
-     * @return Country|null
-     */
     public function getCountry(): ?Country
     {
         return $this->country;
     }
 
-    /**
-     * Get platform
-     * @return Platform|null
-     */
     public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-
-    /**
-     * @return array
-     */
     public static function getTypeChoices(): array
     {
         return [
@@ -253,9 +171,6 @@ class Badge implements BadgeInterface
         }
     }
 
-    /**
-     * @return bool
-     */
     public function isTypeMaster(): bool
     {
         return $this->type === self::TYPE_MASTER;

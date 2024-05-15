@@ -2,34 +2,34 @@ VideoGamesRecords\CoreBundle\Entity\TeamGame:
   attributes:
     game:
       groups:
-        - 'teamGame.game'
+        - 'team-game:game'
     team:
       groups:
-        - 'teamGame.team'
+        - 'team-game:team'
     pointChart:
       groups:
-        - 'teamGame.pointChart'
+        - 'team-game:read'
     rankPointChart:
       groups:
-        - 'teamGame.pointChart'
+        - 'team-game:read'
     pointGame:
       groups:
-        - 'teamGame.pointChart'
+        - 'team-game:read'
     rankMedal:
       groups:
-        - 'teamGame.medal'
+        - 'team-game:read'
     chartRank0:
       groups:
-        - 'teamGame.medal'
+        - 'team-game:read'
     chartRank1:
       groups:
-        - 'teamGame.medal'
+        - 'team-game:read'
     chartRank2:
       groups:
-        - 'teamGame.medal'
+        - 'team-game:read'
     chartRank3:
       groups:
-        - 'teamGame.medal'
+        - 'team-game:read'
     nbEqual:
       groups:
-        - 'teamGame.pointChart'
+        - 'team-game:read'

@@ -2,5 +2,4 @@ VideoGamesRecords\CoreBundle\ValueObject\SerieStatus:
   attributes:
     isActive:
       groups:
-        - 'serie.read'
-        - 'serie.read.mini'
+        - 'serie:read'

@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use ApiPlatform\Symfony\EventListener\EventPriorities as EventPrioritiesAlias;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,6 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\TeamRequest;
 use VideoGamesRecords\CoreBundle\Exception\PostException;
+use VideoGamesRecords\CoreBundle\ValueObject\TeamRequestStatus;
 
 final class IsValidTeamRequestSubscriber implements EventSubscriberInterface
 {
@@ -26,7 +31,7 @@ final class IsValidTeamRequestSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::VIEW => ['validate', EventPriorities::POST_VALIDATE],
+            KernelEvents::VIEW => ['validate', EventPrioritiesAlias::POST_VALIDATE],
         ];
     }
 
@@ -45,7 +50,7 @@ final class IsValidTeamRequestSubscriber implements EventSubscriberInterface
                 ->findOneBy(
                     array(
                         'player' => $requestA->getPlayer(),
-                        'status' => TeamRequest::STATUS_ACTIVE
+                        'status' => TeamRequestStatus::ACTIVE
                     )
                 );
             if ($requestB) {

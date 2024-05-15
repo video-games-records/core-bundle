@@ -1,30 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait IsActiveTrait
 {
-    /**
-     * @ORM\Column(name="isActive", type="boolean", nullable=false, options={"default":true})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => true])]
     private bool $isActive = true;
 
-    /**
-     * Set isActive
-     * @param bool $isActive
-     * @return $this
-     */
-    public function setIsActive(bool $isActive): static
+    public function setIsActive(bool $isActive): void
     {
         $this->isActive = $isActive;
-
-        return $this;
     }
 
-    /**
-     * Get isActive
-     * @return bool
-     */
     public function getIsActive(): bool
     {
         return $this->isActive;

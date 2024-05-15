@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,7 +41,8 @@ final class InsertLostPositionSubscriber implements EventSubscriberInterface
         $newRank = $playerChart->getRank();
         $newNbEqual = $playerChart->getNbEqual();
 
-        if ((($oldRank >= 1) && ($oldRank <= 3) && ($newRank > $oldRank)) ||
+        if (
+            (($oldRank >= 1) && ($oldRank <= 3) && ($newRank > $oldRank)) ||
             (($oldRank === 1) && ($oldNbEqual === 1) && ($newRank === 1) && ($newNbEqual > 1))
         ) {
             $lostPosition = new LostPosition();

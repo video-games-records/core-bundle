@@ -1,157 +1,102 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Repository\PlayerSerieRepository;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank0Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank1Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank2Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank3Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank4Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank5Trait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartProvenWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartWithoutDlcTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\PointChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 
-/**
- * PlayerSerie
- *
- * @ORM\Table(name="vgr_player_serie")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerSerieRepository")
- */
+#[ORM\Table(name:'vgr_player_serie')]
+#[ORM\Entity(repositoryClass: PlayerSerieRepository::class)]
 class PlayerSerie
 {
     use RankMedalTrait;
+    use ChartRank0Trait;
+    use ChartRank1Trait;
+    use ChartRank2Trait;
+    use ChartRank3Trait;
+    use ChartRank4Trait;
+    use ChartRank5Trait;
     use RankPointChartTrait;
+    use PointChartTrait;
     use NbChartTrait;
     use NbChartWithoutDlcTrait;
     use NbChartProvenTrait;
     use NbChartProvenWithoutDlcTrait;
     use NbGameTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Player::class)]
+    #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Player $player;
 
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Serie::class)]
+    #[ORM\JoinColumn(name:'serie_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Serie $serie;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointChartWithoutDlc", type="integer", nullable=false)
-     */
-    private $pointChartWithoutDlc;
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    private int $pointChartWithoutDlc;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pointGame", type="integer", nullable=false)
-     */
-    private $pointGame;
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    private int $pointGame;
 
-
-    /**
-     * Set pointChartWithoutDlc
-     * @param integer $pointChartWithoutDlc
-     * @return PlayerSerie
-     */
-    public function setPointChartWithoutDlc(int $pointChartWithoutDlc)
+    public function setPointChartWithoutDlc(int $pointChartWithoutDlc): void
     {
         $this->pointChartWithoutDlc = $pointChartWithoutDlc;
-        return $this;
     }
 
-    /**
-     * Get pointChartWithoutDlc
-     *
-     * @return integer
-     */
-    public function getPointChartWithoutDlc()
+    public function getPointChartWithoutDlc(): int
     {
         return $this->pointChartWithoutDlc;
     }
 
-    /**
-     * Set pointGame
-     * @param integer $pointGame
-     * @return PlayerSerie
-     */
-    public function setPointGame(int $pointGame)
+    public function setPointGame(int $pointGame): void
     {
         $this->pointGame = $pointGame;
-        return $this;
     }
 
-    /**
-     * Get pointGame
-     *
-     * @return integer
-     */
-    public function getPointGame()
+    public function getPointGame(): int
     {
         return $this->pointGame;
     }
 
-
-    /**
-     * Set serie
-     * @param Serie|null $serie
-     * @return PlayerSerie
-     */
-    public function setSerie(Serie $serie = null)
+    public function setSerie(Serie $serie = null): void
     {
         $this->serie = $serie;
-
-        return $this;
     }
 
-    /**
-     * Get serie
-     *
-     * @return Serie
-     */
     public function getSerie()
     {
         return $this->serie;
     }
 
-
-    /**
-     * Set player
-     * @param Player|null $player
-     * @return PlayerSerie
-     */
-    public function setPlayer(Player $player = null)
+    public function setPlayer(Player $player): void
     {
         $this->player = $player;
-
-        return $this;
     }
 
-    /**
-     * Get player
-     *
-     * @return Player
-     */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }
 
-    /**
-     * @return string
-     */
-    public function getMedalsBackgroundColor()
+    public function getMedalsBackgroundColor(): string
     {
         $class = [
             0 => '',

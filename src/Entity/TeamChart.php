@@ -1,235 +1,67 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Repository\TeamChartRepository;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank0Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank1Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank2Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank3Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\PointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
 
-/**
- * TeamChart
- *
- * @ORM\Table(name="vgr_team_chart")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamChartRepository")
- */
+#[ORM\Table(name:'vgr_team_chart')]
+#[ORM\Entity(repositoryClass: TeamChartRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get()
+    ],
+    normalizationContext: ['groups' => ['team-chart:read']]
+)]
 class TeamChart
 {
-    /**
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
-     */
-    private int $pointChart = 0;
+    use RankPointChartTrait;
+    use PointChartTrait;
+    //use RankMedalTrait;
+    use ChartRank0Trait;
+    use ChartRank1Trait;
+    use ChartRank2Trait;
+    use ChartRank3Trait;
 
-    /**
-     * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
-     */
-    private int $rankPointChart;
-
-    /**
-     * @ORM\Column(name="chartRank0", type="integer", nullable=false)
-     */
-    private int $chartRank0;
-
-    /**
-     * @ORM\Column(name="chartRank1", type="integer", nullable=false)
-     */
-    private int $chartRank1;
-
-    /**
-     * @ORM\Column(name="chartRank2", type="integer", nullable=false)
-     */
-    private int $chartRank2;
-
-    /**
-     * @ORM\Column(name="chartRank3", type="integer", nullable=false)
-     */
-    private int $chartRank3;
-
-    /**
-     * @var Team
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Team::class)]
+    #[ORM\JoinColumn(name:'team_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Team $team;
 
-    /**
-     * @var Chart
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Chart::class)]
+    #[ORM\JoinColumn(name:'chart_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Chart $chart;
 
-    /**
-     * Set pointChart
-     * @param int $pointChart
-     * @return $this
-     */
-    public function setPointChart(int $pointChart): Self
-    {
-        $this->pointChart = $pointChart;
-        return $this;
-    }
 
-    /**
-     * Get pointChart
-     *
-     * @return float
-     */
-    public function getPointChart()
-    {
-        return $this->pointChart;
-    }
-
-    /**
-     * Set rankPointChart
-     * @param integer $rankPointChart
-     * @return $this
-     */
-    public function setRankPointChart(int $rankPointChart): Self
-    {
-        $this->rankPointChart = $rankPointChart;
-        return $this;
-    }
-
-    /**
-     * Get rankPointChart
-     *
-     * @return integer
-     */
-    public function getRankPointChart(): int
-    {
-        return $this->rankPointChart;
-    }
-
-    /**
-     * Set chartRank0
-     * @param integer $chartRank0
-     * @return $this
-     */
-    public function setChartRank0(int $chartRank0): Self
-    {
-        $this->chartRank0 = $chartRank0;
-        return $this;
-    }
-
-    /**
-     * Get chartRank0
-     *
-     * @return integer
-     */
-    public function getChartRank0(): int
-    {
-        return $this->chartRank0;
-    }
-
-    /**
-     * Set chartRank1
-     * @param integer $chartRank1
-     * @return $this
-     */
-    public function setChartRank1(int $chartRank1): Self
-    {
-        $this->chartRank1 = $chartRank1;
-        return $this;
-    }
-
-    /**
-     * Get chartRank1
-     *
-     * @return integer
-     */
-    public function getChartRank1(): int
-    {
-        return $this->chartRank1;
-    }
-
-    /**
-     * Set chartRank2
-     * @param integer $chartRank2
-     * @return $this
-     */
-    public function setChartRank2(int $chartRank2): Self
-    {
-        $this->chartRank2 = $chartRank2;
-        return $this;
-    }
-
-    /**
-     * Get chartRank2
-     *
-     * @return integer
-     */
-    public function getChartRank2(): int
-    {
-        return $this->chartRank2;
-    }
-
-    /**
-     * Set chartRank3
-     * @param integer $chartRank3
-     * @return $this
-     */
-    public function setChartRank3(int $chartRank3): Self
-    {
-        $this->chartRank3 = $chartRank3;
-        return $this;
-    }
-
-    /**
-     * Get chartRank3
-     *
-     * @return integer
-     */
-    public function getChartRank3(): int
-    {
-        return $this->chartRank3;
-    }
-
-    /**
-     * Set chart
-     * @param Chart $chart
-     * @return $this
-     */
-    public function setChart(Chart $chart): Self
+    public function setChart(Chart $chart): void
     {
         $this->chart = $chart;
-
-        return $this;
     }
 
-    /**
-     * Get chart
-     *
-     * @return Chart
-     */
     public function getChart(): Chart
     {
         return $this->chart;
     }
 
-
-    /**
-     * Set team
-     * @param Team|null $team
-     * @return $this
-     */
-    public function setTeam(Team $team = null): Self
+    public function setTeam(Team $team): void
     {
         $this->team = $team;
-
-        return $this;
     }
 
-    /**
-     * Get team
-     *
-     * @return Team
-     */
     public function getTeam(): Team
     {
         return $this->team;

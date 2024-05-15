@@ -2,24 +2,18 @@ VideoGamesRecords\CoreBundle\Entity\Badge:
   attributes:
     id:
       groups:
-        - 'badge.read'
+        - 'badge:read'
     type:
       groups:
-        - 'badge.read'
+        - 'badge:read'
     title:
       groups:
-        - 'badge.read'
+        - 'badge:read'
     picture:
       groups:
-        - 'badge.read'
+        - 'badge:read'
     value:
       groups:
-        - 'badge.read'
-    game:
-      groups:
-        - 'badge.game'
-    serie:
-      groups:
-        - 'badge.serie'
+        - 'badge:read'
 
 

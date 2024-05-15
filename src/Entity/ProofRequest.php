@@ -1,240 +1,150 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofRequestStatus;
 
-/**
- * Request
- * @ORM\Table(name="vgr_proof_request")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ProofRequestRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener"})
- */
+#[ORM\Table(name:'vgr_proof_request')]
+#[ORM\Entity(repositoryClass: ProofRequestRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener"])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(
+            denormalizationContext: ['groups' => ['proof-request:insert']],
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['proof-request:update']],
+            security: 'is_granted("ROLE_PLAYER") and object.getPlayerChart().getStatus().getId() == 1'
+        ),
+    ],
+    normalizationContext: ['groups' => ['proof-request:read']],
+)]
 class ProofRequest
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="status", type="string", length=50, nullable=false)
-     */
-    private string $status = ProofRequestStatus::STATUS_IN_PROGRESS;
+    #[Assert\Length(max: 50)]
+    #[ORM\Column(length: 50, nullable: false)]
+    private string $status = ProofRequestStatus::IN_PROGRESS;
 
-    /**
-     * @ORM\Column(name="response", type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $response = null;
 
-    /**
-     * @ORM\Column(name="message", type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $message = null;
 
-    /**
-     * @ORM\Column(name="dateAcceptance", type="datetime", nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private ?Datetime $dateAcceptance = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayerChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: PlayerChart::class)]
+    #[ORM\JoinColumn(name:'player_chart_id', referencedColumnName:'id', nullable:true, onDelete:'CASCADE')]
     private PlayerChart $playerChart;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayerRequesting", referencedColumnName="id", nullable=false)
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Player::class)]
+    #[ORM\JoinColumn(name:'requesting_player_id', referencedColumnName:'id', nullable:false)]
     private Player $playerRequesting;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayerResponding", referencedColumnName="id", nullable=true)
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Player::class)]
+    #[ORM\JoinColumn(name:'responding_player_id', referencedColumnName:'id', nullable:true)]
     private ?Player $playerResponding = null;
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return sprintf('Request [%s]', $this->id);
     }
 
-
-    /**
-     * Set id
-     * @param integer $id
-     * @return $this
-     */
-    public function setId(int $id): self
+    public function setId(int $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
-    /**
-     * Get id
-     * @return integer
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set status
-     * @param string $status
-     * @return $this
-     */
-    public function setStatus(string $status): self
+    public function setStatus(string $status): void
     {
         $this->status = $status;
-        return $this;
     }
 
-    /**
-     * Get status
-     * @return string
-     */
     public function getStatus(): string
     {
         return $this->status;
     }
 
-    /**
-     * Set response
-     * @param string $response
-     * @return $this
-     */
-    public function setResponse(string $response): self
+    public function setResponse(string $response): void
     {
         $this->response = $response;
-        return $this;
     }
 
-    /**
-     * Get response
-     * @return string
-     */
     public function getResponse(): ?string
     {
         return $this->response;
     }
 
-    /**
-     * Set dateAcceptance
-     * @param DateTime $dateAcceptance
-     * @return $this
-     */
-    public function setDateAcceptance(DateTime $dateAcceptance): self
+    public function setDateAcceptance(DateTime $dateAcceptance): void
     {
         $this->dateAcceptance = $dateAcceptance;
-        return $this;
     }
 
-    /**
-     * Get dateAcceptance
-     * @return DateTime
-     */
     public function getDateAcceptance(): ?DateTime
     {
         return $this->dateAcceptance;
     }
 
-    /**
-     * Set message
-     * @param string $message
-     * @return $this
-     */
-    public function setMessage(string $message): self
+    public function setMessage(string $message): void
     {
         $this->message = $message;
-        return $this;
     }
 
-    /**
-     * Get message
-     * @return string
-     */
     public function getMessage(): ?string
     {
         return $this->message;
     }
 
-    /**
-     * Set playerCHart
-     * @param PlayerChart $playerChart
-     * @return $this
-     */
-    public function setPlayerChart(PlayerChart $playerChart): self
+    public function setPlayerChart(PlayerChart $playerChart): void
     {
         $this->playerChart = $playerChart;
-
-        return $this;
     }
 
-    /**
-     * Get playerChart
-     * @return PlayerChart
-     */
     public function getPlayerChart(): PlayerChart
     {
         return $this->playerChart;
     }
 
-    /**
-     * Set playerRequesting
-     * @param Player $playerRequesting
-     * @return $this
-     */
-    public function setPlayerRequesting(Player $playerRequesting): self
+    public function setPlayerRequesting(Player $playerRequesting): void
     {
         $this->playerRequesting = $playerRequesting;
-
-        return $this;
     }
 
-    /**
-     * Get playerRequesting
-     * @return Player
-     */
     public function getPlayerRequesting(): Player
     {
         return $this->playerRequesting;
     }
 
-    /**
-     * Set playerResponding
-     * @param Player|null $playerResponding
-     * @return $this
-     */
-    public function setPlayerResponding(Player $playerResponding = null): self
+    public function setPlayerResponding(Player $playerResponding = null): void
     {
         $this->playerResponding = $playerResponding;
-
-        return $this;
     }
 
-    /**
-     * Get playerResponding
-     * @return Player|null
-     */
     public function getPlayerResponding(): ?Player
     {
         return $this->playerResponding;

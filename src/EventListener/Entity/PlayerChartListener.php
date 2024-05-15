@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
@@ -36,8 +38,8 @@ class PlayerChartListener
         // Chart
         $chart = $playerChart->getChart();
         $chart->setNbPost($chart->getNbPost() + 1);
-        $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
-        $chart->setStatusTeam(ChartStatus::STATUS_MAJ);
+        $chart->setStatusPlayer(ChartStatus::MAJ);
+        $chart->setStatusTeam(ChartStatus::MAJ);
 
         // Group
         $group = $chart->getGroup();
@@ -92,12 +94,23 @@ class PlayerChartListener
 
         if (array_key_exists('platform', $this->changeSet)) {
             $chart = $playerChart->getChart();
-            $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
+            $chart->setStatusPlayer(ChartStatus::MAJ);
         }
 
-        $playerChart->setTopScore(false);
+        // Move score
+        if (array_key_exists('chart', $this->changeSet)) {
+            $newChart = $this->changeSet['chart'][1];
+
+            $newChartLibs = $newChart->getLibs();
+
+            foreach ($playerChart->getLibs() as $lib) {
+                $lib->setLibChart($newChartLibs->current());
+            }
+        }
+
+        $playerChart->setIsTopScore(false);
         if ($playerChart->getRank() === 1) {
-            $playerChart->setTopScore(true);
+            $playerChart->setIsTopScore(true);
         }
 
         if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
@@ -108,7 +121,7 @@ class PlayerChartListener
         if ($playerChart->getStatus()->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
             $playerChart->setPointChart(0);
             $playerChart->setRank(0);
-            $playerChart->setTopScore(false);
+            $playerChart->setIsTopScore(false);
         }
 
         $this->updateDateInvestigation($playerChart);
@@ -126,8 +139,8 @@ class PlayerChartListener
         $em = $event->getObjectManager();
         if ((array_key_exists('lastUpdate', $this->changeSet)) || (array_key_exists('status', $this->changeSet))) {
             $chart = $playerChart->getChart();
-            $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
-            $chart->setStatusTeam(ChartStatus::STATUS_MAJ);
+            $chart->setStatusPlayer(ChartStatus::MAJ);
+            $chart->setStatusTeam(ChartStatus::MAJ);
         }
 
         if (array_key_exists('status', $this->changeSet)) {
@@ -149,6 +162,7 @@ class PlayerChartListener
                 $player->setNbChartDisabled($player->getNbChartDisabled() - 1);
             }
         }
+
         $em->flush();
     }
 
@@ -162,8 +176,8 @@ class PlayerChartListener
         // Chart
         $chart = $playerChart->getChart();
         $chart->setNbPost($chart->getNbPost() - 1);
-        $chart->setStatusPlayer(ChartStatus::STATUS_MAJ);
-        $chart->setStatusTeam(ChartStatus::STATUS_MAJ);
+        $chart->setStatusPlayer(ChartStatus::MAJ);
+        $chart->setStatusTeam(ChartStatus::MAJ);
 
         // Player
         $player = $playerChart->getPlayer();
@@ -189,8 +203,10 @@ class PlayerChartListener
             $playerChart->setDateInvestigation(new DateTime());
         }
 
-        if (null !== $playerChart->getDateInvestigation()
-            && in_array($playerChart->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)) {
+        if (
+            null !== $playerChart->getDateInvestigation()
+            && in_array($playerChart->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)
+        ) {
             $playerChart->setDateInvestigation(null);
         }
     }
@@ -202,7 +218,8 @@ class PlayerChartListener
      */
     private function updateProof(PlayerChart $playerChart, EntityManagerInterface $em): void
     {
-        if (array_key_exists('proof', $this->changeSet)
+        if (
+            array_key_exists('proof', $this->changeSet)
             && $this->changeSet['proof'][1] !== null
             && $playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF
         ) {

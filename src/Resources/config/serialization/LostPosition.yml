@@ -2,18 +2,16 @@ VideoGamesRecords\CoreBundle\Entity\LostPosition:
   attributes:
     id:
       groups:
-        - 'lostPosition.read'
-    player:
-      groups: []
+        - 'lost-position:read'
     chart:
       groups:
-        - 'lostPosition.read'
+        - 'lost-position:chart'
     oldRank:
       groups:
-        - 'lostPosition.read'
+        - 'lost-position:read'
     newRank:
       groups:
-        - 'lostPosition.read'
+        - 'lost-position:read'
     createdAt:
       groups:
-        - 'lostPosition.read'
+        - 'lost-position:read'

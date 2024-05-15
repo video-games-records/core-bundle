@@ -2,67 +2,46 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChart:
   attributes:
     id:
       groups:
-        - 'playerChart.read'
-        - 'playerChart.write'
-        - 'playerChart.put'
-        - 'playerChart.ranking'
+        - 'player-chart:read'
+        - 'playerChart:update'
     chart:
       groups:
-        - 'playerChart.chart'
-        - 'playerChart.write'
-        - 'playerChart.put'
+        - 'player-chart:chart'
+        - 'player-chart:insert'
     player:
       groups:
-        - 'playerChart.write'
-        - 'playerChart.put'
-        - 'playerChart.player'
+        - 'player-chart:insert'
+        - 'player-chart:player'
     rank:
       groups:
-        - 'playerChart.read'
-        - 'playerChart.ranking'
-        - 'playerChart.pointChart'
-        - 'chart.top-score'
+        - 'player-chart:read'
     nbEqual:
       groups:
-        - 'playerChart.ranking'
-        - 'playerChart.read'
+        - 'player-chart:read'
     pointChart:
       groups:
-        - 'playerChart.read'
-        - 'playerChart.ranking'
-        - 'playerChart.pointChart'
+        - 'player-chart:read'
     status:
       groups:
-        - 'playerChart.status'
+        - 'player-chart:status'
     proof:
       groups:
-        - 'playerChart.ranking'
-        - 'playerChart.proof'
-    isTopScore:
+        - 'player-chart:proof'
     dateInvestigation:
       groups:
-        - 'playerChart.ranking'
-        - 'playerChart.read'
+        - 'player-chart:read'
     platform:
       groups:
-        - 'playerChart.ranking'
-        - 'playerChart.write'
-        - 'playerChart.put'
-        - 'playerChart.platform'
+        - 'player-chart:insert'
+        - 'player-chart:update'
+        - 'player-chart:platform'
     lastUpdate:
       groups:
-        - 'playerChart.ranking'
-        - 'playerChart.read'
-        - 'playerChart.write'
-        - 'playerChart.put'
-    createdAt:
-      groups: []
-    updatedAt:
-      groups: []
+        - 'player-chart:read'
+        - 'player-chart:insert'
+        - 'player-chart:update'
     libs:
       groups:
-        - 'playerChart.read'
-        - 'playerChart.write'
-        - 'playerChart.put'
-        - 'playerChart.libs'
-
+        - 'player-chart:read'
+        - 'player-chart:insert'
+        - 'player-chart:update'

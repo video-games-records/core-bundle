@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -66,7 +68,7 @@ class PlayerBadgeAdmin extends AbstractAdmin
         $filter
             ->add('player', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property'=>'pseudo'],
+                'field_options' => ['property' => 'pseudo'],
                 'label' => 'label.player'
             ])
             ->add('badge.game.libGameFr', null, ['label' => 'label.game.fr'])

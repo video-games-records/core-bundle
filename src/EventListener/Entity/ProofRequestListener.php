@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Datetime;
@@ -20,7 +22,6 @@ class ProofRequestListener
     private array $changeSet = array();
     private UserProvider $userProvider;
     private EventDispatcherInterface $eventDispatcher;
-
 
     public function __construct(UserProvider $userProvider, EventDispatcherInterface $eventDispatcher)
     {
@@ -89,14 +90,14 @@ class ProofRequestListener
     private function isAccepted(): bool
     {
         return array_key_exists('status', $this->changeSet)
-           && $this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS
-           && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_ACCEPTED;
+           && $this->changeSet['status'][0] === ProofRequestStatus::IN_PROGRESS
+           && $this->changeSet['status'][1] === ProofRequestStatus::ACCEPTED;
     }
 
     private function isRefused(): bool
     {
         return array_key_exists('status', $this->changeSet)
-            && $this->changeSet['status'][0] === ProofRequestStatus::STATUS_IN_PROGRESS
-            && $this->changeSet['status'][1] === ProofRequestStatus::STATUS_REFUSED;
+            && $this->changeSet['status'][0] === ProofRequestStatus::IN_PROGRESS
+            && $this->changeSet['status'][1] === ProofRequestStatus::REFUSED;
     }
 }

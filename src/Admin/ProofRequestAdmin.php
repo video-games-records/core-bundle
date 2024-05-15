@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Doctrine\ORM\EntityManager;
@@ -29,8 +31,7 @@ class ProofRequestAdmin extends AbstractAdmin
     /** @var ContainerInterface */
     private ContainerInterface $container;
 
-
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
     }
@@ -143,17 +144,17 @@ class ProofRequestAdmin extends AbstractAdmin
             ])
             ->add('playerChart.player', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property'=>'pseudo'],
+                'field_options' => ['property' => 'pseudo'],
                 'label' => 'label.player',
             ])
             ->add('playerRequesting', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property'=>'pseudo'],
+                'field_options' => ['property' => 'pseudo'],
                 'label' => 'label.player.requesting',
             ])
             ->add('playerResponding', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property'=>'pseudo'],
+                'field_options' => ['property' => 'pseudo'],
                 'label' => 'label.player.responding',
             ]);
     }
@@ -261,8 +262,10 @@ class ProofRequestAdmin extends AbstractAdmin
         $player = $this->getPlayer();
 
         if ($player) {
-            if (($object->getPlayerRequesting()->getId() === $player->getId())
-            || ($object->getPlayerChart()->getPlayer()->getId() === $player->getId())) {
+            if (
+                ($object->getPlayerRequesting()->getId() === $player->getId())
+                || ($object->getPlayerChart()->getPlayer()->getId() === $player->getId())
+            ) {
                 $this->container->get('session')->getFlashBag()->add(
                     'error',
                     "You can't update this request"
@@ -294,7 +297,7 @@ class ProofRequestAdmin extends AbstractAdmin
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
 
         // Cant change status final
-        if (in_array($originalObject['status'], array(ProofRequestStatus::STATUS_ACCEPTED, ProofRequestStatus::STATUS_REFUSED), true)) {
+        if (in_array($originalObject['status'], array(ProofRequestStatus::ACCEPTED, ProofRequestStatus::REFUSED), true)) {
             $object->setStatus($originalObject['status']);
         }
     }

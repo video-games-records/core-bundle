@@ -1,0 +1,80 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  vgr.core.event.entity.chart:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.game:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.group:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\GroupListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.player_badge:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerBadgeListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.player_chart:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.player:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.proof:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\ProofListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.proof_request:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\ProofRequestListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.rule:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\RuleListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.serie:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\SerieListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.team_badge:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\TeamBadgeListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.team:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.team_request:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\TeamRequestListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.video_comment:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\VideoCommentListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+  vgr.core.event.entity.video:
+    class: VideoGamesRecords\CoreBundle\EventListener\Entity\VideoListener
+    tags:
+      - { name: doctrine.orm.entity_listener }
+

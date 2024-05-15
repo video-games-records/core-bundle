@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
 use Doctrine\ORM\NonUniqueResultException;

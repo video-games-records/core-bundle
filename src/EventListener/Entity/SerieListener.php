@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;
@@ -50,8 +52,10 @@ class SerieListener
     {
         $em = $event->getObjectManager();
 
-        if (array_key_exists('status', $this->changeSet)
-            && $this->changeSet['status'][1] == SerieStatus::STATUS_ACTIVE) {
+        if (
+            array_key_exists('status', $this->changeSet)
+            && $this->changeSet['status'][1] == SerieStatus::ACTIVE
+        ) {
             $this->rankingHandler->handle($serie->getId());
         }
 

@@ -2,19 +2,17 @@ VideoGamesRecords\CoreBundle\Entity\VideoComment:
   attributes:
     id:
       groups:
-        - 'video.comment.read'
+        - 'video-comment:read'
     video:
       groups:
-        - 'video.comment.post'
+        - 'video-comment:insert'
     player:
       groups:
-        - 'video.comment.player'
+        - 'video-comment:player'
     text:
       groups:
-        - 'video.comment.read'
-        - 'video.comment.post'
+        - 'video-comment:read'
+        - 'video-comment:insert'
     createdAt:
       groups:
-        - 'video.comment.read'
-    updatedAt:
-      groups: []
+        - 'video-comment:read'

@@ -1,30 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait TitleTrait
 {
-    /**
-     * @ORM\Column(name="title", type="string", length=255, nullable=true)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $title;
 
-    /**
-     * Set title
-     * @param string|null $title
-     * @return $this
-     */
-    public function setTitle(?string $title): static
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
-    /**
-     * Get title
-     * @return string|null
-     */
     public function getTitle(): ?string
     {
         return $this->title;

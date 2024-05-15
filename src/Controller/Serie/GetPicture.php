@@ -1,18 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Serie;
 
-use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Attribute\Cache;
+use Symfony\Component\Routing\Attribute\Route;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 
-/**
- * @Route("/serie")
- */
 class GetPicture extends AbstractController
 {
     private FilesystemOperator $appStorage;
@@ -24,13 +22,13 @@ class GetPicture extends AbstractController
         $this->appStorage = $appStorage;
     }
 
-    /**
-     * @Route(path="/{id}/picture", requirements={"id": "[1-9]\d*"}, name="vgr_core_serie_picture", methods={"GET"})
-     * @Cache(expires="+30 days")
-     * @param Serie $serie
-     * @return StreamedResponse
-     * @throws FilesystemException
-     */
+    #[Route(
+        '/serie/{id}/picture',
+        name: 'vgr_core_serie_picture',
+        methods: ['GET'],
+        requirements: ['id' => '[1-9]\d*']
+    )]
+    #[Cache(public: true, maxage: 3600 * 24, mustRevalidate: true)]
     public function __invoke(Serie $serie): StreamedResponse
     {
         $path = $this->prefix . $serie->getPicture();
@@ -39,7 +37,7 @@ class GetPicture extends AbstractController
         }
 
         $stream = $this->appStorage->readStream($path);
-        return new StreamedResponse(function() use ($stream) {
+        return new StreamedResponse(function () use ($stream) {
             fpassthru($stream);
         }, 200, ['Content-Type' => 'image/png']);
     }

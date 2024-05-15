@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Player\ProofRequest;
 
 use Doctrine\ORM\NonUniqueResultException;
@@ -7,7 +9,6 @@ use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\DataProvider\CanAskProofProvider;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-
 
 class CanAskProof extends AbstractController
 {

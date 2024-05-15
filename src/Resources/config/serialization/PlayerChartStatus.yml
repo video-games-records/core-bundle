@@ -2,12 +2,10 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
   attributes:
     id:
       groups:
-        - 'playerChartStatus.read'
+        - 'player-chart-status:read'
     class:
       groups:
-        - 'playerChartStatus.read'
+        - 'player-chart-status:read'
     name:
       groups:
-        - 'playerChartStatus.read'
-    boolRanking:
-    boolSendProof:
+        - 'player-chart-status:read'

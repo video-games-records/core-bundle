@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\DBAL\Exception;
@@ -7,16 +9,25 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\LostPosition;
 
-class LostPositionRepository extends EntityRepository
+class LostPositionRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, LostPosition::class);
+    }
+
+
     /**
      * @param $player
      * @return int|mixed|string
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function getNbLostPosition($player)
+    public function getNbLostPosition($player): mixed
     {
         $qb = $this->createQueryBuilder('l')
             ->select('COUNT(l.id)');
@@ -30,7 +41,7 @@ class LostPositionRepository extends EntityRepository
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function getNbNewLostPosition($player)
+    public function getNbNewLostPosition($player): mixed
     {
         $qb = $this->createQueryBuilder('l')
             ->select('COUNT(l.id)');
@@ -43,7 +54,7 @@ class LostPositionRepository extends EntityRepository
     /**
      * @throws Exception
      */
-    public function purge()
+    public function purge(): void
     {
         $sql = "DELETE vgr_lostposition
         FROM vgr_lostposition
@@ -58,10 +69,9 @@ class LostPositionRepository extends EntityRepository
      * @param QueryBuilder $query
      * @param              $player
      */
-    private function wherePlayer(QueryBuilder $query, $player)
+    private function wherePlayer(QueryBuilder $query, $player): void
     {
         $query->where('l.player = :player')
             ->setParameter('player', $player);
     }
-
 }

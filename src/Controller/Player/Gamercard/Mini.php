@@ -1,23 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Player\Gamercard;
 
 use Exception;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Attribute\Cache;
+use Symfony\Component\Routing\Attribute\Route;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\File\PictureCreatorFactory;
 use VideoGamesRecords\CoreBundle\Traits\GetOrdinalSuffixTrait;
 use VideoGamesRecords\CoreBundle\Traits\NumberFormatTrait;
 
-/**
- * @Route("/gamercard")
- * @Cache(expires="tomorrow", public=true)
- */
 class Mini extends AbstractController
 {
     use GetOrdinalSuffixTrait;
@@ -25,18 +23,18 @@ class Mini extends AbstractController
 
     private FilesystemOperator $appStorage;
 
-    public function __construct(FilesystemOperator $appStorage) {
+    public function __construct(FilesystemOperator $appStorage)
+    {
         $this->appStorage = $appStorage;
     }
 
-    /**
-     * @Route("/mini/{id}", name="gamercard_mini_1", methods={"GET"})
-     * @Route("/{id}/mini", name="gamercard_mini_2", methods={"GET"})
-     * @Cache(smaxage="900")
-     * @param Player $player
-     * @throws Exception
-     * @throws FilesystemException
-     */
+    #[Route(
+        '/gamercard/{id}/mini',
+        name: 'vgr_core_player_gamercard_mini',
+        methods: ['GET'],
+        requirements: ['id' => '[1-9]\d*']
+    )]
+    #[Cache(public: true, maxage: 3600, mustRevalidate: true)]
     public function __invoke(Player $player): void
     {
         chdir(__DIR__);

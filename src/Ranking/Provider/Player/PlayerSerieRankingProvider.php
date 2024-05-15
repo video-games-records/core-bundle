@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Provider\Player;
 
 use Doctrine\ORM\Exception\ORMException;
@@ -19,7 +21,7 @@ class PlayerSerieRankingProvider extends AbstractRankingProvider
     public function getRankingPoints(int $id = null, array $options = []): array
     {
         $serie = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Serie')->find($id);
-        if (null === $serie) {
+        if (null == $serie) {
             return [];
         }
 

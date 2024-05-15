@@ -1,7 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
-use ApiPlatform\Core\EventListener\EventPriorities;
+use ApiPlatform\Symfony\EventListener\EventPriorities as EventPrioritiesAlias;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +36,7 @@ final class CanAskProofSubscriber implements EventSubscriberInterface, VgrCoreIn
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::VIEW => ['setPlayerRequesting', EventPriorities::POST_VALIDATE],
+            KernelEvents::VIEW => ['setPlayerRequesting', EventPrioritiesAlias::POST_VALIDATE],
         ];
     }
 
@@ -43,7 +46,7 @@ final class CanAskProofSubscriber implements EventSubscriberInterface, VgrCoreIn
      * @throws PostException
      * @throws ORMException
      */
-    public function setPlayerRequesting(ViewEvent $event)
+    public function setPlayerRequesting(ViewEvent $event): void
     {
         $request = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();

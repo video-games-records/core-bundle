@@ -2,4 +2,4 @@ VideoGamesRecords\CoreBundle\ValueObject\GameStatus:
   attributes:
     value:
       groups:
-        - 'game.read'
+        - 'game:read'

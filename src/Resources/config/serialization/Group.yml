@@ -2,38 +2,25 @@ VideoGamesRecords\CoreBundle\Entity\Group:
   attributes:
     id:
       groups:
-        - 'group.list'
-        - 'group.read'
-        - 'group.read.mini'
+        - 'group:read'
     name:
       groups:
-        - 'group.list'
-        - 'group.read'
-        - 'group.read.mini'
+        - 'group:read'
     game:
       groups:
-        - 'group.game'
+        - 'group:game'
     isDlc:
       groups:
-        - 'group.list'
+        - 'group:read'
     nbChart:
       groups:
-        - 'group.list'
-        - 'group.read'
+        - 'group:read'
     nbPost:
       groups:
-        - 'group.list'
-        - 'group.read'
+        - 'group:read'
     nbPlayer:
       groups:
-        - 'group.list'
-        - 'group.read'
+        - 'group:read'
     slug:
       groups:
-        - 'group.list'
-        - 'group.read'
-        - 'group.read.mini'
-    createdAt:
-      groups: []
-    updatedAt:
-      groups: []
+        - 'group:read'

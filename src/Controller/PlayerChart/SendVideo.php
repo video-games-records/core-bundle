@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\PlayerChart;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,10 +57,10 @@ class SendVideo extends AbstractController
         $videoIn = new Video();
         $videoIn->setUrl($url);
 
-        if (in_array($videoIn->getType(), array(VideoType::TYPE_TWITCH, VideoType::TYPE_YOUTUBE))) {
+        if (in_array($videoIn->getType(), array(VideoType::TWITCH, VideoType::YOUTUBE))) {
             $video = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Video')->findOneBy(
                 array(
-                    'videoId' => $videoIn->getVideoId(),
+                    'externalId' => $videoIn->getExternalId(),
                 )
             );
 

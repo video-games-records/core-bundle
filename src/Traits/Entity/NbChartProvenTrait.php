@@ -1,30 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait NbChartProvenTrait
 {
-    /**
-     * @ORM\Column(name="nbChartProven", type="integer", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $nbChartProven = 0;
 
-    /**
-     * Set nbChartProven
-     * @param integer $nbChartProven
-     * @return $this
-     */
-    public function setNbChartProven(int $nbChartProven): static
+    public function setNbChartProven(int $nbChartProven): void
     {
         $this->nbChartProven = $nbChartProven;
-        return $this;
     }
 
-    /**
-     * Get nbChartProven
-     *
-     * @return integer
-     */
     public function getNbChartProven(): int
     {
         return $this->nbChartProven;

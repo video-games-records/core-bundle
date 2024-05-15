@@ -1,29 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 trait AverageGameRankTrait
 {
-    /**
-     * @ORM\Column(name="averageGameRank", type="float", nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private ?float $averageGameRank;
 
-    /**
-     * @param float $averageGameRank
-     * @return $this
-     */
-    public function setAverageGameRank(float $averageGameRank): static
+    public function setAverageGameRank(float $averageGameRank): void
     {
         $this->averageGameRank = $averageGameRank;
-        return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getAverageGameRank(): ?float
     {
         return $this->averageGameRank;

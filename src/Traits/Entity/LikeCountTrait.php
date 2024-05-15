@@ -1,32 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait LikeCountTrait
 {
-    /**
-     * @ORM\Column(name="likeCount", type="integer", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $likeCount = 0;
 
-    /**
-     * Set likeCount
-     *
-     * @param integer $likeCount
-     * @return $this
-     */
-    public function setLikeCount(int $likeCount): static
+    public function setLikeCount(int $likeCount): void
     {
         $this->likeCount = $likeCount;
-
-        return $this;
     }
 
-    /**
-     * Get likeCount
-     *
-     * @return integer
-     */
     public function getLikeCount(): int
     {
         return $this->likeCount;

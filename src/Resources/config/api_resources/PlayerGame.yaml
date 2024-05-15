@@ -1,6 +1,0 @@
-resources:
-    VideoGamesRecords\CoreBundle\Entity\PlayerGame:
-        collectionOperations:
-            get: ~
-        itemOperations:
-            get: ~

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Tools;
 
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -35,9 +37,11 @@ class Ranking
      * @return array
      */
     public static function addRank(
-        array $array, string $key = 'rank', array $columns = ['pointChart'], bool $boolEqual = false
-    ): array
-    {
+        array $array,
+        string $key = 'rank',
+        array $columns = ['pointChart'],
+        bool $boolEqual = false
+    ): array {
         $rank = 1;
         $compteur = 0;
         $nbEqual = 1;
@@ -84,9 +88,10 @@ class Ranking
      * @return array
      */
     public static function addObjectRank(
-        array $array, string $ranking = 'rankPointChart', array $columns = ['pointChart']
-    ): array
-    {
+        array $array,
+        string $ranking = 'rankPointChart',
+        array $columns = ['pointChart']
+    ): array {
         $setter = 'set' . ucfirst($ranking);
         $getters = [];
         foreach ($columns as $column) {

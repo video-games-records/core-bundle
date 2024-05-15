@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\ValueObject;
 
 use Webmozart\Assert\Assert;
 
 class VideoType
 {
-    const TYPE_YOUTUBE = 'Youtube';
-    const TYPE_TWITCH = 'Twitch';
-    const TYPE_UNKNOWN = 'Unknown';
+    public const YOUTUBE = 'Youtube';
+    public const TWITCH = 'Twitch';
+    public const UNKNOWN = 'Unknown';
 
     public const VALUES = [
-        self::TYPE_YOUTUBE,
-        self::TYPE_TWITCH,
-        self::TYPE_UNKNOWN,
+        self::YOUTUBE,
+        self::TWITCH,
+        self::UNKNOWN,
     ];
 
     private string $value;
@@ -44,9 +46,9 @@ class VideoType
     public static function getTypeChoices(): array
     {
         return [
-            self::TYPE_YOUTUBE  => self::TYPE_YOUTUBE,
-            self::TYPE_TWITCH   => self::TYPE_TWITCH,
-            self::TYPE_UNKNOWN  => self::TYPE_UNKNOWN,
+            self::YOUTUBE  => self::YOUTUBE,
+            self::TWITCH   => self::TWITCH,
+            self::UNKNOWN  => self::UNKNOWN,
         ];
     }
 }

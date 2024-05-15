@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Event\PlayerEvent;
 use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
@@ -9,11 +13,15 @@ use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerRankingHandler extends AbstractRankingHandler
 {
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function handle($mixed): void
     {
         /** @var Player $player */
         $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->find($mixed);
-        if (null === $player) {
+        if (null == $player) {
             return;
         }
         if ($player->getId() == 0) {
@@ -40,12 +48,12 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
 
-        $player->setAverageGameRank($row['averageGameRank'] ?? 0);
-        $player->setChartRank0($row['chartRank0'] ?? 0);
-        $player->setChartRank1($row['chartRank1'] ?? 0);
-        $player->setChartRank2($row['chartRank2'] ?? 0);
-        $player->setChartRank3($row['chartRank3'] ?? 0);
-        $player->setPointChart($row['pointChart'] ?? 0);
+        $player->setAverageGameRank((float) $row['averageGameRank']);
+        $player->setChartRank0((int) $row['chartRank0']);
+        $player->setChartRank1((int) $row['chartRank1']);
+        $player->setChartRank2((int) $row['chartRank2']);
+        $player->setChartRank3((int) $row['chartRank3']);
+        $player->setPointChart((int) $row['pointChart']);
         $player->setPointGame($row['pointGame'] ?? 0);
 
 
@@ -64,9 +72,9 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $query->setParameter('player', $player);
         $row = $query->getOneOrNullResult();
 
-        $player->setNbChartMax($row['nbChartMax'] ?? 0);
-        $player->setNbChart($row['nbChart'] ?? 0);
-        $player->setNbChartProven($row['nbChartProven'] ?? 0);
+        $player->setNbChartMax((int) $row['nbChartMax']);
+        $player->setNbChart((int) $row['nbChart']);
+        $player->setNbChartProven((int) $row['nbChartProven']);
         $player->setNbGame($row['nbGame'] ?? 0);
 
         // 2 game Ranking
@@ -137,7 +145,7 @@ class PlayerRankingHandler extends AbstractRankingHandler
             JOIN pb.player p
             WHERE b.type = :type
             AND pb.player = :player
-            AND pb.ended_at IS NULL
+            AND pb.endedAt IS NULL
             AND g.isRank = 1
             GROUP BY p.id");
         $query->setParameter('type', 'Master');
@@ -146,7 +154,7 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $row = $query->getOneOrNullResult();
         if ($row) {
             $player->setNbMasterBadge($row['nbMasterBadge']);
-            $player->setPointBadge($row['pointBadge']);
+            $player->setPointBadge((int) $row['pointBadge']);
         }
 
         // 4 nbChartWithPlatform
