@@ -4,15 +4,17 @@ namespace VideoGamesRecords\CoreBundle\DataProvider;
 use Google\Service\YouTube;
 use Google\Client;
 use Google\Service\YouTube\VideoListResponse;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class YoutubeProvider
 {
     private Youtube $service;
 
-    /**
-     * @param string $apiKey
-     */
-    public function __construct(string $apiKey)
+
+    public function __construct(
+        #[Autowire(env: 'string:GOOGLE_API_KEY')]
+        private readonly string $apiKey
+    )
     {
         $client = new Client();
         $client->addScope(YouTube::YOUTUBE);

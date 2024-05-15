@@ -75,7 +75,7 @@ class GroupAdminController extends CRUDController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $type = $data['type'];
-            $result = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->insertLibChart($id, $type->getIdType());
+            $result = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->insertLibChart($id, $type->getId());
             if ($result) {
                 $this->addFlash('sonata_flash_success', 'Add all libchart on group successfully');
                 return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));

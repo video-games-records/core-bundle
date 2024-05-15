@@ -148,8 +148,8 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
         }
 
         foreach ($chart->getLibs() as $lib) {
-            $key             = 'value_' . $lib->getIdLibChart();
-            $alias           = 'pcl_' . $lib->getIdLibChart();
+            $key             = 'value_' . $lib->getId();
+            $alias           = 'pcl_' . $lib->getId();
             $subQueryBuilder = $this->em->createQueryBuilder()
                 ->select(sprintf('%s.value', $alias))
                 ->from('VideoGamesRecords\CoreBundle\Entity\PlayerChartLib', $alias)

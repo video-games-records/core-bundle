@@ -80,7 +80,7 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
             $playerChart->setTopScore(false);
 
             foreach ($chart->getLibs() as $lib) {
-                $libValue .= $item['value_' . $lib->getIdLibChart()] . '/';
+                $libValue .= $item['value_' . $lib->getId()] . '/';
             }
             if ($k === 0) {
                 // Premier élément => topScore

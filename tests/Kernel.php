@@ -49,6 +49,6 @@ class Kernel extends BaseKernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(__DIR__. '/config.yaml');
+        $loader->load(__DIR__ . '/config/packages.yaml');
     }
 }

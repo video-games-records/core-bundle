@@ -174,11 +174,14 @@ class GroupAdmin extends AbstractAdmin
             ->add('libGroupEn', null, ['label' => 'label.name.en'])
             ->add('libGroupFr', null, ['label' => 'label.name.fr'])
             ->add('isDlc', null, ['label' => 'label.isDlc'])
-            ->add('game', ModelFilter::class, [
-                'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property' => $this->getLibGame()],
-                'label' => 'label.game'
-            ])
+            ->add('game',
+                ModelFilter::class,
+                [
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => ['property' => $this->getLibGame()],
+                    'label' => 'label.game'
+                ]
+            )
         ;
     }
 

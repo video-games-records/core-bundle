@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -7,29 +9,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\DataRepository;
 
-/**
- * Data
- *
- * @ORM\Table(name="vgr_data")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\DataRepository")
- * @ApiResource(attributes={"order"={"id"}})
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "category": "exact",
- *          "label": "exact",
- *          "version": "exact",
-*      }
- * )
- */
+#[ORM\Table(name:'vgr_data')]
+#[ORM\Entity(repositoryClass: DataRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener"])]
 class Data
 {
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
     /**

@@ -1,30 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait DescriptionTrait
 {
-    /**
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
+    #[ORM\Column(nullable: true, type: 'text')]
     private ?string $description;
 
-    /**
-     * Set description
-     * @param string|null $description
-     * @return $this
-     */
-    public function setDescription(?string $description): static
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
-    /**
-     * Get description
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -14,31 +17,18 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\SerieRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
-/**
- * Serie
- * @ORM\Table(name="vgr_serie")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\SerieListener"})
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "status": "exact",
- *          "libSerie" : "partial",
- *      }
- * )
- * @ApiFilter(
- *     OrderFilter::class,
- *     properties={
- *          "libSerie" : "ASC",
- *     },
- *     arguments={"orderParameterName"="order"}
- * )
- */
+#[ORM\Table(name:'vgr_serie')]
+#[ORM\Entity(repositoryClass: SerieRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\SerieListener"])]
+#[ApiResource]
+#[ApiFilter(SearchFilter::class, properties: ['status' => 'exact', 'libSerie' => 'partial'])]
+#[ApiFilter(OrderFilter::class, properties: ['libSerie'])]
 class Serie implements SluggableInterface,TranslatableInterface
 {
     use TimestampableEntity;
@@ -48,37 +38,26 @@ class Serie implements SluggableInterface,TranslatableInterface
     use NbGameTrait;
     use PictureTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @var string
-     * @Assert\Length(max="255")
-     * @ORM\Column(name="libSerie", type="string", length=255, nullable=false)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(name: 'libSerie', length: 255, nullable: false)]
     private string $libSerie;
 
-    /**
-     * @ORM\Column(name="status", type="string", nullable=false)
-     */
+    #[ORM\Column(nullable: false)]
     private string $status = SerieStatus::STATUS_INACTIVE;
 
-    /**
-     * @var Collection<Game>
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="serie", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private Collection $games;
 
     /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="serie", cascade={"persist"}))
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     * })
+     * @var Collection<int, Game>
      */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'serie')]
+    private Collection $games;
+
+
+    #[ORM\OneToOne(targetEntity: Badge::class, inversedBy: 'serie', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:true, onDelete: 'SET NULL')]
     private ?Badge $badge;
 
     /**

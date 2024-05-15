@@ -3,15 +3,20 @@
 namespace VideoGamesRecords\CoreBundle\Controller\Group\Team;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
 use VideoGamesRecords\CoreBundle\Entity\Group;
+use VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamGroupRankingProvider;
 
 class GetRankingMedals extends AbstractController
 {
     private RankingProviderInterface $rankingProvider;
 
-    public function __construct(RankingProviderInterface $rankingProvider)
+    public function __construct(
+        #[Autowire(service: TeamGroupRankingProvider::class)]
+        RankingProviderInterface $rankingProvider
+    )
     {
         $this->rankingProvider = $rankingProvider;
     }

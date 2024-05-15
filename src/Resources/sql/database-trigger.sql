@@ -6,8 +6,8 @@ BEGIN
 	DECLARE done INT DEFAULT FALSE;
 	DECLARE chartlib_id_src INT;
 	DECLARE chartlib_id_dest INT;
-	DECLARE cur1 CURSOR FOR SELECT idLibChart FROM vgr_chartlib WHERE idChart = OLD.idChart ORDER BY idLibChart ASC;
-	DECLARE cur2 CURSOR FOR SELECT idLibChart FROM vgr_chartlib WHERE idChart = NEW.idChart ORDER BY idLibChart ASC;
+	DECLARE cur1 CURSOR FOR SELECT id FROM vgr_chartlib WHERE idChart = OLD.idChart ORDER BY id ASC;
+	DECLARE cur2 CURSOR FOR SELECT id FROM vgr_chartlib WHERE idChart = NEW.idChart ORDER BY id ASC;
 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
@@ -24,7 +24,7 @@ BEGIN
 			END IF;
 			FETCH cur2 INTO chartlib_id_dest;
 
-			UPDATE vgr_player_chartlib SET idLibChart = chartlib_id_dest WHERE idLibChart = chartlib_id_src AND idPlayerChart = NEW.id;
+			UPDATE vgr_player_chartlib SET id = chartlib_id_dest WHERE id= chartlib_id_src AND idPlayerChart = NEW.id;
 		END LOOP;
 
 		CLOSE cur1;

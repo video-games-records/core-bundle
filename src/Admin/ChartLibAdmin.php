@@ -12,7 +12,7 @@ class ChartLibAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('idLibChart', TextType::class, [
+            ->add('id', TextType::class, [
                 'label' => 'label.id',
                 'attr' => [
                     'readonly' => true,
@@ -42,7 +42,7 @@ class ChartLibAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('idLibChart', null, ['label' => 'label.id'])
+            ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('name', null, ['label' => 'label.name'])
             ->add('type', null, ['label' => 'label.type']);
     }

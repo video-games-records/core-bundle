@@ -5,8 +5,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Entity\Country;
+use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerCountryRankingHandler;
 
 class PlayerCountryRankingUpdateCommand extends Command
 {
@@ -15,8 +17,11 @@ class PlayerCountryRankingUpdateCommand extends Command
     private EntityManagerInterface $em;
     private RankingCommandInterface $rankingCommand;
 
-    public function __construct(EntityManagerInterface $em, RankingCommandInterface $rankingCommand)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        #[Autowire(service: PlayerCountryRankingHandler::class)]
+        RankingCommandInterface $rankingCommand
+    ) {
         $this->em = $em;
         $this->rankingCommand = $rankingCommand;
         parent::__construct();

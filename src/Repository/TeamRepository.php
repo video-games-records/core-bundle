@@ -2,14 +2,17 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\Team;
 
-/**
- * TeamRepository
- */
-class TeamRepository extends EntityRepository
+class TeamRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Team::class);
+    }
+
     /**
      * @return int|mixed|string|null
      * @throws NonUniqueResultException

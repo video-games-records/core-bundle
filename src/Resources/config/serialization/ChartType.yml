@@ -1,6 +1,6 @@
 VideoGamesRecords\CoreBundle\Entity\ChartType:
   attributes:
-    idType:
+    id:
       groups:
         - 'chart.show'
         - 'playerChart.read'

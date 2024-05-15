@@ -1,7 +1,7 @@
 resources:
     VideoGamesRecords\CoreBundle\Entity\ChartLib:
         properties:
-            idLibChart:
+            id:
                 identifier: true
         collectionOperations:
             get: ~

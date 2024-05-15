@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,34 +15,29 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\IsDlcTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
-/**
- * Chart
- *
- * @ORM\Table(
- *     name="vgr_chart",
- *     indexes={
- *         @ORM\Index(name="idx_libChartFr", columns={"libChartFr"}),
- *         @ORM\Index(name="idx_libChartEn", columns={"libChartEn"}),
- *         @ORM\Index(name="idx_status_player", columns={"statusPlayer"}),
- *         @ORM\Index(name="idx_status_team", columns={"statusTeam"})
- *     }
- * )
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\ChartRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener"})
- * @ApiFilter(
- *     OrderFilter::class,
- *     properties={
- *          "id":"ASC",
- *          "libChartEn" : "ASC",
- *          "libChartFr" : "ASC",
- *     },
- *     arguments={"orderParameterName"="order"}
- * )
- */
+#[ORM\Table(name:'vgr_chart')]
+#[ORM\Entity(repositoryClass: ChartRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener"])]
+#[ORM\Index(name: "idx_lib_chart_fr", columns: ["lib_chart_fr"])]
+#[ORM\Index(name: "idx_lib_chart_en", columns: ["lib_chart_en"])]
+#[ORM\Index(name: "idx_status_player", columns: ["status_player"])]
+#[ORM\Index(name: "idx_status_team", columns: ["status_team"])]
+
+#[ApiResource]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: [
+        'id' => 'ASC',
+        'libChartEn' => 'ASC',
+        'libChartFr"' => 'ASC',
+    ]
+)]
+
 class Chart implements SluggableInterface
 {
     use TimestampableEntity;
@@ -47,54 +45,39 @@ class Chart implements SluggableInterface
     use NbPostTrait;
     use IsDlcTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @Assert\Length(max="255")
-     * @ORM\Column(name="libChartEn", type="string", length=255, nullable=false)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private string $libChartEn = '';
 
-    /**
-     * @Assert\Length(max="255")
-     * @ORM\Column(name="libChartFr", type="string", length=255, nullable=false)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private string $libChartFr = '';
 
-    /**
-     * @ORM\Column(name="statusPlayer", type="string", length=30, nullable=false, options={"default" : "NORMAL"}))
-     */
+    #[ORM\Column(length: 30, nullable: false, options: ['default' => 'NORMAL'])]
     private string $statusPlayer = 'NORMAL';
 
-    /**
-     * @ORM\Column(name="statusTeam", type="string", length=30, nullable=false, options={"default" : "NORMAL"}))
-     */
+    #[ORM\Column(length: 30, nullable: false, options: ['default' => 'NORMAL'])]
     private string $statusTeam = 'NORMAL';
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", inversedBy="charts")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGroup", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'charts')]
+    #[ORM\JoinColumn(name:'group_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Group $group;
 
     /**
-     * @var Collection<ChartLib>
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\ChartLib", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Collection<int, ChartLib>
      */
+    #[ORM\OneToMany(targetEntity: ChartLib::class, cascade:['persist', 'remove'], mappedBy: 'chart', orphanRemoval: true)]
     private Collection $libs;
 
     /**
-     * @var Collection<PlayerChart>
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart", mappedBy="chart", fetch="EXTRA_LAZY")
+     * @var Collection<int, PlayerChart>
      */
+    #[ORM\OneToMany(targetEntity: PlayerChart::class, mappedBy: 'chart', fetch: 'EXTRA_LAZY')]
     private Collection $playerCharts;
 
     /**
@@ -108,15 +91,15 @@ class Chart implements SluggableInterface
     private ?PlayerChart $playerChartP = null;
 
     /**
-     * @var Collection<Proof>
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", mappedBy="chart", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Collection<int, Proof>
      */
+    #[ORM\OneToMany(targetEntity: Proof::class, cascade:['persist', 'remove'], mappedBy: 'chart', orphanRemoval: true)]
     private Collection $proofs;
 
     /**
      * @var Collection<LostPosition>
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\LostPosition", mappedBy="chart")
      */
+    #[ORM\OneToMany(targetEntity: LostPosition::class, mappedBy: 'chart')]
     private Collection $lostPositions;
 
 

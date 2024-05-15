@@ -2,6 +2,7 @@
 namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use ApiPlatform\Symfony\EventListener\EventPriorities as EventPrioritiesAlias;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -26,7 +27,7 @@ final class IsValidTeamRequestSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::VIEW => ['validate', EventPriorities::POST_VALIDATE],
+            KernelEvents::VIEW => ['validate', EventPrioritiesAlias::POST_VALIDATE],
         ];
     }
 

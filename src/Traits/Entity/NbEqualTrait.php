@@ -1,30 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait NbEqualTrait
 {
-    /**
-     * @ORM\Column(name="nbEqual", type="integer", nullable=false, options={"default" : 1})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 1])]
     private int $nbEqual = 1;
 
-    /**
-     * Set nbEqual
-     * @param integer $nbEqual
-     * @return $this
-     */
-    public function setNbEqual(int $nbEqual): static
+    public function setNbEqual(int $nbEqual): void
     {
         $this->nbEqual = $nbEqual;
-        return $this;
     }
 
-    /**
-     * Get nbEqual
-     *
-     * @return integer
-     */
     public function getNbEqual(): int
     {
         return $this->nbEqual;

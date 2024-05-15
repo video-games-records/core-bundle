@@ -17,7 +17,8 @@ class SerieAdminController extends CRUDController
 
     public function __construct(
         PlayerSerieRankingHandler $playerSerieRankingHandler,
-        TeamSerieRankingHandler $teamSerieRankingHandler)
+        TeamSerieRankingHandler $teamSerieRankingHandler
+    )
     {
         $this->playerSerieRankingHandler = $playerSerieRankingHandler;
         $this->teamSerieRankingHandler = $teamSerieRankingHandler;

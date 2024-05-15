@@ -1,71 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
+use VideoGamesRecords\CoreBundle\Repository\BadgeRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 
-/**
- * Badge
- * @ORM\Table(
- *     name="vgr_badge",
- *     indexes={
- *         @ORM\Index(name="idx_type", columns={"type"}),
- *         @ORM\Index(name="idx_value", columns={"value"})
- *     }
- * )
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\BadgeRepository")
- * @ApiResource(attributes={"order"={"type", "value"}})
- */
+#[ORM\Table(name:'vgr_badge')]
+#[ORM\Entity(repositoryClass: BadgeRepository::class)]
+#[ORM\Index(name: "idx_type", columns: ["type"])]
+#[ORM\Index(name: "idx_value", columns: ["value"])]
+#[ApiFilter(OrderFilter::class, properties: ['type', 'value'], arguments: ['orderParameterName' => 'order'])]
 class Badge implements BadgeInterface
 {
     use NbPlayerTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @Assert\Length(max="50")
-     * @ORM\Column(name="type", type="string", length=50, nullable=false)
-     */
+    #[Assert\Length(max: 50)]
+    #[ORM\Column(length: 50, nullable: false)]
     private string $type;
 
-    /**
-     * @Assert\Length(max="100")
-     * @ORM\Column(name="picture", type="string", length=100, nullable=false, options={"default" : "default.gif"})
-     */
+    #[Assert\Length(max: 100)]
+    #[ORM\Column(length: 100, nullable: false, options: ['default' => 'default.gif'])]
     private string $picture;
 
-    /**
-     * @ORM\Column(name="value", type="integer", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(length: 100, nullable: false, options: ['default' => 0])]
     private int $value = 0;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="badge")
-     */
+    #[ORM\OneToOne(targetEntity: "Game", mappedBy: "badge")]
     private ?Game $game;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", mappedBy="badge")
-     */
+    #[ORM\OneToOne(targetEntity: "Serie", mappedBy: "badge")]
     private ?Serie $serie;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Country", mappedBy="badge")
-     */
+    #[ORM\OneToOne(targetEntity: "Country", mappedBy: "badge")]
     private ?Country $country;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform", mappedBy="badge")
-     */
+    #[ORM\OneToOne(targetEntity: "Platform", mappedBy: "badge")]
     private ?Platform $platform;
 
     private string $title = '';
@@ -80,19 +59,15 @@ class Badge implements BadgeInterface
 
 
     /**
-     * Set id
      * @param integer $id
-     * @return Badge
      */
-    public function setId(int $id): Badge
+    public function setId(int $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
     /**
-     * Get id
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -100,19 +75,14 @@ class Badge implements BadgeInterface
     }
 
     /**
-     * Set type
      * @param string $type
-     * @return Badge
      */
-    public function setType(string $type): Badge
+    public function setType(string $type): void
     {
         $this->type = $type;
-
-        return $this;
     }
 
     /**
-     * Get type
      * @return string
      */
     public function getType(): string
@@ -122,15 +92,11 @@ class Badge implements BadgeInterface
 
 
     /**
-     * Set picture
      * @param string $picture
-     * @return Badge
      */
-    public function setPicture(string $picture): Badge
+    public function setPicture(string $picture): void
     {
         $this->picture = $picture;
-
-        return $this;
     }
 
     /**
@@ -143,19 +109,14 @@ class Badge implements BadgeInterface
     }
 
     /**
-     * Set value
      * @param integer $value
-     * @return Badge
      */
-    public function setValue(int $value): Badge
+    public function setValue(int $value): void
     {
         $this->value = $value;
-
-        return $this;
     }
 
     /**
-     * Get value
      * @return int
      */
     public function getValue(): int
@@ -198,10 +159,13 @@ class Badge implements BadgeInterface
         return $this->platform;
     }
 
-    public function setTitle(string $title): static
+    /**
+     * @param string $title
+     * @return void
+     */
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-        return $this;
     }
 
     /**

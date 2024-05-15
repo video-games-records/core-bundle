@@ -1,36 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
 
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 trait LastUpdateTrait
 {
-    /**
-     * @ORM\Column(name="lastUpdate", type="datetime", nullable=true)
-     */
-    private DateTime $lastUpdate;
+    #[ORM\Column(nullable: true)]
+    private ?DateTime $lastUpdate;
 
-
-    /**
-     * Set lastUpdate
-     *
-     * @param DateTime $lastUpdate
-     * @return $this
-     */
-    public function setLastUpdate(DateTime $lastUpdate): static
+    public function setLastUpdate(?DateTime $lastUpdate): void
     {
         $this->lastUpdate = $lastUpdate;
-
-        return $this;
     }
 
-    /**
-     * Get lastUpdate
-     *
-     * @return DateTime
-     */
-    public function getLastUpdate(): DateTime
+    public function getLastUpdate(): ?DateTime
     {
         return $this->lastUpdate;
     }

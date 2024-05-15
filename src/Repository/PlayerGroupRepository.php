@@ -2,9 +2,13 @@
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\PlayerGroup;
 
-class PlayerGroupRepository extends EntityRepository
+class PlayerGroupRepository extends DefaultRepository
 {
-
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PlayerGroup::class);
+    }
 }

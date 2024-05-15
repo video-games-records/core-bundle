@@ -1,57 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 trait RankPointGameTrait
 {
-    /**
-     * @ORM\Column(name="rankPointGame", type="integer", nullable=false, options={"default" : 0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $rankPointGame = 0;
 
-    /**
-     * @ORM\Column(name="pointGame", type="integer", nullable=false, options={"default" : 0})
-     */
-    private int $pointGame = 0;
-
-    /**
-     * @param int $rankPointGame
-     * @return $this
-     */
-    public function setRankPointGame(int $rankPointGame): static
+    public function setRankPointGame(int $rankPointGame): void
     {
         $this->rankPointGame = $rankPointGame;
-        return $this;
     }
 
-    /**
-     * Get rankPointGame
-     * @return int
-     */
     public function getRankPointGame(): int
     {
         return $this->rankPointGame;
-    }
-
-
-    /**
-     * @param int $pointGame
-     * @return $this
-     */
-    public function setPointGame(int $pointGame): static
-    {
-        $this->pointGame = $pointGame;
-        return $this;
-    }
-
-    /**
-     * Get pointGame
-     * @return integer
-     */
-    public function getPointGame(): int
-    {
-        return $this->pointGame;
     }
 }

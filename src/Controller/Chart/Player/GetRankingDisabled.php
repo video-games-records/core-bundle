@@ -26,7 +26,7 @@ class GetRankingDisabled extends AbstractController
 
         for ($i = 0; $i <= count($ranking) - 1; $i++) {
             foreach ($chart->getLibs() as $lib) {
-                $key = $lib->getIdLibChart();
+                $key = $lib->getId();
                 // format value
                 $ranking[$i]['values'][] = Score::formatScore(
                     $ranking[$i]["value_$key"],

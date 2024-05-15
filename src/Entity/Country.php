@@ -1,66 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableMethodsTrait;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatablePropertiesTrait;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\CountryRepository;
 
-/**
- * Country
- *
- * @ORM\Table(name="vgr_country")
- * @ORM\Entity
- * @ApiResource(attributes={"order"={"translations.name"}})
- */
+#[ORM\Table(name:'vgr_country')]
+#[ORM\Entity(repositoryClass: CountryRepository::class)]
+#[ApiResource(order: ['translations.name' => 'ASC'])]
 class Country implements TranslatableInterface
 {
     use TranslatablePropertiesTrait;
     use TranslatableMethodsTrait;
 
-    /**
-     * @Assert\Length(min="2", max="2")
-     * @ORM\Column(name="code_iso2", type="string", length=2, nullable=false)
-     */
+    #[Assert\Length(max: 2)]
+    #[ORM\Column(length: 2, nullable: false)]
     private string $codeIso2;
 
-    /**
-     * @Assert\Length(min="3", max="3")
-     * @ORM\Column(name="code_iso3", type="string", length=3, nullable=false)
-     */
+    #[Assert\Length(max: 3)]
+    #[ORM\Column(length: 3, nullable: false)]
     private string $codeIso3;
 
-    /**
-     * @ORM\Column(name="code_iso_numeric", type="integer", nullable=false)
-     */
+    #[ORM\Column(nullable: false)]
     private int $codeIsoNumeric;
 
-    /**
-     * @ORM\Column(name="slug", type="string", length=100, nullable=true)
-     */
+    #[Assert\Length(max: 100)]
+    #[ORM\Column(length: 255, nullable: true)]
     private string $slug;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="country")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id")
-     * })
-     */
+    #[ORM\OneToOne(targetEntity: Badge::class, cascade: ['persist'], inversedBy: 'country')]
+    #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:true)]
     private ?Badge $badge;
 
-    /**
-     * @ORM\Column(name="boolMaj", type="boolean", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $boolMaj = false;
 
     /**

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,6 +20,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\IsRankTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\LastUpdateTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
@@ -28,69 +31,61 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbVideoTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
-/**
- * Game
- *
- * @ORM\Table(
- *     name="vgr_game",
- *     indexes={
- *         @ORM\Index(name="idx_libGameFr", columns={"libGameFr"}),
- *         @ORM\Index(name="idx_libGameEn", columns={"libGameEn"}),
- *         @ORM\Index(name="idx_status", columns={"status"})
- *     }
- * )
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\GameRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener"})
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "status": "exact",
- *          "platforms": "exact",
- *          "playerGame.player": "exact",
- *          "groups.charts.lostPositions.player": "exact",
- *          "libGameEn" : "partial",
- *          "libGameFr" : "partial",
- *          "badge": "exact",
- *          "serie": "exact",
- *      }
- * )
- * @ApiFilter(DateFilter::class, properties={"publishedAt": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
- * @ApiFilter(
- *     GroupFilter::class,
- *     arguments={
- *          "parameterName": "groups",
- *          "overrideDefaultGroups": true,
- *          "whitelist": {
- *              "game.read",
- *              "game.read.mini",
- *              "game.list",
- *              "game.platforms",
- *              "platform.read",
- *              "lastScore.read",
- *              "playerChart.read",
- *              "playerChart.player",
- *              "playerChart.chart",
- *              "player.read.mini",
- *              "chart.read.mini"
- *          }
- *     }
- * )
- * @ApiFilter(
- *     OrderFilter::class,
- *     properties={
- *          "id":"ASC",
- *          "libGameEn" : "ASC",
- *          "libGameFr" : "ASC",
- *          "publishedAt": "DESC",
- *          "nbChart": "DESC",
- *          "nbPost": "DESC",
- *          "nbPlayer": "DESC",
- *          "nbVideo": "DESC",
- *          "lastUpdate": "DESC"
- *     },
- *     arguments={"orderParameterName"="order"}
- * )
- */
+#[ORM\Table(name:'vgr_game')]
+#[ORM\Entity(repositoryClass: GameRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\GameListener"])]
+#[ORM\Index(name: "idx_lib_game_fr", columns: ["lib_game_fr"])]
+#[ORM\Index(name: "idx_lib_game_en", columns: ["lib_game_en"])]
+#[ORM\Index(name: "status", columns: ["status"])]
+#[ApiResource]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'status' => 'exact',
+        'platforms' => 'exact',
+        'playerGame.player' => 'exact',
+        'groups.charts.lostPositions.player' => 'exact',
+        'libGameEn' => 'partial',
+        'libGameFr' => 'partial',
+        'badge' => 'exact',
+        'serie' => 'exact',
+    ]
+)]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: [
+        'id' => 'ASC',
+        'libGameEn' => 'ASC',
+        'libGameFr' => 'ASC',
+        'publishedAt' => 'DESC',
+        'nbChart' => 'DESC',
+        'nbPost' => 'DESC',
+        'nbPlayer' => 'DESC',
+        'nbVideo' => 'DESC',
+        'lastUpdate' => 'DESC',
+    ]
+)]
+#[ApiFilter(
+    GroupFilter::class,
+    arguments: [
+        'parameterName' => 'groups',
+        'overrideDefaultGroups' => true,
+        'whitelist' => [
+            'game.read',
+            'game.read.mini',
+            'game.list',
+            'game.platforms',
+            'platform.read',
+            'lastScore.read',
+            'playerChart.read',
+            'playerChart.player',
+            'playerChart.chart',
+            'player.read.mini',
+            'chart.read.mini',
+        ]
+    ]
+)]
+#[ApiFilter(DateFilter::class, properties: ['publishedAt' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
 class Game implements SluggableInterface
 {
     use TimestampableEntity;
@@ -104,102 +99,73 @@ class Game implements SluggableInterface
     use IsRankTrait;
     use LastUpdateTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     protected ?int $id = null;
 
-    /**
-     * @Assert\Length(max="255")
-     * @ORM\Column(name="libGameEn", type="string", length=255, nullable=false)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private string $libGameEn = '';
 
-    /**
-     * @Assert\Length(max="255")
-     * @ORM\Column(name="libGameFr", type="string", length=255, nullable=false)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private string $libGameFr = '';
 
-    /**
-     * @Assert\Length(max="255")
-     * @ORM\Column(name="downloadUrl", type="string", length=255, nullable=true)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $downloadUrl;
 
-    /**
-     * @ORM\Column(name="status", type="string", length=30, nullable=false, options={"default":"CREATED"})
-     */
+    #[ORM\Column(length: 30, nullable: false, options: ['default' => GameStatus::STATUS_CREATED])]
     private string $status = GameStatus::STATUS_CREATED;
 
-    /**
-     * @ORM\Column(name="published_at", type="datetime", nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private ?DateTime $publishedAt = null;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Serie", inversedBy="games")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSerie", referencedColumnName="id")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Serie::class, inversedBy: 'games')]
+    #[ORM\JoinColumn(name:'serie_id', referencedColumnName:'id', nullable:true)]
     private ?Serie $serie;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="game", cascade={"persist"}))
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     * })
-     */
+
+    #[ORM\OneToOne(targetEntity: Badge::class, cascade: ['persist'], inversedBy: 'game')]
+    #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:true)]
     private ?Badge $badge;
 
     /**
-     * @var Collection<Group>
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Group", mappedBy="game", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Collection<int, Group>
      */
+    #[ORM\OneToMany(targetEntity: Group::class, cascade:['persist', 'remove'], mappedBy: 'game', orphanRemoval: true)]
     private Collection $groups;
 
     /**
-     * @var Collection<Platform>
-     * @ORM\ManyToMany(targetEntity="Platform", inversedBy="games")
-     * @ORM\JoinTable(name="vgr_game_platform",
-     *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="idPlatform", referencedColumnName="id")}
-     *      )
-     * @ORM\OrderBy({"libPlatform" = "ASC"})
+     * @var Collection<int, Platform>
      */
+    #[ORM\JoinTable(name: 'vgr_game_platform')]
+    #[ORM\JoinColumn(name: 'game_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'platform_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Platform::class, inversedBy: 'games')]
     private Collection $platforms;
 
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\ForumInterface",cascade={"persist"})
-     * @ORM\JoinColumn(name="idForum", referencedColumnName="id")
-     */
-    private $forum;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChart")
-     * @ORM\JoinColumn(name="last_score_id", referencedColumnName="id")
-     */
+    //#[ORM\OneToOne(targetEntity: ForumInterface::class, cascade: ['persist'])]
+    //#[ORM\JoinColumn(name:'forum_id', referencedColumnName:'id', nullable:true)]
+    //private $forum;
+
+    #[ORM\OneToOne(targetEntity: PlayerChart::class)]
+    #[ORM\JoinColumn(name:'last_score_id', referencedColumnName:'id', nullable:true)]
     private ?PlayerChart $lastScore;
 
     /**
-     * @var Collection<Rule>
-     * @ORM\ManyToMany(targetEntity="Rule", inversedBy="games")
-     * @ORM\JoinTable(name="vgr_rule_game",
-     *      joinColumns={@ORM\JoinColumn(name="idGame", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="idRule", referencedColumnName="id")}
-     *      )
+     * @var Collection<int, Rule>
      */
+    #[ORM\ManyToMany(targetEntity: Rule::class, inversedBy: 'games')]
+    #[ORM\JoinTable(name: 'vgr_rule_game')]
     private Collection $rules;
 
     /**
-     * @var Collection<PlayerGame>
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerGame", mappedBy="game")
+     * @var Collection<int, PlayerGame>
      */
+    #[ORM\OneToMany(targetEntity: PlayerGame::class, mappedBy: 'game')]
     private Collection $playerGame;
 
 

@@ -8,21 +8,11 @@ use VideoGamesRecords\CoreBundle\Entity\Game;
 
 trait GameMethodsTrait
 {
-    /**
-     * @param Game $game
-     * @return $this
-     */
-    public function setGame(Game $game): static
+    public function setGame(Game $game): void
     {
         $this->game = $game;
-        return $this;
     }
 
-    /**
-     * Get game
-     *
-     * @return Game
-     */
     public function getGame(): Game
     {
         return $this->game;

@@ -245,19 +245,19 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
 
         $list = [
             [
-                'idType'  => 1,
+                'id'  => 1,
                 'name'    => 'Score',
                 'mask'    => '30~',
                 'orderBy' => 'DESC',
             ],
             [
-                'idType'  => 2,
+                'id'  => 2,
                 'name'    => 'Temps',
                 'mask'    => '30~:|2~.|2~',
                 'orderBy' => 'ASC',
             ],
             [
-                'idType'  => 3,
+                'id'  => 3,
                 'name'    => 'Distance',
                 'mask'    => '30~ m',
                 'orderBy' => 'DESC',
@@ -266,14 +266,13 @@ class LoadFixtures extends Fixture implements OrderedFixtureInterface, Container
 
         foreach ($list as $row) {
             $chartType = new ChartType();
-            $chartType
-                ->setIdType($row['idType'])
-                ->setName($row['name'])
-                ->setMask($row['mask'])
-                ->setOrderBy($row['orderBy']);
+            $chartType->setId($row['idType']);
+            $chartType->setName($row['name']);
+            $chartType->setMask($row['mask']);
+            $chartType->setOrderBy($row['orderBy']);
 
             $manager->persist($chartType);
-            $this->addReference('charttype.' . $chartType->getIdType(), $chartType);
+            $this->addReference('charttype.' . $chartType->getId(), $chartType);
         }
         $manager->flush();
     }

@@ -1,6 +1,6 @@
 VideoGamesRecords\CoreBundle\Entity\ChartLib:
   attributes:
-    idLibChart:
+    id:
       groups:
         - 'chartLib.read'
     name:

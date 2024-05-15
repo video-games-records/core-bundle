@@ -2,6 +2,7 @@
 namespace VideoGamesRecords\CoreBundle\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use ApiPlatform\Symfony\EventListener\EventPriorities as EventPrioritiesAlias;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -19,7 +20,7 @@ final class ScoreSetValueSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::VIEW => ['setValue', EventPriorities::POST_VALIDATE],
+            KernelEvents::VIEW => ['setValue', EventPrioritiesAlias::POST_VALIDATE],
         ];
     }
 
