@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
-
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Event\PlayerChartEvent;
@@ -19,21 +22,22 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
     private array $games = [];
     private array $groups = [];
 
-
-    /**
-     * @param PlayerChartRankingProvider $playerChartRankingProvider
-     * @return void
-     */
-    public function setPlayerChartRankingProvider(PlayerChartRankingProvider $playerChartRankingProvider): void
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        EventDispatcherInterface $eventDispatcher,
+        PlayerChartRankingProvider $playerChartRankingProvider
+    ) {
+        $this->em = $em;
+        $this->eventDispatcher = $eventDispatcher;
         $this->playerChartRankingProvider = $playerChartRankingProvider;
+        parent::__construct($em, $eventDispatcher);
     }
 
     public function handle($mixed): void
     {
         /** @var Chart $chart */
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($mixed);
-        if (null === $chart) {
+        if (null == $chart) {
             return;
         }
 
@@ -41,7 +45,7 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
         $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
         $this->games[$game->getId()] = $game;
 
-        if ($game->getSerie() !== null && $game->getSerie()->getStatus()->isActive()) {
+        if ($game->getSerie() !== null && $game->getSerie()->getSerieStatus()->isActive()) {
             $this->series[$game->getSerie()->getId()] = $game->getSerie();
         }
 
@@ -77,18 +81,18 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
             // Lost position ?
             $oldRank = $playerChart->getRank();
             $oldNbEqual = $playerChart->getNbEqual();
-            $playerChart->setTopScore(false);
+            $playerChart->setIsTopScore(false);
 
             foreach ($chart->getLibs() as $lib) {
-                $libValue .= $item['value_' . $lib->getIdLibChart()] . '/';
+                $libValue .= $item['value_' . $lib->getId()] . '/';
             }
             if ($k === 0) {
                 // Premier élément => topScore
-                $playerChart->setTopScore(true);
+                $playerChart->setIsTopScore(true);
                 $topScoreLibValue = $libValue;
             } else {
                 if ($libValue === $topScoreLibValue) {
-                    $playerChart->setTopScore(true);
+                    $playerChart->setIsTopScore(true);
                 }
                 if ($previousLibValue === $libValue) {
                     ++$nbEqual;
@@ -97,7 +101,6 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
                     $nbEqual = 1;
                     $playerChartEqual = [];
                 }
-
             }
             // Platform point
             if ($playerChart->getPlatform() != null) {
@@ -114,10 +117,9 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
 
             $playerChartEqual[] = $playerChart;
 
-            $playerChart
-                ->setNbEqual($nbEqual)
-                ->setRank($rank)
-                ->setPointChart((int) (
+            $playerChart->setNbEqual($nbEqual);
+            $playerChart->setRank($rank);
+            $playerChart->setPointChart((int) (
                     array_sum(
                         array_slice(array_values($pointsChart), $playerChart->getRank() - 1, $playerChart->getNbEqual())
                     ) / $playerChart->getNbEqual()
@@ -126,9 +128,8 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
             if ($nbEqual > 1) {
                 // Pour les égalités déjà passées on met à jour le nbEqual et l'attribution des points
                 foreach ($playerChartEqual as $playerChartToModify) {
-                    $playerChartToModify
-                        ->setNbEqual($nbEqual)
-                        ->setPointChart($playerChart->getPointChart());
+                    $playerChartToModify->setNbEqual($nbEqual);
+                    $playerChartToModify->setPointChart($playerChart->getPointChart());
                 }
             }
 

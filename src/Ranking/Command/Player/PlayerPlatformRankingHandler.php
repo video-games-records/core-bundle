@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -50,7 +52,8 @@ class PlayerPlatformRankingHandler extends AbstractRankingHandler
 
         foreach ($list as $row) {
             $playerPlatform = $serializer->denormalize(
-                $row, 'VideoGamesRecords\CoreBundle\Entity\PlayerPlatform'
+                $row,
+                'VideoGamesRecords\CoreBundle\Entity\PlayerPlatform'
             );
             $playerPlatform->setPlayer($this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['id']));
             $playerPlatform->setPlatform($platform);

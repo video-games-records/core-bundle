@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -14,7 +16,7 @@ class TeamRequestListener
     public function postUpdate(TeamRequest $teamRequest, LifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
-        if ($teamRequest->getStatus() == TeamRequest::STATUS_ACCEPTED) {
+        if ($teamRequest->getTeamRequestStatus()->isAccepted()) {
             $player = $teamRequest->getPlayer();
             $player->setTeam($teamRequest->getTeam());
             $em->flush();

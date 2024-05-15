@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -28,7 +30,7 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('idType', TextType::class, [
+            ->add('id', TextType::class, [
                 'label' => 'label.id',
                 'attr' => [
                     'readonly' => true,
@@ -61,7 +63,7 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('idType', null, ['label' => 'label.id'])
+            ->add('id', null, ['label' => 'label.id'])
             ->add('name', null, ['label' => 'label.name']);
     }
 
@@ -71,7 +73,7 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('idType', null, ['label' => 'label.id'])
+            ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('name', null, ['label' => 'label.name'])
             ->add('mask', null, ['label' => 'label.mask'])
             ->add('orderBy', null, ['label' => 'label.orderBy'])

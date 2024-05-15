@@ -1,331 +1,111 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Serializer\Filter\GroupFilter;
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Repository\TeamGameRepository;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank0Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank1Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank2Trait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank3Trait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\PointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\PointGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
 
-/**
- * TeamGame
- *
- * @ORM\Table(name="vgr_team_game")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamGameRepository")
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "team": "exact",
- *          "game": "exact",
- *          "game.badge": "exact",
- *     }
- * )
- * @ApiFilter(
- *     GroupFilter::class,
- *     arguments={
- *          "parameterName": "groups",
- *          "overrideDefaultGroups": true,
- *          "whitelist": {
- *              "game.read.mini",
- *              "game.platforms",
- *              "platform.read",
- *              "teamGame.game",
- *              "teamGame.pointChart",
- *              "teamGame.medal",
- *              "game.stats",
- *          }
- *      }
- * )
- * @ApiFilter(
- *     OrderFilter::class,
- *     properties={
- *          "rankPointChart": "ASC",
- *          "chartRank0": "DESC",
- *          "chartRank1": "DESC",
- *          "chartRank2": "DESC",
- *          "chartRank3": "DESC",
- *          "pointGame": "DESC",
- *          "nbEqual": "ASC",
- *          "game.nbTeam" : "DESC",
- *          "game.libGameEn" : "ASC",
- *          "game.libGameFr" : "ASC",
- *     },
- *     arguments={"orderParameterName"="order"}
- * )
- */
+#[ORM\Table(name:'vgr_team_game')]
+#[ORM\Entity(repositoryClass: TeamGameRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get()
+    ],
+    normalizationContext: ['groups' => ['team-game:read']]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'team' => 'exact',
+        'game' => 'exact',
+        'game.badge' => 'exact',
+    ]
+)]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: [
+        'rankPointChart' => 'ASC',
+        'chartRank0' => 'DESC',
+        'chartRank1' => 'DESC',
+        'chartRank2' => 'DESC',
+        'chartRank3' => 'DESC',
+        'pointGame' => 'DESC',
+        'nbEqual' => 'ASC',
+        'game.nbTeam' => 'DESC',
+        'game.libGameEn' => 'ASC',
+        'game.libGameFr' => 'ASC'
+    ]
+)]
+#[ApiFilter(
+    GroupFilter::class,
+    arguments: [
+        'parameterName' => 'groups',
+        'overrideDefaultGroups' => true,
+        'whitelist' => [
+            'team-game:read',
+            'team-game:game','game:read',
+            'game:platforms', 'platform:read',
+        ]
+    ]
+)]
 class TeamGame
 {
     use NbEqualTrait;
+    use RankPointChartTrait;
+    use PointChartTrait;
+    //use RankPointGameTrait;
+    use PointGameTrait;
+    use RankMedalTrait;
+    use ChartRank0Trait;
+    use ChartRank1Trait;
+    use ChartRank2Trait;
+    use ChartRank3Trait;
 
-    /**
-     * @ORM\Column(name="pointGame", type="integer", nullable=false)
-     */
-    private int $pointGame = 0;
-
-    /**
-     * @ORM\Column(name="pointChart", type="integer", nullable=false)
-     */
-    private int $pointChart = 0;
-
-    /**
-     * @ORM\Column(name="rankPointChart", type="integer", nullable=false)
-     */
-    private int $rankPointChart;
-
-    /**
-     * @ORM\Column(name="rankMedal", type="integer", nullable=false)
-     */
-    private int $rankMedal;
-
-    /**
-     * @ORM\Column(name="chartRank0", type="integer", nullable=false)
-     */
-    private int $chartRank0;
-
-    /**
-     * @ORM\Column(name="chartRank1", type="integer", nullable=false)
-     */
-    private int $chartRank1;
-
-    /**
-     * @ORM\Column(name="chartRank2", type="integer", nullable=false)
-     */
-    private int $chartRank2;
-
-    /**
-     * @ORM\Column(name="chartRank3", type="integer", nullable=false)
-     */
-    private int $chartRank3;
-
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team", inversedBy="teamGame")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'teamGame')]
+    #[ORM\JoinColumn(name:'team_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Team $team;
 
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idGame", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'playerGame', fetch: 'EAGER')]
+    #[ORM\JoinColumn(name:'game_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Game $game;
 
-    /**
-     * Set pointGame
-     * @param integer $pointGame
-     * @return $this
-     */
-    public function setPointGame(int $pointGame): TeamGame
-    {
-        $this->pointGame = $pointGame;
-        return $this;
-    }
-
-    /**
-     * Get pointGame
-     *
-     * @return integer
-     */
-    public function getPointGame(): int
-    {
-        return $this->pointGame;
-    }
-
-    /**
-     * Set pointChart
-     * @param int $pointChart
-     * @return $this
-     */
-    public function setPointChart(int $pointChart): TeamGame
-    {
-        $this->pointChart = $pointChart;
-        return $this;
-    }
-
-    /**
-     * Get pointChart
-     *
-     * @return integer
-     */
-    public function getPointChart(): int
-    {
-        return $this->pointChart;
-    }
-
-    /**
-     * Set rankPointChart
-     * @param integer $rankPointChart
-     * @return $this
-     */
-    public function setRankPointChart(int $rankPointChart): TeamGame
-    {
-        $this->rankPointChart = $rankPointChart;
-        return $this;
-    }
-
-    /**
-     * Get rankPointChart
-     *
-     * @return integer
-     */
-    public function getRankPointChart(): int
-    {
-        return $this->rankPointChart;
-    }
-
-    /**
-     * Set rankMedal
-     * @param integer $rankMedal
-     * @return $this
-     */
-    public function setRankMedal(int $rankMedal): TeamGame
-    {
-        $this->rankMedal = $rankMedal;
-        return $this;
-    }
-
-    /**
-     * Get rankMedal
-     *
-     * @return integer
-     */
-    public function getRankMedal(): int
-    {
-        return $this->rankMedal;
-    }
-
-    /**
-     * Set chartRank0
-     * @param integer $chartRank0
-     * @return $this
-     */
-    public function setChartRank0(int $chartRank0): TeamGame
-    {
-        $this->chartRank0 = $chartRank0;
-        return $this;
-    }
-
-    /**
-     * Get chartRank0
-     *
-     * @return integer
-     */
-    public function getChartRank0(): int
-    {
-        return $this->chartRank0;
-    }
-
-    /**
-     * Set chartRank1
-     * @param integer $chartRank1
-     * @return $this
-     */
-    public function setChartRank1(int $chartRank1): TeamGame
-    {
-        $this->chartRank1 = $chartRank1;
-        return $this;
-    }
-
-    /**
-     * Get chartRank1
-     *
-     * @return integer
-     */
-    public function getChartRank1(): int
-    {
-        return $this->chartRank1;
-    }
-
-    /**
-     * Set chartRank2
-     * @param integer $chartRank2
-     * @return $this
-     */
-    public function setChartRank2(int $chartRank2): TeamGame
-    {
-        $this->chartRank2 = $chartRank2;
-        return $this;
-    }
-
-    /**
-     * Get chartRank2
-     *
-     * @return integer
-     */
-    public function getChartRank2(): int
-    {
-        return $this->chartRank2;
-    }
-
-    /**
-     * Set chartRank3
-     * @param integer $chartRank3
-     * @return $this
-     */
-    public function setChartRank3(int $chartRank3): TeamGame
-    {
-        $this->chartRank3 = $chartRank3;
-        return $this;
-    }
-
-    /**
-     * Get chartRank3
-     *
-     * @return integer
-     */
-    public function getChartRank3(): int
-    {
-        return $this->chartRank3;
-    }
-
-
-    /**
-     * Set game
-     * @param Game $game
-     * @return $this
-     */
-    public function setGame(Game $game): TeamGame
+    public function setGame(Game $game): void
     {
         $this->game = $game;
-
-        return $this;
     }
 
-    /**
-     * Get game
-     *
-     * @return Game
-     */
     public function getGame(): Game
     {
         return $this->game;
     }
 
-
-    /**
-     * Set team
-     * @param Team $team
-     * @return $this
-     */
-    public function setTeam(Team $team): TeamGame
+    public function setTeam(Team $team): void
     {
         $this->team = $team;
-
-        return $this;
     }
 
-    /**
-     * Get team
-     *
-     * @return Team
-     */
     public function getTeam(): Team
     {
         return $this->team;

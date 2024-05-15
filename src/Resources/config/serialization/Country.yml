@@ -2,14 +2,14 @@ VideoGamesRecords\CoreBundle\Entity\Country:
   attributes:
     id:
       groups:
-        - 'country.read'
+        - 'country:read'
     name:
       groups:
-        - 'country.read'
+        - 'country:read'
     slug:
       groups:
-        - 'country.read'
+        - 'country:read'
     codeIso2:
       groups:
-        - 'country.read'
+        - 'country:read'
 

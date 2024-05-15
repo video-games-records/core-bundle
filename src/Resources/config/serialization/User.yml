@@ -2,25 +2,25 @@ ProjetNormandie\UserBundle\Entity\User:
   attributes:
     id:
       groups:
-        - 'vgr.user.read'
+        - 'user:read'
     username:
       groups:
-        - 'vgr.user.read'
+        - 'user:read'
     status:
       groups:
-        - 'vgr.user.read'
+        - 'user:read'
     lastLogin:
       groups:
-        - 'vgr.user.read'
+        - 'user:read'
     nbConnexion:
       groups:
-        - 'vgr.user.read'
+        - 'user:read'
     nbForumMessage:
       groups:
-        - 'vgr.user.read'
+        - 'user:read'
     createdAt:
       groups:
-        - 'vgr.user.read'
+        - 'user:read'
 
 
 

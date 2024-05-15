@@ -1,168 +1,117 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\TeamRequestRepository;
+use VideoGamesRecords\CoreBundle\ValueObject\TeamRequestStatus;
 
-/**
- * TeamRequest
- *
- * @ORM\Table(name="vgr_team_request")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\TeamRequestRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\TeamRequestListener"})
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "status": "exact",
- *          "player": "exact",
- *          "team": "exact"
- *      }
- * )
- */
+#[ORM\Table(name:'vgr_team_request')]
+#[ORM\Entity(repositoryClass: TeamRequestRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\TeamRequestListener"])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(
+            denormalizationContext: ['groups' => ['team-request:insert']],
+            security: 'is_granted("ROLE_PLAYER")'
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['team-request:update']],
+            security: 'is_granted("ROLE_PLAYER") and ((object.getTeam().getLeader().getUserId() == user.getId()) or (object.getPlayer().getUserId() == user.getId()))'
+        ),
+    ],
+    normalizationContext: ['groups' => [
+        'team-request:read', 'team-request:player', 'player:read', 'team-request:team']
+    ],
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'status' => 'exact',
+        'player' => 'exact',
+        'team' => 'exact',
+    ]
+)]
 class TeamRequest
 {
     use TimestampableEntity;
 
-    const STATUS_ACTIVE = 'ACTIVE';
-    const STATUS_ACCEPTED = 'ACCEPTED';
-    const STATUS_CANCELED = 'CANCELED';
-    const STATUS_REFUSED = 'REFUSED';
-
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="status", type="string", length=30, nullable=false)
-     */
-    private string $status = self::STATUS_ACTIVE;
+    #[Assert\Length(max: 30)]
+    #[ORM\Column(length: 30, nullable: false)]
+    private string $status = TeamRequestStatus::ACTIVE;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Team")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTeam", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Team::class)]
+    #[ORM\JoinColumn(name:'team_id', referencedColumnName:'id', nullable:false, onDelete: 'CASCADE')]
     private Team $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Player::class)]
+    #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false, onDelete: 'CASCADE')]
     private Player $player;
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return sprintf('%s # %s [%s]', $this->getTeam()->getLibTeam(), $this->getPlayer()->getPseudo(), $this->id);
     }
 
-    /**
-     * Set id
-     * @param integer $id
-     * @return $this
-     */
-    public function setId(int $id): Self
+    public function setId(int $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set status
-     * @param string $status
-     * @return $this
-     */
-    public function setStatus(string $status): Self
+    public function setStatus(string $status): void
     {
-        $this->status = $status;
-
-        return $this;
+        $value = new TeamRequestStatus($status);
+        $this->status = $value->getValue();
     }
 
-    /**
-     * Get status
-     *
-     * @return string
-     */
     public function getStatus(): string
     {
         return $this->status;
     }
 
-    /**
-     * Set player
-     * @param Player $player
-     * @return $this
-     */
-    public function setPlayer(Player $player): Self
+    public function getTeamRequestStatus(): TeamRequestStatus
     {
-        $this->player = $player;
-
-        return $this;
+        return new TeamRequestStatus($this->status);
     }
 
-    /**
-     * Get player
-     *
-     * @return Player
-     */
+    public function setPlayer(Player $player): void
+    {
+        $this->player = $player;
+    }
+
     public function getPlayer(): Player
     {
         return $this->player;
     }
 
-    /**
-     * Set team
-     * @param Team $team
-     * @return $this
-     */
-    public function setTeam(Team $team): Self
+    public function setTeam(Team $team): void
     {
         $this->team = $team;
-
-        return $this;
     }
 
-    /**
-     * Get team
-     * @return Team
-     */
     public function getTeam(): Team
     {
         return $this->team;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getStatusChoices(): array
-    {
-        return [
-            self::STATUS_ACTIVE => self::STATUS_ACTIVE,
-            self::STATUS_REFUSED => self::STATUS_REFUSED,
-            self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
-            self::STATUS_CANCELED => self::STATUS_CANCELED,
-        ];
     }
 }

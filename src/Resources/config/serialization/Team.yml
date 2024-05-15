@@ -2,117 +2,106 @@ VideoGamesRecords\CoreBundle\Entity\Team:
   attributes:
     id:
       groups:
-        - 'team.read'
-        - 'team.read.mini'
-        - 'team.put'
+        - 'team:read'
+        - 'team:update'
     libTeam:
       groups:
-        - 'team.read'
-        - 'team.read.mini'
-        - 'team.put'
+        - 'team:read'
+        - 'team:update'
     presentation:
       groups:
-        - 'team.read'
-        - 'team.put'
+        - 'team:read'
+        - 'team:update'
     slug:
       groups:
-        - 'team.read'
-        - 'team.read.mini'
+        - 'team:read'
     tag:
       groups:
-        - 'team.read'
-        - 'team.read.mini'
-        - 'team.put'
+        - 'team:read'
+        - 'team:update'
     status:
       groups:
-        - 'team.read'
-        - 'team.put'
+        - 'team:read'
+        - 'team:update'
     siteWeb:
       groups:
-        - 'team.read'
-        - 'team.put'
+        - 'team:read'
+        - 'team:update'
     logo:
       groups:
-        - 'team.read'
-        - 'team.read.mini'
+        - 'team:read'
     leader:
       groups:
-        - 'team.leader'
-      max_depth: 1
+        - 'team:leader'
     nbPlayer:
       groups:
-        - 'team.read'
+        - 'team:read'
     rankPointChart:
       groups:
-        - 'team.rank.pointChart'
+        - 'team:read'
     averageChartRank:
       groups:
-        - 'player.pointChart'
+        - 'team:read'
     pointChart:
       groups:
-        - 'team.rank.pointChart'
+        - 'team:read'
     rankPointGame:
       groups:
-        - 'team.rank.pointGame'
+        - 'team:read'
     pointGame:
       groups:
-        - 'team.rank.pointGame'
+        - 'team:read'
     nbGame:
       groups:
-        - 'team.rank.pointGame'
+        - 'team:read'
     rankMedal:
       groups:
-        - 'team.rank.medal'
+        - 'team:read'
     chartRank0:
       groups:
-        - 'team.rank.medal'
+        - 'team:read'
     chartRank1:
       groups:
-        - 'team.rank.medal'
+        - 'team:read'
     chartRank2:
       groups:
-        - 'team.rank.medal'
+        - 'team:read'
     chartRank3:
       groups:
-        - 'team.rank.medal'
+        - 'team:read'
     rankCup:
       groups:
-        - 'team.rank.cup'
+        - 'team:read'
     averageGameRank:
       groups:
-        - 'team.rank.cup'
+        - 'team:read'
     gameRank0:
       groups:
-        - 'team.rank.cup'
+        - 'team:read'
     gameRank1:
       groups:
-        - 'team.rank.cup'
+        - 'team:read'
     gameRank2:
       groups:
-        - 'team.rank.cup'
+        - 'team:read'
     gameRank3:
       groups:
-        - 'team.rank.cup'
+        - 'team:read'
     rankBadge:
       groups:
-        - 'team.rank.badge'
+        - 'team:read'
     pointBadge:
       groups:
-        - 'team.rank.badge'
+        - 'team:read'
     nbMasterBadge:
       groups:
-        - 'team.rank.badge'
-    teamBadge:
-      groups:
-        - 'team.badges'
-    teamGame:
-      groups:
-        - 'team.game'
-      max_depth: 1
+        - 'team:read'
+#    teamBadge:
+#      groups:
+#        - 'team:badges'
+#    teamGame:
+#      groups:
+#        - 'team:games'
     createdAt:
       groups:
-        - 'team.read'
-    players:
-      groups:
-        - 'team.players'
-
+        - 'team:read'

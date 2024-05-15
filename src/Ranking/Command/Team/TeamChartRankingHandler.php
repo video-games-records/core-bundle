@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
 
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -12,7 +14,6 @@ class TeamChartRankingHandler extends AbstractRankingHandler
     private array $teams = [];
     private array $games = [];
     private array $groups = [];
-
 
     public function handle($mixed): void
     {
@@ -88,7 +89,8 @@ class TeamChartRankingHandler extends AbstractRankingHandler
             }
 
             $teamChart = $serializer->denormalize(
-                $row, 'VideoGamesRecords\CoreBundle\Entity\TeamChart'
+                $row,
+                'VideoGamesRecords\CoreBundle\Entity\TeamChart'
             );
             $teamChart->setTeam($this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['idTeam']));
             $teamChart->setChart($chart);

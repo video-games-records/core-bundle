@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
 use Sonata\AdminBundle\Controller\CRUDController;
@@ -9,25 +12,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Form\Type\ChartTypeType;
 
-/**
- * Class GroupAdminController
- */
 class GroupAdminController extends CRUDController
 {
     /**
      * @param $id
      * @return RedirectResponse
      */
-    public function copyAction($id)
+    public function copyAction($id): RedirectResponse
     {
-        $object = $this->admin->getSubject();
-
-        if (!$object) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
-        }
+        $group = $this->admin->getSubject();
 
         $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
-        $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($id, false);
+        $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($group, false);
 
         $this->addFlash('sonata_flash_success', 'Copied successfully');
 
@@ -38,16 +34,12 @@ class GroupAdminController extends CRUDController
      * @param $id
      * @return RedirectResponse
      */
-    public function copyWithLibChartAction($id)
+    public function copyWithLibChartAction($id): RedirectResponse
     {
-        $object = $this->admin->getSubject();
-
-        if (!$object) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
-        }
+        $group = $this->admin->getSubject();
 
         $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
-        $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($id, true);
+        $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($group, true);
 
         $this->addFlash('sonata_flash_success', 'Copied with libchart successfully');
 
@@ -64,7 +56,7 @@ class GroupAdminController extends CRUDController
         /** @var Group $object */
         $object = $this->admin->getSubject();
 
-        if ($object->getGame()->getStatus()->isActive()) {
+        if ($object->getGame()->getGameStatus()->isActive()) {
             $this->addFlash('sonata_flash_error', 'Game is already activated');
             return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));
         }
@@ -75,7 +67,7 @@ class GroupAdminController extends CRUDController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $type = $data['type'];
-            $result = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->insertLibChart($id, $type->getIdType());
+            $result = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->insertLibChart($id, $type->getId());
             if ($result) {
                 $this->addFlash('sonata_flash_success', 'Add all libchart on group successfully');
                 return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));
@@ -85,7 +77,8 @@ class GroupAdminController extends CRUDController
             }
         }
 
-        return $this->renderForm('@VideoGamesRecordsCore/Admin/group_add_chart_form.html.twig',
+        return $this->renderForm(
+            '@VideoGamesRecordsCore/Admin/group_add_chart_form.html.twig',
             [
                 'base_template' => '@SonataAdmin/standard_layout.html.twig',
                 'admin' => $this->admin,

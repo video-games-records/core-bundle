@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
@@ -14,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CountryAdmin extends AbstractAdmin
 {
-
     /**
      * @param RouteCollectionInterface $collection
      */

@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Picture;
 
-use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Attribute\Cache;
+use Symfony\Component\Routing\Attribute\Route;
 use VideoGamesRecords\CoreBundle\Entity\Picture;
 
 class Show extends AbstractController
@@ -25,17 +26,17 @@ class Show extends AbstractController
         $this->proofStorage = $proofStorage;
     }
 
-    /**
-     * @Route(path="/proof/picture/{id}", requirements={"id": "[1-9]\d*"}, name="vgr_core_picture_index", methods={"GET"})
-     * @Cache(expires="+30 days")
-     * @param Picture $picture
-     * @return StreamedResponse
-     * @throws FilesystemException
-     */
+    #[Route(
+        '/picture/{id}/show',
+        name: 'vgr_core_picture_show',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: ['GET']
+    )]
+    #[Cache(maxage: 3600 * 24, public: true, mustRevalidate: true)]
     public function __invoke(Picture $picture): StreamedResponse
     {
         $stream = $this->proofStorage->readStream($picture->getPath());
-        return new StreamedResponse(function() use ($stream) {
+        return new StreamedResponse(function () use ($stream) {
             fpassthru($stream);
             exit();
         }, 200, ['Content-Type' => $this->getMimeType($picture->getPath())]);

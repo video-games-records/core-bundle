@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -73,7 +75,9 @@ class GameDayAdmin extends AbstractAdmin
         $filter
             ->add('day', null, ['label' => 'label.day'])
             ->add(
-                'game', ModelFilter::class, [
+                'game',
+                ModelFilter::class,
+                [
                     'label' => 'label.game',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'libGameEn'],

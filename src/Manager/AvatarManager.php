@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Manager;
 
 use League\Flysystem\FilesystemException;
@@ -7,7 +10,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AvatarManager
 {
-    private string $prefix;
+    private string $prefix = 'team/';
 
     private array $extensions = array(
         'png' => 'image/png',
@@ -16,10 +19,9 @@ class AvatarManager
 
     private FilesystemOperator $appStorage;
 
-    public function __construct(FilesystemOperator $appStorage, string $prefix)
+    public function __construct(FilesystemOperator $appStorage)
     {
         $this->appStorage = $appStorage;
-        $this->prefix = $prefix;
     }
 
     /**
@@ -44,7 +46,7 @@ class AvatarManager
         }
 
         $stream = $this->appStorage->readStream($path);
-        return new StreamedResponse(function() use ($stream) {
+        return new StreamedResponse(function () use ($stream) {
             fpassthru($stream);
             exit();
         }, 200, ['Content-Type' => $this->getMimeType($path)]);

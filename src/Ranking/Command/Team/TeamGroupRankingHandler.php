@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
 
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -60,7 +62,8 @@ class TeamGroupRankingHandler extends AbstractRankingHandler
 
         foreach ($list as $row) {
             $teamGroup = $serializer->denormalize(
-                $row, 'VideoGamesRecords\CoreBundle\Entity\TeamGroup'
+                $row,
+                'VideoGamesRecords\CoreBundle\Entity\TeamGroup'
             );
             $teamGroup->setTeam($this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['id']));
             $teamGroup->setGroup($group);

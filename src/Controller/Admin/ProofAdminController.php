@@ -1,21 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class ProofAdminController
- */
 class ProofAdminController extends CRUDController
 {
+    public function __construct(private readonly EntityManagerInterface $em)
+    {
+    }
 
     /**
      * @return Response
      */
     public function statsAction(): Response
     {
-        $stats = $this->getDoctrine()->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getProofStats();
+        $stats = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getProofStats();
+
         // Formatage
         $months = [];
 
@@ -25,7 +30,7 @@ class ProofAdminController extends CRUDController
             $months[$row['month']][] = $row;
         }
 
-        return $this->renderWithExtraParams(
+        return $this->render(
             '@VideoGamesRecordsCore/Admin/proof.stats.html.twig',
             [
                 'stats' => $months,

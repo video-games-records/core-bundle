@@ -2,80 +2,58 @@ VideoGamesRecords\CoreBundle\Entity\Game:
   attributes:
     id:
       groups:
-        - 'game.list'
-        - 'game.read'
-        - 'game.read.mini'
+        - 'game:read'
     name:
       groups:
-        - 'game.list'
-        - 'game.read'
-        - 'game.read.mini'
+        - 'game:read'
     picture:
       groups:
-        - 'game.read'
-        - 'game.read.mini'
+        - 'game:read'
     groups:
       groups:
         - 'game.groups'
     status:
       groups:
-        - 'game.read'
+        - 'game:read'
     publishedAt:
       groups:
-        - 'game.list'
-        - 'game.read'
+        - 'game:read'
     isRank:
       groups:
-        - 'game.list'
-        - 'game.read'
+        - 'game:read'
     nbChart:
       groups:
-        - 'game.list'
-        - 'game.read'
-        - 'game.stats'
+        - 'game:read'
     nbPost:
       groups:
-        - 'game.list'
-        - 'game.read'
-        - 'game.stats'
+        - 'game:read'
     nbPlayer:
       groups:
-        - 'game.list'
-        - 'game.read'
-        - 'game.stats'
+        - 'game:read'
     nbTeam:
       groups:
-        - 'game.read'
-        - 'game.stats'
+        - 'game:read'
     serie:
       groups:
-        - 'game.serie'
-    badge:
-      groups: []
+        - 'game:serie'
     platforms:
       groups:
-        - 'game.platforms'
+        - 'game:platforms'
     rules:
       groups:
-        - 'game.read'
+        - 'game:rules'
     slug:
       groups:
-        - 'game.list'
-        - 'game.read'
-        - 'game.read.mini'
+        - 'game:read'
     forum:
       groups:
-        - 'game.read'
+        - 'game:forum'
     downloadUrl:
       groups:
-        - 'game.read'
+        - 'game:read'
     lastUpdate:
       groups:
-        - 'game.read'
+        - 'game:read'
     lastScore:
       groups:
-        - 'lastScore.read'
-    createdAt:
-      groups: []
-    updatedAt:
-      groups: []
+        - 'game:last-score'

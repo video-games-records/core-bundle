@@ -1,9 +1,0 @@
-resources:
-    VideoGamesRecords\CoreBundle\Entity\ChartType:
-        properties:
-            idType:
-                identifier: true
-        collectionOperations:
-            get: ~
-        itemOperations:
-            get: ~

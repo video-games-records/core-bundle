@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\DBAL\Logging\DebugStack;
@@ -26,11 +28,11 @@ abstract class DefaultCommand extends Command
     protected function configure()
     {
         $this->addOption(
-                'debug',
-                null,
-                InputOption::VALUE_NONE,
-                ''
-            )
+            'debug',
+            null,
+            InputOption::VALUE_NONE,
+            ''
+        )
         ;
     }
 

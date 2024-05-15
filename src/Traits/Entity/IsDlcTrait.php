@@ -1,30 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait IsDlcTrait
 {
-    /**
-     * @ORM\Column(name="isDlc", type="boolean", nullable=false, options={"default":false})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $isDlc = false;
 
-    /**
-     * Set isDlc
-     * @param bool $isDlc
-     * @return $this
-     */
-    public function setIsDlc(bool $isDlc): static
+    public function setIsDlc(bool $isDlc): void
     {
         $this->isDlc = $isDlc;
-
-        return $this;
     }
 
-    /**
-     * Get isDlc
-     * @return bool
-     */
     public function getIsDlc(): bool
     {
         return $this->isDlc;

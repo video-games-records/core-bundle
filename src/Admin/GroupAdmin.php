@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -13,8 +15,10 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Locale;
+use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
 
 class GroupAdmin extends AbstractAdmin
 {
@@ -95,7 +99,16 @@ class GroupAdmin extends AbstractAdmin
             ->add('isRank', CheckboxType::class, [
                 'label' => 'label.boolRanking',
                 'required' => false,
-            ]);
+            ])
+            ->add(
+                'orderBy',
+                ChoiceType::class,
+                [
+                    'label' => 'label.orderBy',
+                    'choices' => GroupOrderBy::getStatusChoices(),
+                ]
+            )
+        ;
 
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
             $btnCalalogue = (bool) $this->isCurrentRoute('create');
@@ -105,7 +118,7 @@ class GroupAdmin extends AbstractAdmin
                     ModelListType::class,
                     array_merge(
                         $gameOptions,
-                    [
+                        [
                         'data_class' => null,
                         'btn_add' => false,
                         'btn_list' => $btnCalalogue,
@@ -114,8 +127,8 @@ class GroupAdmin extends AbstractAdmin
                         'btn_catalogue' => $btnCalalogue,
                         'label' => 'label.game',
                         ]
-                )
-            );
+                    )
+                );
         }
 
         $form->add('isDlc', CheckboxType::class, [
@@ -125,14 +138,17 @@ class GroupAdmin extends AbstractAdmin
 
         $subject = $this->getSubject();
 
-        if ((strpos(
-                    $this->getRequest()
-                        ->getPathInfo(), 'videogamesrecords/core/group'
-                ) || (($this->getRequest()
+        if (
+            (strpos(
+                $this->getRequest()
+                        ->getPathInfo(),
+                'videogamesrecords/core/group'
+            ) || (($this->getRequest()
                             ->getPathInfo() == '/admin/core/append-form-field-element') && ($this->getRequest(
                             )->query->get('_sonata_admin') == 'sonata.admin.vgr.group'))) && (count(
-                    $subject->getCharts()
-                            ) < 50)) {
+                                $subject->getCharts()
+                            ) < 50)
+        ) {
             $form->end()
                 ->with('label.charts')
                 ->add(
@@ -155,7 +171,8 @@ class GroupAdmin extends AbstractAdmin
                                 )
                             )
                         ),
-                    ), array(
+                    ),
+                    array(
                         'edit' => 'inline',
                         'inline' => 'table',
                     )
@@ -174,11 +191,15 @@ class GroupAdmin extends AbstractAdmin
             ->add('libGroupEn', null, ['label' => 'label.name.en'])
             ->add('libGroupFr', null, ['label' => 'label.name.fr'])
             ->add('isDlc', null, ['label' => 'label.isDlc'])
-            ->add('game', ModelFilter::class, [
-                'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property' => $this->getLibGame()],
-                'label' => 'label.game'
-            ])
+            ->add(
+                'game',
+                ModelFilter::class,
+                [
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => ['property' => $this->getLibGame()],
+                    'label' => 'label.game'
+                ]
+            )
         ;
     }
 
@@ -211,6 +232,7 @@ class GroupAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',
             ])
+            ->add('orderBy', null, ['label' => 'label.orderBy'])
             ->add('isDlc', 'boolean', ['label' => 'label.isDlc'])
             ->add('_action', 'actions', [
                 'actions' =>

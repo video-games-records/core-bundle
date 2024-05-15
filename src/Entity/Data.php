@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -7,29 +9,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\DataRepository;
 
-/**
- * Data
- *
- * @ORM\Table(name="vgr_data")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\DataRepository")
- * @ApiResource(attributes={"order"={"id"}})
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "category": "exact",
- *          "label": "exact",
- *          "version": "exact",
-*      }
- * )
- */
+#[ORM\Table(name:'vgr_data')]
+#[ORM\Entity(repositoryClass: DataRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener"])]
 class Data
 {
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
     /**
@@ -69,7 +56,7 @@ class Data
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): Self
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
@@ -87,7 +74,7 @@ class Data
      * @param string $category
      * @return $this
      */
-    public function setCategory(string $category): Self
+    public function setCategory(string $category): self
     {
         $this->category = $category;
 
@@ -107,7 +94,7 @@ class Data
      * @param string $label
      * @return $this
      */
-    public function setLabel(string $label): Self
+    public function setLabel(string $label): self
     {
         $this->label = $label;
 
@@ -127,7 +114,7 @@ class Data
      * @param string $value
      * @return $this
      */
-    public function setValue(string $value): Self
+    public function setValue(string $value): self
     {
         $this->value = $value;
 
@@ -146,7 +133,7 @@ class Data
      * @param string $version
      * @return $this
      */
-    public function setVersion(string $version): Self
+    public function setVersion(string $version): self
     {
         $this->version = $version;
 

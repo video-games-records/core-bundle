@@ -1,19 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Handler\Badge;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerGameRankingProvider;
 
 class PlayerMasterBadgeHandler
 {
     private EntityManagerInterface $em;
-    private RankingProviderInterface $rankingProvider; //PlayerGameRankingQuery
+    private RankingProviderInterface $rankingProvider;
 
-    public function __construct(EntityManagerInterface $em, RankingProviderInterface $rankingProvider)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        #[Autowire(service: PlayerGameRankingProvider::class)]
+        RankingProviderInterface $rankingProvider
+    ) {
         $this->em = $em;
         $this->rankingProvider = $rankingProvider;
     }

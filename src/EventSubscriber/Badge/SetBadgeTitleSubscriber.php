@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventSubscriber\Badge;
 
 use ApiPlatform\Symfony\EventListener\EventPriorities as EventPrioritiesAlias;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -14,13 +18,11 @@ use VideoGamesRecords\CoreBundle\Manager\BadgeManager;
 
 final class SetBadgeTitleSubscriber implements EventSubscriberInterface, BadgeInterface
 {
-    private TranslatorInterface $translator;
-    private BadgeManager $badgeManager;
-
-    public function __construct(TranslatorInterface $translator, BadgeManager $badgeManager)
-    {
-        $this->translator = $translator;
-        $this->badgeManager = $badgeManager;
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        #[Autowire(service: 'vgr.core.manager.badge')]
+        private readonly BadgeManager $badgeManager
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -38,10 +40,12 @@ final class SetBadgeTitleSubscriber implements EventSubscriberInterface, BadgeIn
         $data = $event->getRequest()->attributes->get('data');
         $method = $event->getRequest()->getMethod();
 
-        if ($method == Request::METHOD_GET
+        if (
+            $method == Request::METHOD_GET
             && is_array($data)
             && count($data) > 0
-            && ($data[0] instanceof PlayerBadge || $data[0] instanceof TeamBadge) ) {
+            && ($data[0] instanceof PlayerBadge || $data[0] instanceof TeamBadge)
+        ) {
             foreach ($data as $userBadge) {
                 $userBadge->getBadge()->setTitle(
                     sprintf(

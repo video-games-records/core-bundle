@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -17,7 +19,7 @@ class PlatformAdmin extends AbstractAdmin
     /**
      * @param RouteCollectionInterface $collection
      */
-    protected function configureRoutes(RouteCollectionInterface $collection) : void
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('export');
@@ -26,7 +28,7 @@ class PlatformAdmin extends AbstractAdmin
     /**
      * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $form) : void
+    protected function configureFormFields(FormMapper $form): void
     {
         $form
             ->add('id', TextType::class, [
@@ -67,7 +69,7 @@ class PlatformAdmin extends AbstractAdmin
     /**
      * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $filter) : void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('libPlatform', null, ['label' => 'label.name']);
@@ -76,7 +78,7 @@ class PlatformAdmin extends AbstractAdmin
     /**
      * @param ListMapper $list
      */
-    protected function configureListFields(ListMapper $list) : void
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
@@ -121,7 +123,7 @@ class PlatformAdmin extends AbstractAdmin
     /**
      * @param ShowMapper $show
      */
-    protected function configureShowFields(ShowMapper $show) : void
+    protected function configureShowFields(ShowMapper $show): void
     {
         $show
             ->add('id', null, ['label' => 'label.id'])

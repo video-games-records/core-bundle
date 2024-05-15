@@ -2,50 +2,37 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
   attributes:
     id:
       groups:
-        - 'chart.list'
-        - 'chart.read'
-        - 'chart.read.mini'
+        - 'chart:read'
     group:
       groups:
-        - 'chart.group'
+        - 'chart:group'
     libs:
       groups:
-        - 'chart.libs'
+        - 'chart:libs'
     nbPost:
       groups:
-        - 'chart.list'
-        - 'chart.read'
+        - 'chart:read'
     nbPlayer:
       groups:
-        - 'chart.list'
-        - 'chart.read'
+        - 'chart:read'
     name:
       groups:
-        - 'chart.list'
-        - 'chart.read'
-        - 'chart.read.mini'
+        - 'chart:read'
     isDlc:
       groups:
-        - 'chart.list'
+        - 'chart:read'
     slug:
       groups:
-        - 'chart.list'
-        - 'chart.read'
-        - 'chart.read.mini'
-    statusPlayer:
-      groups: []
-    statusTeam:
-      groups: []
+        - 'chart:read'
     playerCharts:
       groups:
-        - 'chart.playerCharts'
-      max_depth: 1
+        - 'chart:player-charts'
     playerChart1:
       groups:
-        - 'chart.top-score'
+        - 'chart:top-score'
     playerChartP:
       groups:
-        - 'chart.top-score'
+        - 'chart:top-score'
     createdAt:
       groups: []
     updatedAt:

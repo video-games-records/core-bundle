@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Controller\Country;
 
 use Doctrine\ORM\Exception\ORMException;
@@ -8,13 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Country;
 use VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerRankingProvider;
 
-
 class GetRanking extends AbstractController
 {
-
     public function __construct(
-        private readonly PlayerRankingProvider $playerRankingProvider)
-    {
+        private readonly PlayerRankingProvider $playerRankingProvider
+    ) {
     }
 
     /**

@@ -1,110 +1,89 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\VideoCommentRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 
-/**
- * Comment
- * @ORM\Table(name="vgr_video_comment")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\VideoCommentRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\VideoCommentListener"})
- * @ApiResource(attributes={"order"={"id"}})
- */
+#[ORM\Table(name:'vgr_video_comment')]
+#[ORM\Entity(repositoryClass: VideoCommentRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\VideoCommentListener"])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(
+            denormalizationContext: ['groups' => ['video-comment:insert']],
+            security: 'is_granted("ROLE_PLAYER")'
+        ),
+    ],
+    normalizationContext: ['groups' => ['video-comment:read', 'video-comment:player', 'player:read']]
+)]
+#[ApiResource(
+    uriTemplate: '/videos/{id}/comments',
+    uriVariables: [
+        'id' => new Link(fromClass: Video::class, toProperty: 'video'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['video-comment:read', 'video-comment:player', 'player:read']],
+)]
 class VideoComment
 {
     use TimestampableEntity;
     use PlayerTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Video", inversedBy="comments")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idVideo", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Video::class, inversedBy: 'comments')]
+    #[ORM\JoinColumn(name:'video_id', referencedColumnName:'id', nullable:false, onDelete: 'CASCADE')]
     private Video $video;
 
-    /**
-     * @ORM\Column(name="text", type="text", nullable=false)
-     */
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'text', nullable: false)]
     private string $text;
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return sprintf('comment [%s]', $this->id);
     }
 
-    /**
-     * Set id
-     * @param integer $id
-     * @return $this
-     */
-    public function setId(int $id): VideoComment
+    public function setId(int $id): void
     {
         $this->id = $id;
-
-        return $this;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Get video
-     * @return Video
-     */
     public function getVideo(): Video
     {
         return $this->video;
     }
 
-    /**
-     * Set video
-     * @param Video $video
-     * @return $this
-     */
-    public function setVideo(Video $video): VideoComment
+    public function setVideo(Video $video): void
     {
         $this->video = $video;
-        return $this;
     }
 
-    /**
-     * @param string $text
-     * @return $this
-     */
-    public function setText(string $text): VideoComment
+
+    public function setText(string $text): void
     {
         $this->text = $text;
-
-        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getText(): string
     {
         return $this->text;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Tools;
 
 class Score
@@ -30,10 +32,10 @@ class Score
     public static function getValues(string $mask, $value): array
     {
         $parse   = self::parseChartMask($mask);
-        $negative = str_starts_with($value, '-');
+        $negative = $value !== null && str_starts_with($value, '-');
         $value = $negative ? (int) substr($value, 1) : $value;
         $data    = [];
-        $laValue = $value;
+        $laValue = (string) $value;
         for ($k = count($parse) - 1; $k >= 0; $k--) {
             $size = $parse[$k]['size'];
 
@@ -119,25 +121,25 @@ class Score
             return '';
         }
 
-        $result     = '';
-        $negative = str_starts_with($value, '-');
+        $result = '';
+        $negative = str_starts_with((string) $value, '-');
         $localValue = $negative ? (int) substr($value, 1) : $value;
         $nbElement  = count($parse) - 1;
         for ($k = $nbElement; $k >= 0; --$k) {
-            $size             = $parse[$k]['size'];
-            $suffixe          = $parse[$k]['suffixe'];
-            $lengthLocalValue = strlen($localValue);
+            $size = $parse[$k]['size'];
+            $suffixe = $parse[$k]['suffixe'];
+            $lengthLocalValue = strlen((string) $localValue);
 
             if ($lengthLocalValue > $size) {
-                $tmpValue   = substr($localValue, $lengthLocalValue - $size, $size);
-                $localValue = substr($localValue, 0, $lengthLocalValue - $size);
+                $tmpValue   = substr((string) $localValue, $lengthLocalValue - $size, $size);
+                $localValue = substr((string) $localValue, 0, $lengthLocalValue - $size);
             } elseif ($k !== 0) {
-                $tmpValue   = str_pad($localValue, $size, '0', STR_PAD_LEFT);
+                $tmpValue   = str_pad((string) $localValue, $size, '0', STR_PAD_LEFT);
                 $localValue = '';
             } elseif ($lengthLocalValue === 0) {
                 $tmpValue = '0';
             } elseif ($size === 30) {
-                $tmpValue = number_format($localValue);
+                $tmpValue = $localValue;
             } else {
                 $tmpValue = $localValue;
             }

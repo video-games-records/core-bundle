@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
@@ -55,7 +57,7 @@ class GameListener
             $this->majPlayers = true;
         }
 
-        if ($game->getStatus()->isActive() && ($game->getPublishedAt() == null)) {
+        if ($game->getGameStatus()->isActive() && ($game->getPublishedAt() == null)) {
             $game->setPublishedAt(new DateTime());
             $event = new GameEvent($game);
             $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::GAME_PUBLISHED);

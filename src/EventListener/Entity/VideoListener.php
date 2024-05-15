@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\ORM\Exception\ORMException;
@@ -30,7 +32,6 @@ class VideoListener
         $this->userProvider = $userProvider;
         $this->youtubeProvider = $youtubeProvider;
         $this->translator = $translator;
-
     }
 
     /**
@@ -50,8 +51,8 @@ class VideoListener
             );
 
         // Set youtube data
-        if ($video->getType()->getValue() === VideoType::TYPE_YOUTUBE) {
-            $response = $this->youtubeProvider->getVideo($video->getVideoId());
+        if ($video->getType()->getValue() === VideoType::YOUTUBE) {
+            $response = $this->youtubeProvider->getVideo($video->getExternalId());
 
             if (count($response->getItems()) == 0) {
                 throw new BadRequestException($this->translator->trans('video.youtube.not_found'));

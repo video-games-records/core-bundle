@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Manager;
 
 use Doctrine\DBAL\Exception;
@@ -25,10 +27,9 @@ class GameManager
 
     /**
      * @param Game $game
-     * @throws Exception
      */
     public function copy(Game $game): void
     {
-        $this->gameRepository->copy($game->getId());
+        $this->gameRepository->copy($game);
     }
 }

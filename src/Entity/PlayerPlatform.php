@@ -1,132 +1,71 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use VideoGamesRecords\CoreBundle\Repository\PlayerPlatformRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 
-/**
- * PlayerPlatform
- *
- * @ORM\Table(name="vgr_player_platform")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerPlatformRepository")
- */
+#[ORM\Table(name:'vgr_player_platform')]
+#[ORM\Entity(repositoryClass: PlayerPlatformRepository::class)]
 class PlayerPlatform
 {
     use NbChartTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Player::class)]
+    #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Player $player;
 
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform", inversedBy="playerPlatform", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="id", nullable=false)
-     * })
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Platform::class, inversedBy: 'playerPlatform', fetch: 'EAGER')]
+    #[ORM\JoinColumn(name:'platform_id', referencedColumnName:'id', nullable:false)]
     private Platform $platform;
 
-    /**
-     * @ORM\Column(name="rankPointPlatform", type="integer", nullable=false)
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $rankPointPlatform;
 
-    /**
-     * @ORM\Column(name="pointPlatform", type="integer", nullable=false)
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $pointPlatform = 0;
 
-    /**
-     * Set rankPointPlatform
-     * @param integer $rankPointPlatform
-     * @return $this
-     */
-    public function setRankPointPlatform(int $rankPointPlatform): self
+    public function setRankPointPlatform(int $rankPointPlatform): void
     {
         $this->rankPointPlatform = $rankPointPlatform;
-        return $this;
     }
 
-    /**
-     * Get rankPointPlatform
-     *
-     * @return integer
-     */
     public function getRankPointPlatform(): int
     {
         return $this->rankPointPlatform;
     }
 
-    /**
-     * Set pointPlatform
-     * @param integer $pointPlatform
-     * @return $this
-     */
-    public function setPointPlatform(int $pointPlatform): self
+    public function setPointPlatform(int $pointPlatform): void
     {
         $this->pointPlatform = $pointPlatform;
-        return $this;
     }
 
-    /**
-     * Get pointPlatform
-     *
-     * @return integer
-     */
     public function getPointPlatform(): int
     {
         return $this->pointPlatform;
     }
 
-
-    /**
-     * Set platform
-     * @param Platform $platform
-     * @return $this
-     */
-    public function setPlatform(Platform $platform): self
+    public function setPlatform(Platform $platform): void
     {
         $this->platform = $platform;
-
-        return $this;
     }
 
-
-    /**
-     * Get latform
-     *
-     * @return Platform
-     */
     public function getPlatform(): Platform
     {
         return $this->platform;
     }
 
 
-    /**
-     * Set player
-     * @param Player $player
-     * @return $this
-     */
-    public function setPlayer(Player $player): self
+    public function setPlayer(Player $player): void
     {
         $this->player = $player;
-
-        return $this;
     }
 
-    /**
-     * Get player
-     *
-     * @return Player
-     */
     public function getPlayer(): Player
     {
         return $this->player;

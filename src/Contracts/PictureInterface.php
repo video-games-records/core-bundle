@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Contracts;
 
 interface PictureInterface
 {
-    const MIME_TYPES = [
+    public const MIME_TYPES = [
         'bmp'  => 'image/bmp',
         'gif'  => 'image/gif',
         'jpeg' => 'image/jpeg',
@@ -13,7 +16,7 @@ interface PictureInterface
         'xbm'  => 'image/x-xbitmap',
     ];
 
-    const EXTENSIONS = [
+    public const EXTENSIONS = [
         'gd'   => ['generate' => 'imagegd', 'create' => 'imagecreatefromgd'],
         'gd2'  => ['generate' => 'imagegd2', 'create' => 'imagecreatefromgd2'],
         'gif'  => ['generate' => 'imagegif', 'create' => 'imagecreatefromgif'],

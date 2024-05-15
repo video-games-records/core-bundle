@@ -2,37 +2,28 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
   attributes:
     id:
       groups:
-        - 'serie.list'
-        - 'serie.read'
-        - 'serie.read.mini'
+        - 'serie:read'
     name:
       groups:
-        - 'serie.list'
-        - 'serie.read'
-        - 'serie.read.mini'
+        - 'serie:read'
     slug:
       groups:
-        - 'serie.list'
-        - 'serie.read'
-        - 'serie.read.mini'
+        - 'serie:read'
     status:
       groups:
-        - 'serie.list'
-        - 'serie.read'
-        - 'serie.read.mini'
+        - 'serie:read'
     nbGame:
       groups:
-        - 'serie.read'
+        - 'serie:read'
     description:
       groups:
-        - 'serie.read'
+        - 'serie:read'
     nbChart:
       groups:
-        - 'serie.read'
+        - 'serie:read'
     status.value:
       groups:
-        - 'serie.list'
-        - 'serie.read'
+        - 'serie:read'
     games:
       groups:
-        - 'serie.games'
+        - 'serie:games'

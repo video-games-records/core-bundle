@@ -2,17 +2,17 @@ VideoGamesRecords\CoreBundle\Entity\PlayerPlatform:
   attributes:
     player:
       groups:
-        - 'playerPlatform.player'
+        - 'player-platform:player'
     platform:
       groups:
-        - 'playerPlatform.platform'
+        - 'player-platform:platform'
     rankPointPlatform:
       groups:
-        - 'playerPlatform.pointPlatform'
+        - 'player-platform:read'
     pointPlatform:
       groups:
-        - 'playerPlatform.pointPlatform'
+        - 'player-platform:read'
     nbChart:
       groups:
-        - 'playerPlatform.pointPlatform'
+        - 'player-platform:read'
 

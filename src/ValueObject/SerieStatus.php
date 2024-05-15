@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\ValueObject;
 
 use Webmozart\Assert\Assert;
 
 class SerieStatus
 {
-    const STATUS_ACTIVE = 'ACTIVE';
-    const STATUS_INACTIVE = 'INACTIVE';
+    public const ACTIVE = 'ACTIVE';
+    public const INACTIVE = 'INACTIVE';
 
     public const VALUES = [
-        self::STATUS_ACTIVE,
-        self::STATUS_INACTIVE,
+        self::ACTIVE,
+        self::INACTIVE,
     ];
 
     private string $value;
@@ -40,19 +42,19 @@ class SerieStatus
 
     public function isActive(): bool
     {
-        return self::STATUS_ACTIVE === $this->value;
+        return self::ACTIVE === $this->value;
     }
 
     public function isInactive(): bool
     {
-        return self::STATUS_INACTIVE === $this->value;
+        return self::INACTIVE === $this->value;
     }
 
     public static function getStatusChoices(): array
     {
         return [
-            self::STATUS_ACTIVE => self::STATUS_ACTIVE,
-            self::STATUS_INACTIVE => self::STATUS_INACTIVE,
+            self::ACTIVE => self::ACTIVE,
+            self::INACTIVE => self::INACTIVE,
         ];
     }
 }

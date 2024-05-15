@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Provider\Team;
 
 use Doctrine\ORM\Exception\ORMException;
@@ -14,12 +16,11 @@ class TeamSerieRankingProvider extends AbstractRankingProvider
      * @param int|null $id
      * @param array $options
      * @return array
-     * @throws ORMException
      */
     public function getRankingPoints(int $id = null, array $options = []): array
     {
         $serie = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Serie')->find($id);
-        if (null === $serie) {
+        if (null == $serie) {
             return [];
         }
 
@@ -62,7 +63,7 @@ class TeamSerieRankingProvider extends AbstractRankingProvider
         }
 
         $maxRank = $options['maxRank'] ?? null;
-        $player = $this->getPlayer();
+        $team = $this->getTeam($options['user'] ?? null);
         $limit = $options['limit'] ?? null;
 
         $query = $this->em->createQueryBuilder()
@@ -75,7 +76,7 @@ class TeamSerieRankingProvider extends AbstractRankingProvider
         $query->where('ps.serie = :serie')
             ->setParameter('serie', $serie);
 
-        $row = (null !== $player) ? $this->getRow($serie, $player) : null;
+        $row = (null !== $team) ? $this->getRow($serie, $team) : null;
 
         if (null !== $maxRank) {
             if (null !== $row) {

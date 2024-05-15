@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -35,7 +37,7 @@ class GameAdmin extends AbstractAdmin
     }
 
     /**
-     * @param array $sortValues
+     * @param array<mixed> $sortValues
      * @return void
      */
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -123,7 +125,7 @@ class GameAdmin extends AbstractAdmin
                     'required' => false,
                     'expanded' => false,
                     'query_builder' =>
-                        function($er) {
+                        function ($er) {
                             $qb = $er->createQueryBuilder('p');
                             $qb->orderBy('p.libPlatform', 'ASC');
                             return $qb;
@@ -175,7 +177,9 @@ class GameAdmin extends AbstractAdmin
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
-            ->add('platforms', null,
+            ->add(
+                'platforms',
+                null,
                 [
                     'label' => 'label.platforms',
                     'field_options' => [
@@ -256,7 +260,8 @@ class GameAdmin extends AbstractAdmin
                         'groups' => [
                             'template' => '@VideoGamesRecordsCore/Admin/game_groups_link.html.twig'
                         ]
-                    ], $btns
+                    ],
+                    $btns
                 )
             ]);
     }

@@ -1,168 +1,113 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
 
-/**
- * LostPosition
- *
- * @ORM\Table(name="vgr_lostposition")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\LostPositionRepository")
- * @ApiResource(attributes={"order"={"id": "DESC"}, "pagination_items_per_page"=20})
- * @ApiFilter(SearchFilter::class, properties={"player": "exact", "chart.group.game": "exact"})
- */
+#[ORM\Table(name:'vgr_lostposition')]
+#[ORM\Entity(repositoryClass: LostPositionRepository::class)]
+#[ApiResource(
+    order: ['id' => 'DESC'],
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Delete(
+            security: "is_granted('ROLE_PLAYER') and object.getPlayer().getUserId() == user.getId()'",
+        )
+    ],
+    normalizationContext: ['groups' => [
+        'lost-position:read',
+        'lost-position:chart', 'chart:read',
+        'chart:group', 'groups:read',
+        'group:game', 'games:read']
+    ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'player' => 'exact',
+        'chart.group.game"' => 'exact',
+    ]
+)]
 class LostPosition
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="oldRank", type="integer", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $oldRank = 0;
 
-    /**
-     * @ORM\Column(name="newRank", type="integer", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $newRank = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlayer", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Player::class)]
+    #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false, onDelete: 'CASCADE')]
     private Player $player;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="lostPositions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Chart::class, inversedBy: 'lostPositions')]
+    #[ORM\JoinColumn(name:'chart_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Chart $chart;
 
-    public function __construct()
-    {
-    }
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return LostPosition
-     */
-    public function setId(int $id): Self
+    public function setId(int $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set newRank
-     *
-     * @param integer $newRank
-     * @return LostPosition
-     */
-    public function setNewRank(int $newRank): Self
+    public function setNewRank(int $newRank): void
     {
         $this->newRank = $newRank;
-        return $this;
     }
 
-    /**
-     * Get newRank
-     *
-     * @return integer
-     */
     public function getNewRank(): int
     {
         return $this->newRank;
     }
 
-    /**
-     * Set oldRank
-     *
-     * @param integer $oldRank
-     * @return LostPosition
-     */
-    public function setOldRank(int $oldRank): Self
+    public function setOldRank(int $oldRank): void
     {
         $this->oldRank = $oldRank;
-        return $this;
     }
 
-    /**
-     * Get oldRank
-     *
-     * @return integer
-     */
     public function getOldRank(): int
     {
         return $this->oldRank;
     }
 
-    /**
-     * Set chart
-     * @param Chart $chart
-     * @return LostPosition
-     */
-    public function setChart(Chart $chart): Self
+    public function setChart(Chart $chart): void
     {
         $this->chart = $chart;
-
-        return $this;
     }
 
-    /**
-     * Get chart
-     *
-     * @return Chart
-     */
     public function getChart(): Chart
     {
         return $this->chart;
     }
 
-
-    /**
-     * Set player
-     * @param Player $player
-     * @return LostPosition
-     */
-    public function setPlayer(Player $player): Self
+    public function setPlayer(Player $player): void
     {
         $this->player = $player;
-
-        return $this;
     }
 
-    /**
-     * Get player
-     *
-     * @return Player
-     */
     public function getPlayer(): Player
     {
         return $this->player;

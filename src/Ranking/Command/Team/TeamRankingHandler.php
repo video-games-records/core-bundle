@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
 
 use Doctrine\ORM\NonUniqueResultException;
@@ -10,7 +12,6 @@ use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class TeamRankingHandler extends AbstractRankingHandler
 {
-
     /**
      * @throws NonUniqueResultException
      */
@@ -18,7 +19,7 @@ class TeamRankingHandler extends AbstractRankingHandler
     {
         /** @var Team $team */
         $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->find($mixed);
-        if (null === $team) {
+        if (null == $team) {
             return;
         }
 
@@ -40,16 +41,17 @@ class TeamRankingHandler extends AbstractRankingHandler
 
         $query->setParameter('team', $team);
         $result = $query->getResult();
+
         if ($result) {
             $row = $result[0];
 
-            $team->setAverageGameRank($row['averageGameRank']);
-            $team->setChartRank0($row['chartRank0']);
-            $team->setChartRank1($row['chartRank1']);
-            $team->setChartRank2($row['chartRank2']);
-            $team->setChartRank3($row['chartRank3']);
-            $team->setPointChart($row['pointChart']);
-            $team->setPointGame($row['pointGame']);
+            $team->setAverageGameRank((float) $row['averageGameRank']);
+            $team->setChartRank0((int) $row['chartRank0']);
+            $team->setChartRank1((int) $row['chartRank1']);
+            $team->setChartRank2((int) $row['chartRank2']);
+            $team->setChartRank3((int) $row['chartRank3']);
+            $team->setPointChart((int) $row['pointChart']);
+            $team->setPointGame((int) $row['pointGame']);
             $team->setNbGame($row['nbGame']);
         }
 
@@ -118,7 +120,7 @@ class TeamRankingHandler extends AbstractRankingHandler
             JOIN tb.team t
             WHERE b.type = :type
             AND tb.team = :team
-            AND tb.ended_at IS NULL
+            AND tb.endedAt IS NULL
             GROUP BY t.id");
         $query->setParameter('type', 'Master');
         $query->setParameter('team', $team);
@@ -126,7 +128,7 @@ class TeamRankingHandler extends AbstractRankingHandler
         $row = $query->getOneOrNullResult();
         if ($row) {
             $team->setNbMasterBadge($row['nbMasterBadge']);
-            $team->setPointBadge($row['pointBadge']);
+            $team->setPointBadge((int) $row['pointBadge']);
         }
 
         $this->em->persist($team);

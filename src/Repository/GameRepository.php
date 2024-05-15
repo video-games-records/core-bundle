@@ -1,29 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Repository;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
-class GameRepository extends EntityRepository
+class GameRepository extends DefaultRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Game::class);
+    }
+
     /**
      * @return array
      */
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->createQueryBuilder('game')
             ->select('game.id')
             ->where('game.status = :status')
-            ->setParameter('status', GameStatus::STATUS_ACTIVE)
+            ->setParameter('status', GameStatus::ACTIVE)
             ->getQuery()
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
@@ -36,7 +46,7 @@ class GameRepository extends EntityRepository
     public function countStatusCreated(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereStatus($qb, GameStatus::STATUS_CREATED);
+        $this->whereStatus($qb, GameStatus::CREATED);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -49,7 +59,7 @@ class GameRepository extends EntityRepository
     public function countStatusAddPicture(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereStatus($qb, GameStatus::STATUS_ADD_PICTURE);
+        $this->whereStatus($qb, GameStatus::ADD_PICTURE);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -62,7 +72,7 @@ class GameRepository extends EntityRepository
     public function countStatusAddScore(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereStatus($qb, GameStatus::STATUS_ADD_SCORE);
+        $this->whereStatus($qb, GameStatus::ADD_SCORE);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -75,7 +85,7 @@ class GameRepository extends EntityRepository
     public function countStatusCompleted(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereStatus($qb, GameStatus::STATUS_COMPLETED);
+        $this->whereStatus($qb, GameStatus::COMPLETED);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -88,7 +98,7 @@ class GameRepository extends EntityRepository
     public function countStatusActive(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereStatus($qb, GameStatus::STATUS_ACTIVE);
+        $this->whereStatus($qb, GameStatus::ACTIVE);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -101,7 +111,7 @@ class GameRepository extends EntityRepository
     public function countStatusInactive(): mixed
     {
         $qb = $this->getCountQueryBuilder();
-        $this->whereStatus($qb, GameStatus::STATUS_INACTIVE);
+        $this->whereStatus($qb, GameStatus::INACTIVE);
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -116,7 +126,7 @@ class GameRepository extends EntityRepository
         $qb = $this->createQueryBuilder('game')
             ->select('COUNT(game.id)');
         $qb->where('game.status = :status')
-            ->setParameter('status', GameStatus::STATUS_ACTIVE);
+            ->setParameter('status', GameStatus::ACTIVE);
 
         return $qb->getQuery()
             ->getOneOrNullResult();
@@ -219,25 +229,58 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param $id
-     * @throws Exception
+     * @param Game $game
      */
-    public function copy($id)
+    public function copy(Game $game): void
     {
-        $sql = sprintf("call copy_game (%d);", $id);
-        $this->_em->getConnection()->executeStatement($sql);
+        $newGame = new Game();
+        $newGame->setLibGameEn($game->getLibGameEn() . ' [COPY]');
+        $newGame->setLibGameFr($game->getLibGameFr() . ' [COPY]');
+        $newGame->setSerie($game->getSerie());
+
+        foreach ($game->getPlatforms() as $platform) {
+            $newGame->addPlatform($platform);
+        }
+
+        /** @var Group $group */
+        foreach ($game->getGroups() as $group) {
+            $newGroup = new Group();
+            $newGroup->setLibGroupEn($group->getLibGroupEn());
+            $newGroup->setLibGroupFr($group->getLibGroupFr());
+            $newGroup->setIsDlc($group->getIsDlc());
+
+            /** @var Chart $chart */
+            foreach ($group->getCharts() as $chart) {
+                $newChart = new Chart();
+                $newChart->setLibChartEn($chart->getLibChartEn());
+                $newChart->setLibChartFr($chart->getLibChartFr());
+
+                /** @var ChartLib $lib */
+                foreach ($chart->getLibs() as $lib) {
+                    $newLib = new ChartLib();
+                    $newLib->setName($lib->getName());
+                    $newLib->setType($lib->getType());
+                    $newChart->addLib($newLib);
+                }
+                $newGroup->addChart($newChart);
+            }
+
+            $newGame->addGroup($newGroup);
+        }
+        $this->_em->persist($newGame);
+        $this->_em->flush();
     }
 
     /**
      * @param game $game
      */
-    public function maj(Game $game)
+    public function maj(Game $game): void
     {
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
             ->set('c.statusPlayer', ':status')
             ->set('c.statusTeam', ':status')
-            ->setParameter('status', ChartStatus::STATUS_MAJ)
+            ->setParameter('status', ChartStatus::MAJ)
             ->where('c.group IN (
                             SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
                         WHERE g.game = :game)')
@@ -250,12 +293,12 @@ class GameRepository extends EntityRepository
     /**
      * @param        $game
      */
-    public function setChartToMajPlayer($game)
+    public function setChartToMajPlayer($game): void
     {
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
             ->set('c.statusPlayer', ':status')
-            ->setParameter('status', ChartStatus::STATUS_MAJ)
+            ->setParameter('status', ChartStatus::MAJ)
             ->where('c.group IN (
                             SELECT g FROM VideoGamesRecords\CoreBundle\Entity\Group g
                         WHERE g.game = :game)')
@@ -282,18 +325,18 @@ class GameRepository extends EntityRepository
      * Requires only active games.
      * @param QueryBuilder $query
      */
-    private function onlyActive(QueryBuilder $query)
+    private function onlyActive(QueryBuilder $query): void
     {
         $query
             ->andWhere('g.status = :status')
-            ->setParameter('status', GameStatus::STATUS_ACTIVE);
+            ->setParameter('status', GameStatus::ACTIVE);
     }
 
     /**
      * @param QueryBuilder $query
      * @param string       $status
      */
-    private function whereStatus(QueryBuilder $query, string $status)
+    private function whereStatus(QueryBuilder $query, string $status): void
     {
         $query
             ->andWhere('g.status = :status')
@@ -304,7 +347,7 @@ class GameRepository extends EntityRepository
      * Adds platforms in the output to fasten display.
      * @param QueryBuilder $query
      */
-    private function withPlatforms(QueryBuilder $query)
+    private function withPlatforms(QueryBuilder $query): void
     {
         $query->join('g.platforms', 'p')
             ->addSelect('p');
@@ -314,7 +357,7 @@ class GameRepository extends EntityRepository
      * @param QueryBuilder $query
      * @param string       $locale
      */
-    private function setOrder(QueryBuilder $query, string $locale = 'en')
+    private function setOrder(QueryBuilder $query, string $locale = 'en'): void
     {
         $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
         $query->orderBy("g.$column", 'ASC');

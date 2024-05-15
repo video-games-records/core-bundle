@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
 
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -16,7 +18,7 @@ class TeamGameRankingHandler extends AbstractRankingHandler
     {
         /** @var Game $game */
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')->find($mixed);
-        if (null === $game) {
+        if (null == $game) {
             return;
         }
 
@@ -68,7 +70,8 @@ class TeamGameRankingHandler extends AbstractRankingHandler
         foreach ($list as $row) {
             if (isset($row['id'])) {
                 $teamGame = $serializer->denormalize(
-                    $row, 'VideoGamesRecords\CoreBundle\Entity\TeamGame'
+                    $row,
+                    'VideoGamesRecords\CoreBundle\Entity\TeamGame'
                 );
                 $teamGame->setTeam($this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['id']));
                 $teamGame->setGame($game);

@@ -1,120 +1,205 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
-use ApiPlatform\Core\Serializer\Filter\GroupFilter;
+use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
+use ApiPlatform\Doctrine\Odm\Filter\ExistsFilter;
+use ApiPlatform\Doctrine\Odm\Filter\RangeFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendPicture;
+use VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendVideo;
+use VideoGamesRecords\CoreBundle\Controller\PlayerChart\UpdatePlatform;
+use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\LastUpdateTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 
-/**
- * PlayerChart
- *
- * @ORM\Table(
- *     name="vgr_player_chart",
- *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="unq_player_chart", columns={"idPlayer", "idChart"})
- *     },
- *     indexes={
- *         @ORM\Index(name="idx_rank", columns={"`rank`"}),
- *         @ORM\Index(name="idx_point_chart", columns={"pointChart"}),
- *         @ORM\Index(name="idx_top_score", columns={"isTopScore"}),
- *         @ORM\Index(name="idx_last_update_player", columns={"lastUpdate", "idPlayer"})
- *     }
- * )
- * @DoctrineAssert\UniqueEntity(fields={"chart", "player"}, message="A score already exists for the couple player / chart")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener"})
- * @ApiFilter(DateFilter::class, properties={"lastUpdate": DateFilter::EXCLUDE_NULL})
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "status": "exact",
- *          "player": "exact",
- *          "chart": "exact",
- *          "chart.group": "exact",
- *          "chart.group.game": "exact",
- *          "chart.group.game.platforms": "exact",
- *          "rank": "exact",
- *          "nbEqual": "exact",
- *          "chart.libChartEn" : "partial",
- *          "chart.libChartFr" : "partial",
- *     }
- * )
- * @ApiFilter(
- *     RangeFilter::class,
- *     properties={
- *         "chart.nbPost",
- *         "rank",
- *         "pointChart",
- *     }
- * )
- * @ApiFilter(
- *     ExistsFilter::class,
- *     properties={
- *         "proof",
- *         "proof.picture",
- *         "proof.video",
- *     }
- * )
- * @ApiFilter(
- *     GroupFilter::class,
- *     arguments={
- *          "parameterName": "groups",
- *          "overrideDefaultGroups": true,
- *          "whitelist": {
- *              "playerChart.read",
- *              "playerChart.status",
- *              "playerChartStatus.read",
- *              "playerChart.platform",
- *              "platform.read",
- *              "playerChart.player",
- *              "player.read.mini",
- *              "player.country",
- *              "country.read",
- *              "chart.read.mini",
- *              "playerChart.chart",
- *              "chart.group",
- *              "group.read.mini",
- *              "group.game",
- *              "game.read.mini",
- *              "playerChartLib.format",
- *              "playerChart.proof",
- *              "proof.read",
- *              "picture.read",
- *              "video.read",
- *          }
- *     }
- * )
- * @ApiFilter(
- *     OrderFilter::class,
- *     properties={
- *          "id":"ASC",
- *          "lastUpdate" : "DESC",
- *          "rank" : "ASC",
- *          "pointChart" : "DESC",
- *          "chart.libChartEn" : "ASC",
- *          "chart.libChartFr" : "ASC",
- *          "chart.group.libGroupEn" : "ASC",
- *          "chart.group.libGroupFr" : "ASC",
- *          "chart.group.game.libGameEn" : "ASC",
- *          "chart.group.game.libGameFr" : "ASC",
- *     },
- *     arguments={"orderParameterName"="order"}
- * )
- */
+#[ORM\Table(name:'vgr_player_chart')]
+#[ORM\Entity(repositoryClass: PlayerChartRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerChartListener"])]
+#[ORM\UniqueConstraint(name: "unq_player_chart", columns: ["player_id", "chart_id"])]
+#[ORM\Index(name: "idx_rank", columns: ["`rank`"])]
+#[ORM\Index(name: "idx_point_chart", columns: ["point_chart"])]
+#[ORM\Index(name: "idx_top_score", columns: ["is_top_score"])]
+#[ORM\Index(name: "idx_last_update_player", columns: ["last_update", 'player_id'])]
+#[DoctrineAssert\UniqueEntity(fields: ['chart', 'player'], message: "A score already exists")]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(
+            normalizationContext: ['groups' => [
+                'player-chart:read',
+                'player-chart:libs', 'player-chart-lib:read',
+                'player-chart:status', 'player-chart-status:read',
+                'player-chart:player', 'player:read',
+                'player-chart:proof', 'proof:read',
+                'proof:picture', 'picture:read',
+                'proof:video', 'video:read',
+                ]
+            ]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['player-chart:insert', 'player-chart-lib:insert']],
+            security: 'is_granted("ROLE_PLAYER")'
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['player-chart:update', 'player-chart-lib:update']],
+            normalizationContext: ['groups' => [
+                'player-chart:read',
+                'player-chart:status', 'player-chart-status:read',
+                'player-chart:platform']
+            ],
+            security: 'is_granted("ROLE_PLAYER") and (object.getPlayer().getUserId() == user.getId()) and ((object.getStatus().getId() == 1) or (object.getStatus().getId() == 6))'
+        ),
+        new Post(
+            uriTemplate: '/player-charts/maj-platform',
+            controller: UpdatePlatform::class,
+            security: 'is_granted("ROLE_USER")',
+            openapi: new Model\Operation(
+                summary: 'Update score\'s platform',
+                description: 'Update score\'s platform',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'idGame' => ['type' => 'integer'],
+                                    'idPlatform' => ['type' => 'integer']
+                                ]
+                            ],
+                            'example' => [
+                                'idGame' => 0,
+                                'idPlatform' => 0,
+                            ]
+                        ]
+                    ])
+                ),
+            )
+        ),
+        new Post(
+            uriTemplate: '/player-charts/{id}/send-picture',
+            controller: SendPicture::class,
+            security: 'is_granted("ROLE_USER")',
+            openapi: new Model\Operation(
+                summary: 'Update score\'s platform',
+                description: 'Update score\'s platform',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'file' => ['type' => 'object'],
+                                ]
+                            ],
+                            'example' => [
+                                'file' => 'base64file',
+                            ]
+                        ]
+                    ])
+                ),
+            )
+        ),
+        new Post(
+            uriTemplate: '/player-charts/{id}/send-video',
+            controller: SendVideo::class,
+            security: 'is_granted("ROLE_USER")',
+            openapi: new Model\Operation(
+                summary: 'Update score\'s platform',
+                description: 'Update score\'s platform',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'url' => ['type' => 'string'],
+                                ]
+                            ],
+                            'example' => [
+                                'url' => 'string',
+                            ]
+                        ]
+                    ])
+                ),
+            )
+        ),
+    ],
+    normalizationContext: ['groups' => ['player-chart:read', 'player-chart:libs', 'player-chart:status']]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'status' => 'exact',
+        'player' => 'exact',
+        'chart' => 'exact',
+        'chart.group' => 'exact',
+        'chart.group.game' => 'exact',
+        'chart.group.game.platforms' => 'exact',
+        'rank' => 'exact',
+        'nbEqual' => 'exact',
+        'chart.libChartEn' => 'partial',
+        'chart.libChartFr' => 'partial',
+    ]
+)]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: [
+        'id' => 'ASC',
+        'lastUpdate' => 'DESC',
+        'rank' => 'ASC',
+        'pointChart' => 'DESC',
+        'chart.libChartEn' => 'ASC',
+        'chart.libChartFr' => 'ASC',
+        'chart.group.libGroupEn' => 'ASC',
+        'chart.group.libGroupFr' => 'ASC',
+        'chart.group.game.libGameEn' => 'ASC',
+        'chart.group.game.libGameFr' => 'ASC',
+    ]
+)]
+#[ApiFilter(
+    GroupFilter::class,
+    arguments: [
+        'parameterName' => 'groups',
+        'overrideDefaultGroups' => true,
+        'whitelist' => [
+            'player-chart:read',
+            'player-chart:libs', 'player-chart-lib:read',
+            'player-chart:status', 'player-chart-status:read',
+            'player-chart:platform', 'platform:read',
+            'player-chart:player', 'player:read',
+            'player:country', 'country:read',
+            'player-chart:chart', 'chart:read',
+            'chart:group', 'group:read',
+            'group:game', 'game:read',
+            'player-chart:proof', 'proof:read',
+            'proof:picture', 'picture.read',
+            'proof:video', 'video.read',
+        ]
+    ]
+)]
+#[ApiFilter(DateFilter::class, properties: ['lastUpdate' => DateFilterInterface::EXCLUDE_NULL])]
+#[ApiFilter(RangeFilter::class, properties: ['chart.nbPost', 'rank', 'pointChart'])]
+#[ApiFilter(ExistsFilter::class, properties: ['proof', 'proof.picture"', 'proof.video'])]
 class PlayerChart
 {
     use PlayerTrait;
@@ -122,351 +207,183 @@ class PlayerChart
     use NbEqualTrait;
     use LastUpdateTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="`rank`", type="integer", nullable=true)
-     */
+    #[ORM\Column(name: '`rank`', nullable: true)]
     private ?int $rank = null;
 
-    /**
-     * @ORM\Column(name="pointChart", type="integer", nullable=false, options={"default" : 0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $pointChart = 0;
 
-    /**
-     * @ORM\Column(name="pointPlatform", type="integer", nullable=false, options={"default" : 0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $pointPlatform = 0;
 
-    /**
-     * @ORM\Column(name="isTopScore", type="boolean", nullable=false)
-     */
-    private bool $topScore = false;
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $isTopScore = false;
 
-    /**
-     * @ORM\Column(name="dateInvestigation", type="date", nullable=true)
-     */
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?DateTime $dateInvestigation = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Chart", inversedBy="playerCharts", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idChart", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Chart::class, inversedBy: 'playerCharts', fetch: 'EAGER')]
+    #[ORM\JoinColumn(name:'chart_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Chart $chart;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Proof", inversedBy="playerChart")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idProof", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     * })
-     */
+    #[ORM\OneToOne(targetEntity: Proof::class, inversedBy: 'playerChart')]
+    #[ORM\JoinColumn(name:'proof_id', referencedColumnName:'id', nullable:true, onDelete:'SET NULL')]
     private ?Proof $proof = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus", inversedBy="playerCharts")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idStatus", referencedColumnName="id", nullable=false)
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: PlayerChartStatus::class, inversedBy: 'playerCharts')]
+    #[ORM\JoinColumn(name:'status_id', referencedColumnName:'id', nullable:false)]
     private PlayerChartStatus $status;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Platform")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPlatform", referencedColumnName="id")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Platform::class)]
+    #[ORM\JoinColumn(name:'platform_id', referencedColumnName:'id', nullable:true)]
     private ?Platform $platform = null;
 
     /**
-     * @var Collection<PlayerChartLib>
-     * @ORM\OneToMany(
-     *     targetEntity="VideoGamesRecords\CoreBundle\Entity\PlayerChartLib",
-     *     mappedBy="playerChart",
-     *     cascade={"persist", "remove"},
-     *     orphanRemoval=true
-     * )
+     * @var Collection<int, PlayerChartLib>
      */
+    #[ORM\OneToMany(
+        mappedBy: 'playerChart',
+        targetEntity: PlayerChartLib::class,
+        cascade: ['persist', 'remove'],
+        fetch: 'EAGER',
+        orphanRemoval: true
+    )]
     private Collection $libs;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->libs = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return sprintf('%s # %s [%s]', $this->getChart()->getDefaultName(), $this->getPlayer()->getPseudo(), $this->id);
     }
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return PlayerChart
-     */
-    public function setId(int $id): PlayerChart
+    public function setId(int $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set rank
-     *
-     * @param integer $rank
-     * @return PlayerChart
-     */
-    public function setRank(int $rank): PlayerChart
+    public function setRank(int $rank): void
     {
         $this->rank = $rank;
-        return $this;
     }
 
-    /**
-     * Get rank
-     *
-     * @return integer
-     */
     public function getRank(): ?int
     {
         return $this->rank;
     }
 
-
-    /**
-     * Set pointChart
-     * @param int $pointChart
-     * @return PlayerChart
-     */
-    public function setPointChart(int $pointChart): PlayerChart
+    public function setPointChart(int $pointChart): void
     {
         $this->pointChart = $pointChart;
-        return $this;
     }
 
-    /**
-     * Get pointChart
-     *
-     * @return int
-     */
     public function getPointChart(): int
     {
         return $this->pointChart;
     }
 
-    /**
-     * Set pointPlatform
-     * @param int $pointPlatform
-     * @return PlayerChart
-     */
-    public function setPointPlatform(int $pointPlatform): PlayerChart
+    public function setPointPlatform(int $pointPlatform): void
     {
         $this->pointPlatform = $pointPlatform;
-        return $this;
     }
 
-    /**
-     * Get pointPlatform
-     *
-     * @return int
-     */
     public function getPointPlatform(): ?int
     {
         return $this->pointPlatform;
     }
 
-    /**
-     * Set topScore
-     *
-     * @param bool $topScore
-     *
-     * @return PlayerChart
-     */
-    public function setTopScore(bool $topScore): PlayerChart
+    public function getIsTopScore(): bool
     {
-        $this->topScore = $topScore;
-        return $this;
+        return $this->isTopScore;
     }
 
-    /**
-     * Get topScore
-     *
-     * @return bool
-     */
-    public function isTopScore(): bool
+    public function setIsTopScore(bool $isTopScore): void
     {
-        return $this->topScore;
+        $this->isTopScore = $isTopScore;
     }
 
-
-
-    /**
-     * Set dateInvestigation
-     * @param DateTime|null $dateInvestigation
-     * @return PlayerChart
-     */
-    public function setDateInvestigation(DateTime $dateInvestigation = null): PlayerChart
+    public function setDateInvestigation(DateTime $dateInvestigation = null): void
     {
         $this->dateInvestigation = $dateInvestigation;
-        return $this;
     }
 
-    /**
-     * Get dateInvestigation
-     *
-     * @return DateTime
-     */
     public function getDateInvestigation(): ?DateTime
     {
         return $this->dateInvestigation;
     }
 
-    /**
-     * Set Chart
-     * @param Chart $chart
-     * @return PlayerChart
-     */
-    public function setChart(Chart $chart): PlayerChart
+    public function setChart(Chart $chart): void
     {
         $this->chart = $chart;
-
-        return $this;
     }
 
-    /**
-     * Get chart
-     *
-     * @return Chart
-     */
     public function getChart(): Chart
     {
         return $this->chart;
     }
 
-    /**
-     * Set proof
-     * @param Proof|null $proof
-     * @return PlayerChart
-     */
-    public function setProof(Proof $proof = null): PlayerChart
+    public function setProof(Proof $proof = null): void
     {
         $this->proof = $proof;
-
-        return $this;
     }
 
-    /**
-     * Get proof
-     *
-     * @return Proof
-     */
     public function getProof(): ?Proof
     {
         return $this->proof;
     }
 
-
-    /**
-     * Set platform
-     * @param Platform|null $platform
-     * @return PlayerChart
-     */
-    public function setPlatform(Platform $platform = null): PlayerChart
+    public function setPlatform(Platform $platform = null): void
     {
         $this->platform = $platform;
-        return $this;
     }
 
-    /**
-     * Get platform
-     *
-     * @return Platform
-     */
     public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
 
-
-    /**
-     * Set status
-     * @param PlayerChartStatus $status
-     * @return PlayerChart
-     */
-    public function setStatus(PlayerChartStatus $status): PlayerChart
+    public function setStatus(PlayerChartStatus $status): void
     {
         $this->status = $status;
-
-        return $this;
     }
 
-    /**
-     * Get status
-     *
-     * @return PlayerChartStatus
-     */
     public function getStatus(): PlayerChartStatus
     {
         return $this->status;
     }
 
-    /**
-     * @param PlayerChartLib $lib
-     * @return PlayerChart
-     */
-    public function addLib(PlayerChartLib $lib): PlayerChart
+    public function addLib(PlayerChartLib $lib): void
     {
         $lib->setPlayerChart($this);
         $this->libs[] = $lib;
-        return $this;
     }
 
-    /**
-     * @param PlayerChartLib $lib
-     */
-    public function removeLib(PlayerChartLib $lib)
+    public function removeLib(PlayerChartLib $lib): void
     {
         $this->libs->removeElement($lib);
     }
 
     /**
-     * @return Collection
+     * @return Collection<int, PlayerChartLib>
      */
     public function getLibs(): Collection
     {
         return $this->libs;
     }
 
-    /**
-     * @return string
-     */
-    public function getValuesAsString() : String
+
+    public function getValuesAsString(): string
     {
         $values = [];
         foreach ($this->getLibs() as $lib) {
@@ -475,9 +392,6 @@ class PlayerChart
         return implode('|', $values);
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return sprintf(

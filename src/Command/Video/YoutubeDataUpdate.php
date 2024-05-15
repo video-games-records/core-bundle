@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Command\Video;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,7 +52,7 @@ class YoutubeDataUpdate extends Command
         $videos = $this->em->getRepository(Video::class)->findBy(
             [
                 'isActive' => true,
-                'type' => VideoType::TYPE_YOUTUBE
+                'type' => VideoType::YOUTUBE
             ],
             ['id' => 'DESC'],
             $input->getOption('nb') ?? null

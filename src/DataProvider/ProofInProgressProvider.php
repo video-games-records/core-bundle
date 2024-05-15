@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\DataProvider;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +29,7 @@ class ProofInProgressProvider
             ->innerJoin('grp.charts', 'chr')
             ->innerJoin('chr.proofs', 'proof')
             ->where('proof.status = :status')
-            ->setParameter('status', ProofStatus::STATUS_IN_PROGRESS)
+            ->setParameter('status', ProofStatus::IN_PROGRESS)
             ->groupBy('gam.id')
             ->orderBy('nb', 'DESC');
 

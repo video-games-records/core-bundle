@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\ValueObject;
 
 use Webmozart\Assert\Assert;
 
 class ChartStatus
 {
-    const STATUS_NORMAL = 'NORMAL';
-    const STATUS_MAJ = 'MAJ';
-    const STATUS_ERROR = 'ERROR';
+    public const NORMAL = 'NORMAL';
+    public const MAJ = 'MAJ';
+    public const ERROR = 'ERROR';
 
     public const VALUES = [
-        self::STATUS_NORMAL => self::STATUS_NORMAL,
-        self::STATUS_MAJ => self::STATUS_MAJ,
-        self::STATUS_ERROR => self::STATUS_ERROR,
+        self::NORMAL => self::NORMAL,
+        self::MAJ => self::MAJ,
+        self::ERROR => self::ERROR,
     ];
 
     private string $value;
@@ -42,25 +44,25 @@ class ChartStatus
 
     public function isNormal(): bool
     {
-        return self::STATUS_NORMAL === $this->value;
+        return self::NORMAL === $this->value;
     }
 
     public function isMaj(): bool
     {
-        return self::STATUS_MAJ === $this->value;
+        return self::MAJ === $this->value;
     }
 
     public function isError(): bool
     {
-        return self::STATUS_ERROR === $this->value;
+        return self::ERROR === $this->value;
     }
 
     public static function getStatusChoices(): array
     {
         return [
-            'label.chart.status.normal' => self::STATUS_NORMAL,
-            'label.chart.status.maj' => self::STATUS_MAJ,
-            'label.chart.status.error' => self::STATUS_ERROR,
+            'label.chart.status.normal' => self::NORMAL,
+            'label.chart.status.maj' => self::MAJ,
+            'label.chart.status.error' => self::ERROR,
         ];
     }
 }

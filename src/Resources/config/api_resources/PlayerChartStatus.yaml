@@ -1,7 +1,0 @@
-resources:
-    VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus:
-        collectionOperations:
-            get:
-                normalization_context: {'groups': [playerChartStatus.read]}
-        itemOperations:
-            get: ~

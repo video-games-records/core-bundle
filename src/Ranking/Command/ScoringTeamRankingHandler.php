@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,7 +53,7 @@ class ScoringTeamRankingHandler
         /** @var Chart $chart */
         foreach ($charts as $chart) {
             $this->teamChartRankingHandler->handle($chart->getId());
-            $chart->setStatusTeam(ChartStatus::STATUS_NORMAL);
+            $chart->setStatusTeam(ChartStatus::NORMAL);
         }
 
         $groups = $this->teamChartRankingHandler->getGroups();
@@ -94,9 +96,9 @@ class ScoringTeamRankingHandler
             ->join('ch.group', 'gr')
             ->addSelect('gr')
             ->where('ch.statusPlayer = :statusPlayer')
-            ->setParameter('statusPlayer', ChartStatus::STATUS_NORMAL)
+            ->setParameter('statusPlayer', ChartStatus::NORMAL)
             ->andWhere('ch.statusTeam = :statusTeam')
-            ->setParameter('statusTeam', ChartStatus::STATUS_MAJ)
+            ->setParameter('statusTeam', ChartStatus::MAJ)
             ->setMaxResults(100);
 
         return $query->getQuery()->getResult();

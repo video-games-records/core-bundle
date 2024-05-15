@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -68,7 +70,8 @@ class PlayerSerieRankingHandler extends AbstractRankingHandler
 
         foreach ($list as $row) {
             $playerSerie = $serializer->denormalize(
-                $row, 'VideoGamesRecords\CoreBundle\Entity\PlayerSerie'
+                $row,
+                'VideoGamesRecords\CoreBundle\Entity\PlayerSerie'
             );
             $playerSerie->setPlayer($this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['idPlayer']));
             $playerSerie->setSerie($serie);

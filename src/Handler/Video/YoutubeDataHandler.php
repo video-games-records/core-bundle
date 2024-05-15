@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Handler\Video;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,12 +26,12 @@ class YoutubeDataHandler
      */
     public function process(Video $video): void
     {
-        if ($video->getType()->getValue() !== VideoType::TYPE_YOUTUBE) {
+        if ($video->getType()->getValue() !== VideoType::YOUTUBE) {
             throw new \InvalidArgumentException();
         }
 
         try {
-            $response = $this->youtubeProvider->getVideo($video->getVideoId());
+            $response = $this->youtubeProvider->getVideo($video->getExternalId());
             if (count($response->getItems()) > 0) {
                 $youtubeVideo = $response->getItems()[0];
 
@@ -47,7 +49,6 @@ class YoutubeDataHandler
             }
             $this->em->flush();
         } catch (\Exception $e) {
-
         }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
@@ -20,7 +22,6 @@ class ProofListener
     private array $changeSet = array();
     private UserProvider $userProvider;
     private EventDispatcherInterface $eventDispatcher;
-
 
     public function __construct(UserProvider $userProvider, EventDispatcherInterface $eventDispatcher)
     {
@@ -75,7 +76,7 @@ class ProofListener
             $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REFUSED);
         }
 
-        if ($proof->getStatus()->getValue() == ProofStatus::STATUS_CLOSED) {
+        if ($proof->getStatus()->getValue() == ProofStatus::CLOSED) {
             $playerChart = $proof->getPlayerChart();
             if ($playerChart) {
                 $playerChart->setProof(null);
@@ -102,8 +103,8 @@ class ProofListener
     private function isAccepted(): bool
     {
         return array_key_exists('status', $this->changeSet)
-            && $this->changeSet['status'][0] === ProofStatus::STATUS_IN_PROGRESS
-            && $this->changeSet['status'][1] === ProofStatus::STATUS_ACCEPTED;
+            && $this->changeSet['status'][0] === ProofStatus::IN_PROGRESS
+            && $this->changeSet['status'][1] === ProofStatus::ACCEPTED;
     }
 
     private function isRefused(): bool
@@ -111,8 +112,8 @@ class ProofListener
         return array_key_exists('status', $this->changeSet)
             && in_array(
                 $this->changeSet['status'][0],
-                array(ProofStatus::STATUS_IN_PROGRESS, ProofStatus::STATUS_ACCEPTED)
+                array(ProofStatus::IN_PROGRESS, ProofStatus::ACCEPTED)
             )
-            && $this->changeSet['status'][1] === ProofStatus::STATUS_REFUSED;
+            && $this->changeSet['status'][1] === ProofStatus::REFUSED;
     }
 }

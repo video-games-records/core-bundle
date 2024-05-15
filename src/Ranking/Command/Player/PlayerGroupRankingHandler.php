@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Ranking\Command\Player;
 
 use DateTime;
@@ -138,7 +140,8 @@ class PlayerGroupRankingHandler extends AbstractRankingHandler
 
         foreach ($list as $row) {
             $playerGroup = $serializer->denormalize(
-                $row, 'VideoGamesRecords\CoreBundle\Entity\PlayerGroup'
+                $row,
+                'VideoGamesRecords\CoreBundle\Entity\PlayerGroup'
             );
             $playerGroup->setPlayer($this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $row['id']));
             $playerGroup->setGroup($group);

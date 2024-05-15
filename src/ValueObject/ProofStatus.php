@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\ValueObject;
 
 use Webmozart\Assert\Assert;
 
 class ProofStatus
 {
-    const STATUS_IN_PROGRESS = 'IN PROGRESS';
-    const STATUS_REFUSED = 'REFUSED';
-    const STATUS_ACCEPTED = 'ACCEPTED';
-    const STATUS_CLOSED = 'CLOSED';
-    const STATUS_DELETED = 'DELETED';
+    public const IN_PROGRESS = 'IN PROGRESS';
+    public const REFUSED = 'REFUSED';
+    public const ACCEPTED = 'ACCEPTED';
+    public const CLOSED = 'CLOSED';
+    public const DELETED = 'DELETED';
 
     public const VALUES = [
-        self::STATUS_IN_PROGRESS,
-        self::STATUS_REFUSED,
-        self::STATUS_ACCEPTED,
-        self::STATUS_CLOSED,
-        self::STATUS_DELETED,
+        self::IN_PROGRESS,
+        self::REFUSED,
+        self::ACCEPTED,
+        self::CLOSED,
+        self::DELETED,
     ];
 
     private string $value;
@@ -46,7 +48,7 @@ class ProofStatus
 
     public function isInProgress(): bool
     {
-        return self::STATUS_IN_PROGRESS === $this->value;
+        return self::IN_PROGRESS === $this->value;
     }
 
 
@@ -56,10 +58,10 @@ class ProofStatus
     public static function getStatusChoices(): array
     {
         return [
-            self::STATUS_IN_PROGRESS => self::STATUS_IN_PROGRESS,
-            self::STATUS_REFUSED => self::STATUS_REFUSED,
-            self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
-            self::STATUS_CLOSED => self::STATUS_CLOSED
+            self::IN_PROGRESS => self::IN_PROGRESS,
+            self::REFUSED => self::REFUSED,
+            self::ACCEPTED => self::ACCEPTED,
+            self::CLOSED => self::CLOSED
         ];
     }
 }

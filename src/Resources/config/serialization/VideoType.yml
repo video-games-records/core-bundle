@@ -2,4 +2,4 @@ VideoGamesRecords\CoreBundle\ValueObject\VideoType:
   attributes:
     value:
       groups:
-        - 'video.read'
+        - 'video:read'

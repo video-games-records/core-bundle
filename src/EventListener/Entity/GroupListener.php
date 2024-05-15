@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;
@@ -8,7 +10,6 @@ use VideoGamesRecords\CoreBundle\Entity\Group;
 
 class GroupListener
 {
-
     /**
      * @param Group       $group
      * @param LifecycleEventArgs $event

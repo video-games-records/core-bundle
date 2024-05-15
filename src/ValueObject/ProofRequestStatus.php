@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\ValueObject;
 
 use Webmozart\Assert\Assert;
 
 class ProofRequestStatus
 {
-    const STATUS_IN_PROGRESS = 'IN PROGRESS';
-    const STATUS_REFUSED = 'REFUSED';
-    const STATUS_ACCEPTED = 'ACCEPTED';
+    public const IN_PROGRESS = 'IN PROGRESS';
+    public const REFUSED = 'REFUSED';
+    public const ACCEPTED = 'ACCEPTED';
 
     public const VALUES = [
-        self::STATUS_IN_PROGRESS,
-        self::STATUS_REFUSED,
-        self::STATUS_ACCEPTED
+        self::IN_PROGRESS,
+        self::REFUSED,
+        self::ACCEPTED
     ];
 
     private string $value;
@@ -42,7 +44,7 @@ class ProofRequestStatus
 
     public function isInProgress(): bool
     {
-        return self::STATUS_IN_PROGRESS === $this->value;
+        return self::IN_PROGRESS === $this->value;
     }
 
 
@@ -52,9 +54,9 @@ class ProofRequestStatus
     public static function getStatusChoices(): array
     {
         return [
-            self::STATUS_IN_PROGRESS => self::STATUS_IN_PROGRESS,
-            self::STATUS_REFUSED => self::STATUS_REFUSED,
-            self::STATUS_ACCEPTED => self::STATUS_ACCEPTED
+            self::IN_PROGRESS => self::IN_PROGRESS,
+            self::REFUSED => self::REFUSED,
+            self::ACCEPTED => self::ACCEPTED
         ];
     }
 }

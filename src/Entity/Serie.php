@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -14,32 +20,75 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingPoints;
+use VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingMedals;
+use VideoGamesRecords\CoreBundle\Repository\SerieRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
-/**
- * Serie
- * @ORM\Table(name="vgr_serie")
- * @ORM\Entity(repositoryClass="VideoGamesRecords\CoreBundle\Repository\SerieRepository")
- * @ORM\EntityListeners({"VideoGamesRecords\CoreBundle\EventListener\Entity\SerieListener"})
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *          "status": "exact",
- *          "libSerie" : "partial",
- *      }
- * )
- * @ApiFilter(
- *     OrderFilter::class,
- *     properties={
- *          "libSerie" : "ASC",
- *     },
- *     arguments={"orderParameterName"="order"}
- * )
- */
-class Serie implements SluggableInterface,TranslatableInterface
+#[ORM\Table(name:'vgr_serie')]
+#[ORM\Entity(repositoryClass: SerieRepository::class)]
+#[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\SerieListener"])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Get(
+            uriTemplate: '/series/{id}/player-ranking-points',
+            controller: GetRankingPoints::class,
+            normalizationContext: ['groups' => [
+                'player-serie:read',
+                'player-serie:player', 'player:read',
+                'player:team', 'team:read',
+                'player:country', 'country:read']
+            ],
+            openapi: new Model\Operation(
+                summary: 'Retrieves the player points leaderboard',
+                description: 'Retrieves the player points leaderboard'
+            ),
+            openapiContext: [
+                'parameters' => [
+                    [
+                        'name' => 'maxRank',
+                        'in' => 'query',
+                        'type' => 'integer',
+                        'required' => false
+                    ]
+                ]
+            ]
+        ),
+        new Get(
+            uriTemplate: '/series/{id}/player-ranking-medals',
+            controller: GetRankingMedals::class,
+            normalizationContext: ['groups' => [
+                'player-serie:read',
+                'player-serie:player', 'player:read',
+                'player:team', 'team:read',
+                'player:country', 'country:read']
+            ],
+            openapi: new Model\Operation(
+                summary: 'Retrieves the player medals leaderboard',
+                description: 'Retrieves the player medals leaderboard'
+            ),
+            openapiContext: [
+                'parameters' => [
+                    [
+                        'name' => 'maxRank',
+                        'in' => 'query',
+                        'type' => 'integer',
+                        'required' => false
+                    ]
+                ]
+            ]
+        ),
+    ],
+    normalizationContext: ['groups' => ['serie:read']]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['status' => 'exact', 'libSerie' => 'partial'])]
+#[ApiFilter(OrderFilter::class, properties: ['libSerie'])]
+class Serie implements SluggableInterface, TranslatableInterface
 {
     use TimestampableEntity;
     use TranslatableTrait;
@@ -48,187 +97,113 @@ class Serie implements SluggableInterface,TranslatableInterface
     use NbGameTrait;
     use PictureTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @var string
-     * @Assert\Length(max="255")
-     * @ORM\Column(name="libSerie", type="string", length=255, nullable=false)
-     */
+    #[Assert\Length(max: 255)]
+    #[ORM\Column(name: 'libSerie', length: 255, nullable: false)]
     private string $libSerie;
 
-    /**
-     * @ORM\Column(name="status", type="string", nullable=false)
-     */
-    private string $status = SerieStatus::STATUS_INACTIVE;
+    #[ORM\Column(nullable: false)]
+    private string $status = SerieStatus::INACTIVE;
+
 
     /**
-     * @var Collection<Game>
-     * @ORM\OneToMany(targetEntity="VideoGamesRecords\CoreBundle\Entity\Game", mappedBy="serie", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Collection<int, Game>
      */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'serie')]
     private Collection $games;
 
-    /**
-     * @ORM\OneToOne(targetEntity="VideoGamesRecords\CoreBundle\Entity\Badge", inversedBy="serie", cascade={"persist"}))
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBadge", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     * })
-     */
+
+    #[ORM\OneToOne(targetEntity: Badge::class, inversedBy: 'serie', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:true, onDelete: 'SET NULL')]
     private ?Badge $badge;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->games = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return sprintf('%s [%s]', $this->getDefaultName(), $this->id);
     }
 
-    /**
-     * @return string
-     */
     public function getDefaultName(): string
     {
         return $this->libSerie;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->libSerie;
     }
 
-    /**
-     * @param string $libSerie
-     * @return $this
-     */
-    public function setLibSerie(string $libSerie): Serie
+    public function setLibSerie(string $libSerie): void
     {
         $this->libSerie = $libSerie;
-        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLibSerie(): string
     {
         return $this->libSerie;
     }
 
-    /**
-     * Set id
-     * @param integer $id
-     * @return $this
-     */
-    public function setId(int $id): Serie
+    public function setId(int $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
-    /**
-     * Get id
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set status
-     * @param string $status
-     * @return $this
-     */
-    public function setStatus(string $status): Serie
+    public function setStatus(string $status): void
     {
         $this->status = $status;
-
-        return $this;
     }
 
-    /**
-     * Get status
-     *
-     * @return SerieStatus
-     */
-    public function getStatus(): SerieStatus
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function getSerieStatus(): SerieStatus
     {
         return new SerieStatus($this->status);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGames()
+    public function getGames(): Collection
     {
         return $this->games;
     }
 
-    /**
-     * @param $badge
-     */
     public function setBadge($badge = null): void
     {
         $this->badge = $badge;
     }
 
-    /**
-     * Get idBadge
-     * @return Badge|null
-     */
     public function getBadge(): ?Badge
     {
         return $this->badge;
     }
 
-    /**
-     * @param string $description
-     * @return $this
-     */
-    public function setDescription(string $description): Serie
+    public function setDescription(string $description): void
     {
         $this->translate(null, false)->setDescription($description);
-
-        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->translate(null, false)->getDescription();
     }
 
-    /**
-     * @return string
-     */
     public function getDefaultDescription(): string
     {
         return $this->translate('en', false)->getDescription();
     }
 
-    /**
-     * Returns an array of the fields used to generate the slug.
-     * @return string[]
-     */
     public function getSluggableFields(): array
     {
         return ['defaultName'];

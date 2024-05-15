@@ -2,57 +2,57 @@ VideoGamesRecords\CoreBundle\Entity\Video:
   attributes:
     id:
       groups:
-        - 'video.read'
+        - 'video:read'
     libVideo:
       groups:
-        - 'video.read'
-        - 'video.post'
-        - 'video.put'
+        - 'video:read'
+        - 'video:insert'
+        - 'video:update'
     slug:
       groups:
-        - 'video.read'
+        - 'video:read'
     status:
       groups:
-        - 'video.read'
+        - 'video:read'
     type:
       groups:
-        - 'video.read'
+        - 'video:read'
     videoId:
       groups:
-        - 'video.read'
+        - 'video:read'
     url:
       groups:
-        - 'video.read'
-        - 'video.post'
+        - 'video:read'
+        - 'video:insert'
     tag:
       groups:
-        - 'video.post'
-        - 'video.put'
+        - 'video:insert'
+        - 'video:update'
     title:
       groups:
-        - 'video.read'
+        - 'video:read'
     description:
       groups:
-        - 'video.read'
+        - 'video:read'
     viewCount:
       groups:
-        - 'video.read'
+        - 'video:read'
     likeCount:
       groups:
-        - 'video.read'
+        - 'video:read'
     thumbnail:
       groups:
-        - 'video.read'
+        - 'video:read'
     nbComment:
       groups:
-        - 'video.read'
+        - 'video:read'
     game:
       groups:
-        - 'video.game'
-        - 'video.post'
+        - 'video:game'
+        - 'video:insert'
     player:
       groups:
-        - 'video.player'
+        - 'video:player'
     createdAt:
       groups:
-        - 'video.read'
+        - 'video:read'

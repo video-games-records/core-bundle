@@ -1,30 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VideoGamesRecords\CoreBundle\Traits\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait NbChartProvenWithoutDlcTrait
 {
-    /**
-     * @ORM\Column(name="nbChartProvenWithoutDlc", type="integer", nullable=false, options={"default":0})
-     */
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $nbChartProvenWithoutDlc = 0;
 
-    /**
-     * Set nbChartProvenWithoutDlc
-     * @param integer $nbChartProvenWithoutDlc
-     * @return $this
-     */
-    public function setNbChartProvenWithoutDlc(int $nbChartProvenWithoutDlc): static
+    public function setNbChartProvenWithoutDlc(int $nbChartProvenWithoutDlc): void
     {
         $this->nbChartProvenWithoutDlc = $nbChartProvenWithoutDlc;
-        return $this;
     }
 
-    /**
-     * Get nbChartProvenWithoutDlc
-     *
-     * @return integer
-     */
     public function getNbChartProvenWithoutDlc(): int
     {
         return $this->nbChartProvenWithoutDlc;
