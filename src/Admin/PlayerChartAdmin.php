@@ -236,6 +236,7 @@ class PlayerChartAdmin extends AbstractAdmin
             ->add('player', null, ['label' => 'label.player'])
             ->add('chart', null, ['label' => 'label.chart'])
             ->add('status', null, ['label' => 'label.status'])
+            ->add('lastUpdate', null, ['label' => 'label.lastUpdate'])
             ->add('dateInvestigation', null, ['label' => 'label.dateInvestigation'])
             ->add('proof', null, ['label' => 'label.proof'])
             ->add('libs', null, ['label' => 'label.libs']);
