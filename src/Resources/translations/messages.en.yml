@@ -76,6 +76,7 @@ label:
     groups: 'Groups'
     id: 'id'
     isActive: 'Active ? '
+    lastUpdate: 'Last update'
     leader: 'Leader'
     libs: 'libs'
     libs.help: 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group'
