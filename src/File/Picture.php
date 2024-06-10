@@ -187,6 +187,27 @@ class Picture implements PictureInterface
         return $this;
     }
 
+    public function scale(int $width, int $height): void
+    {
+        $dstRatio = $width / $height;
+        $srcW = $this->getWidth();
+        $srcH = $this->getHeight();
+        $srcRatio = $srcW / $srcH;
+
+        // Is picture size < dest size do nothing
+        if (($srcW <= $width) && ($srcH <= $height)) {
+            return;
+        }
+
+        if ($srcRatio === $dstRatio) {
+            $this->image = imagescale($this->image, $width, $height);
+        } elseif ($srcRatio < $dstRatio) {
+            $this->image = imagescale($this->image, $srcW * ($height / $srcH), $height);
+        } else {
+            $this->image = imagescale($this->image, $width, $srcH * ($width / $srcW),);
+        }
+    }
+
     /**
      * @param      $xA
      * @param      $yA
@@ -261,6 +282,15 @@ class Picture implements PictureInterface
         header('Content-Type: ' . $contentType);
         $method($this->image);
         exit;
+    }
+
+
+    public function getStream($type): bool|string
+    {
+        $method = $this->getGererateMethod($type);
+        ob_start();
+        $method($this->image);
+        return ob_get_clean();
     }
 
     /**

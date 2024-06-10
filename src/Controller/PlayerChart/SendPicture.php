@@ -2,9 +2,9 @@
 
 namespace VideoGamesRecords\CoreBundle\Controller\PlayerChart;
 
-use Aws\S3\S3Client;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,25 +14,26 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 use VideoGamesRecords\CoreBundle\Exception\AccessDeniedException;
+use VideoGamesRecords\CoreBundle\File\PictureCreatorFactory;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class SendPicture extends AbstractController
 {
-    private S3Client $s3client;
+    private FilesystemOperator $proofStorage;
     private UserProvider $userProvider;
     private EntityManagerInterface $em;
 
     private array $extensions = array(
-        'image/png' => '.png',
-        'image/jpeg' => '.jpg',
+        'image/png' => 'png',
+        'image/jpeg' => 'jpg',
     );
 
     public function __construct(
-        S3Client $s3client,
+        FilesystemOperator $proofStorage,
         UserProvider $userProvider,
         EntityManagerInterface $em
     ) {
-        $this->s3client = $s3client;
+        $this->proofStorage = $proofStorage;
         $this->userProvider = $userProvider;
         $this->em = $em;
     }
@@ -73,29 +74,28 @@ class SendPicture extends AbstractController
         if ($picture == null) {
             $fp = fopen($file, 'r');
             $meta = stream_get_meta_data($fp);
+            $data = explode(',', $file);
+
+            // Set filename
+            $filename = $idPlayer . '/' . $idGame . '/' . uniqid() . '.' . $this->extensions[$meta['mediatype']];
 
             $metadata = [
                 'idplayer' => $idPlayer,
                 'idgame' => $idGame,
             ];
-            $key = $idPlayer . '/' . $idGame . '/' . uniqid() . $this->extensions[$meta['mediatype']];
 
-            $this->s3client->putObject([
-                'Bucket' => $_ENV['AWS_S3_BUCKET_PROOF'],
-                'Key'    => $key,
-                'Body'   => $fp,
-                'ACL'    => 'public-read',
-                'ContentType' => $meta['mediatype'],
-                'Metadata' => [
-                    'idplayer' => $idPlayer,
-                    'idgame' => $idGame
-                ],
-                'StorageClass' => 'STANDARD',
-            ]);
+            $pictureFile = PictureCreatorFactory::fromStream(base64_decode($data[1]));
+            $pictureFile->scale(1600, 1080);
+
+            /*ob_start();
+            imagepng($pictureFile->getImage());
+            $imageData = ob_get_clean();*/
+
+            $this->proofStorage->write($filename, $pictureFile->getStream($this->extensions[$meta['mediatype']]));
 
             //-- Picture
             $picture = new Picture();
-            $picture->setPath($key);
+            $picture->setPath($filename);
             $picture->setMetadata(serialize($metadata));
             $picture->setPlayer($playerChart->getPlayer());
             $picture->setGame($playerChart->getChart()->getGroup()->getGame());
