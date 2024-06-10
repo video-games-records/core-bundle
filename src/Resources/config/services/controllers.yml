@@ -141,13 +141,6 @@ services:
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
-  # Picture
-  VideoGamesRecords\CoreBundle\Controller\Picture\Show:
-    arguments:
-      - '@aws.s3'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
 
   #Platform
   VideoGamesRecords\CoreBundle\Controller\Platform\Player\GetRankingPoints:
@@ -260,14 +253,6 @@ services:
     arguments:
       - '@vgr.core.manager.score_manager'
       - '@vgr.core.security.user_provider'
-    calls:
-      - [ setContainer, [ "@service_container" ] ]
-
-  VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendPicture:
-    arguments:
-      - '@aws.s3'
-      - '@vgr.core.security.user_provider'
-      - '@doctrine.orm.entity_manager'
     calls:
       - [ setContainer, [ "@service_container" ] ]
 
