@@ -51,6 +51,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
  *          "libGameEn" : "partial",
  *          "libGameFr" : "partial",
  *          "badge": "exact",
+ *          "serie": "exact",
  *      }
  * )
  * @ApiFilter(DateFilter::class, properties={"publishedAt": DateFilter::INCLUDE_NULL_BEFORE_AND_AFTER})
