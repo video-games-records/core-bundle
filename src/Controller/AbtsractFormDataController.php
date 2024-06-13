@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 abstract class AbtsractFormDataController extends AbstractController
@@ -36,6 +37,7 @@ abstract class AbtsractFormDataController extends AbstractController
                 $playerChart->setChart($chart);
                 $playerChart->setPlayer($player);
                 $playerChart->setLastUpdate(new \DateTime());
+                $playerChart->setStatus($this->em->getRepository(PlayerChartStatus::class)->findOneBy(['id' => 1]));
                 if (count($platforms) == 1) {
                     $playerChart->setPlatform($platforms[0]);
                 }
