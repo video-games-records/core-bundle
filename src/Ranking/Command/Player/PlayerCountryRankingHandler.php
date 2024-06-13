@@ -19,7 +19,7 @@ class PlayerCountryRankingHandler extends AbstractRankingHandler
 
         $players = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
             ->findBy(array('country' => $country), array('rankPointChart' => 'ASC'));
-        Ranking::addObjectRank($players, 'rankCountry', array('rankPointChart'));
+        Ranking::addObjectRank($players, 'rankCountry', array('rankPointGame'));
         $this->em->flush();
 
         $event = new CountryEvent($country);
