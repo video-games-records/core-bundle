@@ -6,6 +6,9 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
@@ -17,6 +20,13 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 #[ORM\Index(name: "idx_type", columns: ["type"])]
 #[ORM\Index(name: "idx_value", columns: ["value"])]
 #[ApiFilter(OrderFilter::class, properties: ['type', 'value'], arguments: ['orderParameterName' => 'order'])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+    ],
+    normalizationContext: ['groups' => ['badge:read']]
+)]
 class Badge implements BadgeInterface
 {
     use NbPlayerTrait;
