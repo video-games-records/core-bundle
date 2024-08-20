@@ -31,7 +31,7 @@
         "symfony/console": "^6.4",
         "symfony/dependency-injection": "^6.4",
         "symfony/dotenv": "^6.4",
-        "symfony/flex": "^1.19",
+        "symfony/flex": "^2",
         "symfony/framework-bundle": "^6.4",
         "symfony/http-kernel": "^6.4",
         "symfony/intl": "^6.4",
