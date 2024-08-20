@@ -360,7 +360,7 @@ class Game implements SluggableInterface
 
     public function __toString()
     {
-        return (string) $this->id;
+        return sprintf('%s [%d]', urlencode($this->getName()), $this->id);
     }
 
     public function getDefaultName(): string
