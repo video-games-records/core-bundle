@@ -21,7 +21,7 @@ class GameOfDayManager
     /**
      * @return void
      */
-    public function add(): void
+    public function addTomorrowGame(): void
     {
         $tomorrow = new Datetime('tomorrow');
         $gameDay = $this->em->getRepository(GameDay::class)->findOneBy(array('day' => $tomorrow));

@@ -54,7 +54,7 @@ class PlayerRankingHandler extends AbstractRankingHandler
         $player->setChartRank2((int) $row['chartRank2']);
         $player->setChartRank3((int) $row['chartRank3']);
         $player->setPointChart((int) $row['pointChart']);
-        $player->setPointGame($row['pointGame'] ?? 0);
+        $player->setPointGame((int) $row['pointGame']);
 
 
         $query = $this->em->createQuery("
