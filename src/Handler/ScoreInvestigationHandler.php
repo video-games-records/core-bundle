@@ -21,7 +21,7 @@ class ScoreInvestigationHandler
     /**
      * @throws ORMException
      */
-    public function process(): void
+    public function handle(): void
     {
         $list = $this->getScoreToDesactivate();
         $statut = $this->em->getReference(

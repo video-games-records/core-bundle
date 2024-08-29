@@ -19,7 +19,7 @@ class PlayerChartRepository extends DefaultRepository
      * @param Chart $chart
      * @return int|mixed|string
      */
-    public function getPlatforms(Chart $chart)
+    public function getPlatforms(Chart $chart): mixed
     {
         $query = $this->_em->createQuery("
             SELECT

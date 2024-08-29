@@ -6,12 +6,15 @@ namespace VideoGamesRecords\CoreBundle\Ranking\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerChartRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerCountryRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerGameRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerGroupRankingHandler;
+use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerPlatformRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerRankingHandler;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerSerieRankingHandler;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
@@ -19,35 +22,22 @@ use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class ScoringPlayerRankingHandler
 {
-    private EntityManagerInterface $em;
-    private PlayerChartRankingHandler $playerChartRankingHandler;
-    private PlayerGroupRankingHandler $playerGroupRankingHandler;
-    private PlayerGameRankingHandler $playerGameRankingHandler;
-    private PlayerSerieRankingHandler $playerSerieRankingHandler;
-    private PlayerRankingHandler $playerRankingHandler;
-    protected EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
-        EntityManagerInterface $em,
-        PlayerChartRankingHandler $playerChartRankingHandler,
-        PlayerGroupRankingHandler $playerGroupRankingHandler,
-        PlayerGameRankingHandler $playerGameRankingHandler,
-        PlayerSerieRankingHandler $playerSerieRankingHandler,
-        PlayerRankingHandler $playerRankingHandler,
-        EventDispatcherInterface $eventDispatcher
+        private readonly EntityManagerInterface $em,
+        private readonly PlayerChartRankingHandler $playerChartRankingHandler,
+        private readonly PlayerGroupRankingHandler $playerGroupRankingHandler,
+        private readonly PlayerGameRankingHandler $playerGameRankingHandler,
+        private readonly PlayerSerieRankingHandler $playerSerieRankingHandler,
+        private readonly PlayerRankingHandler $playerRankingHandler,
+        private readonly PlayerCountryRankingHandler $playerCountryRankingHandler,
+        private readonly PlayerPlatformRankingHandler $playerPlatformRankingHandler,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        $this->em = $em;
-        $this->playerChartRankingHandler = $playerChartRankingHandler;
-        $this->playerGroupRankingHandler = $playerGroupRankingHandler;
-        $this->playerGameRankingHandler = $playerGameRankingHandler;
-        $this->playerSerieRankingHandler = $playerSerieRankingHandler;
-        $this->playerRankingHandler = $playerRankingHandler;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
      * @return int
-     * @throws NonUniqueResultException
+     * @throws NonUniqueResultException|NoResultException
      */
     public function handle(): int
     {
@@ -63,6 +53,8 @@ class ScoringPlayerRankingHandler
         $games = $this->playerChartRankingHandler->getGames();
         $players = $this->playerChartRankingHandler->getPlayers();
         $series = $this->playerChartRankingHandler->getSeries();
+        $countries = $this->playerChartRankingHandler->getCountries();
+        $platforms = $this->playerChartRankingHandler->getPlatforms();
 
         //----- Maj group
         foreach ($groups as $group) {
@@ -79,19 +71,31 @@ class ScoringPlayerRankingHandler
             $this->playerSerieRankingHandler->handle($serie->getId());
         }
 
+        //----- Maj player
         foreach ($players as $player) {
             $this->playerRankingHandler->handle($player->getId());
         }
 
+        //----- Maj platform
+        foreach ($platforms as $platform) {
+            $this->playerPlatformRankingHandler->handle($platform->getId());
+        }
+
+        //----- Maj country
+        foreach ($countries as $country) {
+            $this->playerCountryRankingHandler->handle($country->getId());
+        }
+
         $event = new Event();
         $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::SCORES_PLAYER_MAJ_COMPLETED);
-        //$this->playerRankingHandler->majRank();
 
         echo sprintf("%d charts updated\n", count($charts));
         echo sprintf("%d groups updated\n", count($groups));
         echo sprintf("%d games updated\n", count($games));
         echo sprintf("%d series updated\n", count($series));
         echo sprintf("%d players updated\n", count($players));
+        echo sprintf("%d platforms updated\n", count($platforms));
+        echo sprintf("%d countries updated\n", count($countries));
         return 0;
     }
 
