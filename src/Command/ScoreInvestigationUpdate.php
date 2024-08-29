@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Command;
 
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,12 +35,11 @@ class ScoreInvestigationUpdate extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @throws OptimisticLockException|ORMException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->scoreInvestigationHandler->process();
+        $this->scoreInvestigationHandler->handle();
         return Command::SUCCESS;
     }
 }

@@ -21,6 +21,8 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
     private array $series = [];
     private array $games = [];
     private array $groups = [];
+    private array $countries = [];
+    private array $platforms = [];
 
     public function __construct(
         EntityManagerInterface $em,
@@ -75,6 +77,16 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
             $libValue = '';
             /** @var PlayerChart $playerChart */
             $playerChart = $item[0];
+
+            $platform = $playerChart->getPlatform();
+            if (null !== $platform) {
+                $this->platforms[$platform->getId()] = $platform;
+            }
+
+            $country = $playerChart->getPlayer()->getCountry();
+            if (null !== $country) {
+                $this->countries[$country->getId()] = $country;
+            }
 
             $this->players[$playerChart->getPlayer()->getId()] = $playerChart->getPlayer();
 
@@ -183,5 +195,15 @@ class PlayerChartRankingHandler extends AbstractRankingHandler
     public function getGroups(): array
     {
         return $this->groups;
+    }
+
+    public function getCountries(): array
+    {
+        return $this->countries;
+    }
+
+    public function getPlatforms(): array
+    {
+        return $this->platforms;
     }
 }

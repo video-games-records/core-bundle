@@ -19,7 +19,7 @@ class PlayerBadgeHandler
     /**
      * @throws Exception
      */
-    public function process(): void
+    public function handle(): void
     {
         $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
         SELECT vgr_player.id,vgr_badge.id, NOW(), NOW()
