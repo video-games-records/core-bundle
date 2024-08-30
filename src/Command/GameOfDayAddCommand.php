@@ -39,7 +39,7 @@ class GameOfDayAddCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->gameOfDayManager->add();
+        $this->gameOfDayManager->addTomorrowGame();
         return Command::SUCCESS;
     }
 }

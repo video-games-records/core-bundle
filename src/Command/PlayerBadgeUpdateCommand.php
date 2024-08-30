@@ -39,7 +39,7 @@ class PlayerBadgeUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->playerBadgeHandler->process();
+        $this->playerBadgeHandler->handle();
         return Command::SUCCESS;
     }
 }
