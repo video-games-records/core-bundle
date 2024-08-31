@@ -199,7 +199,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
             'player:read',
             'player:team',
             'player:country',
-            'country:read"',
+            'country:read',
             'player:read',
             'player:team',
             'team:read',
