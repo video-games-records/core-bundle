@@ -38,7 +38,7 @@ class PlayerScoringRankingUpdateCommand extends Command
         $store = new SemaphoreStore();
         $factory = new LockFactory($store);
 
-        $lock = $factory->createLock(self::$defaultName);
+        $lock = $factory->createLock($this->getName());
 
         if ($lock->acquire()) {
             $this->scoringPlayerRankingHandler->handle();
