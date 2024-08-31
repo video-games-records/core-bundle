@@ -6,15 +6,18 @@ namespace VideoGamesRecords\CoreBundle\Command;
 
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use VideoGamesRecords\CoreBundle\Handler\ScoreInvestigationHandler;
 
+#[AsCommand(
+    name: 'vgr-core:score-investigation-update',
+    description: 'Command to check score under investigation'
+)]
 class ScoreInvestigationUpdate extends Command
 {
-    protected static $defaultName = 'vgr-core:score-investigation-update';
-
     private ScoreInvestigationHandler $scoreInvestigationHandler;
 
     public function __construct(ScoreInvestigationHandler $scoreInvestigationHandler)
@@ -23,13 +26,6 @@ class ScoreInvestigationUpdate extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->setName('vgr-core:score-investigation-update')
-            ->setDescription('Command to check score under investigation');
-        parent::configure();
-    }
 
     /**
      * @param InputInterface  $input
