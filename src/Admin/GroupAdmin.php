@@ -232,7 +232,15 @@ class GroupAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',
             ])
-            ->add('orderBy', null, ['label' => 'label.orderBy'])
+            ->add(
+                'orderBy',
+                'choice',
+                [
+                    'label' => 'label.orderBy',
+                    'editable' => true,
+                    'choices' => GroupOrderBy::getStatusChoices(),
+                ]
+            )
             ->add('isDlc', 'boolean', ['label' => 'label.isDlc'])
             ->add('_action', 'actions', [
                 'actions' =>
