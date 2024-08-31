@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,10 +14,12 @@ use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingCommandInterface;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerPlatformRankingHandler;
 
+#[AsCommand(
+    name: 'vgr-core:player-platform-ranking-update',
+    description: 'Command to update players ranking'
+)]
 class PlayerPlatformRankingUpdateCommand extends Command
 {
-    protected static $defaultName = 'vgr-core:platform-ranking-update';
-
     private EntityManagerInterface $em;
     private RankingCommandInterface $rankingCommand;
 
@@ -29,16 +32,6 @@ class PlayerPlatformRankingUpdateCommand extends Command
         $this->rankingCommand = $rankingCommand;
         parent::__construct();
     }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('vgr-core:player-platform-ranking-update')
-            ->setDescription('Command to update players ranking')
-        ;
-        parent::configure();
-    }
-
 
     /**
      * @param InputInterface  $input

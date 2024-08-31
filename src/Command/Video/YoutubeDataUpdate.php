@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Command\Video;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,10 +14,12 @@ use VideoGamesRecords\CoreBundle\Handler\Video\YoutubeDataHandler;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
 
+#[AsCommand(
+    name: 'vgr-core:video-youtube-data-update',
+    description: 'Command to update videos with youtube data'
+)]
 class YoutubeDataUpdate extends Command
 {
-    protected static $defaultName = 'vgr-core:video-youtube-data-update';
-
     private EntityManagerInterface $em;
     private YoutubeDataHandler $youtubeDataHandler;
 
@@ -30,8 +33,6 @@ class YoutubeDataUpdate extends Command
     protected function configure(): void
     {
         $this
-            ->setName('vgr-core:video-youtube-data-update')
-            ->setDescription('Command to update videos with youtube data')
             ->addOption(
                 'nb',
                 null,
