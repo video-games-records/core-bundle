@@ -23,10 +23,10 @@ class PlayerBadgeHandler
     {
         $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
         SELECT vgr_player.id,vgr_badge.id, NOW(), NOW()
-        FROM vgr_player,user,vgr_badge
+        FROM vgr_player,pnu_user,vgr_badge
         WHERE type = '%s'
         AND value <= user.%s
-        AND vgr_player.user_id = user.id
+        AND vgr_player.user_id = pnu_user.id
         AND vgr_badge.id NOT IN (SELECT idBadge FROM vgr_player_badge WHERE idPlayer = vgr_player.id)";
 
         $this->em->getConnection()->executeQuery(sprintf($sql, 'Forum', 'nbForumMessage'));
