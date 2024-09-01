@@ -7,12 +7,12 @@ namespace VideoGamesRecords\CoreBundle\Scheduler\Handler;
 use Doctrine\ORM\EntityManagerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Video;
 use VideoGamesRecords\CoreBundle\Handler\Video\YoutubeDataHandler;
-use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdatePlayerChartRanking;
+use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdateYoutubeData;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
 
 #[AsMessageHandler]
-class UpdateYoutubeData
+class UpdateYoutubeDataHandler
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
@@ -20,7 +20,7 @@ class UpdateYoutubeData
     ) {
     }
 
-    public function __invoke(UpdatePlayerChartRanking $message): void
+    public function __invoke(UpdateYoutubeData $message): void
     {
         $videos = $this->em->getRepository(Video::class)->findBy(
             [
