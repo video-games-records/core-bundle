@@ -23,14 +23,14 @@ use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
         new GetCollection(),
         new Get(),
         new Delete(
-            security: "is_granted('ROLE_PLAYER') and object.getPlayer().getUserId() == user.getId()'",
+            security: "is_granted('ROLE_PLAYER') and object.getPlayer().getUserId() == user.getId()",
         )
     ],
     normalizationContext: ['groups' => [
         'lost-position:read',
         'lost-position:chart', 'chart:read',
-        'chart:group', 'groups:read',
-        'group:game', 'games:read']
+        'chart:group', 'group:read',
+        'group:game', 'game:read']
     ]
 )]
 #[ApiFilter(
