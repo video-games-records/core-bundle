@@ -192,8 +192,8 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
             'chart:group', 'group:read',
             'group:game', 'game:read',
             'player-chart:proof', 'proof:read',
-            'proof:picture', 'picture.read',
-            'proof:video', 'video.read',
+            'proof:picture', 'picture:read',
+            'proof:video', 'video:read',
         ]
     ]
 )]
