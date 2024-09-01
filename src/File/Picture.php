@@ -256,7 +256,7 @@ class Picture implements PictureInterface
                 throw new Exception('No active font defined.');
             }
         }
-        imagettftext($this->image, $size, $angle, $x, $y, $color, $font, $message);
+        imagettftext($this->image, $size, $angle, $x, $y, $color, $font, (string) $message);
         return $this;
     }
 
