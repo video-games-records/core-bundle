@@ -34,8 +34,8 @@
                                                     {% if object.getPicture() != null %}
                                                         <th>Picture</th>
                                                         <td>
-                                                             <a target="_blank" href="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}">
-                                                                <img src="{{ path('vgr_core_picture_index',{'id': object.picture.id}) }}" width="100%" alt="" />
+                                                             <a target="_blank" href="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}">
+                                                                <img src="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}" width="100%" alt="" />
                                                             </a>
                                                         </td>
                                                     {% endif %}
