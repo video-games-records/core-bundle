@@ -6,10 +6,4 @@ namespace VideoGamesRecords\CoreBundle\Scheduler\Message;
 
 class UpdatePlayerChartRanking
 {
-    private ?int $nb;
-
-    public function getNb(): ?int
-    {
-        return $this->nb;
-    }
 }
