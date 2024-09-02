@@ -204,9 +204,9 @@ class Picture implements PictureInterface
         if ($srcRatio === $dstRatio) {
             $this->image = imagescale($this->image, $width, $height);
         } elseif ($srcRatio < $dstRatio) {
-            $this->image = imagescale($this->image, $srcW * ($height / $srcH), $height);
+            $this->image = imagescale($this->image, (int) ($srcW * ($height / $srcH)), $height);
         } else {
-            $this->image = imagescale($this->image, $width, $srcH * ($width / $srcW),);
+            $this->image = imagescale($this->image, $width, (int) ($srcH * ($width / $srcW)));
         }
     }
 
