@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Security;
 
 use Doctrine\ORM\Exception\ORMException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
 use VideoGamesRecords\CoreBundle\Entity\Player;
