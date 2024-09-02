@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,13 +28,19 @@ class ProofRequestAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
-
     /** @var ContainerInterface */
     private ContainerInterface $container;
+
+    private Security $security;
 
     public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
+    }
+
+    public function setSecurity(Security $security): void
+    {
+        $this->security = $security;
     }
 
     /**
@@ -309,7 +316,7 @@ class ProofRequestAdmin extends AbstractAdmin
     {
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        $user = $this->security->getUser();
         return $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getPlayerFromUser($user);
     }
 }

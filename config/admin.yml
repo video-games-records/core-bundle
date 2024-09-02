@@ -77,6 +77,7 @@ services:
     calls:
       - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/proof_request_edit.html.twig' ] ]
       - [ setContainer, [ '@service_container' ] ]
+      - [ setSecurity, [ '@security.helper' ] ]
   sonata.admin.vgr.proof.proof:
     class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
     tags:
@@ -90,6 +91,7 @@ services:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/proof_show.html.twig' ] ]
       - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/proof_edit.html.twig' ] ]
       - [ setContainer, [ '@service_container' ] ]
+      - [ setSecurity, [ '@security.helper' ] ]
   sonata.admin.vgr.proof.picture:
     class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
     tags:
