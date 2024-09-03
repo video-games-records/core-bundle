@@ -147,7 +147,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
     properties: [
         'id' => 'ASC',
         'libChartEn' => 'ASC',
-        'libChartFr"' => 'ASC',
+        'libChartFr' => 'ASC',
     ]
 )]
 class Chart implements SluggableInterface

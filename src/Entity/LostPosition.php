@@ -37,7 +37,7 @@ use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
     SearchFilter::class,
     properties: [
         'player' => 'exact',
-        'chart.group.game"' => 'exact',
+        'chart.group.game' => 'exact',
     ]
 )]
 class LostPosition

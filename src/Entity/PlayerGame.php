@@ -55,7 +55,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         'lastUpdate' => 'DESC',
         'rankPointChart' => 'ASC',
         'chartRank0' => 'DESC',
-        'chartRank1"' => 'DESC',
+        'chartRank1' => 'DESC',
         'chartRank2' => 'DESC',
         'chartRank3' => 'DESC',
         'pointGame' => 'DESC',
@@ -63,7 +63,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         'nbEqual' => 'ASC',
         'game.nbPlayer' => 'DESC',
         'game.libGameEn' => 'ASC',
-        'game.libGameFr"' => 'ASC',
+        'game.libGameFr' => 'ASC',
     ]
 )]
 #[ApiFilter(

@@ -199,7 +199,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 )]
 #[ApiFilter(DateFilter::class, properties: ['lastUpdate' => DateFilterInterface::EXCLUDE_NULL])]
 #[ApiFilter(RangeFilter::class, properties: ['chart.nbPost', 'rank', 'pointChart'])]
-#[ApiFilter(ExistsFilter::class, properties: ['proof', 'proof.picture"', 'proof.video'])]
+#[ApiFilter(ExistsFilter::class, properties: ['proof', 'proof.picture', 'proof.video'])]
 class PlayerChart
 {
     use PlayerTrait;
