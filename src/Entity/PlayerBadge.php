@@ -68,7 +68,7 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
         ]
     ]
 )]
-#[ApiFilter(DateFilter::class, properties: ['ended_at' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
+#[ApiFilter(DateFilter::class, properties: ['endedAt' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
 class PlayerBadge implements BadgeInterface
 {
     use TimestampableEntity;
