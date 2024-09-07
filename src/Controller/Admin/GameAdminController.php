@@ -6,6 +6,10 @@ namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Form\VideoProofOnly;
 use VideoGamesRecords\CoreBundle\Manager\GameManager;
 use Yokai\SonataWorkflow\Controller\WorkflowControllerTrait;
 
@@ -56,5 +60,45 @@ class GameAdminController extends CRUDController
         $this->gameManager->setProofVideoOnly($this->admin->getSubject());
         $this->addFlash('sonata_flash_success', 'Game maj successfully');
         return new RedirectResponse($this->admin->generateUrl('list'));
+    }
+
+    /**
+     * @param         $id
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function setVideoProofOnlyAction($id, Request $request): RedirectResponse|Response
+    {
+        /** @var Game $game */
+        $game = $this->admin->getSubject();
+
+        $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
+        $form = $this->createForm(VideoProofOnly::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $isVideoProofOnly = $data['isVideoProofOnly'];
+            foreach ($game->getGroups() as $group) {
+                foreach ($group->getCharts() as $chart) {
+                    $chart->setIsProofVideoOnly($isVideoProofOnly);
+                }
+            }
+            $em->flush();
+
+            $this->addFlash('sonata_flash_success', 'All charts are updated successfully');
+            return new RedirectResponse($this->admin->generateUrl('show', ['id' => $game->getId()]));
+        }
+
+        return $this->render(
+            '@VideoGamesRecordsCore/Admin/Form/form.set_video_proof_only.html.twig',
+            [
+                'base_template' => '@SonataAdmin/standard_layout.html.twig',
+                'admin' => $this->admin,
+                'object' => $game,
+                'form' => $form,
+                'title' => $game->getName(),
+                'action' => 'edit'
+            ]
+        );
     }
 }

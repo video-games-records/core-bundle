@@ -33,7 +33,18 @@ class GameAdmin extends AbstractAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('copy', $this->getRouterIdParameter() . '/copy')
-            ->add('maj', $this->getRouterIdParameter() . '/maj');
+            ->add('maj', $this->getRouterIdParameter() . '/maj')
+            ->add('set-video-proof-only', $this->getRouterIdParameter() . '/set-video-proof-only');
+    }
+
+    public function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
+    {
+        if (in_array($action, ['show', 'edit', 'acl']) && $object) {
+            $buttonList['set-video-proof-only'] = [
+                'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.set_video_proof_only.html.twig',
+            ];
+        }
+        return $buttonList;
     }
 
     /**

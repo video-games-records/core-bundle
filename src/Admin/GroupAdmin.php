@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
 
-class GroupAdmin extends AbstractAdmin
+final class GroupAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'vgrcorebundle_admin_group';
 
@@ -41,25 +41,24 @@ class GroupAdmin extends AbstractAdmin
         $collection->remove('export')
             ->add('copy', $this->getRouterIdParameter() . '/copy')
             ->add('copy-with-lib-chart', $this->getRouterIdParameter() . '/copy-with-lib-chart')
-            ->add('add-lib-chart', $this->getRouterIdParameter() . '/add-lib-chart');
+            ->add('add-lib-chart', $this->getRouterIdParameter() . '/add-lib-chart')
+            ->add('set-video-proof-only', $this->getRouterIdParameter() . '/set-video-proof-only');
+    }
+
+    public function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
+    {
+        if (in_array($action, ['show', 'edit', 'acl']) && $object) {
+            $buttonList['add-lib-chart'] = [
+                'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.add_lib_chart.html.twig',
+            ];
+            $buttonList['set-video-proof-only'] = [
+                'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.set_video_proof_only.html.twig',
+            ];
+        }
+        return $buttonList;
     }
 
     /**
-     * @param array $actions
-     * @return array|\mixed[][]
-     */
-    /*protected function configureDashboardActions(array $actions): array
-    {
-        $subject = $this->getSubject();
-        $actions['addlibchart'] = [
-            'label' => 'add_lib_chart',
-            'url' => $this->generateUrl('add-lib-chart', ['id' => $subject->getId()]),
-            'icon' => 'import',
-            'translation_domain' => 'SonataAdminBundle',
-        ];
-        return $actions;
-    }*/
-
     /**
      * @param FormMapper $form
      */
