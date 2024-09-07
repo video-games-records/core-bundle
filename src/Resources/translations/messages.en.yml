@@ -112,6 +112,7 @@ label:
     pointChart: 'Record Points'
     pointGame: 'Game Points'
     pointBadge: 'Badge Points'
+    isProofVideoOnly: 'Proof Video Only'
     pseudo: 'Pseudo'
     publishedAt: 'Published At'
     ranking: 'Ranking'
