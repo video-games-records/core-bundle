@@ -21,7 +21,7 @@ class PlayerBadgeHandler
      */
     public function handle(): void
     {
-        $sql = "INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
+        $sql = "INSERT INTO vgr_player_badge (player_id, badge_id, created_at, updated_at)
         SELECT vgr_player.id,vgr_badge.id, NOW(), NOW()
         FROM vgr_player,pnu_user,vgr_badge
         WHERE type = '%s'
@@ -31,7 +31,7 @@ class PlayerBadgeHandler
 
         $this->em->getConnection()->executeQuery(sprintf($sql, 'Forum', 'nbForumMessage'));
 
-        $sql = " INSERT INTO vgr_player_badge (idPlayer, idBadge, created_at, updated_at)
+        $sql = " INSERT INTO vgr_player_badge (player_id, badge_id, created_at, updated_at)
         SELECT vgr_player.id,vgr_badge.id, NOW(), NOW()
         FROM vgr_player,vgr_badge
         WHERE type = '%s'
