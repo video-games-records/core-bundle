@@ -21,6 +21,9 @@ VideoGamesRecords\CoreBundle\Entity\Chart:
     isDlc:
       groups:
         - 'chart:read'
+    isProofVideoOnly:
+      groups:
+        - 'chart:read'
     slug:
       groups:
         - 'chart:read'

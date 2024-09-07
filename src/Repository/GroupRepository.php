@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Repository;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
@@ -49,25 +48,4 @@ class GroupRepository extends DefaultRepository
         $this->_em->persist($newGroup);
         $this->_em->flush();
     }
-
-    /**
-     * @param int $idGroup
-     * @param int $idType
-     * @return int|string
-     * @throws Exception
-     */
-    /*public function insertLibChart(int $idGroup, int $idType): int | string
-    {
-        $sql = "INSERT INTO vgr_chartlib (idChart,idType,created_at)
-            SELECT id,:idType,NOW()
-            FROM vgr_chart
-            WHERE idGroup = :idGroup";
-        return $this->_em->getConnection()->executeStatement(
-            $sql,
-            [
-                'idGroup' => $idGroup,
-                'idType' => $idType,
-            ]
-        );
-    }*/
 }

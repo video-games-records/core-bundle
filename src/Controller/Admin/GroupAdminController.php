@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Form\Type\ChartTypeType;
 
@@ -49,14 +49,14 @@ class GroupAdminController extends CRUDController
     /**
      * @param         $id
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse|Response
      */
-    public function addLibChartAction($id, Request $request)
+    public function addLibChartAction($id, Request $request): RedirectResponse|Response
     {
         /** @var Group $object */
-        $object = $this->admin->getSubject();
+        $group = $this->admin->getSubject();
 
-        if ($object->getGame()->getGameStatus()->isActive()) {
+        if ($group->getGame()->getGameStatus()->isActive()) {
             $this->addFlash('sonata_flash_error', 'Game is already activated');
             return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));
         }
@@ -67,24 +67,28 @@ class GroupAdminController extends CRUDController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $type = $data['type'];
-            $result = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->insertLibChart($id, $type->getId());
-            if ($result) {
-                $this->addFlash('sonata_flash_success', 'Add all libchart on group successfully');
-                return new RedirectResponse($this->admin->generateUrl('list', ['filter' => $this->admin->getFilterParameters()]));
-            } else {
-                $this->addFlash('sonata_flash_error', 'Add all libchart on group successfully');
-                return new RedirectResponse($this->admin->generateUrl('add-lib-chart'));
+            $chartType = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\ChartType')->find($type);
+
+            foreach ($group->getCharts() as $chart) {
+                $libChart = new ChartLib();
+                $libChart->setType($chartType);
+                $chart->addLib($libChart);
+                $em->persist($libChart);
             }
+            $em->flush();
+
+            $this->addFlash('sonata_flash_success', 'Add all libchart on group successfully');
+            return new RedirectResponse($this->admin->generateUrl('show', ['id' => $group->getId()]));
         }
 
-        return $this->renderForm(
-            '@VideoGamesRecordsCore/Admin/group_add_chart_form.html.twig',
+        return $this->render(
+            '@VideoGamesRecordsCore/Admin/Group/form.add_chart.html.twig',
             [
                 'base_template' => '@SonataAdmin/standard_layout.html.twig',
                 'admin' => $this->admin,
-                'object' => $object,
+                'object' => $group,
                 'form' => $form,
-                'group' => $object,
+                'group' => $group,
                 'action' => 'edit'
             ]
         );

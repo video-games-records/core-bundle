@@ -174,6 +174,8 @@ class Chart implements SluggableInterface
     #[ORM\Column(length: 30, nullable: false, options: ['default' => 'NORMAL'])]
     private string $statusTeam = ChartStatus::NORMAL;
 
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $isProofVideoOnly = false;
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'charts')]
@@ -309,6 +311,16 @@ class Chart implements SluggableInterface
     public function getStatusTeam(): ChartStatus
     {
         return new ChartStatus($this->statusTeam);
+    }
+
+    public function getIsProofVideoOnly(): bool
+    {
+        return $this->isProofVideoOnly;
+    }
+
+    public function setIsProofVideoOnly(bool $isProofVideoOnly): void
+    {
+        $this->isProofVideoOnly = $isProofVideoOnly;
     }
 
     public function getPlayerCharts(): Collection

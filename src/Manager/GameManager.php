@@ -32,4 +32,9 @@ class GameManager
     {
         $this->gameRepository->copy($game);
     }
+
+    public function setProofVideoOnly(Game $game): void
+    {
+
+    }
 }

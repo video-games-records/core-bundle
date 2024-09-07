@@ -125,6 +125,11 @@ class ChartAdmin extends AbstractAdmin
             'required' => false,
         ]);
 
+        $form->add('isProofVideoOnly', CheckboxType::class, [
+            'label' => 'label.isProofVideoOnly',
+            'required' => false,
+        ]);
+
 
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
             $form
@@ -191,6 +196,7 @@ class ChartAdmin extends AbstractAdmin
                 'label' => 'label.game',
             ])
             ->add('isDlc', null, ['label' => 'label.isDlc'])
+            ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly'])
             ->add(
                 'statusPlayer',
                 ChoiceFilter::class,
@@ -241,6 +247,7 @@ class ChartAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',
             ))
+            ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly', 'editable' => true])
             ->add(
                 'libs',
                 null,
@@ -269,6 +276,8 @@ class ChartAdmin extends AbstractAdmin
             ->add('statusPlayer', null, ['label' => 'label.chart.statusPlayer'])
             ->add('statusTeam', null, ['label' => 'label.chart.statusTeam'])
             ->add('isDlc', null, ['label' => 'label.isDlc'])
+            ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly'])
+            ->add('libs', null, ['label' => 'label.libs'])
             ->add('createdAt', null, ['label' => 'label.createdAt'])
             ->add('updatedAt', null, ['label' => 'label.updatedAt'])
             ->add('group', null, array(
