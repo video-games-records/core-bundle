@@ -311,7 +311,7 @@ class Player implements SluggableInterface
 
     public function __toString()
     {
-        return sprintf('%s [%d]', urlencode($this->getPseudo()), $this->id);
+        return (string) $this->id;
     }
 
     public function setId(int $id): void
