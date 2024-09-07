@@ -6,6 +6,7 @@ namespace VideoGamesRecords\CoreBundle\Controller\PlayerChart;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,7 +45,7 @@ class SendPicture extends AbstractController
      * @param PlayerChart $playerChart
      * @param Request     $request
      * @return Response
-     * @throws Exception
+     * @throws Exception|FilesystemException
      */
     public function __invoke(PlayerChart $playerChart, Request $request): Response
     {
@@ -54,6 +55,9 @@ class SendPicture extends AbstractController
             throw new AccessDeniedException('ACESS DENIED');
         }
         if (!in_array($playerChart->getStatus()->getId(), PlayerChartStatus::getStatusForProving())) {
+            throw new AccessDeniedException('ACESS DENIED');
+        }
+        if ($playerChart->getChart()->getIsProofVideoOnly()) {
             throw new AccessDeniedException('ACESS DENIED');
         }
 
