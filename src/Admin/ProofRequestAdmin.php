@@ -220,10 +220,6 @@ class ProofRequestAdmin extends AbstractAdmin
                     array('fieldName' => 'chart'),
                 )
             ])
-            ->add('message', 'text', [
-                'label' => 'label.message',
-                'header_style' => 'width: 30%'
-            ])
             ->add(
                 'status',
                 'choice',
@@ -238,9 +234,6 @@ class ProofRequestAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
-                    'view_chart' => [
-                        'template' => '@VideoGamesRecordsCore/Admin/view_chart_link.html.twig'
-                    ],
                 ],
                 'header_style' => 'width: 220px'
             ]);

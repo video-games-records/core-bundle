@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Group;
+use VideoGamesRecords\CoreBundle\Form\CopyGroupForm;
 use VideoGamesRecords\CoreBundle\Form\Type\ChartTypeType;
 use VideoGamesRecords\CoreBundle\Form\VideoProofOnly;
 
@@ -17,34 +18,36 @@ class GroupAdminController extends CRUDController
 {
     /**
      * @param $id
-     * @return RedirectResponse
+     * @param Request $request
+     * @return Response
      */
-    public function copyAction($id): RedirectResponse
+    public function copyAction($id, Request $request): Response
     {
+        /** @var Group $group */
         $group = $this->admin->getSubject();
 
         $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
-        $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($group, false);
+        $form = $this->createForm(CopyGroupForm::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($group, $data['withLibs']);
 
-        $this->addFlash('sonata_flash_success', 'Copied successfully');
+            $this->addFlash('sonata_flash_success', 'Group was successfully copied.');
+            return new RedirectResponse($this->admin->generateUrl('show', ['id' => $group->getId()]));
+        }
 
-        return new RedirectResponse($this->admin->generateUrl('list'));
-    }
-
-    /**
-     * @param $id
-     * @return RedirectResponse
-     */
-    public function copyWithLibChartAction($id): RedirectResponse
-    {
-        $group = $this->admin->getSubject();
-
-        $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
-        $em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->copy($group, true);
-
-        $this->addFlash('sonata_flash_success', 'Copied with libchart successfully');
-
-        return new RedirectResponse($this->admin->generateUrl('list'));
+        return $this->render(
+            '@VideoGamesRecordsCore/Admin/Form/form.default.html.twig',
+            [
+                'base_template' => '@SonataAdmin/standard_layout.html.twig',
+                'admin' => $this->admin,
+                'object' => $group,
+                'form' => $form,
+                'title' => 'Copy => ' . $group->getGame()->getName() . ' / ' . $group->getName(),
+                'action' => 'edit'
+            ]
+        );
     }
 
     /**
@@ -88,7 +91,7 @@ class GroupAdminController extends CRUDController
         }
 
         return $this->render(
-            '@VideoGamesRecordsCore/Admin/Group/form.add_chart.html.twig',
+            '@VideoGamesRecordsCore/Admin/Object/Group/form.add_libchart.html.twig',
             [
                 'base_template' => '@SonataAdmin/standard_layout.html.twig',
                 'admin' => $this->admin,

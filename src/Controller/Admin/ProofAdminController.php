@@ -31,7 +31,7 @@ class ProofAdminController extends CRUDController
         }
 
         return $this->render(
-            '@VideoGamesRecordsCore/Admin/proof.stats.html.twig',
+            '@VideoGamesRecordsCore/Admin/Object/Proof/stats.html.twig',
             [
                 'stats' => $months,
             ]
