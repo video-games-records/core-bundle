@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Manager;
 
-use Doctrine\DBAL\Exception;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 
@@ -31,10 +30,5 @@ class GameManager
     public function copy(Game $game): void
     {
         $this->gameRepository->copy($game);
-    }
-
-    public function setProofVideoOnly(Game $game): void
-    {
-
     }
 }

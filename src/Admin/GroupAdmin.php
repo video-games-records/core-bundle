@@ -40,7 +40,6 @@ final class GroupAdmin extends AbstractAdmin
     {
         $collection->remove('export')
             ->add('copy', $this->getRouterIdParameter() . '/copy')
-            ->add('copy-with-lib-chart', $this->getRouterIdParameter() . '/copy-with-lib-chart')
             ->add('add-lib-chart', $this->getRouterIdParameter() . '/add-lib-chart')
             ->add('set-video-proof-only', $this->getRouterIdParameter() . '/set-video-proof-only');
     }
@@ -48,11 +47,17 @@ final class GroupAdmin extends AbstractAdmin
     public function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
     {
         if (in_array($action, ['show', 'edit', 'acl']) && $object) {
+            $buttonList['copy'] = [
+                'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.copy.html.twig',
+            ];
             $buttonList['add-lib-chart'] = [
                 'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.add_lib_chart.html.twig',
             ];
             $buttonList['set-video-proof-only'] = [
                 'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.set_video_proof_only.html.twig',
+            ];
+            $buttonList['add-chart'] = [
+                'template' => '@VideoGamesRecordsCore/Admin/Object/Group/btn.add_chart.html.twig',
             ];
         }
         return $buttonList;
@@ -110,7 +115,7 @@ final class GroupAdmin extends AbstractAdmin
         ;
 
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
-            $btnCalalogue = (bool) $this->isCurrentRoute('create');
+            $btnCalalogue = $this->isCurrentRoute('create');
             $form->
                 add(
                     'game',
@@ -207,21 +212,6 @@ final class GroupAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
-        $btns = [];
-        if ($this->hasAccess('create')) {
-            $btns = [
-                'copy' => [
-                    'template' => '@VideoGamesRecordsCore/Admin/group_copy_link.html.twig'
-                ],
-                'copy2' => [
-                    'template' => '@VideoGamesRecordsCore/Admin/group_copy2_link.html.twig'
-                ],
-                'add_chart' => [
-                    'template' => '@VideoGamesRecordsCore/Admin/group_add_chart_link.html.twig'
-                ],
-            ];
-        }
-
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('libGroupEn', null, ['label' => 'label.group.en', 'editable' => true])
@@ -243,16 +233,13 @@ final class GroupAdmin extends AbstractAdmin
             ->add('isDlc', 'boolean', ['label' => 'label.isDlc'])
             ->add('_action', 'actions', [
                 'actions' =>
-                    array_merge(
-                        [
-                            'show' => [],
-                            'edit' => [],
-                            'groups' => [
-                                'template' => '@VideoGamesRecordsCore/Admin/group_charts_link.html.twig'
-                            ]
-                        ],
-                        $btns
-                    )
+                    [
+                        'show' => [],
+                        'edit' => [],
+                        'groups' => [
+                            'template' => '@VideoGamesRecordsCore/Admin/Object/Group/link.charts.html.twig'
+                        ]
+                    ],
             ]);
     }
 

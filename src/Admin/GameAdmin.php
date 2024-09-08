@@ -40,8 +40,14 @@ class GameAdmin extends AbstractAdmin
     public function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
     {
         if (in_array($action, ['show', 'edit', 'acl']) && $object) {
+            $buttonList['copy'] = [
+                'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.copy.html.twig',
+            ];
             $buttonList['set-video-proof-only'] = [
                 'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.set_video_proof_only.html.twig',
+            ];
+            $buttonList['add-group'] = [
+                'template' => '@VideoGamesRecordsCore/Admin/Object/Game/btn.add_group.html.twig',
             ];
         }
         return $buttonList;
@@ -219,10 +225,10 @@ class GameAdmin extends AbstractAdmin
                 'template' => '@VideoGamesRecordsCore/Admin/object_maj_link.html.twig'
             ],
             'history' => [
-                'template' => '@VideoGamesRecordsCore/Admin/game_history_link.html.twig'
+                'template' => '@VideoGamesRecordsCore/Admin/Object/Game/link.history.html.twig'
             ],
         ];
-        if ($this->hasAccess('create')) {
+        /*if ($this->hasAccess('create')) {
             $btns = array_merge($btns, [
                 'copy' => [
                     'template' => '@VideoGamesRecordsCore/Admin/game_copy_link.html.twig'
@@ -231,7 +237,7 @@ class GameAdmin extends AbstractAdmin
                     'template' => '@VideoGamesRecordsCore/Admin/game_add_group_link.html.twig'
                 ]
             ]);
-        }
+        }*/
 
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
@@ -269,7 +275,7 @@ class GameAdmin extends AbstractAdmin
                         'show' => [],
                         'edit' => [],
                         'groups' => [
-                            'template' => '@VideoGamesRecordsCore/Admin/game_groups_link.html.twig'
+                            'template' => '@VideoGamesRecordsCore/Admin/Object/Game/link.groups.html.twig'
                         ]
                     ],
                     $btns

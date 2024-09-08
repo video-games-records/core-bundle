@@ -8,7 +8,7 @@ services:
         group: "group.games"
         label: "label.platform"
     calls:
-      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/platform_show.html.twig' ] ]
+      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Platform/show.html.twig' ] ]
   sonata.admin.vgr.serie:
     class: VideoGamesRecords\CoreBundle\Admin\SerieAdmin
     tags:
@@ -19,7 +19,7 @@ services:
         group: "group.games"
         label: "label.serie"
     calls:
-      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/serie_show.html.twig' ] ]
+      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Serie/show.html.twig' ] ]
   sonata.admin.vgr.game:
     class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
     tags:
@@ -31,7 +31,7 @@ services:
         label: "label.game"
         default: true
     calls:
-      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/game_show.html.twig' ] ]
+      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Game/show.html.twig' ] ]
   sonata.admin.vgr.group:
     class: VideoGamesRecords\CoreBundle\Admin\GroupAdmin
     tags:
@@ -75,7 +75,7 @@ services:
         group: "group.proofs"
         label: "label.request"
     calls:
-      - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/proof_request_edit.html.twig' ] ]
+      - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/Object/ProofRequest/edit.html.twig' ] ]
       - [ setContainer, [ '@service_container' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
   sonata.admin.vgr.proof.proof:
@@ -88,8 +88,8 @@ services:
         group: "group.proofs"
         label: "label.proof"
     calls:
-      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/proof_show.html.twig' ] ]
-      - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/proof_edit.html.twig' ] ]
+      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Proof/show.html.twig' ] ]
+      - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/Object/Proof/edit.html.twig' ] ]
       - [ setContainer, [ '@service_container' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
   sonata.admin.vgr.proof.picture:
@@ -101,7 +101,7 @@ services:
         group: "group.proofs"
         label: "label.picture"
     calls:
-      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/picture_show.html.twig' ] ]
+      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Picture/show.html.twig' ] ]
   sonata.admin.vgr.proof.video:
     class: VideoGamesRecords\CoreBundle\Admin\VideoAdmin
     tags:
@@ -112,7 +112,7 @@ services:
         group: "group.proofs"
         label: "label.video"
     calls:
-      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/video_show.html.twig' ] ]
+      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Video/show.html.twig' ] ]
   sonata.admin.vgr.player:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
     tags:
@@ -123,7 +123,7 @@ services:
         group: "group.players"
         label: "label.player"
     calls:
-      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/player_show.html.twig' ] ]
+      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Player/show.html.twig' ] ]
   sonata.admin.vgr.playerbadge:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerBadgeAdmin
     tags:
@@ -157,7 +157,7 @@ services:
         group: "group.scores"
         label: "label.playerChart"
     calls:
-      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/playerchart_show.html.twig' ] ]
+      - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/PlayerChart/show.html.twig' ] ]
       - [ setContainer, [ '@service_container' ] ]
       - [ setEventDispatcher, [ '@event_dispatcher' ] ]
 

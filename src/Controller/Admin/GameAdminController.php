@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\CoreBundle\Form\DefaultForm;
 use VideoGamesRecords\CoreBundle\Form\VideoProofOnly;
 use VideoGamesRecords\CoreBundle\Manager\GameManager;
 use Yokai\SonataWorkflow\Controller\WorkflowControllerTrait;
@@ -26,18 +27,33 @@ class GameAdminController extends CRUDController
 
     /**
      * @param $id
-     * @return RedirectResponse
+     * @param Request $request
+     * @return Response
      */
-    public function copyAction($id): RedirectResponse
+    public function copyAction($id, Request $request): Response
     {
-        if ($this->admin->hasAccess('create')) {
-            $game = $this->admin->getSubject();
+        /** @var Game $game */
+        $game = $this->admin->getSubject();
 
+        $form = $this->createForm(DefaultForm::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->gameManager->copy($game);
-            $this->addFlash('sonata_flash_success', 'Copied successfully');
+            $this->addFlash('sonata_flash_success', 'The game was successfully copied.');
+            return new RedirectResponse($this->admin->generateUrl('show', ['id' => $game->getId()]));
         }
 
-        return new RedirectResponse($this->admin->generateUrl('list'));
+        return $this->render(
+            '@VideoGamesRecordsCore/Admin/Form/form.default.html.twig',
+            [
+                'base_template' => '@SonataAdmin/standard_layout.html.twig',
+                'admin' => $this->admin,
+                'object' => $game,
+                'form' => $form,
+                'title' => 'Copy => ' . $game->getName(),
+                'action' => 'edit'
+            ]
+        );
     }
 
     /**
@@ -47,17 +63,6 @@ class GameAdminController extends CRUDController
     public function majAction($id): RedirectResponse
     {
         $this->gameManager->maj($this->admin->getSubject());
-        $this->addFlash('sonata_flash_success', 'Game maj successfully');
-        return new RedirectResponse($this->admin->generateUrl('list'));
-    }
-
-    /**
-     * @param $id
-     * @return RedirectResponse
-     */
-    public function setProofVideoOnly($id): RedirectResponse
-    {
-        $this->gameManager->setProofVideoOnly($this->admin->getSubject());
         $this->addFlash('sonata_flash_success', 'Game maj successfully');
         return new RedirectResponse($this->admin->generateUrl('list'));
     }

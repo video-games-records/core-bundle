@@ -132,10 +132,10 @@ class SerieAdmin extends AbstractAdmin
                         'template' => '@VideoGamesRecordsCore/Admin/object_maj_link.html.twig'
                     ],
                     'history' => [
-                        'template' => '@VideoGamesRecordsCore/Admin/serie_history_link.html.twig'
+                        'template' => '@VideoGamesRecordsCore/Admin/Object/Serie/link.history.html.twig'
                     ],
                     'games' => [
-                        'template' => '@VideoGamesRecordsCore/Admin/serie_games_link.html.twig'
+                        'template' => '@VideoGamesRecordsCore/Admin/Object/Serie/link.games.html.twig'
                     ],
                 ]
             ]);
