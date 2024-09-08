@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use VideoGamesRecords\CoreBundle\Repository\TeamSerieRepository;
+use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank0Trait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank1Trait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank2Trait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank3Trait;
@@ -23,6 +24,7 @@ class TeamSerie
     use RankPointChartTrait;
     use PointChartTrait;
     use RankMedalTrait;
+    use ChartRank0Trait;
     use ChartRank1Trait;
     use ChartRank2Trait;
     use ChartRank3Trait;
