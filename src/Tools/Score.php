@@ -123,7 +123,7 @@ class Score
 
         $result = '';
         $negative = str_starts_with((string) $value, '-');
-        $localValue = $negative ? (int) substr($value, 1) : $value;
+        $localValue = $negative ? (int) substr((string) $value, 1) : $value;
         $nbElement  = count($parse) - 1;
         for ($k = $nbElement; $k >= 0; --$k) {
             $size = $parse[$k]['size'];
