@@ -56,6 +56,10 @@ class PlayerAdmin extends AbstractAdmin
                 'label' => 'Maj ?',
                 'required' => false,
             ])
+            ->add('hasDonate', CheckboxType::class, [
+                'label' => 'Has donate ?',
+                'required' => false,
+            ])
             ->add('team', ModelListType::class, [
                 'data_class' => null,
                 'btn_add' => false,

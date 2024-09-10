@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Odm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
@@ -210,6 +211,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
 )]
 #[ApiFilter(DateFilter::class, properties: ['lastLogin' => DateFilterInterface::EXCLUDE_NULL])]
 #[ApiFilter(RangeFilter::class, properties: ['nbVideo'])]
+#[ApiFilter(BooleanFilter::class, properties: ['hasDonate'])]
 class Player implements SluggableInterface
 {
     use TimestampableEntity;
@@ -284,6 +286,9 @@ class Player implements SluggableInterface
 
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $boolMaj = false;
+
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $hasDonate = false;
 
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'players')]
     #[ORM\JoinColumn(name:'team_id', referencedColumnName:'id', nullable:true, onDelete: 'SET NULL')]
@@ -458,6 +463,16 @@ class Player implements SluggableInterface
     public function getBoolMaj(): bool
     {
         return $this->boolMaj;
+    }
+
+    public function getHasDonate(): bool
+    {
+        return $this->hasDonate;
+    }
+
+    public function setHasDonate(bool $hasDonate): void
+    {
+        $this->hasDonate = $hasDonate;
     }
 
     public function setStatus(PlayerStatus $status): void
