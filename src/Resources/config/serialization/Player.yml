@@ -73,6 +73,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     nbGame:
       groups:
         - 'player:read'
+    nbVideo:
+      groups:
+        - 'player:read'
     rankMedal:
       groups:
         - 'player:read'
