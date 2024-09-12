@@ -6,7 +6,7 @@ namespace VideoGamesRecords\CoreBundle\Scheduler\Handler;
 
 use Doctrine\ORM\NonUniqueResultException;
 use VideoGamesRecords\CoreBundle\Ranking\Command\ScoringTeamRankingHandler;
-use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdatePlayerChartRanking;
+use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdateTeamChartRanking;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -19,7 +19,7 @@ class UpdateTeamChartRankingHandler
     /**
      * @throws NonUniqueResultException
      */
-    public function __invoke(UpdatePlayerChartRanking $message): void
+    public function __invoke(UpdateTeamChartRanking $message): void
     {
         $this->handler->handle();
     }
