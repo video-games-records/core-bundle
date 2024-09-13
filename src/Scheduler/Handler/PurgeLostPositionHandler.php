@@ -6,7 +6,7 @@ namespace VideoGamesRecords\CoreBundle\Scheduler\Handler;
 
 use Doctrine\DBAL\Exception;
 use VideoGamesRecords\CoreBundle\Manager\LostPositionManager;
-use VideoGamesRecords\CoreBundle\Scheduler\Message\DesactivateScore;
+use VideoGamesRecords\CoreBundle\Scheduler\Message\PurgeLostPosition;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -17,11 +17,11 @@ class PurgeLostPositionHandler
     }
 
     /**
-     * @param DesactivateScore $message
+     * @param PurgeLostPosition $message
      * @return void
      * @throws Exception
      */
-    public function __invoke(DesactivateScore $message): void
+    public function __invoke(PurgeLostPosition $message): void
     {
         $this->manager->purge();
     }
