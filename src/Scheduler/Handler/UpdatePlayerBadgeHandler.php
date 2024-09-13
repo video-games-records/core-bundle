@@ -6,6 +6,7 @@ namespace VideoGamesRecords\CoreBundle\Scheduler\Handler;
 
 use Doctrine\DBAL\Exception;
 use VideoGamesRecords\CoreBundle\Handler\Badge\PlayerBadgeHandler;
+use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdatePlayerBadge;
 use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdatePlayerChartRanking;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -17,11 +18,11 @@ class UpdatePlayerBadgeHandler
     }
 
     /**
-     * @param UpdatePlayerChartRanking $message
+     * @param UpdatePlayerBadge $message
      * @return void
      * @throws Exception
      */
-    public function __invoke(UpdatePlayerChartRanking $message): void
+    public function __invoke(UpdatePlayerBadge $message): void
     {
         $this->handler->handle();
     }
