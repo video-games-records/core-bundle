@@ -7,7 +7,6 @@ namespace VideoGamesRecords\CoreBundle\Scheduler\Handler;
 use Doctrine\DBAL\Exception;
 use VideoGamesRecords\CoreBundle\Handler\Badge\PlayerBadgeHandler;
 use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdatePlayerBadge;
-use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdatePlayerChartRanking;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
