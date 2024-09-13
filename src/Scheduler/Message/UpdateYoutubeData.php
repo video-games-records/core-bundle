@@ -6,7 +6,7 @@ namespace VideoGamesRecords\CoreBundle\Scheduler\Message;
 
 class UpdateYoutubeData
 {
-    private ?int $nb;
+    private ?int $nb = null;
 
     public function getNb(): ?int
     {
