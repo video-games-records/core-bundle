@@ -65,10 +65,10 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
             controller: GetRanking::class,
             normalizationContext: ['groups' => [
                 'player-chart:read',
-                'player-chart:player', 'player:read', 'player:team', 'team-read', 'player:country', 'country:read',
+                'player-chart:player', 'player:read', 'player:team', 'team:read', 'player:country', 'country:read',
                 'player-chart:platform', 'platform:read',
                 'player-chart:status', 'player-chart-status:read',
-                'player-chart:proof', 'proof:read', 'prof:video', 'video-read', 'proof:picture', 'picture:read']
+                'player-chart:proof', 'proof:read', 'prof:video', 'video:read', 'proof:picture', 'picture:read']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the player chart leaderboard',
@@ -80,8 +80,8 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
             controller: GetRankingDisabled::class,
             normalizationContext: ['groups' => [
                 'player-chart:read',
-                'player-chart:player', 'player:read', 'player:team', 'team-read', 'player:country', 'country:read',
-                'player-chart:platform', 'platform;read',
+                'player-chart:player', 'player:read', 'player:team', 'team:read', 'player:country', 'country:read',
+                'player-chart:platform', 'platform:read',
                 'player-chart:status', 'player-chart-status:read']
             ],
             openapi: new Model\Operation(
