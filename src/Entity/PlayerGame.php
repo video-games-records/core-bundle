@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
@@ -97,11 +98,13 @@ class PlayerGame
     use PlayerMethodsTrait;
     use GameMethodsTrait;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'playerGame')]
     #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Player $player;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'playerGame', fetch: 'EAGER')]
     #[ORM\JoinColumn(name:'game_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
@@ -157,5 +160,11 @@ class PlayerGame
     public function getStatuses()
     {
         return $this->statuses;
+    }
+
+    #[ApiProperty(identifier: true)]
+    public function getId(): string
+    {
+        return sprintf('player=%d;game=%d', $this->player->getId(), $this->game->getId());
     }
 }

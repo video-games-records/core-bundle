@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -46,11 +47,13 @@ class PlayerGroup
     use PointChartTrait;
     use LastUpdateTrait;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Player::class)]
     #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Player $player;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Group::class, fetch: 'EAGER')]
     #[ORM\JoinColumn(name:'group_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
@@ -74,5 +77,11 @@ class PlayerGroup
     public function getPlayer(): Player
     {
         return $this->player;
+    }
+
+    #[ApiProperty(identifier: true)]
+    public function getId(): string
+    {
+        return sprintf('player=%d;group=%d', $this->player->getId(), $this->group->getId());
     }
 }
