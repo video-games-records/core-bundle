@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -36,11 +37,13 @@ class TeamGroup
     use ChartRank2Trait;
     use ChartRank3Trait;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Team::class)]
     #[ORM\JoinColumn(name:'team_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Team $team;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Group::class)]
     #[ORM\JoinColumn(name:'group_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
@@ -56,7 +59,7 @@ class TeamGroup
         return $this->group;
     }
 
-    public function setTeam(Team $team = null): void
+    public function setTeam(Team $team): void
     {
         $this->team = $team;
     }
@@ -64,5 +67,11 @@ class TeamGroup
     public function getTeam(): Team
     {
         return $this->team;
+    }
+
+    #[ApiProperty(identifier: true)]
+    public function getId(): string
+    {
+        return sprintf('team=%d;group=%d', $this->team->getId(), $this->group->getId());
     }
 }

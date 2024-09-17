@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
@@ -81,11 +82,13 @@ class TeamGame
     use ChartRank2Trait;
     use ChartRank3Trait;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'teamGame')]
     #[ORM\JoinColumn(name:'team_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Team $team;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'playerGame', fetch: 'EAGER')]
     #[ORM\JoinColumn(name:'game_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
@@ -109,5 +112,11 @@ class TeamGame
     public function getTeam(): Team
     {
         return $this->team;
+    }
+
+    #[ApiProperty(identifier: true)]
+    public function getId(): string
+    {
+        return sprintf('team=%d;game=%d', $this->team->getId(), $this->game->getId());
     }
 }
