@@ -165,6 +165,11 @@ class ProofAdmin extends AbstractAdmin
                 'label' => 'label.player'
             ])
             ->add('player.pseudo', null, ['label' => 'label.pseudo'])
+            ->add('chart.group.game.platforms',  ModelFilter::class, [
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'libPlatform'],
+                'label' => 'label.platform'
+            ])
             ->add('chart.group.game', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => $this->getLibGame()],
