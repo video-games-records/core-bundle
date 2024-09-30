@@ -11,6 +11,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Game;
@@ -237,6 +238,12 @@ class GameRepository extends DefaultRepository
         $newGame->setLibGameEn($game->getLibGameEn() . ' [COPY]');
         $newGame->setLibGameFr($game->getLibGameFr() . ' [COPY]');
         $newGame->setSerie($game->getSerie());
+        $newGame->setPicture($game->getPicture());
+
+        $badge = new Badge();
+        $badge->setType('Master');
+        $badge->setPicture($game->getBadge()->getPicture());
+        $newGame->setBadge($badge);
 
         foreach ($game->getPlatforms() as $platform) {
             $newGame->addPlatform($platform);
