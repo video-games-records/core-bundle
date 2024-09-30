@@ -76,7 +76,7 @@ class VideoAdmin extends AbstractAdmin
                     'choice_translation_domain' => false,
                 ]
             )
-            ->add('videoId', TextType::class, [
+            ->add('externalId', TextType::class, [
                 'label' => 'label.video.id',
                 'required' => true,
             ])
@@ -124,7 +124,7 @@ class VideoAdmin extends AbstractAdmin
             ->add('libVideo', null, ['label' => 'label.name'])
             ->add('title', null, ['label' => 'label.title'])
             ->add('type', null, ['label' => 'label.type'])
-            ->add('videoId', null, ['label' => 'label.video.id'])
+            ->add('externalId', null, ['label' => 'label.video.id'])
             ->add(
                 'isActive',
                 'boolean',
