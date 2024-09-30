@@ -39,10 +39,12 @@ class GameListener
             $game->setLibGameFr($game->getLibGameEn());
         }
 
-        $badge = new Badge();
-        $badge->setType('Master');
-        $badge->setPicture('master_default.gif');
-        $game->setBadge($badge);
+        if ($game->getBadge() === null) {
+            $badge = new Badge();
+            $badge->setType('Master');
+            $badge->setPicture('master_default2.gif');
+            $game->setBadge($badge);
+        }
     }
 
     /**
