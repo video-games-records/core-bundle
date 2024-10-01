@@ -212,6 +212,18 @@ final class GroupAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
+        $btns = [];
+        if ($this->hasAccess('create')) {
+            $btns = [
+                'copy' => [
+                    'template' => '@VideoGamesRecordsCore/Admin/Object/Group/link.copy.html.twig'
+                ],
+                'add_chart' => [
+                    'template' => '@VideoGamesRecordsCore/Admin/Object/Group/link.add_chart.html.twig'
+                ],
+            ];
+        }
+
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('libGroupEn', null, ['label' => 'label.group.en', 'editable' => true])
@@ -233,13 +245,16 @@ final class GroupAdmin extends AbstractAdmin
             ->add('isDlc', 'boolean', ['label' => 'label.isDlc'])
             ->add('_action', 'actions', [
                 'actions' =>
-                    [
-                        'show' => [],
-                        'edit' => [],
-                        'groups' => [
-                            'template' => '@VideoGamesRecordsCore/Admin/Object/Group/link.charts.html.twig'
-                        ]
-                    ],
+                    array_merge(
+                        [
+                            'show' => [],
+                            'edit' => [],
+                            'groups' => [
+                                'template' => '@VideoGamesRecordsCore/Admin/Object/Group/link.charts.html.twig'
+                            ]
+                        ],
+                        $btns
+                    )
             ]);
     }
 
