@@ -228,16 +228,16 @@ class GameAdmin extends AbstractAdmin
                 'template' => '@VideoGamesRecordsCore/Admin/Object/Game/link.history.html.twig'
             ],
         ];
-        /*if ($this->hasAccess('create')) {
+        if ($this->hasAccess('create')) {
             $btns = array_merge($btns, [
                 'copy' => [
-                    'template' => '@VideoGamesRecordsCore/Admin/game_copy_link.html.twig'
+                    'template' => '@VideoGamesRecordsCore/Admin/Object/Game/link.copy.html.twig'
                 ],
                 'add_group' => [
-                    'template' => '@VideoGamesRecordsCore/Admin/game_add_group_link.html.twig'
+                    'template' => '@VideoGamesRecordsCore/Admin/Object/Game/link.add_group.html.twig'
                 ]
             ]);
-        }*/
+        }
 
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
