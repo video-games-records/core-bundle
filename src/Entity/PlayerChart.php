@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
-use ApiPlatform\Doctrine\Odm\Filter\ExistsFilter;
-use ApiPlatform\Doctrine\Odm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
@@ -159,6 +159,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
         'nbEqual' => 'exact',
         'chart.libChartEn' => 'partial',
         'chart.libChartFr' => 'partial',
+        'proof' => 'exact',
     ]
 )]
 #[ApiFilter(
