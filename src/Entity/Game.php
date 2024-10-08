@@ -229,6 +229,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
 #[ApiFilter(
     SearchFilter::class,
     properties: [
+        'id' => 'exact',
         'status' => 'exact',
         'platforms' => 'exact',
         'playerGame.player' => 'exact',
