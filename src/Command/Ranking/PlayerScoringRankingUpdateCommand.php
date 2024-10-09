@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Command\Ranking;
 
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,7 +32,7 @@ class PlayerScoringRankingUpdateCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int
-     * @throws NonUniqueResultException
+     * @throws NonUniqueResultException|NoResultException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
