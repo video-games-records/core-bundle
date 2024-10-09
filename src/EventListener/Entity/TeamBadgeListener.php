@@ -37,8 +37,11 @@ class TeamBadgeListener
      */
     public function postUpdate(TeamBadge $teamBadge, LifecycleEventArgs $event): void
     {
-        if ($teamBadge->getBadge()->isTypeMaster() && array_key_exists('ended_at', $this->changeSet)) {
-            $this->eventDispatcher->dispatch(new TeamBadgeEvent($teamBadge), VideoGamesRecordsCoreEvents::TEAM_BADGE_LOST);
+        if ($teamBadge->getBadge()->isTypeMaster() && array_key_exists('endedAt', $this->changeSet)) {
+            $this->eventDispatcher->dispatch(
+                new TeamBadgeEvent($teamBadge),
+                VideoGamesRecordsCoreEvents::TEAM_BADGE_LOST
+            );
         }
     }
 }
