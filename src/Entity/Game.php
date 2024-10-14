@@ -307,12 +307,12 @@ class Game implements SluggableInterface
 
     #[ORM\ManyToOne(targetEntity: Serie::class, inversedBy: 'games')]
     #[ORM\JoinColumn(name:'serie_id', referencedColumnName:'id', nullable:true)]
-    private ?Serie $serie;
+    private ?Serie $serie = null;
 
 
     #[ORM\OneToOne(targetEntity: Badge::class, cascade: ['persist'], inversedBy: 'game')]
     #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:true)]
-    private ?Badge $badge;
+    private ?Badge $badge = null;
 
     /**
      * @var Collection<int, Group>

@@ -38,7 +38,7 @@ class GameAdminController extends CRUDController
         $form = $this->createForm(DefaultForm::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->gameManager->copy($game);
+            //$this->gameManager->copy($game);
             $this->addFlash('sonata_flash_success', 'The game was successfully copied.');
             return new RedirectResponse($this->admin->generateUrl('show', ['id' => $game->getId()]));
         }
