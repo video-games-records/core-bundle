@@ -156,3 +156,6 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     lastDisplayLostPosition:
       groups:
         - 'player:update'
+    initial:
+      groups:
+        - 'player:read'
