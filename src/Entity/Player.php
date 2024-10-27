@@ -504,6 +504,11 @@ class Player implements SluggableInterface
         return ['pseudo'];
     }
 
+    public function getInitial(): string
+    {
+        return substr($this->pseudo, 0, 1);
+    }
+
 
     public function isLeader(): bool
     {
