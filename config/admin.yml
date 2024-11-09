@@ -66,7 +66,7 @@ services:
         group: "group.games"
         label: "label.chart.lib"
         show_in_dashboard: false
-  sonata.admin.vgr.proof.request:
+  sonata.admin.vgr.proof_request:
     class: VideoGamesRecords\CoreBundle\Admin\ProofRequestAdmin
     tags:
       - name: sonata.admin
@@ -76,9 +76,9 @@ services:
         label: "label.request"
     calls:
       - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/Object/ProofRequest/edit.html.twig' ] ]
-      - [ setContainer, [ '@service_container' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
-  sonata.admin.vgr.proof.proof:
+      - [ setRequestStack, [ '@request_stack' ] ]
+  sonata.admin.vgr.proof:
     class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
     tags:
       - name: sonata.admin
@@ -90,9 +90,9 @@ services:
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Proof/show.html.twig' ] ]
       - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/Object/Proof/edit.html.twig' ] ]
-      - [ setContainer, [ '@service_container' ] ]
+      - [ setRequestStack, [ '@request_stack' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
-  sonata.admin.vgr.proof.picture:
+  sonata.admin.vgr.picture:
     class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
     tags:
       - name: sonata.admin
@@ -102,7 +102,7 @@ services:
         label: "label.picture"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Picture/show.html.twig' ] ]
-  sonata.admin.vgr.proof.video:
+  sonata.admin.vgr.video:
     class: VideoGamesRecords\CoreBundle\Admin\VideoAdmin
     tags:
       - name: sonata.admin
@@ -140,7 +140,7 @@ services:
         manager_type: orm
         group: "group.players"
         label: "label.team"
-  sonata.admin.vgr.team.request:
+  sonata.admin.vgr.team_request:
     class: VideoGamesRecords\CoreBundle\Admin\TeamRequestAdmin
     tags:
       - name: sonata.admin
@@ -158,9 +158,8 @@ services:
         label: "label.playerChart"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/PlayerChart/show.html.twig' ] ]
-      - [ setContainer, [ '@service_container' ] ]
       - [ setEventDispatcher, [ '@event_dispatcher' ] ]
-
+      - [ setRequestStack, [ '@request_stack' ] ]
   sonata.admin.vgr.playerchart_lib:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
     tags:
@@ -186,7 +185,7 @@ services:
         manager_type: orm
         group: "group.players"
         label: "label.country"
-  sonata.admin.vgr.game.day:
+  sonata.admin.vgr.game_day:
     class: VideoGamesRecords\CoreBundle\Admin\GameDayAdmin
     tags:
       - name: sonata.admin

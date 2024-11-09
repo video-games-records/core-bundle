@@ -16,30 +16,21 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Event\PlayerChartEvent;
+use VideoGamesRecords\CoreBundle\Traits\Accessor\SetEventDispacther;
+use VideoGamesRecords\CoreBundle\Traits\Accessor\SetRequestStack;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerChartAdmin extends AbstractAdmin
 {
+    use SetRequestStack;
+    use SetEventDispacther;
+
     protected $baseRouteName = 'vgrcorebundle_admin_player_chart';
 
-    private ContainerInterface $container;
-    private readonly EventDispatcherInterface $eventDispatcher;
-
-    public function setContainer(ContainerInterface $container): void
-    {
-        $this->container = $container;
-    }
-
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): void
-    {
-        $this->eventDispatcher = $eventDispatcher;
-    }
 
     /**
      * @return string
@@ -265,7 +256,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 }
             }
             if (!$isPlatFormValid) {
-                $this->container->get('session')->getFlashBag()->add(
+                $this->requestStack->getSession()->getFlashBag()->add(
                     'error',
                     "Platform is invalid"
                 );
