@@ -35,5 +35,6 @@ final class UpdatePlayerRankSubscriber implements EventSubscriberInterface
         $this->rankUpdateHandler->majRankCup();
         $this->rankUpdateHandler->majRankMedal();
         $this->rankUpdateHandler->majRankBadge();
+        $this->rankUpdateHandler->majRankProof();
     }
 }
