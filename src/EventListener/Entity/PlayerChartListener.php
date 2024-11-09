@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
@@ -37,17 +37,15 @@ class PlayerChartListener
 
         // Chart
         $chart = $playerChart->getChart();
-        $chart->setNbPost($chart->getNbPost() + 1);
+        $this->incrementeNbPost($chart);
         $chart->setStatusPlayer(ChartStatus::MAJ);
         $chart->setStatusTeam(ChartStatus::MAJ);
 
         // Group
         $group = $chart->getGroup();
-        $group->setNbPost($group->getNbPost() + 1);
 
         // Game
         $game = $group->getGame();
-        $game->setNbPost($game->getNbPost() + 1);
         $game->setLastUpdate(new DateTime());
         $game->setLastScore($playerChart);
 
@@ -100,9 +98,12 @@ class PlayerChartListener
         // Move score
         if (array_key_exists('chart', $this->changeSet)) {
             $newChart = $this->changeSet['chart'][1];
+            $oldChart = $this->changeSet['chart'][0];
+
+            $this->incrementeNbPost($newChart);
+            $this->decrementeNbPost($oldChart);
 
             $newChartLibs = $newChart->getLibs();
-
             foreach ($playerChart->getLibs() as $lib) {
                 $lib->setLibChart($newChartLibs->current());
             }
@@ -175,21 +176,13 @@ class PlayerChartListener
     {
         // Chart
         $chart = $playerChart->getChart();
-        $chart->setNbPost($chart->getNbPost() - 1);
+        $this->decrementeNbPost($chart);
         $chart->setStatusPlayer(ChartStatus::MAJ);
         $chart->setStatusTeam(ChartStatus::MAJ);
 
         // Player
         $player = $playerChart->getPlayer();
         $player->setNbChart($player->getNbChart() - 1);
-
-        // Group
-        $group = $chart->getGroup();
-        $group->setNbPost($group->getNbPost() - 1);
-
-        // Game
-        $game = $group->getGame();
-        $game->setNbPost($game->getNbPost() - 1);
     }
 
 
@@ -199,13 +192,20 @@ class PlayerChartListener
      */
     private function updateDateInvestigation(PlayerChart $playerChart): void
     {
-        if (null === $playerChart->getDateInvestigation() && PlayerChartStatus::ID_STATUS_INVESTIGATION === $playerChart->getStatus()->getId()) {
+        if (
+            null === $playerChart->getDateInvestigation()
+            && PlayerChartStatus::ID_STATUS_INVESTIGATION === $playerChart->getStatus()->getId()
+        ) {
             $playerChart->setDateInvestigation(new DateTime());
         }
 
         if (
             null !== $playerChart->getDateInvestigation()
-            && in_array($playerChart->getStatus()->getId(), [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED], true)
+            && in_array(
+                $playerChart->getStatus()->getId(),
+                [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED],
+                true
+            )
         ) {
             $playerChart->setDateInvestigation(null);
         }
@@ -235,5 +235,29 @@ class PlayerChartListener
                 $playerChart->getProof()->setProofRequest($proofRequest);
             }
         }
+    }
+
+
+    private function incrementeNbPost(Chart $chart): void
+    {
+        // Chart
+        $chart->setNbPost($chart->getNbPost() + 1);
+        // Group
+        $group = $chart->getGroup();
+        $group->setNbPost($group->getNbPost() + 1);
+        // Game
+        $game = $group->getGame();
+        $game->setNbPost($game->getNbPost() + 1);
+    }
+    private function decrementeNbPost(Chart $chart): void
+    {
+        // Chart
+        $chart->setNbPost($chart->getNbPost() - 1);
+        // Group
+        $group = $chart->getGroup();
+        $group->setNbPost($group->getNbPost() - 1);
+        // Game
+        $game = $group->getGame();
+        $game->setNbPost($game->getNbPost() - 1);
     }
 }

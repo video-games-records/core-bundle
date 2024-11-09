@@ -18,25 +18,19 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
+use VideoGamesRecords\CoreBundle\Traits\Accessor\SetRequestStack;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofRequestStatus;
 
 class ProofRequestAdmin extends AbstractAdmin
 {
+    use SetRequestStack;
+
     protected $baseRouteName = 'vgrcorebundle_admin_proofrequest';
 
-    /** @var ContainerInterface */
-    private ContainerInterface $container;
-
     private Security $security;
-
-    public function setContainer(ContainerInterface $container): void
-    {
-        $this->container = $container;
-    }
 
     public function setSecurity(Security $security): void
     {
@@ -266,7 +260,7 @@ class ProofRequestAdmin extends AbstractAdmin
                 ($object->getPlayerRequesting()->getId() === $player->getId())
                 || ($object->getPlayerChart()->getPlayer()->getId() === $player->getId())
             ) {
-                $this->container->get('session')->getFlashBag()->add(
+                $this->requestStack->getSession()->getFlashBag()->add(
                     'error',
                     "You can't update this request"
                 );

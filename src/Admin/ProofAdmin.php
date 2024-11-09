@@ -24,21 +24,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
+use VideoGamesRecords\CoreBundle\Traits\Accessor\SetRequestStack;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
 
 class ProofAdmin extends AbstractAdmin
 {
+    use SetRequestStack;
+
     protected $baseRouteName = 'vgrcorebundle_admin_proof';
 
-    /** @var ContainerInterface */
-    private ContainerInterface $container;
-
     private Security $security;
-
-    public function setContainer(ContainerInterface $container): void
-    {
-        $this->container = $container;
-    }
 
     public function setSecurity(Security $security): void
     {
@@ -165,7 +160,7 @@ class ProofAdmin extends AbstractAdmin
                 'label' => 'label.player'
             ])
             ->add('player.pseudo', null, ['label' => 'label.pseudo'])
-            ->add('chart.group.game.platforms',  ModelFilter::class, [
+            ->add('chart.group.game.platforms', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => 'libPlatform'],
                 'label' => 'label.platform'
@@ -302,7 +297,7 @@ class ProofAdmin extends AbstractAdmin
 
         if ($object->getPlayerChart() != null) {
             if ($object->getPlayerChart()->getPlayer()->getId() === $player->getId()) {
-                $this->container->get('session')->getFlashBag()->add(
+                $this->requestStack->getSession()->getFlashBag()->add(
                     'error',
                     "You can't update this proof"
                 );
