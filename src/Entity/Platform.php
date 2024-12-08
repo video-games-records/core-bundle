@@ -33,7 +33,7 @@ use VideoGamesRecords\CoreBundle\Repository\PlatformRepository;
                 summary: 'Retrieves platforms by autocompletion',
                 description: 'Retrieves platforms by autocompletion'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'query',
@@ -42,7 +42,7 @@ use VideoGamesRecords\CoreBundle\Repository\PlatformRepository;
                         'required' => true
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(),
         new Get(
@@ -58,7 +58,7 @@ use VideoGamesRecords\CoreBundle\Repository\PlatformRepository;
                 summary: 'Retrieves the player points leaderboard',
                 description: 'Retrieves the player points leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -67,7 +67,7 @@ use VideoGamesRecords\CoreBundle\Repository\PlatformRepository;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
     ],
     normalizationContext: ['groups' => ['platform:read']]

@@ -33,7 +33,7 @@ use VideoGamesRecords\CoreBundle\Repository\CountryRepository;
                 summary: 'Retrieves the country leaderboard',
                 description: 'Retrieves the country leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -42,7 +42,7 @@ use VideoGamesRecords\CoreBundle\Repository\CountryRepository;
                         'required' => false
                     ],
                 ]
-            ]
+            ]*/
         ),
     ],
     normalizationContext: ['groups' => ['country:read']]

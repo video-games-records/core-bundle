@@ -99,7 +99,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
                 summary: 'Retrieves the team chart leaderboard',
                 description: 'Retrieves the team chart leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -108,7 +108,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/charts/{id}/player-ranking-points',
@@ -122,7 +122,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
                 summary: 'Retrieves the team chart leaderboard',
                 description: 'Retrieves the team chart leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -137,7 +137,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
     ],
     normalizationContext: ['groups' => ['chart:read']]

@@ -48,7 +48,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
                 summary: 'Retrieves the player points leaderboard',
                 description: 'Retrieves the player points leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -57,7 +57,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/series/{id}/player-ranking-medals',
@@ -72,7 +72,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
                 summary: 'Retrieves the player medals leaderboard',
                 description: 'Retrieves the player medals leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -81,7 +81,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
     ],
     normalizationContext: ['groups' => ['serie:read']]

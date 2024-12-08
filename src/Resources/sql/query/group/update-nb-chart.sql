@@ -1,3 +1,3 @@
 UPDATE vgr_group gr
-SET gr.nbChart = (SELECT COUNT(id) FROM vgr_chart WHERE idGroup = gr.id);
+SET gr.nb_chart = (SELECT COUNT(id) FROM vgr_chart WHERE group_id = gr.id);
 

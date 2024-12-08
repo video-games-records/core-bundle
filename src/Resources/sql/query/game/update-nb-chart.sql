@@ -1,2 +1,2 @@
 UPDATE vgr_game ga
-SET ga.nbChart = (SELECT IFNULL(SUM(nbChart),0) FROM vgr_group WHERE idGame = ga.id);
+SET ga.nb_chart = (SELECT IFNULL(SUM(nb_chart),0) FROM vgr_group WHERE game_id = ga.id);

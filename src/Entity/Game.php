@@ -61,7 +61,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 summary: 'Retrieves games by letter',
                 description: 'Retrieves games by letter'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'letter',
@@ -70,7 +70,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new GetCollection(
             uriTemplate: '/games/autocomplete',
@@ -82,7 +82,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 summary: 'Retrieves games by autocompletion',
                 description: 'Retrieves games by autocompletion'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'query',
@@ -91,7 +91,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                         'required' => true
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             normalizationContext: ['groups' => [
@@ -120,7 +120,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 summary: 'Fetch game form data',
                 description: 'Fetch game form data'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'term',
@@ -129,7 +129,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/games/{id}/player-ranking-points',
@@ -144,7 +144,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 summary: 'Retrieves the player points leaderboard',
                 description: 'Retrieves the player points leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -153,7 +153,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/games/{id}/player-ranking-medals',
@@ -168,7 +168,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 summary: 'Retrieves the player medals leaderboard',
                 description: 'Retrieves the player medals leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -177,7 +177,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/games/{id}/team-ranking-points',
@@ -190,7 +190,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 summary: 'Retrieves the team points leaderboard',
                 description: 'Retrieves the team points leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -199,7 +199,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/games/{id}/team-ranking-medals',
@@ -212,7 +212,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 summary: 'Retrieves the team medals leaderboard',
                 description: 'Retrieves the team medals leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -221,7 +221,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
     ],
     normalizationContext: ['groups' => ['game:read']]
