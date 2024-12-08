@@ -82,7 +82,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                 summary: 'Retrieves the player points leaderboard',
                 description: 'Retrieves the player points leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -91,7 +91,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/groups/{id}/player-ranking-medals',
@@ -106,7 +106,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                 summary: 'Retrieves the player medals leaderboard',
                 description: 'Retrieves the player medals leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -115,7 +115,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/groups/{id}/team-ranking-points',
@@ -128,7 +128,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                 summary: 'Retrieves the team points leaderboard',
                 description: 'Retrieves the team points leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -137,7 +137,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/groups/{id}/team-ranking-medals',
@@ -150,7 +150,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                 summary: 'Retrieves the team medals leaderboard',
                 description: 'Retrieves the team medals leaderboard'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'maxRank',
@@ -159,7 +159,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                         'required' => false
                     ]
                 ]
-            ]
+            ]*/
         ),
         new Get(
             uriTemplate: '/groups/{id}/top-score',

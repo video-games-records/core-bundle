@@ -87,7 +87,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
                 summary: 'Retrieves players by autocompletion',
                 description: 'Retrieves players by autocompletion'
             ),
-            openapiContext: [
+            /*openapiContext: [
                 'parameters' => [
                     [
                         'name' => 'query',
@@ -96,7 +96,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
                         'required' => true
                     ]
                 ]
-            ]
+            ]*/
         ),
         new GetCollection(
             uriTemplate: '/players/ranking-point-chart',

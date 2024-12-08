@@ -1,1 +1,1 @@
-UPDATE vgr_chart SET slug = get_slug(libChartEn) WHERE slug IS NULL;
+UPDATE vgr_chart SET slug = get_slug(lib_chart_en) WHERE slug IS NULL;
