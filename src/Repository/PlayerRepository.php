@@ -66,12 +66,12 @@ class PlayerRepository extends DefaultRepository
     /**
      * @return int|mixed|string
      */
-    public function getProofStats()
+    public function getProofStats(): mixed
     {
         $query = $this->createQueryBuilder('player')
             ->select('player.id as idPlayer, player.pseudo')
             ->innerJoin('player.proofRespondings', 'proof')
-            ->addSelect('COUNT(proof.id) as nb, SUBSTRING(proof.updatedAt, 1, 7) as month')
+            ->addSelect('COUNT(proof.id) as nb, SUBSTRING(proof.checkedAt, 1, 7) as month')
             ->where("proof.checkedAt > '2020-01-01'")
             ->orderBy('month', 'DESC')
             ->groupBy('player.id')
