@@ -35,8 +35,8 @@ class GetFormData extends AbtsractFormDataController
         );
 
         $charts = $this->em->getRepository(Chart::class)->getList(
-            $page,
             $player,
+            $page,
             $search,
             $locale,
             $itemsPerPage
