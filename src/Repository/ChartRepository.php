@@ -48,16 +48,16 @@ class ChartRepository extends DefaultRepository
     }
 
     /**
+     * @param Player $player
      * @param int $page
-     * @param Player|null $player
      * @param array $search
      * @param string $locale
      * @param int $itemsPerPage
      * @return Paginator
      */
     public function getList(
+        Player $player,
         int $page = 1,
-        Player $player = null,
         array $search = array(),
         string $locale = 'en',
         int $itemsPerPage = 20
