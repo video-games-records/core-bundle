@@ -76,10 +76,6 @@ class VideoAdmin extends AbstractAdmin
                     'choice_translation_domain' => false,
                 ]
             )
-            ->add('externalId', TextType::class, [
-                'label' => 'label.video.id',
-                'required' => true,
-            ])
             ->add('url', TextType::class, [
                 'label' => 'label.url',
                 'required' => true,
