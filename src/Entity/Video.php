@@ -35,7 +35,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
 #[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\VideoListener"])]
 #[ORM\UniqueConstraint(name: "unq_video", columns: ["type", "external_id"])]
 #[DoctrineAssert\UniqueEntity(fields: ['url'])]
-#[DoctrineAssert\UniqueEntity(fields: ['type', 'external_id'])]
+#[DoctrineAssert\UniqueEntity(fields: ['type', 'externalId'])]
 #[ApiResource(
     order: ['id' => 'DESC'],
     operations: [
@@ -93,7 +93,6 @@ class Video implements SluggableInterface
     #[ORM\Column(length: 50, nullable: false)]
     private string $type = VideoType::YOUTUBE;
 
-    #[Assert\NotNull(message: 'video.videoId.not_null')]
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $externalId = null;
 
