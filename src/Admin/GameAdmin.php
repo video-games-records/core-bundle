@@ -19,10 +19,14 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use VideoGamesRecords\CoreBundle\Contracts\SecurityInterface;
+use VideoGamesRecords\CoreBundle\Traits\Accessor\SetSecurity;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
-class GameAdmin extends AbstractAdmin
+class GameAdmin extends AbstractAdmin implements SecurityInterface
 {
+    use SetSecurity;
+
     protected $baseRouteName = 'vgrcorebundle_admin_game';
 
     /**
@@ -40,9 +44,11 @@ class GameAdmin extends AbstractAdmin
     public function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
     {
         if (in_array($action, ['show', 'edit', 'acl']) && $object) {
-            $buttonList['copy'] = [
-                'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.copy.html.twig',
-            ];
+            if ($this->getSecurity()->isGranted(self::ROLE_SUPER_ADMIN)) {
+                $buttonList['copy'] = [
+                    'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.copy.html.twig',
+                ];
+            }
             $buttonList['set-video-proof-only'] = [
                 'template' => '@VideoGamesRecordsCore/Admin/ActionButton/btn.set_video_proof_only.html.twig',
             ];
@@ -229,14 +235,14 @@ class GameAdmin extends AbstractAdmin
             ],
         ];
         if ($this->hasAccess('create')) {
-            $btns = array_merge($btns, [
-                'copy' => [
+            if ($this->getSecurity()->isGranted(self::ROLE_SUPER_ADMIN)) {
+                $btns['copy'] = [
                     'template' => '@VideoGamesRecordsCore/Admin/Object/Game/link.copy.html.twig'
-                ],
-                'add_group' => [
-                    'template' => '@VideoGamesRecordsCore/Admin/Object/Game/link.add_group.html.twig'
-                ]
-            ]);
+                ];
+            }
+            $btns['add_group'] = [
+                'template' => '@VideoGamesRecordsCore/Admin/Object/Game/link.add_group.html.twig'
+            ];
         }
 
         $list

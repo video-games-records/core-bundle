@@ -15,4 +15,8 @@ trait SetEventDispacther
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    public function getEventDispatcher(): EventDispatcherInterface
+    {
+        return $this->eventDispatcher;
+    }
 }
