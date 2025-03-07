@@ -14,4 +14,9 @@ trait SetRequestStack
     {
         $this->requestStack = $requestStack;
     }
+
+    public function getRequestStack(): RequestStack
+    {
+        return $this->requestStack;
+    }
 }

@@ -5,24 +5,28 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
 use Sonata\AdminBundle\Controller\CRUDController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use VideoGamesRecords\CoreBundle\Contracts\SecurityInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Form\DefaultForm;
 use VideoGamesRecords\CoreBundle\Form\VideoProofOnly;
 use VideoGamesRecords\CoreBundle\Manager\GameManager;
 use Yokai\SonataWorkflow\Controller\WorkflowControllerTrait;
 
-class GameAdminController extends CRUDController
+class GameAdminController extends CRUDController implements SecurityInterface
 {
     use WorkflowControllerTrait;
 
     private GameManager $gameManager;
+    private Security $security;
 
-    public function __construct(GameManager $gameManager)
+    public function __construct(GameManager $gameManager, Security $security)
     {
         $this->gameManager = $gameManager;
+        $this->security = $security;
     }
 
     /**
@@ -34,6 +38,11 @@ class GameAdminController extends CRUDController
     {
         /** @var Game $game */
         $game = $this->admin->getSubject();
+
+        if (!$this->isGranted(self::ROLE_SUPER_ADMIN)) {
+            $this->addFlash('sonata_flash_error', 'The game was not copied.');
+            return new RedirectResponse($this->admin->generateUrl('show', ['id' => $game->getId()]));
+        }
 
         $form = $this->createForm(DefaultForm::class);
         $form->handleRequest($request);
