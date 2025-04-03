@@ -38,7 +38,8 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
         $collection
             ->add('copy', $this->getRouterIdParameter() . '/copy')
             ->add('maj', $this->getRouterIdParameter() . '/maj')
-            ->add('set-video-proof-only', $this->getRouterIdParameter() . '/set-video-proof-only');
+            ->add('set-video-proof-only', $this->getRouterIdParameter() . '/set-video-proof-only')
+            ->add('import-csv', $this->getRouterIdParameter() . '/import-csv');
     }
 
     public function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
