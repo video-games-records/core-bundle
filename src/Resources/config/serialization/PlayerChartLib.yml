@@ -11,6 +11,7 @@ VideoGamesRecords\CoreBundle\Entity\PlayerChartLib:
         - 'player-chart-lib:update'
     libChart:
       groups:
+        - 'player-chart-lib:libChart'
         - 'player-chart-lib:read'
         - 'player-chart-lib:insert'
         - 'player-chart-lib:update'

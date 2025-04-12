@@ -20,6 +20,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Chart\GetFormData;
+use VideoGamesRecords\CoreBundle\Controller\Chart\GetFormDataSimple;
 use VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRanking;
 use VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRankingDisabled;
 use VideoGamesRecords\CoreBundle\Controller\Chart\Player\GetRankingPoints as PlayerGetRankingPoints;
@@ -40,7 +41,9 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
     operations: [
         new GetCollection(),
         new Get(
-            normalizationContext: ['groups' => ['chart:read', 'chart:libs', 'chart-lib:read']]
+            normalizationContext: ['groups' =>
+                ['chart:read', 'chart:libs', 'chart-lib:read', 'chart-lib:type', 'chart-type:read']
+            ]
         ),
         new Get(
             uriTemplate: '/charts/{id}/form-data',
@@ -54,6 +57,20 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
                 'player-chart:libs', 'player-chart-lib:read',
                 'player-chart:player', 'player-chart:platform',
                 'player-chart:status', 'player-chart-status:read']
+            ],
+            openapi: new Model\Operation(
+                summary: 'Fetch chart form data',
+                description: 'Fetch chart form data'
+            ),
+        ),
+        new Get(
+            uriTemplate: '/charts/{id}/form-data-simple',
+            controller: GetFormDataSimple::class,
+            security: "is_granted('ROLE_PLAYER')",
+            normalizationContext: ['groups' => [
+                'player-chart:read', 'player-chart:chart',
+                'player-chart:libs', 'player-chart-lib:read', 'player-chart-lib:libChart',
+                'player-chart:player', 'player-chart:platform']
             ],
             openapi: new Model\Operation(
                 summary: 'Fetch chart form data',
@@ -100,14 +117,14 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
                 description: 'Retrieves the team chart leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(
@@ -123,20 +140,20 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
                 description: 'Retrieves the team chart leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ],
-                    [
-                        'name' => 'idTeam',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ],
+            [
+            'name' => 'idTeam',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
     ],

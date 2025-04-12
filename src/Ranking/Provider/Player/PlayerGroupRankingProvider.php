@@ -15,7 +15,7 @@ class PlayerGroupRankingProvider extends AbstractRankingProvider
      * @return array
      * @throws ORMException
      */
-    public function getRankingPoints(int $id = null, array $options = []): array
+    public function getRankingPoints(?int $id = null, array $options = []): array
     {
         $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
         if (null === $group) {
@@ -59,7 +59,7 @@ class PlayerGroupRankingProvider extends AbstractRankingProvider
      * @return array
      * @throws ORMException
      */
-    public function getRankingMedals(int $id = null, array $options = []): array
+    public function getRankingMedals(?int $id = null, array $options = []): array
     {
         $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($id);
         if (null === $group) {
