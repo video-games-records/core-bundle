@@ -13,7 +13,7 @@ class PlayerCountryRankingProvider extends AbstractRankingProvider
      * @param array    $options
      * @return array
      */
-    public function getRankingPoints(int $id = null, array $options = []): array
+    public function getRankingPoints(?int $id = null, array $options = []): array
     {
         $country = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Country')->find($id);
         if (null === $country) {
@@ -44,7 +44,7 @@ class PlayerCountryRankingProvider extends AbstractRankingProvider
      * @param array $options
      * @return array
      */
-    public function getRankingMedals(int $id = null, array $options = []): array
+    public function getRankingMedals(?int $id = null, array $options = []): array
     {
         return array();
     }
