@@ -14,9 +14,8 @@ use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Chart\GetFormData;
@@ -167,10 +166,9 @@ use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
         'libChartFr' => 'ASC',
     ]
 )]
-class Chart implements SluggableInterface
+class Chart
 {
     use TimestampableEntity;
-    use SluggableTrait;
     use NbPostTrait;
     use IsDlcTrait;
 
@@ -220,6 +218,10 @@ class Chart implements SluggableInterface
      * Shortcut to playerChart.player = player
      */
     private ?PlayerChart $playerChartP = null;
+
+    #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['libChartEn'])]
+    protected string $slug;
 
     /**
      * @var Collection<int, Proof>
@@ -350,7 +352,7 @@ class Chart implements SluggableInterface
         $this->playerCharts->add($playerChart);
     }
 
-    public function setGroup(Group $group = null): void
+    public function setGroup(Group $group): void
     {
         $this->group = $group;
     }
@@ -395,6 +397,11 @@ class Chart implements SluggableInterface
     public function getPlayerChartP(): ?PlayerChart
     {
         return $this->playerChartP;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     public function getUrl(): string

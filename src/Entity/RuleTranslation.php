@@ -5,33 +5,57 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 
 #[ORM\Table(name:'vgr_rule_translation')]
 #[ORM\Entity]
-class RuleTranslation implements TranslationInterface
+#[ORM\UniqueConstraint(name: 'rule_translation_unique', columns: ['translatable_id', 'locale'])]
+class RuleTranslation
 {
-    use TranslationTrait;
-
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: Rule::class, inversedBy: 'translations')]
+    #[ORM\JoinColumn(name: 'translatable_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private Rule $translatable;
+
+    #[ORM\Column(length: 5)]
+    private string $locale;
+
     #[ORM\Column(type: 'text', nullable: false)]
-    private string $text = '';
+    private string $content = '';
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setText(string $text): void
+    public function getTranslatable(): Rule
     {
-        $this->text = $text;
+        return $this->translatable;
     }
 
-    public function getText(): string
+    public function setTranslatable(Rule $translatable): void
     {
-        return $this->text;
+        $this->translatable = $translatable;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): void
+    {
+        $this->locale = $locale;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
     }
 }

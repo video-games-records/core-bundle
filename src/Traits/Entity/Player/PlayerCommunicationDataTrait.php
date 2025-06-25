@@ -30,7 +30,7 @@ trait PlayerCommunicationDataTrait
         return $this->website;
     }
 
-    public function setWebsite(string $website = null): void
+    public function setWebsite(?string $website = null): void
     {
         $this->website = $website;
     }
@@ -40,7 +40,7 @@ trait PlayerCommunicationDataTrait
         return $this->youtube;
     }
 
-    public function setYoutube(string $youtube = null): void
+    public function setYoutube(?string $youtube = null): void
     {
         $this->youtube = $youtube;
     }
@@ -50,7 +50,7 @@ trait PlayerCommunicationDataTrait
         return $this->twitch;
     }
 
-    public function setTwitch(string $twitch = null): void
+    public function setTwitch(?string $twitch = null): void
     {
         $this->twitch = $twitch;
     }

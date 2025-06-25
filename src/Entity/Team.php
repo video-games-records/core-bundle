@@ -17,9 +17,8 @@ use ApiPlatform\Serializer\Filter\GroupFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Team\Avatar\AvatarUpload;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingBadge;
@@ -169,10 +168,9 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         ]
     ]
 )]
-class Team implements SluggableInterface
+class Team
 {
     use TimestampableEntity;
-    use SluggableTrait;
     use RankCupTrait;
     use GameRank0Trait;
     use GameRank1Trait;
@@ -233,6 +231,9 @@ class Team implements SluggableInterface
     #[ORM\Column(length: 30, nullable: false)]
     private string $status = self::STATUS_CLOSED;
 
+    #[ORM\Column(length: 128)]
+    #[Gedmo\Slug(fields: ['libTeam'])]
+    protected string $slug;
 
     /**
      * @var Collection<int, Player>
@@ -353,6 +354,11 @@ class Team implements SluggableInterface
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     /**

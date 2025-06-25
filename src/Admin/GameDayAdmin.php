@@ -56,7 +56,7 @@ class GameDayAdmin extends AbstractAdmin
                 ModelListType::class,
                 [
                     'data_class' => null,
-                    'btn_add' => false,
+                    'btn_add' => true,
                     'btn_list' => true,
                     'btn_edit' => false,
                     'btn_delete' => false,

@@ -11,7 +11,7 @@ trait PictureTrait
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $picture;
 
-    public function setPicture(string $picture = null): void
+    public function setPicture(?string $picture = null): void
     {
         $this->picture = $picture;
     }

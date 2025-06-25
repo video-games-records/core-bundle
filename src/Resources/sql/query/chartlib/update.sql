@@ -1,4 +1,10 @@
 UPDATE vgr_chartlib,vgr_chart
-SET idType=124, vgr_chartlib.name = 'Feet and Inches'
-WHERE vgr_chartlib.idChart = vgr_chart.id
-AND vgr_chart.idGroup = 23422;
+SET type_id=6
+WHERE vgr_chartlib.chart_id = vgr_chart.id
+AND vgr_chart.group_id = 23930
+AND vgr_chart.created_at >= '2025-04-05';
+
+SELECT * from vgr_chartlib,vgr_chart
+WHERE vgr_chartlib.chart_id = vgr_chart.id
+AND vgr_chart.group_id = 23930
+AND vgr_chart.created_at >= '2025-04-05';

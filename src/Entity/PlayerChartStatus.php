@@ -9,11 +9,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableMethodsTrait;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatablePropertiesTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
+use VideoGamesRecords\CoreBundle\Traits\Accessor\CurrentLocale;
 
 #[ORM\Table(name:'vgr_player_chart_status')]
 #[ORM\Entity(repositoryClass: PlayerChartStatusRepository::class)]
@@ -24,10 +22,12 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerChartStatusRepository;
     ],
     normalizationContext: ['groups' => ['player-chart-status:read']]
 )]
-class PlayerChartStatus implements TranslatableInterface
+
+class PlayerChartStatus
 {
-    use TranslatablePropertiesTrait;
-    use TranslatableMethodsTrait;
+    use CurrentLocale;
+
+    private const string DEFAULT_LOCALE = 'en';
 
     public const ID_STATUS_NORMAL = 1;
     public const ID_STATUS_DEMAND = 2;
@@ -59,6 +59,16 @@ class PlayerChartStatus implements TranslatableInterface
      */
     #[ORM\OneToMany(targetEntity: PlayerChart::class, mappedBy: 'status')]
     private Collection $playerCharts;
+
+    /** @var Collection<PlayerChartStatusTranslation> */
+    #[ORM\OneToMany(
+        targetEntity: PlayerChartStatusTranslation::class,
+        mappedBy: 'translatable',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
+        indexBy: 'locale'
+    )]
+    private Collection $translations;
 
     public function __toString()
     {
@@ -115,16 +125,6 @@ class PlayerChartStatus implements TranslatableInterface
         return $this->boolSendProof;
     }
 
-    public function setName(string $name): void
-    {
-        $this->translate(null, false)->setName($name);
-    }
-
-    public function getName(): string
-    {
-        return $this->translate(null, false)->getName();
-    }
-
     public function setSOrder(int $sOrder): void
     {
         $this->sOrder = $sOrder;
@@ -142,5 +142,75 @@ class PlayerChartStatus implements TranslatableInterface
             self::ID_STATUS_INVESTIGATION,
             self::ID_STATUS_NOT_PROOVED,
         );
+    }
+
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): void
+    {
+        $this->translations = $translations;
+    }
+
+    public function addTranslation(PlayerChartStatusTranslation $translation): void
+    {
+        if (!$this->translations->contains($translation)) {
+            $translation->setTranslatable($this);
+            $this->translations->set($translation->getLocale(), $translation);
+        }
+    }
+
+    public function removeTranslation(PlayerChartStatusTranslation $translation): void
+    {
+        $this->translations->removeElement($translation);
+    }
+
+    public function translate(?string $locale = null, bool $fallbackToDefault = true): ?PlayerChartStatusTranslation
+    {
+        $locale = $locale ?: $this->currentLocale ?: self::DEFAULT_LOCALE;
+
+        // If translation exists for requested locale
+        if ($this->translations->containsKey($locale)) {
+            return $this->translations->get($locale);
+        }
+
+        // Fallback to default locale if enabled and different from requested locale
+        if (
+            $fallbackToDefault
+            && $locale !== self::DEFAULT_LOCALE
+            && $this->translations->containsKey(self::DEFAULT_LOCALE)
+        ) {
+            return $this->translations->get(self::DEFAULT_LOCALE);
+        }
+
+        // Last resort: return first translation even if empty
+        return $this->translations->first() ?: null;
+    }
+
+    public function getAvailableLocales(): array
+    {
+        return $this->translations->getKeys();
+    }
+
+    public function setName(string $name, ?string $locale = null): void
+    {
+        $locale = $locale ?: $this->currentLocale ?: self::DEFAULT_LOCALE;
+
+        if (!$this->translations->containsKey($locale)) {
+            $translation = new PlayerStatusTranslation();
+            $translation->setTranslatable($this);
+            $translation->setLocale($locale);
+            $this->translations->set($locale, $translation);
+        }
+
+        $this->translations->get($locale)->setDescription($name);
+    }
+
+    public function getName(?string $locale = null): ?string
+    {
+        $translation = $this->translate($locale);
+        return $translation?->getName();
     }
 }

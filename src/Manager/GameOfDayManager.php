@@ -36,4 +36,11 @@ class GameOfDayManager
             $this->em->flush();
         }
     }
+
+    public function getGameOfDay(): ?Game
+    {
+        $now = new DateTime();
+        $gameDay = $this->em->getRepository(GameDay::class)->findOneBy(array('day' => $now));
+        return $gameDay->getGame();
+    }
 }

@@ -13,19 +13,20 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Serializer\Filter\GroupFilter;
 use ApiPlatform\OpenApi\Model;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Game\Autocomplete;
 use VideoGamesRecords\CoreBundle\Controller\Game\GetFormData;
+use VideoGamesRecords\CoreBundle\Controller\Game\GetGameOfDay;
 use VideoGamesRecords\CoreBundle\Controller\Game\GetListByLetter;
 use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\IsRankTrait;
@@ -52,25 +53,27 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
     operations: [
         new GetCollection(),
         new GetCollection(
-            uriTemplate: '/games-list-by-letter',
+            uriTemplate: '/games/list-by-letter',
             controller: GetListByLetter::class,
+            openapi: new Model\Operation(
+                summary: 'Retrieves games by letter',
+                description: 'Retrieves games by letter',
+                parameters: [
+                    new Model\Parameter(
+                        name: 'letter',
+                        in: 'query',
+                        required: true,
+                        schema: [
+                            'type' => 'string',
+                            'pattern' => '[a-zA-Z0]'
+                        ]
+                    )
+                ]
+            ),
+            paginationEnabled: false,
             normalizationContext: ['groups' => [
                 'game:read', 'game:platforms', 'platform:read']
             ],
-            openapi: new Model\Operation(
-                summary: 'Retrieves games by letter',
-                description: 'Retrieves games by letter'
-            ),
-            /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'letter',
-                        'in' => 'query',
-                        'type' => 'string',
-                        'required' => false
-                    ]
-                ]
-            ]*/
         ),
         new GetCollection(
             uriTemplate: '/games/autocomplete',
@@ -92,6 +95,13 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                     ]
                 ]
             ]*/
+        ),
+        new GetCollection(
+            uriTemplate: '/games/game-of-day',
+            controller: GetGameOfDay::class,
+            normalizationContext: ['groups' => [
+                'game:read', 'game:platforms', 'platform:read']
+            ],
         ),
         new Get(
             normalizationContext: ['groups' => [
@@ -136,8 +146,8 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
             controller: PlayerGetRankingPoints::class,
             normalizationContext: ['groups' => [
                 'player-game:read',
-                'player-game:player', 'player:read',
-                'player:team', 'team:read',
+                'player-game:player', 'player:read:minimal',
+                'player:team', 'team:read:minimal',
                 'player:country', 'country:read']
             ],
             openapi: new Model\Operation(
@@ -161,7 +171,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
             normalizationContext: ['groups' => [
                 'player-game:read',
                 'player-game:player', 'player:read',
-                'player:team', 'team:read',
+                'player:team', 'team:read:minimal',
                 'player:country', 'country:read']
             ],
             openapi: new Model\Operation(
@@ -184,7 +194,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
             controller: TeamGetRankingPoints::class,
             normalizationContext: ['groups' => [
                 'team-game:read',
-                'team-game:team', 'team:read']
+                'team-game:team', 'team:read:minimal']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the team points leaderboard',
@@ -206,7 +216,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
             controller: TeamGetRankingMedals::class,
             normalizationContext: ['groups' => [
                 'team-game:read',
-                'team-game:team', 'team:read']
+                'team-game:team', 'team:read:minimal']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the team medals leaderboard',
@@ -224,7 +234,23 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
             ]*/
         ),
     ],
-    normalizationContext: ['groups' => ['game:read']]
+    normalizationContext: ['groups' => ['game:read', 'game:platforms', 'platform:read']]
+)]
+#[ApiResource(
+    uriTemplate: '/platforms/{id}/games',
+    uriVariables: [
+        'id' => new Link(fromClass: Platform::class, toProperty: 'platforms'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['game:read']],
+)]
+#[ApiResource(
+    uriTemplate: '/series/{id}/games',
+    uriVariables: [
+        'id' => new Link(fromClass: Serie::class, toProperty: 'serie'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['game:read', 'game:platforms', 'platform:read']],
 )]
 #[ApiFilter(
     SearchFilter::class,
@@ -269,10 +295,9 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
     ]
 )]
 #[ApiFilter(DateFilter::class, properties: ['publishedAt' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
-class Game implements SluggableInterface
+class Game
 {
     use TimestampableEntity;
-    use SluggableTrait;
     use NbChartTrait;
     use NbPostTrait;
     use NbPlayerTrait;
@@ -337,6 +362,10 @@ class Game implements SluggableInterface
     #[ORM\JoinColumn(name:'last_score_id', referencedColumnName:'id', nullable:true)]
     private ?PlayerChart $lastScore;
 
+    #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['libGameEn'])]
+    protected string $slug;
+
     /**
      * @var Collection<int, Rule>
      */
@@ -369,7 +398,7 @@ class Game implements SluggableInterface
         return $this->libGameEn;
     }
 
-    public function getName(string $locale = null): ?string
+    public function getName(?string $locale = null): ?string
     {
         if ($locale === null) {
             $locale = Locale::getDefault();
@@ -413,7 +442,7 @@ class Game implements SluggableInterface
         return $this->libGameFr;
     }
 
-    public function setDownloadurl(string $downloadUrl = null): void
+    public function setDownloadurl(?string $downloadUrl = null): void
     {
         $this->downloadUrl = $downloadUrl;
     }
@@ -443,7 +472,7 @@ class Game implements SluggableInterface
         return $this->status;
     }
 
-    public function setPublishedAt(DateTime $pubishedAt = null): void
+    public function setPublishedAt(?DateTime $pubishedAt = null): void
     {
         $this->publishedAt = $pubishedAt;
     }
@@ -453,7 +482,7 @@ class Game implements SluggableInterface
         return $this->publishedAt;
     }
 
-    public function setSerie(Serie $serie = null): void
+    public function setSerie(?Serie $serie = null): void
     {
         $this->serie = $serie;
     }
@@ -524,9 +553,9 @@ class Game implements SluggableInterface
         $this->lastScore = $lastScore;
     }
 
-    public function getSluggableFields(): array
+    public function getSlug(): string
     {
-        return ['defaultName'];
+        return $this->slug;
     }
 
     public function getUrl(): string

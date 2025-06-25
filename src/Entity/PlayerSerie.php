@@ -76,7 +76,7 @@ class PlayerSerie
         return $this->pointGame;
     }
 
-    public function setSerie(Serie $serie = null): void
+    public function setSerie(Serie $serie): void
     {
         $this->serie = $serie;
     }

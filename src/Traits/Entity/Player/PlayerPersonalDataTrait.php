@@ -30,7 +30,7 @@ trait PlayerPersonalDataTrait
     private bool $displayPersonalInfos = false;
 
 
-    public function setPresentation(string $presentation = null): void
+    public function setPresentation(?string $presentation = null): void
     {
         $this->presentation = $presentation;
     }
@@ -40,7 +40,7 @@ trait PlayerPersonalDataTrait
         return $this->presentation;
     }
 
-    public function setCollection(string $collection = null): void
+    public function setCollection(?string $collection = null): void
     {
         $this->collection = $collection;
     }
@@ -50,7 +50,7 @@ trait PlayerPersonalDataTrait
         return $this->collection;
     }
 
-    public function setBirthDate(DateTime $birthDate = null): void
+    public function setBirthDate(?DateTime $birthDate = null): void
     {
         $this->birthDate = $birthDate;
     }

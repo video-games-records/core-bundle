@@ -175,10 +175,10 @@ class Picture implements PictureInterface
         int $dstY,
         int $srcX = 0,
         int $srcY = 0,
-        int $dstW = null,
-        int $dstH = null,
-        int $srcW = null,
-        int $srcH = null
+        ?int $dstW = null,
+        ?int $dstH = null,
+        ?int $srcW = null,
+        ?int $srcH = null
     ): Picture {
         $dstW = is_null($dstW) ? $pic->getWidth() : $dstW;
         $dstH = is_null($dstH) ? $pic->getHeight() : $dstH;

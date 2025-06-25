@@ -20,7 +20,7 @@ class PlatformRepository extends DefaultRepository
      */
     public function findAll(): array
     {
-        return $this->findBy([], ['libPlatform' => 'ASC']);
+        return $this->findBy([], ['name' => 'ASC']);
     }
 
     /**
@@ -32,9 +32,9 @@ class PlatformRepository extends DefaultRepository
         $query = $this->createQueryBuilder('p');
 
         $query
-            ->where("p.libPlatform LIKE :q")
+            ->where("p.name LIKE :q")
             ->setParameter('q', '%' . $q . '%')
-            ->orderBy("p.libPlatform", 'ASC');
+            ->orderBy("p.name", 'ASC');
 
         return $query->getQuery()->getResult();
     }

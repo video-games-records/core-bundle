@@ -314,7 +314,7 @@ class PlayerChart
         $this->isTopScore = $isTopScore;
     }
 
-    public function setDateInvestigation(DateTime $dateInvestigation = null): void
+    public function setDateInvestigation(?DateTime $dateInvestigation = null): void
     {
         $this->dateInvestigation = $dateInvestigation;
     }
@@ -334,7 +334,7 @@ class PlayerChart
         return $this->chart;
     }
 
-    public function setProof(Proof $proof = null): void
+    public function setProof(?Proof $proof = null): void
     {
         $this->proof = $proof;
     }
@@ -344,7 +344,7 @@ class PlayerChart
         return $this->proof;
     }
 
-    public function setPlatform(Platform $platform = null): void
+    public function setPlatform(?Platform $platform = null): void
     {
         $this->platform = $platform;
     }

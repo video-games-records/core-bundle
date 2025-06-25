@@ -39,15 +39,15 @@ class GameFixtures extends Fixture implements DependentFixtureInterface
     private array $platforms = [
         [
             'id'  => 1,
-            'libPlatform' => 'Game Cube',
+            'name' => 'Game Cube',
         ],
         [
             'id'  => 2,
-            'libPlatform' => 'Playstation 2',
+            'name' => 'Playstation 2',
         ],
         [
             'id'  => 3,
-            'libPlatform' => 'Xbox',
+            'name' => 'Xbox',
         ],
     ];
 
@@ -150,7 +150,7 @@ class GameFixtures extends Fixture implements DependentFixtureInterface
         foreach ($this->platforms as $row) {
             $platform = new Platform();
             $platform->setId($row['id']);
-            $platform->setLibPlatform($row['libPlatform']);
+            $platform->setName($row['name']);
             $manager->persist($platform);
             $this->addReference('platform.' . $platform->getId(), $platform);
         }
