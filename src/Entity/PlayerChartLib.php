@@ -70,7 +70,7 @@ class PlayerChartLib
         return $this->value;
     }
 
-    public function setLibChart(ChartLib $libChart = null): void
+    public function setLibChart(ChartLib $libChart): void
     {
         $this->libChart = $libChart;
     }

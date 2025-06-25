@@ -16,8 +16,7 @@ use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Repository\VideoRepository;
@@ -74,10 +73,9 @@ use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
     ]
 )]
 #[ApiFilter(BooleanFilter::class, properties: ['isActive'])]
-class Video implements SluggableInterface
+class Video
 {
     use TimestampableEntity;
-    use SluggableTrait;
     use PlayerTrait;
     use ViewCountTrait;
     use LikeCountTrait;
@@ -108,6 +106,10 @@ class Video implements SluggableInterface
 
     #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $nbComment = 0;
+
+    #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['libVideo'])]
+    protected string $slug;
 
 
     #[ORM\ManyToOne(targetEntity: Game::class)]
@@ -177,7 +179,7 @@ class Video implements SluggableInterface
         return $this->url;
     }
 
-    public function setGame(Game $game = null): void
+    public function setGame(?Game $game = null): void
     {
         $this->game = $game;
     }
@@ -190,6 +192,11 @@ class Video implements SluggableInterface
     public function getNbComment(): int
     {
         return $this->nbComment;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     public function getGame(): ?Game

@@ -23,8 +23,7 @@ use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Player\Autocomplete;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingBadge;
@@ -158,7 +157,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
     ],
     normalizationContext: ['groups' => [
         'player:read',
-        'player:team', 'team:read',
+        'player:team', 'team:read:minimal',
         'player:country', 'country:read',
         'player:status', 'player-status:read']
     ],
@@ -212,10 +211,9 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
 #[ApiFilter(DateFilter::class, properties: ['lastLogin' => DateFilterInterface::EXCLUDE_NULL])]
 #[ApiFilter(RangeFilter::class, properties: ['nbVideo'])]
 #[ApiFilter(BooleanFilter::class, properties: ['hasDonate'])]
-class Player implements SluggableInterface
+class Player
 {
     use TimestampableEntity;
-    use SluggableTrait;
     use RankCupTrait;
     use GameRank0Trait;
     use GameRank1Trait;
@@ -300,6 +298,11 @@ class Player implements SluggableInterface
     #[ORM\ManyToOne(targetEntity: PlayerStatus::class)]
     #[ORM\JoinColumn(name:'status_id', referencedColumnName:'id', nullable:false)]
     private PlayerStatus $status;
+
+    #[ORM\Column(length: 128)]
+    #[Gedmo\Slug(fields: ['pseudo'])]
+    protected string $slug;
+
 
     /**
      * @var Collection<int, Proof>
@@ -415,7 +418,7 @@ class Player implements SluggableInterface
         return $this->lastLogin;
     }
 
-    public function setLastLogin(DateTime $time = null): void
+    public function setLastLogin(?DateTime $time = null): void
     {
         $this->lastLogin = $time;
     }
@@ -434,7 +437,7 @@ class Player implements SluggableInterface
         return $this;
     }
 
-    public function setTeam(Team $team = null): void
+    public function setTeam(?Team $team = null): void
     {
         $this->team = $team;
     }
@@ -450,7 +453,7 @@ class Player implements SluggableInterface
     }
 
 
-    public function setLastDisplayLostPosition(DateTime $lastDisplayLostPosition = null): void
+    public function setLastDisplayLostPosition(?DateTime $lastDisplayLostPosition = null): void
     {
         $this->lastDisplayLostPosition = $lastDisplayLostPosition;
     }
@@ -483,6 +486,11 @@ class Player implements SluggableInterface
     public function getStatus(): PlayerStatus
     {
         return $this->status;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     /**

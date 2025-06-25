@@ -37,7 +37,7 @@ class PlatformAdmin extends AbstractAdmin
                     'readonly' => true,
                 ]
             ])
-            ->add('libPlatform', TextType::class, [
+            ->add('name', TextType::class, [
                 'label' => 'label.name',
                 'required' => true,
             ])
@@ -72,7 +72,7 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('libPlatform', null, ['label' => 'label.name']);
+            ->add('name', null, ['label' => 'label.name']);
     }
 
     /**
@@ -82,7 +82,7 @@ class PlatformAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('libPlatform', null, ['editable' => false, 'label' => 'label.name'])
+            ->add('name', null, ['editable' => false, 'label' => 'label.name'])
             ->add('slug', null, ['label' => 'label.slug'])
             ->add(
                 'picture',
@@ -127,7 +127,7 @@ class PlatformAdmin extends AbstractAdmin
     {
         $show
             ->add('id', null, ['label' => 'label.id'])
-            ->add('libPlatform', null, ['label' => 'label.name'])
+            ->add('name', null, ['label' => 'label.name'])
             ->add('picture', null, ['label' => 'label.picture'])
             ->add('status', null, ['label' => 'label.status'])
             ->add('badge', null, ['label' => 'label.badge']);

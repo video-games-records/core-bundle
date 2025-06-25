@@ -12,8 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Platform\Autocomplete;
 use VideoGamesRecords\CoreBundle\Controller\Platform\Player\GetRankingPoints;
@@ -22,7 +21,7 @@ use VideoGamesRecords\CoreBundle\Repository\PlatformRepository;
 #[ORM\Table(name:'vgr_platform')]
 #[ORM\Entity(repositoryClass: PlatformRepository::class)]
 #[ApiResource(
-    order: ['libPlatform' => 'ASC'],
+    order: ['name' => 'ASC'],
     paginationEnabled: false,
     operations: [
         new GetCollection(),
@@ -80,17 +79,15 @@ use VideoGamesRecords\CoreBundle\Repository\PlatformRepository;
         'games.playerGame.player' => 'exact',
     ]
 )]
-class Platform implements SluggableInterface
+class Platform
 {
-    use SluggableTrait;
-
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
     #[Assert\NotNull]
     #[Assert\Length(max: 100)]
     #[ORM\Column(length: 100, nullable: false)]
-    private string $libPlatform = '';
+    private string $name = '';
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 30)]
@@ -100,6 +97,11 @@ class Platform implements SluggableInterface
     #[Assert\Length(max: 30)]
     #[ORM\Column(length: 30, nullable: false)]
     private string $status = 'INACTIF';
+
+    #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['name'])]
+    protected string $slug;
+
 
     /**
      * @var Collection<int, Game>
@@ -120,7 +122,7 @@ class Platform implements SluggableInterface
 
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->libPlatform, $this->id);
+        return sprintf('%s [%s]', $this->name, $this->id);
     }
 
     public function setId(int $id): void
@@ -133,14 +135,14 @@ class Platform implements SluggableInterface
         return $this->id;
     }
 
-    public function getLibPlatform(): string
+    public function getName(): string
     {
-        return $this->libPlatform;
+        return $this->name;
     }
 
-    public function setLibPlatform(string $libPlatform): void
+    public function setName(string $name): void
     {
-        $this->libPlatform = $libPlatform;
+        $this->name = $name;
     }
 
     public function setPicture(string $picture): void
@@ -163,6 +165,11 @@ class Platform implements SluggableInterface
         return $this->status;
     }
 
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
     public function getGames(): Collection
     {
         return $this->games;
@@ -181,10 +188,5 @@ class Platform implements SluggableInterface
     public function getPlayerPlatform(): Collection
     {
         return $this->playerPlatform;
-    }
-
-    public function getSluggableFields(): array
-    {
-        return ['libPlatform'];
     }
 }

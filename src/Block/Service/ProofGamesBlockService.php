@@ -31,12 +31,12 @@ class ProofGamesBlockService extends AbstractBlockService
 
     /**
      * @param BlockContextInterface $blockContext
-     * @param Response|null         $response
+     * @param Response|null $response
      * @return Response
      */
     public function execute(
         BlockContextInterface $blockContext,
-        Response $response = null
+        ?Response $response = null
     ): Response {
         $settings = $blockContext->getSettings();
         $games = $this->proofInProgressProvider->loadByGame();

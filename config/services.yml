@@ -7,6 +7,11 @@ services:
     resource: '../src/*'
     exclude: '../src/{Admin,Entity,DependencyInjection,Migrations,Tests,Kernel.php}'
 
+  vgr.core.event.authentication_success_listener:
+    class: VideoGamesRecords\CoreBundle\EventListener\AuthenticationSuccessListener
+    tags:
+      - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+
   admin.block.service.proof.games:
     class: VideoGamesRecords\CoreBundle\Block\Service\ProofGamesBlockService
     tags:

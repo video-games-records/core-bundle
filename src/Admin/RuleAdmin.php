@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use VideoGamesRecords\CoreBundle\Form\Type\RichTextEditorType;
 
 class RuleAdmin extends AbstractAdmin
 {
@@ -67,25 +68,11 @@ class RuleAdmin extends AbstractAdmin
             ->add('translations', TranslationsType::class, [
                 'label' => 'label.translations',
                 'fields' => [
-                    'text' => [
-                        'field_type' => CKEditorType::class,
+                    'content' => [
+                        'field_type' => RichTextEditorType::class,
                         'label' => 'label.rules',
                         'required' => false,
-                        'locale_options' => [
-                            'en' => [
-                                'config' => array(
-                                    'height' => '200',
-                                    'toolbar' => 'standard'
-                                ),
-                            ],
-                            'fr' => [
-                                'config' => array(
-                                    'height' => '200',
-                                    'toolbar' => 'standard'
-                                ),
-                            ],
-                        ]
-                    ]
+                     ]
                 ]
             ]);
     }
