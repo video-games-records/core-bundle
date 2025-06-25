@@ -3,6 +3,6 @@ VideoGamesRecords\CoreBundle\Entity\Rule:
     name:
       groups:
         - 'rule:read'
-    text:
+    content:
       groups:
         - 'rule:read'

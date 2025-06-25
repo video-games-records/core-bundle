@@ -3,10 +3,12 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     id:
       groups:
         - 'player:read'
+        - 'player:read:minimal'
         - 'player:update'
     pseudo:
       groups:
         - 'player:read'
+        - 'player:read:minimal'
     createdAt:
       groups:
         - 'player:read'
@@ -27,6 +29,7 @@ VideoGamesRecords\CoreBundle\Entity\Player:
     slug:
       groups:
         - 'player:read'
+        - 'player:read:minimal'
     status:
       groups:
         - 'player:status'

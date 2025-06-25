@@ -8,13 +8,13 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\OpenApi\Model;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableMethodsTrait;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatablePropertiesTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Country\GetRanking;
 use VideoGamesRecords\CoreBundle\Repository\CountryRepository;
+use VideoGamesRecords\CoreBundle\Traits\Accessor\CurrentLocale;
 
 #[ORM\Table(name:'vgr_country')]
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
@@ -47,10 +47,11 @@ use VideoGamesRecords\CoreBundle\Repository\CountryRepository;
     ],
     normalizationContext: ['groups' => ['country:read']]
 )]
-class Country implements TranslatableInterface
+class Country
 {
-    use TranslatablePropertiesTrait;
-    use TranslatableMethodsTrait;
+    use CurrentLocale;
+
+    private const string DEFAULT_LOCALE = 'en';
 
     #[Assert\Length(max: 2)]
     #[ORM\Column(length: 2, nullable: false)]
@@ -76,6 +77,22 @@ class Country implements TranslatableInterface
 
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $boolMaj = false;
+
+    /** @var Collection<CountryTranslation> */
+    #[ORM\OneToMany(
+        targetEntity: CountryTranslation::class,
+        mappedBy: 'translatable',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
+        indexBy: 'locale'
+    )]
+    private Collection $translations;
+
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
+
 
     public function setCodeIso2(string $codeIso2): void
     {
@@ -107,16 +124,6 @@ class Country implements TranslatableInterface
         $this->codeIsoNumeric = $codeIsoNumeric;
     }
 
-    public function setName(string $name): void
-    {
-        $this->translate(null, false)->setName($name);
-    }
-
-    public function getName(): string
-    {
-        return $this->translate(null, false)->getName();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -128,7 +135,7 @@ class Country implements TranslatableInterface
     }
 
 
-    public function setBadge(Badge $badge = null): void
+    public function setBadge(?Badge $badge = null): void
     {
         $this->badge = $badge;
     }
@@ -166,5 +173,75 @@ class Country implements TranslatableInterface
     public function getDefaultName(): string
     {
         return $this->translate('en', false)->getName();
+    }
+
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): void
+    {
+        $this->translations = $translations;
+    }
+
+    public function addTranslation(CountryTranslation $translation): void
+    {
+        if (!$this->translations->contains($translation)) {
+            $translation->setTranslatable($this);
+            $this->translations->set($translation->getLocale(), $translation);
+        }
+    }
+
+    public function removeTranslation(CountryTranslation $translation): void
+    {
+        $this->translations->removeElement($translation);
+    }
+
+    public function translate(?string $locale = null, bool $fallbackToDefault = true): ?CountryTranslation
+    {
+        $locale = $locale ?: $this->currentLocale ?: self::DEFAULT_LOCALE;
+
+        // If translation exists for requested locale
+        if ($this->translations->containsKey($locale)) {
+            return $this->translations->get($locale);
+        }
+
+        // Fallback to default locale if enabled and different from requested locale
+        if (
+            $fallbackToDefault
+            && $locale !== self::DEFAULT_LOCALE
+            && $this->translations->containsKey(self::DEFAULT_LOCALE)
+        ) {
+            return $this->translations->get(self::DEFAULT_LOCALE);
+        }
+
+        // Last resort: return first translation even if empty
+        return $this->translations->first() ?: null;
+    }
+
+    public function getAvailableLocales(): array
+    {
+        return $this->translations->getKeys();
+    }
+
+    public function setName(string $name, ?string $locale = null): void
+    {
+        $locale = $locale ?: $this->currentLocale ?: self::DEFAULT_LOCALE;
+
+        if (!$this->translations->containsKey($locale)) {
+            $translation = new CountryTranslation();
+            $translation->setTranslatable($this);
+            $translation->setLocale($locale);
+            $this->translations->set($locale, $translation);
+        }
+
+        $this->translations->get($locale)->setDescription($name);
+    }
+
+    public function getName(?string $locale = null): ?string
+    {
+        $translation = $this->translate($locale);
+        return $translation?->getName();
     }
 }

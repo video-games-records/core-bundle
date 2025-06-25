@@ -34,11 +34,10 @@ class PlayerRepository extends DefaultRepository
 
     /**
      * @param $user
-     * @return mixed|Player
+     * @return Player
      * @throws NonUniqueResultException
-     * @throws ORMException
      */
-    public function getPlayerFromUser($user): mixed
+    public function getPlayerFromUser($user): Player
     {
         $qb = $this->createQueryBuilder('player')
             ->where('player.user_id = :userId')

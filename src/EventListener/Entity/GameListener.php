@@ -6,8 +6,10 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
@@ -19,14 +21,9 @@ class GameListener
 {
     private bool $majPlayers = false;
     private array $changeSet = array();
-    private EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     */
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(private EventDispatcherInterface $eventDispatcher, private RequestStack $requestStack)
     {
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -87,6 +84,18 @@ class GameListener
         }
 
         $em->flush();
+    }
+
+    /**
+     * @param Game $game
+     * @param LifecycleEventArgs $event
+     */
+    public function postLoad(Game $game, LifecycleEventArgs $event): void
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request) {
+            $game->getSerie()?->setCurrentLocale($request->getLocale());
+        }
     }
 
 

@@ -151,7 +151,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                     'query_builder' =>
                         function ($er) {
                             $qb = $er->createQueryBuilder('p');
-                            $qb->orderBy('p.libPlatform', 'ASC');
+                            $qb->orderBy('p.name', 'ASC');
                             return $qb;
                         }
                 ]

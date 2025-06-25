@@ -6,12 +6,8 @@ namespace VideoGamesRecords\CoreBundle\Controller\Game;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use VideoGamesRecords\CoreBundle\Repository\GameRepository;
 
-/**
- * @Route("/game")
- */
 class GetListByLetter extends AbstractController
 {
     private GameRepository $gameRepository;
@@ -28,8 +24,13 @@ class GetListByLetter extends AbstractController
      */
     public function __invoke(Request $request): mixed
     {
-        $letter = $request->query->get('letter', '0');
+        $letter = $request->query->get('letter');
         $locale = $request->getLocale();
+
+        if (null === $letter) {
+            throw new \InvalidArgumentException('Letter parameter is required');
+        }
+
         return $this->gameRepository
             ->findWithLetter($letter, $locale)
             ->getResult();

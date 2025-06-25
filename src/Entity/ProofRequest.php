@@ -140,7 +140,7 @@ class ProofRequest
         return $this->playerRequesting;
     }
 
-    public function setPlayerResponding(Player $playerResponding = null): void
+    public function setPlayerResponding(?Player $playerResponding = null): void
     {
         $this->playerResponding = $playerResponding;
     }

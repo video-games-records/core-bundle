@@ -3,10 +3,12 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     id:
       groups:
         - 'team:read'
+        - 'team:read:minimal'
         - 'team:update'
     libTeam:
       groups:
         - 'team:read'
+        - 'team:read:minimal'
         - 'team:update'
     presentation:
       groups:
@@ -15,9 +17,11 @@ VideoGamesRecords\CoreBundle\Entity\Team:
     slug:
       groups:
         - 'team:read'
+        - 'team:read:minimal'
     tag:
       groups:
         - 'team:read'
+        - 'team:read:minimal'
         - 'team:update'
     status:
       groups:

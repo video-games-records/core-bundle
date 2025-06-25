@@ -139,7 +139,7 @@ class Proof
         return $this->response;
     }
 
-    public function setPlayerResponding(Player $playerResponding = null): void
+    public function setPlayerResponding(?Player $playerResponding = null): void
     {
         $this->playerResponding = $playerResponding;
     }

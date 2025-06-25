@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -21,6 +19,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Form\Type\RichTextEditorType;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\SetRequestStack;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofRequestStatus;
 
@@ -107,24 +107,16 @@ class ProofRequestAdmin extends AbstractAdmin
                     'choices' => ProofRequestStatus::getStatusChoices(),
                 ]
             )
-            ->add('message', CKEditorType::class, [
+            ->add('message', RichTextEditorType::class, [
                 'label' => 'label.message',
                 'required' => true,
                 'attr' => array(
                     'readonly' => true,
                 ),
-                'config' => array(
-                    'height' => '100',
-                    'toolbar' => 'standard'
-                ),
             ])
-            ->add('response', CKEditorType::class, [
+            ->add('response', RichTextEditorType::class, [
                 'label' => 'label.proof.response',
                 'required' => false,
-                'config' => array(
-                    'height' => '100',
-                    'toolbar' => 'standard'
-                ),
             ]);
     }
 
@@ -297,9 +289,9 @@ class ProofRequestAdmin extends AbstractAdmin
     }
 
     /**
-     * @return mixed
+     * @return Player
      */
-    private function getPlayer()
+    private function getPlayer(): Player
     {
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());

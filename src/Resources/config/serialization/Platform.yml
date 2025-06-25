@@ -3,7 +3,7 @@ VideoGamesRecords\CoreBundle\Entity\Platform:
     id:
       groups:
         - 'platform:read'
-    libPlatform:
+    name:
       groups:
         - 'platform:read'
     picture:

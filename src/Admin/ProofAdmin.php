@@ -6,7 +6,6 @@ namespace VideoGamesRecords\CoreBundle\Admin;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -20,10 +19,11 @@ use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\NullFilter;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Form\Type\RichTextEditorType;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\SetRequestStack;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
 
@@ -137,13 +137,9 @@ class ProofAdmin extends AbstractAdmin
                     'choice_translation_domain' => false,
                 ]
             )
-            ->add('response', CKEditorType::class, [
+            ->add('response', RichTextEditorType::class, [
                 'label' => 'label.proof.response',
                 'required' => false,
-                'config' => array(
-                    'height' => '100',
-                    'toolbar' => 'standard'
-                ),
             ]);
     }
 
@@ -162,7 +158,7 @@ class ProofAdmin extends AbstractAdmin
             ->add('player.pseudo', null, ['label' => 'label.pseudo'])
             ->add('chart.group.game.platforms', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property' => 'libPlatform'],
+                'field_options' => ['property' => 'name'],
                 'label' => 'label.platform'
             ])
             ->add('chart.group.game', ModelFilter::class, [
@@ -338,10 +334,9 @@ class ProofAdmin extends AbstractAdmin
     }
 
     /**
-     * @return mixed
-     * @throws NotSupported
+     * @return Player
      */
-    private function getPlayer()
+    private function getPlayer(): Player
     {
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());

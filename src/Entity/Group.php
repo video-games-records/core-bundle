@@ -14,9 +14,8 @@ use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Intl\Locale;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Group\GetCharts;
@@ -193,10 +192,9 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
         'libGroupFr' => 'ASC',
     ]
 )]
-class Group implements SluggableInterface
+class Group
 {
     use TimestampableEntity;
-    use SluggableTrait;
     use NbChartTrait;
     use NbPostTrait;
     use NbPlayerTrait;
@@ -216,6 +214,10 @@ class Group implements SluggableInterface
 
     #[ORM\Column(length: 30, nullable: false, options: ['default' => GroupOrderBy::NAME])]
     private string $orderBy = GroupOrderBy::NAME;
+
+    #[ORM\Column(length: 128)]
+    #[Gedmo\Slug(fields: ['libGroupEn'])]
+    protected string $slug;
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'groups')]
@@ -302,6 +304,11 @@ class Group implements SluggableInterface
         $this->orderBy = $value->getValue();
     }
 
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
     public function setGame(Game $game): void
     {
         $this->game = $game;
@@ -326,15 +333,5 @@ class Group implements SluggableInterface
     public function getCharts(): Collection
     {
         return $this->charts;
-    }
-
-    /**
-     * Returns an array of the fields used to generate the slug.
-     *
-     * @return string[]
-     */
-    public function getSluggableFields(): array
-    {
-        return ['defaultName'];
     }
 }
