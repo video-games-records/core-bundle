@@ -43,7 +43,7 @@
         "symfony/validator": "^6.4 | ^7.2",
         "symfony/yaml": "^6.4 | ^7.2",
         "webmozart/assert": "*",
-        "yokai/sonata-workflow": "^0.7.0"
+        "yokai/sonata-workflow": "*"
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.3",
