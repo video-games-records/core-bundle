@@ -8,18 +8,19 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
-use VideoGamesRecords\CoreBundle\Entity\Rule;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
-use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerSerieRankingHandler;
+use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerSerieRank;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
 class SerieListener
 {
     private array $changeSet = array();
 
-    public function __construct(private PlayerSerieRankingHandler $rankingHandler, private RequestStack $requestStack)
+    public function __construct(private MessageBusInterface $bus, private RequestStack $requestStack)
     {
     }
 
@@ -47,6 +48,7 @@ class SerieListener
     /**
      * @param Serie $serie
      * @param BaseLifecycleEventArgs $event
+     * @throws ExceptionInterface
      */
     public function postUpdate(Serie $serie, BaseLifecycleEventArgs $event): void
     {
@@ -56,7 +58,7 @@ class SerieListener
             array_key_exists('status', $this->changeSet)
             && $this->changeSet['status'][1] == SerieStatus::ACTIVE
         ) {
-            $this->rankingHandler->handle($serie->getId());
+            $this->bus->dispatch(new UpdatePlayerSerieRank($serie->getId()));
         }
 
         $em->flush();

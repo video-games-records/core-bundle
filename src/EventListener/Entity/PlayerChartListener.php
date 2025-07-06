@@ -7,12 +7,15 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
+use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerChartRank;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class PlayerChartListener
@@ -20,12 +23,13 @@ class PlayerChartListener
     private array $changeSet = array();
 
     public function __construct(
-        private readonly ScoreManager $scoreManager
+        private readonly ScoreManager $scoreManager,
+        private readonly MessageBusInterface $bus,
     ) {
     }
 
     /**
-     * @param PlayerChart        $playerChart
+     * @param PlayerChart $playerChart
      * @param LifecycleEventArgs $event
      * @throws ORMException
      */
@@ -65,10 +69,6 @@ class PlayerChartListener
         if (!$this->scoreManager->hasScoreOnGame($game, $player)) {
             $game->setNbPlayer($game->getNbPlayer() + 1);
         }
-
-        /*if (null === $playerChart->getPlatform()) {
-            throw new BadRequestException('Missing platform');
-        }*/
     }
 
 
@@ -128,43 +128,53 @@ class PlayerChartListener
         $this->updateDateInvestigation($playerChart);
 
         $this->updateProof($playerChart, $em);
+
+        $player = $playerChart->getPlayer();
+
+        if ($event->hasChangedField('status')) {
+            $oldStatus = $event->getOldValue('status');
+            $newStatus = $event->getNewValue('status');
+
+            if ($newStatus->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
+                $player->setNbChartProven($player->getNbChartProven() + 1);
+            }
+
+            if ($oldStatus->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
+                $player->setNbChartProven($player->getNbChartProven() - 1);
+            }
+
+            if ($newStatus->getId() === PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
+                $player->setNbChartProven($player->getNbChartDisabled() + 1);
+            }
+
+            if ($oldStatus->getId() === PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
+                $player->setNbChartProven($player->getNbChartDisabled() - 1);
+            }
+        }
     }
 
     /**
-     * @param PlayerChart              $playerChart
+     * @param PlayerChart $playerChart
      * @param LifecycleEventArgs $event
-     * @throws ORMException
+     * @throws ExceptionInterface
+     */
+    public function postPersist(PlayerChart $playerChart, LifecycleEventArgs $event): void
+    {
+        $this->bus->dispatch(new UpdatePlayerChartRank($playerChart->getChart()->getId()));
+    }
+
+    /**
+     * @param PlayerChart $playerChart
+     * @param LifecycleEventArgs $event
+     * @throws ExceptionInterface
      */
     public function postUpdate(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
+
         if ((array_key_exists('lastUpdate', $this->changeSet)) || (array_key_exists('status', $this->changeSet))) {
-            $chart = $playerChart->getChart();
-            $chart->setStatusPlayer(ChartStatus::MAJ);
-            $chart->setStatusTeam(ChartStatus::MAJ);
+            $this->bus->dispatch(new UpdatePlayerChartRank($playerChart->getChart()->getId()));
         }
-
-        if (array_key_exists('status', $this->changeSet)) {
-            $player = $playerChart->getPlayer();
-
-            if ($this->changeSet['status'][1]->getId() == PlayerChartStatus::ID_STATUS_PROOVED) {
-                $player->setNbChartProven($player->getNbChartProven() + 1);
-            }
-
-            if ($this->changeSet['status'][0]->getId() == PlayerChartStatus::ID_STATUS_PROOVED) {
-                $player->setNbChartProven($player->getNbChartProven() - 1);
-            }
-
-            if ($this->changeSet['status'][1]->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
-                $player->setNbChartDisabled($player->getNbChartDisabled() + 1);
-            }
-
-            if ($this->changeSet['status'][0]->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
-                $player->setNbChartDisabled($player->getNbChartDisabled() - 1);
-            }
-        }
-
-        $em->flush();
     }
 
     /**
@@ -249,6 +259,7 @@ class PlayerChartListener
         $game = $group->getGame();
         $game->setNbPost($game->getNbPost() + 1);
     }
+
     private function decrementeNbPost(Chart $chart): void
     {
         // Chart

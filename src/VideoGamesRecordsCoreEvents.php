@@ -6,10 +6,8 @@ namespace VideoGamesRecords\CoreBundle;
 
 final class VideoGamesRecordsCoreEvents
 {
-    public const SCORES_PLAYER_MAJ_COMPLETED = 'vgr_core.scores.player.maj.completed';
     public const SCORES_TEAM_MAJ_COMPLETED = 'vgr_core.scores.team.maj.completed';
     #RANKING
-    public const PLAYER_GAME_MAJ_COMPLETED = 'vgr_core.player.game.maj.completed';
     public const PLATFORM_MAJ_COMPLETED = 'vgr_core.platform.maj.completed';
     public const PLAYER_SERIE_MAJ_COMPLETED = 'vgr_core.player.serie.maj.completed';
     public const TEAM_SERIE_MAJ_COMPLETED = 'vgr_core.team.serie.maj.completed';
