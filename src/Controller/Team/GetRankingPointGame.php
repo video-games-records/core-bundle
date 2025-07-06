@@ -7,7 +7,7 @@ namespace VideoGamesRecords\CoreBundle\Controller\Team;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamRankingProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Team\TeamRankingProvider;
 
 class GetRankingPointGame extends AbstractController
 {

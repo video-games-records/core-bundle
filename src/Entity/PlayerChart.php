@@ -58,14 +58,27 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
         ),
         new Post(
             denormalizationContext: ['groups' => ['player-chart:insert', 'player-chart-lib:insert']],
-            security: 'is_granted("ROLE_PLAYER")'
+            normalizationContext: ['groups' => [
+                'chart:read', 'chart:libs', 'chart-lib:read',
+                'chart-lib:type', 'chart-type:read',
+                'chart:group', 'group:read',
+                'chart:player-charts', 'player-chart:read', 'player-chart:chart',
+                'player-chart:libs', 'player-chart-lib:read',
+                'player-chart:player', 'player-chart:platform',
+                'player-chart:status', 'player-chart-status:read']
+            ],
+            security: 'is_granted("ROLE_PLAYER")',
         ),
         new Put(
             denormalizationContext: ['groups' => ['player-chart:update', 'player-chart-lib:update']],
             normalizationContext: ['groups' => [
-                'player-chart:read',
-                'player-chart:status', 'player-chart-status:read',
-                'player-chart:platform']
+                'chart:read', 'chart:libs', 'chart-lib:read',
+                'chart-lib:type', 'chart-type:read',
+                'chart:group', 'group:read',
+                'chart:player-charts', 'player-chart:read', 'player-chart:chart',
+                'player-chart:libs', 'player-chart-lib:read',
+                'player-chart:player', 'player-chart:platform',
+                'player-chart:status', 'player-chart-status:read']
             ],
             security: 'is_granted("ROLE_PLAYER") and (object.getPlayer().getUserId() == user.getId()) and ((object.getStatus().getId() == 1) or (object.getStatus().getId() == 6))'
         ),

@@ -45,7 +45,7 @@ class GroupRepository extends DefaultRepository
             }
             $newGroup->addChart($newChart);
         }
-        $this->_em->persist($newGroup);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($newGroup);
+        $this->getEntityManager()->flush();
     }
 }

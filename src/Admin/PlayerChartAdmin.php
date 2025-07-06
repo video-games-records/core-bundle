@@ -19,7 +19,7 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
-use VideoGamesRecords\CoreBundle\Event\PlayerChartEvent;
+use VideoGamesRecords\CoreBundle\Event\PlayerChartUpdated;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\SetEventDispacther;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\SetRequestStack;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
@@ -274,20 +274,9 @@ class PlayerChartAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * @param $object
-     */
-    public function preUpdate($object): void
-    {
-        $chart = $object->getChart();
-        $chart->setStatusPlayer('MAJ');
-        $chart->setStatusTeam('MAJ');
-    }
 
     public function postUpdate(object $object): void
     {
-        $event = new PlayerChartEvent($object, null, 0);
-        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PLAYER_CHART_UPDATED);
         parent::postUpdate($object);
     }
 }

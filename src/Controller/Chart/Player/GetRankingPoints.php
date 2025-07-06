@@ -7,7 +7,7 @@ namespace VideoGamesRecords\CoreBundle\Controller\Chart\Player;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerChartRankingProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerChartRankingProvider;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 
 class GetRankingPoints extends AbstractController
