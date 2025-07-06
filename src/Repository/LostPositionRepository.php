@@ -61,7 +61,7 @@ class LostPositionRepository extends DefaultRepository
             INNER JOIN vgr_player_chart ON vgr_lostposition.player_id = vgr_player_chart.player_id AND vgr_lostposition.chart_id = vgr_player_chart.chart_id
         WHERE (vgr_player_chart.rank <= vgr_lostposition.old_rank)
         OR (vgr_player_chart.rank = 1 AND vgr_player_chart.nb_equal = 1 AND vgr_lostposition.old_rank = 0)";
-        $this->_em->getConnection()->executeStatement($sql);
+        $this->getEntityManager()->getConnection()->executeStatement($sql);
     }
 
 

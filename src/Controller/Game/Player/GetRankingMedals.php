@@ -8,8 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerGameRankingProvider;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerGameRankingProvider;
 
 class GetRankingMedals extends AbstractController
 {

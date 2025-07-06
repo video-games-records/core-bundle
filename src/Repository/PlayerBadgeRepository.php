@@ -50,7 +50,7 @@ class PlayerBadgeRepository extends DefaultRepository
             //----- Remove badge
             if (!array_key_exists($idPlayer, $players)) {
                 $playerBadge->setEndedAt(new DateTime());
-                $this->_em->persist($playerBadge);
+                $this->getEntityManager()->persist($playerBadge);
             }
             $players[$idPlayer] = 1;
         }
@@ -58,7 +58,7 @@ class PlayerBadgeRepository extends DefaultRepository
         foreach ($players as $idPlayer => $value) {
             if (0 === $value) {
                 $playerBadge = new PlayerBadge();
-                $playerBadge->setPlayer($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer));
+                $playerBadge->setPlayer($this->getEntityManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer));
                 $playerBadge->setBadge($badge);
                 $this->_em->persist($playerBadge);
             }
@@ -66,7 +66,7 @@ class PlayerBadgeRepository extends DefaultRepository
         $badge->setNbPlayer(count($players));
         $badge->majValue();
 
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
     }
 
     /**

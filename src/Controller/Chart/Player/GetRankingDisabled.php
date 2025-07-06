@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Controller\Chart\Player;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use VideoGamesRecords\CoreBundle\Ranking\Provider\Player\PlayerChartRankingProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerChartRankingProvider;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Tools\Score;
 

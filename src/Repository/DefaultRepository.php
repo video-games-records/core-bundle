@@ -23,14 +23,14 @@ abstract class DefaultRepository extends ServiceEntityRepository
      */
     public function save($object): void
     {
-        $this->_em->persist($object);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($object);
+        $this->getEntityManager()->flush();
     }
 
 
     public function flush(): void
     {
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -38,6 +38,6 @@ abstract class DefaultRepository extends ServiceEntityRepository
      */
     public function getReference($id)
     {
-        return $this->_em->getReference($this->entityClass, $id);
+        return $this->getEntityManager()->getReference($this->entityClass, $id);
     }
 }

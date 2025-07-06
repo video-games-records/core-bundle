@@ -6,30 +6,24 @@ namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use VideoGamesRecords\CoreBundle\Ranking\Command\Player\PlayerSerieRankingHandler;
-use VideoGamesRecords\CoreBundle\Ranking\Command\Team\TeamSerieRankingHandler;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
+use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerSerieRank;
 
 class SerieAdminController extends CRUDController
 {
-    private PlayerSerieRankingHandler $playerSerieRankingHandler;
-    private TeamSerieRankingHandler $teamSerieRankingHandler;
-
-    public function __construct(
-        PlayerSerieRankingHandler $playerSerieRankingHandler,
-        TeamSerieRankingHandler $teamSerieRankingHandler
-    ) {
-        $this->playerSerieRankingHandler = $playerSerieRankingHandler;
-        $this->teamSerieRankingHandler = $teamSerieRankingHandler;
+    public function __construct(private MessageBusInterface $bus)
+    {
     }
 
     /**
      * @param $id
      * @return RedirectResponse
+     * @throws ExceptionInterface
      */
     public function majAction($id): RedirectResponse
     {
-        $this->playerSerieRankingHandler->handle($this->admin->getSubject()->getId());
-        $this->teamSerieRankingHandler->handle($this->admin->getSubject()->getId());
+        $this->bus->dispatch(new UpdatePlayerSerieRank($this->admin->getSubject()->getId()));
         $this->addFlash('sonata_flash_success', 'Serie maj successfully');
         return new RedirectResponse($this->admin->generateUrl('list'));
     }

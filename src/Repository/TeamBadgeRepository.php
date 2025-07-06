@@ -51,7 +51,7 @@ class TeamBadgeRepository extends DefaultRepository
             //----- Remove badge
             if (!array_key_exists($idTeam, $teams)) {
                 $teamBadge->setEndedAt(new DateTime());
-                $this->_em->persist($teamBadge);
+                $this->getEntityManager()->persist($teamBadge);
             }
             $teams[$idTeam] = 1;
         }
@@ -59,13 +59,13 @@ class TeamBadgeRepository extends DefaultRepository
         foreach ($teams as $idTeam => $value) {
             if ($value == 0) {
                 $teamBadge = new TeamBadge();
-                $teamBadge->setTeam($this->_em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam));
+                $teamBadge->setTeam($this->getEntityManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam));
                 $teamBadge->setBadge($badge);
-                $this->_em->persist($teamBadge);
+                $this->getEntityManager()->persist($teamBadge);
             }
         }
 
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
     }
 
     /**

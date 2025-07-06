@@ -205,7 +205,7 @@ class GameRepository extends DefaultRepository
     public function getNbPostDay($date1, $date2): array
     {
         //----- data nbPostDay
-        $query = $this->_em->createQuery("
+        $query = $this->getEntityManager()->createQuery("
             SELECT
                  ga.id,
                  COUNT(pc.id) as nb
@@ -274,8 +274,8 @@ class GameRepository extends DefaultRepository
 
             $newGame->addGroup($newGroup);
         }
-        $this->_em->persist($newGame);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($newGame);
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -283,7 +283,7 @@ class GameRepository extends DefaultRepository
      */
     public function maj(Game $game): void
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->update('VideoGamesRecords\CoreBundle\Entity\Chart', 'c')
             ->set('c.statusPlayer', ':status')
             ->set('c.statusTeam', ':status')

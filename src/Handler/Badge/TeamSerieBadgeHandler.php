@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Team\TeamSerieRankingProvider;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
-use VideoGamesRecords\CoreBundle\Ranking\Provider\Team\TeamSerieRankingProvider;
 
 class TeamSerieBadgeHandler
 {
