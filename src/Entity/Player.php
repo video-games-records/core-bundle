@@ -37,6 +37,7 @@ use VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbNewLostPosi
 use VideoGamesRecords\CoreBundle\Controller\Player\Game\GetStats as GameGetStats;
 use VideoGamesRecords\CoreBundle\Controller\Player\PlayerChart\GetStats as PlayerChartGetStats;
 use VideoGamesRecords\CoreBundle\Controller\Player\ProofRequest\CanAskProof;
+use VideoGamesRecords\CoreBundle\Filter\PlayerSearchFilter;
 use VideoGamesRecords\CoreBundle\Repository\PlayerRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\AverageGameRankTrait;
@@ -211,6 +212,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
 #[ApiFilter(DateFilter::class, properties: ['lastLogin' => DateFilterInterface::EXCLUDE_NULL])]
 #[ApiFilter(RangeFilter::class, properties: ['nbVideo'])]
 #[ApiFilter(BooleanFilter::class, properties: ['hasDonate'])]
+#[ApiFilter(PlayerSearchFilter::class)]
 class Player
 {
     use TimestampableEntity;
