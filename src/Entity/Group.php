@@ -73,8 +73,8 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
             controller: PlayerGetRankingPoints::class,
             normalizationContext: ['groups' => [
                 'player-group:read',
-                'player-group:player', 'player:read',
-                'player:team', 'team:read',
+                'player-group:player', 'player:read:minimal',
+                'player:team', 'team:read:minimal',
                 'player:country', 'country:read']
             ],
             openapi: new Model\Operation(
@@ -97,8 +97,8 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
             controller: PlayerGetRankingMedals::class,
             normalizationContext: ['groups' => [
                 'player-group:read',
-                'player-group:player', 'player:read',
-                'player:team', 'team:read',
+                'player-group:player', 'player:read:minimal',
+                'player:team', 'team:read:minimal',
                 'player:country', 'country:read']
             ],
             openapi: new Model\Operation(
@@ -121,7 +121,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
             controller: TeamGetRankingPoints::class,
             normalizationContext: ['groups' => [
                 'team-group:read',
-                'team-group:team', 'team:read']
+                'team-group:team', 'team:read:minimal']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the team points leaderboard',
@@ -143,7 +143,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
             controller: TeamGetRankingMedals::class,
             normalizationContext: ['groups' => [
                 'team-group:read',
-                'team-group:team', 'team:read']
+                'team-group:team', 'team:read:minimal']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the team medals leaderboard',

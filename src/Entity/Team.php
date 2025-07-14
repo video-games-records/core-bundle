@@ -26,6 +26,7 @@ use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingCup;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingMedals;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingPointChart;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingPointGame;
+use VideoGamesRecords\CoreBundle\Filter\TeamSearchFilter;
 use VideoGamesRecords\CoreBundle\Repository\TeamRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\AverageChartRankTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\AverageGameRankTrait;
@@ -154,7 +155,9 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         'createdAt' => 'DESC',
         'nbGame' => 'DESC',
         'pointGame' => 'DESC',
+        'nbPlayer' => 'DESC',
         'rankPointGame' => 'ASC',
+        'nbMasterBadge' => 'DESC',
     ]
 )]
 #[ApiFilter(
@@ -168,6 +171,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         ]
     ]
 )]
+#[ApiFilter(TeamSearchFilter::class)]
 class Team
 {
     use TimestampableEntity;
