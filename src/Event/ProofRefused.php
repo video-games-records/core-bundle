@@ -7,7 +7,7 @@ namespace VideoGamesRecords\CoreBundle\Event;
 use Symfony\Contracts\EventDispatcher\Event;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
 
-class ProofEvent extends Event
+class ProofRefused extends Event
 {
     protected Proof $proof;
 

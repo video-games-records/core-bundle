@@ -7,7 +7,7 @@ namespace VideoGamesRecords\CoreBundle\Event;
 use Symfony\Contracts\EventDispatcher\Event;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 
-class PlayerBadgeEvent extends Event
+class PlayerBadgeLost extends Event
 {
     protected PlayerBadge $playerBadge;
 

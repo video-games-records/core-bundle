@@ -379,6 +379,12 @@ class Game
     #[ORM\OneToMany(targetEntity: PlayerGame::class, mappedBy: 'game')]
     private Collection $playerGame;
 
+    /**
+     * @var Collection<int, TeamGame>
+     */
+    #[ORM\OneToMany(targetEntity: TeamGame::class, mappedBy: 'game')]
+    private Collection $teamGame;
+
 
     public function __construct()
     {
@@ -386,6 +392,7 @@ class Game
         $this->platforms = new ArrayCollection();
         $this->rules = new ArrayCollection();
         $this->playerGame = new ArrayCollection();
+        $this->teamGame = new ArrayCollection();
     }
 
     public function __toString()
@@ -580,6 +587,11 @@ class Game
     public function getPlayerGame(): Collection
     {
         return $this->playerGame;
+    }
+
+    public function getTeamGame(): Collection
+    {
+        return $this->teamGame;
     }
 
     public function getRules(): Collection

@@ -6,16 +6,15 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use DateTime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\Proof;
-use VideoGamesRecords\CoreBundle\Event\ProofEvent;
+use VideoGamesRecords\CoreBundle\Event\ProofAccepted;
+use VideoGamesRecords\CoreBundle\Event\ProofRefused;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class ProofListener
 {
@@ -39,15 +38,14 @@ class ProofListener
     }
 
     /**
-     * @param Proof              $proof
+     * @param Proof $proof
      * @param LifecycleEventArgs $event
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function postUpdate(Proof $proof, LifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
-        $event = new ProofEvent($proof);
+        $event = new ProofAccepted($proof);
 
         // ACCEPTED
         if ($this->isAccepted()) {
@@ -57,14 +55,16 @@ class ProofListener
 
             $proof->setPlayerResponding($this->userProvider->getPlayer());
             $proof->setCheckedAt(new DateTime());
-            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_ACCEPTED);
+            $this->eventDispatcher->dispatch(new ProofAccepted($proof));
         }
 
         // REFUSED
         if ($this->isRefused()) {
             $playerChart = $proof->getPlayerChart();
             if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
-                $playerChart->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL));
+                $playerChart->setStatus(
+                    $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
+                );
             } else {
                 $idStatus = ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
                    ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
@@ -73,7 +73,7 @@ class ProofListener
 
             $proof->setPlayerResponding($this->userProvider->getPlayer());
             $proof->setCheckedAt(new DateTime());
-            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REFUSED);
+            $this->eventDispatcher->dispatch(new ProofRefused($proof));
         }
 
         if ($proof->getStatus()->getValue() == ProofStatus::CLOSED) {
