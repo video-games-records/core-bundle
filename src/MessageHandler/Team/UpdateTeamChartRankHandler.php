@@ -2,31 +2,41 @@
 
 declare(strict_types=1);
 
-namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
+namespace VideoGamesRecords\CoreBundle\MessageHandler\Team;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamChartRank;
+use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamGroupRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class TeamChartRankingHandler extends AbstractRankingHandler
+#[AsMessageHandler]
+readonly class UpdateTeamChartRankHandler
 {
-    private array $teams = [];
-    private array $games = [];
-    private array $groups = [];
+    public function __construct(
+        private EntityManagerInterface $em,
+        private MessageBusInterface $bus,
+    ) {
+    }
 
-    public function handle($mixed): void
+    /**
+     * @throws ORMException
+     * @throws ExceptionInterface
+     */
+    public function __invoke(UpdateTeamChartRank $updateTeamChartRank): void
     {
-        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')->find($mixed);
-        if (null === $chart) {
-            return;
-        }
+        $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')
+            ->find($updateTeamChartRank->getChartId());
 
-        $this->groups[$chart->getGroup()->getId()] = $chart->getGroup();
-        $this->games[$chart->getGroup()->getGame()->getId()] = $chart->getGroup()->getGame();
 
         //----- delete
-        $query = $this->em->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\TeamChart tc WHERE tc.chart = :chart');
+        $query = $this->em
+            ->createQuery('DELETE VideoGamesRecords\CoreBundle\Entity\TeamChart tc WHERE tc.chart = :chart');
         $query->setParameter('chart', $chart);
         $query->execute();
 
@@ -44,7 +54,6 @@ class TeamChartRankingHandler extends AbstractRankingHandler
         $list = array();
         foreach ($result as $playerChart) {
             $team = $playerChart->getPlayer()->getTeam();
-            $this->teams[$team->getId()] = $team;
 
             $idTeam = $team->getId();
             if (!isset($list[$idTeam])) {
@@ -92,27 +101,16 @@ class TeamChartRankingHandler extends AbstractRankingHandler
                 $row,
                 'VideoGamesRecords\CoreBundle\Entity\TeamChart'
             );
-            $teamChart->setTeam($this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['idTeam']));
+            $teamChart->setTeam(
+                $this->em->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $row['idTeam'])
+            );
             $teamChart->setChart($chart);
 
             $this->em->persist($teamChart);
         }
 
         $this->em->flush();
-    }
 
-    public function getTeams(): array
-    {
-        return $this->teams;
-    }
-
-    public function getGames(): array
-    {
-        return $this->games;
-    }
-
-    public function getGroups(): array
-    {
-        return $this->groups;
+        $this->bus->dispatch(new UpdateTeamGroupRank($chart->getGroup()->getId()));
     }
 }

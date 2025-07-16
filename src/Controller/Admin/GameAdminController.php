@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Controller\Admin;
 
 use Sonata\AdminBundle\Controller\CRUDController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Contracts\SecurityInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
@@ -27,20 +27,18 @@ class GameAdminController extends CRUDController implements SecurityInterface
     use WorkflowControllerTrait;
 
     private GameManager $gameManager;
-    private Security $security;
 
-    public function __construct(GameManager $gameManager, Security $security)
+    public function __construct(GameManager $gameManager)
     {
         $this->gameManager = $gameManager;
-        $this->security = $security;
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param Request $request
      * @return Response
      */
-    public function copyAction($id, Request $request): Response
+    public function copyAction(int $id, Request $request): Response
     {
         /** @var Game $game */
         $game = $this->admin->getSubject();
@@ -72,10 +70,11 @@ class GameAdminController extends CRUDController implements SecurityInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return RedirectResponse
+     * @throws ExceptionInterface
      */
-    public function majAction($id): RedirectResponse
+    public function majAction(int $id): RedirectResponse
     {
         $this->gameManager->maj($this->admin->getSubject());
         $this->addFlash('sonata_flash_success', 'Game maj successfully');
@@ -83,11 +82,11 @@ class GameAdminController extends CRUDController implements SecurityInterface
     }
 
     /**
-     * @param         $id
+     * @param int $id
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function setVideoProofOnlyAction($id, Request $request): RedirectResponse|Response
+    public function setVideoProofOnlyAction(int $id, Request $request): RedirectResponse|Response
     {
         /** @var Game $game */
         $game = $this->admin->getSubject();
@@ -98,13 +97,7 @@ class GameAdminController extends CRUDController implements SecurityInterface
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $isVideoProofOnly = $data['isVideoProofOnly'];
-            foreach ($game->getGroups() as $group) {
-                foreach ($group->getCharts() as $chart) {
-                    $chart->setIsProofVideoOnly($isVideoProofOnly);
-                }
-            }
-            $em->flush();
-
+            $this->gameManager->updateVideoProofOnly($game, $isVideoProofOnly);
             $this->addFlash('sonata_flash_success', 'All charts are updated successfully');
             return new RedirectResponse($this->admin->generateUrl('show', ['id' => $game->getId()]));
         }

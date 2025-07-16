@@ -8,26 +8,26 @@ use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
+use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerGameRank;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class UpdatePlatform extends AbstractController
 {
-    private ScoreManager $scoreManager;
-    private UserProvider $userProvider;
-
     public function __construct(
-        ScoreManager $scoreManager,
-        UserProvider $userProvider
+        private readonly ScoreManager $scoreManager,
+        private readonly UserProvider $userProvider,
+        private readonly MessageBusInterface $bus
     ) {
-        $this->scoreManager = $scoreManager;
-        $this->userProvider = $userProvider;
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
      * @throws ORMException
+     * @throws ExceptionInterface
      */
     public function __invoke(Request $request): JsonResponse
     {
@@ -40,6 +40,9 @@ class UpdatePlatform extends AbstractController
             $idGame,
             $idPlatform
         );
+
+        $this->bus->dispatch(new UpdatePlayerGameRank($idGame));
+
         return new JsonResponse(['data' => true]);
     }
 }
