@@ -14,17 +14,13 @@ use VideoGamesRecords\CoreBundle\Entity\Group;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\Platform;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
-use VideoGamesRecords\CoreBundle\Event\GameEvent;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class ScoreManager
 {
     private EntityManagerInterface $em;
-    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em)
     {
-        $this->eventDispatcher = $eventDispatcher;
         $this->em = $em;
     }
 
@@ -49,11 +45,7 @@ class ScoreManager
                             join c.group g
                         WHERE g.game = :game)')
             ->setParameter('game', $idGame);
-        //@todo MAJ statut chart to MAJ
         $query->getQuery()->execute();
-
-        $event = new GameEvent($this->em->getReference(Game::class, $idGame));
-        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::SCORE_PLATFORM_UPDATED);
     }
 
     /**

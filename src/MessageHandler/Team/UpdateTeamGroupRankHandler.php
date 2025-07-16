@@ -2,21 +2,36 @@
 
 declare(strict_types=1);
 
-namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
+namespace VideoGamesRecords\CoreBundle\MessageHandler\Team;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
+use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamGameRank;
+use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamGroupRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
-class TeamGroupRankingHandler extends AbstractRankingHandler
+#[AsMessageHandler]
+readonly class UpdateTeamGroupRankHandler
 {
-    public function handle($mixed): void
+    public function __construct(
+        private EntityManagerInterface $em,
+        private MessageBusInterface $bus,
+    ) {
+    }
+
+    /**
+     * @throws ORMException
+     * @throws ExceptionInterface
+     */
+    public function __invoke(UpdateTeamGroupRank $updateTeamGroupRank): void
     {
-        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')->find($mixed);
-        if (null === $group) {
-            return;
-        }
+        $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')
+            ->find($updateTeamGroupRank->getGroupId());
 
         //----- delete
         $query = $this->em->createQuery(
@@ -54,7 +69,15 @@ class TeamGroupRankingHandler extends AbstractRankingHandler
 
         //----- add some data
         $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);
-        $list = Ranking::order($list, ['chartRank0' => SORT_DESC, 'chartRank1' => SORT_DESC, 'chartRank2' => SORT_DESC, 'chartRank3' => SORT_DESC]);
+        $list = Ranking::order(
+            $list,
+            [
+                'chartRank0' => SORT_DESC,
+                'chartRank1' => SORT_DESC,
+                'chartRank2' => SORT_DESC,
+                'chartRank3' => SORT_DESC
+            ]
+        );
         $list = Ranking::addRank($list, 'rankMedal', ['chartRank0', 'chartRank1', 'chartRank2', 'chartRank3']);
 
         $normalizer = new ObjectNormalizer();
@@ -71,5 +94,7 @@ class TeamGroupRankingHandler extends AbstractRankingHandler
             $this->em->persist($teamGroup);
         }
         $this->em->flush();
+
+        $this->bus->dispatch(new UpdateTeamGameRank($group->getGame()->getId()));
     }
 }

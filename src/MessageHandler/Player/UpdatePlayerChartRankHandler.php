@@ -16,6 +16,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Event\PlayerChartUpdated;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerChartRank;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerGroupRank;
+use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamChartRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
@@ -162,6 +163,7 @@ readonly class UpdatePlayerChartRankHandler
         $this->em->flush();
 
         $this->bus->dispatch(new UpdatePlayerGroupRank($chart->getGroup()->getId()));
+        $this->bus->dispatch(new UpdateTeamChartRank($chart->getId()));
     }
 
 

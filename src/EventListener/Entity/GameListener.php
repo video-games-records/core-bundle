@@ -8,21 +8,16 @@ use DateTime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
-use VideoGamesRecords\CoreBundle\Event\GameEvent;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class GameListener
 {
-    private bool $majPlayers = false;
     private array $changeSet = array();
 
-    public function __construct(private EventDispatcherInterface $eventDispatcher, private RequestStack $requestStack)
+    public function __construct(private RequestStack $requestStack)
     {
     }
 
@@ -51,16 +46,6 @@ class GameListener
     public function preUpdate(Game $game, PreUpdateEventArgs $event): void
     {
         $this->changeSet = $event->getEntityChangeSet();
-
-        if (array_key_exists('isRank', $this->changeSet)) {
-            $this->majPlayers = true;
-        }
-
-        if ($game->getGameStatus()->isActive() && ($game->getPublishedAt() == null)) {
-            $game->setPublishedAt(new DateTime());
-            $event = new GameEvent($game);
-            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::GAME_PUBLISHED);
-        }
     }
 
     /**
@@ -70,13 +55,6 @@ class GameListener
     public function postUpdate(Game $game, BaseLifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
-        if ($this->majPlayers) {
-            $playerGames = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\PlayerGame')->findBy(['game' => $game]);
-            /** @var PlayerGame $playerGame */
-            foreach ($playerGames as $playerGame) {
-                $playerGame->getPlayer()->setBoolMaj(true);
-            }
-        }
 
         if (array_key_exists('serie', $this->changeSet)) {
             $this->majSerie($this->changeSet['serie'][0]);

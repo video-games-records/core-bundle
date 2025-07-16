@@ -6,16 +6,16 @@ namespace VideoGamesRecords\CoreBundle\EventListener\Entity;
 
 use Datetime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
-use VideoGamesRecords\CoreBundle\Event\ProofRequestEvent;
+use VideoGamesRecords\CoreBundle\Event\ProofRequestAccepted;
+use VideoGamesRecords\CoreBundle\Event\ProofRequestRefused;
 use VideoGamesRecords\CoreBundle\Security\UserProvider;
 use VideoGamesRecords\CoreBundle\ValueObject\ProofRequestStatus;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class ProofRequestListener
 {
@@ -41,7 +41,6 @@ class ProofRequestListener
     /**
      * @param ProofRequest       $proofRequest
      * @param LifecycleEventArgs $event
-     * @throws ORMException
      * @throws OptimisticLockException
      */
     public function postPersist(ProofRequest $proofRequest, LifecycleEventArgs $event): void
@@ -56,15 +55,13 @@ class ProofRequestListener
 
 
     /**
-     * @param ProofRequest       $proofRequest
+     * @param ProofRequest $proofRequest
      * @param LifecycleEventArgs $event
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function postUpdate(ProofRequest $proofRequest, LifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
-        $event = new ProofRequestEvent($proofRequest);
 
         if ($this->isAccepted()) {
             $proofRequest->getPlayerChart()->setStatus(
@@ -73,7 +70,7 @@ class ProofRequestListener
 
             $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
             $proofRequest->setDateAcceptance(new DateTime());
-            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_ACCEPTED);
+            $this->eventDispatcher->dispatch(new ProofRequestAccepted($proofRequest));
         }
 
         if ($this->isRefused()) {
@@ -83,7 +80,7 @@ class ProofRequestListener
 
             $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
             $proofRequest->setDateAcceptance(new DateTime());
-            $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::PROOF_REQUEST_REFUSED);
+            $this->eventDispatcher->dispatch(new ProofRequestRefused($proofRequest));
         }
     }
 

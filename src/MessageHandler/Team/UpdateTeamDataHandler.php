@@ -2,23 +2,31 @@
 
 declare(strict_types=1);
 
-namespace VideoGamesRecords\CoreBundle\Ranking\Command\Team;
+namespace VideoGamesRecords\CoreBundle\MessageHandler\Team;
 
-use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use VideoGamesRecords\CoreBundle\Entity\Team;
-use VideoGamesRecords\CoreBundle\Event\TeamEvent;
-use VideoGamesRecords\CoreBundle\Ranking\Command\AbstractRankingHandler;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
+use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamData;
 
-class TeamRankingHandler extends AbstractRankingHandler
+#[AsMessageHandler]
+readonly class UpdateTeamDataHandler
 {
+    public function __construct(
+        private EntityManagerInterface $em
+    ) {
+    }
+
     /**
-     * @throws NonUniqueResultException
+     * @throws ORMException|ExceptionInterface
      */
-    public function handle($mixed): void
+    public function __invoke(UpdateTeamData $updateTeamData): void
     {
         /** @var Team $team */
-        $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')->find($mixed);
+        $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')
+            ->find($updateTeamData->getTeamId());
         if (null == $team) {
             return;
         }
@@ -131,10 +139,6 @@ class TeamRankingHandler extends AbstractRankingHandler
             $team->setPointBadge((int) $row['pointBadge']);
         }
 
-        $this->em->persist($team);
         $this->em->flush();
-
-        $event = new TeamEvent($team);
-        $this->eventDispatcher->dispatch($event, VideoGamesRecordsCoreEvents::TEAM_MAJ_COMPLETED);
     }
 }

@@ -90,7 +90,7 @@ class TeamGame
 
     #[ApiProperty(identifier: false)]
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'playerGame', fetch: 'EAGER')]
+    #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'teamGame', fetch: 'EAGER')]
     #[ORM\JoinColumn(name:'game_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Game $game;
 
