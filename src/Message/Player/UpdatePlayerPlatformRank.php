@@ -15,4 +15,9 @@ readonly class UpdatePlayerPlatformRank
     {
         return $this->platformId;
     }
+
+    public function getUniqueIdentifier(): string
+    {
+        return 'UpdatePlayerPlatformRank' . $this->platformId;
+    }
 }

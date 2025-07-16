@@ -15,4 +15,9 @@ readonly class UpdatePlayerCountryRank
     {
         return $this->countryId;
     }
+
+    public function getUniqueIdentifier(): string
+    {
+        return 'UpdatePlayerCountryRank' . $this->countryId;
+    }
 }

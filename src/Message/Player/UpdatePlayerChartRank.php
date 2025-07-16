@@ -15,4 +15,9 @@ readonly class UpdatePlayerChartRank
     {
         return $this->chartId;
     }
+
+    public function getUniqueIdentifier(): string
+    {
+        return 'UpdatePlayerChartRank' . $this->chartId;
+    }
 }
