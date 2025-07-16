@@ -11,7 +11,7 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Serializer\Filter\GroupFilter;
+use ApiPlatform\Metadata\Link;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Repository\PlayerGameRepository;
@@ -33,6 +33,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 
 #[ORM\Table(name:'vgr_player_game')]
+#[ORM\Index(name: "idx_last_update", columns: ["player", "last_update"])]
 #[ORM\Entity(repositoryClass: PlayerGameRepository::class)]
 #[ApiResource(
     operations: [
@@ -44,7 +45,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 #[ApiFilter(
     SearchFilter::class,
     properties: [
-        'player' => 'exact',
         'game' => 'exact',
         'game.platforms' => 'exact',
         'game.badge' => 'exact',
@@ -67,17 +67,17 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         'game.libGameFr' => 'ASC',
     ]
 )]
-#[ApiFilter(
-    GroupFilter::class,
-    arguments: [
-        'parameterName' => 'groups',
-        'overrideDefaultGroups' => true,
-        'whitelist' => [
-            'player-game:read',
-            'player-game:game', 'game:read',
-            'game:platforms', 'platform:read',
-        ]
-    ]
+#[ApiResource(
+    uriTemplate: '/players/{id}/games',
+    operations: [ new GetCollection() ],
+    uriVariables: [
+        'id' => new Link(toProperty: 'player', fromClass: Player::class),
+    ],
+    normalizationContext: ['groups' =>
+        ['player-game:read', 'player-game:game', 'game:read', 'game:platforms', 'platform:read']
+    ],
+    order: ['lastUpdate' => 'DESC'],
+    paginationEnabled: false,
 )]
 class PlayerGame
 {

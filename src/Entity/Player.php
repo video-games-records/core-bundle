@@ -189,6 +189,8 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
         'nbForumMessage' => 'DESC',
         'nbChart' => 'DESC',
         'nbVideo' => 'DESC',
+        'nbGame' => 'DESC',
+        'pointGame' => 'DESC',
     ]
 )]
 #[ApiFilter(
