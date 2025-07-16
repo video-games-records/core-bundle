@@ -15,4 +15,9 @@ readonly class UpdateTeamGroupRank
     {
         return $this->groupId;
     }
+
+    public function getUniqueIdentifier(): string
+    {
+        return 'UpdateTeamGroupRank' . $this->groupId;
+    }
 }

@@ -80,8 +80,8 @@ readonly class UpdatePlayerPlatformRankHandler
             $playerPlatform->setPlatform($platform);
 
             $this->em->persist($playerPlatform);
-            $this->em->flush();
         }
+        $this->em->flush();
 
         $this->eventDispatcher->dispatch(
             new PlayerPlatformUpdated($platform)

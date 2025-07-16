@@ -6,4 +6,8 @@ namespace VideoGamesRecords\CoreBundle\Message\Team;
 
 readonly class UpdateTeamRank
 {
+    public function getUniqueIdentifier(): string
+    {
+        return 'UpdateTeamRank';
+    }
 }

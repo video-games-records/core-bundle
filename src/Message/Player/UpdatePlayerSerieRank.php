@@ -15,4 +15,9 @@ readonly class UpdatePlayerSerieRank
     {
         return $this->serieId;
     }
+
+    public function getUniqueIdentifier(): string
+    {
+        return 'UpdatePlayerSerieRank' . $this->serieId;
+    }
 }

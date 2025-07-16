@@ -9,13 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
-use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerChartRank;
 use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class PlayerChartListener
@@ -23,8 +20,7 @@ class PlayerChartListener
     private array $changeSet = array();
 
     public function __construct(
-        private readonly ScoreManager $scoreManager,
-        private readonly MessageBusInterface $bus,
+        private readonly ScoreManager $scoreManager
     ) {
     }
 
@@ -150,30 +146,6 @@ class PlayerChartListener
             if ($oldStatus->getId() === PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
                 $player->setNbChartProven($player->getNbChartDisabled() - 1);
             }
-        }
-    }
-
-    /**
-     * @param PlayerChart $playerChart
-     * @param LifecycleEventArgs $event
-     * @throws ExceptionInterface
-     */
-    public function postPersist(PlayerChart $playerChart, LifecycleEventArgs $event): void
-    {
-        $this->bus->dispatch(new UpdatePlayerChartRank($playerChart->getChart()->getId()));
-    }
-
-    /**
-     * @param PlayerChart $playerChart
-     * @param LifecycleEventArgs $event
-     * @throws ExceptionInterface
-     */
-    public function postUpdate(PlayerChart $playerChart, LifecycleEventArgs $event): void
-    {
-        $em = $event->getObjectManager();
-
-        if ((array_key_exists('lastUpdate', $this->changeSet)) || (array_key_exists('status', $this->changeSet))) {
-            $this->bus->dispatch(new UpdatePlayerChartRank($playerChart->getChart()->getId()));
         }
     }
 

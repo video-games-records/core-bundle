@@ -15,4 +15,9 @@ readonly class UpdateTeamData
     {
         return $this->teamId;
     }
+
+    public function getUniqueIdentifier(): string
+    {
+        return 'UpdateTeamData' . $this->teamId;
+    }
 }

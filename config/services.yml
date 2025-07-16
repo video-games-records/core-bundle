@@ -17,5 +17,9 @@ services:
     tags:
       - { name: "sonata.block" }
 
+  VideoGamesRecords\CoreBundle\EventSubscriber\Api\PlayerChartSubscriber:
+    tags:
+      - { name: kernel.event_subscriber }
+
 
 
