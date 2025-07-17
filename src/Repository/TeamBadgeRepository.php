@@ -59,13 +59,13 @@ class TeamBadgeRepository extends DefaultRepository
         foreach ($teams as $idTeam => $value) {
             if ($value == 0) {
                 $teamBadge = new TeamBadge();
-                $teamBadge->setTeam($this->getEntityManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam));
+                $teamBadge->setTeam(
+                    $this->getEntityManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Team', $idTeam)
+                );
                 $teamBadge->setBadge($badge);
                 $this->getEntityManager()->persist($teamBadge);
             }
         }
-
-        $this->getEntityManager()->flush();
     }
 
     /**

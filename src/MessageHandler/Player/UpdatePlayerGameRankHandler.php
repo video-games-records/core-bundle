@@ -11,6 +11,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\Game;
@@ -27,6 +28,10 @@ use VideoGamesRecords\CoreBundle\Tools\Ranking;
 #[AsMessageHandler]
 readonly class UpdatePlayerGameRankHandler
 {
+    private const int DELAY_SERIE_UPDATE = 3600000; // 1 heure
+    private const int DELAY_PLATFORM_UPDATE = 21600000; // 6 heures
+
+
     public function __construct(
         private EntityManagerInterface $em,
         private MessageBusInterface $bus,
@@ -170,12 +175,18 @@ readonly class UpdatePlayerGameRankHandler
         $this->em->flush();
 
         if ($game->getSerie()) {
-            $this->bus->dispatch(new UpdatePlayerSerieRank($game->getSerie()->getId()));
+            $this->bus->dispatch(
+                new UpdatePlayerSerieRank($game->getSerie()->getId()),
+                [new DelayStamp(self::DELAY_SERIE_UPDATE)]
+            );
         }
 
         /** @var Platform $platform */
         foreach ($game->getPlatforms() as $platform) {
-            $this->bus->dispatch(new UpdatePlayerPlatformRank($platform->getId()));
+            $this->bus->dispatch(
+                new UpdatePlayerPlatformRank($platform->getId()),
+                [new DelayStamp(self::DELAY_PLATFORM_UPDATE)]
+            );
         }
 
         /** @var PlayerGame $playerGame */
