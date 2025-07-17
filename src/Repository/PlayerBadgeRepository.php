@@ -65,8 +65,6 @@ class PlayerBadgeRepository extends DefaultRepository
         }
         $badge->setNbPlayer(count($players));
         $badge->majValue();
-
-        $this->getEntityManager()->flush();
     }
 
     /**
