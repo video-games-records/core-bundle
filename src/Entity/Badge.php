@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
+use VideoGamesRecords\CoreBundle\Enum\BadgeType;
 use VideoGamesRecords\CoreBundle\Repository\BadgeRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
 
@@ -34,9 +35,8 @@ class Badge implements BadgeInterface
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    #[Assert\Length(max: 50)]
-    #[ORM\Column(length: 50, nullable: false)]
-    private string $type;
+    #[ORM\Column(enumType: BadgeType::class)]
+    private BadgeType $type;
 
     #[Assert\Length(max: 100)]
     #[ORM\Column(length: 100, nullable: false, options: ['default' => 'default.gif'])]
@@ -57,11 +57,10 @@ class Badge implements BadgeInterface
     #[ORM\OneToOne(targetEntity: Platform::class, mappedBy: "badge")]
     private ?Platform $platform;
 
-    private string $title = '';
 
     public function __toString()
     {
-        return sprintf('%s / %s [%s]', $this->getType(), $this->getPicture(), $this->getId());
+        return sprintf('%s / %s [%s]', $this->getType()->value, $this->getPicture(), $this->getId());
     }
 
     public function setId(int $id): void
@@ -74,12 +73,12 @@ class Badge implements BadgeInterface
         return $this->id;
     }
 
-    public function setType(string $type): void
+    public function setType(BadgeType $type): void
     {
         $this->type = $type;
     }
 
-    public function getType(): string
+    public function getType(): BadgeType
     {
         return $this->type;
     }
@@ -124,16 +123,6 @@ class Badge implements BadgeInterface
         return $this->platform;
     }
 
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
     public static function getTypeChoices(): array
     {
         return [
@@ -158,10 +147,10 @@ class Badge implements BadgeInterface
 
     public function majValue(): void
     {
-        if (self::TYPE_MASTER !== $this->type) {
+        if (self::TYPE_MASTER !== $this->type->value) {
             return;
         }
-        if (0 === $this->nbPlayer) {
+        if (0 === $this->getNbPlayer()) {
             $this->value = 0;
         } else {
             $this->value = (int) floor(
@@ -173,6 +162,6 @@ class Badge implements BadgeInterface
 
     public function isTypeMaster(): bool
     {
-        return $this->type === self::TYPE_MASTER;
+        return $this->type->value === self::TYPE_MASTER;
     }
 }

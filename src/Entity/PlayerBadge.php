@@ -4,16 +4,10 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -24,7 +18,6 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
 #[ORM\Entity(repositoryClass: PlayerBadgeRepository::class)]
 #[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\PlayerBadgeListener"])]
 #[ApiResource(
-    order: ['badge.type' => 'ASC', 'badge.value' => 'ASC'],
     operations: [
         new GetCollection(),
         new Get(),
@@ -36,39 +29,8 @@ use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
     normalizationContext: ['groups' => [
         'player-badge:read',
         'player-badge:badge', 'badge:read']
-    ]
+    ],
 )]
-#[ApiFilter(
-    SearchFilter::class,
-    properties: [
-        'player' => 'exact',
-        'badge' => 'exact',
-        'badge.type' => 'exact',
-    ]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: [
-        'id' => 'ASC',
-        'createdAt' => 'ASC',
-        'mbOrder' => 'DESC',
-    ]
-)]
-#[ApiFilter(
-    GroupFilter::class,
-    arguments: [
-        'parameterName' => 'groups',
-        'overrideDefaultGroups' => true,
-        'whitelist' => [
-            'player-badge:read',
-            'player-badge:badge', 'badge:read',
-            'player-badge:player', 'player:read',
-            'badge:game', 'game:read',
-            'badge:serie', 'serie:read',
-        ]
-    ]
-)]
-#[ApiFilter(DateFilter::class, properties: ['endedAt' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
 class PlayerBadge implements BadgeInterface
 {
     use TimestampableEntity;

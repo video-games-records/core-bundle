@@ -15,5 +15,14 @@ VideoGamesRecords\CoreBundle\Entity\Badge:
     value:
       groups:
         - 'badge:read'
+    game:
+      groups:
+        - 'badge:game'
+    serie:
+      groups:
+        - 'badge:serie'
+    platform:
+      groups:
+        - 'badge:platform'
 
 
