@@ -30,7 +30,7 @@ class GetPicture extends AbstractController implements BadgeInterface
     #[Cache(public: true, maxage: 3600 * 24, mustRevalidate: true)]
     public function __invoke(Badge $badge): StreamedResponse
     {
-        $path = $this->getDirectory($badge->getType()) . DIRECTORY_SEPARATOR . $badge->getPicture();
+        $path = $this->getDirectory($badge->getType()->value) . DIRECTORY_SEPARATOR . $badge->getPicture();
         if (!$this->appStorage->fileExists($path)) {
             $path = self::DIRECTORY_DEFAULT . DIRECTORY_SEPARATOR . 'default.gif';
         }

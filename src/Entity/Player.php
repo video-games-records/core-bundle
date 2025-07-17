@@ -26,6 +26,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Player\Autocomplete;
+use VideoGamesRecords\CoreBundle\Controller\Player\GetBadges;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingBadge;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingCup;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingMedals;
@@ -74,7 +75,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
 #[ORM\Index(name: "idx_chart_rank", columns: ["chart_rank0", "chart_rank1", "chart_rank2", "chart_rank3"])]
 #[ORM\Index(name: "idx_game_rank", columns: ["game_rank0", "game_rank1", "game_rank2", "game_rank3"])]
 #[ApiResource(
-    order: ['pseudo' => 'ASC'],
     operations: [
         new GetCollection(),
         new GetCollection(
@@ -151,6 +151,17 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
                 'player-game.statuses', 'player-chart-status:read']
             ],
         ),
+        new GetCollection(
+            uriTemplate: '/players/{id}/badges',
+            controller: GetBadges::class,
+            normalizationContext: ['groups' => [
+                'player-badge:read', 'player-badge:badge', 'badge:read',
+                'badge:serie', 'serie:read',
+                'badge:game', 'game:read',
+                'badge:platform', 'platform:read',
+            ]
+            ]
+        ),
         new Put(
             denormalizationContext: ['groups' => ['player:update']],
             security: 'is_granted("ROLE_PLAYER") and object.getUserId() == user.getId()'
@@ -162,6 +173,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
         'player:country', 'country:read',
         'player:status', 'player-status:read']
     ],
+    order: ['pseudo' => 'ASC'],
 )]
 #[ApiResource(
     uriTemplate: '/teams/{id}/players',

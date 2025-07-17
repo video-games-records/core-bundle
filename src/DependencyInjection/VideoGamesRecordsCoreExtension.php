@@ -25,6 +25,5 @@ class VideoGamesRecordsCoreExtension extends Extension
         $loader->load('services.yml');
         $loader->load('admin.yml');
         $loader->load('entity_listener.yml');
-        $loader->load('manager_badges.yml');
     }
 }
