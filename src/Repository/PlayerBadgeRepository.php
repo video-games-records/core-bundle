@@ -54,6 +54,16 @@ class PlayerBadgeRepository extends DefaultRepository
                 $qb->leftJoin('VideoGamesRecords\CoreBundle\Entity\Game', 'g', 'WITH', 'g.badge = b')
                     ->addSelect('g');
             }
+
+            if ($badgeType === BadgeType::SERIE->value) {
+                $qb->leftJoin('VideoGamesRecords\CoreBundle\Entity\Serie', 's', 'WITH', 's.badge = b')
+                    ->addSelect('s');
+            }
+
+            if ($badgeType === BadgeType::PLATFORM->value) {
+                $qb->leftJoin('VideoGamesRecords\CoreBundle\Entity\Platform', 'p', 'WITH', 'p.badge = b')
+                    ->addSelect('p');
+            }
         }
 
         // Filtre sur les badges actifs si demandé
