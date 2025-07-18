@@ -181,7 +181,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
         'id' => new Link(fromClass: Team::class, toProperty: 'team'),
     ],
     operations: [ new GetCollection() ],
-    normalizationContext: ['groups' => ['player:read']],
+    normalizationContext: ['groups' => ['player:read:minimal']],
 )]
 #[ApiFilter(
     SearchFilter::class,
