@@ -20,6 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use VideoGamesRecords\CoreBundle\Controller\Team\GetBadges;
 use VideoGamesRecords\CoreBundle\Controller\Team\Avatar\AvatarUpload;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingBadge;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingCup;
@@ -56,7 +57,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 #[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\TeamListener"])]
 #[ApiResource(
-    order: ['libTeam' => 'ASC'],
     operations: [
         new GetCollection(),
         new GetCollection(
@@ -81,6 +81,16 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         ),
         new Get(
             normalizationContext: ['groups' => ['team:read', 'team:leader', 'player:read:minimal']]
+        ),
+        new GetCollection(
+            uriTemplate: '/teams/{id}/badges',
+            controller: GetBadges::class,
+            normalizationContext: ['groups' => [
+                'team-badge:read', 'team-badge:badge', 'badge:read',
+                'badge:serie', 'serie:read',
+                'badge:game', 'game:read',
+            ]
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['team:insert']],
@@ -140,6 +150,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         )
     ],
     normalizationContext: ['groups' => ['team:read']],
+    order: ['libTeam' => 'ASC'],
 )]
 #[ApiFilter(
     SearchFilter::class,

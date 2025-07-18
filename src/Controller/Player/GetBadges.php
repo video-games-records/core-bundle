@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Controller\Player;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Enum\BadgeType;
 use VideoGamesRecords\CoreBundle\Repository\PlayerBadgeRepository;
