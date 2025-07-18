@@ -80,7 +80,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
             controller: GetRankingBadge::class,
         ),
         new Get(
-            normalizationContext: ['groups' => ['team:read', 'team:leader', 'player:read']]
+            normalizationContext: ['groups' => ['team:read', 'team:leader', 'player:read:minimal']]
         ),
         new Post(
             denormalizationContext: ['groups' => ['team:insert']],
