@@ -11,7 +11,7 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Serializer\Filter\GroupFilter;
+use ApiPlatform\Metadata\Link;
 use Doctrine\ORM\Mapping as ORM;
 use VideoGamesRecords\CoreBundle\Repository\TeamGameRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\ChartRank0Trait;
@@ -34,6 +34,18 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
     ],
     normalizationContext: ['groups' => ['team-game:read']]
 )]
+#[ApiResource(
+    uriTemplate: '/teams/{id}/games',
+    operations: [ new GetCollection() ],
+    uriVariables: [
+        'id' => new Link(toProperty: 'team', fromClass: Team::class),
+    ],
+    normalizationContext: ['groups' =>
+        ['team-game:read', 'team-game:game', 'game:read', 'game:platforms', 'platform:read']
+    ],
+    order: ['pointGame' => 'DESC'],
+    paginationEnabled: false,
+)]
 #[ApiFilter(
     SearchFilter::class,
     properties: [
@@ -55,18 +67,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
         'game.nbTeam' => 'DESC',
         'game.libGameEn' => 'ASC',
         'game.libGameFr' => 'ASC'
-    ]
-)]
-#[ApiFilter(
-    GroupFilter::class,
-    arguments: [
-        'parameterName' => 'groups',
-        'overrideDefaultGroups' => true,
-        'whitelist' => [
-            'team-game:read',
-            'team-game:game','game:read',
-            'game:platforms', 'platform:read',
-        ]
     ]
 )]
 class TeamGame
