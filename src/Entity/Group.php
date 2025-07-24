@@ -166,7 +166,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
             normalizationContext: ['groups' => [
                 'chart:read', 'player-chart:chart',
                 'player-chart:read', 'player-chart:player', 'player-chart:libs',
-                'player-chart-lib:read', 'chart:top-score', 'player:read']
+                'player-chart-lib:read', 'chart:top-score', 'player:read:minimal']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the top score',
