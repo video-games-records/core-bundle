@@ -157,7 +157,19 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
             )
         ),
     ],
-    normalizationContext: ['groups' => ['player-chart:read', 'player-chart:libs', 'player-chart:status']]
+    normalizationContext: ['groups' => [
+        'player-chart:read',
+        'player-chart:libs', 'player-chart-lib:read',
+        'player-chart:status', 'player-chart-status:read',
+        'player-chart:player', 'player:read:minimal',
+        'player-chart:chart', 'chart:read',
+        'chart:group', 'group:read',
+        'group:game', 'game:read',
+        'player-chart:proof', 'proof:read',
+        'proof:picture', 'picture:read',
+        'proof:video', 'video:read',
+    ]
+    ]
 )]
 #[ApiFilter(
     SearchFilter::class,

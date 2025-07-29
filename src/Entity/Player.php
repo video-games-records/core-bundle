@@ -81,7 +81,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
             uriTemplate: '/players/autocomplete',
             controller: Autocomplete::class,
             normalizationContext: ['groups' => [
-                'player:read']
+                'player:read:minimal']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves players by autocompletion',
