@@ -31,7 +31,7 @@ class GetRanking extends AbstractController
         $ranking = $this->playerChartRankingProvider->getRanking(
             $chart,
             [
-                'maxRank' => $request->query->get('maxRank', '100'),
+                'maxRank' => $request->query->get('maxRank', '1000'),
                 'user' => $this->getUser()
             ]
         );
