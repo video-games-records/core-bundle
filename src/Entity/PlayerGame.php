@@ -33,7 +33,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankMedalTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
 
 #[ORM\Table(name:'vgr_player_game')]
-#[ORM\Index(name: "idx_last_update", columns: ["player", "last_update"])]
+#[ORM\Index(name: "idx_last_update", columns: ["player_id", "last_update"])]
 #[ORM\Entity(repositoryClass: PlayerGameRepository::class)]
 #[ApiResource(
     operations: [
