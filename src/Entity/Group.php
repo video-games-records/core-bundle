@@ -57,7 +57,6 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
             normalizationContext: ['groups' => [
                 'chart:read', 'chart:libs', 'chart-lib:read',
                 'chart-lib:type', 'chart-type:read',
-                'chart:group', 'group:read',
                 'chart:player-charts', 'player-chart:read', 'player-chart:chart',
                 'player-chart:libs', 'player-chart-lib:read',
                 'player-chart:player', 'player-chart:platform',
