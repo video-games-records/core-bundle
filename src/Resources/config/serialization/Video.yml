@@ -3,23 +3,28 @@ VideoGamesRecords\CoreBundle\Entity\Video:
     id:
       groups:
         - 'video:read'
+        - 'video:read:minimal'
     libVideo:
       groups:
         - 'video:read'
+        - 'video:read:minimal'
         - 'video:insert'
         - 'video:update'
     slug:
       groups:
         - 'video:read'
+        - 'video:read:minimal'
     status:
       groups:
         - 'video:read'
     type:
       groups:
         - 'video:read'
+        - 'video:read:minimal'
     externalId:
       groups:
         - 'video:read'
+        - 'video:read:minimal'
     url:
       groups:
         - 'video:read'
@@ -31,6 +36,7 @@ VideoGamesRecords\CoreBundle\Entity\Video:
     title:
       groups:
         - 'video:read'
+        - 'video:read:minimal'
     description:
       groups:
         - 'video:read'
@@ -43,6 +49,7 @@ VideoGamesRecords\CoreBundle\Entity\Video:
     thumbnail:
       groups:
         - 'video:read'
+        - 'video:read:minimal'
     nbComment:
       groups:
         - 'video:read'

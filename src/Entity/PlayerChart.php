@@ -49,10 +49,10 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
                 'player-chart:read',
                 'player-chart:libs', 'player-chart-lib:read',
                 'player-chart:status', 'player-chart-status:read',
-                'player-chart:player', 'player:read',
+                'player-chart:player', 'player:read:minimal',
                 'player-chart:proof', 'proof:read',
                 'proof:picture', 'picture:read',
-                'proof:video', 'video:read',
+                'proof:video', 'video:read:minimal',
                 ]
             ]
         ),

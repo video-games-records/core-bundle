@@ -142,7 +142,12 @@ class Video
         $this->type = $type;
     }
 
-    public function getType(): VideoType
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getVideoType(): VideoType
     {
         return new VideoType($this->type);
     }
