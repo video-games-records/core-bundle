@@ -3,9 +3,11 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     id:
       groups:
         - 'game:read'
+        - 'game:read:minimal'
     name:
       groups:
         - 'game:read'
+        - 'game:read:minimal'
     picture:
       groups:
         - 'game:read'
@@ -45,6 +47,7 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     slug:
       groups:
         - 'game:read'
+        - 'game:read:minimal'
     forum:
       groups:
         - 'game:forum'
