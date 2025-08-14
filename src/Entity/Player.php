@@ -27,6 +27,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Player\Autocomplete;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetBadges;
+use VideoGamesRecords\CoreBundle\Controller\Player\GetGamesFromLostPositions;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingBadge;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingCup;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingMedals;
@@ -149,6 +150,13 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
                 'player-game:read', 'player-game:game', 'game:read',
                 'game:platforms', 'platform:read',
                 'player-game.statuses', 'player-chart-status:read']
+            ],
+        ),
+        new Get(
+            uriTemplate: '/players/{id}/games-from-lost-positions',
+            controller: GetGamesFromLostPositions::class,
+            normalizationContext: ['groups' => [
+                'game:read:minimal']
             ],
         ),
         new GetCollection(

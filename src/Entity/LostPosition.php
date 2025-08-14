@@ -10,6 +10,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,6 +27,19 @@ use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
             security: "is_granted('ROLE_PLAYER') and object.getPlayer().getUserId() == user.getId()",
         )
     ],
+    normalizationContext: ['groups' => [
+        'lost-position:read',
+        'lost-position:chart', 'chart:read',
+        'chart:group', 'group:read',
+        'group:game', 'game:read']
+    ]
+)]
+#[ApiResource(
+    uriTemplate: '/players/{id}/lost_positions',
+    uriVariables: [
+        'id' => new Link(fromClass: Player::class, toProperty: 'player'),
+    ],
+    operations: [ new GetCollection() ],
     normalizationContext: ['groups' => [
         'lost-position:read',
         'lost-position:chart', 'chart:read',
