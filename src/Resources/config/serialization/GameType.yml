@@ -1,0 +1,14 @@
+VideoGamesRecords\CoreBundle\Entity\GameType:
+  attributes:
+    id:
+      groups:
+        - 'game-type:read'
+    name:
+      groups:
+        - 'game-type:read'
+    createdAt:
+      groups:
+        - 'game-type:read'
+    updatedAt:
+      groups:
+        - 'game-type:read'

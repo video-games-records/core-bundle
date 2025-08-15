@@ -8,6 +8,9 @@ VideoGamesRecords\CoreBundle\Entity\Game:
       groups:
         - 'game:read'
         - 'game:read:minimal'
+    type:
+      groups:
+        - 'game:type'
     picture:
       groups:
         - 'game:read'
