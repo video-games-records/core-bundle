@@ -14,7 +14,6 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
-use ApiPlatform\Serializer\Filter\GroupFilter;
 use ApiPlatform\OpenApi\Model;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -86,14 +85,14 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 description: 'Retrieves games by autocompletion'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'query',
-                        'in' => 'query',
-                        'type' => 'string',
-                        'required' => true
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'query',
+            'in' => 'query',
+            'type' => 'string',
+            'required' => true
+            ]
+            ]
             ]*/
         ),
         new GetCollection(
@@ -131,14 +130,14 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 description: 'Fetch game form data'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'term',
-                        'in' => 'query',
-                        'type' => 'string',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'term',
+            'in' => 'query',
+            'type' => 'string',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(
@@ -155,14 +154,14 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 description: 'Retrieves the player points leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(
@@ -179,14 +178,14 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 description: 'Retrieves the player medals leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(
@@ -201,14 +200,14 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 description: 'Retrieves the team points leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(
@@ -223,18 +222,18 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
                 description: 'Retrieves the team medals leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
     ],
-    normalizationContext: ['groups' => ['game:read', 'game:platforms', 'platform:read']]
+    normalizationContext: ['groups' => ['game:read', 'game:platforms', 'platform:read', 'game:type', 'game-type:read']],
 )]
 #[ApiResource(
     uriTemplate: '/platforms/{id}/games',
@@ -264,6 +263,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
         'libGameFr' => 'partial',
         'badge' => 'exact',
         'serie' => 'exact',
+        'type' => 'exact',
     ]
 )]
 #[ApiFilter(
@@ -278,20 +278,6 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
         'nbPlayer' => 'DESC',
         'nbVideo' => 'DESC',
         'lastUpdate' => 'DESC',
-    ]
-)]
-#[ApiFilter(
-    GroupFilter::class,
-    arguments: [
-        'parameterName' => 'groups',
-        'overrideDefaultGroups' => true,
-        'whitelist' => [
-            'game:read',
-            'game:platforms', 'platform:read',
-            'game:last-score', 'player-chart:read',
-            'player-chart:player', 'player:read',
-            'player-chart:chart', 'chart:read',
-        ]
     ]
 )]
 #[ApiFilter(DateFilter::class, properties: ['publishedAt' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
@@ -338,6 +324,10 @@ class Game
     #[ORM\OneToOne(targetEntity: Badge::class, cascade: ['persist'], inversedBy: 'game')]
     #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:true)]
     private ?Badge $badge = null;
+
+    #[ORM\ManyToOne(targetEntity: GameType::class, inversedBy: 'games')]
+    #[ORM\JoinColumn(name:'type_id', referencedColumnName:'id', nullable:true)]
+    private ?GameType $type = null;
 
     /**
      * @var Collection<int, Group>
@@ -597,5 +587,15 @@ class Game
     public function getRules(): Collection
     {
         return $this->rules;
+    }
+
+    public function setType(?GameType $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function getType(): ?GameType
+    {
+        return $this->type;
     }
 }

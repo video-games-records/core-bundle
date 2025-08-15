@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
+use VideoGamesRecords\CoreBundle\Enum\BadgeType;
 
 class GameListener
 {
@@ -33,8 +34,8 @@ class GameListener
 
         if ($game->getBadge() === null) {
             $badge = new Badge();
-            $badge->setType('Master');
-            $badge->setPicture('master_default2.gif');
+            $badge->setType(BadgeType::MASTER);
+            $badge->setPicture('master_default.gif');
             $game->setBadge($badge);
         }
     }

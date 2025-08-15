@@ -76,7 +76,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
      */
     protected function configureExportFields(): array
     {
-        return ['id', 'libGameEn', 'libGameFr', 'serie', 'status', 'picture', 'platforms'];
+        return ['id', 'libGameEn', 'libGameFr', 'serie', 'type', 'status', 'picture', 'platforms'];
     }
 
 
@@ -89,6 +89,10 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
             ->add('serie', ModelAutocompleteType::class, [
                 'property' => 'libSerie',
                 'label' => 'label.serie',
+                'required' => false,
+            ])
+            ->add('type', null, [
+                'label' => 'label.type',
                 'required' => false,
             ])
             ->add('libGameEn', TextType::class, [
@@ -198,6 +202,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'field_options' => ['property' => 'libSerie'],
                 'label' => 'label.serie'
             ])
+            ->add('type', null, ['label' => 'label.type'])
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
@@ -250,6 +255,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
             ->addIdentifier('id', null, ['label' => 'label.id'])
             ->add('libGameEn', null, ['label' => 'label.game.en', 'editable' => true])
             ->add('libGameFr', null, ['label' => 'label.game.fr', 'editable' => true])
+            ->add('type', null, ['label' => 'label.type'])
             ->add('platforms', null, ['label' => 'label.platforms'])
             ->add(
                 'picture',
@@ -299,6 +305,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
             ->add('id', null, ['label' => 'label.id'])
             ->add('libGameEn', null, ['label' => 'label.name.en'])
             ->add('libGameFr', null, ['label' => 'label.name.fr'])
+            ->add('type', null, ['label' => 'label.type'])
             ->add('platforms', null, ['label' => 'label.platforms'])
             ->add('nbChart', null, ['label' => 'label.nbChart'])
             ->add('nbVideo', null, ['label' => 'label.nbVideo'])
