@@ -1,70 +1,437 @@
+{# src/Resources/views/Admin/Object/Game/show.html.twig #}
 {% extends '@SonataAdmin/CRUD/show.html.twig' %}
 
 {% block show_groups %}
+    {# Header avec image et infos principales #}
     <div class="row">
-        {% block field_row %}
-            {% for code in groups %}
-                {% set show_group = admin.showgroups[code] %}
-
-                <div class="{{ show_group.class|default('col-md-12') }} {{ no_padding|default(false) ? 'nopadding' }}">
-                    <div class="{{ show_group.box_class }}">
-                        <div class="box-header">
-                            <h4 class="box-title">
-                                {% block show_title %}
-                                    {{ show_group.name|trans({}, show_group.translation_domain|default(admin.translationDomain)) }}
-                                {% endblock %}
-                            </h4>
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <i class="fa fa-gamepad"></i> {{ object.getName() }}
+                    <span class="label {% if object.getStatus() == 'COMPLETED' %}label-success{% elseif object.getStatus() == 'CREATED' %}label-danger{% else %}label-warning{% endif %}">
+                            {{ object.getStatus() }}
+                        </span>
+                </h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-info">ID: {{ object.getId() }}</span>
+                    {% if object.getCreatedAt() %}
+                        <span class="label label-default">
+                                <i class="fa fa-calendar"></i>
+                                {{ object.getCreatedAt()|date('d/m/Y') }}
+                            </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    {% if object.getPicture() %}
+                    <div class="col-md-3">
+                        <div class="game-image">
+                            <img src="/game/{{ object.getId() }}/picture" alt="{{ object.getName() }}" class="img-responsive">
                         </div>
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table">
-                                <tbody>
-                                {% for field_name in show_group.fields %}
-                                    {% block show_field %}
-                                        <tr class="sonata-ba-view-container">
-                                            {% if elements[field_name] is defined %}
-                                                {% if field_name == 'id' %}
-                                                    <th>Id</th>
-                                                    <td>{{ object.getId() }} <a href="{{ app_front_url }}/en/{{ object.getUrl }}">{% trans %}link.front.game{% endtrans %}</a></td>
-                                                {% elseif field_name == 'groups' %}
-                                                    <th>Groups</th>
-                                                    <td>
-                                                        <ul>
-                                                    {% for group in object.getGroups() %}
-                                                            <li><a href="{{ path('vgrcorebundle_admin_group_edit', {'id': group.getId()}) }}">{{ group }}</a></li>
-                                                            <ul>
-                                                        {% for chart in group.getCharts() %}
-                                                            <li><a href="{{ path('vgrcorebundle_admin_chart_edit', {'id': chart.getId()}) }}">{{ chart }}</a></li>
-                                                        {% endfor %}
-                                                            </ul>
-                                                    {% endfor %}
-                                                        </ul>
-                                                    </td>
-                                                {% elseif field_name == 'picture' %}
-                                                    <th>Picture</th>
-                                                    <td><img src="/game/{{ object.getId() }}/picture" alt="" /></td>
-                                                {% elseif field_name == 'badge' %}
-                                                    <th>Badge</th>
-                                                    <td>
-                                                    {% if object.getBadge() %}
-                                                        <a href="{{ path('vgrcorebundle_admin_badge_show', {'id': object.getBadge().getId()}) }}">
-                                                            <img src="/badge/{{ object.getBadge().getId() }}/picture" alt="" />
-                                                        </a>
-                                                    {% endif %}
-                                                    </td>
-                                                {%  else %}
-                                                    {{ elements[field_name]|render_view_element(object)}}
-                                                {% endif %}
+                    </div>
+                    <div class="col-md-9">
+                        {% else %}
+                        <div class="col-md-12">
+                            {% endif %}
+                            <div class="game-details">
+                                <h4>{{ object.getName() }}</h4>
+                                {% if object.getLibGameFr() and object.getLibGameFr() != object.getLibGameEn() %}
+                                    <p class="text-muted"><strong>{% trans %}label.name.fr{% endtrans %} :</strong> {{ object.getLibGameFr() }}</p>
+                                {% endif %}
 
-                                            {% endif %}
-                                        </tr>
-                                    {% endblock %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                <div class="game-meta">
+                                    {% if object.getSerie() %}
+                                        <span class="meta-item">
+                                            <i class="fa fa-folder-o"></i>
+                                            <strong>{% trans %}label.serie{% endtrans %} :</strong> {{ object.getSerie().getLibSerie() }}
+                                        </span>
+                                    {% endif %}
+
+                                    {% if object.getType() %}
+                                        <span class="meta-item">
+                                            <i class="fa fa-tag"></i>
+                                            <strong>{% trans %}label.type{% endtrans %} :</strong> {{ object.getType() }}
+                                        </span>
+                                    {% endif %}
+
+                                    {% if object.getPublishedAt() %}
+                                        <span class="meta-item">
+                                            <i class="fa fa-calendar"></i>
+                                            <strong>{% trans %}label.publishedAt{% endtrans %} :</strong> {{ object.getPublishedAt()|date('Y') }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+
+                                {% if object.getPlatforms()|length > 0 %}
+                                    <div class="platforms">
+                                        <strong><i class="fa fa-desktop"></i> {% trans %}label.platforms{% endtrans %} :</strong>
+                                        {% for platform in object.getPlatforms() %}
+                                            <span class="label label-default">{{ platform.getName() }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        {% endblock %}
+            </div>
+        </div>
     </div>
+
+    {# Statistiques principales #}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-bar-chart"></i> {% trans %}game.statistics{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="stat-box">
+                                <div class="stat-icon bg-blue">
+                                    <i class="fa fa-list"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ object.getNbChart() ?? 0 }}</div>
+                                    <div class="stat-label">{% trans %}label.nbChart{% endtrans %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="stat-box">
+                                <div class="stat-icon bg-purple">
+                                    <i class="fa fa-video-camera"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ object.getNbVideo() ?? 0 }}</div>
+                                    <div class="stat-label">{% trans %}label.nbVideo{% endtrans %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="stat-box">
+                                <div class="stat-icon bg-green">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ object.getGroups()|length }}</div>
+                                    <div class="stat-label">{% trans %}label.groups{% endtrans %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="stat-box">
+                                <div class="stat-icon bg-yellow">
+                                    <i class="fa fa-desktop"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ object.getPlatforms()|length }}</div>
+                                    <div class="stat-label">{% trans %}label.platforms{% endtrans %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="stat-box">
+                                <div class="stat-icon {% if object.getIsRank() %}bg-green{% else %}bg-gray{% endif %}">
+                                    <i class="fa fa-sort-numeric-asc"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ object.getIsRank() ? 'OUI' : 'NON' }}</div>
+                                    <div class="stat-label">{% trans %}label.boolRanking{% endtrans %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="stat-box">
+                                <div class="stat-icon bg-red">
+                                    <i class="fa fa-flag-checkered"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ object.getStatus() }}</div>
+                                    <div class="stat-label">{% trans %}label.status{% endtrans %}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Informations détaillées #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-info-circle"></i> {% trans %}game.detailed.information{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-condensed">
+                        <tr>
+                            <td><strong>{% trans %}label.name.en{% endtrans %} :</strong></td>
+                            <td>{{ object.getLibGameEn() }}</td>
+                        </tr>
+                        {% if object.getLibGameFr() %}
+                            <tr>
+                                <td><strong>{% trans %}label.name.fr{% endtrans %} :</strong></td>
+                                <td>{{ object.getLibGameFr() }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if object.getSerie() %}
+                            <tr>
+                                <td><strong>{% trans %}label.serie{% endtrans %} :</strong></td>
+                                <td>{{ object.getSerie().getLibSerie() }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if object.getType() %}
+                            <tr>
+                                <td><strong>{% trans %}label.type{% endtrans %} :</strong></td>
+                                <td>{{ object.getType() }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if object.getPublishedAt() %}
+                            <tr>
+                                <td><strong>{% trans %}label.publishedAt{% endtrans %} :</strong></td>
+                                <td>{{ object.getPublishedAt()|date('d/m/Y') }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if object.getDownloadUrl() %}
+                            <tr>
+                                <td><strong>{% trans %}label.downloadUrl{% endtrans %} :</strong></td>
+                                <td><a href="{{ object.getDownloadUrl() }}" target="_blank">{{ object.getDownloadUrl() }}</a></td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-link"></i> {% trans %}game.associations{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-condensed">
+                        {% if object.getBadge() %}
+                            <tr>
+                                <td><strong>{% trans %}label.badge{% endtrans %} :</strong></td>
+                                <td>
+                                    {% if object.getBadge().getId() %}
+                                        <img src="/badge/{{ object.getBadge().getId() }}/picture" alt="Badge" style="height: 32px; margin-right: 10px;">
+                                    {% endif %}
+                                    {{ object.getBadge() }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.getForum() %}
+                            <tr>
+                                <td><strong>{% trans %}label.forum{% endtrans %} :</strong></td>
+                                <td>{{ object.getForum() }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if object.getRules()|length > 0 %}
+                            <tr>
+                                <td><strong>{% trans %}label.rules{% endtrans %} :</strong></td>
+                                <td>
+                                    {% for rule in object.getRules() %}
+                                        <span class="label label-info">{{ rule.getName() }}</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td><strong>{% trans %}label.boolRanking{% endtrans %} :</strong></td>
+                            <td>
+                                {% if object.getIsRank() %}
+                                    <span class="label label-success">{% trans %}game.ranking.enabled{% endtrans %}</span>
+                                {% else %}
+                                    <span class="label label-default">{% trans %}game.ranking.disabled{% endtrans %}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Groupes si présents #}
+    {% if object.getGroups()|length > 0 %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-list"></i> {% trans %}label.groups{% endtrans %}
+                            <span class="badge badge-default">{{ object.getGroups()|length }}</span>
+                        </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            {% for group in object.getGroups() %}
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="group-item">
+                                        <div class="group-header">
+                                            <h5>{{ group.getName() }}</h5>
+                                        </div>
+                                        <div class="group-stats">
+                                            <small class="text-muted">
+                                                <i class="fa fa-bar-chart"></i>
+                                                {{ group.getCharts()|length }} charts
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <style>
+        .game-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .game-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .game-details h4 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .game-meta {
+            margin: 15px 0;
+        }
+
+        .meta-item {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .meta-item i {
+            width: 18px;
+            color: #666;
+        }
+
+        .platforms {
+            margin-top: 15px;
+        }
+
+        .platforms .label {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .stat-box {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .group-item {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #3c8dbc;
+        }
+
+        .group-header h5 {
+            margin: 0;
+            color: #333;
+        }
+
+        .group-stats {
+            margin-top: 8px;
+        }
+
+        /* Couleurs pour les icônes */
+        .bg-blue { background-color: #3c8dbc; }
+        .bg-purple { background-color: #605ca8; }
+        .bg-green { background-color: #00a65a; }
+        .bg-yellow { background-color: #f39c12; }
+        .bg-red { background-color: #d73925; }
+        .bg-gray { background-color: #95a5a6; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stat-box {
+                padding: 10px;
+            }
+
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+
+            .stat-number {
+                font-size: 16px;
+            }
+        }
+    </style>
+
 {% endblock %}
