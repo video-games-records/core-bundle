@@ -100,6 +100,15 @@ proof:
       title: "No pending proofs"
       message: "Excellent work! All proofs have been processed."
 
+game:
+  dashboard:
+    title: "Games"
+    progress: "Progress"
+    empty:
+      title: "No games found"
+      message: "No games in these statuses currently."
+
+
 breadcrumb:
   link_badge_list: 'Badge List'
   link_chart_create: 'Chart Create'

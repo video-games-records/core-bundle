@@ -1,0 +1,239 @@
+{# src/Resources/views/Admin/Block/games_by_status.html.twig #}
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <i class="fa fa-tasks"></i>
+            {% trans %}game.dashboard.title{% endtrans %}
+            <span class="badge badge-info">{{ totalGames }}</span>
+        </h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="box-body">
+        {% if totalGames > 0 %}
+            <!-- Progress bar globale -->
+            <div class="progress-group" style="margin-bottom: 20px;">
+                <span class="progress-text">{% trans %}game.dashboard.progress{% endtrans %}</span>
+                <div class="progress progress-sm">
+                    {% set createdPercent = (totalByStatus['CREATED'] / totalGames * 100)|round %}
+                    {% set addScorePercent = (totalByStatus['ADD_SCORE'] / totalGames * 100)|round %}
+                    {% set addPicturePercent = (totalByStatus['ADD_PICTURE'] / totalGames * 100)|round %}
+                    {% set completedPercent = (totalByStatus['COMPLETED'] / totalGames * 100)|round %}
+
+                    <div class="progress-bar progress-bar-danger" style="width: {{ createdPercent }}%"></div>
+                    <div class="progress-bar progress-bar-warning" style="width: {{ addScorePercent }}%"></div>
+                    <div class="progress-bar progress-bar-info" style="width: {{ addPicturePercent }}%"></div>
+                    <div class="progress-bar progress-bar-success" style="width: {{ completedPercent }}%"></div>
+                </div>
+            </div>
+
+            <!-- Accordéon par statut -->
+            <div class="panel-group" id="statusAccordion">
+                {% for status in statusOrder %}
+                    {% set games = gamesByStatus[status] %}
+                    {% set count = totalByStatus[status] %}
+                    {% if count > 0 %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#statusAccordion" href="#collapse{{ status|replace({' ': ''}) }}">
+                                        <span class="status-badge status-{{ status|lower|replace({' ': '-', '_': '-'}) }}">
+                                            <i class="fa {{ status == 'CREATED' ? 'fa-plus-circle' : (status == 'ADD_SCORE' ? 'fa-calculator' : (status == 'ADD_PICTURE' ? 'fa-picture-o' : 'fa-check-circle')) }}"></i>
+                                            {{ status|lower }}
+                                        </span>
+                                        <span class="badge pull-right">{{ count }}</span>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse{{ status|replace({' ': ''}) }}" class="panel-collapse collapse {% if loop.first %}in{% endif %}">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        {% for game in games %}
+                                            <div class="col-md-6 col-lg-4">
+                                                <div class="game-item">
+                                                    <a href="/admin/videogamesrecords/core/game/{{ game.getId }}/show" class="game-link">
+                                                        <div class="game-info">
+                                                            <div class="game-name">
+                                                                <i class="fa fa-gamepad text-primary"></i>
+                                                                {{ game.getName }}
+                                                            </div>
+                                                            {% if game.getUpdatedAt %}
+                                                                <div class="game-date">
+                                                                    <small class="text-muted">
+                                                                        <i class="fa fa-clock-o"></i>
+                                                                        {{ game.getUpdatedAt|date('d/m/Y') }}
+                                                                    </small>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="game-arrow">
+                                                            <i class="fa fa-arrow-right"></i>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">
+                <i class="fa fa-info-circle fa-2x text-info"></i>
+                <h4>{% trans %}game.dashboard.empty.title{% endtrans %}</h4>
+                <p class="text-muted">{% trans %}game.dashboard.empty.message{% endtrans %}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .status-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .status-created {
+        background-color: #d9534f;
+        color: white;
+    }
+
+    .status-add-score {
+        background-color: #f0ad4e;
+        color: white;
+    }
+
+    .status-add-picture {
+        background-color: #5bc0de;
+        color: white;
+    }
+
+    .status-completed {
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .game-item {
+        background: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .game-item:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-color: #3c8dbc;
+    }
+
+    .game-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .game-link:hover,
+    .game-link:focus {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .game-info {
+        flex: 1;
+    }
+
+    .game-name {
+        font-weight: bold;
+        font-size: 13px;
+        color: #333;
+        margin-bottom: 2px;
+    }
+
+    .game-name i {
+        margin-right: 6px;
+        font-size: 14px;
+    }
+
+    .game-date {
+        font-size: 11px;
+    }
+
+    .game-arrow {
+        color: #999;
+        font-size: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .game-item:hover .game-arrow {
+        color: #3c8dbc;
+        transform: translateX(2px);
+    }
+
+    .panel-heading {
+        cursor: pointer;
+    }
+
+    .panel-heading:hover {
+        background-color: #f8f8f8;
+    }
+
+    /* Progress bar segments */
+    .progress {
+        height: 8px;
+        margin-bottom: 5px;
+    }
+
+    .progress-text {
+        font-size: 12px;
+        font-weight: bold;
+        color: #666;
+    }
+
+    /* Animation */
+    .game-item {
+        animation: fadeInUp 0.3s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .game-item {
+            margin-bottom: 8px;
+        }
+
+        .game-link {
+            padding: 8px 10px;
+        }
+
+        .game-name {
+            font-size: 12px;
+        }
+    }
+</style>
