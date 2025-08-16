@@ -22,6 +22,11 @@ services:
     tags:
       - { name: "sonata.block" }
 
+  admin.block.service.proof_requests:
+    class: VideoGamesRecords\CoreBundle\Block\Service\ProofRequestBlockService
+    tags:
+      - { name: "sonata.block" }
+
 
   VideoGamesRecords\CoreBundle\EventSubscriber\Api\PlayerChartSubscriber:
     tags:
