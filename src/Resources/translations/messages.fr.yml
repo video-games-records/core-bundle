@@ -1,3 +1,8 @@
+common:
+  edit: 'Editer'
+  show: 'Voir'
+
+
 proof:
   chart:
     information: "Informations du Chart"
@@ -108,6 +113,41 @@ game:
       title: "Aucun jeu trouvé"
       message: "Aucun jeu dans ces statuts actuellement."
 
+
+proof_request:
+  requested_by: "Demandé par"
+  player: "Joueur"
+  dashboard:
+    title: "Demandes de preuve en cours"
+    view:
+      all: "Voir toutes les demandes en cours"
+    empty:
+      title: "Aucune demande de preuve en cours"
+      message: "Excellent ! Toutes les demandes ont été traitées."
+  notification:
+    confirm:
+      object: 'Demande de preuve'
+      message: |
+        <p>Bonjour %s,</p>
+        <p>Un membre de VGR vous a demandé une preuve sur le score : <a href="%s">%s</a><br />
+        Si vous n'avez pas prouvé votre score dans un délai de deux semaines, comprenez bien qu'il sera effacé du site.</p>
+        <p>Cordialement, l'équipe VGR.</p>
+    accept:
+      object: 'Demande de preuve acceptée'
+      message: |
+        <p>Bonjour %s,</p>
+        <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s a été acceptée.</p>
+        %s
+        <p>Cordialement, l'équipe VGR.</p>
+    refuse:
+      object: 'Demande de preuve refusée'
+      message: |
+        <p>Bonjour %s,</p>
+        <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s été refusée.</p>
+        %s
+        <p>Cordialement, l'équipe VGR.</p>
+    form:
+      refuse: Vous avez atteint la limite maximale de %d demandes de preuves par jour, désolé
 
 breadcrumb:
   link_badge_list: 'Liste des badges'
@@ -270,31 +310,6 @@ link:
   front:
     game: 'Lien vers ce jeu sur VGR'
     chart: 'Lien vers ce record sur VGR'
-proof_request:
-  notification:
-    confirm:
-      object: 'Demande de preuve'
-      message: |
-        <p>Bonjour %s,</p>
-        <p>Un membre de VGR vous a demandé une preuve sur le score : <a href="%s">%s</a><br />
-        Si vous n'avez pas prouvé votre score dans un délai de deux semaines, comprenez bien qu'il sera effacé du site.</p>
-        <p>Cordialement, l'équipe VGR.</p>
-    accept:
-      object: 'Demande de preuve acceptée'
-      message: |
-        <p>Bonjour %s,</p>
-        <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s a été acceptée.</p>
-        %s
-        <p>Cordialement, l'équipe VGR.</p>
-    refuse:
-      object: 'Demande de preuve refusée'
-      message: |
-        <p>Bonjour %s,</p>
-        <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s été refusée.</p>
-        %s
-        <p>Cordialement, l'équipe VGR.</p>
-    form:
-      refuse: Vous avez atteint la limite maximale de %d demandes de preuves par jour, désolé
 
 team:
   request:

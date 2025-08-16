@@ -1,0 +1,288 @@
+{# src/Resources/views/Admin/Block/proof_requests.html.twig #}
+
+<div class="box box-warning">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <i class="fa fa-exclamation-triangle"></i>
+            {% trans %}proof_request.dashboard.title{% endtrans %}
+            <span class="badge badge-warning">{{ totalRequests }}</span>
+        </h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="box-body">
+        {% if proofRequests|length > 0 %}
+            <div class="proof-requests-list">
+                {% for request in proofRequests %}
+                    <div class="request-item {% if loop.index0 % 2 == 0 %}even{% else %}odd{% endif %}">
+                        <div class="request-content">
+                            <div class="request-header">
+                                <div class="request-game">
+                                    <i class="fa fa-gamepad text-primary"></i>
+                                    <strong>
+                                        {% if request.getPlayerChart() and request.getPlayerChart().getChart() %}
+                                            {{ request.getPlayerChart().getChart().getGroup().getGame().getName() }}
+                                        {% else %}
+                                            {% trans %}proofrequest.no.game{% endtrans %}
+                                        {% endif %}
+                                    </strong>
+                                </div>
+                                <div class="request-date">
+                                    <span class="label {% if request.getCreatedAt()|date_modify('+7 days') < date() %}label-danger{% elseif request.getCreatedAt()|date_modify('+3 days') < date() %}label-warning{% else %}label-info{% endif %}">
+                                        <i class="fa fa-calendar"></i>
+                                        {{ request.getCreatedAt()|date('d/m/Y') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="request-details">
+                                <div class="request-player">
+                                    <i class="fa fa-user"></i>
+                                    {% trans %}proof_request.player{% endtrans %}:
+                                    <strong>
+                                       {{ request.getPlayerChart().getPlayer().getPseudo() }}
+                                    </strong>
+                                </div>
+
+
+                                <div class="request-chart">
+                                    <i class="fa fa-bar-chart"></i>
+                                    {{ request.getPlayerChart().getChart().getGroup().getName() }} - {{ request.getPlayerChart().getChart().getName() }}
+                                </div>
+
+
+                                {% if request.getPlayerRequesting() %}
+                                    <div class="request-requester">
+                                        <i class="fa fa-question-circle"></i>
+                                        {% trans %}proof_request.requested_by{% endtrans %}: {{ request.getPlayerRequesting().getPseudo() }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            {% if request.getMessage() %}
+                                <div class="request-message">
+                                    <div class="message-content">
+                                        <i class="fa fa-comment-o"></i>
+                                        {% set message = request.getMessage() %}
+                                        {% if message|striptags|length > 100 %}
+                                            {{ (message|striptags|slice(0, 100) ~ '...')|nl2br }}
+                                        {% else %}
+                                            {{ message|raw }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="request-actions">
+                            <a href="/admin/videogamesrecords/core/proofrequest/{{ request.getId() }}/edit"
+                               class="btn btn-primary btn-sm"
+                               title="{% trans %}common.edit{% endtrans %}">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a href="/admin/videogamesrecords/core/proofrequest/{{ request.getId() }}/show"
+                               class="btn btn-info btn-sm"
+                               title="{% trans %}common.view{% endtrans %}">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <a href="/admin/videogamesrecords/core/proofrequest/list?filter%5Bstatus%5D%5Bvalue%5D=IN+PROGRESS"
+                           class="btn btn-warning btn-sm">
+                            <i class="fa fa-list"></i>
+                            {% trans %}proof_request.dashboard.view.all{% endtrans %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-success text-center">
+                <i class="fa fa-check-circle fa-2x text-success"></i>
+                <h4>{% trans %}proof_request.dashboard.empty.title{% endtrans %}</h4>
+                <p class="text-muted">{% trans %}proof_request.dashboard.empty.message{% endtrans %}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .proof-requests-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .request-item {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        transition: all 0.3s ease;
+        border-left: 3px solid #f39c12;
+    }
+
+    .request-item:hover {
+        background-color: #fefefe;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transform: translateX(2px);
+    }
+
+    .request-item.even {
+        background-color: #fafafa;
+    }
+
+    .request-item.odd {
+        background-color: #ffffff;
+    }
+
+    .request-content {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    .request-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .request-game {
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .request-game i {
+        margin-right: 6px;
+        font-size: 16px;
+    }
+
+    .request-date .label-danger {
+        background-color: #d9534f !important;
+    }
+
+    .request-date .label-warning {
+        background-color: #f0ad4e !important;
+    }
+
+    .request-date .label-info {
+        background-color: #5bc0de !important;
+    }
+
+    .request-details {
+        margin-bottom: 8px;
+    }
+
+    .request-details > div {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 3px;
+    }
+
+    .request-details i {
+        width: 14px;
+        margin-right: 6px;
+        color: #999;
+    }
+
+    .request-message {
+        margin-top: 8px;
+        padding: 6px 8px;
+        background-color: #f8f8f8;
+        border-radius: 4px;
+        border-left: 3px solid #ddd;
+    }
+
+    .message-content {
+        font-size: 12px;
+        color: #555;
+        font-style: italic;
+    }
+
+    .message-content i {
+        margin-right: 6px;
+        color: #999;
+    }
+
+    .request-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .request-actions .btn {
+        width: 30px;
+        height: 28px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Animation */
+    .request-item {
+        animation: slideInLeft 0.4s ease-out;
+    }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .request-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .request-date {
+            margin-top: 5px;
+        }
+
+        .request-item {
+            padding: 10px;
+        }
+
+        .request-actions {
+            flex-direction: row;
+        }
+    }
+
+    /* Scrollbar pour la liste */
+    .proof-requests-list::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .proof-requests-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+
+    .proof-requests-list::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 3px;
+    }
+
+    .proof-requests-list::-webkit-scrollbar-thumb:hover {
+        background: #999;
+    }
+</style>

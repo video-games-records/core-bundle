@@ -1,3 +1,7 @@
+common:
+  edit: 'Edit'
+  show: 'Show'
+
 proof:
   chart:
     information: "Chart Information"
@@ -108,6 +112,41 @@ game:
       title: "No games found"
       message: "No games in these statuses currently."
 
+
+proof_request:
+  requested_by: "Requested by"
+  player: "Player"
+  dashboard:
+    title: "Pending Proof Requests"
+    view:
+      all: "View all pending requests"
+    empty:
+      title: "No pending proof requests"
+      message: "Excellent! All requests have been processed."
+  notification:
+    confirm:
+      object: 'Proof request'
+      message: |
+        <p>Hello %s,</p>
+        <p> VGR member asked you a proof on the following score: <a href="%s">%s</a><br />
+        If you do not prove your record in a 2 weeks delay, it will be deleted from the site.</p>
+        <p>Regards, VGR Team.</p>
+    accept:
+      object: 'Proof request accepted'
+      message: |
+        <p>Hello %s,</p>
+        <p>Your request for proof on the score <a href="%s">%s</a> for player %s was accepted.</p>
+        %s
+        <p>Regards, VGR Team.</p>
+    refuse:
+      object: 'Proof request refused'
+      message: |
+        <p>Hello %s,</p>
+        <p>Your request for proof on the score <a href="%s">%s</a> for player %s was refused.</p>
+        %s
+        <p>Regards, VGR Team.</p>
+    send:
+      refuse: You reached the maximum limit of %d proof asks per day, sorry
 
 breadcrumb:
   link_badge_list: 'Badge List'
@@ -272,31 +311,8 @@ link:
     game: 'Link to the game on VGR'
     chart: 'Link to the record on VGR'
 
-proof_request:
-  notification:
-    confirm:
-      object: 'Proof request'
-      message: |
-        <p>Hello %s,</p>
-        <p> VGR member asked you a proof on the following score: <a href="%s">%s</a><br />
-        If you do not prove your record in a 2 weeks delay, it will be deleted from the site.</p>
-        <p>Regards, VGR Team.</p>
-    accept:
-      object: 'Proof request accepted'
-      message: |
-        <p>Hello %s,</p>
-        <p>Your request for proof on the score <a href="%s">%s</a> for player %s was accepted.</p>
-        %s
-        <p>Regards, VGR Team.</p>
-    refuse:
-      object: 'Proof request refused'
-      message: |
-        <p>Hello %s,</p>
-        <p>Your request for proof on the score <a href="%s">%s</a> for player %s was refused.</p>
-        %s
-        <p>Regards, VGR Team.</p>
-    send:
-      refuse: You reached the maximum limit of %d proof asks per day, sorry
+
+
 
 team:
   request:
