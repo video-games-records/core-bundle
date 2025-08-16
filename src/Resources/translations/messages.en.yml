@@ -1,268 +1,353 @@
-breadcrumb:
-    link_badge_list: 'Badge List'
-    link_chart_create: 'Chart Create'
-    link_chart_list: 'Chart List'
-    link_chart_type_create: 'Chart Type Create'
-    link_chart_type_list : 'Chart Type List'
-    link_country_list: 'Country List'
-    link_game_create: 'Game Create'
-    link_game_list: 'Game List'
-    link_group_create: 'Group Create'
-    link_group_list: 'Group List'
-    link_picture_list: 'Picture List'
-    link_platform_create: 'Platform Create'
-    link_platform_list: 'Platform list'
-    link_player_chart_list: 'Score List'
-    link_proof_request_list: 'Proof Request List'
-    link_proof_list: 'Proof List'
-    link_rule_create: 'Rule Create'
-    link_rule_list: 'Rule List'
-    link_serie_create: 'Serie Create'
-    link_serie_list: 'Serie List'
-    link_team_list: 'Team List'
-    link_team_request_list: 'Team Request List'
-    link_video_list: 'Video List'
-    link_player_list: 'Player List'
-    link_player_badge_create: 'Player/Badge Create'
-    link_player_badge_list: 'Player/Badge list'
-list:
-    label__action: 'Action'
-label:
-    action: 'Action'
-    badge: 'Badge'
-    boolActive: 'Active ? '
-    isDlc: 'DLC ? '
-    boolMaj: 'Maj ?'
-    boolRanking: 'Ranking ?'
-    chart: 'Record'
-    chart.id: 'Chart Id'
-    chart.en: 'Record [EN]'
-    chart.fr: 'Record [FR]'
-    chart.statusPlayer: 'Status player'
-    chart.statusTeam: 'Status team'
-    chart.status.normal : 'Normal'
-    chart.status.maj : 'To update'
-    chart.status.goToMaj : 'Update running'
-    chart.status.error : 'Error'
-    chartRank0: 'Platinum'
-    chartRank1: 'Gold'
-    chartRank2: 'Silver'
-    chartRank3: 'Bronze'
-    charts: 'Records'
-    chart.type: 'Chart type'
-    checkedAt: 'Checked At'
-    country: 'Country'
-    country.iso2: 'ISO ALPHA 2'
-    country.iso3: 'ISO ALPHA 2'
-    country.isoNumeric: 'ISO NUMERIC code'
-    createdAt: 'Created At'
-    cups: 'Cups'
-    dateInvestigation: 'Investiagtion date'
-    day: 'Day'
-    downloadUrl: 'Download URL'
-    game: 'Game'
-    game.id: 'Game [ID]'
-    game.en: 'Game [EN]'
-    game.fr: 'Game [FR]'
-    games: 'Games'
-    game.day: 'Game of day'
-    gameRank0: 'Platinum'
-    gameRank1: 'Gold'
-    gameRank2: 'Silver'
-    gameRank3: 'Bronze'
-    group: 'Group'
-    group.en: 'Group [EN]'
-    group.fr: 'Group [FR]'
-    groups: 'Groups'
-    id: 'id'
-    isActive: 'Active ? '
-    lastUpdate: 'Last update'
-    leader: 'Leader'
-    libs: 'libs'
-    libs.help: 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group'
-    likeCount: 'Nb like'
-    mask: 'Mask'
-    medals: ' Medals'
-    name: 'Name'
-    name.en: 'Name [EN]'
-    name.fr: 'Name [FR]'
-    nbGame: 'Nb games'
-    nbChart: 'Nb scores'
-    nbChartProven: 'Nb proven scores'
-    nbChartDisabled: 'nb disabed scores'
-    nbComment: 'Nb comments'
-    nbPlayer: 'nb player'
-    nbVideo: 'Nb videos'
-    orderBy : 'Order By'
-    orderBy.asc: 'ASC'
-    orderBy.desc: 'DESC'
-    path: 'Path'
-    picture: 'Picture'
-    picture_is_null: 'Picture is empty'
-    platform: 'Platform'
-    platforms: 'Platforms'
-    player: 'Player'
-    players: 'Players'
-    player.requesting: 'Player requesting'
-    player.responding: 'Checked by'
-    playerChart: 'Score'
-    playerChart.edit: 'Edit score'
-    playerChart.status: 'Score status'
-    points: 'Points'
-    pointChart: 'Record Points'
-    pointGame: 'Game Points'
-    pointBadge: 'Badge Points'
-    isProofVideoOnly: 'Proof Video Only'
-    pseudo: 'Pseudo'
-    publishedAt: 'Published At'
-    ranking: 'Ranking'
-    rankPointChart: 'rankPointChart'
-    rankPointGame: 'rankPointGame'
-    rankMedal: 'rankMedal'
-    rankProof: 'rankProof'
-    rankBadge: 'rankBadge'
-    rankCup: 'rankCup'
-    rankCountry: 'rankCountry'
-    request: 'Request'
-    rules: 'Rules'
-    serie: 'Serie'
-    slug: 'Slug'
-    state: 'State'
-    stats: 'Stats'
-    status: 'Status'
-    status.accepted: 'ACCEPTED'
-    status.active: 'Active'
-    status.closed: 'CLOSED'
-    status.inactive: 'Inactive'
-    status.inProgress: 'IN PROGRESS'
-    status.refused: 'REFUSED'
-    team: 'Team'
-    text: 'Text'
-    thumbnail: 'Thumbnail'
-    translations: 'Translations'
-    twitch: 'Twitch'
-    twitch_is_null: 'Twitch is empty'
-    updatedAt: 'Updated At'
-    url: 'URL'
-    value: 'Value'
-    video: 'Video'
-    video_is_null: 'Video is empty'
-    video.id: 'Video Id'
-    viewCount: 'Nb view'
-    proof: 'Preuve'
-    proof.response: 'Refusal answer'
-    proof.status: 'Proof status'
-    website: 'Website'
-    website_is_null: 'Website is empty'
-    youtube: 'Youtube'
-    youtube_is_null: 'Youtube is empty'
-link:
-    front:
-        game: 'Link to the game on VGR'
-        chart: 'Link to the record on VGR'
 proof:
-    request:
-        confirm:
-            object: 'Proof request'
-            message: |
-                <p>Hello %s,</p>
-                <p> VGR member asked you a proof on the following score: <a href="%s">%s</a><br />
-                If you do not prove your record in a 2 weeks delay, it will be deleted from the site.</p>
-                <p>Regards, VGR Team.</p>
-        accept:
-            object: 'Proof request accepted'
-            message: |
-                <p>Hello %s,</p>
-                <p>Your request for proof on the score <a href="%s">%s</a> for player %s was accepted.</p>
-                %s
-                <p>Regards, VGR Team.</p>
-        refuse:
-            object: 'Proof request refused'
-            message: |
-                <p>Hello %s,</p>
-                <p>Your request for proof on the score <a href="%s">%s</a> for player %s was refused.</p>
-                %s
-                <p>Regards, VGR Team.</p>
-        send:
-            refuse: You reached the maximum limit of %d proof asks per day, sorry
-    proof:
-        accept:
-            object: 'Proof accepted'
-            message: |
-                <p>Hello %s,</p>
-                <p>Your proof on the score <a href="%s">%s</a> was accepted.</p>
-                %s
-                <p>Regards, VGR Team.</p>
-        refuse:
-            object: 'Proof refused'
-            message: |
-                <p>Hello %s,</p>
-                <p>Your proof on the score <a href="%s">%s</a> was refused.</p>
-                %s
-                <p>Regards, VGR Team.</p>
+  chart:
+    information: "Chart Information"
+  submitted:
+    evidences: "Submitted Evidences"
+  image:
+    evidence: "Image Evidence"
+    alt: "Proof image"
+  video:
+    evidence: "Video Evidence"
+  no:
+    evidence:
+      title: "No Evidence Submitted"
+      message: "No image or video has been provided for this proof."
+    playerchart: "No associated PlayerChart"
+    specific:
+      request: "No specific proof request associated."
+    more:
+      in:
+        game: "All proofs for game %game% have been processed! Excellent work."
+  validation:
+    title: "Validation"
+    warning: "Final Action"
+    examine: "Examine evidences before deciding."
+    decision: "Your decision?"
+    form:
+      below: "Detailed form below"
+  auto:
+    redirect:
+      info: "After validation, automatic redirect to next proof of the same game"
+  action:
+    accept: "ACCEPT"
+    accept_description: "Valid proof"
+    refuse: "REFUSE"
+    refuse_description: "Invalid proof"
+  status:
+    title: "Status"
+    accepted: "ACCEPTED"
+    refused: "REFUSED"
+    in_progress: "PENDING"
+    closed: "CLOSED"
+    awaiting_validation: "This proof requires validation"
+  edit:
+    for:
+      validation: "Edit for validation"
+  type:
+    picture: "PICTURE"
+    video: "VIDEO"
+    none: "NONE"
+  creation:
+    date: "Creation date"
+  last:
+    update: "Last update"
+  validated:
+    by: "By"
+  refused:
+    by: "By"
+  score:
+    information: "Score Information"
+  request:
+    title: "Proof Request"
+    message: "Message"
+    requested:
+      by: "Requested by"
+    date: "Request date"
+  additional:
+    information: "Additional Information"
+  processing: "Processing..."
+  error:
+    status:
+      not:
+        found: "Error: Status field not found in form"
+  success:
+    accepted: "Proof from %player% has been accepted successfully. The score is now validated."
+    refused: "Proof from %player% has been refused. The player will be notified."
+  unknown:
+    player: "Unknown player"
+  next:
+    redirect:
+      info: "Redirecting to next proof for game %game%. %count% proof(s) remaining to validate (ID: #%next_id%)."
+  notification:
+    accept:
+      object: 'Proof accepted'
+      message: |
+        <p>Hello %s,</p>
+        <p>Your proof on the score <a href="%s">%s</a> was accepted.</p>
+        %s
+        <p>Regards, VGR Team.</p>
+    refuse:
+      object: 'Proof refused'
+      message: |
+        <p>Hello %s,</p>
+        <p>Your proof on the score <a href="%s">%s</a> was refused.</p>
+        %s
+        <p>Regards, VGR Team.</p>
+
+
+breadcrumb:
+  link_badge_list: 'Badge List'
+  link_chart_create: 'Chart Create'
+  link_chart_list: 'Chart List'
+  link_chart_type_create: 'Chart Type Create'
+  link_chart_type_list: 'Chart Type List'
+  link_country_list: 'Country List'
+  link_game_create: 'Game Create'
+  link_game_list: 'Game List'
+  link_group_create: 'Group Create'
+  link_group_list: 'Group List'
+  link_picture_list: 'Picture List'
+  link_platform_create: 'Platform Create'
+  link_platform_list: 'Platform list'
+  link_player_chart_list: 'Score List'
+  link_proof_request_list: 'Proof Request List'
+  link_proof_list: 'Proof List'
+  link_rule_create: 'Rule Create'
+  link_rule_list: 'Rule List'
+  link_serie_create: 'Serie Create'
+  link_serie_list: 'Serie List'
+  link_team_list: 'Team List'
+  link_team_request_list: 'Team Request List'
+  link_video_list: 'Video List'
+  link_player_list: 'Player List'
+  link_player_badge_create: 'Player/Badge Create'
+  link_player_badge_list: 'Player/Badge list'
+list:
+  label__action: 'Action'
+label:
+  action: 'Action'
+  badge: 'Badge'
+  boolActive: 'Active ? '
+  isDlc: 'DLC ? '
+  boolMaj: 'Maj ?'
+  boolRanking: 'Ranking ?'
+  chart: 'Record'
+  chart.id: 'Chart Id'
+  chart.en: 'Record [EN]'
+  chart.fr: 'Record [FR]'
+  chart.statusPlayer: 'Status player'
+  chart.statusTeam: 'Status team'
+  chart.status.normal: 'Normal'
+  chart.status.maj: 'To update'
+  chart.status.goToMaj: 'Update running'
+  chart.status.error: 'Error'
+  chartRank0: 'Platinum'
+  chartRank1: 'Gold'
+  chartRank2: 'Silver'
+  chartRank3: 'Bronze'
+  charts: 'Records'
+  chart.type: 'Chart type'
+  checkedAt: 'Checked At'
+  country: 'Country'
+  country.iso2: 'ISO ALPHA 2'
+  country.iso3: 'ISO ALPHA 2'
+  country.isoNumeric: 'ISO NUMERIC code'
+  createdAt: 'Created At'
+  cups: 'Cups'
+  dateInvestigation: 'Investiagtion date'
+  day: 'Day'
+  downloadUrl: 'Download URL'
+  game: 'Game'
+  game.id: 'Game [ID]'
+  game.en: 'Game [EN]'
+  game.fr: 'Game [FR]'
+  games: 'Games'
+  game.day: 'Game of day'
+  gameRank0: 'Platinum'
+  gameRank1: 'Gold'
+  gameRank2: 'Silver'
+  gameRank3: 'Bronze'
+  group: 'Group'
+  group.en: 'Group [EN]'
+  group.fr: 'Group [FR]'
+  groups: 'Groups'
+  id: 'id'
+  isActive: 'Active ? '
+  lastUpdate: 'Last update'
+  leader: 'Leader'
+  libs: 'libs'
+  libs.help: 'If you dont add libs, the libs will be automatically added to the chart by cloning the first chart of the group'
+  likeCount: 'Nb like'
+  mask: 'Mask'
+  medals: ' Medals'
+  name: 'Name'
+  name.en: 'Name [EN]'
+  name.fr: 'Name [FR]'
+  nbGame: 'Nb games'
+  nbChart: 'Nb scores'
+  nbChartProven: 'Nb proven scores'
+  nbChartDisabled: 'nb disabed scores'
+  nbComment: 'Nb comments'
+  nbPlayer: 'nb player'
+  nbVideo: 'Nb videos'
+  orderBy: 'Order By'
+  orderBy.asc: 'ASC'
+  orderBy.desc: 'DESC'
+  path: 'Path'
+  picture: 'Picture'
+  picture_is_null: 'Picture is empty'
+  platform: 'Platform'
+  platforms: 'Platforms'
+  player: 'Player'
+  players: 'Players'
+  player.requesting: 'Player requesting'
+  player.responding: 'Checked by'
+  playerChart: 'Score'
+  playerChart.edit: 'Edit score'
+  playerChart.status: 'Score status'
+  points: 'Points'
+  pointChart: 'Record Points'
+  pointGame: 'Game Points'
+  pointBadge: 'Badge Points'
+  isProofVideoOnly: 'Proof Video Only'
+  pseudo: 'Pseudo'
+  publishedAt: 'Published At'
+  ranking: 'Ranking'
+  rankPointChart: 'rankPointChart'
+  rankPointGame: 'rankPointGame'
+  rankMedal: 'rankMedal'
+  rankProof: 'rankProof'
+  rankBadge: 'rankBadge'
+  rankCup: 'rankCup'
+  rankCountry: 'rankCountry'
+  request: 'Request'
+  rules: 'Rules'
+  serie: 'Serie'
+  slug: 'Slug'
+  state: 'State'
+  stats: 'Stats'
+  status: 'Status'
+  status.accepted: 'ACCEPTED'
+  status.active: 'Active'
+  status.closed: 'CLOSED'
+  status.inactive: 'Inactive'
+  status.inProgress: 'IN PROGRESS'
+  status.refused: 'REFUSED'
+  team: 'Team'
+  text: 'Text'
+  thumbnail: 'Thumbnail'
+  translations: 'Translations'
+  twitch: 'Twitch'
+  twitch_is_null: 'Twitch is empty'
+  updatedAt: 'Updated At'
+  url: 'URL'
+  value: 'Value'
+  video: 'Video'
+  video_is_null: 'Video is empty'
+  video.id: 'Video Id'
+  viewCount: 'Nb view'
+  proof: 'Preuve'
+  proof.response: 'Refusal answer'
+  proof.status: 'Proof status'
+  website: 'Website'
+  website_is_null: 'Website is empty'
+  youtube: 'Youtube'
+  youtube_is_null: 'Youtube is empty'
+link:
+  front:
+    game: 'Link to the game on VGR'
+    chart: 'Link to the record on VGR'
+
+proof_request:
+  notification:
+    confirm:
+      object: 'Proof request'
+      message: |
+        <p>Hello %s,</p>
+        <p> VGR member asked you a proof on the following score: <a href="%s">%s</a><br />
+        If you do not prove your record in a 2 weeks delay, it will be deleted from the site.</p>
+        <p>Regards, VGR Team.</p>
+    accept:
+      object: 'Proof request accepted'
+      message: |
+        <p>Hello %s,</p>
+        <p>Your request for proof on the score <a href="%s">%s</a> for player %s was accepted.</p>
+        %s
+        <p>Regards, VGR Team.</p>
+    refuse:
+      object: 'Proof request refused'
+      message: |
+        <p>Hello %s,</p>
+        <p>Your request for proof on the score <a href="%s">%s</a> for player %s was refused.</p>
+        %s
+        <p>Regards, VGR Team.</p>
+    send:
+      refuse: You reached the maximum limit of %d proof asks per day, sorry
+
 team:
-    request:
-        exists: 'You already requested this team'
-        has_team: 'This player has already a team'
+  request:
+    exists: 'You already requested this team'
+    has_team: 'This player has already a team'
+
 avatar:
-    extension_not_allowed: 'Format allowed are png and jpg'
-    success: "Avatar has been successfull uploaded"
+  extension_not_allowed: 'Format allowed are png and jpg'
+  success: "Avatar has been successfull uploaded"
 
 video:
-    type_not_found: "Only URL from youtube and twitch"
-    youtube:
-        not_found: "This youtube video does not exists"
+  type_not_found: "Only URL from youtube and twitch"
+  youtube:
+    not_found: "This youtube video does not exists"
 
 badge:
-    title:
-        Forum: 'messages sent on forum'
-        Inscription: 'Register'
-        Connexion: 'connections'
-        Don: 'euros donated'
-        VgrChart: 'submitted scores'
-        VgrProof: 'proofs sent'
-        SpecialWebmaster: 'Special Webmaster'
-        VgrSpecialLegend: 'Special Legend of the year'
-        VgrSpecialMedals: 'Special Medals of the year'
-        VgrSpecialCup: 'Special Cup of the year'
-        VgrSpecialPoints: 'Special Point of the year'
-        VgrSpecialCountry: 'Special Country'
-        Master: 'Master Badge'
-        Platform: 'Badge Platform'
-        Twitch: 'Badge Twitch'
-    earnedOn: 'earned on'
+  title:
+    Forum: 'messages sent on forum'
+    Inscription: 'Register'
+    Connexion: 'connections'
+    Don: 'euros donated'
+    VgrChart: 'submitted scores'
+    VgrProof: 'proofs sent'
+    SpecialWebmaster: 'Special Webmaster'
+    VgrSpecialLegend: 'Special Legend of the year'
+    VgrSpecialMedals: 'Special Medals of the year'
+    VgrSpecialCup: 'Special Cup of the year'
+    VgrSpecialPoints: 'Special Point of the year'
+    VgrSpecialCountry: 'Special Country'
+    Master: 'Master Badge'
+    Platform: 'Badge Platform'
+    Twitch: 'Badge Twitch'
+  earnedOn: 'earned on'
 
 playerBadge:
-    lose:
-        object: 'Player Master Badge lost'
-        message: |
-            <p>Hello %s,</p>
-            <p>You just lost the master badge of : <a href="%s">%s</a><br />
-            <p>Regards, VGR Team.</p>
+  lose:
+    object: 'Player Master Badge lost'
+    message: |
+      <p>Hello %s,</p>
+      <p>You just lost the master badge of : <a href="%s">%s</a><br />
+      <p>Regards, VGR Team.</p>
 
 teamBadge:
-    lose:
-        object: 'Team Master Badge lost'
-        message: |
-            <p>Hello %s,</p>
-            <p>Your team just lost the master badge of : <a href="%s">%s</a><br />
-            <p>Regards, VGR Team.</p>
+  lose:
+    object: 'Team Master Badge lost'
+    message: |
+      <p>Hello %s,</p>
+      <p>Your team just lost the master badge of : <a href="%s">%s</a><br />
+      <p>Regards, VGR Team.</p>
 
 playerChart:
-    updated:
-        object: 'Score updated'
-        message: |
-            <p>Hello %s,</p>
-            <p>Your score on <a href="%s">%s</a> has been modified by an Administrator.<br />
-            <p>Thanks to be more vigilant when you send your scores on VGR.</p><br />
-            <p>Regards, VGR Team.</p>
+  updated:
+    object: 'Score updated'
+    message: |
+      <p>Hello %s,</p>
+      <p>Your score on <a href="%s">%s</a> has been modified by an Administrator.<br />
+      <p>Thanks to be more vigilant when you send your scores on VGR.</p><br />
+      <p>Regards, VGR Team.</p>
 
 workflow_transitions: 'Workflow'
 workflow:
-    transition_add_score: 'Add Score'
-    transition_add_picture: 'Add Picture'
-    transition_completed: 'Completed'
-    transition_activate: 'Activate'
-    transition_desactivate: 'Desactivate'
+  transition_add_score: 'Add Score'
+  transition_add_picture: 'Add Picture'
+  transition_completed: 'Completed'
+  transition_activate: 'Activate'
+  transition_desactivate: 'Desactivate'
     
 

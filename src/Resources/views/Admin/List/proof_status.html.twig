@@ -1,0 +1,31 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    {% set status_classes = {
+        'IN PROGRESS': 'label label-warning',
+        'ACCEPTED': 'label label-success',
+        'REFUSED': 'label label-danger',
+        'CLOSED': 'label label-default'
+    } %}
+
+    {% set status_icons = {
+        'IN PROGRESS': 'fa fa-clock-o',
+        'ACCEPTED': 'fa fa-check',
+        'REFUSED': 'fa fa-times',
+        'CLOSED': 'fa fa-archive'
+    } %}
+
+    {% set status_texts = {
+        'IN PROGRESS': 'proof.status.in_progress'|trans,
+        'ACCEPTED': 'proof.status.accepted'|trans,
+        'REFUSED': 'proof.status.refused'|trans,
+        'CLOSED': 'proof.status.closed'|trans
+    } %}
+
+    {% set status_value = value.getValue() %}
+
+    <span class="{{ status_classes[status_value] | default('badge badge-info') }}">
+        <i class="{{ status_icons[status_value] | default('fa fa-question') }}"></i>
+        {{ status_texts[status_value] | default(status_value) }}
+    </span>
+{% endblock %}

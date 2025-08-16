@@ -1,90 +1,257 @@
+{#  src/Resources/views/Admin/Object/Proof/show.html.twig #}
 {% extends '@SonataAdmin/CRUD/show.html.twig' %}
 
 {% block show_groups %}
+    {# Section d'information sur le jeu/chart #}
     <div class="row">
-        {% block field_row %}
-            {% for code in groups %}
-                {% set show_group = admin.showgroups[code] %}
-
-                <div class="{{ show_group.class|default('col-md-12') }} {{ no_padding|default(false) ? 'nopadding' }}">
-                    <div class="{{ show_group.box_class }}">
-                        <div class="box-header">
-                            <h4 class="box-title">
-                                {% block show_title %}
-                                    {{ show_group.label|trans({}, show_group.translation_domain|default(admin.translationDomain)) }}
-                                {% endblock %}
-                            </h4>
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-gamepad"></i> {% trans %}proof.chart.information{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong><i class="fa fa-game"></i> {% trans %}label.game{% endtrans %} :</strong><br>
+                            <span class="text-muted">{{ object.getChart().getGroup().getGame().getName() }}</span>
                         </div>
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table">
-                                <tbody>
-                                {% for field_name in show_group.fields %}
-                                    {% block show_field %}
-                                        <tr class="sonata-ba-view-container">
-                                            {% if elements[field_name] is defined %}
-                                                {% if field_name == 'player' %}
-                                                    {% if object.getPlayerChart() %}
-                                                        <th>Player</th>
-                                                        <td>{{ object.getPlayerChart().getPlayer().getPseudo() }}</td>
-                                                    {%  else %}
-                                                        <th>Player</th>
-                                                        <td>NO PLAYER</td>
-                                                    {% endif %}
-                                                {% elseif field_name == 'picture' %}
-                                                    {% if object.getPicture() != null %}
-                                                        <th>Picture</th>
-                                                        <td>
-                                                             <a target="_blank" href="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}">
-                                                                <img src="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}" width="100%" alt="" />
-                                                            </a>
-                                                        </td>
-                                                    {% endif %}
-                                                {% elseif field_name == 'video' %}
-                                                    {% if object.getVideo() != null %}
-                                                        <th>Video</th>
-                                                        <td>
-                                                            <iframe width="720" height="405"
-                                                                    src="{{ object.getVideo().getEmbeddedUrl() }}">
-                                                            </iframe>
-                                                        </td>
-                                                    {% endif %}
-                                                {% elseif field_name == 'playerChart' %}
-                                                    {% if object.getPlayerChart() %}
-                                                        <th>Score (ID={{ object.getPlayerChart().getId() }})</th>
-                                                        <td>
-                                                            {% for lib in object.getPlayerChart().libs %}
-                                                                {{ lib }}
-                                                            {% endfor %}
-                                                        </td>
-                                                        </tr><tr>
-                                                        <th>VGR LINK</th>
-                                                        <td>
-                                                            <a target="_blank" href="{{ app_front_url }}/en/{{ object.getPlayerChart().getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
-                                                        </td>
-                                                        </tr><tr>
-                                                        <th>Ranking</th>
-                                                        <td>
-                                                            {{ object.getPlayerChart().getRank() }} / {{ object.getPlayerChart().getChart().getNbPost() }}
-                                                        </td>
-                                                    {%  else %}
-                                                        <th>PlayerChart</th>
-                                                        <td>NO PLAYER CHART</td>
-                                                    {% endif %}
-                                                {%  else %}
-                                                    {{ elements[field_name]|render_view_element(object)}}
-                                                {% endif %}
-
-                                            {% endif %}
-                                        </tr>
-                                    {% endblock %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                        <div class="col-md-4">
+                            <strong><i class="fa fa-folder"></i> {% trans %}label.group{% endtrans %} :</strong><br>
+                            <span class="text-muted">{{ object.getChart().getGroup().getName() }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <strong><i class="fa fa-bar-chart"></i> {% trans %}label.chart{% endtrans %} :</strong><br>
+                            <span class="text-muted">{{ object.getChart().getName() }}</span>
+                            <br><small><a target="_blank" href="{{ app_front_url }}/en/{{ object.getChart().getUrl() }}"><i class="fa fa-external-link"></i> {% trans %}link.front.chart{% endtrans %}</a></small>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        {% endblock %}
-
+            </div>
+        </div>
     </div>
+
+    {# Section des preuves et statut côte à côte #}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-camera"></i> {% trans %}proof.submitted.evidences{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body">
+                    {% if object.getPicture() != null or object.getVideo() != null %}
+                        <div class="row">
+                            {% if object.getPicture() != null %}
+                                <div class="col-md-{{ object.getVideo() != null ? '6' : '12' }}">
+                                    <div class="text-center">
+                                        <h5><i class="fa fa-picture-o"></i> {% trans %}proof.image.evidence{% endtrans %}</h5>
+                                        <div class="proof-media">
+                                            <a target="_blank" href="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}" class="thumbnail">
+                                                <img src="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}" alt="{% trans %}proof.image.alt{% endtrans %}" class="img-responsive" style="max-height: 350px;" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if object.getVideo() != null %}
+                                <div class="col-md-{{ object.getPicture() != null ? '6' : '12' }}">
+                                    <div class="text-center">
+                                        <h5><i class="fa fa-video-camera"></i> {% trans %}proof.video.evidence{% endtrans %}</h5>
+                                        <div class="proof-media">
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <iframe class="embed-responsive-item" src="{{ object.getVideo().getEmbeddedUrl() }}"></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning text-center">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <strong>{% trans %}proof.no.evidence.title{% endtrans %}</strong><br>
+                            {% trans %}proof.no.evidence.message{% endtrans %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {# Section du statut (lecture seule) #}
+        <div class="col-md-4">
+            <div class="box {% if object.getStatus().getValue() == 'IN PROGRESS' %}box-warning{% elseif object.getStatus().getValue() == 'ACCEPTED' %}box-success{% elseif object.getStatus().getValue() == 'REFUSED' %}box-danger{% else %}box-default{% endif %}">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-flag"></i> {% trans %}proof.status.title{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body text-center">
+                    {% if object.getStatus().getValue() == 'IN PROGRESS' %}
+                        <i class="fa fa-clock-o text-orange" style="font-size: 48px;"></i>
+                        <h4 class="text-orange">{% trans %}proof.status.in_progress{% endtrans %}</h4>
+                        <p class="text-muted" style="font-size: 12px;">
+                            {% trans %}proof.status.awaiting_validation{% endtrans %}
+                        </p>
+                    {% elseif object.getStatus().getValue() == 'ACCEPTED' %}
+                        <i class="fa fa-check-circle text-green" style="font-size: 48px;"></i>
+                        <h4 class="text-green">{% trans %}proof.status.accepted{% endtrans %}</h4>
+                        <p class="text-muted" style="font-size: 12px;">
+                            {% if object.getPlayerResponding() %}
+                                {% trans %}proof.validated.by{% endtrans %} {{ object.getPlayerResponding().getPseudo() }}
+                            {% endif %}
+                            {% if object.getCheckedAt() %}
+                                <br>{{ object.getCheckedAt()|date('d/m/Y H:i') }}
+                            {% endif %}
+                        </p>
+                    {% elseif object.getStatus().getValue() == 'REFUSED' %}
+                        <i class="fa fa-times-circle text-red" style="font-size: 48px;"></i>
+                        <h4 class="text-red">{% trans %}proof.status.refused{% endtrans %}</h4>
+                        <p class="text-muted" style="font-size: 12px;">
+                            {% if object.getPlayerResponding() %}
+                                {% trans %}proof.refused.by{% endtrans %} {{ object.getPlayerResponding().getPseudo() }}
+                            {% endif %}
+                            {% if object.getCheckedAt() %}
+                                <br>{{ object.getCheckedAt()|date('d/m/Y H:i') }}
+                            {% endif %}
+                        </p>
+                    {% else %}
+                        <i class="fa fa-archive text-gray" style="font-size: 48px;"></i>
+                        <h4 class="text-gray">{{ object.getStatus().getValue() }}</h4>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Bouton d'édition si nécessaire #}
+            {% if object.getStatus().getValue() == 'IN PROGRESS' %}
+                <div class="box box-default">
+                    <div class="box-body text-center">
+                        <a href="{{ admin.generateUrl('edit', {'id': object.getId()}) }}" class="btn btn-primary btn-block">
+                            <i class="fa fa-edit"></i> {% trans %}proof.edit.for.validation{% endtrans %}
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Section des informations du score et proof request #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-trophy"></i> {% trans %}proof.score.information{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body">
+                    {% if object.getPlayerChart() %}
+                        <table class="table table-condensed table-striped">
+                            <tr>
+                                <td><strong>{% trans %}label.player{% endtrans %} :</strong></td>
+                                <td>{{ object.getPlayerChart().getPlayer().getPseudo() }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>{% trans %}label.score{% endtrans %} :</strong></td>
+                                <td>
+                                    {% for lib in object.getPlayerChart().libs %}
+                                        <span class="label label-primary">{{ lib }}</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>{% trans %}label.ranking{% endtrans %} :</strong></td>
+                                <td>
+                                    <span class="badge bg-blue">{{ object.getPlayerChart().getRank() }} / {{ object.getPlayerChart().getChart().getNbPost() }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>{% trans %}label.playerChart.status{% endtrans %} :</strong></td>
+                                <td><span class="label label-info">{{ object.getPlayerChart().getStatus() }}</span></td>
+                            </tr>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-danger">
+                            <i class="fa fa-exclamation-circle"></i> {% trans %}proof.no.playerchart{% endtrans %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            {% if object.getProofRequest() %}
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-comment"></i> {% trans %}proof.request.title{% endtrans %}
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="alert alert-info">
+                            <strong>{% trans %}proof.request.message{% endtrans %} :</strong><br>
+                            {{ object.getProofRequest().getMessage() }}
+                        </div>
+                        {% if object.getProofRequest().getPlayerRequesting() %}
+                            <p><strong>{% trans %}proof.request.requested.by{% endtrans %} :</strong> {{ object.getProofRequest().getPlayerRequesting().getPseudo() }}</p>
+                        {% endif %}
+                        {% if object.getProofRequest().getCreatedAt() %}
+                            <p><strong>{% trans %}proof.request.date{% endtrans %} :</strong> {{ object.getProofRequest().getCreatedAt()|date('d/m/Y H:i') }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-info-circle"></i> {% trans %}proof.additional.information{% endtrans %}
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i>
+                            {% trans %}proof.no.specific.request{% endtrans %}
+                        </div>
+
+                        {# Informations de création de la preuve #}
+                        <table class="table table-condensed">
+                            <tr>
+                                <td><strong>{% trans %}proof.creation.date{% endtrans %} :</strong></td>
+                                <td>{{ object.getCreatedAt()|date('d/m/Y H:i') }}</td>
+                            </tr>
+                            {% if object.getUpdatedAt() %}
+                                <tr>
+                                    <td><strong>{% trans %}proof.last.update{% endtrans %} :</strong></td>
+                                    <td>{{ object.getUpdatedAt()|date('d/m/Y H:i') }}</td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# CSS pour les médias #}
+    <style>
+        .proof-media {
+            border: 3px solid #f4f4f4;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fafafa;
+        }
+        .proof-media .thumbnail {
+            margin-bottom: 0;
+            border: none;
+            background: transparent;
+            padding: 0;
+        }
+        .proof-media .thumbnail:hover {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+
 {% endblock %}
