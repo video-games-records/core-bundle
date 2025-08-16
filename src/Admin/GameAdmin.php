@@ -86,10 +86,16 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
     protected function configureFormFields(FormMapper $form): void
     {
         $form
+            ->with('game.general.information', [
+                'class' => 'col-md-6',
+                'label' => 'game.general.information',
+                'box_class' => 'box box-primary'
+            ])
             ->add('serie', ModelAutocompleteType::class, [
                 'property' => 'libSerie',
                 'label' => 'label.serie',
                 'required' => false,
+                'btn_add' => false,
             ])
             ->add('type', null, [
                 'label' => 'label.type',
@@ -103,22 +109,13 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'label' => 'label.name.fr',
                 'required' => false,
             ])
-            ->add('rules', null, ['required' => false, 'expanded' => false, 'label' => 'label.rules'])
-            ->add('badge', ModelListType::class, [
-                'btn_add' => true,
-                'btn_list' => true,
-                'btn_edit' => false,
-                'btn_delete' => false,
-                'btn_catalogue' => true,
-                'label' => 'label.badge',
-            ])
-            ->add('forum', ModelListType::class, [
-                'btn_add' => true,
-                'btn_list' => true,
-                'btn_edit' => false,
-                'btn_delete' => false,
-                'btn_catalogue' => true,
-                'label' => 'label.forum',
+            ->end()
+
+            // Configuration et médias - 2ème colonne
+            ->with('game.configuration', [
+                'class' => 'col-md-6',
+                'label' => 'game.configuration',
+                'box_class' => 'box box-success'
             ])
             ->add('picture', TextType::class, [
                 'label' => 'label.picture',
@@ -145,6 +142,43 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'label' => 'label.boolRanking',
                 'required' => false,
             ])
+            ->end()
+
+            // Associations - 2 colonnes
+            ->with('game.associations', [
+                'class' => 'col-md-6',
+                'label' => 'game.associations',
+                'box_class' => 'box box-info'
+            ])
+            ->add('badge', ModelListType::class, [
+                'btn_add' => true,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'label.badge',
+            ])
+            ->add('forum', ModelListType::class, [
+                'btn_add' => true,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'label.forum',
+            ])
+            ->add('rules', null, [
+                'required' => false,
+                'expanded' => false,
+                'label' => 'label.rules'
+            ])
+            ->end()
+
+            // Plateformes - 2ème colonne des associations
+            ->with('game.platforms', [
+                'class' => 'col-md-6',
+                'label' => 'label.platforms',
+                'box_class' => 'box box-warning'
+            ])
             ->add(
                 'platforms',
                 null,
@@ -160,8 +194,14 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                         }
                 ]
             )
-            ->end()
-            ->with('label.groups')
+            ->end();
+
+        $form
+            ->with('label.groups', [
+                'class' => 'col-md-12',
+                'label' => 'label.groups',
+                'box_class' => 'box box-default'
+            ])
             ->add(
                 'groups',
                 CollectionType::class,
@@ -169,12 +209,9 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                     'label' => 'label.groups',
                     'by_reference' => false,
                     'type_options' => array(
-                        // Prevents the "Delete" option from being displayed
                         'delete' => true,
                         'delete_options' => array(
-                            // You may otherwise choose to put the field but hide it
                             'type' => CheckboxType::class,
-                            // In that case, you need to fill in the options as well
                             'type_options' => array(
                                 'mapped' => false,
                                 'required' => false,

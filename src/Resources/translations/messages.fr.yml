@@ -106,6 +106,20 @@ proof:
       message: "Excellent travail ! Toutes les preuves ont été traitées."
 
 game:
+  general:
+    information: "Informations générales"
+  configuration: "Configuration"
+  associations: "Associations"
+  statistics: "Statistiques"
+  detailed:
+    information: "Informations détaillées"
+  groups:
+    help:
+      title: "Gestion des groupes"
+      message: "Les groupes permettent d'organiser les charts du jeu. Vous pouvez les modifier ici ou via la page dédiée."
+  ranking:
+    enabled: "Activé"
+    disabled: "Désactivé"
   dashboard:
     title: "Jeux"
     progress: "Progression globale"
@@ -238,7 +252,7 @@ label:
   name.en: 'Nom [EN]'
   name.fr: 'Nom [FR]'
   nbGame: 'Nb jeux'
-  nbChart: 'Nb scores'
+  nbChart: 'Nb record'
   nbChartProven: 'Nb scores prouvés'
   nbChartDisabled: 'Nb scores déactivés'
   nbComment: 'Nb commentaires'
