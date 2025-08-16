@@ -228,22 +228,19 @@ class ProofAdmin extends AbstractAdmin
                 'associated_property' => $this->getLibChart(),
                 'label' => 'label.chart',
             ])
-            ->addIdentifier('type', null, ['label' => 'label.type'])
+            ->add('status', null, [
+                'label' => 'label.status',
+                'template' => '@VideoGamesRecordsCore/Admin/List/proof_status.html.twig'
+            ])
+            ->add('type', null, [
+                'label' => 'label.type',
+                'template' => '@VideoGamesRecordsCore/Admin/List/proof_type.html.twig',
+                'sortable' => false
+            ])
             ->add('playerResponding', null, [
                 'associated_property' => 'pseudo',
                 'label' => 'label.player.responding',
             ])
-            ->add(
-                'status',
-                'choice',
-                [
-                    'label' => 'label.status',
-                    'editable' => true,
-                    'choices' => ProofStatus::getStatusChoices(),
-                    'choice_translation_domain' => false,
-                ]
-            )
-            ->add('playerChart.status', null, ['label' => 'label.playerChart.status'])
             ->add('created_at', 'datetime', ['label' => 'label.createdAt'])
             ->add('_action', 'actions', [
                 'actions' => [

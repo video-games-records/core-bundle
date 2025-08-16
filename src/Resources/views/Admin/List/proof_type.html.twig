@@ -1,0 +1,36 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    {% set type_classes = {
+        'Picture': 'label label-info',
+        'Video': 'label label-primary',
+        'None': 'label label-default'
+    } %}
+
+    {% set type_icons = {
+        'Picture': 'fa fa-picture-o',
+        'Video': 'fa fa-video-camera',
+        'None': 'fa fa-question'
+    } %}
+
+    {% set type_texts = {
+        'Picture': 'proof.type.picture'|trans,
+        'Video': 'proof.type.video'|trans,
+        'None': 'proof.type.none'|trans
+    } %}
+
+    {# Détermine le type en fonction des preuves disponibles #}
+    {% set proof_type = 'None' %}
+    {% if object.getPicture() and object.getVideo() %}
+        {% set proof_type = 'Both' %}
+    {% elseif object.getPicture() %}
+        {% set proof_type = 'Picture' %}
+    {% elseif object.getVideo() %}
+        {% set proof_type = 'Video' %}
+    {% endif %}
+
+    <span class="{{ type_classes[proof_type] | default('label label-default') }}">
+        <i class="{{ type_icons[proof_type] | default('fa fa-question') }}"></i>
+        {{ type_texts[proof_type] | default(proof_type) }}
+    </span>
+{% endblock %}

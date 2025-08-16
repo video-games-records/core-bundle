@@ -1,105 +1,439 @@
 {% extends '@SonataAdmin/CRUD/edit.html.twig' %}
-{% block form %}
 
-    {# your custom code #}
+{% block form %}
+    {# Section d'information sur le jeu/chart #}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                <div class="box-header">
-                    <h4 class="box-title">
-                        Show
-                    </h4>
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-gamepad"></i> {% trans %}proof.chart.information{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong><i class="fa fa-game"></i> {% trans %}label.game{% endtrans %} :</strong><br>
+                            <span class="text-muted">{{ object.getChart().getGroup().getGame().getName() }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <strong><i class="fa fa-folder"></i> {% trans %}label.group{% endtrans %} :</strong><br>
+                            <span class="text-muted">{{ object.getChart().getGroup().getName() }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <strong><i class="fa fa-bar-chart"></i> {% trans %}label.chart{% endtrans %} :</strong><br>
+                            <span class="text-muted">{{ object.getChart().getName() }}</span>
+                            <br><small><a target="_blank" href="{{ app_front_url }}/en/{{ object.getChart().getUrl() }}"><i class="fa fa-external-link"></i> {% trans %}link.front.chart{% endtrans %}</a></small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="box-body table-responsive no-padding">
-                <table class="table">
-                    <tbody>
-                        <tr class="sonata-ba-view-container">
-                            <th>Game</th>
-                            <td>
-                                {{ object.getChart().getGroup().getGame().getName() }}
-                            </td>
-                        </tr>
-                        <tr class="sonata-ba-view-container">
-                            <th>Group</th>
-                            <td>
-                                {{ object.getChart().getGroup().getName() }}
-                            </td>
-                        </tr>
-                        <tr class="sonata-ba-view-container">
-                            <th>Chart</th>
-                            <td>
-                                {{ object.getChart().getName() }}
-                            </td>
-                        </tr>
-                        <tr class="sonata-ba-view-container">
-                            <th>LINK</th>
-                            <td>
-                                <a target="_blank" href="{{ app_front_url }}/en/{{ object.getChart().getUrl() }}">({% trans %}link.front.chart{% endtrans %})</a>
-                            </td>
-                        </tr>
-                        {% if object.getPicture() != null %}
-                            <tr class="sonata-ba-view-container">
-                                <th>Picture</th>
-                                <td>
-                                    <a target="_blank" href="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}">
-                                        <img src="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}" width="50%" alt="" />
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endif %}
-                        {% if object.getVideo() != null %}
-                            <tr class="sonata-ba-view-container">
-                                <th>Video</th>
-                                <td>
-                                    <iframe width="720" height="405"
-                                            src="{{ object.getVideo().getEmbeddedUrl() }}">
-                                    </iframe>
-                                </td>
-                            </tr>
-                        {% endif %}
-                        <tr class="sonata-ba-view-container">
-                            {% if object.getPlayerChart() %}
-                                <th>Score (ID={{ object.getPlayerChart().getId() }})</th>
-                                <td>
-                                    {% for lib in object.getPlayerChart().libs %}
-                                        {{ lib }}
-                                    {% endfor %}
-                                </td>
-                            </tr><tr>
-                                <th>Ranking</th>
-                                <td>
-                                    {{ object.getPlayerChart().getRank() }} / {{ object.getPlayerChart().getChart().getNbPost() }}
-                                </td>
-                            </tr><tr>
-                                <th>Status</th>
-                                <td>
-                                    {{ object.getPlayerChart().getStatus() }}
-                                </td>
-                            {%  else %}
-                                <th>PlayerChart</th>
-                                <td>NO PLAYER CHART</td>
-                            {% endif %}
-                        </tr>
-
-                        <tr class="sonata-ba-view-container">
-                            {% if object.getProofRequest() %}
-                                <th>Proof Request Message</th>
-                                <td>
-                                    {{ object.getProofRequest().getMessage() }}
-                                </td>
-                            {%  else %}
-                                <th>Proof Request Message</th>
-                                <td>NO PROOF REQUEST</td>
-                            {% endif %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
         </div>
     </div>
 
+    {# Section des preuves et validation côte à côte #}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-camera"></i> {% trans %}proof.submitted.evidences{% endtrans %}
+                    </h3>
+                </div>
+                <div class="box-body">
+                    {% if object.getPicture() != null or object.getVideo() != null %}
+                        <div class="row">
+                            {% if object.getPicture() != null %}
+                                <div class="col-md-{{ object.getVideo() != null ? '6' : '12' }}">
+                                    <div class="text-center">
+                                        <h5><i class="fa fa-picture-o"></i> {% trans %}proof.image.evidence{% endtrans %}</h5>
+                                        <div class="proof-media">
+                                            <a target="_blank" href="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}" class="thumbnail">
+                                                <img src="{{ path('vgr_core_picture_show',{'id': object.picture.id}) }}" alt="{% trans %}proof.image.alt{% endtrans %}" class="img-responsive" style="max-height: 350px;" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if object.getVideo() != null %}
+                                <div class="col-md-{{ object.getPicture() != null ? '6' : '12' }}">
+                                    <div class="text-center">
+                                        <h5><i class="fa fa-video-camera"></i> {% trans %}proof.video.evidence{% endtrans %}</h5>
+                                        <div class="proof-media">
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <iframe class="embed-responsive-item" src="{{ object.getVideo().getEmbeddedUrl() }}"></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning text-center">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <strong>{% trans %}proof.no.evidence.title{% endtrans %}</strong><br>
+                            {% trans %}proof.no.evidence.message{% endtrans %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {# Section de validation à droite #}
+        <div class="col-md-4">
+            {% if object.getStatus().getValue() == 'IN PROGRESS' %}
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-gavel"></i> {% trans %}proof.validation.title{% endtrans %}
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="alert alert-warning" style="font-size: 12px; padding: 10px;">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <strong>{% trans %}proof.validation.warning{% endtrans %}</strong><br>
+                            {% trans %}proof.validation.examine{% endtrans %}
+                        </div>
+
+                        <div class="text-center" style="margin: 20px 0;">
+                            <h5 style="margin-bottom: 20px;">{% trans %}proof.validation.decision{% endtrans %}</h5>
+
+                            <button type="button"
+                                    class="btn btn-success btn-block proof-action-btn"
+                                    data-action="ACCEPTED"
+                                    onclick="setStatusAndSubmit('ACCEPTED')"
+                                    style="margin-bottom: 15px; padding: 15px; font-size: 16px;">
+                                <i class="fa fa-check-circle"></i><br>
+                                <strong>{% trans %}proof.action.accept{% endtrans %}</strong><br>
+                                <small>{% trans %}proof.action.accept_description{% endtrans %}</small>
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-danger btn-block proof-action-btn"
+                                    data-action="REFUSED"
+                                    onclick="setStatusAndSubmit('REFUSED')"
+                                    style="padding: 15px; font-size: 16px;">
+                                <i class="fa fa-times-circle"></i><br>
+                                <strong>{% trans %}proof.action.refuse{% endtrans %}</strong><br>
+                                <small>{% trans %}proof.action.refuse_description{% endtrans %}</small>
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info text-center" style="font-size: 11px; padding: 8px; margin-top: 15px;">
+                            <i class="fa fa-lightbulb-o"></i>
+                            {% trans %}proof.validation.form.below{% endtrans %}<br>
+                            <small><i class="fa fa-forward"></i> {% trans %}proof.auto.redirect.info{% endtrans %}</small>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                {# Affichage du statut quand ce n'est pas IN PROGRESS #}
+                <div class="box {% if object.getStatus().getValue() == 'ACCEPTED' %}box-success{% elseif object.getStatus().getValue() == 'REFUSED' %}box-danger{% else %}box-default{% endif %}">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-flag"></i> {% trans %}proof.status.title{% endtrans %}
+                        </h3>
+                    </div>
+                    <div class="box-body text-center">
+                        {% if object.getStatus().getValue() == 'ACCEPTED' %}
+                            <i class="fa fa-check-circle text-green" style="font-size: 48px;"></i>
+                            <h4 class="text-green">{% trans %}proof.status.accepted{% endtrans %}</h4>
+                            <p class="text-muted" style="font-size: 12px;">
+                                {% if object.getPlayerResponding() %}
+                                    {% trans %}proof.validated.by{% endtrans %} {{ object.getPlayerResponding().getPseudo() }}
+                                {% endif %}
+                                {% if object.getCheckedAt() %}
+                                    <br>{{ object.getCheckedAt()|date('d/m/Y H:i') }}
+                                {% endif %}
+                            </p>
+                        {% elseif object.getStatus().getValue() == 'REFUSED' %}
+                            <i class="fa fa-times-circle text-red" style="font-size: 48px;"></i>
+                            <h4 class="text-red">{% trans %}proof.status.refused{% endtrans %}</h4>
+                            <p class="text-muted" style="font-size: 12px;">
+                                {% if object.getPlayerResponding() %}
+                                    {% trans %}proof.refused.by{% endtrans %} {{ object.getPlayerResponding().getPseudo() }}
+                                {% endif %}
+                                {% if object.getCheckedAt() %}
+                                    <br>{{ object.getCheckedAt()|date('d/m/Y H:i') }}
+                                {% endif %}
+                            </p>
+                        {% else %}
+                            <i class="fa fa-archive text-gray" style="font-size: 48px;"></i>
+                            <h4 class="text-gray">{{ object.getStatus().getValue() }}</h4>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Section des informations du score #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-trophy"></i> Informations du Score
+                    </h3>
+                </div>
+                <div class="box-body">
+                    {% if object.getPlayerChart() %}
+                        <table class="table table-condensed">
+                            <tr>
+                                <td><strong>Joueur :</strong></td>
+                                <td>{{ object.getPlayerChart().getPlayer().getPseudo() }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Score :</strong></td>
+                                <td>
+                                    {% for lib in object.getPlayerChart().libs %}
+                                        <span class="label label-primary">{{ lib }}</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Classement :</strong></td>
+                                <td>
+                                    <span class="badge bg-blue">{{ object.getPlayerChart().getRank() }} / {{ object.getPlayerChart().getChart().getNbPost() }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Statut PlayerChart :</strong></td>
+                                <td>{{ object.getPlayerChart().getStatus() }}</td>
+                            </tr>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-danger">
+                            <i class="fa fa-exclamation-circle"></i> Aucun PlayerChart associé
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box {% if object.getStatus().getValue() == 'IN_PROGRESS' %}box-warning{% elseif object.getStatus().getValue() == 'ACCEPTED' %}box-success{% elseif object.getStatus().getValue() == 'REFUSED' %}box-danger{% else %}box-default{% endif %}">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-flag"></i> Statut de la Preuve
+                    </h3>
+                </div>
+                <div class="box-body text-center">
+                    <div style="font-size: 24px; margin: 20px 0;">
+                        {% if object.getStatus().getValue() == 'IN PROGRESS' %}
+                            <i class="fa fa-clock-o text-orange"></i>
+                            <h4 class="text-orange">EN ATTENTE</h4>
+                            <p class="text-muted">Cette preuve nécessite une validation</p>
+                        {% elseif object.getStatus().getValue() == 'ACCEPTED' %}
+                            <i class="fa fa-check-circle text-green"></i>
+                            <h4 class="text-green">ACCEPTÉE</h4>
+                            <p class="text-muted">
+                                {% if object.getPlayerResponding() %}
+                                    Validée par {{ object.getPlayerResponding().getPseudo() }}
+                                {% endif %}
+                                {% if object.getCheckedAt() %}
+                                    <br><small>le {{ object.getCheckedAt()|date('d/m/Y à H:i') }}</small>
+                                {% endif %}
+                            </p>
+                        {% elseif object.getStatus().getValue() == 'REFUSED' %}
+                            <i class="fa fa-times-circle text-red"></i>
+                            <h4 class="text-red">REFUSÉE</h4>
+                            <p class="text-muted">
+                                {% if object.getPlayerResponding() %}
+                                    Refusée par {{ object.getPlayerResponding().getPseudo() }}
+                                {% endif %}
+                                {% if object.getCheckedAt() %}
+                                    <br><small>le {{ object.getCheckedAt()|date('d/m/Y à H:i') }}</small>
+                                {% endif %}
+                            </p>
+                        {% else %}
+                            <i class="fa fa-archive text-gray"></i>
+                            <h4 class="text-gray">{{ object.getStatus().getValue() }}</h4>
+                        {% endif %}
+                    </div>
+
+                    {% if object.getProofRequest() %}
+                        <div class="alert alert-info" style="margin-top: 15px;">
+                            <strong><i class="fa fa-comment"></i> Message de demande :</strong><br>
+                            {{ object.getProofRequest().getMessage() }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Section avec boutons de validation personnalisés - seulement si status IN_PROGRESS #}
+    {% if object.getStatus().getValue() == 'IN_PROGRESS' %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-gavel"></i> Validation de la preuve
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="alert alert-warning">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <strong>Action définitive :</strong> Veuillez examiner attentivement les preuves soumises ci-dessus avant de prendre une décision.
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h4 style="margin-bottom: 30px;">Quelle est votre décision ?</h4>
+                                <div class="btn-group btn-group-lg" role="group" style="margin-bottom: 20px;">
+                                    <button type="button"
+                                            class="btn btn-success btn-lg proof-action-btn"
+                                            data-action="ACCEPTED"
+                                            onclick="setStatusAndSubmit('ACCEPTED')"
+                                            style="margin-right: 20px; padding: 20px 40px; font-size: 18px;">
+                                        <i class="fa fa-check-circle"></i><br>
+                                        <strong>ACCEPTER</strong><br>
+                                        <small>La preuve est valide</small>
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-danger btn-lg proof-action-btn"
+                                            data-action="REFUSED"
+                                            onclick="setStatusAndSubmit('REFUSED')"
+                                            style="padding: 20px 40px; font-size: 18px;">
+                                        <i class="fa fa-times-circle"></i><br>
+                                        <strong>REFUSER</strong><br>
+                                        <small>La preuve n'est pas valide</small>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-info text-center" style="margin-top: 20px;">
+                                    <i class="fa fa-lightbulb-o"></i>
+                                    <strong>Conseil :</strong> Vous pouvez également utiliser le formulaire ci-dessous pour modifier manuellement le statut et ajouter des commentaires.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {# Formulaire original #}
     {{ parent() }}
+
+    <script>
+      // Bloque COMPLÈTEMENT les popups de confirmation sur cette page
+      (function() {
+        // Override beforeunload dès le chargement
+        window.onbeforeunload = null;
+
+        // Empêche tout ajout d'event listener beforeunload
+        var originalAddEventListener = EventTarget.prototype.addEventListener;
+        EventTarget.prototype.addEventListener = function(type, listener, options) {
+          if (type === 'beforeunload') {
+            console.log('Blocked beforeunload event listener');
+            return;
+          }
+          return originalAddEventListener.call(this, type, listener, options);
+        };
+
+        // Override les setters
+        Object.defineProperty(window, 'onbeforeunload', {
+          set: function(value) {
+            console.log('Blocked onbeforeunload setter');
+          },
+          get: function() {
+            return null;
+          }
+        });
+      })();
+
+      function setStatusAndSubmit(status) {
+        // Trouve le champ status dans le formulaire
+        var statusField = document.querySelector('select[name*="[status]"]');
+
+        if (statusField) {
+          statusField.value = status;
+
+          // Désactive tous les boutons pour éviter les double-clics
+          var actionButtons = document.querySelectorAll('.proof-action-btn');
+          actionButtons.forEach(function(btn) {
+            btn.disabled = true;
+            var icon = btn.querySelector('i');
+            if (icon) {
+              icon.className = 'fa fa-spinner fa-spin';
+            }
+            btn.innerHTML = btn.innerHTML.replace('{% trans %}proof.action.accept{% endtrans %}', '{% trans %}proof.processing{% endtrans %}').replace('{% trans %}proof.action.refuse{% endtrans %}', '{% trans %}proof.processing{% endtrans %}');
+          });
+
+          // Trouve et clique sur le bouton de soumission Sonata
+          var submitButton = document.querySelector('button[type="submit"][name="btn_update_and_edit"]') ||
+            document.querySelector('button[type="submit"]') ||
+            document.querySelector('input[type="submit"]');
+
+          if (submitButton) {
+            setTimeout(function() {
+              submitButton.click();
+            }, 50);
+          } else {
+            // Fallback : soumission directe
+            var form = statusField.closest('form');
+            if (form) {
+              form.submit();
+            }
+          }
+        } else {
+          alert('{% trans %}proof.error.status.not.found{% endtrans %}');
+        }
+      }
+
+      // Style CSS supplémentaire pour les boutons
+      document.addEventListener('DOMContentLoaded', function() {
+        var style = document.createElement('style');
+        style.textContent = `
+                .proof-action-btn {
+                    font-weight: bold;
+                    transition: all 0.3s ease;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+                .proof-action-btn:hover:not(:disabled) {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                }
+                .proof-action-btn:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+                .btn-success.proof-action-btn {
+                    background: linear-gradient(135deg, #5cb85c 0%, #449d44 100%);
+                    border: none;
+                }
+                .btn-danger.proof-action-btn {
+                    background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%);
+                    border: none;
+                }
+                .proof-media {
+                    border: 3px solid #f4f4f4;
+                    border-radius: 8px;
+                    padding: 10px;
+                    background: #fafafa;
+                }
+                .proof-media .thumbnail {
+                    margin-bottom: 0;
+                    border: none;
+                    background: transparent;
+                    padding: 0;
+                }
+                .proof-media .thumbnail:hover {
+                    opacity: 0.8;
+                    transition: opacity 0.3s ease;
+                }
+            `;
+        document.head.appendChild(style);
+      });
+    </script>
 
 {% endblock %}
