@@ -100,6 +100,15 @@ proof:
       title: "Aucune preuve en attente"
       message: "Excellent travail ! Toutes les preuves ont été traitées."
 
+game:
+  dashboard:
+    title: "Jeux"
+    progress: "Progression globale"
+    empty:
+      title: "Aucun jeu trouvé"
+      message: "Aucun jeu dans ces statuts actuellement."
+
+
 breadcrumb:
   link_badge_list: 'Liste des badges'
   link_chart_create: 'Créer un record'
