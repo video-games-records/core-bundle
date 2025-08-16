@@ -131,6 +131,12 @@ group:
     information: "General Information"
   configuration: "Configuration"
 
+chart:
+  general:
+    information: "General Information"
+  configuration: "Configuration"
+  metadata: "Metadata"
+
 proof_request:
   requested_by: "Requested by"
   player: "Player"

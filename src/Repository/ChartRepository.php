@@ -12,39 +12,12 @@ use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class ChartRepository extends DefaultRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Chart::class);
-    }
-
-    /**
-     * @return mixed
-     * @throws NonUniqueResultException
-     * @throws NoResultException
-     */
-    public function countStatusPlayerMaj(): mixed
-    {
-        $qb = $this->getCountQueryBuilder();
-        $this->whereStatusPlayer($qb, ChartStatus::MAJ);
-        return $qb->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    /**
-     * @return mixed
-     * @throws NonUniqueResultException
-     * @throws NoResultException
-     */
-    public function countStatusTeamMaj(): mixed
-    {
-        $qb = $this->getCountQueryBuilder();
-        $this->whereStatusTeam($qb, ChartStatus::MAJ);
-        return $qb->getQuery()
-            ->getSingleScalarResult();
     }
 
     /**

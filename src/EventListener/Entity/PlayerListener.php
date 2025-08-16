@@ -9,7 +9,6 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Player;
-use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class PlayerListener
 {
@@ -43,14 +42,7 @@ class PlayerListener
     public function postUpdate(Player $player, LifecycleEventArgs $event): void
     {
         if (array_key_exists('team', $this->changeSet)) {
-            $em = $event->getObjectManager();
-            $conn = $em->getConnection();
-            $sql = 'UPDATE vgr_chart
-                SET status_team = :status
-                WHERE id IN (SELECT chart_id FROM vgr_player_chart WHERE player_id = :idPlayer)';
-            $stmt = $conn->prepare($sql);
-            $stmt->executeQuery(['status' => ChartStatus::MAJ, 'idPlayer' => $player->getId()]);
-            $em->flush();
+            //@todo MAJ ranking team
         }
     }
 }

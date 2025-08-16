@@ -12,15 +12,12 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
-use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class ChartAdmin extends AbstractAdmin
 {
@@ -82,35 +79,18 @@ class ChartAdmin extends AbstractAdmin
         }
 
         $form
+            // Informations principales - Colonne 1
+            ->with('chart.general.information', [
+                'class' => 'col-md-6',
+                'label' => 'chart.general.information',
+                'box_class' => 'box box-primary'
+            ])
             ->add('id', TextType::class, array(
                 'label' => 'label.id',
                 'attr' => array(
                     'readonly' => true,
                 )
-            ));
-
-        if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
-            $btnCalalogue = $this->isCurrentRoute('create');
-            $form->
-                add(
-                    'group',
-                    ModelListType::class,
-                    array_merge(
-                        $groupOptions,
-                        [
-                        'data_class' => null,
-                        'btn_add' => false,
-                        'btn_list' => $btnCalalogue,
-                        'btn_edit' => false,
-                        'btn_delete' => false,
-                        'btn_catalogue' => $btnCalalogue,
-                        'label' => 'label.group',
-                        ]
-                    )
-                );
-        }
-
-        $form
+            ))
             ->add('libChartEn', TextType::class, [
                 'label' => 'label.name.en',
                 'required' => true,
@@ -120,51 +100,61 @@ class ChartAdmin extends AbstractAdmin
                 'required' => false,
             ]);
 
-        $form->add('isDlc', CheckboxType::class, [
-            'label' => 'label.isDlc',
-            'required' => false,
-        ]);
-
-        $form->add('isProofVideoOnly', CheckboxType::class, [
-            'label' => 'label.isProofVideoOnly',
-            'required' => false,
-        ]);
-
-
+        // Ajout du groupe selon le contexte
         if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
-            $form
-                ->add(
-                    'statusPlayer',
-                    ChoiceType::class,
-                    array(
-                        'label' => 'label.chart.statusPlayer',
-                        'choices' => ChartStatus::getStatusChoices()
-                    )
+            $btnCatalogue = $this->isCurrentRoute('create');
+            $form->add(
+                'group',
+                ModelListType::class,
+                array_merge(
+                    $groupOptions,
+                    [
+                        'data_class' => null,
+                        'btn_add' => false,
+                        'btn_list' => $btnCatalogue,
+                        'btn_edit' => false,
+                        'btn_delete' => false,
+                        'btn_catalogue' => $btnCatalogue,
+                        'label' => 'label.group',
+                    ]
                 )
-                ->add(
-                    'statusTeam',
-                    ChoiceType::class,
-                    array(
-                        'label' => 'label.chart.statusTeam',
-                        'choices' => ChartStatus::getStatusChoices()
-                    )
-                );
+            );
         }
 
+        $form->end()
 
-        $form
+            // Configuration - Colonne 2
+            ->with('chart.configuration', [
+                'class' => 'col-md-6',
+                'label' => 'chart.configuration',
+                'box_class' => 'box box-success'
+            ])
+            ->add('isDlc', CheckboxType::class, [
+                'label' => 'label.isDlc',
+                'required' => false,
+            ])
+            ->add('isProofVideoOnly', CheckboxType::class, [
+                'label' => 'label.isProofVideoOnly',
+                'required' => false,
+            ]);
+
+        $form->end()
+
+            // Libs - Section complète
+            ->with('label.libs', [
+                'class' => 'col-md-12',
+                'label' => 'label.libs',
+                'box_class' => 'box box-info'
+            ])
             ->add('libs', CollectionType::class, array(
                 'label' => 'label.libs',
                 'by_reference' => false,
                 'help' => (($this->isCurrentRoute('create')) ?
                     'label.libs.help' : ''),
                 'type_options' => array(
-                    // Prevents the "Delete" option from being displayed
                     'delete' => false,
                     'delete_options' => array(
-                        // You may otherwise choose to put the field but hide it
                         'type' => CheckboxType::class,
-                        // In that case, you need to fill in the options as well
                         'type_options' => array(
                             'mapped' => false,
                             'required' => false,
@@ -174,7 +164,8 @@ class ChartAdmin extends AbstractAdmin
             ), array(
                 'edit' => 'inline',
                 'inline' => 'table',
-            ));
+            ))
+            ->end();
     }
 
     /**
@@ -197,36 +188,8 @@ class ChartAdmin extends AbstractAdmin
             ])
             ->add('isDlc', null, ['label' => 'label.isDlc'])
             ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly'])
-            ->add(
-                'statusPlayer',
-                ChoiceFilter::class,
-                [
-                    'label' => 'label.chart.statusPlayer',
-                    'field_type' => ChoiceType::class,
-                    'field_options' => [
-                        'choices' => ChartStatus::getStatusChoices(),
-                        'multiple' => true,
-                        'expanded' => false,
-                        'choice_translation_domain' => true,
-                    ]
+            ;
 
-                ]
-            )
-            ->add(
-                'statusTeam',
-                ChoiceFilter::class,
-                [
-                    'label' => 'label.chart.statusTeam',
-                    'field_type' => ChoiceType::class,
-                    'field_options' => [
-                        'choices' => ChartStatus::getStatusChoices(),
-                        'multiple' => true,
-                        'expanded' => false,
-                        'choice_translation_domain' => true,
-                    ]
-
-                ]
-            );
     }
 
     /**
@@ -270,20 +233,49 @@ class ChartAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
+            // Informations principales - Colonne 1
+            ->with('chart.general.information', [
+                'class' => 'col-md-6',
+                'label' => 'chart.general.information',
+                'box_class' => 'box box-primary'
+            ])
             ->add('id', null, ['label' => 'label.id'])
             ->add('libChartEn', null, ['label' => 'label.name.en'])
             ->add('libChartFr', null, ['label' => 'label.name.fr'])
-            ->add('statusPlayer', null, ['label' => 'label.chart.statusPlayer'])
-            ->add('statusTeam', null, ['label' => 'label.chart.statusTeam'])
-            ->add('isDlc', null, ['label' => 'label.isDlc'])
-            ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly'])
-            ->add('libs', null, ['label' => 'label.libs'])
-            ->add('createdAt', null, ['label' => 'label.createdAt'])
-            ->add('updatedAt', null, ['label' => 'label.updatedAt'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),
                 'label' => 'label.group',
-            ));
+            ))
+            ->end()
+
+            // Configuration et statuts - Colonne 2
+            ->with('chart.configuration', [
+                'class' => 'col-md-6',
+                'label' => 'chart.configuration',
+                'box_class' => 'box box-success'
+            ])
+            ->add('isDlc', null, ['label' => 'label.isDlc'])
+            ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly'])
+            ->end()
+
+            // Métadonnées - Colonne 1 (2ème ligne)
+            ->with('chart.metadata', [
+                'class' => 'col-md-6',
+                'label' => 'chart.metadata',
+                'box_class' => 'box box-info'
+            ])
+            ->add('createdAt', null, ['label' => 'label.createdAt'])
+            ->add('updatedAt', null, ['label' => 'label.updatedAt'])
+            ->end()
+
+            // Libs - Section complète
+            ->with('label.libs', [
+                'class' => 'col-md-6',
+                'label' => 'label.libs',
+                'box_class' => 'box box-warning'
+            ])
+            ->add('libs', null, ['label' => 'label.libs'])
+            ->end();
     }
 
     /**

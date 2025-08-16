@@ -27,7 +27,6 @@ use VideoGamesRecords\CoreBundle\Controller\Chart\Team\GetRankingPoints as TeamG
 use VideoGamesRecords\CoreBundle\Repository\ChartRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\IsDlcTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
-use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 #[ORM\Table(name:'vgr_chart')]
 #[ORM\Entity(repositoryClass: ChartRepository::class)]
@@ -182,11 +181,6 @@ class Chart
     #[ORM\Column(length: 255, nullable: false)]
     private string $libChartFr = '';
 
-    #[ORM\Column(length: 30, nullable: false, options: ['default' => 'NORMAL'])]
-    private string $statusPlayer = ChartStatus::NORMAL;
-
-    #[ORM\Column(length: 30, nullable: false, options: ['default' => 'NORMAL'])]
-    private string $statusTeam = ChartStatus::NORMAL;
 
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $isProofVideoOnly = false;
@@ -309,26 +303,6 @@ class Chart
     public function getLibChartFr(): string
     {
         return $this->libChartFr;
-    }
-
-    public function setStatusPlayer(string $statusPlayer): void
-    {
-        $this->statusPlayer = $statusPlayer;
-    }
-
-    public function getStatusPlayer(): ChartStatus
-    {
-        return new ChartStatus($this->statusPlayer);
-    }
-
-    public function setStatusTeam(string $statusTeam): void
-    {
-        $this->statusTeam = $statusTeam;
-    }
-
-    public function getStatusTeam(): ChartStatus
-    {
-        return new ChartStatus($this->statusTeam);
     }
 
     public function getIsProofVideoOnly(): bool

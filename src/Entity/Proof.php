@@ -109,7 +109,7 @@ class Proof
         return $this->video;
     }
 
-    public function setProofRequest(ProofRequest $proofRequest): void
+    public function setProofRequest(?ProofRequest $proofRequest): void
     {
         $this->proofRequest = $proofRequest;
     }

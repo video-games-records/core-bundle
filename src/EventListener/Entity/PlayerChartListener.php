@@ -13,7 +13,6 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
-use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 
 class PlayerChartListener
 {
@@ -38,8 +37,7 @@ class PlayerChartListener
         // Chart
         $chart = $playerChart->getChart();
         $this->incrementeNbPost($chart);
-        $chart->setStatusPlayer(ChartStatus::MAJ);
-        $chart->setStatusTeam(ChartStatus::MAJ);
+
 
         // Group
         $group = $chart->getGroup();
@@ -69,7 +67,7 @@ class PlayerChartListener
 
 
     /**
-     * @param PlayerChart        $playerChart
+     * @param PlayerChart $playerChart
      * @param PreUpdateEventArgs $event
      * @throws ORMException
      */
@@ -86,10 +84,6 @@ class PlayerChartListener
             $game->setLastScore($playerChart);
         }
 
-        if (array_key_exists('platform', $this->changeSet)) {
-            $chart = $playerChart->getChart();
-            $chart->setStatusPlayer(ChartStatus::MAJ);
-        }
 
         // Move score
         if (array_key_exists('chart', $this->changeSet)) {
@@ -159,8 +153,7 @@ class PlayerChartListener
         // Chart
         $chart = $playerChart->getChart();
         $this->decrementeNbPost($chart);
-        $chart->setStatusPlayer(ChartStatus::MAJ);
-        $chart->setStatusTeam(ChartStatus::MAJ);
+
 
         // Player
         $player = $playerChart->getPlayer();

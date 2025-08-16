@@ -132,6 +132,12 @@ group:
     information: "Informations générales"
   configuration: "Configuration"
 
+chart:
+  general:
+    information: "Informations générales"
+  configuration: "Configuration"
+  metadata: "Métadonnées"
+
 proof_request:
   requested_by: "Demandé par"
   player: "Joueur"
