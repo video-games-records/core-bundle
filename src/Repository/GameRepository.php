@@ -11,12 +11,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use VideoGamesRecords\CoreBundle\Entity\Badge;
-use VideoGamesRecords\CoreBundle\Entity\Chart;
-use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\Group;
-use VideoGamesRecords\CoreBundle\ValueObject\ChartStatus;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 class GameRepository extends DefaultRepository
