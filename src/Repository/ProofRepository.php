@@ -72,4 +72,25 @@ class ProofRepository extends DefaultRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+
+    /**
+     * Compte les preuves en attente par jeu
+     */
+    public function countInProgressByGames()
+    {
+        $query = $this->em->createQueryBuilder()
+            ->from('VideoGamesRecords\CoreBundle\Entity\Game', 'gam')
+            ->select('gam')
+            ->addSelect('COUNT(proof) as nb')
+            ->innerJoin('gam.groups', 'grp')
+            ->innerJoin('grp.charts', 'chr')
+            ->innerJoin('chr.proofs', 'proof')
+            ->where('proof.status = :status')
+            ->setParameter('status', ProofStatus::IN_PROGRESS)
+            ->groupBy('gam.id')
+            ->orderBy('nb', 'DESC');
+
+        return $query->getQuery()->getResult();
+    }
 }

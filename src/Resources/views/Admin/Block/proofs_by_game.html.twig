@@ -1,0 +1,191 @@
+{# src/Resources/views/Admin/Block/proofs_by_game.html.twig #}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <i class="fa fa-gamepad"></i>
+            {% trans %}proof.dashboard.title{% endtrans %}
+            <span class="badge badge-primary">{{ games|length }}</span>
+        </h3>
+        <div class="box-tools pull-right">
+            <span class="label label-warning">
+                <i class="fa fa-clock-o"></i>
+                {{ totalProofs }} {% trans %}proof.status.in_progress{% endtrans %}
+            </span>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="box-body">
+        {% if games|length > 0 %}
+            <div class="row">
+                {% for game in games %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="game-card">
+                            <a href="/admin/videogamesrecords/core/proof/list?filter%5Bchart__group__game%5D%5Bvalue%5D={{ game[0].getId }}&filter%5Bstatus%5D%5Bvalue%5D=IN+PROGRESS"
+                               class="game-link">
+                                <div class="game-info">
+                                    <div class="game-name">
+                                        <i class="fa fa-gamepad text-primary"></i>
+                                        {{ game[0].getName }}
+                                    </div>
+                                    <div class="game-stats">
+                                        <span class="proof-count {% if game['nb'] > 100 %}high-priority{% elseif game['nb'] > 10 %}medium-priority{% else %}low-priority{% endif %}">
+                                            <i class="fa fa-camera"></i>
+                                            {{ game['nb'] }} {% trans %}proof.status.in_progress{% endtrans %}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="game-actions">
+                                    <i class="fa fa-arrow-right"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="box-footer text-center">
+                <a href="/admin/videogamesrecords/core/proof/list?filter%5Bstatus%5D%5Bvalue%5D=IN+PROGRESS"
+                   class="btn btn-primary btn-sm">
+                    <i class="fa fa-list"></i>
+                    {% trans %}proof.dashboard.view_all{% endtrans %}
+                </a>
+            </div>
+        {% else %}
+            <div class="alert alert-success text-center">
+                <i class="fa fa-check-circle fa-2x text-success"></i>
+                <h4>{% trans %}proof.dashboard.empty.title{% endtrans %}</h4>
+                <p class="text-muted">{% trans %}proof.dashboard.empty.message{% endtrans %}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .game-card {
+        background: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .game-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-color: #3c8dbc;
+    }
+
+    .game-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .game-link:hover,
+    .game-link:focus {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .game-info {
+        flex: 1;
+    }
+
+    .game-name {
+        font-weight: bold;
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .game-name i {
+        margin-right: 8px;
+        font-size: 16px;
+    }
+
+    .game-stats {
+        display: flex;
+        align-items: center;
+    }
+
+    .proof-count {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .proof-count.high-priority {
+        background-color: #f56565;
+        color: white;
+    }
+
+    .proof-count.medium-priority {
+        background-color: #ed8936;
+        color: white;
+    }
+
+    .proof-count.low-priority {
+        background-color: #48bb78;
+        color: white;
+    }
+
+    .game-actions {
+        color: #999;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .game-card:hover .game-actions {
+        color: #3c8dbc;
+        transform: translateX(3px);
+    }
+
+    .box-footer {
+        border-top: 1px solid #f0f0f0;
+        background-color: #fafafa;
+        padding: 10px 15px;
+    }
+
+    /* Animation d'apparition */
+    .game-card {
+        animation: slideInUp 0.4s ease-out;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .game-card {
+            margin-bottom: 10px;
+        }
+
+        .game-link {
+            padding: 12px;
+        }
+
+        .game-name {
+            font-size: 13px;
+        }
+    }
+</style>

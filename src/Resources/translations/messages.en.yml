@@ -93,7 +93,12 @@ proof:
         <p>Your proof on the score <a href="%s">%s</a> was refused.</p>
         %s
         <p>Regards, VGR Team.</p>
-
+  dashboard:
+    title: "Proofs by Game"
+    view_all: "View all pending proofs"
+    empty:
+      title: "No pending proofs"
+      message: "Excellent work! All proofs have been processed."
 
 breadcrumb:
   link_badge_list: 'Badge List'
