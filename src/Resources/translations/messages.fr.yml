@@ -93,8 +93,12 @@ proof:
         <p>Votre preuve sur le score <a href="%s">%s</a> a été refusée.</p>
         %s
         <p>Cordialement, l'équipe VGR.</p>
-
-
+  dashboard:
+    title: "Preuves par jeu"
+    view_all: "Voir toutes les preuves en attente"
+    empty:
+      title: "Aucune preuve en attente"
+      message: "Excellent travail ! Toutes les preuves ont été traitées."
 
 breadcrumb:
   link_badge_list: 'Liste des badges'
