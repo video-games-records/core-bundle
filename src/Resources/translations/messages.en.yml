@@ -126,6 +126,10 @@ game:
       title: "No games found"
       message: "No games in these statuses currently."
 
+group:
+  general:
+    information: "General Information"
+  configuration: "Configuration"
 
 proof_request:
   requested_by: "Requested by"

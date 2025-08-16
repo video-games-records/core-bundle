@@ -64,7 +64,6 @@ final class GroupAdmin extends AbstractAdmin
     }
 
     /**
-    /**
      * @param FormMapper $form
      */
     protected function configureFormFields(FormMapper $form): void
@@ -86,6 +85,12 @@ final class GroupAdmin extends AbstractAdmin
         }
 
         $form
+            // Informations principales - Colonne 1
+            ->with('group.general.information', [
+                'class' => 'col-md-6',
+                'label' => 'group.general.information',
+                'box_class' => 'box box-primary'
+            ])
             ->add('id', TextType::class, [
                 'label' => 'label.id',
                 'attr' => [
@@ -99,6 +104,36 @@ final class GroupAdmin extends AbstractAdmin
             ->add('libGroupFr', TextType::class, [
                 'label' => 'label.name.fr',
                 'required' => false,
+            ]);
+
+        // Ajout du jeu selon le contexte
+        if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
+            $btnCatalogue = $this->isCurrentRoute('create');
+            $form->add(
+                'game',
+                ModelListType::class,
+                array_merge(
+                    $gameOptions,
+                    [
+                        'data_class' => null,
+                        'btn_add' => false,
+                        'btn_list' => $btnCatalogue,
+                        'btn_edit' => false,
+                        'btn_delete' => false,
+                        'btn_catalogue' => $btnCatalogue,
+                        'label' => 'label.game',
+                    ]
+                )
+            );
+        }
+
+        $form->end()
+
+            // Configuration - Colonne 2
+            ->with('group.configuration', [
+                'class' => 'col-md-6',
+                'label' => 'group.configuration',
+                'box_class' => 'box box-success'
             ])
             ->add('isRank', CheckboxType::class, [
                 'label' => 'label.boolRanking',
@@ -112,36 +147,14 @@ final class GroupAdmin extends AbstractAdmin
                     'choices' => GroupOrderBy::getStatusChoices(),
                 ]
             )
-        ;
+            ->add('isDlc', CheckboxType::class, [
+                'label' => 'label.isDlc',
+                'required' => false,
+            ])
+            ->end();
 
-        if ($this->isCurrentRoute('create') || $this->isCurrentRoute('edit')) {
-            $btnCalalogue = $this->isCurrentRoute('create');
-            $form->
-                add(
-                    'game',
-                    ModelListType::class,
-                    array_merge(
-                        $gameOptions,
-                        [
-                        'data_class' => null,
-                        'btn_add' => false,
-                        'btn_list' => $btnCalalogue,
-                        'btn_edit' => false,
-                        'btn_delete' => false,
-                        'btn_catalogue' => $btnCalalogue,
-                        'label' => 'label.game',
-                        ]
-                    )
-                );
-        }
-
-        $form->add('isDlc', CheckboxType::class, [
-            'label' => 'label.isDlc',
-            'required' => false,
-        ]);
-
+        // Charts - Section complète si présents
         $subject = $this->getSubject();
-
         if (
             (strpos(
                 $this->getRequest()
@@ -153,8 +166,12 @@ final class GroupAdmin extends AbstractAdmin
                                 $subject->getCharts()
                             ) < 50)
         ) {
-            $form->end()
-                ->with('label.charts')
+            $form
+                ->with('label.charts', [
+                    'class' => 'col-md-12',
+                    'label' => 'label.charts',
+                    'box_class' => 'box box-info'
+                ])
                 ->add(
                     'charts',
                     CollectionType::class,
@@ -163,12 +180,9 @@ final class GroupAdmin extends AbstractAdmin
                         'by_reference' => false,
                         'help' => 'label.libs.help',
                         'type_options' => array(
-                            // Prevents the "Delete" option from being displayed
                             'delete' => true,
                             'delete_options' => array(
-                                // You may otherwise choose to put the field but hide it
                                 'type' => CheckboxType::class,
-                                // In that case, you need to fill in the options as well
                                 'type_options' => array(
                                     'mapped' => false,
                                     'required' => false,
@@ -264,15 +278,40 @@ final class GroupAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
+            // Informations principales - Colonne 1
+            ->with('group.general.information', [
+                'class' => 'col-md-6',
+                'label' => 'group.general.information',
+                'box_class' => 'box box-primary'
+            ])
             ->add('id', null, ['label' => 'label.id'])
             ->add('libGroupEn', null, ['label' => 'label.name.en'])
             ->add('libGroupFr', null, ['label' => 'label.name.fr'])
-            ->add('nbChart', null, ['label' => 'label.nbChart'])
-            ->add('isDlc', null, ['label' => 'label.isDlc'])
             ->add('game', null, [
                 'associated_property' => $this->getLibGame(),
                 'label' => 'label.game',
             ])
-            ->add('charts', null, ['label' => 'label.charts']);
+            ->end()
+
+            // Configuration et statistiques - Colonne 2
+            ->with('group.configuration', [
+                'class' => 'col-md-6',
+                'label' => 'group.configuration',
+                'box_class' => 'box box-success'
+            ])
+            ->add('nbChart', null, ['label' => 'label.nbChart'])
+            ->add('isRank', null, ['label' => 'label.boolRanking'])
+            ->add('orderBy', null, ['label' => 'label.orderBy'])
+            ->add('isDlc', null, ['label' => 'label.isDlc'])
+            ->end()
+
+            // Charts - Section complète
+            ->with('label.charts', [
+                'class' => 'col-md-12',
+                'label' => 'label.charts',
+                'box_class' => 'box box-info'
+            ])
+            ->add('charts', null, ['label' => 'label.charts'])
+            ->end();
     }
 }
