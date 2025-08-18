@@ -20,17 +20,17 @@ use VideoGamesRecords\CoreBundle\Form\DefaultForm;
 use VideoGamesRecords\CoreBundle\Form\ImportCsv;
 use VideoGamesRecords\CoreBundle\Form\VideoProofOnly;
 use VideoGamesRecords\CoreBundle\Manager\GameManager;
+use VideoGamesRecords\CoreBundle\Message\Dispatcher\RankingUpdateDispatcher;
 use Yokai\SonataWorkflow\Controller\WorkflowControllerTrait;
 
 class GameAdminController extends CRUDController implements SecurityInterface
 {
     use WorkflowControllerTrait;
 
-    private GameManager $gameManager;
-
-    public function __construct(GameManager $gameManager)
-    {
-        $this->gameManager = $gameManager;
+    public function __construct(
+        private readonly GameManager $gameManager,
+        private readonly RankingUpdateDispatcher $rankingUpdateDispatcher
+    ) {
     }
 
     /**
@@ -76,7 +76,10 @@ class GameAdminController extends CRUDController implements SecurityInterface
      */
     public function majAction(int $id): RedirectResponse
     {
-        $this->gameManager->maj($this->admin->getSubject());
+        /** @var Game $game */
+        $game = $this->admin->getSubject();
+
+        $this->rankingUpdateDispatcher->updatePlayerRankFromGame($game);
         $this->addFlash('sonata_flash_success', 'Game maj successfully');
         return new RedirectResponse($this->admin->generateUrl('list'));
     }

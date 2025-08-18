@@ -8,11 +8,13 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Message\Dispatcher\RankingUpdateDispatcher;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerData;
 
 class PlayerAdminController extends CRUDController
 {
-    public function __construct(private MessageBusInterface $bus)
+    public function __construct(private readonly RankingUpdateDispatcher $rankingUpdateDispatcher)
     {
     }
 
@@ -23,7 +25,9 @@ class PlayerAdminController extends CRUDController
      */
     public function majAction($id): RedirectResponse
     {
-        $this->bus->dispatch(new UpdatePlayerData($this->admin->getSubject()->getId()));
+        /** @var Player $player */
+        $player = $this->admin->getSubject();
+        $this->rankingUpdateDispatcher->updatePlayerRankFromPlayer($player);
         $this->addFlash('sonata_flash_success', 'Player maj successfully');
         return new RedirectResponse($this->admin->generateUrl('list'));
     }

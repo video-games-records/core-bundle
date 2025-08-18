@@ -20,6 +20,7 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\Serializer\Filter\GroupFilter;
 use ApiPlatform\OpenApi\Model;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -340,6 +341,17 @@ class Player
     #[ORM\OneToMany(targetEntity: PlayerGame::class, mappedBy: 'player')]
     private Collection $playerGame;
 
+    /**
+     * @var Collection<int, PlayerChart>
+     */
+    #[ORM\OneToMany(targetEntity: PlayerChart::class, mappedBy: 'player')]
+    private Collection $playerCharts;
+
+    public function __construct()
+    {
+        $this->playerGame = new ArrayCollection();
+        $this->playerCharts = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -545,6 +557,11 @@ class Player
     public function isLeader(): bool
     {
         return ($this->getTeam() !== null) && ($this->getTeam()->getLeader()->getId() === $this->getId());
+    }
+
+    public function getPlayerCharts(): Collection
+    {
+        return $this->playerCharts;
     }
 
     public function getUrl(): string
