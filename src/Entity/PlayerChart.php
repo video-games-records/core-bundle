@@ -30,7 +30,6 @@ use VideoGamesRecords\CoreBundle\Controller\PlayerChart\UpdatePlatform;
 use VideoGamesRecords\CoreBundle\Repository\PlayerChartRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\LastUpdateTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
-use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 
 #[ORM\Table(name:'vgr_player_chart')]
 #[ORM\Entity(repositoryClass: PlayerChartRepository::class)]
@@ -228,7 +227,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\Player\PlayerTrait;
 #[ApiFilter(ExistsFilter::class, properties: ['proof', 'proof.picture', 'proof.video'])]
 class PlayerChart
 {
-    use PlayerTrait;
     use TimestampableEntity;
     use NbEqualTrait;
     use LastUpdateTrait;
@@ -254,6 +252,10 @@ class PlayerChart
     #[ORM\ManyToOne(targetEntity: Chart::class, inversedBy: 'playerCharts', fetch: 'EAGER')]
     #[ORM\JoinColumn(name:'chart_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Chart $chart;
+
+    #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'playerCharts')]
+    #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false)]
+    private Player $player;
 
     #[ORM\OneToOne(targetEntity: Proof::class, inversedBy: 'playerChart')]
     #[ORM\JoinColumn(name:'proof_id', referencedColumnName:'id', nullable:true, onDelete:'SET NULL')]
@@ -357,6 +359,16 @@ class PlayerChart
     public function getChart(): Chart
     {
         return $this->chart;
+    }
+
+    public function getPlayer(): Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(Player $player): void
+    {
+        $this->player = $player;
     }
 
     public function setProof(?Proof $proof = null): void

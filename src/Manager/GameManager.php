@@ -5,35 +5,21 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
+
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
-use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerChartRank;
+
 
 readonly class GameManager
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private MessageBusInterface $bus,
     ) {
     }
 
-    /**
-     * @param Game $game
-     * @throws ExceptionInterface
-     */
-    public function maj(Game $game): void
-    {
-        foreach ($game->getGroups() as $group) {
-            foreach ($group->getCharts() as $chart) {
-                $this->bus->dispatch(new UpdatePlayerChartRank($chart->getId()));
-            }
-        }
-    }
 
     /**
      * @param Game $game

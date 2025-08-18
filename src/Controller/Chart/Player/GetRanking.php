@@ -36,14 +36,6 @@ class GetRanking extends AbstractController
             ]
         );
 
-        if (!$chart->getStatusPlayer()->isNormal()) {
-            $i = 1;
-            foreach ($ranking as $row) {
-                $row[0]->setRank($i);
-                $i++;
-            }
-        }
-
         for ($i = 0; $i <= count($ranking) - 1; $i++) {
             foreach ($chart->getLibs() as $lib) {
                 $key = $lib->getId();
