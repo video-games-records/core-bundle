@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Intl\Locale;
 use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerGame;
 
 class GetStats extends AbstractController
 {
@@ -27,6 +28,7 @@ class GetStats extends AbstractController
         $playerGames = $this->getPlayerGameStats($player);
         $stats = $this->getStatusPerGame($player);
 
+        /** @var PlayerGame $playerGame */
         foreach ($playerGames as $playerGame) {
             if (isset($stats[$playerGame->getGame()->getId()])) {
                 $playerGame->setStatuses($stats[$playerGame->getGame()->getId()]);
