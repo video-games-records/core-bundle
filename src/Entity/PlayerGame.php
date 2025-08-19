@@ -119,7 +119,7 @@ class PlayerGame
     #[ORM\Column(nullable: false)]
     private DateTime $lastUpdate;
 
-    private $statuses;
+    private array $statuses;
 
 
     public function setPointChartWithoutDlc(int $pointChartWithoutDlc): void

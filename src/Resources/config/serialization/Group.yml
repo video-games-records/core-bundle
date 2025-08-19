@@ -3,9 +3,11 @@ VideoGamesRecords\CoreBundle\Entity\Group:
     id:
       groups:
         - 'group:read'
+        - 'group:read:minimal'
     name:
       groups:
         - 'group:read'
+        - 'group:read:minimal'
     game:
       groups:
         - 'group:game'
@@ -24,3 +26,4 @@ VideoGamesRecords\CoreBundle\Entity\Group:
     slug:
       groups:
         - 'group:read'
+        - 'group:read:minimal'

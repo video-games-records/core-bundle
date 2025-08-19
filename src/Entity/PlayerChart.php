@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\OpenApi\Model;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -225,6 +226,25 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
 #[ApiFilter(DateFilter::class, properties: ['lastUpdate' => DateFilterInterface::EXCLUDE_NULL])]
 #[ApiFilter(RangeFilter::class, properties: ['chart.nbPost', 'rank', 'pointChart'])]
 #[ApiFilter(ExistsFilter::class, properties: ['proof', 'proof.picture', 'proof.video'])]
+#[ApiResource(
+    uriTemplate: '/players/{id}/charts',
+    operations: [ new GetCollection() ],
+    uriVariables: [
+        'id' => new Link(toProperty: 'player', fromClass: Player::class),
+    ],
+    normalizationContext: ['groups' =>
+        [ 'player-chart:read',
+          'player-chart:libs', 'player-chart-lib:read',
+          'player-chart:status', 'player-chart-status:read',
+          'player-chart:chart', 'chart:read',
+          'chart:group', 'group:read:minimal',
+          'group:game', 'game:read:minimal',
+          'player-chart:proof', 'proof:read',
+          'proof:picture', 'picture:read',
+          'proof:video', 'video:read',]
+    ],
+    order: ['lastUpdate' => 'DESC'],
+)]
 class PlayerChart
 {
     use TimestampableEntity;

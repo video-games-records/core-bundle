@@ -6,6 +6,7 @@ namespace VideoGamesRecords\CoreBundle\Controller\Player\PlayerChart;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 
 class GetStats extends AbstractController
@@ -19,20 +20,29 @@ class GetStats extends AbstractController
 
     /**
      * @param Player $player
+     * @param Request $request
      * @return mixed
      */
-    public function __invoke(Player $player): mixed
+    public function __invoke(Player $player, Request $request): mixed
     {
-        $query = $this->em->createQuery("
-            SELECT
-                 s,
-                 COUNT(pc) as nb
-            FROM VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus s
-            JOIN s.playerCharts pc
-            WHERE pc.player = :player
-            GROUP BY s.id");
+        $idGame = $request->query->get('idGame');
 
-        $query->setParameter('player', $player);
-        return $query->getResult();
+        $qb = $this->em->createQueryBuilder()
+            ->select('s', 'COUNT(pc) as nb')
+            ->from('VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus', 's')
+            ->join('s.playerCharts', 'pc')
+            ->where('pc.player = :player')
+            ->setParameter('player', $player)
+            ->groupBy('s.id');
+
+        if ($idGame !== null) {
+            $qb->join('pc.chart', 'c')
+                ->join('c.group', 'g')
+                ->join('g.game', 'game')
+                ->andWhere('game.id = :idGame')
+                ->setParameter('idGame', (int)$idGame);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }
