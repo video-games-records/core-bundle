@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use VideoGamesRecords\CoreBundle\Controller\PlayerChart\GetLatestScores;
 use VideoGamesRecords\CoreBundle\Controller\PlayerChart\GetLatestScoresDifferentGames;
 use VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendPicture;
 use VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendVideo;
@@ -103,6 +104,58 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
                         description: 'Nombre maximum de scores à retourner (entre 1 et 100, défaut: 10)',
                         required: false,
                         schema: ['type' => 'integer', 'minimum' => 1, 'maximum' => 100, 'default' => 10]
+                    ),
+                    new Model\Parameter(
+                        name: 'refresh',
+                        in: 'query',
+                        description: 'Force le rafraîchissement du cache en vidant le cache existant',
+                        required: false,
+                        schema: ['type' => 'boolean', 'default' => false],
+                        example: 'true'
+                    )
+                ]
+            ),
+        ),
+        new GetCollection(
+            uriTemplate: '/player-charts/latest',
+            controller: GetLatestScores::class,
+            normalizationContext: ['groups' => [
+                'player-chart:read',
+                'player-chart:libs', 'player-chart-lib:read',
+                'player-chart:status', 'player-chart-status:read',
+                'player-chart:chart', 'chart:read',
+                'chart:group', 'group:read:minimal',
+                'group:game', 'game:read:minimal',
+                'player-chart:player', 'player:read:minimal',
+                'player-chart:platform', 'platform:read',
+            ]],
+            paginationEnabled: true,
+            paginationItemsPerPage: 20,
+            paginationMaximumItemsPerPage: 100,
+            openapi: new Model\Operation(
+                summary: 'Récupère les derniers scores postés avec pagination',
+                description: 'Retourne les derniers scores ordonnés par date de mise à jour décroissante avec pagination API Platform. Contrairement à l\'endpoint "different-games", celui-ci peut retourner plusieurs scores du même jeu.',
+                parameters: [
+                    new Model\Parameter(
+                        name: 'days',
+                        in: 'query',
+                        description: 'Nombre de jours dans le passé pour filtrer les scores (défaut: 7, 0 = pas de limite)',
+                        required: false,
+                        schema: ['type' => 'integer', 'minimum' => 0, 'default' => 7]
+                    ),
+                    new Model\Parameter(
+                        name: 'page',
+                        in: 'query',
+                        description: 'Numéro de page (pagination API Platform)',
+                        required: false,
+                        schema: ['type' => 'integer', 'minimum' => 1, 'default' => 1]
+                    ),
+                    new Model\Parameter(
+                        name: 'itemsPerPage',
+                        in: 'query',
+                        description: 'Nombre d\'éléments par page (max 100)',
+                        required: false,
+                        schema: ['type' => 'integer', 'minimum' => 1, 'maximum' => 100, 'default' => 20]
                     )
                 ]
             ),
