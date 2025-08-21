@@ -33,8 +33,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbPostTrait;
 #[ORM\EntityListeners(["VideoGamesRecords\CoreBundle\EventListener\Entity\ChartListener"])]
 #[ORM\Index(name: "idx_lib_chart_fr", columns: ["lib_chart_fr"])]
 #[ORM\Index(name: "idx_lib_chart_en", columns: ["lib_chart_en"])]
-#[ORM\Index(name: "idx_status_player", columns: ["status_player"])]
-#[ORM\Index(name: "idx_status_team", columns: ["status_team"])]
 #[ApiResource(
     operations: [
         new GetCollection(),

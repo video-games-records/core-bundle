@@ -1,0 +1,18 @@
+VideoGamesRecords\CoreBundle\Entity\GameTopRanking:
+  attributes:
+    id:
+      groups:
+        - 'game-top-ranking:read'
+    game:
+      groups:
+        - 'game-top-ranking:game'
+    rank:
+      groups:
+        - 'game-top-ranking:read'
+    nbPost:
+      groups:
+        - 'game-top-ranking:read'
+    positionChange:
+      groups:
+        - 'game-top-ranking:read'
+
