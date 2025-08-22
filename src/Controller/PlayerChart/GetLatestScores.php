@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Controller\PlayerChart;
 
+use ApiPlatform\Doctrine\Orm\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
@@ -21,31 +23,14 @@ class GetLatestScores extends AbstractController
         $this->em = $em;
     }
 
-    /**
-     * Récupère les derniers scores postés ordonnés par lastUpdate DESC
-     *
-     * @param Request $request
-     * @return PlayerChart[]
-     */
-    public function __invoke(Request $request): array
+    public function __invoke(Request $request): Paginator
     {
-        // Récupérer les paramètres depuis la query string
+        // Récupérer les paramètres de pagination
         $days = (int) $request->query->get('days', 7);
+        $page = $request->query->getInt('page', 1);
+        $itemsPerPage = $request->query->getInt('itemsPerPage', 50);
 
-        // Valider les paramètres
-        if ($days < 0) {
-            $days = 7;
-        }
-
-        return $this->getLatestScores($days);
-    }
-
-    /**
-     * Requête simple pour récupérer les derniers scores
-     */
-    private function getLatestScores(int $days): array
-    {
-        $qb = $this->em->createQueryBuilder()
+        $queryBuilder = $this->em->createQueryBuilder()
             ->select('pc')
             ->from(PlayerChart::class, 'pc')
             ->innerJoin('pc.chart', 'c')
@@ -58,10 +43,16 @@ class GetLatestScores extends AbstractController
 
         // Ajouter la condition sur les jours si spécifiée
         if ($days > 0) {
-            $qb->where('pc.lastUpdate >= :dateLimit')
+            $queryBuilder->where('pc.lastUpdate >= :dateLimit')
                 ->setParameter('dateLimit', new \DateTime("-{$days} days"));
         }
 
-        return $qb->getQuery()->getResult();
+        // Appliquer la pagination manuellement
+        $firstResult = ($page - 1) * $itemsPerPage;
+        $queryBuilder
+            ->setFirstResult($firstResult)
+            ->setMaxResults($itemsPerPage);
+
+        return new Paginator(new DoctrinePaginator($queryBuilder));
     }
 }
