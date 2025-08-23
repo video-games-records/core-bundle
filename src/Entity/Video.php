@@ -237,9 +237,9 @@ class Video
 
     public function getEmbeddedUrl(): string
     {
-        if ($this->getType()->getValue() == VideoType::YOUTUBE) {
+        if ($this->getVideoType()->getValue() == VideoType::YOUTUBE) {
             return 'https://www.youtube.com/embed/' . $this->getExternalid();
-        } elseif ($this->getType()->getValue() == VideoType::TWITCH) {
+        } elseif ($this->getVideoType()->getValue() == VideoType::TWITCH) {
             return 'https://player.twitch.tv/?autoplay=false&video=v' . $this->getExternalId(
             ) . '&parent=' . $_SERVER['SERVER_NAME'];
         } else {
