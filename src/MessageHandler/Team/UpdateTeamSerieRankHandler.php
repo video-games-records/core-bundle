@@ -28,12 +28,12 @@ readonly class UpdateTeamSerieRankHandler
      * @throws ORMException
      * @throws ExceptionInterface
      */
-    public function __invoke(UpdateTeamSerieRank $updateTeamSerieRank): void
+    public function __invoke(UpdateTeamSerieRank $updateTeamSerieRank): array
     {
         $serie = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Serie')
             ->find($updateTeamSerieRank->getSerieId());
         if (null === $serie) {
-            return;
+            return ['error' => 'serie not found'];
         }
 
         // Delete old data
@@ -101,5 +101,6 @@ readonly class UpdateTeamSerieRankHandler
         $this->eventDispatcher->dispatch(
             new TeamSerieUpdated($serie)
         );
+        return ['success' => true];
     }
 }

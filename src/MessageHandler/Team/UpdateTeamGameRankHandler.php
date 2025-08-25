@@ -10,6 +10,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Entity\Game;
@@ -26,10 +27,13 @@ use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamGroupRank;
 use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamRank;
 use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamSerieRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 #[AsMessageHandler]
 readonly class UpdateTeamGameRankHandler
 {
+    private const int DELAY_SERIE_UPDATE = 3600000; // 1 heure
+
     public function __construct(
         private EntityManagerInterface $em,
         private MessageBusInterface $bus,
@@ -41,11 +45,14 @@ readonly class UpdateTeamGameRankHandler
      * @throws ORMException
      * @throws ExceptionInterface
      */
-    public function __invoke(UpdateTeamGameRank $updateTeamGameRank): void
+    public function __invoke(UpdateTeamGameRank $updateTeamGameRank): array
     {
         /** @var Game $game */
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')
         ->find($updateTeamGameRank->getGameId());
+        if (null == $game) {
+            return ['error' => 'game not found'];
+        }
 
         //----- delete
         $query = $this->em->createQuery(
@@ -115,7 +122,15 @@ readonly class UpdateTeamGameRankHandler
         $this->em->flush();
 
         if ($game->getSerie()) {
-            $this->bus->dispatch(new UpdateTeamSerieRank($game->getSerie()->getId()));
+            $this->bus->dispatch(
+                new UpdateTeamSerieRank($game->getSerie()->getId()),
+                [
+                    new DelayStamp(self::DELAY_SERIE_UPDATE),
+                    new DescriptionStamp(
+                        sprintf('Update team-ranking for serie [%d]', $game->getSerie()->getId())
+                    )
+                ]
+            );
         }
 
         /** @var TeamGame $teamGame */
@@ -128,5 +143,6 @@ readonly class UpdateTeamGameRankHandler
         $this->eventDispatcher->dispatch(
             new TeamGameUpdated($game)
         );
+        return ['success' => true];
     }
 }

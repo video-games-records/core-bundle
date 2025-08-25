@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerRank;
-use VideoGamesRecords\CoreBundle\Ranking\Command\RankUpdate\PlayerRankUpdateHandler;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
 
 #[AsMessageHandler]
@@ -21,7 +20,7 @@ readonly class UpdatePlayerRankHandler
 
     /**
      */
-    public function __invoke(UpdatePlayerRank $updatePlayerChartRank): void
+    public function __invoke(UpdatePlayerRank $updatePlayerChartRank): array
     {
         $this->majRankPointChart();
         $this->majRankPointGame();
@@ -29,6 +28,7 @@ readonly class UpdatePlayerRankHandler
         $this->majRankMedal();
         $this->majRankBadge();
         $this->majRankProof();
+        return ['success' => true];
     }
 
 

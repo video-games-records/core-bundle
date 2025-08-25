@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamChartRank;
 use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamGroupRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 #[AsMessageHandler]
 readonly class UpdateTeamChartRankHandler
@@ -28,11 +29,13 @@ readonly class UpdateTeamChartRankHandler
      * @throws ORMException
      * @throws ExceptionInterface
      */
-    public function __invoke(UpdateTeamChartRank $updateTeamChartRank): void
+    public function __invoke(UpdateTeamChartRank $updateTeamChartRank): array
     {
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')
             ->find($updateTeamChartRank->getChartId());
-
+        if (null == $chart) {
+            return ['error' => 'chart not found'];
+        }
 
         //----- delete
         $query = $this->em
@@ -111,6 +114,14 @@ readonly class UpdateTeamChartRankHandler
 
         $this->em->flush();
 
-        $this->bus->dispatch(new UpdateTeamGroupRank($chart->getGroup()->getId()));
+        $this->bus->dispatch(
+            new UpdateTeamGroupRank($chart->getGroup()->getId()),
+            [
+                new DescriptionStamp(
+                    sprintf('Update team-ranking for group [%d]', $chart->getGroup()->getId())
+                )
+            ]
+        );
+        return ['success' => true];
     }
 }

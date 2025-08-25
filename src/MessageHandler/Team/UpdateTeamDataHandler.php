@@ -22,13 +22,13 @@ readonly class UpdateTeamDataHandler
     /**
      * @throws ORMException|ExceptionInterface
      */
-    public function __invoke(UpdateTeamData $updateTeamData): void
+    public function __invoke(UpdateTeamData $updateTeamData): array
     {
         /** @var Team $team */
         $team = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Team')
             ->find($updateTeamData->getTeamId());
         if (null == $team) {
-            return;
+            return ['error' => 'team not found'];
         }
 
         $query = $this->em->createQuery("
@@ -140,5 +140,6 @@ readonly class UpdateTeamDataHandler
         }
 
         $this->em->flush();
+        return ['success' => true];
     }
 }

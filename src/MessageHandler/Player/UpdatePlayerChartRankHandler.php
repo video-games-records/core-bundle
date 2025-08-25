@@ -18,6 +18,7 @@ use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerChartRank;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerGroupRank;
 use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamChartRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 #[AsMessageHandler]
 readonly class UpdatePlayerChartRankHandler
@@ -26,7 +27,7 @@ readonly class UpdatePlayerChartRankHandler
         private EntityManagerInterface $em,
         private EventDispatcherInterface $eventDispatcher,
         private PlayerChartRankingProvider $playerChartRankingProvider,
-        private MessageBusInterface $bus,
+        private MessageBusInterface $bus
     ) {
     }
 
@@ -34,13 +35,13 @@ readonly class UpdatePlayerChartRankHandler
      * @throws ORMException
      * @throws ExceptionInterface
      */
-    public function __invoke(UpdatePlayerChartRank $updatePlayerChartRank): void
+    public function __invoke(UpdatePlayerChartRank $updatePlayerChartRank): array
     {
         /** @var Chart $chart */
         $chart = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Chart')
             ->find($updatePlayerChartRank->getChartId());
         if (null == $chart) {
-            return;
+            return ['error' => 'chart not found'];
         }
 
         $ranking = $this->playerChartRankingProvider->getRanking(
@@ -161,8 +162,24 @@ readonly class UpdatePlayerChartRankHandler
         }
         $this->em->flush();
 
-        $this->bus->dispatch(new UpdatePlayerGroupRank($chart->getGroup()->getId()));
-        $this->bus->dispatch(new UpdateTeamChartRank($chart->getId()));
+        $this->bus->dispatch(
+            new UpdatePlayerGroupRank($chart->getGroup()->getId()),
+            [
+                new DescriptionStamp(
+                    sprintf('Update player-ranking for group [%d]', $chart->getGroup()->getId())
+                )
+            ]
+        );
+        $this->bus->dispatch(
+            new UpdateTeamChartRank($chart->getId()),
+            [
+                new DescriptionStamp(
+                    sprintf('Update team-ranking for chart [%d]', $chart->getId())
+                )
+            ]
+        );
+
+        return ['success' => true];
     }
 
 

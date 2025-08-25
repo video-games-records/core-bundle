@@ -28,13 +28,13 @@ readonly class UpdatePlayerPlatformRankHandler
      * @throws ORMException
      * @throws ExceptionInterface
      */
-    public function __invoke(UpdatePlayerPlatformRank $updatePlayerPlatformRank): void
+    public function __invoke(UpdatePlayerPlatformRank $updatePlayerPlatformRank): array
     {
         $platform = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Platform')->find(
             $updatePlayerPlatformRank->getPlatformId()
         );
         if (null === $platform) {
-            return;
+            return ['error' => 'platform not found'];
         }
 
         // Delete old data
@@ -86,5 +86,6 @@ readonly class UpdatePlayerPlatformRankHandler
         $this->eventDispatcher->dispatch(
             new PlayerPlatformUpdated($platform)
         );
+        return ['success' => true];
     }
 }

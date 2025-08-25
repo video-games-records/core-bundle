@@ -16,6 +16,7 @@ use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerGameRank;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerGroupRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 #[AsMessageHandler]
 readonly class UpdatePlayerGroupRankHandler
@@ -30,12 +31,12 @@ readonly class UpdatePlayerGroupRankHandler
      * @throws ORMException
      * @throws ExceptionInterface|DateMalformedStringException
      */
-    public function __invoke(UpdatePlayerGroupRank $updatePlayerGroupRank): void
+    public function __invoke(UpdatePlayerGroupRank $updatePlayerGroupRank): array
     {
         $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')
             ->find($updatePlayerGroupRank->getGroupId());
         if (null === $group) {
-            return;
+            return ['error' => 'group not found'];
         }
 
         //----- delete
@@ -170,6 +171,15 @@ readonly class UpdatePlayerGroupRankHandler
         }
         $this->em->flush();
 
-        $this->bus->dispatch(new UpdatePlayerGameRank($group->getGame()->getId()));
+        $this->bus->dispatch(
+            new UpdatePlayerGameRank($group->getGame()->getId()),
+            [
+                new DescriptionStamp(
+                    sprintf('Update player-ranking for game [%d]', $group->getGame()->getId())
+                )
+            ]
+        );
+
+        return ['success' => true];
     }
 }

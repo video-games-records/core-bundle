@@ -26,7 +26,7 @@ readonly class UpdatePlayerDataHandler
     /**
      * @throws ORMException|ExceptionInterface
      */
-    public function __invoke(UpdatePlayerData $updatePlayerData): void
+    public function __invoke(UpdatePlayerData $updatePlayerData): array
     {
         /** @var Player $player */
         $player = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')
@@ -179,5 +179,7 @@ readonly class UpdatePlayerDataHandler
         if ($player->getCountry()) {
             $this->bus->dispatch(new UpdatePlayerCountryRank($player->getCountry()->getId()));
         }
+
+        return ['success' => true];
     }
 }

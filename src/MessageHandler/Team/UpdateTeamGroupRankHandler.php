@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Serializer;
 use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamGameRank;
 use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamGroupRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 #[AsMessageHandler]
 readonly class UpdateTeamGroupRankHandler
@@ -28,10 +29,13 @@ readonly class UpdateTeamGroupRankHandler
      * @throws ORMException
      * @throws ExceptionInterface
      */
-    public function __invoke(UpdateTeamGroupRank $updateTeamGroupRank): void
+    public function __invoke(UpdateTeamGroupRank $updateTeamGroupRank): array
     {
         $group = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Group')
             ->find($updateTeamGroupRank->getGroupId());
+        if (null === $group) {
+            return ['error' => 'group not found'];
+        }
 
         //----- delete
         $query = $this->em->createQuery(
@@ -95,6 +99,14 @@ readonly class UpdateTeamGroupRankHandler
         }
         $this->em->flush();
 
-        $this->bus->dispatch(new UpdateTeamGameRank($group->getGame()->getId()));
+        $this->bus->dispatch(
+            new UpdateTeamGameRank($group->getGame()->getId()),
+            [
+                new DescriptionStamp(
+                    sprintf('Update team-ranking for game [%d]', $group->getGame()->getId())
+                )
+            ]
+        );
+        return ['success' => true];
     }
 }
