@@ -20,7 +20,7 @@ readonly class UpdatePlayerCountryRankHandler
     ) {
     }
 
-    public function __invoke(UpdatePlayerCountryRank $updatePlayerCountryRank): void
+    public function __invoke(UpdatePlayerCountryRank $updatePlayerCountryRank): array
     {
         $country = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Country')
             ->find($updatePlayerCountryRank->getCountryId());
@@ -30,8 +30,11 @@ readonly class UpdatePlayerCountryRankHandler
         Ranking::addObjectRank($players, 'rankCountry', array('rankPointGame'));
         $this->em->flush();
 
+
         $this->eventDispatcher->dispatch(
             new PlayerCountryUpdated($country)
         );
+
+        return ['success' => true];
     }
 }

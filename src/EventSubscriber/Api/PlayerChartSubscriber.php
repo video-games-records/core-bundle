@@ -44,10 +44,14 @@ class PlayerChartSubscriber implements EventSubscriberInterface
         }
 
         // Dispatcher le message UpdatePlayerChartRank
-        $message = new UpdatePlayerChartRank($controllerResult->getId());
+        $message = new UpdatePlayerChartRank($controllerResult->getChart()->getId());
         $this->messageBus->dispatch(
             $message,
-            [new DescriptionStamp(sprintf('Update ranking for chart [%d]', $controllerResult->getId()))]
+            [
+                new DescriptionStamp(
+                    sprintf('Update player-ranking for chart [%d]', $controllerResult->getChart()->getId())
+                )
+            ]
         );
     }
 }

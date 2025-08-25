@@ -24,6 +24,7 @@ use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerPlatformRank;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerRank;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerSerieRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 #[AsMessageHandler]
 readonly class UpdatePlayerGameRankHandler
@@ -43,13 +44,13 @@ readonly class UpdatePlayerGameRankHandler
      * @throws ORMException
      * @throws ExceptionInterface|DateMalformedStringException
      */
-    public function __invoke(UpdatePlayerGameRank $updatePlayerGameRank): void
+    public function __invoke(UpdatePlayerGameRank $updatePlayerGameRank): array
     {
         /** @var Game $game */
         $game = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Game')
             ->find($updatePlayerGameRank->getGameId());
         if (null == $game) {
-            return;
+            return ['error' => 'game not found'];
         }
 
         //----- delete
@@ -176,8 +177,15 @@ readonly class UpdatePlayerGameRankHandler
 
         if ($game->getSerie()) {
             $this->bus->dispatch(
-                new UpdatePlayerSerieRank($game->getSerie()->getId()),
-                [new DelayStamp(self::DELAY_SERIE_UPDATE)]
+                new UpdatePlayerSerieRank(
+                    $game->getSerie()->getId(),
+                ),
+                [
+                    new DelayStamp(self::DELAY_SERIE_UPDATE),
+                    new DescriptionStamp(
+                        sprintf('Update player-ranking for serie [%d]', $game->getSerie()->getId())
+                    )
+                ]
             );
         }
 
@@ -185,13 +193,25 @@ readonly class UpdatePlayerGameRankHandler
         foreach ($game->getPlatforms() as $platform) {
             $this->bus->dispatch(
                 new UpdatePlayerPlatformRank($platform->getId()),
-                [new DelayStamp(self::DELAY_PLATFORM_UPDATE)]
+                [
+                    new DelayStamp(self::DELAY_PLATFORM_UPDATE),
+                    new DescriptionStamp(
+                        sprintf('Update player-ranking for platform [%d]', $platform->getId())
+                    )
+                ]
             );
         }
 
         /** @var PlayerGame $playerGame */
         foreach ($game->getPlayerGame() as $playerGame) {
-            $this->bus->dispatch(new UpdatePlayerData($playerGame->getPlayer()->getId()));
+            $this->bus->dispatch(
+                new UpdatePlayerData($playerGame->getPlayer()->getId()),
+                [
+                    new DescriptionStamp(
+                        sprintf('Update player-data for player [%d]', $playerGame->getPlayer()->getId())
+                    )
+                ]
+            );
         }
 
         $this->bus->dispatch(new UpdatePlayerRank());
@@ -199,5 +219,7 @@ readonly class UpdatePlayerGameRankHandler
         $this->eventDispatcher->dispatch(
             new PlayerGameUpdated($game)
         );
+
+        return ['success' => true];
     }
 }
