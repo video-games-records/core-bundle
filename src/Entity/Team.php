@@ -210,10 +210,8 @@ class Team
     use NbGameTrait;
     use NbMasterBadgeTrait;
 
-    public const STATUS_OPENED = 'OPENED';
-    public const STATUS_CLOSED = 'CLOSED';
-
-    public const NUM_ITEMS = 20;
+    public const string STATUS_OPENED = 'OPENED';
+    public const string STATUS_CLOSED = 'CLOSED';
 
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private int $id;

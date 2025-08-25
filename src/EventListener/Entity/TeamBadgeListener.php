@@ -9,7 +9,6 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\TeamBadge;
 use VideoGamesRecords\CoreBundle\Event\TeamBadgeLost;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class TeamBadgeListener
 {

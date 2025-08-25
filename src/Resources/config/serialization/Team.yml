@@ -9,6 +9,7 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       groups:
         - 'team:read'
         - 'team:read:minimal'
+        - 'team:insert'
         - 'team:update'
     presentation:
       groups:
@@ -22,6 +23,7 @@ VideoGamesRecords\CoreBundle\Entity\Team:
       groups:
         - 'team:read'
         - 'team:read:minimal'
+        - 'team:insert'
         - 'team:update'
     status:
       groups:
