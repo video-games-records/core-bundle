@@ -32,6 +32,7 @@ class AuthenticationSuccessListener
         $data['player'] = [
             'id' => $player->getId(),
             'slug' => $player->getSlug(),
+            'pseudo' => $player->getPseudo(),
             'team' => null,
         ];
 
@@ -40,6 +41,8 @@ class AuthenticationSuccessListener
             $data['player']['team'] = [
                 'id' => $team->getId(),
                 'slug' => $team->getSlug(),
+                'tag' => $team->getTag(),
+                'libTeam' => $team->getLibTeam()
             ];
         }
 
