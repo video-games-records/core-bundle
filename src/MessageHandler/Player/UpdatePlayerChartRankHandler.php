@@ -18,7 +18,6 @@ use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerChartRank;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerGroupRank;
 use VideoGamesRecords\CoreBundle\Message\Team\UpdateTeamChartRank;
 use VideoGamesRecords\CoreBundle\Tools\Ranking;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 #[AsMessageHandler]
 readonly class UpdatePlayerChartRankHandler

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 class PlayerChartSubscriber implements EventSubscriberInterface
 {
@@ -44,6 +45,9 @@ class PlayerChartSubscriber implements EventSubscriberInterface
 
         // Dispatcher le message UpdatePlayerChartRank
         $message = new UpdatePlayerChartRank($controllerResult->getId());
-        $this->messageBus->dispatch($message);
+        $this->messageBus->dispatch(
+            $message,
+            [new DescriptionStamp(sprintf('Update ranking for chart [%d]', $controllerResult->getId()))]
+        );
     }
 }

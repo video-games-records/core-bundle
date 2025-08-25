@@ -19,10 +19,8 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
-use VideoGamesRecords\CoreBundle\Event\PlayerChartUpdated;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\SetEventDispacther;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\SetRequestStack;
-use VideoGamesRecords\CoreBundle\VideoGamesRecordsCoreEvents;
 
 class PlayerChartAdmin extends AbstractAdmin
 {
