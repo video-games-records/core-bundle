@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,15 +35,33 @@ use VideoGamesRecords\CoreBundle\ValueObject\TeamRequestStatus;
         ),
     ],
     normalizationContext: ['groups' => [
-        'team-request:read', 'team-request:player', 'player:read', 'team-request:team']
+        'team-request:read', 'team-request:player', 'player:read-minimal', 'team-request:team']
+    ],
+)]
+#[ApiResource(
+    uriTemplate: '/players/{id}/team_requests',
+    uriVariables: [
+        'id' => new Link(fromClass: Player::class, toProperty: 'player'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => [
+        'team-request:read', 'team-request:team', 'team:read:minimal',]
+    ],
+)]
+#[ApiResource(
+    uriTemplate: '/teams/{id}/team_requests',
+    uriVariables: [
+        'id' => new Link(fromClass: Team::class, toProperty: 'team'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => [
+        'team-request:read', 'team-request:player', 'player:read:minimal',]
     ],
 )]
 #[ApiFilter(
     SearchFilter::class,
     properties: [
         'status' => 'exact',
-        'player' => 'exact',
-        'team' => 'exact',
     ]
 )]
 class TeamRequest

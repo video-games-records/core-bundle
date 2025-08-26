@@ -35,11 +35,14 @@ class UserProvider
     }
 
     /**
-     * @return Player
+     * @return ?Player
      * @throws ORMException
      */
-    public function getPlayer(): Player
+    public function getPlayer(): ?Player
     {
+        if (!$this->security->getUser()) {
+            return null;
+        }
         return $this->userToPlayerTransformer->transform($this->security->getUser());
     }
 

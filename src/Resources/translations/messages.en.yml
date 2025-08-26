@@ -340,7 +340,7 @@ link:
 
 team:
   request:
-    exists: 'You already requested this team'
+    exists: 'You already requested a team'
     has_team: 'This player has already a team'
 
 avatar:

@@ -337,7 +337,7 @@ link:
 
 team:
   request:
-    exists: 'Vous avez déjà envoyé une demande pour cette équipe'
+    exists: 'Vous avez déjà envoyé une demande en cours'
     has_team: 'Ce joueur a déjà une équipe'
 
 avatar:
