@@ -38,48 +38,28 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
             controller: GetRankingPoints::class,
             normalizationContext: ['groups' => [
                 'player-serie:read',
-                'player-serie:player', 'player:read',
-                'player:team', 'team:read',
+                'player-serie:player', 'player:read:minimal',
+                'player:team', 'team:read:minimal',
                 'player:country', 'country:read']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the player points leaderboard',
                 description: 'Retrieves the player points leaderboard'
             ),
-            /*openapiContext: [
-            'parameters' => [
-            [
-            'name' => 'maxRank',
-            'in' => 'query',
-            'type' => 'integer',
-            'required' => false
-            ]
-            ]
-            ]*/
         ),
         new Get(
             uriTemplate: '/series/{id}/player-ranking-medals',
             controller: GetRankingMedals::class,
             normalizationContext: ['groups' => [
                 'player-serie:read',
-                'player-serie:player', 'player:read',
-                'player:team', 'team:read',
+                'player-serie:player', 'player:read:minimal',
+                'player:team', 'team:read:minimal',
                 'player:country', 'country:read']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the player medals leaderboard',
                 description: 'Retrieves the player medals leaderboard'
             ),
-            /*openapiContext: [
-            'parameters' => [
-            [
-            'name' => 'maxRank',
-            'in' => 'query',
-            'type' => 'integer',
-            'required' => false
-            ]
-            ]
-            ]*/
         ),
     ],
     normalizationContext: ['groups' => ['serie:read']]

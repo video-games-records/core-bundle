@@ -33,7 +33,7 @@ class GetRankingPoints extends AbstractController
             $serie->getId(),
             [
                 'maxRank' => $request->query->get('maxRank', '100'),
-                'limit' => $request->query->get('limit', '1000'),
+                'limit' => $request->query->get('limit'),
                 'user' => $this->getUser()
             ]
         );
