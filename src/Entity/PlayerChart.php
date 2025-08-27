@@ -18,7 +18,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -241,6 +240,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
         'player-chart:status', 'player-chart-status:read',
         'player-chart:player', 'player:read:minimal',
         'player-chart:chart', 'chart:read',
+        'player-chart:platform', 'platform:read',
         'chart:group', 'group:read',
         'group:game', 'game:read',
         'player-chart:proof', 'proof:read',
@@ -254,6 +254,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
     properties: [
         'status' => 'exact',
         'player' => 'exact',
+        'platform' => 'exact',
         'chart' => 'exact',
         'chart.group' => 'exact',
         'chart.group.game' => 'exact',
@@ -278,27 +279,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
         'chart.group.libGroupFr' => 'ASC',
         'chart.group.game.libGameEn' => 'ASC',
         'chart.group.game.libGameFr' => 'ASC',
-    ]
-)]
-#[ApiFilter(
-    GroupFilter::class,
-    arguments: [
-        'parameterName' => 'groups',
-        'overrideDefaultGroups' => true,
-        'whitelist' => [
-            'player-chart:read',
-            'player-chart:libs', 'player-chart-lib:read',
-            'player-chart:status', 'player-chart-status:read',
-            'player-chart:platform', 'platform:read',
-            'player-chart:player', 'player:read',
-            'player:country', 'country:read',
-            'player-chart:chart', 'chart:read',
-            'chart:group', 'group:read',
-            'group:game', 'game:read',
-            'player-chart:proof', 'proof:read',
-            'proof:picture', 'picture:read',
-            'proof:video', 'video:read',
-        ]
     ]
 )]
 #[ApiFilter(DateFilter::class, properties: ['lastUpdate' => DateFilterInterface::EXCLUDE_NULL])]
