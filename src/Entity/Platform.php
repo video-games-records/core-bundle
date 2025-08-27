@@ -32,41 +32,21 @@ use VideoGamesRecords\CoreBundle\Repository\PlatformRepository;
                 summary: 'Retrieves platforms by autocompletion',
                 description: 'Retrieves platforms by autocompletion'
             ),
-            /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'query',
-                        'in' => 'query',
-                        'type' => 'string',
-                        'required' => true
-                    ]
-                ]
-            ]*/
         ),
         new Get(),
         new Get(
-            uriTemplate: '/platforms/{id}/player-ranking-point',
+            uriTemplate: '/platforms/{id}/player-ranking-points',
             controller: GetRankingPoints::class,
             normalizationContext: ['groups' => [
                 'player-platform:read',
-                'player-platform:player', 'player:read',
-                'player:team', 'team:read',
+                'player-platform:player', 'player:read:minimal',
+                'player:team', 'team:read:minimal',
                 'player:country', 'country:read']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the player points leaderboard',
                 description: 'Retrieves the player points leaderboard'
             ),
-            /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
-            ]*/
         ),
     ],
     normalizationContext: ['groups' => ['platform:read']]
