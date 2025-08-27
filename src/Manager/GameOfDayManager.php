@@ -4,43 +4,70 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Manager;
 
-use Datetime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\GameDay;
 
 class GameOfDayManager
 {
     private EntityManagerInterface $em;
+    private CacheInterface $cache;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, CacheInterface $cache)
     {
         $this->em = $em;
+        $this->cache = $cache;
     }
 
-    /**
-     * @return void
-     */
-    public function addTomorrowGame(): void
-    {
-        $tomorrow = new Datetime('tomorrow');
-        $gameDay = $this->em->getRepository(GameDay::class)->findOneBy(array('day' => $tomorrow));
-        if (!$gameDay) {
-            $games = $this->em->getRepository(Game::class)->getIds();
-            $rand_key = array_rand($games, 1);
-            $game = $this->em->getRepository(Game::class)->findOneBy($games[$rand_key]);
-            $gameDay = new GameDay();
-            $gameDay->setGame($game);
-            $gameDay->setDay($tomorrow);
-            $this->em->persist($gameDay);
-            $this->em->flush();
-        }
-    }
 
     public function getGameOfDay(): ?Game
     {
-        $now = new DateTime();
-        $gameDay = $this->em->getRepository(GameDay::class)->findOneBy(array('day' => $now));
-        return $gameDay->getGame();
+        $today = (new \DateTime())->format('Y-m-d');
+
+        return $this->cache->get("game_of_day_{$today}", function (ItemInterface $item) {
+            // Cache expire à minuit (début du jour suivant)
+            $tomorrow = new \DateTime('tomorrow');
+            $item->expiresAt($tomorrow);
+
+            // Récupérer un jeu aléatoire parmi les jeux actifs
+            return $this->selectRandomGame();
+        });
+    }
+
+    /**
+     * Force la régénération du jeu du jour (vide le cache)
+     */
+    public function regenerateGameOfDay(): ?Game
+    {
+        $today = (new \DateTime())->format('Y-m-d');
+
+        // Supprimer du cache
+        $this->cache->delete("game_of_day_{$today}");
+
+        // Récupérer un nouveau jeu
+        return $this->getGameOfDay();
+    }
+
+
+    private function selectRandomGame(): ?Game
+    {
+        // Récupérer tous les jeux actifs avec des charts
+        $games = $this->em->getRepository(Game::class)
+            ->createQueryBuilder('g')
+            ->where('g.status = :active')
+            ->andWhere('g.isRank = true')
+            ->andWhere('g.nbChart > 0')
+            ->setParameter('active', 'ACTIVE')
+            ->getQuery()
+            ->getResult();
+
+        if (empty($games)) {
+            return null;
+        }
+
+        // Sélection aléatoire
+        $randomIndex = array_rand($games);
+        return $games[$randomIndex];
     }
 }

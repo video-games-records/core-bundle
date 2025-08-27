@@ -21,6 +21,13 @@ class GetGameOfDay extends AbstractController
      */
     public function __invoke(Request $request): Game
     {
-        return $this->gameOfDayManager->getGameOfDay();
+        // Force regeneration si le paramètre refresh est présent
+        if ($request->query->has('refresh')) {
+            $game = $this->gameOfDayManager->regenerateGameOfDay();
+        } else {
+            $game = $this->gameOfDayManager->getGameOfDay();
+        }
+
+        return $game;
     }
 }
