@@ -186,14 +186,6 @@ services:
         manager_type: orm
         group: "group.players"
         label: "label.country"
-  sonata.admin.vgr.game_day:
-    class: VideoGamesRecords\CoreBundle\Admin\GameDayAdmin
-    tags:
-      - name: sonata.admin
-        model_class: VideoGamesRecords\CoreBundle\Entity\GameDay
-        manager_type: orm
-        group: "group.others"
-        label: "label.game.day"
   sonata.admin.vgr.rule:
     class: VideoGamesRecords\CoreBundle\Admin\RuleAdmin
     tags:
