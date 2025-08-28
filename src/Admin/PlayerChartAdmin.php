@@ -19,6 +19,8 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
+use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
+use VideoGamesRecords\CoreBundle\Event\Admin\AdminPlayerChartUpdated;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\SetEventDispacther;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\SetRequestStack;
 
@@ -275,6 +277,9 @@ class PlayerChartAdmin extends AbstractAdmin
 
     public function postUpdate(object $object): void
     {
+        /** @var PlayerChart $object */
         parent::postUpdate($object);
+
+        $this->eventDispatcher->dispatch(new AdminPlayerChartUpdated($object));
     }
 }

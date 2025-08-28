@@ -145,7 +145,7 @@ class PlayerChartListener
 
     /**
     /**
-     * @param PlayerChart            $playerChart
+     * @param PlayerChart $playerChart
      * @param LifecycleEventArgs $event
      */
     public function preRemove(PlayerChart $playerChart, LifecycleEventArgs $event): void
