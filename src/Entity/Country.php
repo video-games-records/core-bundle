@@ -19,15 +19,16 @@ use VideoGamesRecords\CoreBundle\Traits\Accessor\CurrentLocale;
 #[ORM\Table(name:'vgr_country')]
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     order: ['translations.name' => 'ASC'],
     operations: [
         new GetCollection(),
         new Get(),
         new Get(
-            uriTemplate: '/countries/{id}/ranking',
+            uriTemplate: '/countries/{id}/player-ranking',
             controller: GetRanking::class,
             normalizationContext: ['groups' => [
-                'player:read', 'team:read']
+                'player:read', 'player:team', 'team:read:minimal']
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the country leaderboard',

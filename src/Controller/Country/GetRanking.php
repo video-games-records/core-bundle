@@ -28,7 +28,7 @@ class GetRanking extends AbstractController
         return $this->playerRankingProvider->getRankingCountry(
             $country,
             [
-                'maxRank' => $request->query->get('maxRank', '5'),
+                'maxRank' => $request->query->get('maxRank', '100'),
                 'idTeam' => $request->query->get('idTeam'),
                 'limit' => $request->query->get('limit')
             ]
