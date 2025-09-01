@@ -35,6 +35,7 @@ use VideoGamesRecords\CoreBundle\Repository\LostPositionRepository;
     ]
 )]
 #[ApiResource(
+    order: ['id' => 'DESC'],
     uriTemplate: '/players/{id}/lost_positions',
     uriVariables: [
         'id' => new Link(fromClass: Player::class, toProperty: 'player'),
