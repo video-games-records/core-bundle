@@ -23,6 +23,8 @@ use VideoGamesRecords\CoreBundle\Repository\SerieRepository;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\CurrentLocale;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbGameTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
+use VideoGamesRecords\CoreBundle\Traits\Entity\NbTeamTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
@@ -72,6 +74,8 @@ class Serie
     use NbChartTrait;
     use NbGameTrait;
     use PictureTrait;
+    use NbPlayerTrait;
+    use NbTeamTrait;
     use CurrentLocale;
 
     private const string DEFAULT_LOCALE = 'en';

@@ -15,6 +15,12 @@ VideoGamesRecords\CoreBundle\Entity\Serie:
     nbGame:
       groups:
         - 'serie:read'
+    nbPlayer:
+      groups:
+        - 'serie:read'
+    nbTeam:
+      groups:
+        - 'serie:read'
     description:
       groups:
         - 'serie:read'
