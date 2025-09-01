@@ -55,14 +55,6 @@ class PlayerChartListener
         if (null === $playerChart->getPlatform()) {
             $playerChart->setPlatform($this->scoreManager->getPlatform($player, $game));
         }
-
-        if (!$this->scoreManager->hasScoreOnGroup($group, $player)) {
-            $group->setNbPlayer($group->getNbPlayer() + 1);
-        }
-
-        if (!$this->scoreManager->hasScoreOnGame($game, $player)) {
-            $game->setNbPlayer($game->getNbPlayer() + 1);
-        }
     }
 
 
