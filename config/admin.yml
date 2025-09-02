@@ -9,6 +9,7 @@ services:
         label: "label.platform"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Platform/show.html.twig' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.serie:
     class: VideoGamesRecords\CoreBundle\Admin\SerieAdmin
     tags:
@@ -20,6 +21,7 @@ services:
         label: "label.serie"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Serie/show.html.twig' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.game:
     class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
     tags:
@@ -33,6 +35,7 @@ services:
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Game/show.html.twig' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.group:
     class: VideoGamesRecords\CoreBundle\Admin\GroupAdmin
     tags:
@@ -42,6 +45,8 @@ services:
         manager_type: orm
         group: "group.games"
         label: "label.group"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.chart:
     class: VideoGamesRecords\CoreBundle\Admin\ChartAdmin
     tags:
@@ -50,6 +55,8 @@ services:
         manager_type: orm
         group: "group.games"
         label: "label.chart"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.chart_type:
     class: VideoGamesRecords\CoreBundle\Admin\ChartTypeAdmin
     tags:
@@ -58,6 +65,8 @@ services:
         manager_type: orm
         group: "group.games"
         label: "label.chart.type"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.chart_lib:
     class: VideoGamesRecords\CoreBundle\Admin\ChartLibAdmin
     tags:
@@ -67,6 +76,8 @@ services:
         group: "group.games"
         label: "label.chart.lib"
         show_in_dashboard: false
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.proof_request:
     class: VideoGamesRecords\CoreBundle\Admin\ProofRequestAdmin
     tags:
@@ -79,6 +90,7 @@ services:
       - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/Object/ProofRequest/edit.html.twig' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
       - [ setRequestStack, [ '@request_stack' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.proof:
     class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
     tags:
@@ -93,6 +105,7 @@ services:
       - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/Object/Proof/edit.html.twig' ] ]
       - [ setRequestStack, [ '@request_stack' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.picture:
     class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
     tags:
@@ -103,6 +116,7 @@ services:
         label: "label.picture"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Picture/show.html.twig' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.video:
     class: VideoGamesRecords\CoreBundle\Admin\VideoAdmin
     tags:
@@ -114,6 +128,7 @@ services:
         label: "label.video"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Video/show.html.twig' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.player:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
     tags:
@@ -125,6 +140,7 @@ services:
         label: "label.player"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Player/show.html.twig' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.playerbadge:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerBadgeAdmin
     tags:
@@ -133,6 +149,8 @@ services:
         manager_type: orm
         group: "group.badge"
         label: "label.player"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.team:
     class: VideoGamesRecords\CoreBundle\Admin\TeamAdmin
     tags:
@@ -141,6 +159,8 @@ services:
         manager_type: orm
         group: "group.players"
         label: "label.team"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.team_request:
     class: VideoGamesRecords\CoreBundle\Admin\TeamRequestAdmin
     tags:
@@ -149,6 +169,8 @@ services:
         manager_type: orm
         group: "group.players"
         label: "label.request"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.playerchart:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerChartAdmin
     tags:
@@ -161,6 +183,7 @@ services:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/PlayerChart/show.html.twig' ] ]
       - [ setEventDispatcher, [ '@event_dispatcher' ] ]
       - [ setRequestStack, [ '@request_stack' ] ]
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.playerchart_lib:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
     tags:
@@ -170,6 +193,8 @@ services:
         group: "group.games"
         label: "label.playerChartLib"
         show_in_dashboard: false
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.badge:
     class: VideoGamesRecords\CoreBundle\Admin\BadgeAdmin
     tags:
@@ -178,6 +203,8 @@ services:
         manager_type: orm
         group: "group.badge"
         label: "label.badge"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.country:
     class: VideoGamesRecords\CoreBundle\Admin\CountryAdmin
     tags:
@@ -186,6 +213,8 @@ services:
         manager_type: orm
         group: "group.players"
         label: "label.country"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.vgr.rule:
     class: VideoGamesRecords\CoreBundle\Admin\RuleAdmin
     tags:
@@ -194,6 +223,8 @@ services:
         manager_type: orm
         group: "group.games"
         label: "label.rules"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCore' ] ]
   sonata.admin.extension.workflow.game_status:
     class: Yokai\SonataWorkflow\Admin\Extension\WorkflowExtension
     arguments:
