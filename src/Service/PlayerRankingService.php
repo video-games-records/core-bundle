@@ -6,16 +6,16 @@ namespace VideoGamesRecords\CoreBundle\Service;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use VideoGamesRecords\CoreBundle\Entity\Game;
-use VideoGamesRecords\CoreBundle\Entity\GameTopRanking;
-use VideoGamesRecords\CoreBundle\Repository\GameTopRankingRepository;
+use VideoGamesRecords\CoreBundle\Entity\Player;
+use VideoGamesRecords\CoreBundle\Entity\PlayerTopRanking;
+use VideoGamesRecords\CoreBundle\Repository\PlayerTopRankingRepository;
 
-class GameRankingService
+class PlayerRankingService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private EntityManagerInterface $dwhEntityManager,
-        private GameTopRankingRepository $rankingRepository
+        private PlayerTopRankingRepository $rankingRepository
     ) {}
 
     /**
@@ -41,7 +41,7 @@ class GameRankingService
         $prevWeek = (int) $prevDate->format('W');
 
         return $this->generateRankingsForPeriod(
-            GameTopRanking::PERIOD_WEEK,
+            PlayerTopRanking::PERIOD_WEEK,
             $periodValue,
             $prevYear,
             $prevWeek
@@ -69,7 +69,7 @@ class GameRankingService
         $prevMonth = (int) $prevDate->format('n');
 
         return $this->generateRankingsForPeriod(
-            GameTopRanking::PERIOD_MONTH,
+            PlayerTopRanking::PERIOD_MONTH,
             $periodValue,
             $prevYear,
             $prevMonth
@@ -85,7 +85,7 @@ class GameRankingService
         $periodValue = (string) $currentYear;
 
         return $this->generateRankingsForPeriod(
-            GameTopRanking::PERIOD_YEAR,
+            PlayerTopRanking::PERIOD_YEAR,
             $periodValue,
             $currentYear - 1
         );
@@ -100,8 +100,8 @@ class GameRankingService
         int $prevYear,
         ?int $prevPeriod = null
     ): array {
-        // Get games data ordered by number of posts (you'll need to adapt this query)
-        $gamesData = $this->getGamesPostData($periodType, $periodValue);
+        // Get players data ordered by number of posts
+        $playersData = $this->getPlayersPostData($periodType, $periodValue);
 
         // Get previous period data for comparison
         $prevPeriodValue = $this->formatPreviousPeriodValue($periodType, $prevYear, $prevPeriod);
@@ -112,30 +112,30 @@ class GameRankingService
 
         $previousRanksMap = [];
         foreach ($previousRankings as $prevRanking) {
-            $previousRanksMap[$prevRanking->getGame()->getId()] = $prevRanking->getRank();
+            $previousRanksMap[$prevRanking->getPlayer()->getId()] = $prevRanking->getRank();
         }
 
         $rankings = [];
         $currentRank = 1;
 
-        foreach ($gamesData as $gameData) {
-            $game = $gameData['game'];
-            $nbPost = $gameData['nbPost'];
+        foreach ($playersData as $playerData) {
+            $player = $playerData['player'];
+            $nbPost = $playerData['nbPost'];
 
             // Calculate position change (positive = improvement, negative = decline)
-            $previousRank = $previousRanksMap[$game->getId()] ?? null;
+            $previousRank = $previousRanksMap[$player->getId()] ?? null;
             $positionChange = $previousRank ? $previousRank - $currentRank : null;
 
             // Check if ranking already exists
             $ranking = $this->rankingRepository->findOneBy([
-                'game' => $game,
+                'player' => $player,
                 'periodType' => $periodType,
                 'periodValue' => $periodValue
             ]);
 
             if (!$ranking) {
-                $ranking = new GameTopRanking();
-                $ranking->setGame($game);
+                $ranking = new PlayerTopRanking();
+                $ranking->setPlayer($player);
                 $ranking->setPeriodType($periodType);
                 $ranking->setPeriodValue($periodValue);
             }
@@ -155,19 +155,19 @@ class GameRankingService
     }
 
     /**
-     * Get games post data for a specific period
+     * Get players post data for a specific period
      */
-    private function getGamesPostData(string $periodType, string $periodValue): array
+    private function getPlayersPostData(string $periodType, string $periodValue): array
     {
         [$startDate, $endDate] = $this->getPeriodDateRange($periodType, $periodValue);
 
         $sql = "
-            SELECT dg.id as game_id, SUM(dg.nb_post_day) as total_posts
-            FROM dwh_game dg
-            WHERE dg.date >= :startDate 
-            AND dg.date <= :endDate
-            AND dg.nb_post_day > 0
-            GROUP BY dg.id
+            SELECT dp.id as player_id, SUM(dp.nb_post_day) as total_posts
+            FROM dwh_player dp
+            WHERE dp.date >= :startDate 
+            AND dp.date <= :endDate
+            AND dp.nb_post_day > 0
+            GROUP BY dp.id
             ORDER BY total_posts DESC
         ";
 
@@ -177,20 +177,20 @@ class GameRankingService
         $stmt->bindValue('endDate', $endDate);
         $result = $stmt->executeQuery();
 
-        $gamesData = [];
-        $gameRepository = $this->entityManager->getRepository(Game::class);
+        $playersData = [];
+        $playerRepository = $this->entityManager->getRepository(Player::class);
 
         while ($row = $result->fetchAssociative()) {
-            $game = $gameRepository->find($row['game_id']);
-            if ($game) {
-                $gamesData[] = [
-                    'game' => $game,
+            $player = $playerRepository->find($row['player_id']);
+            if ($player) {
+                $playersData[] = [
+                    'player' => $player,
                     'nbPost' => (int) $row['total_posts']
                 ];
             }
         }
 
-        return $gamesData;
+        return $playersData;
     }
 
     /**
@@ -199,9 +199,9 @@ class GameRankingService
     private function getPeriodDateRange(string $periodType, string $periodValue): array
     {
         return match ($periodType) {
-            GameTopRanking::PERIOD_WEEK => $this->getWeekDateRange($periodValue),
-            GameTopRanking::PERIOD_MONTH => $this->getMonthDateRange($periodValue),
-            GameTopRanking::PERIOD_YEAR => $this->getYearDateRange($periodValue),
+            PlayerTopRanking::PERIOD_WEEK => $this->getWeekDateRange($periodValue),
+            PlayerTopRanking::PERIOD_MONTH => $this->getMonthDateRange($periodValue),
+            PlayerTopRanking::PERIOD_YEAR => $this->getYearDateRange($periodValue),
             default => throw new \InvalidArgumentException("Unknown period type: {$periodType}")
         };
     }
@@ -266,9 +266,9 @@ class GameRankingService
     private function formatPreviousPeriodValue(string $periodType, int $prevYear, ?int $prevPeriod = null): string
     {
         return match ($periodType) {
-            GameTopRanking::PERIOD_WEEK => sprintf('%d-W%02d', $prevYear, $prevPeriod),
-            GameTopRanking::PERIOD_MONTH => sprintf('%d-%02d', $prevYear, $prevPeriod),
-            GameTopRanking::PERIOD_YEAR => (string) $prevYear,
+            PlayerTopRanking::PERIOD_WEEK => sprintf('%d-W%02d', $prevYear, $prevPeriod),
+            PlayerTopRanking::PERIOD_MONTH => sprintf('%d-%02d', $prevYear, $prevPeriod),
+            PlayerTopRanking::PERIOD_YEAR => (string) $prevYear,
             default => throw new \InvalidArgumentException("Unknown period type: {$periodType}")
         };
     }
@@ -284,16 +284,16 @@ class GameRankingService
         $oldWeekDate = clone $now;
         $oldWeekDate->modify("-{$keepWeeks} weeks");
         $oldWeekValue = $oldWeekDate->format('Y-\\WW');
-        $this->rankingRepository->deleteOldRankings(GameTopRanking::PERIOD_WEEK, $oldWeekValue);
+        $this->rankingRepository->deleteOldRankings(PlayerTopRanking::PERIOD_WEEK, $oldWeekValue);
 
         // Clean old monthly rankings
         $oldMonthDate = clone $now;
         $oldMonthDate->modify("-{$keepMonths} months");
         $oldMonthValue = $oldMonthDate->format('Y-m');
-        $this->rankingRepository->deleteOldRankings(GameTopRanking::PERIOD_MONTH, $oldMonthValue);
+        $this->rankingRepository->deleteOldRankings(PlayerTopRanking::PERIOD_MONTH, $oldMonthValue);
 
         // Clean old yearly rankings
         $oldYear = $now->format('Y') - $keepYears;
-        $this->rankingRepository->deleteOldRankings(GameTopRanking::PERIOD_YEAR, (string) $oldYear);
+        $this->rankingRepository->deleteOldRankings(PlayerTopRanking::PERIOD_YEAR, (string) $oldYear);
     }
 }

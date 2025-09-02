@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use VideoGamesRecords\CoreBundle\Service\GameRankingService;
+use VideoGamesRecords\CoreBundle\Service\PlayerRankingService;
 
 #[AsCommand(
     name: 'vgr:rankings:generate',
@@ -20,7 +21,8 @@ use VideoGamesRecords\CoreBundle\Service\GameRankingService;
 class GenerateRankingsCommand extends Command
 {
     public function __construct(
-        private GameRankingService $rankingService
+        private GameRankingService $gameRankingService,
+        private PlayerRankingService $playerRankingService
     ) {
         parent::__construct();
     }
@@ -100,10 +102,9 @@ Examples:
             if ($clean) {
                 $io->section('Cleaning Old Rankings');
                 if ($type === 'game') {
-                    $this->rankingService->cleanOldRankings();
+                    $this->gameRankingService->cleanOldRankings();
                 } else {
-                    // TODO: Implement player ranking cleanup when PlayerRankingService is ready
-                    $io->note('Player ranking cleanup will be implemented later');
+                    $this->playerRankingService->cleanOldRankings();
                 }
                 $io->success('Old rankings cleaned successfully');
             }
@@ -125,18 +126,18 @@ Examples:
                 if ($year && !$week) {
                     throw new \InvalidArgumentException('Week number is required when year is specified for weekly rankings');
                 }
-                return $this->rankingService->generateWeeklyRankings($year, $week);
+                return $this->gameRankingService->generateWeeklyRankings($year, $week);
 
             case 'month':
                 $io->section('Generating Monthly Game Rankings');
                 if ($year && !$month) {
                     throw new \InvalidArgumentException('Month number is required when year is specified for monthly rankings');
                 }
-                return $this->rankingService->generateMonthlyRankings($year, $month);
+                return $this->gameRankingService->generateMonthlyRankings($year, $month);
 
             case 'year':
                 $io->section('Generating Yearly Game Rankings');
-                return $this->rankingService->generateYearlyRankings($year);
+                return $this->gameRankingService->generateYearlyRankings($year);
 
             default:
                 throw new \InvalidArgumentException("Invalid period '{$period}'");
@@ -145,12 +146,28 @@ Examples:
 
     private function generatePlayerRankings(SymfonyStyle $io, string $period, ?int $year, ?int $month, ?int $week): array
     {
-        // TODO: Implement player rankings when PlayerRankingService is ready
-        $io->section("Generating {$period} Player Rankings");
-        $io->note('Player rankings generation will be implemented later');
+        switch ($period) {
+            case 'week':
+                $io->section('Generating Weekly Player Rankings');
+                if ($year && !$week) {
+                    throw new \InvalidArgumentException('Week number is required when year is specified for weekly rankings');
+                }
+                return $this->playerRankingService->generateWeeklyRankings($year, $week);
 
-        // Placeholder return
-        return [];
+            case 'month':
+                $io->section('Generating Monthly Player Rankings');
+                if ($year && !$month) {
+                    throw new \InvalidArgumentException('Month number is required when year is specified for monthly rankings');
+                }
+                return $this->playerRankingService->generateMonthlyRankings($year, $month);
+
+            case 'year':
+                $io->section('Generating Yearly Player Rankings');
+                return $this->playerRankingService->generateYearlyRankings($year);
+
+            default:
+                throw new \InvalidArgumentException("Invalid period '{$period}'");
+        }
     }
 
     private function getPeriodInfo(string $period, ?int $year, ?int $month, ?int $week): string
@@ -182,10 +199,9 @@ Examples:
                 $metric = $ranking->getNbPost();
                 $metricLabel = 'Posts';
             } else {
-                // TODO: Adapt for player rankings when ready
-                $name = 'Player Name'; // $ranking->getPlayer()->getName()
-                $metric = 'Player Metric'; // $ranking->getPoints() or similar
-                $metricLabel = 'Points';
+                $name = $ranking->getPlayer()->getPseudo() ?? 'N/A';
+                $metric = $ranking->getNbPost();
+                $metricLabel = 'Posts';
             }
 
             $tableData[] = [

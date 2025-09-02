@@ -25,26 +25,6 @@ class GameTopRankingRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find the current week ranking for a game
-     *
-     * @param Game $game
-     * @param int $year
-     * @param int $week
-     * @return GameTopRanking|null
-     */
-    public function findCurrentWeekRanking(Game $game, int $year, int $week): ?GameTopRanking
-    {
-        $periodValue = sprintf('%d-W%02d', $year, $week);
-
-        return $this->findOneBy([
-            'game' => $game,
-            'periodType' => GameTopRanking::PERIOD_WEEK,
-            'periodValue' => $periodValue
-        ]);
-    }
-
-
-    /**
      * Delete old rankings to keep only recent data
      *
      * @param string $periodType

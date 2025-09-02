@@ -8,12 +8,14 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use VideoGamesRecords\CoreBundle\Scheduler\Message\DailyRanking;
 use VideoGamesRecords\CoreBundle\Service\GameRankingService;
+use VideoGamesRecords\CoreBundle\Service\PlayerRankingService;
 
 #[AsMessageHandler]
 readonly class DailyRankingHandler
 {
     public function __construct(
         private GameRankingService $gameRankingService,
+        private PlayerRankingService $playerRankingService,
         private LoggerInterface $logger
     ) {
     }
@@ -28,17 +30,20 @@ readonly class DailyRankingHandler
 
             // Check if we need to generate weekly rankings (every Monday)
             if ($this->shouldGenerateWeeklyRankings($date)) {
-                $rankingsGenerated['weekly'] = $this->generateWeeklyRankings($date);
+                $rankingsGenerated['weekly_games'] = $this->generateWeeklyRankings($date);
+                $rankingsGenerated['weekly_players'] = $this->generateWeeklyPlayerRankings($date);
             }
 
             // Check if we need to generate monthly rankings (1st of month)
             if ($this->shouldGenerateMonthlyRankings($date)) {
-                $rankingsGenerated['monthly'] = $this->generateMonthlyRankings($date);
+                $rankingsGenerated['monthly_games'] = $this->generateMonthlyRankings($date);
+                $rankingsGenerated['monthly_players'] = $this->generateMonthlyPlayerRankings($date);
             }
 
             // Check if we need to generate yearly rankings (1st of January)
             if ($this->shouldGenerateYearlyRankings($date)) {
-                $rankingsGenerated['yearly'] = $this->generateYearlyRankings($date);
+                $rankingsGenerated['yearly_games'] = $this->generateYearlyRankings($date);
+                $rankingsGenerated['yearly_players'] = $this->generateYearlyPlayerRankings($date);
             }
 
             // Log results
@@ -144,8 +149,76 @@ readonly class DailyRankingHandler
         $rankings = $this->gameRankingService->generateYearlyRankings($previousYear);
 
         // Clean old rankings when generating yearly rankings
-        $this->gameRankingService->cleanOldRankings();
-        $this->logger->info("Old rankings cleaned");
+        //$this->gameRankingService->cleanOldRankings();
+        //$this->logger->info("Old game rankings cleaned");
+
+        return count($rankings);
+    }
+
+    /**
+     * Generate weekly player rankings for the previous week
+     */
+    private function generateWeeklyPlayerRankings(\DateTime $date): int
+    {
+        // Get previous week
+        $previousWeek = clone $date;
+        $previousWeek->modify('-1 week');
+
+        $year = (int) $previousWeek->format('Y');
+        $week = (int) $previousWeek->format('W');
+
+        $this->logger->info("Generating weekly player rankings", [
+            'year' => $year,
+            'week' => $week,
+            'period' => sprintf('%d-W%02d', $year, $week)
+        ]);
+
+        $rankings = $this->playerRankingService->generateWeeklyRankings($year, $week);
+
+        return count($rankings);
+    }
+
+    /**
+     * Generate monthly player rankings for the previous month
+     */
+    private function generateMonthlyPlayerRankings(\DateTime $date): int
+    {
+        // Get previous month
+        $previousMonth = clone $date;
+        $previousMonth->modify('-1 month');
+
+        $year = (int) $previousMonth->format('Y');
+        $month = (int) $previousMonth->format('n');
+
+        $this->logger->info("Generating monthly player rankings", [
+            'year' => $year,
+            'month' => $month,
+            'period' => sprintf('%d-%02d', $year, $month)
+        ]);
+
+        $rankings = $this->playerRankingService->generateMonthlyRankings($year, $month);
+
+        return count($rankings);
+    }
+
+    /**
+     * Generate yearly player rankings for the previous year
+     */
+    private function generateYearlyPlayerRankings(\DateTime $date): int
+    {
+        // Get previous year
+        $previousYear = (int) $date->format('Y') - 1;
+
+        $this->logger->info("Generating yearly player rankings", [
+            'year' => $previousYear,
+            'period' => (string) $previousYear
+        ]);
+
+        $rankings = $this->playerRankingService->generateYearlyRankings($previousYear);
+
+        // Clean old player rankings when generating yearly rankings
+        //$this->playerRankingService->cleanOldRankings();
+        //$this->logger->info("Old player rankings cleaned");
 
         return count($rankings);
     }
