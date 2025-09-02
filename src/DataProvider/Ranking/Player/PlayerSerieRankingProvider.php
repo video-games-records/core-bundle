@@ -92,8 +92,8 @@ class PlayerSerieRankingProvider extends AbstractRankingProvider
         if (null !== $maxRank) {
             if (null !== $row) {
                 $query->andWhere('(ps.rankMedal <= :maxRank OR ps.rankMedal BETWEEN :min AND :max)')
-                    ->setParameter('min', $row->getRankPoint() - 5)
-                    ->setParameter('max', $row->getRankPoint() + 5);
+                    ->setParameter('min', $row->getRankMedal() - 5)
+                    ->setParameter('max', $row->getRankMedal() + 5);
             } else {
                 $query->andWhere('ps.rankMedal <= :maxRank');
             }
