@@ -77,7 +77,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         ['player-game:read', 'player-game:game', 'game:read', 'game:platforms', 'platform:read']
     ],
     order: ['lastUpdate' => 'DESC'],
-    paginationEnabled: false,
 )]
 class PlayerGame
 {
