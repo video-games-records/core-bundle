@@ -173,6 +173,9 @@ player:
   view:
     scores: 'Voir les scores'
     proofs: 'Voir les preuves'
+  friends:
+    title: 'Amis'
+    empty: 'Aucun ami pour le moment'
 
 medal:
   platinum: 'Platine'

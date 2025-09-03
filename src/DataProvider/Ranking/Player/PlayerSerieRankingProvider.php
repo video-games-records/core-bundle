@@ -44,9 +44,10 @@ class PlayerSerieRankingProvider extends AbstractRankingProvider
 
         if (null !== $maxRank) {
             if (null !== $row) {
-                $query->andWhere('(ps.rankPointChart <= :maxRank OR ps.rankPointChart BETWEEN :min AND :max)')
+                $query->andWhere('(ps.rankPointChart <= :maxRank OR ps.rankPointChart BETWEEN :min AND :max OR p.id IN (:friends))')
                     ->setParameter('min', $row->getRankPointChart() - 5)
-                    ->setParameter('max', $row->getRankPointChart() + 5);
+                    ->setParameter('max', $row->getRankPointChart() + 5)
+                    ->setParameter('friends', $player->getFriends());
             } else {
                 $query->andWhere('ps.rankPointChart <= :maxRank');
             }
@@ -91,9 +92,10 @@ class PlayerSerieRankingProvider extends AbstractRankingProvider
 
         if (null !== $maxRank) {
             if (null !== $row) {
-                $query->andWhere('(ps.rankMedal <= :maxRank OR ps.rankMedal BETWEEN :min AND :max)')
+                $query->andWhere('(ps.rankMedal <= :maxRank OR ps.rankMedal BETWEEN :min AND :max OR p.id IN (:friends))')
                     ->setParameter('min', $row->getRankMedal() - 5)
-                    ->setParameter('max', $row->getRankMedal() + 5);
+                    ->setParameter('max', $row->getRankMedal() + 5)
+                    ->setParameter('friends', $player->getFriends());
             } else {
                 $query->andWhere('ps.rankMedal <= :maxRank');
             }

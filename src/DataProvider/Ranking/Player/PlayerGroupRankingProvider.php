@@ -40,9 +40,10 @@ class PlayerGroupRankingProvider extends AbstractRankingProvider
             $query->andWhere('(p.team = :team)')
                 ->setParameter('team', $team);
         } elseif (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player= :player)')
+            $query->andWhere('(pg.rankPointChart <= :maxRank OR pg.player= :player OR p.id IN (:friends))')
                 ->setParameter('maxRank', $maxRank)
-                ->setParameter('player', $player);
+                ->setParameter('player', $player)
+                ->setParameter('friends', $player->getFriends());
         } elseif ($maxRank !== null) {
             $query->andWhere('pg.rankPointChart <= :maxRank')
                 ->setParameter('maxRank', $maxRank);
@@ -80,9 +81,10 @@ class PlayerGroupRankingProvider extends AbstractRankingProvider
             ->setParameter('group', $group);
 
         if (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.player= :player)')
+            $query->andWhere('(pg.rankMedal <= :maxRank OR pg.player= :player OR p.id IN (:friends))')
                 ->setParameter('maxRank', $maxRank)
-                ->setParameter('player', $player);
+                ->setParameter('player', $player)
+                ->setParameter('friends', $player->getFriends());
         } elseif ($maxRank !== null) {
             $query->andWhere('pg.rankMedal <= :maxRank')
                 ->setParameter('maxRank', $maxRank);

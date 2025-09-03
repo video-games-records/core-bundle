@@ -175,6 +175,9 @@ player:
   view:
     scores: 'View scores'
     proofs: 'View proofs'
+  friends:
+    title: 'Friends'
+    empty: 'No friends yet'
 
 medal:
   platinum: 'Platinum'

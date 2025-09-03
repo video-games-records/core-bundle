@@ -1,5 +1,6 @@
 <?php
 
+// src/EventListener/AuthenticationSuccessListener.php
 declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\EventListener;
@@ -9,10 +10,10 @@ use ProjetNormandie\UserBundle\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
 
-class AuthenticationSuccessListener
+readonly class AuthenticationSuccessListener
 {
     public function __construct(
-        private readonly UserToPlayerTransformer $userToPlayerTransformer
+        private UserToPlayerTransformer $userToPlayerTransformer
     ) {
     }
 
@@ -34,6 +35,7 @@ class AuthenticationSuccessListener
             'slug' => $player->getSlug(),
             'pseudo' => $player->getPseudo(),
             'team' => null,
+            'friends' => $player->getFriends()->map(fn($friend) => $friend->getId())->toArray(),
         ];
 
         $team = $player->getTeam();

@@ -1,3 +1,4 @@
+{# src/Resources/views/Admin/Object/Player/show.html.twig #}
 {% extends '@SonataAdmin/CRUD/show.html.twig' %}
 {% trans_default_domain 'VgrCore' %}
 
@@ -27,7 +28,10 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="player-details">
-                                <h4>{{ object.getPseudo() }}</h4>
+                                <div class="player-header">
+                                    <img src="/users/{{ object.getUserId() }}/avatar" alt="{{ object.getPseudo() }}" class="player-avatar-img">
+                                    <h4>{{ object.getPseudo() }}</h4>
+                                </div>
                                 <div class="player-meta">
                                     {% if object.getCountry() %}
                                         <span class="meta-item">
@@ -268,6 +272,49 @@
         </div>
     </div>
 
+    {# Amis #}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-users"></i> {% trans %}player.friends.title{% endtrans %}
+                        <span class="badge">{{ object.getFriends()|length }}</span>
+                    </h3>
+                </div>
+                <div class="box-body">
+                    {% if object.getFriends()|length > 0 %}
+                        <div class="row">
+                            {% for friend in object.getFriends() %}
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <div class="friend-box">
+                                        <div class="friend-avatar">
+                                            <img src="/users/{{ friend.getUserId() }}/avatar" alt="{{ friend.getPseudo() }}" class="friend-avatar-img">
+                                        </div>
+                                        <div class="friend-info">
+                                            <div class="friend-name">
+                                                <a href="{{ path('vgrcorebundle_player_show', {'id': friend.getId()}) }}">
+                                                    {{ friend.getPseudo() }}
+                                                </a>
+                                            </div>
+                                            <div class="friend-meta">
+                                                <small class="text-muted">ID: {{ friend.getId() }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">
+                            <i class="fa fa-info-circle"></i> {% trans %}player.friends.empty{% endtrans %}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
     <style>
         .player-details h4 {
             margin-top: 0;
@@ -344,7 +391,70 @@
         .bg-yellow { background-color: #f39c12; }
         .bg-red { background-color: #d73925; }
         .bg-orange { background-color: #ff851b; }
-        .bg-gray { background-color: #95a5a6; }
+
+        /* Styles pour les amis */
+        .friend-box {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .friend-box:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .friend-avatar {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .friend-avatar i {
+            font-size: 24px;
+            color: #666;
+        }
+
+        .friend-info {
+            text-align: center;
+        }
+
+        .friend-name a {
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .friend-name a:hover {
+            color: #3c8dbc;
+        }
+
+        .friend-meta {
+            margin-top: 5px;
+        }
+
+        /* Styles pour les avatars */
+        .player-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .player-avatar-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #ddd;
+        }
+
+        .friend-avatar-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
 
         /* Responsive */
         @media (max-width: 768px) {

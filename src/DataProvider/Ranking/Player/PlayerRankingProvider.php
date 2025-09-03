@@ -1,5 +1,6 @@
 <?php
 
+// src/DataProvider/Ranking/Player/PlayerRankingProvider.php
 declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player;
@@ -149,9 +150,10 @@ class PlayerRankingProvider
             $query->andWhere('(p.team = :team)')
                 ->setParameter('team', $team);
         } elseif (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere("(p.$column <= :maxRank OR p = :player)")
+            $query->andWhere("(p.$column <= :maxRank OR p = :player OR p.id IN (:friends))")
                 ->setParameter('maxRank', $maxRank)
-                ->setParameter('player', $player);
+                ->setParameter('player', $player)
+                ->setParameter('friends', $player->getFriends());
         } else {
             $query->andWhere("p.$column <= :maxRank")
                 ->setParameter('maxRank', $maxRank);
