@@ -17,7 +17,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Serializer\Filter\GroupFilter;
 use ApiPlatform\OpenApi\Model;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,6 +27,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Player\Autocomplete;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetBadges;
+use VideoGamesRecords\CoreBundle\Controller\Player\GetFriends;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetGamesFromLostPositions;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingBadge;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingCup;
@@ -171,6 +171,11 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
             ]
             ]
         ),
+        new GetCollection(
+            uriTemplate: '/players/{id}/friends',
+            controller: GetFriends::class,
+            normalizationContext: ['groups' => ['player:read:minimal']]
+        ),
         new Put(
             denormalizationContext: ['groups' => ['player:update']],
             security: 'is_granted("ROLE_PLAYER") and object.getUserId() == user.getId()'
@@ -212,24 +217,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
         'nbVideo' => 'DESC',
         'nbGame' => 'DESC',
         'pointGame' => 'DESC',
-    ]
-)]
-#[ApiFilter(
-    GroupFilter::class,
-    arguments: [
-        'parameterName' => 'groups',
-        'overrideDefaultGroups' => true,
-        'whitelist' => [
-            'player:read',
-            'player:team',
-            'player:country',
-            'country:read',
-            'player:read',
-            'player:team',
-            'team:read',
-            'player:status',
-            'player-status:read',
-        ]
     ]
 )]
 #[ApiFilter(DateFilter::class, properties: ['lastLogin' => DateFilterInterface::EXCLUDE_NULL])]
@@ -347,10 +334,20 @@ class Player
     #[ORM\OneToMany(targetEntity: PlayerChart::class, mappedBy: 'player')]
     private Collection $playerCharts;
 
+    /**
+     * @var Collection<int, Player>
+     */
+    #[ORM\ManyToMany(targetEntity: Player::class)]
+    #[ORM\JoinTable(name: 'vgr_friend')]
+    #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'friend_id', referencedColumnName: 'id')]
+    private Collection $friends;
+
     public function __construct()
     {
         $this->playerGame = new ArrayCollection();
         $this->playerCharts = new ArrayCollection();
+        $this->friends = new ArrayCollection();
     }
 
     public function __toString()
@@ -562,6 +559,27 @@ class Player
     public function getPlayerCharts(): Collection
     {
         return $this->playerCharts;
+    }
+
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(Player $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends->add($friend);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(Player $friend): self
+    {
+        $this->friends->removeElement($friend);
+
+        return $this;
     }
 
     public function getUrl(): string

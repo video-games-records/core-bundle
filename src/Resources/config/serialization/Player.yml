@@ -26,6 +26,9 @@ VideoGamesRecords\CoreBundle\Entity\Player:
       groups:
         - 'player:read'
         - 'player:update'
+    friends:
+      groups:
+        - 'player:update'
     slug:
       groups:
         - 'player:read'

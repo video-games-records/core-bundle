@@ -34,9 +34,10 @@ class PlayerPlatformRankingProvider extends AbstractRankingProvider
             ->setParameter('platform', $platform);
 
         if (($maxRank !== null) && ($player !== null)) {
-            $query->andWhere('(pp.rankPointPlatform <= :maxRank OR pp.player = :player)')
+            $query->andWhere('(pp.rankPointPlatform <= :maxRank OR pp.player = :player OR p.id IN (:friends))')
                 ->setParameter('maxRank', $maxRank)
-                ->setParameter('player', $player);
+                ->setParameter('player', $player)
+                ->setParameter('friends', $player->getFriends());
         } elseif ($maxRank !== null) {
             $query->andWhere('pp.rankPointPlatform <= :maxRank')
                 ->setParameter('maxRank', $maxRank);

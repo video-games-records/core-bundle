@@ -13,7 +13,6 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model;
-use ApiPlatform\Serializer\Filter\GroupFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -169,17 +168,6 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
         'nbPlayer' => 'DESC',
         'rankPointGame' => 'ASC',
         'nbMasterBadge' => 'DESC',
-    ]
-)]
-#[ApiFilter(
-    GroupFilter::class,
-    arguments: [
-        'parameterName' => 'groups',
-        'overrideDefaultGroups' => true,
-        'whitelist' => [
-            'team:read',
-            'team:leader',
-        ]
     ]
 )]
 #[ApiFilter(TeamSearchFilter::class)]

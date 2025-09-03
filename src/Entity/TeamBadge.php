@@ -11,7 +11,6 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Serializer\Filter\GroupFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -49,20 +48,6 @@ use VideoGamesRecords\CoreBundle\Repository\TeamBadgeRepository;
         'id' => 'ASC',
         'createdAt' => 'ASC',
         'mbOrder' => 'ASC',
-    ]
-)]
-#[ApiFilter(
-    GroupFilter::class,
-    arguments: [
-        'parameterName' => 'groups',
-        'overrideDefaultGroups' => true,
-        'whitelist' => [
-            'team-badge:read',
-            'team-badge:badge', 'badge:read',
-            'team-badge:team', 'team:read',
-            'badge:game', 'game:read',
-            'badge.serie', 'serie.read',
-        ]
     ]
 )]
 #[ApiFilter(DateFilter::class, properties: ['endedAt' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
