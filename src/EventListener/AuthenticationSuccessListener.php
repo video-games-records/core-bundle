@@ -35,8 +35,11 @@ readonly class AuthenticationSuccessListener
             'slug' => $player->getSlug(),
             'pseudo' => $player->getPseudo(),
             'team' => null,
-            'friends' => $player->getFriends()->map(fn($friend) => $friend->getId())->toArray(),
         ];
+
+        $friendsIds = $player->getFriends()->map(fn($friend) => $friend->getId())->toArray();
+        $friendsIds[] = $player->getId();
+        $data['friends'] = $friendsIds;
 
         $team = $player->getTeam();
         if ($team !== null) {
