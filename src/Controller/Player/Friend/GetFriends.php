@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VideoGamesRecords\CoreBundle\Controller\Player;
+namespace VideoGamesRecords\CoreBundle\Controller\Player\Friend;
 
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
