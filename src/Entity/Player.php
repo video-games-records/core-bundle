@@ -6,9 +6,9 @@ namespace VideoGamesRecords\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
@@ -16,18 +16,21 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Player\Autocomplete;
+use VideoGamesRecords\CoreBundle\Controller\Player\Friend\AddFriend;
+use VideoGamesRecords\CoreBundle\Controller\Player\Friend\GetFriends;
+use VideoGamesRecords\CoreBundle\Controller\Player\Game\GetStats as GameGetStats;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetBadges;
-use VideoGamesRecords\CoreBundle\Controller\Player\GetFriends;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetGamesFromLostPositions;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingBadge;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingCup;
@@ -37,7 +40,6 @@ use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingPointGame;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingProof;
 use VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbLostPosition;
 use VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbNewLostPosition;
-use VideoGamesRecords\CoreBundle\Controller\Player\Game\GetStats as GameGetStats;
 use VideoGamesRecords\CoreBundle\Controller\Player\PlayerChart\GetStats as PlayerChartGetStats;
 use VideoGamesRecords\CoreBundle\Controller\Player\ProofRequest\CanAskProof;
 use VideoGamesRecords\CoreBundle\Filter\PlayerSearchFilter;
@@ -175,6 +177,57 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
             uriTemplate: '/players/{id}/friends',
             controller: GetFriends::class,
             normalizationContext: ['groups' => ['player:read:minimal']]
+        ),
+        new Post(
+            uriTemplate: '/players/add-friend',
+            status: 200,
+            controller: AddFriend::class,
+            openapi: new Model\Operation(
+                responses: [
+                    '200' => [
+                        'description' => 'Friend added successfully',
+                        'content' => [
+                            'application/json' => [
+                                'schema' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'success' => [
+                                            'type' => 'boolean',
+                                            'example' => true
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    '400' => [
+                        'description' => 'Bad request - friend_id is required'
+                    ],
+                    '404' => [
+                        'description' => 'Friend not found'
+                    ]
+                ],
+                summary: 'Add a friend to the current player',
+                description: 'Add a friend to the current player by providing friend_id in request body',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'friend_id' => [
+                                        'type' => 'integer',
+                                        'example' => 0
+                                    ]
+                                ],
+                                'required' => ['friend_id']
+                            ]
+                        ]
+                    ])
+                )
+            ),
+            security: 'is_granted("ROLE_USER")',
+            validate: false
         ),
         new Put(
             denormalizationContext: ['groups' => ['player:update']],
