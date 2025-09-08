@@ -93,14 +93,14 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
                 description: 'Retrieves players by autocompletion'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'query',
-                        'in' => 'query',
-                        'type' => 'string',
-                        'required' => true
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'query',
+            'in' => 'query',
+            'type' => 'string',
+            'required' => true
+            ]
+            ]
             ]*/
         ),
         new GetCollection(

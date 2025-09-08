@@ -108,7 +108,6 @@ Examples:
                 }
                 $io->success('Old rankings cleaned successfully');
             }
-
         } catch (\Exception $e) {
             $io->error('Error generating rankings: ' . $e->getMessage());
             return Command::FAILURE;

@@ -35,14 +35,14 @@ use VideoGamesRecords\CoreBundle\Traits\Accessor\CurrentLocale;
                 description: 'Retrieves the country leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ],
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ],
+            ]
             ]*/
         ),
     ],

@@ -81,14 +81,14 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                 description: 'Retrieves the player points leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(
@@ -105,14 +105,14 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                 description: 'Retrieves the player medals leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(
@@ -127,14 +127,14 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                 description: 'Retrieves the team points leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(
@@ -149,14 +149,14 @@ use VideoGamesRecords\CoreBundle\ValueObject\GroupOrderBy;
                 description: 'Retrieves the team medals leaderboard'
             ),
             /*openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'maxRank',
-                        'in' => 'query',
-                        'type' => 'integer',
-                        'required' => false
-                    ]
-                ]
+            'parameters' => [
+            [
+            'name' => 'maxRank',
+            'in' => 'query',
+            'type' => 'integer',
+            'required' => false
+            ]
+            ]
             ]*/
         ),
         new Get(

@@ -107,7 +107,6 @@ The command will automatically find the message class in any subdirectory of the
             $io->success("Message '{$messageName}' dispatched successfully with ID: {$id}");
 
             return Command::SUCCESS;
-
         } catch (ReflectionException $e) {
             $io->error("Reflection error: " . $e->getMessage());
             return Command::FAILURE;

@@ -34,8 +34,10 @@ final class ScoreSetValueSubscriber implements EventSubscriberInterface
         $playerChart = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if (($playerChart instanceof PlayerChart)
-            && in_array($method, array(Request::METHOD_POST, Request::METHOD_PUT))) {
+        if (
+            ($playerChart instanceof PlayerChart)
+            && in_array($method, array(Request::METHOD_POST, Request::METHOD_PUT))
+        ) {
             /** @var PlayerChartLib $lib */
             foreach ($playerChart->getLibs() as $lib) {
                 $lib->setValueFromPaseValue();

@@ -12,7 +12,6 @@ use VideoGamesRecords\CoreBundle\Security\UserProvider;
 
 class TeamRequestListener
 {
-
     private UserProvider $userProvider;
 
     /**

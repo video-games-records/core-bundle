@@ -154,7 +154,6 @@ class ProofAdminController extends CRUDController
             } elseif ($newStatus === ProofStatus::REFUSED) {
                 $this->handleProofRefused($proof);
             }
-
         } catch (\Exception $e) {
             $this->addFlash(
                 'sonata_flash_error',
