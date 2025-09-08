@@ -189,7 +189,6 @@ class ChartAdmin extends AbstractAdmin
             ->add('isDlc', null, ['label' => 'label.isDlc'])
             ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly'])
             ;
-
     }
 
     /**

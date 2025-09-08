@@ -97,7 +97,6 @@ class ScheduleRankingCommand extends Command
 
             $io->success('Daily ranking message dispatched successfully!');
             $io->note('Rankings will be processed asynchronously.');
-
         } catch (\Exception $e) {
             $io->error('Error dispatching message: ' . $e->getMessage());
             return Command::FAILURE;

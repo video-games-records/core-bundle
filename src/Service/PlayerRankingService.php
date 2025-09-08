@@ -16,7 +16,8 @@ class PlayerRankingService
         private EntityManagerInterface $entityManager,
         private EntityManagerInterface $dwhEntityManager,
         private PlayerTopRankingRepository $rankingRepository
-    ) {}
+    ) {
+    }
 
     /**
      * Generate weekly rankings

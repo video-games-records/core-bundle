@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
-
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
-
 
 readonly class GameManager
 {
