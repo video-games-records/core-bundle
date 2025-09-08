@@ -39,6 +39,7 @@ use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingPointChart;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingPointGame;
 use VideoGamesRecords\CoreBundle\Controller\Player\GetRankingProof;
 use VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbLostPosition;
+use VideoGamesRecords\CoreBundle\Controller\Player\OrderMasterBadges;
 use VideoGamesRecords\CoreBundle\Controller\Player\LostPosition\GetNbNewLostPosition;
 use VideoGamesRecords\CoreBundle\Controller\Player\PlayerChart\GetStats as PlayerChartGetStats;
 use VideoGamesRecords\CoreBundle\Controller\Player\ProofRequest\CanAskProof;
@@ -228,6 +229,31 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
             ),
             security: 'is_granted("ROLE_USER")',
             validate: false
+        ),
+        new Post(
+            uriTemplate: '/players/{id}/order-master-badges',
+            controller: OrderMasterBadges::class,
+            security: 'object.getUserId() == user.getId()',
+            openapi: new Model\Operation(
+                summary: 'Order master badges for a player',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => new Model\MediaType(
+                            schema: new \ArrayObject([
+                                'type' => 'array',
+                                'items' => new \ArrayObject([
+                                    'type' => 'object',
+                                    'properties' => new \ArrayObject([
+                                        'id' => new \ArrayObject(['type' => 'integer']),
+                                        'mbOrder' => new \ArrayObject(['type' => 'integer'])
+                                    ]),
+                                    'required' => ['id', 'mbOrder']
+                                ])
+                            ])
+                        )
+                    ])
+                )
+            )
         ),
         new Put(
             denormalizationContext: ['groups' => ['player:update']],

@@ -20,6 +20,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetBadges;
+use VideoGamesRecords\CoreBundle\Controller\Team\OrderMasterBadges;
 use VideoGamesRecords\CoreBundle\Controller\Team\Avatar\AvatarUpload;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingBadge;
 use VideoGamesRecords\CoreBundle\Controller\Team\GetRankingCup;
@@ -95,6 +96,31 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
             denormalizationContext: ['groups' => ['team:insert']],
             normalizationContext: ['groups' => ['team:read', 'team:leader', 'player:leader']],
             security: 'is_granted("ROLE_PLAYER")'
+        ),
+        new Post(
+            uriTemplate: '/teams/{id}/order-master-badges',
+            controller: OrderMasterBadges::class,
+            security: 'object.getLeader().getUserId() == user.getId()',
+            openapi: new Model\Operation(
+                summary: 'Order master badges for a team',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => new Model\MediaType(
+                            schema: new \ArrayObject([
+                                'type' => 'array',
+                                'items' => new \ArrayObject([
+                                    'type' => 'object',
+                                    'properties' => new \ArrayObject([
+                                        'id' => new \ArrayObject(['type' => 'integer']),
+                                        'mbOrder' => new \ArrayObject(['type' => 'integer'])
+                                    ]),
+                                    'required' => ['id', 'mbOrder']
+                                ])
+                            ])
+                        )
+                    ])
+                )
+            )
         ),
         new Post(
             uriTemplate: '/teams/upload-avatar',
