@@ -41,6 +41,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingPoints as Play
 use VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingMedals as PlayerGetRankingMedals;
 use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGetRankingPoints;
 use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGetRankingMedals;
+use VideoGamesRecords\CoreBundle\Filter\GameSearchFilter;
 
 #[ORM\Table(name:'vgr_game')]
 #[ORM\Entity(repositoryClass: GameRepository::class)]
@@ -281,6 +282,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGe
     ]
 )]
 #[ApiFilter(DateFilter::class, properties: ['publishedAt' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
+#[ApiFilter(GameSearchFilter::class)]
 class Game
 {
     use TimestampableEntity;
