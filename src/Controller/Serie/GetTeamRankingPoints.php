@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace VideoGamesRecords\CoreBundle\Controller\Serie\Player;
+namespace VideoGamesRecords\CoreBundle\Controller\Serie;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
-use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerSerieRankingProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Team\TeamSerieRankingProvider;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 
-class GetRankingPoints extends AbstractController
+class GetTeamRankingPoints extends AbstractController
 {
     private RankingProviderInterface $rankingProvider;
 
     public function __construct(
-        #[Autowire(service: PlayerSerieRankingProvider::class)]
+        #[Autowire(service: TeamSerieRankingProvider::class)]
         RankingProviderInterface $rankingProvider
     ) {
         $this->rankingProvider = $rankingProvider;
     }
 
     /**
-     * @param Serie   $serie
+     * @param Serie $serie
      * @param Request $request
      * @return array
      */

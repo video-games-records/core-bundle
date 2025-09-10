@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingPoints;
-use VideoGamesRecords\CoreBundle\Controller\Serie\Player\GetRankingMedals;
+use VideoGamesRecords\CoreBundle\Controller\Serie\GetPlayerRankingMedals;
+use VideoGamesRecords\CoreBundle\Controller\Serie\GetPlayerRankingPoints;
+use VideoGamesRecords\CoreBundle\Controller\Serie\GetTeamRankingMedals;
+use VideoGamesRecords\CoreBundle\Controller\Serie\GetTeamRankingPoints;
 use VideoGamesRecords\CoreBundle\Repository\SerieRepository;
 use VideoGamesRecords\CoreBundle\Traits\Accessor\CurrentLocale;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbChartTrait;
@@ -37,7 +39,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
         new Get(),
         new Get(
             uriTemplate: '/series/{id}/player-ranking-points',
-            controller: GetRankingPoints::class,
+            controller: GetPlayerRankingPoints::class,
             normalizationContext: ['groups' => [
                 'player-serie:read',
                 'player-serie:player', 'player:read:minimal',
@@ -51,7 +53,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
         ),
         new Get(
             uriTemplate: '/series/{id}/player-ranking-medals',
-            controller: GetRankingMedals::class,
+            controller: GetPlayerRankingMedals::class,
             normalizationContext: ['groups' => [
                 'player-serie:read',
                 'player-serie:player', 'player:read:minimal',
@@ -61,6 +63,30 @@ use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
             openapi: new Model\Operation(
                 summary: 'Retrieves the player medals leaderboard',
                 description: 'Retrieves the player medals leaderboard'
+            ),
+        ),
+        new Get(
+            uriTemplate: '/series/{id}/team-ranking-points',
+            controller: GetTeamRankingPoints::class,
+            normalizationContext: ['groups' => [
+                'team-serie:read',
+                'team-serie:team', 'team:read:minimal']
+            ],
+            openapi: new Model\Operation(
+                summary: 'Retrieves the team points leaderboard',
+                description: 'Retrieves the team points leaderboard'
+            ),
+        ),
+        new Get(
+            uriTemplate: '/series/{id}/team-ranking-medals',
+            controller: GetTeamRankingMedals::class,
+            normalizationContext: ['groups' => [
+                'team-serie:read',
+                'team-serie:team', 'team:read:minimal']
+            ],
+            openapi: new Model\Operation(
+                summary: 'Retrieves the team medals leaderboard',
+                description: 'Retrieves the team medals leaderboard'
             ),
         ),
     ],

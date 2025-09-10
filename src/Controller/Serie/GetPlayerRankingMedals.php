@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VideoGamesRecords\CoreBundle\Controller\Serie\Player;
+namespace VideoGamesRecords\CoreBundle\Controller\Serie;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -11,7 +11,7 @@ use VideoGamesRecords\CoreBundle\Contracts\Ranking\RankingProviderInterface;
 use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Player\PlayerSerieRankingProvider;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
 
-class GetRankingMedals extends AbstractController
+class GetPlayerRankingMedals extends AbstractController
 {
     private RankingProviderInterface $rankingProvider;
 
