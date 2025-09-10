@@ -149,7 +149,7 @@ class PlayerRankingProvider
         if ($team !== null) {
             $query->andWhere('(p.team = :team)')
                 ->setParameter('team', $team);
-        } elseif (($maxRank !== null) && ($player !== null)) {
+        } elseif (($maxRank !== null) && ($maxRank !== '5') && ($player !== null)) {
             $query->andWhere("(p.$column <= :maxRank OR p = :player OR p.id IN (:friends))")
                 ->setParameter('maxRank', $maxRank)
                 ->setParameter('player', $player)
