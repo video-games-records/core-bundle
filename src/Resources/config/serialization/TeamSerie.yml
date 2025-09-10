@@ -1,0 +1,35 @@
+VideoGamesRecords\CoreBundle\Entity\TeamSerie:
+  attributes:
+    team:
+      groups:
+        - 'team-serie:team'
+    serie:
+      groups:
+        - 'team-serie:serie'
+    rankPointChart:
+      groups:
+        - 'team-serie:read'
+    rankMedal:
+      groups:
+        - 'team-serie:read'
+    chartRank0:
+      groups:
+        - 'team-serie:read'
+    chartRank1:
+      groups:
+        - 'team-serie:read'
+    chartRank2:
+      groups:
+        - 'team-serie:read'
+    chartRank3:
+      groups:
+        - 'team-serie:read'
+    pointChart:
+      groups:
+        - 'team-serie:read'
+    nbChart:
+      groups:
+        - 'team-serie:read'
+    pointGame:
+      groups:
+        - 'team-serie:read'
