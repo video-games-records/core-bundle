@@ -119,9 +119,11 @@ class PlayerBadgeRepository extends DefaultRepository
         foreach ($players as $idPlayer => $value) {
             if (0 === $value) {
                 $playerBadge = new PlayerBadge();
-                $playerBadge->setPlayer($this->getEntityManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer));
+                $playerBadge->setPlayer(
+                    $this->getEntityManager()->getReference('VideoGamesRecords\CoreBundle\Entity\Player', $idPlayer)
+                );
                 $playerBadge->setBadge($badge);
-                $this->_em->persist($playerBadge);
+                $this->getEntityManager()->persist($playerBadge);
             }
         }
         $badge->setNbPlayer(count($players));
