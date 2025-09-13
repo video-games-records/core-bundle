@@ -121,6 +121,6 @@ class RuleAdmin extends AbstractAdmin
             ->add('created_at', 'datetime', ['label' => 'label.createdAt'])
             ->add('updated_at', 'datetime', ['label' => 'label.updatedAt'])
             ->add('games', null, ['label' => 'label.games'])
-            ->add('getDefaultText', null, ['label' => 'label.text', 'safe' => true]);
+            ->add('getContent', null, ['label' => 'label.text', 'safe' => true]);
     }
 }
