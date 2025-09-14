@@ -9,6 +9,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use VideoGamesRecords\CoreBundle\Entity\PlayerBadge;
 use VideoGamesRecords\CoreBundle\Event\PlayerBadgeLost;
+use VideoGamesRecords\CoreBundle\Event\PlayerBadgeObtained;
 
 class PlayerBadgeListener
 {
@@ -22,7 +23,7 @@ class PlayerBadgeListener
     }
 
     /**
-     * @param PlayerBadge        $playerBadge
+     * @param PlayerBadge $playerBadge
      * @param PreUpdateEventArgs $event
      */
     public function preUpdate(PlayerBadge $playerBadge, PreUpdateEventArgs $event): void
@@ -31,7 +32,7 @@ class PlayerBadgeListener
     }
 
     /**
-     * @param PlayerBadge        $playerBadge
+     * @param PlayerBadge $playerBadge
      * @param LifecycleEventArgs $event
      */
     public function postUpdate(PlayerBadge $playerBadge, LifecycleEventArgs $event): void
@@ -39,5 +40,14 @@ class PlayerBadgeListener
         if ($playerBadge->getBadge()->isTypeMaster() && array_key_exists('endedAt', $this->changeSet)) {
             $this->eventDispatcher->dispatch(new PlayerBadgeLost($playerBadge));
         }
+    }
+
+    /**
+     * @param PlayerBadge $playerBadge
+     * @param LifecycleEventArgs $event
+     */
+    public function postPersist(PlayerBadge $playerBadge, LifecycleEventArgs $event): void
+    {
+        $this->eventDispatcher->dispatch(new PlayerBadgeObtained($playerBadge));
     }
 }
