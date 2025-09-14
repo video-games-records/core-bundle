@@ -7,14 +7,14 @@ namespace VideoGamesRecords\CoreBundle\EventSubscriber\Ranking;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Team\TeamGroupRankingProvider;
+use VideoGamesRecords\CoreBundle\DataProvider\Ranking\Team\TeamGameRankingProvider;
 use VideoGamesRecords\CoreBundle\Event\TeamGameUpdated;
 
 final readonly class TeamGameUpdatedSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private TeamGroupRankingProvider $rankingProvider,
+        private TeamGameRankingProvider $rankingProvider,
     ) {
     }
 
