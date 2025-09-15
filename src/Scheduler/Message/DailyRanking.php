@@ -12,10 +12,9 @@ class DailyRanking
     public function __construct(
         private ?\DateTime $date = null
     ) {
-        $this->date = $date ?? new \DateTime();
     }
 
-    public function getDate(): \DateTime
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
