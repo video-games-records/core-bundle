@@ -92,7 +92,7 @@ class ScheduleRankingCommand extends Command
 
         // Dispatch the message
         try {
-            $message = new DailyRanking($date);
+            $message = new DailyRanking($dateOption ? $date : null);
             $this->messageBus->dispatch($message);
 
             $io->success('Daily ranking message dispatched successfully!');

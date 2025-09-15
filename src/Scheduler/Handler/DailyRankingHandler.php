@@ -22,7 +22,7 @@ readonly class DailyRankingHandler
 
     public function __invoke(DailyRanking $message): void
     {
-        $date = $message->getDate();
+        $date = $message->getDate() ?? new \DateTime();
         $this->logger->info('Daily ranking check started', ['date' => $date->format('Y-m-d')]);
 
         try {
