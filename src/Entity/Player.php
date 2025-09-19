@@ -129,11 +129,11 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
         ),
         new Get(),
         new Get(
-            uriTemplate: '/players/{id}/nb-lost-position',
+            uriTemplate: '/players/{id}/get-nb-lost-position',
             controller: GetNbLostPosition::class,
         ),
         new Get(
-            uriTemplate: '/players/{id}/nb-new-lost-position',
+            uriTemplate: '/players/{id}/get-nb-new-lost-position',
             controller: GetNbNewLostPosition::class,
         ),
         new Get(

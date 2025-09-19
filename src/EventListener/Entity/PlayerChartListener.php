@@ -12,7 +12,9 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartStatus;
+use VideoGamesRecords\CoreBundle\Entity\ProofRequest;
 use VideoGamesRecords\CoreBundle\Manager\ScoreManager;
+use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
 
 class PlayerChartListener
 {
@@ -97,6 +99,8 @@ class PlayerChartListener
         }
 
         if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
+            $proof = $playerChart->getProof();
+            $proof?->setStatus(ProofStatus::CLOSED);
             $playerChart->setProof(null);
         }
 
@@ -190,6 +194,7 @@ class PlayerChartListener
             && $this->changeSet['proof'][1] !== null
             && $playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF
         ) {
+            /** @var ProofRequest $proofRequest */
             $proofRequest = $em->getRepository('VideoGamesRecords\CoreBundle\Entity\ProofRequest')
                 ->findOneBy(
                     [

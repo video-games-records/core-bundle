@@ -76,6 +76,7 @@ class ProofListener
             $this->eventDispatcher->dispatch(new ProofRefused($proof));
         }
 
+        // CLOSED
         if ($proof->getStatus()->getValue() == ProofStatus::CLOSED) {
             $playerChart = $proof->getPlayerChart();
             if ($playerChart) {
