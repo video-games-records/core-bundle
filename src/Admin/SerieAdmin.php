@@ -44,19 +44,19 @@ class SerieAdmin extends AbstractAdmin
     {
         $form
             ->add('libSerie', TextType::class, [
-                'label' => 'label.name',
+                'label' => 'serie.form.name',
                 'required' => true,
             ])
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'label.status',
+                    'label' => 'serie.form.status',
                     'choices' => SerieStatus::getStatusChoices(),
                 ]
             )
             ->add('picture', TextType::class, [
-                'label' => 'label.picture',
+                'label' => 'serie.form.picture',
                 'required' => false,
             ])
             ->add('badge', ModelListType::class, [
@@ -65,14 +65,14 @@ class SerieAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.badge',
+                'label' => 'serie.form.badge',
             ])
             ->add('translations', TranslationsType::class, [
-                'label' => 'label.translations',
+                'label' => 'serie.form.translations',
                 'fields' => [
                     'description' => [
                         'field_type' => CKEditorType::class,
-                        'label' => 'label.description',
+                        'label' => 'serie.form.description',
                         'required' => false,
                         'locale_options' => [
                             'en' => [
@@ -99,10 +99,10 @@ class SerieAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('libSerie', null, ['label' => 'label.name'])
+            ->add('id', null, ['label' => 'serie.filter.id'])
+            ->add('libSerie', null, ['label' => 'serie.filter.name'])
             ->add('status', ChoiceFilter::class, [
-                'label' => 'label.status',
+                'label' => 'serie.filter.status',
                 'field_type' => ChoiceType::class,
                 'field_options' => [
                     'choices' => SerieStatus::getStatusChoices(),
@@ -116,14 +116,14 @@ class SerieAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('createdAt', null, ['label' => 'label.createdAt'])
-            ->add('libSerie', null, ['label' => 'label.name'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('picture', null, ['label' => 'label.picture', 'editable' => true])
-            ->add('badge.picture', null, ['label' => 'label.badge', 'editable' => true])
-            ->add('nbGame', null, ['label' => 'label.nbGame'])
-            ->add('nbChart', null, ['label' => 'label.nbChart'])
+        $list->addIdentifier('id', null, ['label' => 'serie.list.id'])
+            ->add('createdAt', null, ['label' => 'serie.list.createdAt'])
+            ->add('libSerie', null, ['label' => 'serie.list.name'])
+            ->add('status', null, ['label' => 'serie.list.status'])
+            ->add('picture', null, ['label' => 'serie.list.picture', 'editable' => true])
+            ->add('badge.picture', null, ['label' => 'serie.list.badge', 'editable' => true])
+            ->add('nbGame', null, ['label' => 'serie.list.nbGame'])
+            ->add('nbChart', null, ['label' => 'serie.list.nbChart'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -147,15 +147,15 @@ class SerieAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('libSerie', null, ['label' => 'label.name'])
-            ->add('createdAt', null, ['label' => 'label.createdAt'])
-            ->add('updatedAt', null, ['label' => 'label.updatedAt'])
-            ->add('games', null, ['label' => 'label.games'])
-            ->add('nbGame', null, ['label' => 'label.nbGame'])
-            ->add('nbChart', null, ['label' => 'label.nbChart'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('picture', null, ['label' => 'label.picture'])
-            ->add('badge', null, ['label' => 'label.badge'])
-            ->add('getDescription', null, ['label' => 'label.description']);
+            ->add('libSerie', null, ['label' => 'serie.show.name'])
+            ->add('createdAt', null, ['label' => 'serie.show.createdAt'])
+            ->add('updatedAt', null, ['label' => 'serie.show.updatedAt'])
+            ->add('games', null, ['label' => 'serie.show.games'])
+            ->add('nbGame', null, ['label' => 'serie.show.nbGame'])
+            ->add('nbChart', null, ['label' => 'serie.show.nbChart'])
+            ->add('status', null, ['label' => 'serie.show.status'])
+            ->add('picture', null, ['label' => 'serie.show.picture'])
+            ->add('badge', null, ['label' => 'serie.show.badge'])
+            ->add('getDescription', null, ['label' => 'serie.show.description']);
     }
 }

@@ -32,17 +32,17 @@ class PlatformAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, [
-                'label' => 'label.id',
+                'label' => 'platform.form.id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
             ->add('name', TextType::class, [
-                'label' => 'label.name',
+                'label' => 'platform.form.name',
                 'required' => true,
             ])
             ->add('picture', TextType::class, [
-                'label' => 'label.picture',
+                'label' => 'platform.form.picture',
                 'required' => true,
             ])
             ->add('badge', ModelListType::class, [
@@ -51,13 +51,13 @@ class PlatformAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.badge',
+                'label' => 'platform.form.badge',
             ])
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'label.status',
+                    'label' => 'platform.form.status',
                     'choices' => [
                         'ACTIF' => 'ACTIF',
                         'INACTIF' => 'INACTIF',
@@ -72,7 +72,7 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('name', null, ['label' => 'label.name']);
+            ->add('name', null, ['label' => 'platform.filter.name']);
     }
 
     /**
@@ -81,14 +81,14 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('name', null, ['editable' => false, 'label' => 'label.name'])
-            ->add('slug', null, ['label' => 'label.slug'])
+            ->addIdentifier('id', null, ['label' => 'platform.list.id'])
+            ->add('name', null, ['editable' => false, 'label' => 'platform.list.name'])
+            ->add('slug', null, ['label' => 'platform.list.slug'])
             ->add(
                 'picture',
                 'text',
                 [
-                    'label' => 'label.picture',
+                    'label' => 'platform.list.picture',
                     'editable' => true
                 ]
             )
@@ -96,7 +96,7 @@ class PlatformAdmin extends AbstractAdmin
                 'badge.picture',
                 null,
                 [
-                    'label' => 'label.badge',
+                    'label' => 'platform.list.badge',
                     'editable' => false
                 ]
             )
@@ -104,7 +104,7 @@ class PlatformAdmin extends AbstractAdmin
                 'status',
                 'choice',
                 [
-                    'label' => 'label.status',
+                    'label' => 'platform.list.status',
                     'editable' => false,
                     'choices' => [
                         'ACTIF' => 'ACTIF',
@@ -126,10 +126,10 @@ class PlatformAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('name', null, ['label' => 'label.name'])
-            ->add('picture', null, ['label' => 'label.picture'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('badge', null, ['label' => 'label.badge']);
+            ->add('id', null, ['label' => 'platform.show.id'])
+            ->add('name', null, ['label' => 'platform.show.name'])
+            ->add('picture', null, ['label' => 'platform.show.picture'])
+            ->add('status', null, ['label' => 'platform.show.status'])
+            ->add('badge', null, ['label' => 'platform.show.badge']);
     }
 }

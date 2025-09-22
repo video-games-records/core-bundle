@@ -1,5 +1,6 @@
 {# src/Resources/views/Admin/Object/Game/show.html.twig #}
 {% extends '@SonataAdmin/CRUD/show.html.twig' %}
+{% trans_default_domain 'VgrCoreAdmin' %}
 
 {% block show_groups %}
     {# Header avec image et infos principales #}
@@ -38,35 +39,35 @@
                             <div class="game-details">
                                 <h4>{{ object.getName() }}</h4>
                                 {% if object.getLibGameFr() and object.getLibGameFr() != object.getLibGameEn() %}
-                                    <p class="text-muted"><strong>{% trans %}label.name.fr{% endtrans %} :</strong> {{ object.getLibGameFr() }}</p>
+                                    <p class="text-muted"><strong>{% trans %}game.show.name.fr{% endtrans %} :</strong> {{ object.getLibGameFr() }}</p>
                                 {% endif %}
 
                                 <div class="game-meta">
                                     {% if object.getSerie() %}
                                         <span class="meta-item">
                                             <i class="fa fa-folder-o"></i>
-                                            <strong>{% trans %}label.serie{% endtrans %} :</strong> {{ object.getSerie().getLibSerie() }}
+                                            <strong>{% trans %}game.show.serie{% endtrans %} :</strong> {{ object.getSerie().getLibSerie() }}
                                         </span>
                                     {% endif %}
 
                                     {% if object.getType() %}
                                         <span class="meta-item">
                                             <i class="fa fa-tag"></i>
-                                            <strong>{% trans %}label.type{% endtrans %} :</strong> {{ object.getType() }}
+                                            <strong>{% trans %}game.show.type{% endtrans %} :</strong> {{ object.getType() }}
                                         </span>
                                     {% endif %}
 
                                     {% if object.getPublishedAt() %}
                                         <span class="meta-item">
                                             <i class="fa fa-calendar"></i>
-                                            <strong>{% trans %}label.publishedAt{% endtrans %} :</strong> {{ object.getPublishedAt()|date('Y') }}
+                                            <strong>{% trans %}game.show.publishedAt{% endtrans %} :</strong> {{ object.getPublishedAt()|date('Y') }}
                                         </span>
                                     {% endif %}
                                 </div>
 
                                 {% if object.getPlatforms()|length > 0 %}
                                     <div class="platforms">
-                                        <strong><i class="fa fa-desktop"></i> {% trans %}label.platforms{% endtrans %} :</strong>
+                                        <strong><i class="fa fa-desktop"></i> {% trans %}game.show.platforms{% endtrans %} :</strong>
                                         {% for platform in object.getPlatforms() %}
                                             <span class="label label-default">{{ platform.getName() }}</span>
                                         {% endfor %}
@@ -98,7 +99,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getNbChart() ?? 0 }}</div>
-                                    <div class="stat-label">{% trans %}label.nbChart{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}game.show.nbChart{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +110,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getNbVideo() ?? 0 }}</div>
-                                    <div class="stat-label">{% trans %}label.nbVideo{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}game.show.nbVideo{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +121,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getGroups()|length }}</div>
-                                    <div class="stat-label">{% trans %}label.groups{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}game.show.groups{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +132,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getPlatforms()|length }}</div>
-                                    <div class="stat-label">{% trans %}label.platforms{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}game.show.platforms{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +143,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getIsRank() ? 'OUI' : 'NON' }}</div>
-                                    <div class="stat-label">{% trans %}label.boolRanking{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}game.show.boolRanking{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -153,7 +154,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getStatus() }}</div>
-                                    <div class="stat-label">{% trans %}label.status{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}game.show.status{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -175,36 +176,36 @@
                 <div class="box-body">
                     <table class="table table-condensed">
                         <tr>
-                            <td><strong>{% trans %}label.name.en{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}game.show.name.en{% endtrans %} :</strong></td>
                             <td>{{ object.getLibGameEn() }}</td>
                         </tr>
                         {% if object.getLibGameFr() %}
                             <tr>
-                                <td><strong>{% trans %}label.name.fr{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}game.show.name.fr{% endtrans %} :</strong></td>
                                 <td>{{ object.getLibGameFr() }}</td>
                             </tr>
                         {% endif %}
                         {% if object.getSerie() %}
                             <tr>
-                                <td><strong>{% trans %}label.serie{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}game.show.serie{% endtrans %} :</strong></td>
                                 <td>{{ object.getSerie().getLibSerie() }}</td>
                             </tr>
                         {% endif %}
                         {% if object.getType() %}
                             <tr>
-                                <td><strong>{% trans %}label.type{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}game.show.type{% endtrans %} :</strong></td>
                                 <td>{{ object.getType() }}</td>
                             </tr>
                         {% endif %}
                         {% if object.getPublishedAt() %}
                             <tr>
-                                <td><strong>{% trans %}label.publishedAt{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}game.show.publishedAt{% endtrans %} :</strong></td>
                                 <td>{{ object.getPublishedAt()|date('d/m/Y') }}</td>
                             </tr>
                         {% endif %}
                         {% if object.getDownloadUrl() %}
                             <tr>
-                                <td><strong>{% trans %}label.downloadUrl{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}game.show.downloadUrl{% endtrans %} :</strong></td>
                                 <td><a href="{{ object.getDownloadUrl() }}" target="_blank">{{ object.getDownloadUrl() }}</a></td>
                             </tr>
                         {% endif %}
@@ -224,7 +225,7 @@
                     <table class="table table-condensed">
                         {% if object.getBadge() %}
                             <tr>
-                                <td><strong>{% trans %}label.badge{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}game.show.badge{% endtrans %} :</strong></td>
                                 <td>
                                     {% if object.getBadge().getId() %}
                                         <img src="/badge/{{ object.getBadge().getId() }}/picture" alt="Badge" style="height: 32px; margin-right: 10px;">
@@ -235,13 +236,13 @@
                         {% endif %}
                         {% if object.getForum() %}
                             <tr>
-                                <td><strong>{% trans %}label.forum{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}game.show.forum{% endtrans %} :</strong></td>
                                 <td>{{ object.getForum() }}</td>
                             </tr>
                         {% endif %}
                         {% if object.getRules()|length > 0 %}
                             <tr>
-                                <td><strong>{% trans %}label.rules{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}game.show.rules{% endtrans %} :</strong></td>
                                 <td>
                                     {% for rule in object.getRules() %}
                                         <span class="label label-info">{{ rule.getName() }}</span>
@@ -250,7 +251,7 @@
                             </tr>
                         {% endif %}
                         <tr>
-                            <td><strong>{% trans %}label.boolRanking{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}game.show.boolRanking{% endtrans %} :</strong></td>
                             <td>
                                 {% if object.getIsRank() %}
                                     <span class="label label-success">{% trans %}game.ranking.enabled{% endtrans %}</span>
@@ -272,7 +273,7 @@
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <h3 class="box-title">
-                            <i class="fa fa-list"></i> {% trans %}label.groups{% endtrans %}
+                            <i class="fa fa-list"></i> {% trans %}game.show.groups{% endtrans %}
                             <span class="badge badge-default">{{ object.getGroups()|length }}</span>
                         </h3>
                         <div class="box-tools pull-right">

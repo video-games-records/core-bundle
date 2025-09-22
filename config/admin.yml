@@ -6,10 +6,10 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\Platform
         manager_type: orm
         group: "group.games"
-        label: "label.platform"
+        label: "platform.label"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Platform/show.html.twig' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.serie:
     class: VideoGamesRecords\CoreBundle\Admin\SerieAdmin
     tags:
@@ -18,10 +18,10 @@ services:
         controller: VideoGamesRecords\CoreBundle\Controller\Admin\SerieAdminController
         manager_type: orm
         group: "group.games"
-        label: "label.serie"
+        label: "serie.label"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Serie/show.html.twig' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.game:
     class: VideoGamesRecords\CoreBundle\Admin\GameAdmin
     tags:
@@ -30,12 +30,12 @@ services:
         controller: VideoGamesRecords\CoreBundle\Controller\Admin\GameAdminController
         manager_type: orm
         group: "group.games"
-        label: "label.game"
+        label: "game.label"
         default: true
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Game/show.html.twig' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.group:
     class: VideoGamesRecords\CoreBundle\Admin\GroupAdmin
     tags:
@@ -44,9 +44,9 @@ services:
         controller: VideoGamesRecords\CoreBundle\Controller\Admin\GroupAdminController
         manager_type: orm
         group: "group.games"
-        label: "label.group"
+        label: "group.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.chart:
     class: VideoGamesRecords\CoreBundle\Admin\ChartAdmin
     tags:
@@ -54,9 +54,9 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\Chart
         manager_type: orm
         group: "group.games"
-        label: "label.chart"
+        label: "chart.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.chart_type:
     class: VideoGamesRecords\CoreBundle\Admin\ChartTypeAdmin
     tags:
@@ -64,9 +64,9 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\ChartType
         manager_type: orm
         group: "group.games"
-        label: "label.chart.type"
+        label: "chart_type.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.chart_lib:
     class: VideoGamesRecords\CoreBundle\Admin\ChartLibAdmin
     tags:
@@ -77,7 +77,7 @@ services:
         label: "label.chart.lib"
         show_in_dashboard: false
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.proof_request:
     class: VideoGamesRecords\CoreBundle\Admin\ProofRequestAdmin
     tags:
@@ -85,12 +85,12 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\ProofRequest
         manager_type: orm
         group: "group.proofs"
-        label: "label.request"
+        label: "proof_request.label"
     calls:
       - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/Object/ProofRequest/edit.html.twig' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
       - [ setRequestStack, [ '@request_stack' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.proof:
     class: VideoGamesRecords\CoreBundle\Admin\ProofAdmin
     tags:
@@ -99,13 +99,13 @@ services:
         controller: VideoGamesRecords\CoreBundle\Controller\Admin\ProofAdminController
         manager_type: orm
         group: "group.proofs"
-        label: "label.proof"
+        label: "proof.label"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Proof/show.html.twig' ] ]
       - [ setTemplate, [ 'edit', '@@VideoGamesRecordsCore/Admin/Object/Proof/edit.html.twig' ] ]
       - [ setRequestStack, [ '@request_stack' ] ]
       - [ setSecurity, [ '@security.helper' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.picture:
     class: VideoGamesRecords\CoreBundle\Admin\PictureAdmin
     tags:
@@ -113,10 +113,10 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\Picture
         manager_type: orm
         group: "group.proofs"
-        label: "label.picture"
+        label: "picture.label"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Picture/show.html.twig' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.video:
     class: VideoGamesRecords\CoreBundle\Admin\VideoAdmin
     tags:
@@ -125,10 +125,10 @@ services:
         controller: VideoGamesRecords\CoreBundle\Controller\Admin\VideoAdminController
         manager_type: orm
         group: "group.proofs"
-        label: "label.video"
+        label: "video.label"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Video/show.html.twig' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.player:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerAdmin
     tags:
@@ -137,10 +137,10 @@ services:
         controller: VideoGamesRecords\CoreBundle\Controller\Admin\PlayerAdminController
         manager_type: orm
         group: "group.players"
-        label: "label.player"
+        label: "player.label"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/Player/show.html.twig' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.playerbadge:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerBadgeAdmin
     tags:
@@ -148,9 +148,9 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\PlayerBadge
         manager_type: orm
         group: "group.badge"
-        label: "label.player"
+        label: "player_badge.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.team:
     class: VideoGamesRecords\CoreBundle\Admin\TeamAdmin
     tags:
@@ -158,9 +158,9 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\Team
         manager_type: orm
         group: "group.players"
-        label: "label.team"
+        label: "team.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.team_request:
     class: VideoGamesRecords\CoreBundle\Admin\TeamRequestAdmin
     tags:
@@ -168,9 +168,9 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\TeamRequest
         manager_type: orm
         group: "group.players"
-        label: "label.request"
+        label: "team_request.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.playerchart:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerChartAdmin
     tags:
@@ -178,12 +178,12 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\PlayerChart
         manager_type: orm
         group: "group.scores"
-        label: "label.playerChart"
+        label: "player_chart.label"
     calls:
       - [ setTemplate, [ 'show', '@@VideoGamesRecordsCore/Admin/Object/PlayerChart/show.html.twig' ] ]
       - [ setEventDispatcher, [ '@event_dispatcher' ] ]
       - [ setRequestStack, [ '@request_stack' ] ]
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.playerchart_lib:
     class: VideoGamesRecords\CoreBundle\Admin\PlayerChartLibAdmin
     tags:
@@ -194,7 +194,7 @@ services:
         label: "label.playerChartLib"
         show_in_dashboard: false
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.badge:
     class: VideoGamesRecords\CoreBundle\Admin\BadgeAdmin
     tags:
@@ -202,9 +202,9 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\Badge
         manager_type: orm
         group: "group.badge"
-        label: "label.badge"
+        label: "badge.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.country:
     class: VideoGamesRecords\CoreBundle\Admin\CountryAdmin
     tags:
@@ -212,9 +212,9 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\Country
         manager_type: orm
         group: "group.players"
-        label: "label.country"
+        label: "country.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.vgr.rule:
     class: VideoGamesRecords\CoreBundle\Admin\RuleAdmin
     tags:
@@ -222,9 +222,9 @@ services:
         model_class: VideoGamesRecords\CoreBundle\Entity\Rule
         manager_type: orm
         group: "group.games"
-        label: "label.rules"
+        label: "rule.label"
     calls:
-      - [ setTranslationDomain, [ 'VgrCore' ] ]
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.extension.workflow.game_status:
     class: Yokai\SonataWorkflow\Admin\Extension\WorkflowExtension
     arguments:

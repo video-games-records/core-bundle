@@ -1,5 +1,6 @@
 {#  src/Resources/views/Admin/Object/Proof/show.html.twig #}
 {% extends '@SonataAdmin/CRUD/show.html.twig' %}
+{% trans_default_domain 'VgrCoreAdmin' %}
 
 {% block show_groups %}
     {# Section d'information sur le jeu/chart #}
@@ -14,17 +15,17 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <strong><i class="fa fa-game"></i> {% trans %}label.game{% endtrans %} :</strong><br>
+                            <strong><i class="fa fa-game"></i> {% trans %}proof.show.game{% endtrans %} :</strong><br>
                             <span class="text-muted">{{ object.getChart().getGroup().getGame().getName() }}</span>
                         </div>
                         <div class="col-md-4">
-                            <strong><i class="fa fa-folder"></i> {% trans %}label.group{% endtrans %} :</strong><br>
+                            <strong><i class="fa fa-folder"></i> {% trans %}proof.show.group{% endtrans %} :</strong><br>
                             <span class="text-muted">{{ object.getChart().getGroup().getName() }}</span>
                         </div>
                         <div class="col-md-4">
-                            <strong><i class="fa fa-bar-chart"></i> {% trans %}label.chart{% endtrans %} :</strong><br>
+                            <strong><i class="fa fa-bar-chart"></i> {% trans %}proof.show.chart{% endtrans %} :</strong><br>
                             <span class="text-muted">{{ object.getChart().getName() }}</span>
-                            <br><small><a target="_blank" href="{{ app_front_url }}/en/{{ object.getChart().getUrl() }}"><i class="fa fa-external-link"></i> {% trans %}link.front.chart{% endtrans %}</a></small>
+                            <br><small><a target="_blank" href="{{ app_front_url }}/en/{{ object.getChart().getUrl() }}"><i class="fa fa-external-link"></i> {% trans %}proof.front.chart{% endtrans %}</a></small>
                         </div>
                     </div>
                 </div>
@@ -150,11 +151,11 @@
                     {% if object.getPlayerChart() %}
                         <table class="table table-condensed table-striped">
                             <tr>
-                                <td><strong>{% trans %}label.player{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}proof.show.player{% endtrans %} :</strong></td>
                                 <td>{{ object.getPlayerChart().getPlayer().getPseudo() }}</td>
                             </tr>
                             <tr>
-                                <td><strong>{% trans %}label.score{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}proof.show.score{% endtrans %} :</strong></td>
                                 <td>
                                     {% for lib in object.getPlayerChart().libs %}
                                         <span class="label label-primary">{{ lib }}</span>
@@ -162,13 +163,13 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>{% trans %}label.ranking{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}proof.show.ranking{% endtrans %} :</strong></td>
                                 <td>
                                     <span class="badge bg-blue">{{ object.getPlayerChart().getRank() }} / {{ object.getPlayerChart().getChart().getNbPost() }}</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>{% trans %}label.playerChart.status{% endtrans %} :</strong></td>
+                                <td><strong>{% trans %}proof.filter.playerChartStatus{% endtrans %} :</strong></td>
                                 <td><span class="label label-info">{{ object.getPlayerChart().getStatus() }}</span></td>
                             </tr>
                         </table>

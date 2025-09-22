@@ -96,7 +96,7 @@ class SendVideo extends AbstractController
             }
             $this->em->flush();
         } else {
-            throw new BadRequestException($this->translator->trans('video.type_not_found'));
+            throw new BadRequestException($this->translator->trans('video.type_not_found', [], 'VgrCore'));
         }
 
         return $proof;

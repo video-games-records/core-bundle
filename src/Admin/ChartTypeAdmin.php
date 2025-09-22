@@ -31,24 +31,24 @@ class ChartTypeAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, [
-                'label' => 'label.id',
+                'label' => 'chart_type.form.id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
             ->add('name', TextType::class, [
-                'label' => 'label.name',
+                'label' => 'chart_type.form.name',
                 'required' => true,
             ])
             ->add('mask', TextType::class, [
-                'label' => 'label.mask',
+                'label' => 'chart_type.form.mask',
                 'required' => true,
             ])
             ->add(
                 'orderBy',
                 ChoiceType::class,
                 [
-                    'label' => 'label.orderBy',
+                    'label' => 'chart_type.form.orderBy',
                     'choices' => [
                         'label.orderBy.asc' => 'ASC',
                         'label.orderBy.desc' => 'DESC',
@@ -63,8 +63,8 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('name', null, ['label' => 'label.name']);
+            ->add('id', null, ['label' => 'chart_type.filter.id'])
+            ->add('name', null, ['label' => 'chart_type.filter.name']);
     }
 
     /**
@@ -73,10 +73,10 @@ class ChartTypeAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('name', null, ['label' => 'label.name'])
-            ->add('mask', null, ['label' => 'label.mask'])
-            ->add('orderBy', null, ['label' => 'label.orderBy'])
+            ->addIdentifier('id', null, ['label' => 'chart_type.list.id'])
+            ->add('name', null, ['label' => 'chart_type.list.name'])
+            ->add('mask', null, ['label' => 'chart_type.list.mask'])
+            ->add('orderBy', null, ['label' => 'chart_type.list.orderBy'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'edit' => [],

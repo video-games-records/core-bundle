@@ -1,0 +1,778 @@
+game:
+  label: Jeux
+  form:
+    id: ID
+    serie: Série
+    type: Type
+    name:
+      en: Nom [EN]
+      fr: Nom [FR]
+    picture: Image
+    downloadUrl: URL de téléchargement
+    status: Statut
+    publishedAt: Publié le
+    boolRanking: Classé
+    badge: Badge
+    forum: Forum
+    rules: Règles
+    platforms: Plate-formes
+    groups: Groupes
+  filter:
+    id: ID
+    serie: Série
+    type: Type
+    name:
+      en: Nom [EN]
+      fr: Nom [FR]
+    nbChart: Nombre de records
+    platforms: Plate-formes
+    status: Statut
+    boolRanking: Classé
+  list:
+    id: ID
+    game:
+      en: Jeu [EN]
+      fr: Jeu [FR]
+    type: Type
+    platforms: Plate-formes
+    picture: Image
+    badge: Badge
+    status: Statut
+  show:
+    id: ID
+    name:
+      en: Nom [EN]
+      fr: Nom [FR]
+    serie: Série
+    type: Type
+    platforms: Plate-formes
+    nbChart: Nombre de records
+    nbVideo: Nombre de vidéos
+    downloadUrl: URL de téléchargement
+    picture: Image
+    badge: Badge
+    status: Statut
+    forum: Forum
+    rules: Règles
+    groups: Groupes
+    publishedAt: Publié le
+    boolRanking: Classé
+  # Template-specific translations
+  statistics: Statistiques
+  detailed:
+    information: Informations détaillées
+  associations: Associations
+  ranking:
+    enabled: Activé
+    disabled: Désactivé
+
+# Section labels for forms
+section:
+  general:
+    information: Informations générales
+  configuration: Configuration
+  associations: Associations
+  platforms: Plate-formes
+  metadata: Métadonnées
+
+
+platform:
+  label: Plate-formes
+  form:
+    id: ID
+    name: Nom
+    picture: Image
+    badge: Badge
+    status: Statut
+  filter:
+    name: Nom
+  list:
+    id: ID
+    name: Nom
+    slug: Slug
+    picture: Image
+    badge: Badge
+    status: Statut
+  show:
+    id: ID
+    name: Nom
+    picture: Image
+    status: Statut
+    badge: Badge
+
+serie:
+  label: Séries
+  form:
+    name: Nom
+    status: Statut
+    picture: Image
+    badge: Badge
+    translations: Traductions
+    description: Description
+  filter:
+    id: ID
+    name: Nom
+    status: Statut
+  list:
+    id: ID
+    createdAt: Créé le
+    name: Nom
+    status: Statut
+    picture: Image
+    badge: Badge
+    nbGame: Nombre de jeux
+    nbChart: Nombre de records
+  show:
+    name: Nom
+    createdAt: Créé le
+    updatedAt: Modifié le
+    games: Jeux
+    nbGame: Nombre de jeux
+    nbChart: Nombre de records
+    status: Statut
+    picture: Image
+    badge: Badge
+    description: Description
+
+group:
+  label: Groupes
+  form:
+    id: ID
+    name:
+      en: Nom [EN]
+      fr: Nom [FR]
+    game: Jeu
+    isActive: Actif
+    libs: Libs
+    boolRanking: Classé
+    orderBy: Ordonné par
+    isDlc: DLC
+    charts: Records
+  filter:
+    id: ID
+    name: Nom
+    game: Jeu
+    isActive: Actif
+  list:
+    id: ID
+    group:
+      en: Groupe [EN]
+      fr: Groupe [FR]
+    game: Jeu
+    nbChart: Nombre de records
+    isActive: Actif
+    createdAt: Créé le
+    orderBy: Ordonné par
+    isDlc: DLC
+  show:
+    id: ID
+    name:
+      en: Nom [EN]
+      fr: Nom [FR]
+    game: Jeu
+    nbChart: Nombre de records
+    isActive: Actif
+    libs: Libs
+    createdAt: Créé le
+    updatedAt: Modifié le
+    boolRanking: Classé
+    orderBy: Ordonné par
+    isDlc: DLC
+    charts: Records
+
+chart:
+  label: Records
+  form:
+    id: ID
+    name:
+      en: Nom [EN]
+      fr: Nom [FR]
+    group: Groupe
+    isDlc: DLC
+    isProofVideoOnly: Seulement preuve vidéo
+    libs: Libs
+  filter:
+    id: ID
+    name: Nom
+    group: Groupe
+    game: Jeu
+    isDlc: DLC
+    isProofVideoOnly: Seulement preuve vidéo
+  list:
+    id: ID
+    chart:
+      en: Record [EN]
+      fr: Record [FR]
+    group: Groupe
+    game: Jeu
+    isProofVideoOnly: Seulement preuve vidéo
+    libs: Libs
+    createdAt: Créé le
+  show:
+    id: ID
+    name:
+      en: Nom [EN]
+      fr: Nom [FR]
+    group: Groupe
+    isDlc: DLC
+    isProofVideoOnly: Seulement preuve vidéo
+    libs: Libs
+    createdAt: Créé le
+    updatedAt: Modifié le
+
+chart_type:
+  label: Types de records
+  form:
+    id: ID
+    name: Nom
+    mask: Masque
+    orderBy: Ordonné par
+  filter:
+    id: ID
+    name: Nom
+  list:
+    id: ID
+    name: Nom
+    mask: Masque
+    orderBy: Ordonné par
+  show:
+    id: ID
+    name: Nom
+    mask: Masque
+    orderBy: Ordonné par
+
+rule:
+  label: Règles
+  form:
+    name: Nom
+    player: Joueur
+    translations: Traductions
+    rules: Règles
+  filter:
+    id: ID
+    name: Nom
+  list:
+    id: ID
+    name: Nom
+    player: Joueur
+    createdAt: Créé le
+    updatedAt: Modifié le
+  show:
+    id: ID
+    name: Nom
+    player: Joueur
+    createdAt: Créé le
+    updatedAt: Modifié le
+    games: Jeux
+    text: Texte
+
+player:
+  label: Joueurs
+  form:
+    id: ID
+    pseudo: Pseudo
+    status: Statut
+    boolMaj: Mise à jour requise
+    hasDonate: A fait un don
+    team: Équipe
+    country: Pays
+  filter:
+    id: ID
+    pseudo: Pseudo
+    status: Statut
+    twitch: Twitch (vide)
+    youtube: YouTube (vide)
+    website: Site web (vide)
+    boolMaj: Mise à jour requise
+  list:
+    id: ID
+    pseudo: Pseudo
+    status: Statut
+    twitch: Twitch
+    youtube: YouTube
+    slug: Slug
+  show:
+    id: ID
+    pseudo: Pseudo
+    status: Statut
+    country: Pays
+    team: Équipe
+    website: Site web
+    youtube: YouTube
+    twitch: Twitch
+    lastDisplayLostPosition: Dernière position perdue affichée
+    # Ranking section
+    rankPointChart: Rang points records
+    rankPointGame: Rang points jeux
+    rankMedal: Rang médailles
+    rankProof: Rang preuves
+    rankBadge: Rang badges
+    rankCup: Rang coupes
+    rankCountry: Rang pays
+    # Points section
+    pointChart: Points records
+    pointGame: Points jeux
+    pointBadge: Points badges
+    # Stats section
+    nbGame: Nombre de jeux
+    nbChart: Nombre de records
+    nbChartProven: Nombre de records prouvés
+    nbChartDisabled: Nombre de records désactivés
+    # Medals section
+    chartRank0: Médailles d'or
+    chartRank1: Médailles d'argent
+    chartRank2: Médailles de bronze
+    chartRank3: Quatrième place
+    # Cups section
+    gameRank0: Coupes d'or
+    gameRank1: Coupes d'argent
+    gameRank2: Coupes de bronze
+    gameRank3: Coupes quatrième place
+  sections:
+    player: Joueur
+    ranking: Classements
+    points: Points
+    stats: Statistiques
+    medals: Médailles
+    cups: Coupes
+  view:
+    scores: Voir les scores
+    proofs: Voir les preuves
+  statistics: Statistiques
+  rankings: Classements
+  medals:
+    cups: Médailles & Coupes
+    charts: Médailles records
+  cups:
+    games: Coupes jeux
+  friends:
+    title: Amis
+    empty: Aucun ami pour le moment
+
+medal:
+  platinum: Platine
+  gold: Or
+  silver: Argent
+  bronze: Bronze
+
+team:
+  label: Équipes
+  form:
+    libTeam: Nom de l'équipe
+    leader: Chef
+    status: Statut
+  filter:
+    id: ID
+    libTeam: Nom de l'équipe
+  list:
+    id: ID
+    libTeam: Nom de l'équipe
+    leader: Chef
+    nbPlayer: Nombre de joueurs
+    status: Statut
+  show:
+    id: ID
+    libTeam: Nom de l'équipe
+    leader: Chef
+    status: Statut
+    nbPlayer: Nombre de joueurs
+    players: Joueurs
+
+team_request:
+  label: Demandes d'équipe
+  form:
+    team: Équipe
+    player: Joueur
+    status: Statut
+  filter:
+    id: ID
+    status: Statut
+  list:
+    id: ID
+    team: Équipe
+    player: Joueur
+    status: Statut
+  show:
+    id: ID
+    team: Équipe
+    player: Joueur
+    status: Statut
+
+country:
+  label: Pays
+  form:
+    codeIso2: Code ISO2
+    codeIso3: Code ISO3
+    codeIsoNumeric: Code ISO numérique
+    boolMaj: Mise à jour requise
+    translations: Traductions
+  filter:
+    codeIso3: Code ISO3
+  list:
+    id: ID
+    codeIso2: Code ISO2
+    codeIso3: Code ISO3
+    codeIsoNumeric: Code ISO numérique
+    badge: Badge
+    name: Nom (EN)
+  show:
+    name: Nom anglais
+    codeIso2: Code ISO2
+    codeIso3: Code ISO3
+    codeIsoNumeric: Code ISO numérique
+    badge: Badge
+
+badge:
+  label: Badges
+  form:
+    id: ID
+    type: Type
+    picture: Image
+    value: Valeur
+  filter:
+    id: ID
+    type: Type
+    picture: Image
+    game:
+      id: ID du jeu
+      fr: Jeu (FR)
+      en: Jeu (EN)
+  list:
+    id: ID
+    type: Type
+    picture: Image
+    value: Valeur
+  show:
+    id: ID
+    type: Type
+    picture: Image
+    value: Valeur
+
+player_badge:
+  label: Badges joueurs
+  form:
+    id: ID
+    player: Joueur
+    badge: Badge
+  filter:
+    player: Joueur
+    game:
+      fr: Jeu (FR)
+      en: Jeu (EN)
+    value: Valeur
+    type: Type
+  list:
+    id: ID
+    player: Joueur
+    type: Type
+    game: Jeu
+    country: Pays
+    value: Valeur
+  show:
+    id: ID
+    player: Joueur
+    badge: Badge
+    type: Type
+    game: Jeu
+    country: Pays
+    value: Valeur
+
+proof:
+  label: Preuves
+  form:
+    playerResponding: Joueur vérifiant
+    playerChart: Score joueur
+    status: Statut
+    response: Réponse
+  filter:
+    id: ID
+    player: Joueur
+    pseudo: Pseudo
+    platform: Plate-forme
+    game: Jeu
+    gameEn: Jeu (EN)
+    gameFr: Jeu (FR)
+    status: Statut
+    playerChartStatus: Statut du score
+    playerResponding: Joueur vérifiant
+    videoIsNull: Vidéo (vide)
+    pictureIsNull: Image (vide)
+  list:
+    id: ID
+    player: Joueur
+    game: Jeu
+    group: Groupe
+    chart: Record
+    status: Statut
+    type: Type
+    playerResponding: Joueur vérifiant
+    createdAt: Créé le
+  show:
+    id: ID
+    player: Joueur
+    game: Jeu
+    group: Groupe
+    chart: Record
+    createdAt: Créé le
+    updatedAt: Modifié le
+    checkedAt: Vérifié le
+    score: Score
+    picture: Image
+    video: Vidéo
+    playerResponding: Joueur vérifiant
+    status: Statut
+    message: Message
+    ranking: Classement
+  # Template-specific translations
+  chart:
+    information: Informations du record
+  submitted:
+    evidences: Preuves soumises
+  image:
+    evidence: Preuve image
+    alt: Image de preuve
+  video:
+    evidence: Preuve vidéo
+  no:
+    evidence:
+      title: Aucune preuve fournie
+      message: Aucune preuve image ou vidéo n'a été soumise pour cette preuve.
+    playerchart: Aucun score joueur associé trouvé
+    specific:
+      request: Aucune demande spécifique pour cette preuve
+  status:
+    title: Statut de la preuve
+    in_progress: En cours
+    awaiting_validation: En attente de validation
+    accepted: Acceptée
+    refused: Refusée
+  validated:
+    by: Validée par
+  refused:
+    by: Refusée par
+  edit:
+    for:
+      validation: Modifier pour validation
+  score:
+    information: Informations du score
+  request:
+    title: Demande de preuve
+    message: Message de la demande
+    requested:
+      by: Demandée par
+    date: Date de la demande
+  additional:
+    information: Informations supplémentaires
+  creation:
+    date: Date de création
+  last:
+    update: Dernière mise à jour
+  front:
+    chart: Voir le record
+  validation:
+    title: Validation de preuve
+    warning: Action définitive
+    examine: Veuillez examiner attentivement les preuves soumises ci-dessus avant de prendre une décision.
+    decision: Quelle est votre décision ?
+    form:
+      below: Vous pouvez également utiliser le formulaire ci-dessous pour modifier manuellement le statut et ajouter des commentaires.
+  action:
+    accept: ACCEPTER
+    accept_description: La preuve est valide
+    refuse: REFUSER
+    refuse_description: La preuve n'est pas valide
+  auto:
+    redirect:
+      info: Après validation, redirection automatique vers la prochaine preuve du même jeu
+  processing: Traitement...
+  error:
+    status:
+      not:
+        found: Champ statut non trouvé dans le formulaire
+  next:
+    redirect:
+      info: "Redirection vers la prochaine preuve du jeu %game%. Il reste %count% preuve(s) à valider (ID: #%next_id%)."
+  success:
+    accepted: "La preuve de %player% a été acceptée avec succès. Le score est maintenant validé."
+    refused: "La preuve de %player% a été refusée. Le joueur en sera notifié."
+  unknown:
+    player: "Joueur inconnu"
+
+proof_request:
+  label: Demandes de preuve
+  form:
+    playerRequesting: Joueur demandant
+    playerResponding: Joueur vérifiant
+    status: Statut
+    message: Message
+    response: Réponse
+  filter:
+    id: ID
+    status: Statut
+    player: Joueur
+    playerRequesting: Joueur demandant
+    playerResponding: Joueur vérifiant
+  list:
+    id: ID
+    createdAt: Créé le
+    playerRequesting: Joueur demandant
+    playerResponding: Joueur vérifiant
+    player: Joueur
+    game: Jeu
+    chart: Record
+    status: Statut
+  show:
+    id: ID
+    createdAt: Créé le
+    playerRequesting: Joueur demandant
+    playerResponding: Joueur vérifiant
+    playerChart: Score joueur
+    message: Message
+    status: Statut
+
+picture:
+  label: Images
+  form:
+    id: ID
+    path: Chemin
+    player: Joueur
+    game: Jeu
+  filter:
+    id: ID
+  list:
+    id: ID
+    path: Chemin
+    player: Joueur
+    game: Jeu
+  show:
+    id: ID
+    path: Chemin
+    player: Joueur
+    game: Jeu
+
+video:
+  label: Vidéos
+  form:
+    id: ID
+    player: Joueur
+    game: Jeu
+    name: Nom
+    type: Type
+    url: URL
+    isActive: Actif
+  filter:
+    id: ID
+    isActive: Actif
+    type: Type
+    player: Joueur
+  list:
+    id: ID
+    player: Joueur
+    game: Jeu
+    name: Nom
+    title: Titre
+    type: Type
+    videoId: ID vidéo
+    isActive: Actif
+  show:
+    id: ID
+    isActive: Actif
+    name: Nom
+    player: Joueur
+    game: Jeu
+    url: URL
+    nbComment: Nombre de commentaires
+    title: Titre
+    viewCount: Nombre de vues
+    likeCount: Nombre de likes
+    thumbnail: Miniature
+
+player_chart:
+  label: Scores joueurs
+  form:
+    id: ID
+    player: Joueur
+    chart: Record
+    platform: Plate-forme
+    status: Statut
+    proof: Preuve
+    libs: Libs
+  filter:
+    id: ID
+    status: Statut
+    player: Joueur
+    game: Jeu
+    group: Groupe
+    chartId: ID du record
+    nameEn: Nom (EN)
+    nameFr: Nom (FR)
+  list:
+    id: ID
+    player: Joueur
+    game: Jeu
+    group: Groupe
+    chart: Record
+    status: Statut
+    libs: Libs
+  show:
+    id: ID
+    player: Joueur
+    chart: Record
+    status: Statut
+    lastUpdate: Dernière mise à jour
+    dateInvestigation: Date d'investigation
+    proof: Preuve
+    libs: Libs
+    rank: Rang
+    platform: Plate-forme
+    game: Jeu
+    group: Groupe
+  # Template-specific translations
+  sections:
+    information: Informations du score
+    details: Détails du score
+    performance: Performance
+    meta: Métadonnées
+  score:
+    information: Informations du score
+    details: Détails du score
+    value: Valeur du score
+    record: Record du joueur
+    position: Position actuelle
+    outOf: sur
+    players: joueurs
+  links:
+    viewChart: Voir le record
+    viewProof: Voir la preuve
+    viewPlayer: Voir le profil joueur
+
+breadcrumb:
+  link_badge_list: 'Liste des badges'
+  link_chart_create: 'Créer un record'
+  link_chart_list: 'Liste des records'
+  link_chart_type_create: 'Créer un type de record'
+  link_chart_type_list: 'Liste des types de records'
+  link_country_list: 'Liste des pays'
+  link_game_create: 'Créer un jeu'
+  link_game_list: 'Liste des jeux'
+  link_group_create: 'Créer un groupe'
+  link_group_list: 'Liste des groupes'
+  link_picture_list: 'Liste des images'
+  link_platform_create: 'Créer une plate-forme'
+  link_platform_list: 'Liste des plate-formes'
+  link_player_chart_list: 'Liste des scores'
+  link_proof_request_list: 'Liste des demandes de preuve'
+  link_proof_list: 'Liste des preuves'
+  link_rule_create: 'Créer une règle'
+  link_rule_list: 'Liste des règles'
+  link_serie_create: 'Créer une série'
+  link_serie_list: 'Liste des séries'
+  link_team_list: 'Liste des équipes'
+  link_team_request_list: 'Liste des demandes d''équipe'
+  link_video_list: 'Liste des vidéos'
+  link_player_list: 'Liste des joueurs'
+  link_player_badge_create: 'Créer joueur/badge'
+  link_player_badge_list: 'Liste joueur/badge'
+
+list:
+  label__action: 'Action'

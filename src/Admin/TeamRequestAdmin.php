@@ -44,7 +44,7 @@ class TeamRequestAdmin extends AbstractAdmin
                     'btn_list' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'label.team',
+                    'label' => 'team_request.form.team',
                 ]
             )
             ->add(
@@ -57,14 +57,14 @@ class TeamRequestAdmin extends AbstractAdmin
                     'btn_list' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => false,
-                    'label' => 'label.leader',
+                    'label' => 'team_request.form.player',
                 ]
             )
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'label.status',
+                    'label' => 'team_request.form.status',
                     'choices' => TeamRequestStatus::getStatusChoices(),
                 ]
             );
@@ -76,8 +76,8 @@ class TeamRequestAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('status', null, ['label' => 'label.status']);
+            ->add('id', null, ['label' => 'team_request.filter.id'])
+            ->add('status', null, ['label' => 'team_request.filter.status']);
     }
 
     /**
@@ -86,20 +86,20 @@ class TeamRequestAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->addIdentifier('id', null, ['label' => 'team_request.list.id'])
             ->add('team', null, [
                 'associated_property' => 'libTeam',
-                'label' => 'label.team',
+                'label' => 'team_request.list.team',
             ])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'label.player',
+                'label' => 'team_request.list.player',
             ])
             ->add(
                 'status',
                 'choice',
                 [
-                    'label' => 'label.status',
+                    'label' => 'team_request.list.status',
                     'editable' => false,
                     'choices' => TeamRequestStatus::getStatusChoices(),
                 ]
@@ -118,15 +118,15 @@ class TeamRequestAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id', null, ['label' => 'label.id'])
+            ->add('id', null, ['label' => 'team_request.show.id'])
             ->add('team', null, [
                 'associated_property' => 'libTeam',
-                'label' => 'label.team',
+                'label' => 'team_request.show.team',
             ])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'label.player',
+                'label' => 'team_request.show.player',
             ])
-            ->add('status', null, ['label' => 'label.status']);
+            ->add('status', null, ['label' => 'team_request.show.status']);
     }
 }

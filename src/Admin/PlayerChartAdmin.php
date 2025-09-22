@@ -90,7 +90,7 @@ class PlayerChartAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, [
-                'label' => 'label.id',
+                'label' => 'player_chart.form.id',
                 'attr' => [
                     'readonly' => true,
                 ]
@@ -101,7 +101,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'label.player',
+                'label' => 'player_chart.form.player',
             ])
             ->add('chart', ModelListType::class, [
                 'btn_add' => false,
@@ -109,20 +109,20 @@ class PlayerChartAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.chart',
+                'label' => 'player_chart.form.chart',
             ])
-            ->add('platform', null, ['label' => 'label.platform'])
-            ->add('status', null, ['label' => 'label.status'])
+            ->add('platform', null, ['label' => 'player_chart.form.platform'])
+            ->add('status', null, ['label' => 'player_chart.form.status'])
             ->add('proof', ModelListType::class, [
                 'btn_add' => false,
                 'btn_list' => true,
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.proof',
+                'label' => 'player_chart.form.proof',
             ])
             ->add('libs', CollectionType::class, array(
-                'label' => 'label.libs',
+                'label' => 'player_chart.form.libs',
                 'btn_add' => null,
                 'by_reference' => false,
                 'type_options' => array(
@@ -140,13 +140,13 @@ class PlayerChartAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('status', null, ['label' => 'label.status'])
+            ->add('id', null, ['label' => 'player_chart.filter.id'])
+            ->add('status', null, ['label' => 'player_chart.filter.status'])
             ->add(
                 'player',
                 ModelFilter::class,
                 [
-                    'label' => 'label.player',
+                    'label' => 'player_chart.filter.player',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'pseudo'],
                 ]
@@ -155,7 +155,7 @@ class PlayerChartAdmin extends AbstractAdmin
                 'chart.group.game',
                 ModelFilter::class,
                 [
-                    'label' => 'label.game',
+                    'label' => 'player_chart.filter.game',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'libGameEn'],
                 ]
@@ -164,14 +164,14 @@ class PlayerChartAdmin extends AbstractAdmin
                 'chart.group',
                 ModelFilter::class,
                 [
-                    'label' => 'label.group',
+                    'label' => 'player_chart.filter.group',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'libGroupEn'],
                 ]
             )
-            ->add('chart.id', null, ['label' => 'label.chart.id'])
-            ->add('chart.libChartEn', null, ['label' => 'label.name.en'])
-            ->add('chart.libChartFr', null, ['label' => 'label.name.fr']);
+            ->add('chart.id', null, ['label' => 'player_chart.filter.chartId'])
+            ->add('chart.libChartEn', null, ['label' => 'player_chart.filter.nameEn'])
+            ->add('chart.libChartFr', null, ['label' => 'player_chart.filter.nameFr']);
     }
 
     /**
@@ -180,14 +180,14 @@ class PlayerChartAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->addIdentifier('id', null, ['label' => 'player_chart.list.id'])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'label.player',
+                'label' => 'player_chart.list.player',
             ])
             ->add('chart.group.game', null, [
                 'associated_property' =>  $this->getLibGame(),
-                'label' => 'label.game',
+                'label' => 'player_chart.list.game',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => $this->getLibGame()
@@ -200,7 +200,7 @@ class PlayerChartAdmin extends AbstractAdmin
             ])
             ->add('chart.group', null, [
                 'associated_property' =>  $this->getLibGroup(),
-                'label' => 'label.group',
+                'label' => 'player_chart.list.group',
                 'sortable' => true,
                 'sort_field_mapping' => array(
                     'fieldName' => $this->getLibGroup()
@@ -212,10 +212,10 @@ class PlayerChartAdmin extends AbstractAdmin
             ])
             ->add('chart', null, [
                 'associated_property' => 'libChartEn',
-                'label' => 'label.chart',
+                'label' => 'player_chart.list.chart',
             ])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('libs', null, ['label' => 'label.libs'])
+            ->add('status', null, ['label' => 'player_chart.list.status'])
+            ->add('libs', null, ['label' => 'player_chart.list.libs'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'edit' => [],
@@ -230,14 +230,14 @@ class PlayerChartAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('player', null, ['label' => 'label.player'])
-            ->add('chart', null, ['label' => 'label.chart'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('lastUpdate', null, ['label' => 'label.lastUpdate'])
-            ->add('dateInvestigation', null, ['label' => 'label.dateInvestigation'])
-            ->add('proof', null, ['label' => 'label.proof'])
-            ->add('libs', null, ['label' => 'label.libs']);
+            ->add('id', null, ['label' => 'player_chart.show.id'])
+            ->add('player', null, ['label' => 'player_chart.show.player'])
+            ->add('chart', null, ['label' => 'player_chart.show.chart'])
+            ->add('status', null, ['label' => 'player_chart.show.status'])
+            ->add('lastUpdate', null, ['label' => 'player_chart.show.lastUpdate'])
+            ->add('dateInvestigation', null, ['label' => 'player_chart.show.dateInvestigation'])
+            ->add('proof', null, ['label' => 'player_chart.show.proof'])
+            ->add('libs', null, ['label' => 'player_chart.show.libs']);
     }
 
     /**

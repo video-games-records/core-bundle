@@ -1,0 +1,778 @@
+game:
+  label: Games
+  form:
+    id: ID
+    serie: Serie
+    type: Type
+    name:
+      en: Name [EN]
+      fr: Name [FR]
+    picture: Picture
+    downloadUrl: Download URL
+    status: Status
+    publishedAt: Published At
+    boolRanking: Ranking
+    badge: Badge
+    forum: Forum
+    rules: Rules
+    platforms: Platforms
+    groups: Groups
+  filter:
+    id: ID
+    serie: Serie
+    type: Type
+    name:
+      en: Name [EN]
+      fr: Name [FR]
+    nbChart: Charts Count
+    platforms: Platforms
+    status: Status
+    boolRanking: Ranking
+  list:
+    id: ID
+    game:
+      en: Game [EN]
+      fr: Game [FR]
+    type: Type
+    platforms: Platforms
+    picture: Picture
+    badge: Badge
+    status: Status
+  show:
+    id: ID
+    name:
+      en: Name [EN]
+      fr: Name [FR]
+    serie: Serie
+    type: Type
+    platforms: Platforms
+    nbChart: Charts Count
+    nbVideo: Videos Count
+    downloadUrl: Download URL
+    picture: Picture
+    badge: Badge
+    status: Status
+    forum: Forum
+    rules: Rules
+    groups: Groups
+    publishedAt: Published At
+    boolRanking: Ranking
+  # Template-specific translations
+  statistics: Statistics
+  detailed:
+    information: Detailed Information
+  associations: Associations
+  ranking:
+    enabled: Enabled
+    disabled: Disabled
+
+# Section labels for forms
+section:
+  general:
+    information: General Information
+  configuration: Configuration
+  associations: Associations
+  platforms: Platforms
+  metadata: Metadata
+
+
+platform:
+  label: Platforms
+  form:
+    id: ID
+    name: Name
+    picture: Picture
+    badge: Badge
+    status: Status
+  filter:
+    name: Name
+  list:
+    id: ID
+    name: Name
+    slug: Slug
+    picture: Picture
+    badge: Badge
+    status: Status
+  show:
+    id: ID
+    name: Name
+    picture: Picture
+    status: Status
+    badge: Badge
+
+serie:
+  label: Series
+  form:
+    name: Name
+    status: Status
+    picture: Picture
+    badge: Badge
+    translations: Translations
+    description: Description
+  filter:
+    id: ID
+    name: Name
+    status: Status
+  list:
+    id: ID
+    createdAt: Created At
+    name: Name
+    status: Status
+    picture: Picture
+    badge: Badge
+    nbGame: Games Count
+    nbChart: Charts Count
+  show:
+    name: Name
+    createdAt: Created At
+    updatedAt: Updated At
+    games: Games
+    nbGame: Games Count
+    nbChart: Charts Count
+    status: Status
+    picture: Picture
+    badge: Badge
+    description: Description
+
+group:
+  label: Groups
+  form:
+    id: ID
+    name:
+      en: Name [EN]
+      fr: Name [FR]
+    game: Game
+    isActive: Active
+    libs: Libs
+    boolRanking: Ranking
+    orderBy: Order By
+    isDlc: DLC
+    charts: Charts
+  filter:
+    id: ID
+    name: Name
+    game: Game
+    isActive: Active
+  list:
+    id: ID
+    group:
+      en: Group [EN]
+      fr: Group [FR]
+    game: Game
+    nbChart: Charts Count
+    isActive: Active
+    createdAt: Created At
+    orderBy: Order By
+    isDlc: DLC
+  show:
+    id: ID
+    name:
+      en: Name [EN]
+      fr: Name [FR]
+    game: Game
+    nbChart: Charts Count
+    isActive: Active
+    libs: Libs
+    createdAt: Created At
+    updatedAt: Updated At
+    boolRanking: Ranking
+    orderBy: Order By
+    isDlc: DLC
+    charts: Charts
+
+chart:
+  label: Charts
+  form:
+    id: ID
+    name:
+      en: Name [EN]
+      fr: Name [FR]
+    group: Group
+    isDlc: DLC
+    isProofVideoOnly: Proof Video Only
+    libs: Libs
+  filter:
+    id: ID
+    name: Name
+    group: Group
+    game: Game
+    isDlc: DLC
+    isProofVideoOnly: Proof Video Only
+  list:
+    id: ID
+    chart:
+      en: Chart [EN]
+      fr: Chart [FR]
+    group: Group
+    game: Game
+    isProofVideoOnly: Proof Video Only
+    libs: Libs
+    createdAt: Created At
+  show:
+    id: ID
+    name:
+      en: Name [EN]
+      fr: Name [FR]
+    group: Group
+    isDlc: DLC
+    isProofVideoOnly: Proof Video Only
+    libs: Libs
+    createdAt: Created At
+    updatedAt: Updated At
+
+chart_type:
+  label: Chart Types
+  form:
+    id: ID
+    name: Name
+    mask: Mask
+    orderBy: Order By
+  filter:
+    id: ID
+    name: Name
+  list:
+    id: ID
+    name: Name
+    mask: Mask
+    orderBy: Order By
+  show:
+    id: ID
+    name: Name
+    mask: Mask
+    orderBy: Order By
+
+rule:
+  label: Rules
+  form:
+    name: Name
+    player: Player
+    translations: Translations
+    rules: Rules
+  filter:
+    id: ID
+    name: Name
+  list:
+    id: ID
+    name: Name
+    player: Player
+    createdAt: Created At
+    updatedAt: Updated At
+  show:
+    id: ID
+    name: Name
+    player: Player
+    createdAt: Created At
+    updatedAt: Updated At
+    games: Games
+    text: Text
+
+player:
+  label: Players
+  form:
+    id: ID
+    pseudo: Pseudo
+    status: Status
+    boolMaj: Update Required
+    hasDonate: Has Donate
+    team: Team
+    country: Country
+  filter:
+    id: ID
+    pseudo: Pseudo
+    status: Status
+    twitch: Twitch (null)
+    youtube: YouTube (null)
+    website: Website (null)
+    boolMaj: Update Required
+  list:
+    id: ID
+    pseudo: Pseudo
+    status: Status
+    twitch: Twitch
+    youtube: YouTube
+    slug: Slug
+  show:
+    id: ID
+    pseudo: Pseudo
+    status: Status
+    country: Country
+    team: Team
+    website: Website
+    youtube: YouTube
+    twitch: Twitch
+    lastDisplayLostPosition: Last Display Lost Position
+    # Ranking section
+    rankPointChart: Chart Points Rank
+    rankPointGame: Game Points Rank
+    rankMedal: Medal Rank
+    rankProof: Proof Rank
+    rankBadge: Badge Rank
+    rankCup: Cup Rank
+    rankCountry: Country Rank
+    # Points section
+    pointChart: Chart Points
+    pointGame: Game Points
+    pointBadge: Badge Points
+    # Stats section
+    nbGame: Games Count
+    nbChart: Charts Count
+    nbChartProven: Proven Charts Count
+    nbChartDisabled: Disabled Charts Count
+    # Medals section
+    chartRank0: Gold Medals
+    chartRank1: Silver Medals
+    chartRank2: Bronze Medals
+    chartRank3: Fourth Place
+    # Cups section
+    gameRank0: Gold Cups
+    gameRank1: Silver Cups
+    gameRank2: Bronze Cups
+    gameRank3: Fourth Place Cups
+  sections:
+    player: Player
+    ranking: Ranking
+    points: Points
+    stats: Statistics
+    medals: Medals
+    cups: Cups
+  view:
+    scores: View Scores
+    proofs: View Proofs
+  statistics: Statistics
+  rankings: Rankings
+  medals:
+    cups: Medals & Cups
+    charts: Chart Medals
+  cups:
+    games: Game Cups
+  friends:
+    title: Friends
+    empty: No friends yet
+
+medal:
+  platinum: Platinum
+  gold: Gold
+  silver: Silver
+  bronze: Bronze
+
+team:
+  label: Teams
+  form:
+    libTeam: Team Name
+    leader: Leader
+    status: Status
+  filter:
+    id: ID
+    libTeam: Team Name
+  list:
+    id: ID
+    libTeam: Team Name
+    leader: Leader
+    nbPlayer: Players Count
+    status: Status
+  show:
+    id: ID
+    libTeam: Team Name
+    leader: Leader
+    status: Status
+    nbPlayer: Players Count
+    players: Players
+
+team_request:
+  label: Team Requests
+  form:
+    team: Team
+    player: Player
+    status: Status
+  filter:
+    id: ID
+    status: Status
+  list:
+    id: ID
+    team: Team
+    player: Player
+    status: Status
+  show:
+    id: ID
+    team: Team
+    player: Player
+    status: Status
+
+country:
+  label: Countries
+  form:
+    codeIso2: ISO2 Code
+    codeIso3: ISO3 Code
+    codeIsoNumeric: ISO Numeric Code
+    boolMaj: Update Required
+    translations: Translations
+  filter:
+    codeIso3: ISO3 Code
+  list:
+    id: ID
+    codeIso2: ISO2 Code
+    codeIso3: ISO3 Code
+    codeIsoNumeric: ISO Numeric Code
+    badge: Badge
+    name: Name (EN)
+  show:
+    name: English Name
+    codeIso2: ISO2 Code
+    codeIso3: ISO3 Code
+    codeIsoNumeric: ISO Numeric Code
+    badge: Badge
+
+badge:
+  label: Badges
+  form:
+    id: ID
+    type: Type
+    picture: Picture
+    value: Value
+  filter:
+    id: ID
+    type: Type
+    picture: Picture
+    game:
+      id: Game ID
+      fr: Game (FR)
+      en: Game (EN)
+  list:
+    id: ID
+    type: Type
+    picture: Picture
+    value: Value
+  show:
+    id: ID
+    type: Type
+    picture: Picture
+    value: Value
+
+player_badge:
+  label: Player Badges
+  form:
+    id: ID
+    player: Player
+    badge: Badge
+  filter:
+    player: Player
+    game:
+      fr: Game (FR)
+      en: Game (EN)
+    value: Value
+    type: Type
+  list:
+    id: ID
+    player: Player
+    type: Type
+    game: Game
+    country: Country
+    value: Value
+  show:
+    id: ID
+    player: Player
+    badge: Badge
+    type: Type
+    game: Game
+    country: Country
+    value: Value
+
+proof:
+  label: Proofs
+  form:
+    playerResponding: Player Responding
+    playerChart: Player Chart
+    status: Status
+    response: Response
+  filter:
+    id: ID
+    player: Player
+    pseudo: Pseudo
+    platform: Platform
+    game: Game
+    gameEn: Game (EN)
+    gameFr: Game (FR)
+    status: Status
+    playerChartStatus: PlayerChart Status
+    playerResponding: Player Responding
+    videoIsNull: Video (null)
+    pictureIsNull: Picture (null)
+  list:
+    id: ID
+    player: Player
+    game: Game
+    group: Group
+    chart: Chart
+    status: Status
+    type: Type
+    playerResponding: Player Responding
+    createdAt: Created At
+  show:
+    id: ID
+    player: Player
+    game: Game
+    group: Group
+    chart: Chart
+    createdAt: Created At
+    updatedAt: Updated At
+    checkedAt: Checked At
+    score: Score
+    picture: Picture
+    video: Video
+    playerResponding: Player Responding
+    status: Status
+    message: Message
+    ranking: Ranking
+  # Template-specific translations
+  chart:
+    information: Chart Information
+  submitted:
+    evidences: Submitted Evidences
+  image:
+    evidence: Image Evidence
+    alt: Proof Image
+  video:
+    evidence: Video Evidence
+  no:
+    evidence:
+      title: No Evidence Provided
+      message: No image or video evidence has been submitted for this proof.
+    playerchart: No associated player chart found
+    specific:
+      request: No specific request for this proof
+  status:
+    title: Proof Status
+    in_progress: In Progress
+    awaiting_validation: Awaiting validation
+    accepted: Accepted
+    refused: Refused
+  validated:
+    by: Validated by
+  refused:
+    by: Refused by
+  edit:
+    for:
+      validation: Edit for Validation
+  score:
+    information: Score Information
+  request:
+    title: Proof Request
+    message: Request Message
+    requested:
+      by: Requested by
+    date: Request Date
+  additional:
+    information: Additional Information
+  creation:
+    date: Creation Date
+  last:
+    update: Last Update
+  front:
+    chart: View Chart
+  validation:
+    title: Proof Validation
+    warning: Definitive Action
+    examine: Please carefully examine the evidence submitted above before making a decision.
+    decision: What is your decision?
+    form:
+      below: You can also use the form below to manually modify the status and add comments.
+  action:
+    accept: ACCEPT
+    accept_description: The proof is valid
+    refuse: REFUSE
+    refuse_description: The proof is not valid
+  auto:
+    redirect:
+      info: After validation, automatic redirect to next proof of the same game
+  processing: Processing...
+  error:
+    status:
+      not:
+        found: Status field not found in form
+  next:
+    redirect:
+      info: "Redirecting to next proof for game %game%. %count% proof(s) remaining to validate (ID: #%next_id%)."
+  success:
+    accepted: "Proof from %player% has been accepted successfully. The score is now validated."
+    refused: "Proof from %player% has been refused. The player will be notified."
+  unknown:
+    player: "Unknown player"
+
+proof_request:
+  label: Proof Requests
+  form:
+    playerRequesting: Player Requesting
+    playerResponding: Player Responding
+    status: Status
+    message: Message
+    response: Response
+  filter:
+    id: ID
+    status: Status
+    player: Player
+    playerRequesting: Player Requesting
+    playerResponding: Player Responding
+  list:
+    id: ID
+    createdAt: Created At
+    playerRequesting: Player Requesting
+    playerResponding: Player Responding
+    player: Player
+    game: Game
+    chart: Chart
+    status: Status
+  show:
+    id: ID
+    createdAt: Created At
+    playerRequesting: Player Requesting
+    playerResponding: Player Responding
+    playerChart: Player Chart
+    message: Message
+    status: Status
+
+picture:
+  label: Pictures
+  form:
+    id: ID
+    path: Path
+    player: Player
+    game: Game
+  filter:
+    id: ID
+  list:
+    id: ID
+    path: Path
+    player: Player
+    game: Game
+  show:
+    id: ID
+    path: Path
+    player: Player
+    game: Game
+
+video:
+  label: Videos
+  form:
+    id: ID
+    player: Player
+    game: Game
+    name: Name
+    type: Type
+    url: URL
+    isActive: Active
+  filter:
+    id: ID
+    isActive: Active
+    type: Type
+    player: Player
+  list:
+    id: ID
+    player: Player
+    game: Game
+    name: Name
+    title: Title
+    type: Type
+    videoId: Video ID
+    isActive: Active
+  show:
+    id: ID
+    isActive: Active
+    name: Name
+    player: Player
+    game: Game
+    url: URL
+    nbComment: Comments Count
+    title: Title
+    viewCount: View Count
+    likeCount: Like Count
+    thumbnail: Thumbnail
+
+player_chart:
+  label: Player Charts
+  form:
+    id: ID
+    player: Player
+    chart: Chart
+    platform: Platform
+    status: Status
+    proof: Proof
+    libs: Libs
+  filter:
+    id: ID
+    status: Status
+    player: Player
+    game: Game
+    group: Group
+    chartId: Chart ID
+    nameEn: Name (EN)
+    nameFr: Name (FR)
+  list:
+    id: ID
+    player: Player
+    game: Game
+    group: Group
+    chart: Chart
+    status: Status
+    libs: Libs
+  show:
+    id: ID
+    player: Player
+    chart: Chart
+    status: Status
+    lastUpdate: Last Update
+    dateInvestigation: Investigation Date
+    proof: Proof
+    libs: Libs
+    rank: Rank
+    platform: Platform
+    game: Game
+    group: Group
+  # Template-specific translations
+  sections:
+    information: Score Information
+    details: Score Details
+    performance: Performance
+    meta: Metadata
+  score:
+    information: Score Information
+    details: Score Details
+    value: Score Value
+    record: Player Record
+    position: Current Position
+    outOf: out of
+    players: players
+  links:
+    viewChart: View Chart
+    viewProof: View Proof
+    viewPlayer: View Player Profile
+
+breadcrumb:
+  link_badge_list: 'Badge List'
+  link_chart_create: 'Chart Create'
+  link_chart_list: 'Chart List'
+  link_chart_type_create: 'Chart Type Create'
+  link_chart_type_list: 'Chart Type List'
+  link_country_list: 'Country List'
+  link_game_create: 'Game Create'
+  link_game_list: 'Game List'
+  link_group_create: 'Group Create'
+  link_group_list: 'Group List'
+  link_picture_list: 'Picture List'
+  link_platform_create: 'Platform Create'
+  link_platform_list: 'Platform list'
+  link_player_chart_list: 'Score List'
+  link_proof_request_list: 'Proof Request List'
+  link_proof_list: 'Proof List'
+  link_rule_create: 'Rule Create'
+  link_rule_list: 'Rule List'
+  link_serie_create: 'Serie Create'
+  link_serie_list: 'Serie List'
+  link_team_list: 'Team List'
+  link_team_request_list: 'Team Request List'
+  link_video_list: 'Video List'
+  link_player_list: 'Player List'
+  link_player_badge_create: 'Player/Badge Create'
+  link_player_badge_list: 'Player/Badge list'
+
+list:
+  label__action: 'Action'

@@ -1,0 +1,63 @@
+proof_accepted:
+  object: 'Preuve acceptée'
+  message: |
+    <p>Bonjour %s,</p>
+    <p>Votre preuve sur le score <a href="%s">%s</a> a été acceptée.</p>
+    %s
+    <p>Cordialement, l'équipe VGR.</p>
+
+proof_refused:
+  object: 'Preuve refusée'
+  message: |
+    <p>Bonjour %s,</p>
+    <p>Votre preuve sur le score <a href="%s">%s</a> a été refusée.</p>
+    %s
+    <p>Cordialement, l'équipe VGR.</p>
+
+proof_request_confirm:
+  object: 'Demande de preuve'
+  message: |
+    <p>Bonjour %s,</p>
+    <p>Un membre de VGR vous a demandé une preuve sur le score : <a href="%s">%s</a><br />
+    Si vous n'avez pas prouvé votre score dans un délai de deux semaines, comprenez bien qu'il sera effacé du site.</p>
+    <p>Cordialement, l'équipe VGR.</p>
+
+proof_request_accepted:
+  object: 'Demande de preuve acceptée'
+  message: |
+    <p>Bonjour %s,</p>
+    <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s a été acceptée.</p>
+    %s
+    <p>Cordialement, l'équipe VGR.</p>
+
+proof_request_refused:
+  object: 'Demande de preuve refusée'
+  message: |
+    <p>Bonjour %s,</p>
+    <p>Votre demande de preuve sur le score <a href="%s">%s</a> pour le joueur %s a été refusée.</p>
+    %s
+    <p>Cordialement, l'équipe VGR.</p>
+
+proof_request_send_refuse: Vous avez atteint la limite maximale de %d demandes de preuves par jour, désolé
+
+player_badge_lost:
+  object: 'Perte de master badge'
+  message: |
+    <p>Bonjour %s,</p>
+    <p>Vous venez de perdre le master badge : <a href="%s">%s</a><br />
+    <p>Cordialement, l'équipe VGR.</p>
+
+team_badge_lost:
+  object: "Perte de master badge d'équipe"
+  message: |
+    <p>Bonjour %s,</p>
+    <p>Votre équipe a perdu le master badge : <a href="%s">%s</a><br />
+    <p>Cordialement, l'équipe VGR.</p>
+
+player_chart_updated:
+  object: 'Score modifié'
+  message: |
+    <p>Bonjour %s,</p>
+    <p>Votre score sur <a href="%s">%s</a> vient d'être modifié par un Administrateur.<br />
+    <p>Merci d'être davantage vigilant lors de l'envoi de vos scores sur VGR.</p><br />
+    <p>Cordialement, l'équipe VGR.</p>

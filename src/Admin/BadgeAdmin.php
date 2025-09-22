@@ -34,17 +34,17 @@ class BadgeAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('id', TextType::class, ['label' => 'label.id', 'attr' => ['readonly' => true]])
+        $form->add('id', TextType::class, ['label' => 'badge.form.id', 'attr' => ['readonly' => true]])
             ->add(
                 'type',
                 ChoiceType::class,
                 [
-                    'label' => 'label.type',
+                    'label' => 'badge.form.type',
                     'choices' => Badge::getTypeChoices(),
                 ]
             )
-            ->add('picture', TextType::class, ['label' => 'label.picture'])
-            ->add('value', TextType::class, ['label' => 'label.Value', 'required' => false]);
+            ->add('picture', TextType::class, ['label' => 'badge.form.picture'])
+            ->add('value', TextType::class, ['label' => 'badge.form.value', 'required' => false]);
     }
 
     /**
@@ -53,12 +53,12 @@ class BadgeAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('type', null, ['label' => 'label.type'])
-            ->add('picture', null, ['label' => 'label.picture'])
-            ->add('game.id', null, ['label' => 'label.game.id'])
-            ->add('game.libGameFr', null, ['label' => 'label.game.fr'])
-            ->add('game.libGameEn', null, ['label' => 'label.game.en']);
+            ->add('id', null, ['label' => 'badge.filter.id'])
+            ->add('type', null, ['label' => 'badge.filter.type'])
+            ->add('picture', null, ['label' => 'badge.filter.picture'])
+            ->add('game.id', null, ['label' => 'badge.filter.game.id'])
+            ->add('game.libGameFr', null, ['label' => 'badge.filter.game.fr'])
+            ->add('game.libGameEn', null, ['label' => 'badge.filter.game.en']);
     }
 
     /**
@@ -66,10 +66,10 @@ class BadgeAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('type', null, ['label' => 'label.type'])
-            ->add('picture', 'text', ['label' => 'label.picture', 'editable' => true])
-            ->add('value', null, ['label' => 'label.value'])
+        $list->addIdentifier('id', null, ['label' => 'badge.list.id'])
+            ->add('type', null, ['label' => 'badge.list.type'])
+            ->add('picture', 'text', ['label' => 'badge.list.picture', 'editable' => true])
+            ->add('value', null, ['label' => 'badge.list.value'])
             ->add('_action', 'actions', ['actions' => ['show' => [], 'edit' => []]]);
     }
 
@@ -78,9 +78,9 @@ class BadgeAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id', null, ['label' => 'label.id'])
-            ->add('type', null, ['label' => 'label.type'])
-            ->add('picture', null, ['label' => 'label.picture'])
-            ->add('value', null, ['label' => 'label.value']);
+        $show->add('id', null, ['label' => 'badge.show.id'])
+            ->add('type', null, ['label' => 'badge.show.type'])
+            ->add('picture', null, ['label' => 'badge.show.picture'])
+            ->add('value', null, ['label' => 'badge.show.value']);
     }
 }
