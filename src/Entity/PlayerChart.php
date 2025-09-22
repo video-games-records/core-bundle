@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use VideoGamesRecords\CoreBundle\Controller\PlayerChart\BulkUpsert;
 use VideoGamesRecords\CoreBundle\Controller\PlayerChart\GetLatestScores;
 use VideoGamesRecords\CoreBundle\Controller\PlayerChart\GetLatestScoresDifferentGames;
 use VideoGamesRecords\CoreBundle\Controller\PlayerChart\SendPicture;
@@ -227,6 +228,75 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
                             ],
                             'example' => [
                                 'url' => 'string',
+                            ]
+                        ]
+                    ])
+                ),
+            )
+        ),
+        new Post(
+            uriTemplate: '/player-charts/bulk',
+            controller: BulkUpsert::class,
+            security: 'is_granted("ROLE_PLAYER")',
+            openapi: new Model\Operation(
+                summary: 'Créer ou modifier plusieurs player-charts en une seule fois',
+                description: 'Permet de créer ou modifier plusieurs player-charts d\'un coup (upsert) pour éviter les deadlocks et améliorer les performances. Si un ID est fourni, l\'entité sera modifiée, sinon elle sera créée. Les messages de mise à jour des rangs sont envoyés de manière groupée à la fin.',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'playerCharts' => [
+                                        'type' => 'array',
+                                        'items' => [
+                                            'type' => 'object',
+                                            'properties' => [
+                                                'chart' => ['type' => 'integer', 'description' => 'ID du chart'],
+                                                'player' => ['type' => 'integer', 'description' => 'ID du player'],
+                                                'status' => ['type' => 'integer', 'description' => 'ID du status (optionnel, défaut: 1)'],
+                                                'platform' => ['type' => 'integer', 'description' => 'ID de la platform (optionnel)'],
+                                                'libs' => [
+                                                    'type' => 'array',
+                                                    'description' => 'Valeurs du score',
+                                                    'items' => [
+                                                        'type' => 'object',
+                                                        'properties' => [
+                                                            'chartLib' => ['type' => 'integer', 'description' => 'ID du chartLib'],
+                                                            'value' => ['type' => 'string', 'description' => 'Valeur du score']
+                                                        ],
+                                                        'required' => ['chartLib', 'value']
+                                                    ]
+                                                ]
+                                            ],
+                                            'required' => ['chart', 'player']
+                                        ]
+                                    ]
+                                ],
+                                'required' => ['playerCharts']
+                            ],
+                            'example' => [
+                                'playerCharts' => [
+                                    [
+                                        'chart' => 1,
+                                        'player' => 123,
+                                        'status' => 1,
+                                        'platform' => 2,
+                                        'libs' => [
+                                            ['chartLib' => 1, 'value' => '1000'],
+                                            ['chartLib' => 2, 'value' => '00:30:45']
+                                        ]
+                                    ],
+                                    [
+                                        'id' => 456,
+                                        'chart' => 2,
+                                        'player' => 123,
+                                        'status' => 2,
+                                        'libs' => [
+                                            ['chartLib' => 3, 'value' => '500']
+                                        ]
+                                    ]
+                                ]
                             ]
                         ]
                     ])
