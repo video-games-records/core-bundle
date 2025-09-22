@@ -13,6 +13,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
+use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Player;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChart;
 use VideoGamesRecords\CoreBundle\Entity\PlayerChartLib;
@@ -207,7 +208,8 @@ class BulkUpsert extends AbstractController
                             return null;
                         }
 
-                        $chartLib = $this->entityManager->getRepository(\VideoGamesRecords\CoreBundle\Entity\ChartLib::class)
+                        $chartLib = $this->entityManager
+                            ->getRepository(ChartLib::class)
                             ->find($chartLibId);
 
                         if (!$chartLib) {
@@ -217,7 +219,7 @@ class BulkUpsert extends AbstractController
 
                         $playerChartLib = new PlayerChartLib();
                         $playerChartLib->setLibChart($chartLib);
-                        
+
                         if ($parseValue !== null) {
                             // Si parseValue est fourni, l'utiliser et appeler setValueFromPaseValue()
                             $playerChartLib->setParseValue($parseValue);
@@ -226,7 +228,7 @@ class BulkUpsert extends AbstractController
                             // Sinon utiliser value directement (rétrocompatibilité)
                             $playerChartLib->setValue($value);
                         }
-                        
+
                         $playerChart->addLib($playerChartLib);
                     }
                 }
@@ -303,7 +305,7 @@ class BulkUpsert extends AbstractController
                 }
             } else {
                 // Créer une nouvelle lib si elle n'existe pas
-                $chartLib = $this->entityManager->getRepository(\VideoGamesRecords\CoreBundle\Entity\ChartLib::class)
+                $chartLib = $this->entityManager->getRepository(ChartLib::class)
                     ->find($chartLibId);
 
                 if (!$chartLib) {
@@ -313,14 +315,14 @@ class BulkUpsert extends AbstractController
 
                 $playerChartLib = new PlayerChartLib();
                 $playerChartLib->setLibChart($chartLib);
-                
+
                 if ($parseValue !== null) {
                     $playerChartLib->setParseValue($parseValue);
                     $playerChartLib->setValueFromPaseValue();
                 } else {
                     $playerChartLib->setValue($value);
                 }
-                
+
                 $playerChart->addLib($playerChartLib);
             }
         }

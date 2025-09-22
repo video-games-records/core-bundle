@@ -86,68 +86,68 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('game.general.information', [
+            ->with('section.general.information', [
                 'class' => 'col-md-6',
-                'label' => 'game.general.information',
+                'label' => 'section.general.information',
                 'box_class' => 'box box-primary'
             ])
             ->add('serie', ModelAutocompleteType::class, [
                 'property' => 'libSerie',
-                'label' => 'label.serie',
+                'label' => 'game.form.serie',
                 'required' => false,
                 'btn_add' => false,
             ])
             ->add('type', null, [
-                'label' => 'label.type',
+                'label' => 'game.form.type',
                 'required' => false,
             ])
             ->add('libGameEn', TextType::class, [
-                'label' => 'label.name.en',
+                'label' => 'game.form.name.en',
                 'required' => true,
             ])
             ->add('libGameFr', TextType::class, [
-                'label' => 'label.name.fr',
+                'label' => 'game.form.name.fr',
                 'required' => false,
             ])
             ->end()
 
             // Configuration et médias - 2ème colonne
-            ->with('game.configuration', [
+            ->with('section.configuration', [
                 'class' => 'col-md-6',
-                'label' => 'game.configuration',
+                'label' => 'section.configuration',
                 'box_class' => 'box box-success'
             ])
             ->add('picture', TextType::class, [
-                'label' => 'label.picture',
+                'label' => 'game.form.picture',
                 'required' => false,
             ])
             ->add('downloadUrl', TextType::class, [
-                'label' => 'label.downloadUrl',
+                'label' => 'game.form.downloadUrl',
                 'required' => false,
             ])
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'label.status',
+                    'label' => 'game.form.status',
                     'choices' => GameStatus::getStatusChoices(),
                 ]
             )
             ->add('publishedAt', DateType::class, [
-                'label' => 'label.publishedAt',
+                'label' => 'game.form.publishedAt',
                 'required' => false,
                 'years' => range(2004, date('Y'))
             ])
             ->add('isRank', CheckboxType::class, [
-                'label' => 'label.boolRanking',
+                'label' => 'game.form.boolRanking',
                 'required' => false,
             ])
             ->end()
 
             // Associations - 2 colonnes
-            ->with('game.associations', [
+            ->with('section.associations', [
                 'class' => 'col-md-6',
-                'label' => 'game.associations',
+                'label' => 'section.associations',
                 'box_class' => 'box box-info'
             ])
             ->add('badge', ModelListType::class, [
@@ -156,7 +156,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.badge',
+                'label' => 'game.form.badge',
             ])
             ->add('forum', ModelListType::class, [
                 'btn_add' => true,
@@ -164,26 +164,26 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.forum',
+                'label' => 'game.form.forum',
             ])
             ->add('rules', null, [
                 'required' => false,
                 'expanded' => false,
-                'label' => 'label.rules'
+                'label' => 'game.form.rules'
             ])
             ->end()
 
             // Plateformes - 2ème colonne des associations
-            ->with('game.platforms', [
+            ->with('section.platforms', [
                 'class' => 'col-md-6',
-                'label' => 'label.platforms',
+                'label' => 'section.platforms',
                 'box_class' => 'box box-warning'
             ])
             ->add(
                 'platforms',
                 null,
                 [
-                    'label' => 'label.platforms',
+                    'label' => 'game.form.platforms',
                     'required' => false,
                     'expanded' => false,
                     'query_builder' =>
@@ -197,16 +197,16 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
             ->end();
 
         $form
-            ->with('label.groups', [
+            ->with('game.form.groups', [
                 'class' => 'col-md-12',
-                'label' => 'label.groups',
+                'label' => 'game.form.groups',
                 'box_class' => 'box box-default'
             ])
             ->add(
                 'groups',
                 CollectionType::class,
                 array(
-                    'label' => 'label.groups',
+                    'label' => 'game.form.groups',
                     'by_reference' => false,
                     'type_options' => array(
                         'delete' => true,
@@ -233,35 +233,35 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
+            ->add('id', null, ['label' => 'game.filter.id'])
             ->add('serie', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => 'libSerie'],
-                'label' => 'label.serie'
+                'label' => 'game.filter.serie'
             ])
-            ->add('type', null, ['label' => 'label.type'])
-            ->add('libGameEn', null, ['label' => 'label.name.en'])
-            ->add('libGameFr', null, ['label' => 'label.name.fr'])
-            ->add('nbChart', null, ['label' => 'label.nbChart'])
+            ->add('type', null, ['label' => 'game.filter.type'])
+            ->add('libGameEn', null, ['label' => 'game.filter.name.en'])
+            ->add('libGameFr', null, ['label' => 'game.filter.name.fr'])
+            ->add('nbChart', null, ['label' => 'game.filter.nbChart'])
             ->add(
                 'platforms',
                 null,
                 [
-                    'label' => 'label.platforms',
+                    'label' => 'game.filter.platforms',
                     'field_options' => [
                         'multiple' => true,
                     ]
                 ]
             )
             ->add('status', ChoiceFilter::class, [
-                'label' => 'label.status',
+                'label' => 'game.filter.status',
                 'field_type' => ChoiceType::class,
                 'field_options' => [
                     'choices' => GameStatus::getStatusChoices(),
                     'multiple' => false,
                 ]
             ])
-            ->add('isRank', null, ['label' => 'label.boolRanking']);
+            ->add('isRank', null, ['label' => 'game.filter.boolRanking']);
     }
 
     /**
@@ -289,16 +289,16 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
         }
 
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('libGameEn', null, ['label' => 'label.game.en', 'editable' => true])
-            ->add('libGameFr', null, ['label' => 'label.game.fr', 'editable' => true])
-            ->add('type', null, ['label' => 'label.type'])
-            ->add('platforms', null, ['label' => 'label.platforms'])
+            ->addIdentifier('id', null, ['label' => 'game.list.id'])
+            ->add('libGameEn', null, ['label' => 'game.list.game.en', 'editable' => true])
+            ->add('libGameFr', null, ['label' => 'game.list.game.fr', 'editable' => true])
+            ->add('type', null, ['label' => 'game.list.type'])
+            ->add('platforms', null, ['label' => 'game.list.platforms'])
             ->add(
                 'picture',
                 null,
                 [
-                    'label' => 'label.picture',
+                    'label' => 'game.list.picture',
                     'editable' => true
                 ]
             )
@@ -306,7 +306,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'badge.picture',
                 null,
                 [
-                    'label' => 'label.badge',
+                    'label' => 'game.list.badge',
                     'editable' => true
                 ]
             )
@@ -314,7 +314,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'status',
                 'choice',
                 [
-                    'label' => 'label.status',
+                    'label' => 'game.list.status',
                     'editable' => true,
                     'choices' => GameStatus::getReverseStatusChoices(),
                 ]
@@ -339,18 +339,18 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('libGameEn', null, ['label' => 'label.name.en'])
-            ->add('libGameFr', null, ['label' => 'label.name.fr'])
-            ->add('type', null, ['label' => 'label.type'])
-            ->add('platforms', null, ['label' => 'label.platforms'])
-            ->add('nbChart', null, ['label' => 'label.nbChart'])
-            ->add('nbVideo', null, ['label' => 'label.nbVideo'])
-            ->add('downloadUrl', null, ['label' => 'label.downloadUrl'])
-            ->add('picture', null, ['label' => 'label.picture'])
-            ->add('badge', null, ['label' => 'label.badge'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('forum', null, ['label' => 'label.forum'])
-            ->add('groups', null, ['label' => 'label.groups']);
+            ->add('id', null, ['label' => 'game.show.id'])
+            ->add('libGameEn', null, ['label' => 'game.show.name.en'])
+            ->add('libGameFr', null, ['label' => 'game.show.name.fr'])
+            ->add('type', null, ['label' => 'game.show.type'])
+            ->add('platforms', null, ['label' => 'game.show.platforms'])
+            ->add('nbChart', null, ['label' => 'game.show.nbChart'])
+            ->add('nbVideo', null, ['label' => 'game.show.nbVideo'])
+            ->add('downloadUrl', null, ['label' => 'game.show.downloadUrl'])
+            ->add('picture', null, ['label' => 'game.show.picture'])
+            ->add('badge', null, ['label' => 'game.show.badge'])
+            ->add('status', null, ['label' => 'game.show.status'])
+            ->add('forum', null, ['label' => 'game.show.forum'])
+            ->add('groups', null, ['label' => 'game.show.groups']);
     }
 }

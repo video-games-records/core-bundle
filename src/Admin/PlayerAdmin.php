@@ -17,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PlayerAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'vgrcorebundle_player';
+    protected $baseRouteName = 'vgrcorebundle_admin_player';
 
     /**
      * @param RouteCollectionInterface $collection
@@ -40,24 +40,24 @@ class PlayerAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, [
-                'label' => 'id',
+                'label' => 'player.form.id',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
             ->add('pseudo', TextType::class, [
-                'label' => 'pseudo',
+                'label' => 'player.form.pseudo',
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
-            ->add('status', null, ['label' => 'label.status'])
+            ->add('status', null, ['label' => 'player.form.status'])
             ->add('boolMaj', CheckboxType::class, [
-                'label' => 'Maj ?',
+                'label' => 'player.form.boolMaj',
                 'required' => false,
             ])
             ->add('hasDonate', CheckboxType::class, [
-                'label' => 'Has donate ?',
+                'label' => 'player.form.hasDonate',
                 'required' => false,
             ])
             ->add('team', ModelListType::class, [
@@ -67,7 +67,7 @@ class PlayerAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'label.country',
+                'label' => 'player.form.team',
             ])
             ->add('country', ModelListType::class, [
                 'data_class' => null,
@@ -76,7 +76,7 @@ class PlayerAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'label.country',
+                'label' => 'player.form.country',
             ]);
     }
 
@@ -86,13 +86,13 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('pseudo', null, ['label' => 'label.pseudo'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('twitch', NullFilter::class, ['label' => 'label.twitch_is_null'])
-            ->add('youtube', NullFilter::class, ['label' => 'label.youtube_is_null'])
-            ->add('website', NullFilter::class, ['label' => 'label.website_is_null'])
-            ->add('boolMaj', null, ['label' => 'label.boolMaj']);
+            ->add('id', null, ['label' => 'player.filter.id'])
+            ->add('pseudo', null, ['label' => 'player.filter.pseudo'])
+            ->add('status', null, ['label' => 'player.filter.status'])
+            ->add('twitch', NullFilter::class, ['label' => 'player.filter.twitch'])
+            ->add('youtube', NullFilter::class, ['label' => 'player.filter.youtube'])
+            ->add('website', NullFilter::class, ['label' => 'player.filter.website'])
+            ->add('boolMaj', null, ['label' => 'player.filter.boolMaj']);
     }
 
     /**
@@ -101,12 +101,12 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('pseudo', null, ['label' => 'label.pseudo'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('twitch', null, ['label' => 'label.twitch'])
-            ->add('youtube', null, ['label' => 'label.youtube'])
-            ->add('slug', null, ['label' => 'label.slug'])
+            ->addIdentifier('id', null, ['label' => 'player.list.id'])
+            ->add('pseudo', null, ['label' => 'player.list.pseudo'])
+            ->add('status', null, ['label' => 'player.list.status'])
+            ->add('twitch', null, ['label' => 'player.list.twitch'])
+            ->add('youtube', null, ['label' => 'player.list.youtube'])
+            ->add('slug', null, ['label' => 'player.list.slug'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -124,48 +124,48 @@ class PlayerAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->with('Player', ['class' => 'col-md-6', 'label' => 'label.player'])
-                ->add('id', null, ['label' => 'label.id'])
-                ->add('pseudo', null, ['label' => 'label.pseudo'])
-                ->add('status', null, ['label' => 'label.status'])
-                ->add('country', null, ['label' => 'label.country'])
-                ->add('team', null, ['label' => 'label.team'])
-                ->add('website', null, ['label' => 'label.website'])
-                ->add('youtube', null, ['label' => 'label.youtube'])
-                ->add('twitch', null, ['label' => 'label.twitch'])
-                ->add('lastDisplayLostPosition', null, ['label' => 'label.lastDisplayLostPosition'])
+            ->with('Player', ['class' => 'col-md-6', 'label' => 'player.sections.player'])
+                ->add('id', null, ['label' => 'player.show.id'])
+                ->add('pseudo', null, ['label' => 'player.show.pseudo'])
+                ->add('status', null, ['label' => 'player.show.status'])
+                ->add('country', null, ['label' => 'player.show.country'])
+                ->add('team', null, ['label' => 'player.show.team'])
+                ->add('website', null, ['label' => 'player.show.website'])
+                ->add('youtube', null, ['label' => 'player.show.youtube'])
+                ->add('twitch', null, ['label' => 'player.show.twitch'])
+                ->add('lastDisplayLostPosition', null, ['label' => 'player.show.lastDisplayLostPosition'])
             ->end()
-            ->with('Ranking', ['class' => 'col-md-6', 'label' => 'label.ranking'])
-                ->add('rankPointChart', null, ['label' => 'label.rankPointChart'])
-                ->add('rankPointGame', null, ['label' => 'label.rankPointGame'])
-                ->add('rankMedal', null, ['label' => 'label.rankMedal'])
-                ->add('rankProof', null, ['label' => 'label.rankProof'])
-                ->add('rankBadge', null, ['label' => 'label.rankBadge'])
-                ->add('rankCup', null, ['label' => 'label.rankCup'])
-                ->add('rankCountry', null, ['label' => 'label.rankCountry'])
+            ->with('Ranking', ['class' => 'col-md-6', 'label' => 'player.sections.ranking'])
+                ->add('rankPointChart', null, ['label' => 'player.show.rankPointChart'])
+                ->add('rankPointGame', null, ['label' => 'player.show.rankPointGame'])
+                ->add('rankMedal', null, ['label' => 'player.show.rankMedal'])
+                ->add('rankProof', null, ['label' => 'player.show.rankProof'])
+                ->add('rankBadge', null, ['label' => 'player.show.rankBadge'])
+                ->add('rankCup', null, ['label' => 'player.show.rankCup'])
+                ->add('rankCountry', null, ['label' => 'player.show.rankCountry'])
             ->end()
-            ->with('Points', ['class' => 'col-md-6', 'label' => 'label.points'])
-                ->add('pointChart', null, ['label' => 'label.pointChart'])
-                ->add('pointGame', null, ['label' => 'label.pointGame'])
-                ->add('pointBadge', null, ['label' => 'label.pointBadge'])
+            ->with('Points', ['class' => 'col-md-6', 'label' => 'player.sections.points'])
+                ->add('pointChart', null, ['label' => 'player.show.pointChart'])
+                ->add('pointGame', null, ['label' => 'player.show.pointGame'])
+                ->add('pointBadge', null, ['label' => 'player.show.pointBadge'])
             ->end()
-            ->with('stats', ['class' => 'col-md-6', 'label' => 'label.stats'])
-                ->add('nbGame', null, ['label' => 'label.nbGame'])
-                ->add('nbChart', null, ['label' => 'label.nbChart'])
-                ->add('nbChartProven', null, ['label' => 'label.nbChartProven'])
-                ->add('nbChartDisabled', null, ['label' => 'label.nbChartDisabled'])
+            ->with('stats', ['class' => 'col-md-6', 'label' => 'player.sections.stats'])
+                ->add('nbGame', null, ['label' => 'player.show.nbGame'])
+                ->add('nbChart', null, ['label' => 'player.show.nbChart'])
+                ->add('nbChartProven', null, ['label' => 'player.show.nbChartProven'])
+                ->add('nbChartDisabled', null, ['label' => 'player.show.nbChartDisabled'])
             ->end()
-            ->with('Medals', ['class' => 'col-md-6', 'label' => 'label.medals'])
-                ->add('chartRank0', null, ['label' => 'label.chartRank0'])
-                ->add('chartRank1', null, ['label' => 'label.chartRank1'])
-                ->add('chartRank2', null, ['label' => 'label.chartRank2'])
-                ->add('chartRank3', null, ['label' => 'label.chartRank3'])
+            ->with('Medals', ['class' => 'col-md-6', 'label' => 'player.sections.medals'])
+                ->add('chartRank0', null, ['label' => 'player.show.chartRank0'])
+                ->add('chartRank1', null, ['label' => 'player.show.chartRank1'])
+                ->add('chartRank2', null, ['label' => 'player.show.chartRank2'])
+                ->add('chartRank3', null, ['label' => 'player.show.chartRank3'])
             ->end()
-            ->with('Cups', ['class' => 'col-md-6', 'label' => 'label.cups'])
-                ->add('gameRank0', null, ['label' => 'label.gameRank0'])
-                ->add('gameRank1', null, ['label' => 'label.gameRank1'])
-                ->add('gameRank2', null, ['label' => 'label.gameRank2'])
-                ->add('gameRank3', null, ['label' => 'label.gameRank3'])
+            ->with('Cups', ['class' => 'col-md-6', 'label' => 'player.sections.cups'])
+                ->add('gameRank0', null, ['label' => 'player.show.gameRank0'])
+                ->add('gameRank1', null, ['label' => 'player.show.gameRank1'])
+                ->add('gameRank2', null, ['label' => 'player.show.gameRank2'])
+                ->add('gameRank3', null, ['label' => 'player.show.gameRank3'])
             ->end();
     }
 }

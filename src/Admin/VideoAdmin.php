@@ -39,7 +39,7 @@ class VideoAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, [
-                'label' => 'label.id',
+                'label' => 'video.form.id',
                 'required' => false,
                 'attr' => array(
                     'readonly' => true,
@@ -52,7 +52,7 @@ class VideoAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.player',
+                'label' => 'video.form.player',
             ])
             ->add('game', ModelListType::class, [
                 'data_class' => null,
@@ -61,27 +61,27 @@ class VideoAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.game',
+                'label' => 'video.form.game',
             ])
             ->add('libVideo', TextType::class, [
-                'label' => 'label.name',
+                'label' => 'video.form.name',
                 'required' => true,
             ])
             ->add(
                 'type',
                 ChoiceType::class,
                 [
-                    'label' => 'label.type',
+                    'label' => 'video.form.type',
                     'choices' => VideoType::getTypeChoices(),
                     'choice_translation_domain' => false,
                 ]
             )
             ->add('url', TextType::class, [
-                'label' => 'label.url',
+                'label' => 'video.form.url',
                 'required' => true,
             ])
             ->add('isActive', CheckboxType::class, [
-                'label' => 'label.isActive',
+                'label' => 'video.form.isActive',
                 'required' => false,
             ]);
     }
@@ -92,13 +92,13 @@ class VideoAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('isActive', null, ['label' => 'label.isActive'])
-            ->add('type', null, ['label' => 'label.type'])
+            ->add('id', null, ['label' => 'video.filter.id'])
+            ->add('isActive', null, ['label' => 'video.filter.isActive'])
+            ->add('type', null, ['label' => 'video.filter.type'])
             ->add('player', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => 'pseudo'],
-                'label' => 'label.player',
+                'label' => 'video.filter.player',
             ]);
     }
 
@@ -108,24 +108,24 @@ class VideoAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->addIdentifier('id', null, ['label' => 'video.list.id'])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'label.player',
+                'label' => 'video.list.player',
             ])
             ->add('game', null, [
                 'associated_property' => 'libGameEn',
-                'label' => 'label.game',
+                'label' => 'video.list.game',
             ])
-            ->add('libVideo', null, ['label' => 'label.name'])
-            ->add('title', null, ['label' => 'label.title'])
-            ->add('type', null, ['label' => 'label.type'])
-            ->add('externalId', null, ['label' => 'label.video.id'])
+            ->add('libVideo', null, ['label' => 'video.list.name'])
+            ->add('title', null, ['label' => 'video.list.title'])
+            ->add('type', null, ['label' => 'video.list.type'])
+            ->add('externalId', null, ['label' => 'video.list.videoId'])
             ->add(
                 'isActive',
                 'boolean',
                 [
-                    'label' => 'label.isActive',
+                    'label' => 'video.list.isActive',
                     'editable' => true,
                 ]
             )
@@ -145,17 +145,17 @@ class VideoAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id', null, ['label' => 'label.id'])
-            ->add('isActive', null, ['label' => 'label.isActive'])
-            ->add('libVideo', null, ['label' => 'label.name'])
-            ->add('player', null, ['label' => 'label.player'])
-            ->add('game', null, ['label' => 'label.game'])
-            ->add('url', null, ['label' => 'label.url'])
-            ->add('nbComment', null, ['label' => 'label.nbComment'])
+        $show->add('id', null, ['label' => 'video.show.id'])
+            ->add('isActive', null, ['label' => 'video.show.isActive'])
+            ->add('libVideo', null, ['label' => 'video.show.name'])
+            ->add('player', null, ['label' => 'video.show.player'])
+            ->add('game', null, ['label' => 'video.show.game'])
+            ->add('url', null, ['label' => 'video.show.url'])
+            ->add('nbComment', null, ['label' => 'video.show.nbComment'])
 
-            ->add('title', null, ['label' => 'label.title'])
-            ->add('viewCount', null, ['label' => 'label.viewCount'])
-            ->add('likeCount', null, ['label' => 'label.likeCount'])
-            ->add('thumbnail', null, ['label' => 'label.thumbnail']);
+            ->add('title', null, ['label' => 'video.show.title'])
+            ->add('viewCount', null, ['label' => 'video.show.viewCount'])
+            ->add('likeCount', null, ['label' => 'video.show.likeCount'])
+            ->add('thumbnail', null, ['label' => 'video.show.thumbnail']);
     }
 }

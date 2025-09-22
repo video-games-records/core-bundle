@@ -49,7 +49,7 @@ class RuleAdmin extends AbstractAdmin
     {
         $form
             ->add('name', TextType::class, [
-                'label' => 'label.name',
+                'label' => 'rule.form.name',
                 'required' => true,
             ])
             ->add(
@@ -62,15 +62,15 @@ class RuleAdmin extends AbstractAdmin
                     'btn_edit' => false,
                     'btn_delete' => false,
                     'btn_catalogue' => true,
-                    'label' => 'label.player',
+                    'label' => 'rule.form.player',
                 ]
             )
             ->add('translations', TranslationsType::class, [
-                'label' => 'label.translations',
+                'label' => 'rule.form.translations',
                 'fields' => [
                     'content' => [
                         'field_type' => RichTextEditorType::class,
-                        'label' => 'label.rules',
+                        'label' => 'rule.form.rules',
                         'required' => false,
                      ]
                 ]
@@ -83,8 +83,8 @@ class RuleAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('name', null, ['label' => 'label.name']);
+            ->add('id', null, ['label' => 'rule.filter.id'])
+            ->add('name', null, ['label' => 'rule.filter.name']);
     }
 
     /**
@@ -93,14 +93,14 @@ class RuleAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('name', null, ['label' => 'label.name'])
+            ->addIdentifier('id', null, ['label' => 'rule.list.id'])
+            ->add('name', null, ['label' => 'rule.list.name'])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'label.player',
+                'label' => 'rule.list.player',
             ])
-            ->add('created_at', 'datetime', ['label' => 'label.createdAt'])
-            ->add('updated_at', 'datetime', ['label' => 'label.updatedAt'])
+            ->add('created_at', 'datetime', ['label' => 'rule.list.createdAt'])
+            ->add('updated_at', 'datetime', ['label' => 'rule.list.updatedAt'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -115,12 +115,12 @@ class RuleAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('name', null, ['label' => 'label.name'])
-            ->add('player', null, ['label' => 'label.player'])
-            ->add('created_at', 'datetime', ['label' => 'label.createdAt'])
-            ->add('updated_at', 'datetime', ['label' => 'label.updatedAt'])
-            ->add('games', null, ['label' => 'label.games'])
-            ->add('getContent', null, ['label' => 'label.text', 'safe' => true]);
+            ->add('id', null, ['label' => 'rule.show.id'])
+            ->add('name', null, ['label' => 'rule.show.name'])
+            ->add('player', null, ['label' => 'rule.show.player'])
+            ->add('created_at', 'datetime', ['label' => 'rule.show.createdAt'])
+            ->add('updated_at', 'datetime', ['label' => 'rule.show.updatedAt'])
+            ->add('games', null, ['label' => 'rule.show.games'])
+            ->add('getContent', null, ['label' => 'rule.show.text', 'safe' => true]);
     }
 }

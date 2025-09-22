@@ -1,0 +1,2 @@
+# translations/validators/validators.es.yaml
+video.videoId.not_null: No se puede determinar el sitio web que aloja el vídeo (Youtube o Twitch)

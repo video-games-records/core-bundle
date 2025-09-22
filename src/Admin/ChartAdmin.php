@@ -80,23 +80,23 @@ class ChartAdmin extends AbstractAdmin
 
         $form
             // Informations principales - Colonne 1
-            ->with('chart.general.information', [
+            ->with('section.general.information', [
                 'class' => 'col-md-6',
-                'label' => 'chart.general.information',
+                'label' => 'section.general.information',
                 'box_class' => 'box box-primary'
             ])
             ->add('id', TextType::class, array(
-                'label' => 'label.id',
+                'label' => 'chart.form.id',
                 'attr' => array(
                     'readonly' => true,
                 )
             ))
             ->add('libChartEn', TextType::class, [
-                'label' => 'label.name.en',
+                'label' => 'chart.form.name.en',
                 'required' => true,
             ])
             ->add('libChartFr', TextType::class, [
-                'label' => 'label.name.fr',
+                'label' => 'chart.form.name.fr',
                 'required' => false,
             ]);
 
@@ -115,7 +115,7 @@ class ChartAdmin extends AbstractAdmin
                         'btn_edit' => false,
                         'btn_delete' => false,
                         'btn_catalogue' => $btnCatalogue,
-                        'label' => 'label.group',
+                        'label' => 'chart.form.group',
                     ]
                 )
             );
@@ -124,30 +124,30 @@ class ChartAdmin extends AbstractAdmin
         $form->end()
 
             // Configuration - Colonne 2
-            ->with('chart.configuration', [
+            ->with('section.configuration', [
                 'class' => 'col-md-6',
-                'label' => 'chart.configuration',
+                'label' => 'section.configuration',
                 'box_class' => 'box box-success'
             ])
             ->add('isDlc', CheckboxType::class, [
-                'label' => 'label.isDlc',
+                'label' => 'chart.form.isDlc',
                 'required' => false,
             ])
             ->add('isProofVideoOnly', CheckboxType::class, [
-                'label' => 'label.isProofVideoOnly',
+                'label' => 'chart.form.isProofVideoOnly',
                 'required' => false,
             ]);
 
         $form->end()
 
             // Libs - Section complète
-            ->with('label.libs', [
+            ->with('chart.form.libs', [
                 'class' => 'col-md-12',
-                'label' => 'label.libs',
+                'label' => 'chart.form.libs',
                 'box_class' => 'box box-info'
             ])
             ->add('libs', CollectionType::class, array(
-                'label' => 'label.libs',
+                'label' => 'chart.form.libs',
                 'by_reference' => false,
                 'help' => (($this->isCurrentRoute('create')) ?
                     'label.libs.help' : ''),
@@ -174,20 +174,20 @@ class ChartAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', null, ['label' => 'label.id'])
-            ->add($this->getLibChart(), null, ['label' => 'label.name'])
+            ->add('id', null, ['label' => 'chart.filter.id'])
+            ->add($this->getLibChart(), null, ['label' => 'chart.filter.name'])
             ->add('group', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => $this->getLibGroup()],
-                'label' => 'label.group',
+                'label' => 'chart.filter.group',
             ])
             ->add('group.game', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => $this->getLibGame()],
-                'label' => 'label.game',
+                'label' => 'chart.filter.game',
             ])
-            ->add('isDlc', null, ['label' => 'label.isDlc'])
-            ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly'])
+            ->add('isDlc', null, ['label' => 'chart.filter.isDlc'])
+            ->add('isProofVideoOnly', null, ['label' => 'chart.filter.isProofVideoOnly'])
             ;
     }
 
@@ -197,27 +197,27 @@ class ChartAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('libChartEn', null, ['label' => 'label.chart.en', 'editable' => true])
-            ->add('libChartFr', null, ['label' => 'label.chart.fr', 'editable' => true])
+            ->addIdentifier('id', null, ['label' => 'chart.list.id'])
+            ->add('libChartEn', null, ['label' => 'chart.list.chart.en', 'editable' => true])
+            ->add('libChartFr', null, ['label' => 'chart.list.chart.fr', 'editable' => true])
             //->add('slug', null, ['label' => 'label.slug'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),
-                'label' => 'label.group',
+                'label' => 'chart.list.group',
             ))
             ->add('group.game', null, array(
                 'associated_property' => $this->getLibGame(),
-                'label' => 'label.game',
+                'label' => 'chart.list.game',
             ))
-            ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly', 'editable' => true])
+            ->add('isProofVideoOnly', null, ['label' => 'chart.list.isProofVideoOnly', 'editable' => true])
             ->add(
                 'libs',
                 null,
                 [
-                    'label' => 'label.libs',
+                    'label' => 'chart.list.libs',
                 ]
             )
-            ->add('createdAt', 'datetime', ['label' => 'label.createdAt'])
+            ->add('createdAt', 'datetime', ['label' => 'chart.list.createdAt'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -233,47 +233,47 @@ class ChartAdmin extends AbstractAdmin
     {
         $show
             // Informations principales - Colonne 1
-            ->with('chart.general.information', [
+            ->with('section.general.information', [
                 'class' => 'col-md-6',
-                'label' => 'chart.general.information',
+                'label' => 'section.general.information',
                 'box_class' => 'box box-primary'
             ])
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('libChartEn', null, ['label' => 'label.name.en'])
-            ->add('libChartFr', null, ['label' => 'label.name.fr'])
+            ->add('id', null, ['label' => 'chart.show.id'])
+            ->add('libChartEn', null, ['label' => 'chart.show.name.en'])
+            ->add('libChartFr', null, ['label' => 'chart.show.name.fr'])
             ->add('group', null, array(
                 'associated_property' => $this->getLibGroup(),
-                'label' => 'label.group',
+                'label' => 'chart.show.group',
             ))
             ->end()
 
             // Configuration et statuts - Colonne 2
-            ->with('chart.configuration', [
+            ->with('section.configuration', [
                 'class' => 'col-md-6',
-                'label' => 'chart.configuration',
+                'label' => 'section.configuration',
                 'box_class' => 'box box-success'
             ])
-            ->add('isDlc', null, ['label' => 'label.isDlc'])
-            ->add('isProofVideoOnly', null, ['label' => 'label.isProofVideoOnly'])
+            ->add('isDlc', null, ['label' => 'chart.show.isDlc'])
+            ->add('isProofVideoOnly', null, ['label' => 'chart.show.isProofVideoOnly'])
             ->end()
 
             // Métadonnées - Colonne 1 (2ème ligne)
-            ->with('chart.metadata', [
+            ->with('section.metadata', [
                 'class' => 'col-md-6',
-                'label' => 'chart.metadata',
+                'label' => 'section.metadata',
                 'box_class' => 'box box-info'
             ])
-            ->add('createdAt', null, ['label' => 'label.createdAt'])
-            ->add('updatedAt', null, ['label' => 'label.updatedAt'])
+            ->add('createdAt', null, ['label' => 'chart.show.createdAt'])
+            ->add('updatedAt', null, ['label' => 'chart.show.updatedAt'])
             ->end()
 
             // Libs - Section complète
-            ->with('label.libs', [
+            ->with('chart.show.libs', [
                 'class' => 'col-md-6',
-                'label' => 'label.libs',
+                'label' => 'chart.show.libs',
                 'box_class' => 'box box-warning'
             ])
-            ->add('libs', null, ['label' => 'label.libs'])
+            ->add('libs', null, ['label' => 'chart.show.libs'])
             ->end();
     }
 

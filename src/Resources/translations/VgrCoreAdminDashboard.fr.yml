@@ -1,0 +1,37 @@
+common:
+  edit: 'Editer'
+  show: 'Voir'
+  view: 'Voir'
+
+proof:
+  dashboard:
+    title: "Preuves par jeu"
+    view_all: "Voir toutes les preuves en attente"
+    empty:
+      title: "Aucune preuve en attente"
+      message: "Excellent travail ! Toutes les preuves ont été traitées."
+  status:
+    in_progress: "EN ATTENTE"
+
+proof_request:
+  dashboard:
+    title: "Demandes de preuve en cours"
+    view:
+      all: "Voir toutes les demandes en cours"
+    empty:
+      title: "Aucune demande de preuve en cours"
+      message: "Excellent ! Toutes les demandes ont été traitées."
+  requested_by: "Demandé par"
+  player: "Joueur"
+
+game:
+  dashboard:
+    title: "Jeux"
+    progress: "Progression globale"
+    empty:
+      title: "Aucun jeu trouvé"
+      message: "Aucun jeu dans ces statuts actuellement."
+
+proofrequest:
+  no:
+    game: "Jeu inconnu"

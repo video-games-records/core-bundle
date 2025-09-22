@@ -1,0 +1,21 @@
+video:
+  type_not_found: "YouTubeとTwitchのURLのみ利用可能です"
+  youtube:
+    not_found: "このYouTube動画は存在しません"
+
+avatar:
+  extension_not_allowed: '許可されているフォーマットはPNGとJPGです'
+  success: "アバターが正常にアップロードされました"
+
+team:
+  request:
+    exists: '既にチーム申請を送信済みです'
+    has_team: 'このプレイヤーは既にチームに所属しています'
+
+workflow_transitions: 'ワークフロー'
+workflow:
+  transition_add_score: 'スコアを追加'
+  transition_add_picture: '画像を追加'
+  transition_completed: '完了'
+  transition_activate: 'アクティブ化'
+  transition_desactivate: '無効化'

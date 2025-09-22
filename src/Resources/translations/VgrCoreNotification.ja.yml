@@ -1,0 +1,63 @@
+proof_accepted:
+  object: '証明が承認されました'
+  message: |
+    <p>%s様、こんにちは</p>
+    <p>スコア <a href="%s">%s</a> の証明が承認されました。</p>
+    %s
+    <p>VGRチームより</p>
+
+proof_refused:
+  object: '証明が拒否されました'
+  message: |
+    <p>%s様、こんにちは</p>
+    <p>スコア <a href="%s">%s</a> の証明が拒否されました。</p>
+    %s
+    <p>VGRチームより</p>
+
+proof_request_confirm:
+  object: '証明リクエスト'
+  message: |
+    <p>%s様、こんにちは</p>
+    <p>VGRメンバーが以下のスコアの証明を求めています：<a href="%s">%s</a><br />
+    2週間以内に記録を証明しない場合、サイトから削除されます。</p>
+    <p>VGRチームより</p>
+
+proof_request_accepted:
+  object: '証明リクエストが承認されました'
+  message: |
+    <p>%s様、こんにちは</p>
+    <p>プレイヤー %s のスコア <a href="%s">%s</a> に対する証明リクエストが承認されました。</p>
+    %s
+    <p>VGRチームより</p>
+
+proof_request_refused:
+  object: '証明リクエストが拒否されました'
+  message: |
+    <p>%s様、こんにちは</p>
+    <p>プレイヤー %s のスコア <a href="%s">%s</a> に対する証明リクエストが拒否されました。</p>
+    %s
+    <p>VGRチームより</p>
+
+proof_request_send_refuse: 1日の証明リクエスト上限%d件に達しました。申し訳ございません
+
+player_badge_lost:
+  object: 'プレイヤーマスターバッジを失いました'
+  message: |
+    <p>%s様、こんにちは</p>
+    <p>以下のマスターバッジを失いました：<a href="%s">%s</a><br />
+    <p>VGRチームより</p>
+
+team_badge_lost:
+  object: 'チームマスターバッジを失いました'
+  message: |
+    <p>%s様、こんにちは</p>
+    <p>あなたのチームは以下のマスターバッジを失いました：<a href="%s">%s</a><br />
+    <p>VGRチームより</p>
+
+player_chart_updated:
+  object: 'スコアが修正されました'
+  message: |
+    <p>%s様、こんにちは</p>
+    <p><a href="%s">%s</a> のスコアが管理者により修正されました。<br />
+    <p>VGRにスコアを送信する際は、より注意深くお願いします。</p><br />
+    <p>VGRチームより</p>

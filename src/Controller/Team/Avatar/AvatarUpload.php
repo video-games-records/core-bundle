@@ -60,7 +60,7 @@ class AvatarUpload extends AbstractController
         if (!array_key_exists($meta['mediatype'], $this->extensions)) {
             return new JsonResponse(
                 [
-                'message' => $this->translator->trans('avatar.extension_not_allowed'),
+                'message' => $this->translator->trans('avatar.extension_not_allowed', [], 'VgrCore'),
                 ],
                 400
             );
@@ -76,7 +76,7 @@ class AvatarUpload extends AbstractController
         $this->em->flush();
 
         return new JsonResponse([
-            'message' => $this->translator->trans('avatar.success'),
+            'message' => $this->translator->trans('avatar.success', [], 'VgrCore'),
         ], 200);
     }
 }

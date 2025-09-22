@@ -1,0 +1,61 @@
+proof_accepted:
+  object: 'Proof accepted'
+  message: |
+    <p>Hello %s,</p>
+    <p>Your proof on the score <a href="%s">%s</a> was accepted.</p>
+    %s
+    <p>Regards, VGR Team.</p>
+
+proof_refused:
+  object: 'Proof refused'
+  message: |
+    <p>Hello %s,</p>
+    <p>Your proof on the score <a href="%s">%s</a> was refused.</p>
+    %s
+    <p>Regards, VGR Team.</p>
+
+proof_request_confirm:
+  object: 'Proof request'
+  message: |
+    <p>Hello %s,</p>
+    <p> VGR member asked you a proof on the following score: <a href="%s">%s</a><br />
+    If you do not prove your record in a 2 weeks delay, it will be deleted from the site.</p>
+    <p>Regards, VGR Team.</p>
+
+proof_request_accepted:
+  object: 'Proof request accepted'
+  message: |
+    <p>Hello %s,</p>
+    <p>Your request for proof on the score <a href="%s">%s</a> for player %s was accepted.</p>
+    %s
+    <p>Regards, VGR Team.</p>
+
+proof_request_refused:
+  object: 'Proof request refused'
+  message: |
+    <p>Hello %s,</p>
+    <p>Your request for proof on the score <a href="%s">%s</a> for player %s was refused.</p>
+    %s
+    <p>Regards, VGR Team.</p>
+
+player_badge_lost:
+  object: 'Player Master Badge lost'
+  message: |
+    <p>Hello %s,</p>
+    <p>You just lost the master badge of : <a href="%s">%s</a><br />
+    <p>Regards, VGR Team.</p>
+
+team_badge_lost:
+  object: 'Team Master Badge lost'
+  message: |
+    <p>Hello %s,</p>
+    <p>Your team just lost the master badge of : <a href="%s">%s</a><br />
+    <p>Regards, VGR Team.</p>
+
+player_chart_updated:
+  object: 'Score updated'
+  message: |
+    <p>Hello %s,</p>
+    <p>Your score on <a href="%s">%s</a> has been modified by an Administrator.<br />
+    <p>Thanks to be more vigilant when you send your scores on VGR.</p><br />
+    <p>Regards, VGR Team.</p>

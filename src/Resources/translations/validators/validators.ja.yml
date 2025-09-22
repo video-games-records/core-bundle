@@ -1,0 +1,2 @@
+# translations/validators/validators.ja.yaml
+video.videoId.not_null: 動画をホストするウェブサイト（YoutubeまたはTwitch）を特定できません

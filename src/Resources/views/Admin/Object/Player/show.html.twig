@@ -1,6 +1,6 @@
 {# src/Resources/views/Admin/Object/Player/show.html.twig #}
 {% extends '@SonataAdmin/CRUD/show.html.twig' %}
-{% trans_default_domain 'VgrCore' %}
+{% trans_default_domain 'VgrCoreAdmin' %}
 
 {% block show_groups %}
     {# Header avec infos principales #}
@@ -36,35 +36,35 @@
                                     {% if object.getCountry() %}
                                         <span class="meta-item">
                                             <i class="fa fa-flag"></i>
-                                            <strong>{% trans %}label.country{% endtrans %} :</strong> {{ object.getCountry().getName() }}
+                                            <strong>{% trans %}player.show.country{% endtrans %} :</strong> {{ object.getCountry().getName() }}
                                         </span>
                                     {% endif %}
                                     
                                     {% if object.getTeam() %}
                                         <span class="meta-item">
                                             <i class="fa fa-users"></i>
-                                            <strong>{% trans %}label.team{% endtrans %} :</strong> {{ object.getTeam().getLibTeam() }}
+                                            <strong>{% trans %}player.show.team{% endtrans %} :</strong> {{ object.getTeam().getLibTeam() }}
                                         </span>
                                     {% endif %}
                                     
                                     {% if object.getWebsite() %}
                                         <span class="meta-item">
                                             <i class="fa fa-globe"></i>
-                                            <strong>{% trans %}label.website{% endtrans %} :</strong> <a href="{{ object.getWebsite() }}" target="_blank">{{ object.getWebsite() }}</a>
+                                            <strong>{% trans %}player.show.website{% endtrans %} :</strong> <a href="{{ object.getWebsite() }}" target="_blank">{{ object.getWebsite() }}</a>
                                         </span>
                                     {% endif %}
                                     
                                     {% if object.getYoutube() %}
                                         <span class="meta-item">
                                             <i class="fa fa-youtube"></i>
-                                            <strong>{% trans %}label.youtube{% endtrans %} :</strong> <a href="{{ object.getYoutube() }}" target="_blank">{{ object.getYoutube() }}</a>
+                                            <strong>{% trans %}player.show.youtube{% endtrans %} :</strong> <a href="{{ object.getYoutube() }}" target="_blank">{{ object.getYoutube() }}</a>
                                         </span>
                                     {% endif %}
                                     
                                     {% if object.getTwitch() %}
                                         <span class="meta-item">
                                             <i class="fa fa-twitch"></i>
-                                            <strong>{% trans %}label.twitch{% endtrans %} :</strong> <a href="{{ object.getTwitch() }}" target="_blank">{{ object.getTwitch() }}</a>
+                                            <strong>{% trans %}player.show.twitch{% endtrans %} :</strong> <a href="{{ object.getTwitch() }}" target="_blank">{{ object.getTwitch() }}</a>
                                         </span>
                                     {% endif %}
                                 </div>
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getNbGame() ?? 0 }}</div>
-                                    <div class="stat-label">{% trans %}label.nbGame{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}player.show.nbGame{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getNbChart() ?? 0 }}</div>
-                                    <div class="stat-label">{% trans %}label.nbChart{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}player.show.nbChart{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getNbChartProven() ?? 0 }}</div>
-                                    <div class="stat-label">{% trans %}label.nbChartProven{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}player.show.nbChartProven{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getPointChart() ?? 0 }}</div>
-                                    <div class="stat-label">{% trans %}label.pointChart{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}player.show.pointChart{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getPointGame() ?? 0 }}</div>
-                                    <div class="stat-label">{% trans %}label.pointGame{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}player.show.pointGame{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number">{{ object.getPointBadge() ?? 0 }}</div>
-                                    <div class="stat-label">{% trans %}label.pointBadge{% endtrans %}</div>
+                                    <div class="stat-label">{% trans %}player.show.pointBadge{% endtrans %}</div>
                                 </div>
                             </div>
                         </div>
@@ -183,31 +183,31 @@
                 <div class="box-body">
                     <table class="table table-condensed">
                         <tr>
-                            <td><strong>{% trans %}label.rankPointChart{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}player.show.rankPointChart{% endtrans %} :</strong></td>
                             <td><span class="label label-primary"># {{ object.getRankPointChart() ?? 'N/A' }}</span></td>
                         </tr>
                         <tr>
-                            <td><strong>{% trans %}label.rankPointGame{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}player.show.rankPointGame{% endtrans %} :</strong></td>
                             <td><span class="label label-primary"># {{ object.getRankPointGame() ?? 'N/A' }}</span></td>
                         </tr>
                         <tr>
-                            <td><strong>{% trans %}label.rankMedal{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}player.show.rankMedal{% endtrans %} :</strong></td>
                             <td><span class="label label-warning"># {{ object.getRankMedal() ?? 'N/A' }}</span></td>
                         </tr>
                         <tr>
-                            <td><strong>{% trans %}label.rankProof{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}player.show.rankProof{% endtrans %} :</strong></td>
                             <td><span class="label label-info"># {{ object.getRankProof() ?? 'N/A' }}</span></td>
                         </tr>
                         <tr>
-                            <td><strong>{% trans %}label.rankBadge{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}player.show.rankBadge{% endtrans %} :</strong></td>
                             <td><span class="label label-success"># {{ object.getRankBadge() ?? 'N/A' }}</span></td>
                         </tr>
                         <tr>
-                            <td><strong>{% trans %}label.rankCup{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}player.show.rankCup{% endtrans %} :</strong></td>
                             <td><span class="label label-danger"># {{ object.getRankCup() ?? 'N/A' }}</span></td>
                         </tr>
                         <tr>
-                            <td><strong>{% trans %}label.rankCountry{% endtrans %} :</strong></td>
+                            <td><strong>{% trans %}player.show.rankCountry{% endtrans %} :</strong></td>
                             <td><span class="label label-default"># {{ object.getRankCountry() ?? 'N/A' }}</span></td>
                         </tr>
                     </table>
@@ -293,7 +293,7 @@
                                         </div>
                                         <div class="friend-info">
                                             <div class="friend-name">
-                                                <a href="{{ path('vgrcorebundle_player_show', {'id': friend.getId()}) }}">
+                                                <a href="{{ path('vgrcorebundle_admin_player_show', {'id': friend.getId()}) }}">
                                                     {{ friend.getPseudo() }}
                                                 </a>
                                             </div>

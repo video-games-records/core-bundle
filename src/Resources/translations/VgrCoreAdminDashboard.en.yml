@@ -1,0 +1,37 @@
+common:
+  edit: 'Edit'
+  show: 'Show'
+  view: 'View'
+
+proof:
+  dashboard:
+    title: "Proofs by Game"
+    view_all: "View all pending proofs"
+    empty:
+      title: "No pending proofs"
+      message: "Excellent work! All proofs have been processed."
+  status:
+    in_progress: "PENDING"
+
+proof_request:
+  dashboard:
+    title: "Pending Proof Requests"
+    view:
+      all: "View all pending requests"
+    empty:
+      title: "No pending proof requests"
+      message: "Excellent! All requests have been processed."
+  requested_by: "Requested by"
+  player: "Player"
+
+game:
+  dashboard:
+    title: "Games"
+    progress: "Progress"
+    empty:
+      title: "No games found"
+      message: "No games in these statuses currently."
+
+proofrequest:
+  no:
+    game: "Unknown game"

@@ -46,22 +46,23 @@ class CountryAdmin extends AbstractAdmin
     {
         $form
             ->add('codeIso2', TextType::class, [
-                'label' => 'label.country.iso2',
+                'label' => 'country.form.codeIso2',
                 'required' => true,
             ])
             ->add('codeIso3', TextType::class, [
-                'label' => 'label.country.iso3',
+                'label' => 'country.form.codeIso3',
                 'required' => true,
             ])
             ->add('codeIsoNumeric', TextType::class, [
-                'label' => 'label.country.isoNumeric',
+                'label' => 'country.form.codeIsoNumeric',
                 'required' => true,
             ])
             ->add('boolMaj', CheckboxType::class, [
-                'label' => 'label.boolMaj',
+                'label' => 'country.form.boolMaj',
                 'required' => false,
             ])
             ->add('translations', TranslationsType::class, [
+                'label' => 'country.form.translations',
                 'required' => true,
             ]);
     }
@@ -72,7 +73,7 @@ class CountryAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('codeIso3', null, ['label' => 'label.country.iso3']);
+            ->add('codeIso3', null, ['label' => 'country.filter.codeIso3']);
     }
 
     /**
@@ -81,12 +82,12 @@ class CountryAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('codeIso2', null, ['label' => 'label.country.iso2'])
-            ->add('codeIso3', null, ['label' => 'label.country.iso3'])
-            ->add('codeIsoNumeric', null, ['label' => 'label.country.isoNumeric'])
-            ->add('badge', null, ['label' => 'label.badge'])
-            ->add('getDefaultName', null, ['label' => 'label.name.en'])
+            ->addIdentifier('id', null, ['label' => 'country.list.id'])
+            ->add('codeIso2', null, ['label' => 'country.list.codeIso2'])
+            ->add('codeIso3', null, ['label' => 'country.list.codeIso3'])
+            ->add('codeIsoNumeric', null, ['label' => 'country.list.codeIsoNumeric'])
+            ->add('badge', null, ['label' => 'country.list.badge'])
+            ->add('getDefaultName', null, ['label' => 'country.list.name'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -101,10 +102,10 @@ class CountryAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('getName', null, ['label' => 'English name'])
-            ->add('codeIso3', null, ['label' => 'label.country.iso3'])
-            ->add('codeIso2', null, ['label' => 'label.country.iso2'])
-            ->add('codeIsoNumeric', null, ['label' => 'label.country.isoNumeric'])
-            ->add('badge', null, ['label' => 'label.badge']);
+            ->add('getName', null, ['label' => 'country.show.name'])
+            ->add('codeIso3', null, ['label' => 'country.show.codeIso3'])
+            ->add('codeIso2', null, ['label' => 'country.show.codeIso2'])
+            ->add('codeIsoNumeric', null, ['label' => 'country.show.codeIsoNumeric'])
+            ->add('badge', null, ['label' => 'country.show.badge']);
     }
 }

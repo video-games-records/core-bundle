@@ -1,0 +1,63 @@
+proof_accepted:
+  object: 'Prueba aceptada'
+  message: |
+    <p>Hola %s,</p>
+    <p>Tu prueba en la puntuación <a href="%s">%s</a> ha sido aceptada.</p>
+    %s
+    <p>Saludos, equipo VGR.</p>
+
+proof_refused:
+  object: 'Prueba rechazada'
+  message: |
+    <p>Hola %s,</p>
+    <p>Tu prueba en la puntuación <a href="%s">%s</a> ha sido rechazada.</p>
+    %s
+    <p>Saludos, equipo VGR.</p>
+
+proof_request_confirm:
+  object: 'Solicitud de prueba'
+  message: |
+    <p>Hola %s,</p>
+    <p>Un miembro de VGR te ha solicitado una prueba en la siguiente puntuación: <a href="%s">%s</a><br />
+    Si no pruebas tu récord en un plazo de dos semanas, será eliminado del sitio.</p>
+    <p>Saludos, equipo VGR.</p>
+
+proof_request_accepted:
+  object: 'Solicitud de prueba aceptada'
+  message: |
+    <p>Hola %s,</p>
+    <p>Tu solicitud de prueba en la puntuación <a href="%s">%s</a> para el jugador %s ha sido aceptada.</p>
+    %s
+    <p>Saludos, equipo VGR.</p>
+
+proof_request_refused:
+  object: 'Solicitud de prueba rechazada'
+  message: |
+    <p>Hola %s,</p>
+    <p>Tu solicitud de prueba en la puntuación <a href="%s">%s</a> para el jugador %s ha sido rechazada.</p>
+    %s
+    <p>Saludos, equipo VGR.</p>
+
+proof_request_send_refuse: Has alcanzado el límite máximo de %d solicitudes de prueba por día, lo sentimos
+
+player_badge_lost:
+  object: 'Pérdida de master badge de jugador'
+  message: |
+    <p>Hola %s,</p>
+    <p>Acabas de perder el master badge de: <a href="%s">%s</a><br />
+    <p>Saludos, equipo VGR.</p>
+
+team_badge_lost:
+  object: 'Pérdida de master badge de equipo'
+  message: |
+    <p>Hola %s,</p>
+    <p>Tu equipo acaba de perder el master badge de: <a href="%s">%s</a><br />
+    <p>Saludos, equipo VGR.</p>
+
+player_chart_updated:
+  object: 'Puntuación modificada'
+  message: |
+    <p>Hola %s,</p>
+    <p>Tu puntuación en <a href="%s">%s</a> ha sido modificada por un Administrador.<br />
+    <p>Gracias por ser más vigilante al enviar tus puntuaciones en VGR.</p><br />
+    <p>Saludos, equipo VGR.</p>

@@ -1,0 +1,2 @@
+# translations/validators/validators.de.yaml
+video.videoId.not_null: Kann die Website, die das Video hostet, nicht bestimmen (Youtube oder Twitch)

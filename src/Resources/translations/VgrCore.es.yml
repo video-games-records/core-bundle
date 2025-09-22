@@ -1,0 +1,21 @@
+video:
+  type_not_found: "Solo URLs de YouTube y Twitch"
+  youtube:
+    not_found: "Este vídeo de YouTube no existe"
+
+avatar:
+  extension_not_allowed: 'Los formatos permitidos son PNG y JPG'
+  success: "Avatar subido correctamente"
+
+team:
+  request:
+    exists: 'Ya has enviado una solicitud de equipo'
+    has_team: 'Este jugador ya tiene un equipo'
+
+workflow_transitions: 'Flujo de trabajo'
+workflow:
+  transition_add_score: 'Añadir puntuación'
+  transition_add_picture: 'Añadir imagen'
+  transition_completed: 'Completado'
+  transition_activate: 'Activar'
+  transition_desactivate: 'Desactivar'

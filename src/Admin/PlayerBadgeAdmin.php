@@ -36,7 +36,7 @@ class PlayerBadgeAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, [
-                'label' => 'label.id',
+                'label' => 'player_badge.form.id',
                 'attr' => [
                     'readonly' => true,
                 ]
@@ -47,7 +47,7 @@ class PlayerBadgeAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'label.player',
+                'label' => 'player_badge.form.player',
             ])
             ->add('badge', ModelListType::class, [
                 'btn_add' => false,
@@ -55,7 +55,7 @@ class PlayerBadgeAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => true,
-                'label' => 'label.badge',
+                'label' => 'player_badge.form.badge',
             ])
         ;
     }
@@ -69,12 +69,12 @@ class PlayerBadgeAdmin extends AbstractAdmin
             ->add('player', ModelFilter::class, [
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => 'pseudo'],
-                'label' => 'label.player'
+                'label' => 'player_badge.filter.player'
             ])
-            ->add('badge.game.libGameFr', null, ['label' => 'label.game.fr'])
-            ->add('badge.game.libGameEn', null, ['label' => 'label.game.en'])
-            ->add('badge.value', null, ['label' => 'label.value'])
-            ->add('badge.type', null, ['label' => 'label.type']);
+            ->add('badge.game.libGameFr', null, ['label' => 'player_badge.filter.game.fr'])
+            ->add('badge.game.libGameEn', null, ['label' => 'player_badge.filter.game.en'])
+            ->add('badge.value', null, ['label' => 'player_badge.filter.value'])
+            ->add('badge.type', null, ['label' => 'player_badge.filter.type']);
     }
 
     /**
@@ -83,22 +83,22 @@ class PlayerBadgeAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('id', null, ['label' => 'label.id'])
+            ->addIdentifier('id', null, ['label' => 'player_badge.list.id'])
             ->add('player', null, [
                 'associated_property' => 'pseudo',
-                'label' => 'label.player',
+                'label' => 'player_badge.list.player',
             ])
             ->add('badge.type', null, [
-                'label' => 'label.type',
+                'label' => 'player_badge.list.type',
             ])
             ->add('badge.game', null, [
-                'label' => 'label.game',
+                'label' => 'player_badge.list.game',
             ])
             ->add('badge.country', null, [
-                'label' => 'label.country',
+                'label' => 'player_badge.list.country',
             ])
             ->add('badge.value', null, [
-                'label' => 'label.value',
+                'label' => 'player_badge.list.value',
             ])
             ->add('_action', 'actions', [
                 'actions' => [
@@ -114,12 +114,12 @@ class PlayerBadgeAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('player', null, ['label' => 'label.player'])
-            ->add('badge', null, ['label' => 'label.badge'])
-            ->add('badge.type', null, ['label' => 'label.type'])
-            ->add('badge.game', null, ['label' => 'label.game'])
-            ->add('badge.country', null, ['label' => 'label.country'])
-            ->add('badge.value', null, ['label' => 'label.value']);
+            ->add('id', null, ['label' => 'player_badge.show.id'])
+            ->add('player', null, ['label' => 'player_badge.show.player'])
+            ->add('badge', null, ['label' => 'player_badge.show.badge'])
+            ->add('badge.type', null, ['label' => 'player_badge.show.type'])
+            ->add('badge.game', null, ['label' => 'player_badge.show.game'])
+            ->add('badge.country', null, ['label' => 'player_badge.show.country'])
+            ->add('badge.value', null, ['label' => 'player_badge.show.value']);
     }
 }

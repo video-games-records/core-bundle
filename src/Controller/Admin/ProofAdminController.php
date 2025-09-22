@@ -202,18 +202,20 @@ class ProofAdminController extends CRUDController
         $status = $proof->getStatus()->getValue();
         $playerName = $proof->getPlayerChart() ?
             $proof->getPlayerChart()->getPlayer()->getPseudo() :
-            $this->trans('proof.unknown.player');
+            $this->trans('proof.unknown.player', [], 'VgrCoreAdmin');
 
         switch ($status) {
             case ProofStatus::ACCEPTED:
                 return $this->trans(
                     'proof.success.accepted',
-                    ['%player%' => $playerName]
+                    ['%player%' => $playerName],
+                    'VgrCoreAdmin'
                 );
             case ProofStatus::REFUSED:
                 return $this->trans(
                     'proof.success.refused',
-                    ['%player%' => $playerName]
+                    ['%player%' => $playerName],
+                    'VgrCoreAdmin'
                 );
             default:
                 return $this->trans(
@@ -250,7 +252,8 @@ class ProofAdminController extends CRUDController
                         '%game%' => $currentGame->getName(),
                         '%count%' => $remainingCount - 1, // -1 car on vient de traiter une preuve
                         '%next_id%' => $nextProof->getId()
-                    ]
+                    ],
+                    'VgrCoreAdmin'
                 )
             );
 

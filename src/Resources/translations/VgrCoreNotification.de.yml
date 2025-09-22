@@ -1,0 +1,63 @@
+proof_accepted:
+  object: 'Beweis akzeptiert'
+  message: |
+    <p>Hallo %s,</p>
+    <p>Dein Beweis für den Score <a href="%s">%s</a> wurde akzeptiert.</p>
+    %s
+    <p>Mit freundlichen Grüßen, VGR-Team.</p>
+
+proof_refused:
+  object: 'Beweis abgelehnt'
+  message: |
+    <p>Hallo %s,</p>
+    <p>Dein Beweis für den Score <a href="%s">%s</a> wurde abgelehnt.</p>
+    %s
+    <p>Mit freundlichen Grüßen, VGR-Team.</p>
+
+proof_request_confirm:
+  object: 'Beweis-Anfrage'
+  message: |
+    <p>Hallo %s,</p>
+    <p>Ein VGR-Mitglied hat einen Beweis für den folgenden Score angefordert: <a href="%s">%s</a><br />
+    Wenn du deinen Rekord nicht innerhalb von zwei Wochen beweist, wird er von der Seite gelöscht.</p>
+    <p>Mit freundlichen Grüßen, VGR-Team.</p>
+
+proof_request_accepted:
+  object: 'Beweis-Anfrage akzeptiert'
+  message: |
+    <p>Hallo %s,</p>
+    <p>Deine Beweis-Anfrage für den Score <a href="%s">%s</a> für Spieler %s wurde akzeptiert.</p>
+    %s
+    <p>Mit freundlichen Grüßen, VGR-Team.</p>
+
+proof_request_refused:
+  object: 'Beweis-Anfrage abgelehnt'
+  message: |
+    <p>Hallo %s,</p>
+    <p>Deine Beweis-Anfrage für den Score <a href="%s">%s</a> für Spieler %s wurde abgelehnt.</p>
+    %s
+    <p>Mit freundlichen Grüßen, VGR-Team.</p>
+
+proof_request_send_refuse: Du hast das maximale Limit von %d Beweis-Anfragen pro Tag erreicht, entschuldige
+
+player_badge_lost:
+  object: 'Spieler Master Badge verloren'
+  message: |
+    <p>Hallo %s,</p>
+    <p>Du hast gerade das Master Badge verloren: <a href="%s">%s</a><br />
+    <p>Mit freundlichen Grüßen, VGR-Team.</p>
+
+team_badge_lost:
+  object: 'Team Master Badge verloren'
+  message: |
+    <p>Hallo %s,</p>
+    <p>Dein Team hat gerade das Master Badge verloren: <a href="%s">%s</a><br />
+    <p>Mit freundlichen Grüßen, VGR-Team.</p>
+
+player_chart_updated:
+  object: 'Score geändert'
+  message: |
+    <p>Hallo %s,</p>
+    <p>Dein Score auf <a href="%s">%s</a> wurde von einem Administrator geändert.<br />
+    <p>Bitte sei vorsichtiger beim Senden deiner Scores auf VGR.</p><br />
+    <p>Mit freundlichen Grüßen, VGR-Team.</p>
