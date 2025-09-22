@@ -157,8 +157,20 @@ readonly class UpdatePlayerGameRankHandler
         $list = Ranking::order($list, ['pointChart' => SORT_DESC]);
         $list = Ranking::addRank($list, 'rankPointChart', ['pointChart'], true);
         $list = Ranking::calculateGamePoints($list, ['rankPointChart', 'nbEqual'], 'pointGame', 'pointChart');
-        $list = Ranking::order($list, ['chartRank0' => SORT_DESC, 'chartRank1' => SORT_DESC, 'chartRank2' => SORT_DESC, 'chartRank3' => SORT_DESC]);
-        $list = Ranking::addRank($list, 'rankMedal', ['chartRank0', 'chartRank1', 'chartRank2', 'chartRank3', 'chartRank4', 'chartRank5']);
+        $list = Ranking::order(
+            $list,
+            [
+                'chartRank0' => SORT_DESC,
+                'chartRank1' => SORT_DESC,
+                'chartRank2' => SORT_DESC,
+                'chartRank3' => SORT_DESC
+            ]
+        );
+        $list = Ranking::addRank(
+            $list,
+            'rankMedal',
+            ['chartRank0', 'chartRank1', 'chartRank2', 'chartRank3', 'chartRank4', 'chartRank5']
+        );
 
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer([$normalizer]);
@@ -173,6 +185,10 @@ readonly class UpdatePlayerGameRankHandler
 
             $this->em->persist($playerGame);
         }
+
+        //Stats
+        $game->setNbPlayer(count($game->getPlayerGame()));
+
         $this->em->flush();
 
         if ($game->getSerie()) {

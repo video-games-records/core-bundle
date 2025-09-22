@@ -119,6 +119,10 @@ readonly class UpdateTeamGameRankHandler
                 $this->em->persist($teamGame);
             }
         }
+
+        // Stats
+        $game->setNbTeam(count($game->getTeamGame()));;
+
         $this->em->flush();
 
         if ($game->getSerie()) {
