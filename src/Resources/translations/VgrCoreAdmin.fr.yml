@@ -546,6 +546,11 @@ proof:
     awaiting_validation: En attente de validation
     accepted: Acceptée
     refused: Refusée
+    closed: Fermé
+  type:
+    picture: PICTURE
+    video: VIDEO
+    none: NONE
   validated:
     by: Validée par
   refused:
