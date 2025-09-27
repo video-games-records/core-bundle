@@ -121,7 +121,7 @@ readonly class UpdateTeamGameRankHandler
         }
 
         // Stats
-        $game->setNbTeam(count($game->getTeamGame()));
+        $game->setNbTeam(count($list));
 
         $this->em->flush();
 

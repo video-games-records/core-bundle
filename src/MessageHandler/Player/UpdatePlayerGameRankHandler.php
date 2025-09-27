@@ -187,7 +187,7 @@ readonly class UpdatePlayerGameRankHandler
         }
 
         //Stats
-        $game->setNbPlayer(count($game->getPlayerGame()));
+        $game->setNbPlayer(count($list));
 
         $this->em->flush();
 
