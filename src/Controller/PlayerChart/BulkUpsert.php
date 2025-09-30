@@ -1,5 +1,6 @@
 <?php
 
+// src/Controller/PlayerChart/BulkUpsert.php
 declare(strict_types=1);
 
 namespace VideoGamesRecords\CoreBundle\Controller\PlayerChart;
@@ -84,6 +85,15 @@ class BulkUpsert extends AbstractController
 
             // Flush toutes les entités en une fois
             $this->entityManager->flush();
+
+            // Mettre à jour le game.lastScore avec le dernier PlayerChart du tableau
+            if (!empty($playerCharts)) {
+                $lastPlayerChart = end($playerCharts);
+                $game = $lastPlayerChart->getChart()->getGroup()->getGame();
+                $game->setLastScore($lastPlayerChart);
+                $this->entityManager->flush();
+            }
+
             $this->entityManager->getConnection()->commit();
 
             // Envoyer les messages de mise à jour des rangs de manière groupée
@@ -103,7 +113,10 @@ class BulkUpsert extends AbstractController
             ], Response::HTTP_OK);
         } catch (\Exception $e) {
             $this->entityManager->getConnection()->rollBack();
-            return new JsonResponse(['error' => 'Database error: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(
+                ['error' => 'Database error: ' . $e->getMessage()],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
     }
 
@@ -159,7 +172,11 @@ class BulkUpsert extends AbstractController
                     ->findOneBy(['chart' => $chart, 'player' => $player]);
 
                 if ($existingPlayerChart) {
-                    $errors[$index] = sprintf('PlayerChart already exists for player %d and chart %d', $player->getId(), $chart->getId());
+                    $errors[$index] = sprintf(
+                        'PlayerChart already exists for player %d and chart %d',
+                        $player->getId(),
+                        $chart->getId()
+                    );
                     return null;
                 }
 
@@ -177,6 +194,7 @@ class BulkUpsert extends AbstractController
                 return null;
             }
             $playerChart->setStatus($status);
+            $playerChart->setProof();
 
             // Platform optionnelle - gérer les formats API Platform et simples
             if (isset($data['platform'])) {
@@ -236,6 +254,13 @@ class BulkUpsert extends AbstractController
                 if (!empty($errors)) {
                     return null;
                 }
+            }
+
+            // Mettre à jour lastUpdate avec la date du jour et forcer le statut à 1
+            $playerChart->setLastUpdate(new \DateTime());
+            $defaultStatus = $this->entityManager->getRepository(PlayerChartStatus::class)->find(1);
+            if ($defaultStatus) {
+                $playerChart->setStatus($defaultStatus);
             }
 
             // Validation de l'entité
