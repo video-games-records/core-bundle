@@ -70,15 +70,6 @@ class PlayerChartListener
         $this->changeSet = $event->getEntityChangeSet();
         $em = $event->getObjectManager();
 
-        // Update by player
-        if (array_key_exists('lastUpdate', $this->changeSet)) {
-            $playerChart->setStatus($em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL));
-            $game = $playerChart->getChart()->getGroup()->getGame();
-            $game->setLastUpdate(new DateTime());
-            $game->setLastScore($playerChart);
-        }
-
-
         // Move score
         if (array_key_exists('chart', $this->changeSet)) {
             $newChart = $this->changeSet['chart'][1];
