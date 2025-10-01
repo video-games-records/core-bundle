@@ -183,7 +183,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
             uriTemplate: '/players/add-friend',
             status: 200,
             controller: AddFriend::class,
-            openapi: new Model\Operation(
+            /*openapi: new Model\Operation(
                 responses: [
                     '200' => [
                         'description' => 'Friend added successfully',
@@ -226,7 +226,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
                         ]
                     ])
                 )
-            ),
+            ),*/
             security: 'is_granted("ROLE_USER")',
             validate: false
         ),
@@ -238,19 +238,19 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointGameTrait;
                 summary: 'Order master badges for a player',
                 requestBody: new Model\RequestBody(
                     content: new \ArrayObject([
-                        'application/json' => new Model\MediaType(
-                            schema: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
                                 'type' => 'array',
-                                'items' => new \ArrayObject([
+                                'items' => [
                                     'type' => 'object',
-                                    'properties' => new \ArrayObject([
-                                        'id' => new \ArrayObject(['type' => 'integer']),
-                                        'mbOrder' => new \ArrayObject(['type' => 'integer'])
-                                    ]),
+                                    'properties' => [
+                                        'id' => ['type' => 'integer'],
+                                        'mbOrder' => ['type' => 'integer']
+                                    ],
                                     'required' => ['id', 'mbOrder']
-                                ])
-                            ])
-                        )
+                                ]
+                            ]
+                        ]
                     ])
                 )
             )
