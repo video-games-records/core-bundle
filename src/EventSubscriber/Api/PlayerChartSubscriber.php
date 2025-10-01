@@ -39,9 +39,15 @@ class PlayerChartSubscriber implements EventSubscriberInterface
     public function onPlayerChartPreWrite(ViewEvent $event): void
     {
         $controllerResult = $event->getControllerResult();
+        $request = $event->getRequest();
 
         // Vérifier si c'est une entité PlayerChart et une requête PUT
         if (!$controllerResult instanceof PlayerChart) {
+            return;
+        }
+
+        $method = $request->getMethod();
+        if ($method !== Request::METHOD_PUT && $method !== Request::METHOD_POST) {
             return;
         }
 
@@ -49,7 +55,7 @@ class PlayerChartSubscriber implements EventSubscriberInterface
         $controllerResult->setProof(null);
         $defaultStatus = $this->entityManager->getRepository(PlayerChartStatus::class)->find(1);
         if ($defaultStatus) {
-            $controllerResult->setStatus($defaultStatus);
+            //$controllerResult->setStatus($defaultStatus);
         }
 
         // Mettre à jour le game.lastScore
