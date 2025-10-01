@@ -29,13 +29,13 @@ class PlayerChartStatus
 
     private const string DEFAULT_LOCALE = 'en';
 
-    public const ID_STATUS_NORMAL = 1;
-    public const ID_STATUS_DEMAND = 2;
-    public const ID_STATUS_INVESTIGATION = 3;
-    public const ID_STATUS_DEMAND_SEND_PROOF = 4;
-    public const ID_STATUS_NORMAL_SEND_PROOF = 5;
-    public const ID_STATUS_PROOVED = 6;
-    public const ID_STATUS_NOT_PROOVED = 7;
+    public const int ID_STATUS_NORMAL = 1;
+    public const int ID_STATUS_DEMAND = 2;
+    public const int ID_STATUS_INVESTIGATION = 3;
+    public const int ID_STATUS_DEMAND_SEND_PROOF = 4;
+    public const int ID_STATUS_NORMAL_SEND_PROOF = 5;
+    public const int ID_STATUS_PROOVED = 6;
+    public const int ID_STATUS_NOT_PROOVED = 7;
 
 
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]

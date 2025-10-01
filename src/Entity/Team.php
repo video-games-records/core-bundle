@@ -105,19 +105,19 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
                 summary: 'Order master badges for a team',
                 requestBody: new Model\RequestBody(
                     content: new \ArrayObject([
-                        'application/json' => new Model\MediaType(
-                            schema: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
                                 'type' => 'array',
-                                'items' => new \ArrayObject([
+                                'items' => [
                                     'type' => 'object',
-                                    'properties' => new \ArrayObject([
-                                        'id' => new \ArrayObject(['type' => 'integer']),
-                                        'mbOrder' => new \ArrayObject(['type' => 'integer'])
-                                    ]),
+                                    'properties' => [
+                                        'id' => ['type' => 'integer'],
+                                        'mbOrder' => ['type' => 'integer']
+                                    ],
                                     'required' => ['id', 'mbOrder']
-                                ])
-                            ])
-                        )
+                                ]
+                            ]
+                        ]
                     ])
                 )
             )
@@ -149,9 +149,9 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
                     ])
                 ),
                 responses: [
-                    '200' => new Model\Response(
-                        description: 'Operation is successful ?',
-                        content: new \ArrayObject([
+                    '200' => [
+                        'description' => 'Operation is successful ?',
+                        'content' => [
                             'application/json' => [
                                 'schema' => [
                                     'type' => 'object',
@@ -163,8 +163,8 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\RankPointChartTrait;
                                     'message' => 'success'
                                 ]
                             ]
-                        ])
-                    )
+                        ]
+                    ]
                 ],
             )
         ),
