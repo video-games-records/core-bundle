@@ -11,6 +11,7 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\Collection;
@@ -28,6 +29,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\ThumbnailTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\TitleTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\ViewCountTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
+use VideoGamesRecords\CoreBundle\Filter\VideoSearchFilter;
 
 #[ORM\Table(name:'vgr_video')]
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
@@ -55,6 +57,22 @@ use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
         'video:game', 'game:read']
     ]
 )]
+#[ApiResource(
+    uriTemplate: '/players/{id}/videos',
+    uriVariables: [
+        'id' => new Link(fromClass: Player::class, toProperty: 'player'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['video:read', 'video:game', 'game:read']],
+)]
+#[ApiResource(
+    uriTemplate: '/games/{id}/videos',
+    uriVariables: [
+        'id' => new Link(fromClass: Game::class, toProperty: 'game'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['video:read', 'video:player', 'player:read:mini']],
+)]
 #[ApiFilter(
     SearchFilter::class,
     properties: [
@@ -73,6 +91,7 @@ use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
     ]
 )]
 #[ApiFilter(BooleanFilter::class, properties: ['isActive'])]
+#[ApiFilter(VideoSearchFilter::class)]
 class Video
 {
     use TimestampableEntity;
