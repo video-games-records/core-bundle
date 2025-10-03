@@ -9,7 +9,7 @@ VideoGamesRecords\CoreBundle\Entity\VideoComment:
     player:
       groups:
         - 'video-comment:player'
-    text:
+    content:
       groups:
         - 'video-comment:read'
         - 'video-comment:insert'
