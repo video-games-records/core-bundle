@@ -107,6 +107,7 @@ use VideoGamesRecords\CoreBundle\Filter\GameSearchFilter;
             normalizationContext: ['groups' => [
                 'game:read',
                 'game:platforms', 'platform:read',
+                'game:discords', 'discord:read',
                 'game:serie', 'serie:read',
                 'game:rules', 'rule:read',
                 'game:forum', 'forum:read'
@@ -377,6 +378,12 @@ class Game
     #[ORM\OneToMany(targetEntity: TeamGame::class, mappedBy: 'game')]
     private Collection $teamGame;
 
+    /**
+     * @var Collection<int, Discord>
+     */
+    #[ORM\ManyToMany(targetEntity: Discord::class, mappedBy: 'games')]
+    private Collection $discords;
+
 
     public function __construct()
     {
@@ -385,6 +392,7 @@ class Game
         $this->rules = new ArrayCollection();
         $this->playerGame = new ArrayCollection();
         $this->teamGame = new ArrayCollection();
+        $this->discords = new ArrayCollection();
     }
 
     public function __toString()
@@ -589,6 +597,29 @@ class Game
     public function getRules(): Collection
     {
         return $this->rules;
+    }
+
+    /**
+     * @return Collection<int, Discord>
+     */
+    public function getDiscords(): Collection
+    {
+        return $this->discords;
+    }
+
+    public function addDiscord(Discord $discord): void
+    {
+        if (!$this->discords->contains($discord)) {
+            $this->discords->add($discord);
+            $discord->addGame($this);
+        }
+    }
+
+    public function removeDiscord(Discord $discord): void
+    {
+        if ($this->discords->removeElement($discord)) {
+            $discord->removeGame($this);
+        }
     }
 
     public function setType(?GameType $type): void

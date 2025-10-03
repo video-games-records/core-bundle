@@ -44,6 +44,9 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     platforms:
       groups:
         - 'game:platforms'
+    discords:
+      groups:
+        - 'game:discords'
     rules:
       groups:
         - 'game:rules'
