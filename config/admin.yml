@@ -225,6 +225,16 @@ services:
         label: "rule.label"
     calls:
       - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
+  sonata.admin.vgr.discord:
+    class: VideoGamesRecords\CoreBundle\Admin\DiscordAdmin
+    tags:
+      - name: sonata.admin
+        model_class: VideoGamesRecords\CoreBundle\Entity\Discord
+        manager_type: orm
+        group: "group.community"
+        label: "discord.label"
+    calls:
+      - [ setTranslationDomain, [ 'VgrCoreAdmin' ] ]
   sonata.admin.extension.workflow.game_status:
     class: Yokai\SonataWorkflow\Admin\Extension\WorkflowExtension
     arguments:

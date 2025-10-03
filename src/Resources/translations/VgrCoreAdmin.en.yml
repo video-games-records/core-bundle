@@ -778,6 +778,34 @@ breadcrumb:
   link_player_list: 'Player List'
   link_player_badge_create: 'Player/Badge Create'
   link_player_badge_list: 'Player/Badge list'
+  link_discord_create: 'Discord Create'
+  link_discord_list: 'Discord List'
+
+discord:
+  label: Discord
+  form:
+    id: ID
+    name: Name
+    url: URL
+    games: Games
+  filter:
+    id: ID
+    name: Name
+    url: URL
+    games: Games
+  list:
+    id: ID
+    name: Name
+    url: URL
+    games: Games
+    createdAt: Created At
+  show:
+    id: ID
+    name: Name
+    url: URL
+    games: Games
+    createdAt: Created At
+    updatedAt: Updated At
 
 list:
   label__action: 'Action'

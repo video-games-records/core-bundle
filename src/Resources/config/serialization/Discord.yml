@@ -1,0 +1,11 @@
+VideoGamesRecords\CoreBundle\Entity\Discord:
+  attributes:
+    id:
+      groups:
+        - 'discord:read'
+    name:
+      groups:
+        - 'discord:read'
+    url:
+      groups:
+        - 'discord:read'
