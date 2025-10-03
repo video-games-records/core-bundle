@@ -4,12 +4,6 @@ VideoGamesRecords\CoreBundle\Entity\Video:
       groups:
         - 'video:read'
         - 'video:read:minimal'
-    libVideo:
-      groups:
-        - 'video:read'
-        - 'video:read:minimal'
-        - 'video:insert'
-        - 'video:update'
     slug:
       groups:
         - 'video:read'
