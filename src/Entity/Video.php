@@ -76,7 +76,6 @@ use VideoGamesRecords\CoreBundle\Filter\VideoSearchFilter;
 #[ApiFilter(
     SearchFilter::class,
     properties: [
-        'libVideo' => 'partial',
         'game' => 'exact',
         'type' => 'exact',
         'player' => 'exact',
@@ -118,22 +117,18 @@ class Video
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $url = null;
 
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 5, max: 255)]
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $libVideo;
 
     #[ORM\Column(nullable: false, options: ['default' => 0])]
     private int $nbComment = 0;
 
     #[ORM\Column(length: 255)]
-    #[Gedmo\Slug(fields: ['libVideo'])]
+    #[Gedmo\Slug(fields: ['title'])]
     protected string $slug;
 
 
     #[ORM\ManyToOne(targetEntity: Game::class)]
     #[ORM\JoinColumn(name:'game_id', referencedColumnName:'id', nullable:true, onDelete: 'SET NULL')]
-    private ?Game $game;
+    private ?Game $game = null;
 
     /**
      * @var Collection<int, VideoComment>
@@ -182,15 +177,6 @@ class Video
         return $this->externalId;
     }
 
-    public function setLibVideo(string $libVideo): void
-    {
-        $this->libVideo = $libVideo;
-    }
-
-    public function getLibVideo(): string
-    {
-        return $this->libVideo;
-    }
 
     public function setUrl(?string $url): void
     {
@@ -268,6 +254,6 @@ class Video
 
     public function getSluggableFields(): array
     {
-        return ['libVideo'];
+        return ['title'];
     }
 }

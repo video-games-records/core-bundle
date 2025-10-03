@@ -34,10 +34,7 @@ class VideoSearchFilter extends AbstractFilter
         $queryBuilder
             ->andWhere($queryBuilder->expr()->andX(
                 $queryBuilder->expr()->eq("$alias.isActive", ':isActive'),
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->like("LOWER($alias.libVideo)", "LOWER(:$parameterName)"),
-                    $queryBuilder->expr()->like("LOWER($alias.title)", "LOWER(:$parameterName)"),
-                )
+                $queryBuilder->expr()->like("LOWER($alias.title)", "LOWER(:$parameterName)")
             ))
             ->setParameter($parameterName, '%' . $value . '%')
             ->setParameter('isActive', true);
@@ -50,7 +47,7 @@ class VideoSearchFilter extends AbstractFilter
                 'property' => 'search',
                 'type' => 'string',
                 'required' => false,
-                'description' => 'Recherche dans les titres et noms de vidéos',
+                'description' => 'Recherche dans les titres de vidéos',
                 'openapi' => [
                     'example' => 'speedrun',
                     'allowReserved' => false,

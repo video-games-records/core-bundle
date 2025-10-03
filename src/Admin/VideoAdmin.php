@@ -63,7 +63,7 @@ class VideoAdmin extends AbstractAdmin
                 'btn_catalogue' => true,
                 'label' => 'video.form.game',
             ])
-            ->add('libVideo', TextType::class, [
+            ->add('title', TextType::class, [
                 'label' => 'video.form.name',
                 'required' => true,
             ])
@@ -117,7 +117,6 @@ class VideoAdmin extends AbstractAdmin
                 'associated_property' => 'libGameEn',
                 'label' => 'video.list.game',
             ])
-            ->add('libVideo', null, ['label' => 'video.list.name'])
             ->add('title', null, ['label' => 'video.list.title'])
             ->add('type', null, ['label' => 'video.list.type'])
             ->add('externalId', null, ['label' => 'video.list.videoId'])
@@ -147,7 +146,6 @@ class VideoAdmin extends AbstractAdmin
     {
         $show->add('id', null, ['label' => 'video.show.id'])
             ->add('isActive', null, ['label' => 'video.show.isActive'])
-            ->add('libVideo', null, ['label' => 'video.show.name'])
             ->add('player', null, ['label' => 'video.show.player'])
             ->add('game', null, ['label' => 'video.show.game'])
             ->add('url', null, ['label' => 'video.show.url'])
