@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -136,6 +137,19 @@ class Video
     #[ORM\OneToMany(targetEntity: VideoComment::class, mappedBy: 'video')]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class)]
+    #[ORM\JoinTable(name: 'vgr_video_tag')]
+    private Collection $tags;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
+
     public function __toString()
     {
         return sprintf('Video [%s]', $this->id);
@@ -217,6 +231,25 @@ class Video
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tags->removeElement($tag);
+        return $this;
     }
 
     /**

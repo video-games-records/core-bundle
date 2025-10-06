@@ -807,5 +807,28 @@ discord:
     createdAt: Created At
     updatedAt: Updated At
 
+tag:
+  label: Tags
+  form:
+    id: ID
+    name: Name
+    category: Category
+    is_official: Official
+  filter:
+    id: ID
+    name: Name
+    category: Category
+    is_official: Official
+  list:
+    id: ID
+    name: Name
+    category: Category
+    is_official: Official
+  show:
+    id: ID
+    name: Name
+    category: Category
+    is_official: Official
+
 list:
   label__action: 'Action'

@@ -47,6 +47,10 @@ class GameListener
     public function preUpdate(Game $game, PreUpdateEventArgs $event): void
     {
         $this->changeSet = $event->getEntityChangeSet();
+
+        if ($game->getGameStatus()->isActive() && ($game->getPublishedAt() == null)) {
+            $game->setPublishedAt(new DateTime());
+        }
     }
 
     /**
