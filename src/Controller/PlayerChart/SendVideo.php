@@ -70,7 +70,6 @@ class SendVideo extends AbstractController
                 $video->setUrl($url);
                 $video->setPlayer($player);
                 $video->setGame($playerChart->getChart()->getGroup()->getGame());
-                $video->setLibVideo($playerChart->getChart()->getCompleteName('en'));
                 $this->em->persist($video);
             }
 
