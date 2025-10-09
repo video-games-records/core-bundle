@@ -360,6 +360,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
     uriVariables: [
         'id' => new Link(toProperty: 'player', fromClass: Player::class),
     ],
+    paginationEnabled: false,
     normalizationContext: ['groups' =>
         [ 'player-chart:read',
           'player-chart:libs', 'player-chart-lib:read',
@@ -371,7 +372,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbEqualTrait;
           'proof:picture', 'picture:read',
           'proof:video', 'video:read',]
     ],
-    order: ['lastUpdate' => 'DESC'],
+    order: ['chart.id' => 'ASC'],
 )]
 class PlayerChart
 {
