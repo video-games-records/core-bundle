@@ -12,6 +12,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use VideoGamesRecords\CoreBundle\Entity\Game;
+use VideoGamesRecords\IgdbBundle\Entity\Game as IgdbGame;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
 
 class GameRepository extends DefaultRepository
@@ -278,5 +279,194 @@ class GameRepository extends DefaultRepository
     {
         $column = ($locale == 'fr') ? 'libGameFr' : 'libGameEn';
         $query->orderBy("g.$column", 'ASC');
+    }
+
+    // IGDB Mapping Methods
+
+    /**
+     * Find IGDB Game entity for a VGR Game ID
+     */
+    public function findIgdbGame(int $vgrGameId): ?IgdbGame
+    {
+        try {
+            return $this->createQueryBuilder('g')
+                ->select('g, ig')
+                ->leftJoin('g.igdbGame', 'ig')
+                ->where('g.id = :id')
+                ->setParameter('id', $vgrGameId)
+                ->getQuery()
+                ->getSingleResult()
+                ?->getIgdbGame();
+        } catch (NoResultException|NonUniqueResultException) {
+            return null;
+        }
+    }
+
+    /**
+     * Find IGDB ID for a VGR Game ID
+     */
+    public function findIgdbId(int $vgrGameId): ?int
+    {
+        return $this->findIgdbGame($vgrGameId)?->getId();
+    }
+
+    /**
+     * Find VGR Game by IGDB Game entity
+     */
+    public function findVgrGameByIgdbGame(IgdbGame $igdbGame): ?Game
+    {
+        try {
+            return $this->createQueryBuilder('g')
+                ->where('g.igdbGame = :igdbGame')
+                ->setParameter('igdbGame', $igdbGame)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException|NonUniqueResultException) {
+            return null;
+        }
+    }
+
+    /**
+     * Find VGR Game ID by IGDB ID
+     */
+    public function findVgrIdByIgdbId(int $igdbGameId): ?int
+    {
+        try {
+            $result = $this->createQueryBuilder('g')
+                ->select('g.id')
+                ->leftJoin('g.igdbGame', 'ig')
+                ->where('ig.id = :igdbId')
+                ->setParameter('igdbId', $igdbGameId)
+                ->getQuery()
+                ->getSingleScalarResult();
+            
+            return $result ? (int) $result : null;
+        } catch (NoResultException|NonUniqueResultException) {
+            return null;
+        }
+    }
+
+    /**
+     * Find all VGR Game IDs that have IGDB mappings
+     */
+    public function findVgrIdsWithIgdbMapping(): array
+    {
+        $results = $this->createQueryBuilder('g')
+            ->select('g.id')
+            ->where('g.igdbGame IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+
+        return array_column($results, 'id');
+    }
+
+    /**
+     * Find all IGDB Game IDs that are mapped from VGR
+     */
+    public function findMappedIgdbIds(): array
+    {
+        $results = $this->createQueryBuilder('g')
+            ->select('ig.id')
+            ->leftJoin('g.igdbGame', 'ig')
+            ->where('g.igdbGame IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+
+        return array_column($results, 'id');
+    }
+
+    /**
+     * Update IGDB Game for a VGR Game
+     */
+    public function updateIgdbGame(int $vgrGameId, ?IgdbGame $igdbGame): bool
+    {
+        try {
+            $game = $this->find($vgrGameId);
+            if (!$game) {
+                return false;
+            }
+
+            $game->setIgdbGame($igdbGame);
+            $this->getEntityManager()->flush();
+
+            return true;
+        } catch (Exception) {
+            return false;
+        }
+    }
+
+    /**
+     * Update IGDB ID for a VGR Game (compatibility method)
+     */
+    public function updateIgdbId(int $vgrGameId, ?int $igdbGameId): bool
+    {
+        try {
+            $igdbGame = null;
+            if ($igdbGameId !== null) {
+                $igdbGame = $this->getEntityManager()
+                    ->getRepository(IgdbGame::class)
+                    ->find($igdbGameId);
+                
+                if (!$igdbGame) {
+                    return false; // IGDB Game not found
+                }
+            }
+
+            return $this->updateIgdbGame($vgrGameId, $igdbGame);
+        } catch (Exception) {
+            return false;
+        }
+    }
+
+    /**
+     * Get IGDB mapping statistics
+     */
+    public function getIgdbMappingStats(): array
+    {
+        try {
+            $total = $this->createQueryBuilder('g')
+                ->select('COUNT(g.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            $mapped = $this->createQueryBuilder('g')
+                ->select('COUNT(g.id)')
+                ->where('g.igdbGame IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            $unmapped = $total - $mapped;
+            $coverage = $total > 0 ? round(($mapped / $total) * 100, 2) : 0;
+
+            return [
+                'total' => (int) $total,
+                'mapped' => (int) $mapped,
+                'unmapped' => (int) $unmapped,
+                'coverage' => $coverage
+            ];
+        } catch (Exception) {
+            return [
+                'total' => 0,
+                'mapped' => 0,
+                'unmapped' => 0,
+                'coverage' => 0
+            ];
+        }
+    }
+
+    /**
+     * Batch update IGDB mappings
+     */
+    public function batchUpdateIgdbMappings(array $mappings): int
+    {
+        $updated = 0;
+        
+        foreach ($mappings as $vgrGameId => $igdbGameId) {
+            if ($this->updateIgdbId($vgrGameId, $igdbGameId)) {
+                $updated++;
+            }
+        }
+
+        return $updated;
     }
 }

@@ -37,6 +37,7 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbTeamTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbVideoTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\PictureTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
+use VideoGamesRecords\IgdbBundle\Entity\Game as IgdbGame;
 use VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingPoints as PlayerGetRankingPoints;
 use VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingMedals as PlayerGetRankingMedals;
 use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGetRankingPoints;
@@ -318,6 +319,9 @@ class Game
     #[ORM\Column(nullable: true)]
     private ?DateTime $publishedAt = null;
 
+    #[ORM\ManyToOne(targetEntity: IgdbGame::class)]
+    #[ORM\JoinColumn(name:'igdb_game_id', referencedColumnName:'id', nullable:true)]
+    private ?IgdbGame $igdbGame = null;
 
     #[ORM\ManyToOne(targetEntity: Serie::class, inversedBy: 'games')]
     #[ORM\JoinColumn(name:'serie_id', referencedColumnName:'id', nullable:true)]
@@ -487,6 +491,21 @@ class Game
     public function getPublishedAt(): ?DateTime
     {
         return $this->publishedAt;
+    }
+
+    public function setIgdbGame(?IgdbGame $igdbGame): void
+    {
+        $this->igdbGame = $igdbGame;
+    }
+
+    public function getIgdbGame(): ?IgdbGame
+    {
+        return $this->igdbGame;
+    }
+
+    public function getIgdbId(): ?int
+    {
+        return $this->igdbGame?->getId();
     }
 
     public function setSerie(?Serie $serie = null): void
