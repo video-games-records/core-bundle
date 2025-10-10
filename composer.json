@@ -42,6 +42,7 @@
         "symfony/twig-bundle": "^6.4 | ^7.2",
         "symfony/validator": "^6.4 | ^7.2",
         "symfony/yaml": "^6.4 | ^7.2",
+        "video-games-records/igdb-bundle": "dev-main",
         "webmozart/assert": "*",
         "yokai/sonata-workflow": "*"
     },
@@ -85,7 +86,8 @@
             "@lint:phpstan"
         ],
         "auto-scripts": {
-
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
     }
 }
