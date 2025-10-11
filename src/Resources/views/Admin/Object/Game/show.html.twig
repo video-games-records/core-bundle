@@ -50,13 +50,6 @@
                                         </span>
                                     {% endif %}
 
-                                    {% if object.getType() %}
-                                        <span class="meta-item">
-                                            <i class="fa fa-tag"></i>
-                                            <strong>{% trans %}game.show.type{% endtrans %} :</strong> {{ object.getType() }}
-                                        </span>
-                                    {% endif %}
-
                                     {% if object.getPublishedAt() %}
                                         <span class="meta-item">
                                             <i class="fa fa-calendar"></i>
@@ -189,12 +182,6 @@
                             <tr>
                                 <td><strong>{% trans %}game.show.serie{% endtrans %} :</strong></td>
                                 <td>{{ object.getSerie().getLibSerie() }}</td>
-                            </tr>
-                        {% endif %}
-                        {% if object.getType() %}
-                            <tr>
-                                <td><strong>{% trans %}game.show.type{% endtrans %} :</strong></td>
-                                <td>{{ object.getType() }}</td>
                             </tr>
                         {% endif %}
                         {% if object.getPublishedAt() %}

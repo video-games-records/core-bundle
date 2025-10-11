@@ -23,14 +23,6 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     publishedAt:
       groups:
         - 'game:read'
-    igdbId:
-      groups:
-        - 'game:read'
-        - 'game:igdb'
-    igdbGame:
-      groups:
-        - 'game:igdb'
-        - 'game:igdb:full'
     isRank:
       groups:
         - 'game:read'
@@ -52,6 +44,12 @@ VideoGamesRecords\CoreBundle\Entity\Game:
     platforms:
       groups:
         - 'game:platforms'
+    genres:
+      groups:
+        - 'game:genres'
+    releaseDate:
+      groups:
+        - 'game:read'
     discords:
       groups:
         - 'game:discords'
