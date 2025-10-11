@@ -297,7 +297,7 @@ class GameRepository extends DefaultRepository
                 ->getQuery()
                 ->getSingleResult()
                 ?->getIgdbGame();
-        } catch (NoResultException|NonUniqueResultException) {
+        } catch (NoResultException | NonUniqueResultException) {
             return null;
         }
     }
@@ -321,7 +321,7 @@ class GameRepository extends DefaultRepository
                 ->setParameter('igdbGame', $igdbGame)
                 ->getQuery()
                 ->getSingleResult();
-        } catch (NoResultException|NonUniqueResultException) {
+        } catch (NoResultException | NonUniqueResultException) {
             return null;
         }
     }
@@ -339,9 +339,9 @@ class GameRepository extends DefaultRepository
                 ->setParameter('igdbId', $igdbGameId)
                 ->getQuery()
                 ->getSingleScalarResult();
-            
+
             return $result ? (int) $result : null;
-        } catch (NoResultException|NonUniqueResultException) {
+        } catch (NoResultException | NonUniqueResultException) {
             return null;
         }
     }
@@ -406,7 +406,7 @@ class GameRepository extends DefaultRepository
                 $igdbGame = $this->getEntityManager()
                     ->getRepository(IgdbGame::class)
                     ->find($igdbGameId);
-                
+
                 if (!$igdbGame) {
                     return false; // IGDB Game not found
                 }
@@ -460,7 +460,7 @@ class GameRepository extends DefaultRepository
     public function batchUpdateIgdbMappings(array $mappings): int
     {
         $updated = 0;
-        
+
         foreach ($mappings as $vgrGameId => $igdbGameId) {
             if ($this->updateIgdbId($vgrGameId, $igdbGameId)) {
                 $updated++;

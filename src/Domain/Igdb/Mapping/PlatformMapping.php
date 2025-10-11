@@ -103,5 +103,4 @@ class PlatformMapping extends AbstractMapping
     {
         return self::VGR_TO_IGDB_MAPPING;
     }
-
 }

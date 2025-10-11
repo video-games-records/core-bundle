@@ -76,7 +76,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
      */
     protected function configureExportFields(): array
     {
-        return ['id', 'libGameEn', 'libGameFr', 'serie', 'type', 'status', 'picture', 'platforms'];
+        return ['id', 'libGameEn', 'libGameFr', 'serie', 'status', 'picture', 'platforms'];
     }
 
 
@@ -96,10 +96,6 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'label' => 'game.form.serie',
                 'required' => false,
                 'btn_add' => false,
-            ])
-            ->add('type', null, [
-                'label' => 'game.form.type',
-                'required' => false,
             ])
             ->add('libGameEn', TextType::class, [
                 'label' => 'game.form.name.en',
@@ -171,6 +167,14 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'expanded' => false,
                 'label' => 'game.form.rules'
             ])
+            ->add('igdbGame', ModelListType::class, [
+                'btn_add' => false,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => false,
+                'btn_catalogue' => true,
+                'label' => 'game.form.igdb_game',
+            ])
             ->end()
 
             // Plateformes - 2ème colonne des associations
@@ -239,7 +243,11 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
                 'field_options' => ['property' => 'libSerie'],
                 'label' => 'game.filter.serie'
             ])
-            ->add('type', null, ['label' => 'game.filter.type'])
+            ->add('igdbGame', ModelFilter::class, [
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property' => 'name'],
+                'label' => 'game.filter.igdb_game'
+            ])
             ->add('libGameEn', null, ['label' => 'game.filter.name.en'])
             ->add('libGameFr', null, ['label' => 'game.filter.name.fr'])
             ->add('nbChart', null, ['label' => 'game.filter.nbChart'])
@@ -292,7 +300,6 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
             ->addIdentifier('id', null, ['label' => 'game.list.id'])
             ->add('libGameEn', null, ['label' => 'game.list.game.en', 'editable' => true])
             ->add('libGameFr', null, ['label' => 'game.list.game.fr', 'editable' => true])
-            ->add('type', null, ['label' => 'game.list.type'])
             ->add('platforms', null, ['label' => 'game.list.platforms'])
             ->add(
                 'picture',
@@ -342,7 +349,7 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
             ->add('id', null, ['label' => 'game.show.id'])
             ->add('libGameEn', null, ['label' => 'game.show.name.en'])
             ->add('libGameFr', null, ['label' => 'game.show.name.fr'])
-            ->add('type', null, ['label' => 'game.show.type'])
+            ->add('igdbGame', null, ['label' => 'game.show.igdb_game'])
             ->add('platforms', null, ['label' => 'game.show.platforms'])
             ->add('nbChart', null, ['label' => 'game.show.nbChart'])
             ->add('nbVideo', null, ['label' => 'game.show.nbVideo'])

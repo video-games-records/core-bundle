@@ -43,6 +43,7 @@ use VideoGamesRecords\CoreBundle\Controller\Game\Player\GetRankingMedals as Play
 use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGetRankingPoints;
 use VideoGamesRecords\CoreBundle\Controller\Game\Team\GetRankingPoints as TeamGetRankingMedals;
 use VideoGamesRecords\CoreBundle\Filter\GameSearchFilter;
+use VideoGamesRecords\IgdbBundle\Contract\GameInfoInterface;
 
 #[ORM\Table(name:'vgr_game')]
 #[ORM\Entity(repositoryClass: GameRepository::class)]
@@ -111,7 +112,9 @@ use VideoGamesRecords\CoreBundle\Filter\GameSearchFilter;
                 'game:discords', 'discord:read',
                 'game:serie', 'serie:read',
                 'game:rules', 'rule:read',
-                'game:forum', 'forum:read'
+                'game:forum', 'forum:read',
+                'game:igdb-game', 'igdb-game:read',
+                'game:genres', 'igdb-genre:read'
                 ]
             ]
         ),
@@ -236,7 +239,7 @@ use VideoGamesRecords\CoreBundle\Filter\GameSearchFilter;
             ]*/
         ),
     ],
-    normalizationContext: ['groups' => ['game:read', 'game:platforms', 'platform:read', 'game:type', 'game-type:read']],
+    normalizationContext: ['groups' => ['game:read', 'game:platforms', 'platform:read', 'game:genres', 'igdb-genre:read']],
 )]
 #[ApiResource(
     uriTemplate: '/platforms/{id}/games',
@@ -285,7 +288,7 @@ use VideoGamesRecords\CoreBundle\Filter\GameSearchFilter;
 )]
 #[ApiFilter(DateFilter::class, properties: ['publishedAt' => DateFilterInterface::INCLUDE_NULL_BEFORE_AND_AFTER])]
 #[ApiFilter(GameSearchFilter::class)]
-class Game
+class Game implements GameInfoInterface
 {
     use TimestampableEntity;
     use NbChartTrait;
@@ -331,10 +334,6 @@ class Game
     #[ORM\OneToOne(targetEntity: Badge::class, cascade: ['persist'], inversedBy: 'game')]
     #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:true)]
     private ?Badge $badge = null;
-
-    #[ORM\ManyToOne(targetEntity: GameType::class, inversedBy: 'games')]
-    #[ORM\JoinColumn(name:'type_id', referencedColumnName:'id', nullable:true)]
-    private ?GameType $type = null;
 
     /**
      * @var Collection<int, Group>
@@ -409,7 +408,7 @@ class Game
         return $this->libGameEn;
     }
 
-    public function getName(?string $locale = null): ?string
+    public function getName(?string $locale = null): string
     {
         if ($locale === null) {
             $locale = Locale::getDefault();
@@ -641,13 +640,32 @@ class Game
         }
     }
 
-    public function setType(?GameType $type): void
+    public function getGenres(): Collection
     {
-        $this->type = $type;
+        return $this->igdbGame?->getGenres() ?? new ArrayCollection();
     }
 
-    public function getType(): ?GameType
+    public function getReleaseDate(): ?DateTime
     {
-        return $this->type;
+        $timestamp = $this->igdbGame?->getFirstReleaseDate();
+        if ($timestamp === null) {
+            return null;
+        }
+
+        try {
+            return new DateTime('@' . $timestamp);
+        } catch (\Exception) {
+            return null;
+        }
+    }
+
+    public function getSummary(): ?string
+    {
+        return $this->igdbGame?->getSummary();
+    }
+
+    public function getStoryline(): ?string
+    {
+        return $this->igdbGame?->getStoryline();
     }
 }
