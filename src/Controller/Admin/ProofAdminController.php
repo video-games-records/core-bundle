@@ -18,6 +18,30 @@ class ProofAdminController extends CRUDController
     }
 
     /**
+     * @return Response
+     */
+    public function statsAction(): Response
+    {
+        $stats = $this->em->getRepository('VideoGamesRecords\CoreBundle\Entity\Player')->getProofStats();
+
+        // Formatage
+        $months = [];
+
+
+        // MONTH
+        foreach ($stats as $row) {
+            $months[$row['month']][] = $row;
+        }
+
+        return $this->render(
+            '@VideoGamesRecordsCore/Admin/Object/Proof/stats.html.twig',
+            [
+                'stats' => $months,
+            ]
+        );
+    }
+
+    /**
      * Action d'édition personnalisée pour gérer la validation des preuves
      */
     public function editAction(Request $request): Response
