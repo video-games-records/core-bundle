@@ -1,0 +1,2 @@
+# translations/validators/validators.zh-cn.yaml
+video.videoId.not_null: 无法确定托管视频的网站（YouTube或Twitch）

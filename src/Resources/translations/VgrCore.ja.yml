@@ -19,3 +19,6 @@ workflow:
   transition_completed: '完了'
   transition_activate: 'アクティブ化'
   transition_desactivate: '無効化'
+
+playerChart:
+  bulk_upsert_success: '%total%スコアが正常に処理されました（%created%作成、%updated%更新）'

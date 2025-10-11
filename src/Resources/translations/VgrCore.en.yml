@@ -19,3 +19,6 @@ workflow:
   transition_completed: 'Completed'
   transition_activate: 'Activate'
   transition_desactivate: 'Desactivate'
+
+playerChart:
+  bulk_upsert_success: '%total% scores processed successfully (%created% created, %updated% updated)'

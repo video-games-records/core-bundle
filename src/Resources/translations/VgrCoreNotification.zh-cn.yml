@@ -1,0 +1,61 @@
+proof_accepted:
+  object: '证明已接受'
+  message: |
+    <p>您好 %s，</p>
+    <p>您在分数 <a href="%s">%s</a> 上的证明已被接受。</p>
+    %s
+    <p>此致敬礼，VGR团队。</p>
+
+proof_refused:
+  object: '证明被拒绝'
+  message: |
+    <p>您好 %s，</p>
+    <p>您在分数 <a href="%s">%s</a> 上的证明被拒绝。</p>
+    %s
+    <p>此致敬礼，VGR团队。</p>
+
+proof_request_confirm:
+  object: '证明请求'
+  message: |
+    <p>您好 %s，</p>
+    <p>VGR成员要求您为以下分数提供证明：<a href="%s">%s</a><br />
+    如果您在2周内不证明您的记录，它将从网站中删除。</p>
+    <p>此致敬礼，VGR团队。</p>
+
+proof_request_accepted:
+  object: '证明请求已接受'
+  message: |
+    <p>您好 %s，</p>
+    <p>您对玩家 %s 分数 <a href="%s">%s</a> 的证明请求已被接受。</p>
+    %s
+    <p>此致敬礼，VGR团队。</p>
+
+proof_request_refused:
+  object: '证明请求被拒绝'
+  message: |
+    <p>您好 %s，</p>
+    <p>您对玩家 %s 分数 <a href="%s">%s</a> 的证明请求被拒绝。</p>
+    %s
+    <p>此致敬礼，VGR团队。</p>
+
+player_badge_lost:
+  object: '玩家大师徽章丢失'
+  message: |
+    <p>您好 %s，</p>
+    <p>您刚刚失去了以下项目的大师徽章：<a href="%s">%s</a><br />
+    <p>此致敬礼，VGR团队。</p>
+
+team_badge_lost:
+  object: '团队大师徽章丢失'
+  message: |
+    <p>您好 %s，</p>
+    <p>您的团队刚刚失去了以下项目的大师徽章：<a href="%s">%s</a><br />
+    <p>此致敬礼，VGR团队。</p>
+
+player_chart_updated:
+  object: '分数已更新'
+  message: |
+    <p>您好 %s，</p>
+    <p>您在 <a href="%s">%s</a> 上的分数已被管理员修改。<br />
+    <p>感谢您在VGR上发送分数时更加仔细。</p><br />
+    <p>此致敬礼，VGR团队。</p>

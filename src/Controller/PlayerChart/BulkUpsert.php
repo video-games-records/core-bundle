@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Player;
@@ -29,17 +30,20 @@ class BulkUpsert extends AbstractController
     private SerializerInterface $serializer;
     private ValidatorInterface $validator;
     private MessageBusInterface $messageBus;
+    private TranslatorInterface $translator;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         SerializerInterface $serializer,
         ValidatorInterface $validator,
-        MessageBusInterface $messageBus
+        MessageBusInterface $messageBus,
+        TranslatorInterface $translator
     ) {
         $this->entityManager = $entityManager;
         $this->serializer = $serializer;
         $this->validator = $validator;
         $this->messageBus = $messageBus;
+        $this->translator = $translator;
     }
 
     public function __invoke(Request $request): JsonResponse
@@ -100,11 +104,10 @@ class BulkUpsert extends AbstractController
             $this->dispatchRankingMessages($chartIds);
 
             return new JsonResponse([
-                'message' => sprintf(
-                    '%d player charts processed successfully (%d created, %d updated)',
-                    count($playerCharts),
-                    $createdCount,
-                    $updatedCount
+                'message' => $this->translator->trans(
+                    'playerChart.bulk_upsert_success',
+                    ['%total%' => count($playerCharts), '%created%' => $createdCount, '%updated%' => $updatedCount],
+                    'VgrCore'
                 ),
                 'created' => $createdCount,
                 'updated' => $updatedCount,

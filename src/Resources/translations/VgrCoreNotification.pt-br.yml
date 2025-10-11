@@ -1,0 +1,61 @@
+proof_accepted:
+  object: 'Prova aceita'
+  message: |
+    <p>Olá %s,</p>
+    <p>Sua prova para a pontuação <a href="%s">%s</a> foi aceita.</p>
+    %s
+    <p>Atenciosamente, Equipe VGR.</p>
+
+proof_refused:
+  object: 'Prova recusada'
+  message: |
+    <p>Olá %s,</p>
+    <p>Sua prova para a pontuação <a href="%s">%s</a> foi recusada.</p>
+    %s
+    <p>Atenciosamente, Equipe VGR.</p>
+
+proof_request_confirm:
+  object: 'Solicitação de prova'
+  message: |
+    <p>Olá %s,</p>
+    <p>Um membro VGR solicitou uma prova para a seguinte pontuação: <a href="%s">%s</a><br />
+    Se você não provar seu recorde em 2 semanas, ele será excluído do site.</p>
+    <p>Atenciosamente, Equipe VGR.</p>
+
+proof_request_accepted:
+  object: 'Solicitação de prova aceita'
+  message: |
+    <p>Olá %s,</p>
+    <p>Sua solicitação de prova para a pontuação <a href="%s">%s</a> do jogador %s foi aceita.</p>
+    %s
+    <p>Atenciosamente, Equipe VGR.</p>
+
+proof_request_refused:
+  object: 'Solicitação de prova recusada'
+  message: |
+    <p>Olá %s,</p>
+    <p>Sua solicitação de prova para a pontuação <a href="%s">%s</a> do jogador %s foi recusada.</p>
+    %s
+    <p>Atenciosamente, Equipe VGR.</p>
+
+player_badge_lost:
+  object: 'Emblema Master do jogador perdido'
+  message: |
+    <p>Olá %s,</p>
+    <p>Você acabou de perder o emblema master de: <a href="%s">%s</a><br />
+    <p>Atenciosamente, Equipe VGR.</p>
+
+team_badge_lost:
+  object: 'Emblema Master da equipe perdido'
+  message: |
+    <p>Olá %s,</p>
+    <p>Sua equipe acabou de perder o emblema master de: <a href="%s">%s</a><br />
+    <p>Atenciosamente, Equipe VGR.</p>
+
+player_chart_updated:
+  object: 'Pontuação atualizada'
+  message: |
+    <p>Olá %s,</p>
+    <p>Sua pontuação em <a href="%s">%s</a> foi modificada por um Administrador.<br />
+    <p>Obrigado por ser mais cuidadoso ao enviar suas pontuações no VGR.</p><br />
+    <p>Atenciosamente, Equipe VGR.</p>

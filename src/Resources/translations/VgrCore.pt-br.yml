@@ -1,0 +1,24 @@
+video:
+  type_not_found: "Apenas URLs do YouTube e Twitch"
+  youtube:
+    not_found: "Este vídeo do YouTube não existe"
+
+avatar:
+  extension_not_allowed: 'Os formatos permitidos são PNG e JPG'
+  success: "Avatar enviado com sucesso"
+
+team:
+  request:
+    exists: 'Você já solicitou um time'
+    has_team: 'Este jogador já tem um time'
+
+workflow_transitions: 'Fluxo de trabalho'
+workflow:
+  transition_add_score: 'Adicionar pontuação'
+  transition_add_picture: 'Adicionar imagem'
+  transition_completed: 'Concluído'
+  transition_activate: 'Ativar'
+  transition_desactivate: 'Desativar'
+
+playerChart:
+  bulk_upsert_success: '%total% pontuações processadas com sucesso (%created% criadas, %updated% atualizadas)'
