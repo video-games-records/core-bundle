@@ -1,0 +1,2 @@
+# translations/validators/validators.pt-br.yaml
+video.videoId.not_null: Não é possível determinar o site que hospeda o vídeo (YouTube ou Twitch)

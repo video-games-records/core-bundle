@@ -1,0 +1,61 @@
+proof_accepted:
+  object: 'Prova accettata'
+  message: |
+    <p>Ciao %s,</p>
+    <p>La tua prova per il punteggio <a href="%s">%s</a> è stata accettata.</p>
+    %s
+    <p>Cordiali saluti, Team VGR.</p>
+
+proof_refused:
+  object: 'Prova rifiutata'
+  message: |
+    <p>Ciao %s,</p>
+    <p>La tua prova per il punteggio <a href="%s">%s</a> è stata rifiutata.</p>
+    %s
+    <p>Cordiali saluti, Team VGR.</p>
+
+proof_request_confirm:
+  object: 'Richiesta di prova'
+  message: |
+    <p>Ciao %s,</p>
+    <p>Un membro VGR ti ha richiesto una prova per il seguente punteggio: <a href="%s">%s</a><br />
+    Se non fornisci una prova del tuo record entro 2 settimane, verrà cancellato dal sito.</p>
+    <p>Cordiali saluti, Team VGR.</p>
+
+proof_request_accepted:
+  object: 'Richiesta di prova accettata'
+  message: |
+    <p>Ciao %s,</p>
+    <p>La tua richiesta di prova per il punteggio <a href="%s">%s</a> del giocatore %s è stata accettata.</p>
+    %s
+    <p>Cordiali saluti, Team VGR.</p>
+
+proof_request_refused:
+  object: 'Richiesta di prova rifiutata'
+  message: |
+    <p>Ciao %s,</p>
+    <p>La tua richiesta di prova per il punteggio <a href="%s">%s</a> del giocatore %s è stata rifiutata.</p>
+    %s
+    <p>Cordiali saluti, Team VGR.</p>
+
+player_badge_lost:
+  object: 'Badge Master giocatore perso'
+  message: |
+    <p>Ciao %s,</p>
+    <p>Hai appena perso il badge master di: <a href="%s">%s</a><br />
+    <p>Cordiali saluti, Team VGR.</p>
+
+team_badge_lost:
+  object: 'Badge Master squadra perso'
+  message: |
+    <p>Ciao %s,</p>
+    <p>La tua squadra ha appena perso il badge master di: <a href="%s">%s</a><br />
+    <p>Cordiali saluti, Team VGR.</p>
+
+player_chart_updated:
+  object: 'Punteggio aggiornato'
+  message: |
+    <p>Ciao %s,</p>
+    <p>Il tuo punteggio su <a href="%s">%s</a> è stato modificato da un Amministratore.<br />
+    <p>Ti ringraziamo di essere più attento quando invii i tuoi punteggi su VGR.</p><br />
+    <p>Cordiali saluti, Team VGR.</p>

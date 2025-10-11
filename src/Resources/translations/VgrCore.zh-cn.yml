@@ -1,0 +1,24 @@
+video:
+  type_not_found: "仅支持YouTube和Twitch的URL"
+  youtube:
+    not_found: "此YouTube视频不存在"
+
+avatar:
+  extension_not_allowed: '允许的格式为PNG和JPG'
+  success: "头像上传成功"
+
+team:
+  request:
+    exists: '您已经申请了一个团队'
+    has_team: '该玩家已经有团队'
+
+workflow_transitions: '工作流程'
+workflow:
+  transition_add_score: '添加分数'
+  transition_add_picture: '添加图片'
+  transition_completed: '已完成'
+  transition_activate: '激活'
+  transition_desactivate: '停用'
+
+playerChart:
+  bulk_upsert_success: '成功处理%total%个分数（%created%个已创建，%updated%个已更新）'
