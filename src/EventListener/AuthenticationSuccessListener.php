@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\EventListener;
 
 use Doctrine\ORM\Exception\ORMException;
-use ProjetNormandie\UserBundle\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use VideoGamesRecords\CoreBundle\DataTransformer\UserToPlayerTransformer;
 
@@ -24,10 +23,6 @@ readonly class AuthenticationSuccessListener
     {
         $data = $event->getData();
         $user = $event->getUser();
-
-        if (!$user instanceof User) {
-            return;
-        }
 
         $player = $this->userToPlayerTransformer->transform($user);
         $data['player'] = [

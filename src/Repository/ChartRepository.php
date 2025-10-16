@@ -76,37 +76,6 @@ class ChartRepository extends DefaultRepository
     /*************************************/
 
     /**
-     * @return QueryBuilder
-     */
-    private function getCountQueryBuilder(): QueryBuilder
-    {
-        return $this->createQueryBuilder('c')
-            ->select('COUNT(c.id)');
-    }
-
-    /**
-     * @param QueryBuilder $query
-     * @param string       $status
-     */
-    private function whereStatusPlayer(QueryBuilder $query, string $status): void
-    {
-        $query
-            ->andWhere('c.statusPlayer = :status')
-            ->setParameter('status', $status);
-    }
-
-    /**
-     * @param QueryBuilder $query
-     * @param string       $status
-     */
-    private function whereStatusTeam(QueryBuilder $query, string $status): void
-    {
-        $query
-            ->andWhere('c.statusTeam = :status')
-            ->setParameter('status', $status);
-    }
-
-    /**
      * @param QueryBuilder $query
      * @param string       $locale
      * @return void

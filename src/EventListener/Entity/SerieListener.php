@@ -13,6 +13,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
 use VideoGamesRecords\CoreBundle\Entity\Serie;
+use VideoGamesRecords\CoreBundle\Enum\BadgeType;
 use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerSerieRank;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
@@ -31,7 +32,7 @@ class SerieListener
     public function prePersist(Serie $serie, BaseLifecycleEventArgs $event): void
     {
         $badge = new Badge();
-        $badge->setType(BadgeInterface::TYPE_SERIE);
+        $badge->setType(BadgeType::SERIE);
         $badge->setPicture('default.gif');
         $serie->setBadge($badge);
     }

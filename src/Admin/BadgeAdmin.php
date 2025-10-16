@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
+use VideoGamesRecords\CoreBundle\Enum\BadgeType;
 
 /**
  * Administration manager for the Badge Bundle.
@@ -40,7 +41,10 @@ class BadgeAdmin extends AbstractAdmin
                 ChoiceType::class,
                 [
                     'label' => 'badge.form.type',
-                    'choices' => Badge::getTypeChoices(),
+                    'choices' => array_combine(
+                        array_map(fn(BadgeType $case) => $case->value, BadgeType::cases()),
+                        BadgeType::cases()
+                    ),
                 ]
             )
             ->add('picture', TextType::class, ['label' => 'badge.form.picture'])

@@ -79,7 +79,7 @@ class ProofRepository extends DefaultRepository
      */
     public function countInProgressByGames()
     {
-        $query = $this->em->createQueryBuilder()
+        $query = $this->getEntityManager()->createQueryBuilder()
             ->from('VideoGamesRecords\CoreBundle\Entity\Game', 'gam')
             ->select('gam')
             ->addSelect('COUNT(proof) as nb')

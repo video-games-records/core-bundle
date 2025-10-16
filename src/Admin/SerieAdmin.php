@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace VideoGamesRecords\CoreBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -16,6 +15,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use VideoGamesRecords\CoreBundle\Form\Type\RichTextEditorType;
 use VideoGamesRecords\CoreBundle\ValueObject\SerieStatus;
 
 class SerieAdmin extends AbstractAdmin
@@ -71,24 +71,10 @@ class SerieAdmin extends AbstractAdmin
                 'label' => 'serie.form.translations',
                 'fields' => [
                     'description' => [
-                        'field_type' => CKEditorType::class,
+                        'field_type' => RichTextEditorType::class,
                         'label' => 'serie.form.description',
                         'required' => false,
-                        'locale_options' => [
-                            'en' => [
-                                'config' => array(
-                                    'height' => '200',
-                                    'toolbar' => 'standard'
-                                ),
-                            ],
-                            'fr' => [
-                                'config' => array(
-                                    'height' => '200',
-                                    'toolbar' => 'standard'
-                                ),
-                            ],
-                        ]
-                    ]
+                   ]
                 ]
             ]);
     }

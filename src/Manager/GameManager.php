@@ -10,6 +10,7 @@ use VideoGamesRecords\CoreBundle\Entity\Chart;
 use VideoGamesRecords\CoreBundle\Entity\ChartLib;
 use VideoGamesRecords\CoreBundle\Entity\Game;
 use VideoGamesRecords\CoreBundle\Entity\Group;
+use VideoGamesRecords\CoreBundle\Enum\BadgeType;
 
 readonly class GameManager
 {
@@ -31,7 +32,7 @@ readonly class GameManager
         $newGame->setPicture($game->getPicture());
 
         $badge = new Badge();
-        $badge->setType('Master');
+        $badge->setType(BadgeType::MASTER);
         $badge->setPicture($game->getBadge()->getPicture());
         $newGame->setBadge($badge);
 

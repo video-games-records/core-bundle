@@ -123,31 +123,10 @@ class Badge implements BadgeInterface
         return $this->platform;
     }
 
-    public static function getTypeChoices(): array
-    {
-        return [
-            self::TYPE_CONNEXION                => self::TYPE_CONNEXION,
-            self::TYPE_DON                      => self::TYPE_DON,
-            self::TYPE_FORUM                    => self::TYPE_FORUM,
-            self::TYPE_INSCRIPTION              => self::TYPE_INSCRIPTION,
-            self::TYPE_MASTER                   => self::TYPE_MASTER,
-            self::TYPE_PLATFORM                 => self::TYPE_PLATFORM,
-            self::TYPE_SERIE                    => self::TYPE_SERIE,
-            self::TYPE_SPECIAL_WEBMASTER        => self::TYPE_SPECIAL_WEBMASTER,
-            self::TYPE_TWITCH                   => self::TYPE_TWITCH,
-            self::TYPE_VGR_CHART                => self::TYPE_VGR_CHART,
-            self::TYPE_VGR_PROOF                => self::TYPE_VGR_PROOF,
-            self::TYPE_VGR_SPECIAL_COUNTRY      => self::TYPE_VGR_SPECIAL_COUNTRY,
-            self::TYPE_VGR_SPECIAL_CUP          => self::TYPE_VGR_SPECIAL_CUP,
-            self::TYPE_VGR_SPECIAL_LEGEND       => self::TYPE_VGR_SPECIAL_LEGEND,
-            self::TYPE_VGR_SPECIAL_MEDALS       => self::TYPE_VGR_SPECIAL_MEDALS,
-            self::TYPE_VGR_SPECIAL_POINTS       => self::TYPE_VGR_SPECIAL_POINTS,
-        ];
-    }
 
     public function majValue(): void
     {
-        if (self::TYPE_MASTER !== $this->type->value) {
+        if (BadgeType::MASTER !== $this->type) {
             return;
         }
         if (0 === $this->getNbPlayer()) {
@@ -162,6 +141,6 @@ class Badge implements BadgeInterface
 
     public function isTypeMaster(): bool
     {
-        return $this->type->value === self::TYPE_MASTER;
+        return $this->type === BadgeType::MASTER;
     }
 }
