@@ -29,27 +29,21 @@ tools:
       php_code_sniffer:
           enabled: true
           config:
-              standard: PSR2
+              standard: PSR12
       external_code_coverage: false
 
 build:
-    image: default-bionic
     environment:
-        php: 
-          version: 7.4
-        mongodb: false
-        redis: false
-        mysql: false
-        postgresql: false
+        php:
+            version: '8.3.26'
         variables:
-            APP_ENV: test
+            COMPOSER_ALLOW_SUPERUSER: 1
     dependencies:
-        override:
-          - composer install -n --ignore-platform-reqs
-    tests:
-        override: true
-    nodes: 
+        before:
+            - composer install --no-interaction
+    nodes:
         analysis:
             tests:
                 override:
-                  - php-scrutinizer-run
+                    - php-scrutinizer-run
+                    - ./vendor/bin/simple-phpunit
