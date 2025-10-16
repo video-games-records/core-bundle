@@ -45,6 +45,12 @@
         <!-- MESSENGER_TRANSPORT_DSN=redis://localhost:6379/messages -->
         <env name="MESSENGER_TRANSPORT_DSN" value="doctrine://default?auto_setup=0"/>
         <!-- ###- symfony/messenger ### -->
+
+        <!-- ###+ lexik/jwt-authentication-bundle ### -->
+        <env name="JWT_SECRET_KEY" value="%kernel.project_dir%/config/jwt/private.pem"/>
+        <env name="JWT_PUBLIC_KEY" value="%kernel.project_dir%/config/jwt/public.pem"/>
+        <env name="JWT_PASSPHRASE" value="c3649636a61e7a3c423bbb05ee2303ae8a9978143681f6b633f334981d9a8839"/>
+        <!-- ###- lexik/jwt-authentication-bundle ### -->
   </php>
   <testsuites>
     <testsuite name="VGR Core Bundle Test Suite">

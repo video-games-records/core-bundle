@@ -9,10 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Attribute\Route;
-use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Entity\Badge;
+use VideoGamesRecords\CoreBundle\Enum\BadgeType;
 
-class GetPicture extends AbstractController implements BadgeInterface
+class GetPicture extends AbstractController
 {
     private FilesystemOperator $appStorage;
 
@@ -30,22 +30,14 @@ class GetPicture extends AbstractController implements BadgeInterface
     #[Cache(public: true, maxage: 3600 * 24, mustRevalidate: true)]
     public function __invoke(Badge $badge): StreamedResponse
     {
-        $path = $this->getDirectory($badge->getType()->value) . DIRECTORY_SEPARATOR . $badge->getPicture();
+        $path = $badge->getType()->getDirectory() . DIRECTORY_SEPARATOR . $badge->getPicture();
         if (!$this->appStorage->fileExists($path)) {
-            $path = self::DIRECTORY_DEFAULT . DIRECTORY_SEPARATOR . 'default.gif';
+            $path = BadgeType::getDefaultDirectory() . DIRECTORY_SEPARATOR . 'default.gif';
         }
 
         $stream = $this->appStorage->readStream($path);
         return new StreamedResponse(function () use ($stream) {
             fpassthru($stream);
         }, 200, ['Content-Type' => 'image/gif']);
-    }
-
-    private function getDirectory(string $type): string
-    {
-        if (array_key_exists($type, self::DIRECTORIES)) {
-            return self::DIRECTORIES[$type];
-        }
-        return self::DIRECTORY_DEFAULT . DIRECTORY_SEPARATOR . $type;
     }
 }

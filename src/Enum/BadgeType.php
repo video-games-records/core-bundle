@@ -21,6 +21,7 @@ enum BadgeType: string
     case VGR_SPECIAL_LEGEND = 'VgrSpecialLegend';
     case VGR_SPECIAL_MEDALS = 'VgrSpecialMedals';
     case VGR_SPECIAL_POINTS = 'VgrSpecialPoints';
+    case TWITCH = 'Twitch';
 
     /**
      * Retourne tous les badges de type "Special"
@@ -52,5 +53,35 @@ enum BadgeType: string
     public function isSpecial(): bool
     {
         return in_array($this, self::getSpecialBadges(), true);
+    }
+
+    /**
+     * Retourne le répertoire par défaut pour les badges
+     */
+    public static function getDefaultDirectory(): string
+    {
+        return 'badge';
+    }
+
+    /**
+     * Retourne les répertoires spécifiques pour certains types de badges
+     */
+    public static function getDirectories(): array
+    {
+        return [
+            self::SERIE->value => 'series/badge'
+        ];
+    }
+
+    /**
+     * Retourne le répertoire pour un type de badge spécifique
+     */
+    public function getDirectory(): string
+    {
+        $directories = self::getDirectories();
+        if (array_key_exists($this->value, $directories)) {
+            return $directories[$this->value];
+        }
+        return self::getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->value;
     }
 }
