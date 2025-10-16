@@ -26,14 +26,14 @@ class Score
     /**
      * Transform a value for the form
      * @param string     $mask
-     * @param string|int $value
+     * @param int|string $value
      * @return array
      */
-    public static function getValues(string $mask, $value): array
+    public static function getValues(string $mask, int|string $value): array
     {
         $parse   = self::parseChartMask($mask);
-        $negative = $value !== null && str_starts_with($value, '-');
-        $value = $negative ? (int) substr($value, 1) : $value;
+        $negative = $value !== null && str_starts_with((string) $value, '-');
+        $value = $negative ? (int) substr((string) $value, 1) : $value;
         $data    = [];
         $laValue = (string) $value;
         for ($k = count($parse) - 1; $k >= 0; $k--) {
