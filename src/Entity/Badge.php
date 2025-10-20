@@ -11,7 +11,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use VideoGamesRecords\CoreBundle\Contracts\BadgeInterface;
 use VideoGamesRecords\CoreBundle\Enum\BadgeType;
 use VideoGamesRecords\CoreBundle\Repository\BadgeRepository;
 use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
@@ -25,10 +24,20 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\NbPlayerTrait;
     operations: [
         new GetCollection(),
         new Get(),
+        new GetCollection(
+            uriTemplate: '/badges/{id}/player-history',
+            controller: 'VideoGamesRecords\CoreBundle\Controller\Badge\GetPlayerHistory',
+            normalizationContext: ['groups' => ['player-badge:read', 'player-badge:player', 'player:read:minimal']],
+        ),
+        new GetCollection(
+            uriTemplate: '/badges/{id}/team-history',
+            controller: 'VideoGamesRecords\CoreBundle\Controller\Badge\GetTeamHistory',
+            normalizationContext: ['groups' => ['team-badge:read', 'team-badge:team', 'team:read:minimal']],
+        ),
     ],
     normalizationContext: ['groups' => ['badge:read']]
 )]
-class Badge implements BadgeInterface
+class Badge
 {
     use NbPlayerTrait;
 
