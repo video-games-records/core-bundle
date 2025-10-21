@@ -299,7 +299,10 @@ class GameAdmin extends AbstractAdmin implements SecurityInterface
         $list
             ->addIdentifier('id', null, ['label' => 'game.list.id'])
             ->add('libGameEn', null, ['label' => 'game.list.game.en', 'editable' => true])
-            ->add('libGameFr', null, ['label' => 'game.list.game.fr', 'editable' => true])
+            //->add('libGameFr', null, ['label' => 'game.list.game.fr', 'editable' => true])
+            ->add('igdbGame', null, [
+                'label' => 'game.list.igdb_game',
+            ])
             ->add('platforms', null, ['label' => 'game.list.platforms'])
             ->add(
                 'picture',

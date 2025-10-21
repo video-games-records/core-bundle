@@ -15,6 +15,7 @@ game:
     badge: Badge
     forum: Forum
     rules: Rules
+    igdb_game: IGDB Game
     platforms: Platforms
     groups: Groups
   filter:
@@ -28,6 +29,7 @@ game:
     platforms: Platforms
     status: Status
     boolRanking: Ranking
+    igdb_game: IGDB Game
   list:
     id: ID
     game:
@@ -38,6 +40,7 @@ game:
     picture: Picture
     badge: Badge
     status: Status
+    igdb_game: IGDB Game
   show:
     id: ID
     name:

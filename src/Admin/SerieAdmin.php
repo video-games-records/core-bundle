@@ -74,7 +74,7 @@ class SerieAdmin extends AbstractAdmin
                         'field_type' => RichTextEditorType::class,
                         'label' => 'serie.form.description',
                         'required' => false,
-                   ]
+                    ]
                 ]
             ]);
     }
