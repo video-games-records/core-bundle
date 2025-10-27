@@ -25,11 +25,11 @@ class Score
 
     /**
      * Transform a value for the form
-     * @param string     $mask
-     * @param int|string $value
+     * @param string $mask
+     * @param int|string|null $value
      * @return array
      */
-    public static function getValues(string $mask, int|string $value): array
+    public static function getValues(string $mask, int|string|null $value): array
     {
         $parse   = self::parseChartMask($mask);
         $negative = $value !== null && str_starts_with((string) $value, '-');
