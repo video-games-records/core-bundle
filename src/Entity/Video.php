@@ -31,6 +31,9 @@ use VideoGamesRecords\CoreBundle\Traits\Entity\TitleTrait;
 use VideoGamesRecords\CoreBundle\Traits\Entity\ViewCountTrait;
 use VideoGamesRecords\CoreBundle\ValueObject\VideoType;
 use VideoGamesRecords\CoreBundle\Filter\VideoSearchFilter;
+use VideoGamesRecords\CoreBundle\Controller\Video\GetRelatedVideos;
+use VideoGamesRecords\CoreBundle\Controller\Video\GetRelatedVideosDebug;
+use ApiPlatform\OpenApi\Model;
 
 #[ORM\Table(name:'vgr_video')]
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
@@ -50,12 +53,66 @@ use VideoGamesRecords\CoreBundle\Filter\VideoSearchFilter;
         new Put(
             denormalizationContext: ['groups' => ['video:update']],
             security: 'is_granted("ROLE_PLAYER")'
+        ),
+        new Get(
+            uriTemplate: '/videos/{id}/related-videos',
+            controller: GetRelatedVideos::class,
+            openapi: new Model\Operation(
+                summary: 'Get related videos',
+                description: 'Get videos related to the current video based on game, series, genres and popularity',
+                parameters: [
+                    new Model\Parameter(
+                        name: 'limit',
+                        in: 'query',
+                        required: false,
+                        schema: [
+                            'type' => 'integer',
+                            'minimum' => 1,
+                            'maximum' => 20,
+                            'default' => 10
+                        ],
+                        description: 'Maximum number of related videos to return'
+                    ),
+                    new Model\Parameter(
+                        name: 'include_stats',
+                        in: 'query',
+                        required: false,
+                        schema: [
+                            'type' => 'boolean',
+                            'default' => false
+                        ],
+                        description: 'Include recommendation statistics in response'
+                    )
+                ]
+            )
+        ),
+        new Get(
+            uriTemplate: '/videos/{id}/related-videos-debug',
+            controller: GetRelatedVideosDebug::class,
+            openapi: new Model\Operation(
+                summary: 'Get related videos with scoring details (debug)',
+                description: 'Get videos related to the current video with detailed scoring breakdown for debugging',
+                parameters: [
+                    new Model\Parameter(
+                        name: 'limit',
+                        in: 'query',
+                        required: false,
+                        schema: [
+                            'type' => 'integer',
+                            'minimum' => 1,
+                            'maximum' => 20,
+                            'default' => 10
+                        ],
+                        description: 'Maximum number of related videos to return'
+                    )
+                ]
+            )
         )
     ],
     normalizationContext: ['groups' => [
         'video:read',
-        'video:player', 'player:read',
-        'video:game', 'game:read']
+        'video:player', 'player:read:minimal',
+        'video:game', 'game:read:minimal']
     ]
 )]
 #[ApiResource(
